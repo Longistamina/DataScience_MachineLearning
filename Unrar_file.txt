@@ -1,0 +1,4 @@
+unrar x -r ~/Documents/Academic/DataScience_hcmus/file.rar
+
+pass: if the file is lds2.rar then lds2_ttth
+
