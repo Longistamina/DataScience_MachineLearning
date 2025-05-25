@@ -118,30 +118,41 @@ else:
 #----------------------------------------------------------------------------------------------#
 #-------------------------- "*" ~ Zero or more occurrences ------------------------------------#
 #----------------------------------------------------------------------------------------------#
-import re
-txt = "hello planet"
+text = "a aa aaa aaaa b bb bbb"
 
-x = re.findall("he.*o", txt) #Search for a sequence that starts with "he", followed by 0 or more  (any) characters, and an "o":
-print(x) #['hello']
+# 1. Using * (zero or more)
+# Matches 'a' followed by zero or more 'a' characters
+pattern1 = r"a*"
+matches1 = re.findall(pattern1, text)
+print("With * (zero or more):", matches1)  # Output: ['a', 'aa', 'aaa', 'aaaa', '', 'b', 'bb', 'bbb', '']
+                                           # Output has two '' characters (meaning match "no a")
+                                           # One '' is for the space character ' ' (has no "a")
+                                           # Other '' is for the empty character '' (also has no "a")
 
 #---------------------------------------------------------------------------------------------#
-#-------------------------- "*" ~ One or more occurrences ------------------------------------#
+#-------------------------- "+" ~ One or more occurrences ------------------------------------#
 #---------------------------------------------------------------------------------------------#
 import re
-txt = "hello planet"
+text = "a aa aaa aaaa b bb bbb"
 
-x = re.findall("he.+o", txt) #Search for a sequence that starts with "he", followed by 1 or more  (any) characters, and an "o":
-print(x)#['hello']
+# 2. Using + (one or more)
+# Matches 'a' followed by one or more 'a' characters
+pattern2 = r"a+"
+matches2 = re.findall(pattern2, text)
+print("With + (one or more):", matches2)  # Output: ['a', 'aa', 'aaa', 'aaaa']
 
 #---------------------------------------------------------------------------------------------#
 #-------------------------- "?" ~ Zero or one occurrences ------------------------------------#
 #---------------------------------------------------------------------------------------------#
 import re
-txt = "hello planet"
+text = "a aa aaa aaaa b bb bbb"
 
-x = re.findall("he.?o", txt) #Search for a sequence that starts with "he", followed by 0 or 1  (any) character, and an "o":
-print(x) #[]
-         #This time we got no match, because there were not zero, not one, but two characters between "he" and the "o"
+# 3. Using ? (zero or one)
+# Matches 'a' followed by zero or one 'a' character
+pattern3 = r"a?"
+matches3 = re.findall(pattern3, text)
+print("With + (one or more):", matches3) 
+# Output: ['a', '', 'a', 'a', '', 'a', 'a', 'a', '', 'a', 'a', 'a', 'a', '', '', '', '', '', '', '', '', '', '']
 
 #------------------------------------------------------------------------------------------------------------------#
 #-------------------------- "{}" ~ Exactly the specified number of occurrences ------------------------------------#
@@ -152,6 +163,14 @@ txt = "hello helllo planet"
 x = re.findall("he.{2}o", txt) #Search for a sequence that starts with "he", followed excactly 2 (any) characters, and an "o":
 print(x) #['hello']
          #Not return 'helllo' cause 'helllo' has 3 characters between "he" and "o"
+
+#########
+
+text = "1234 56 7 89012"
+pattern = r"\d{1,3}" #{1,3} quantifier meaning at least 1 digit and at most 3 digits
+matches = re.findall(pattern, text)
+print(matches) # Output: ['123', '4', '56', '7', '890', '12']
+
 
 #-------------------------------------------------------------------------------#
 #-------------------------- "|" ~ Either or ------------------------------------#
@@ -169,6 +188,47 @@ else:
 
 #Output: Yes, there is at least one match!
 
+#----------------------------------------------#
+#--------- () group capturing -----------------#
+#----------------------------------------------#
+
+import re
+
+# Sample text
+text = "cat123 dog456 bird789"
+
+# 1. Regex without parentheses
+# Matches 'cat' followed by digits
+pattern1 = r"\w+\d+"
+matches1 = re.findall(pattern1, text)
+print("Without parentheses:", matches1)  # Output: ['cat123', 'dog456', 'bird789']
+
+# 2. Regex with capturing parentheses ()
+# Captures the letters and digits separately
+pattern2 = r"(\w+)(\d+)"
+matches2 = re.findall(pattern2, text)
+print("With capturing parentheses:", matches2)  # Output: [('cat', '123'), ('dog', '456'), ('bird', '789')]
+
+#----------------------------------------------------#
+#--------- (?:) non-group capturing -----------------#
+#----------------------------------------------------#
+
+import re
+
+# Sample text
+text = "date: 2025-05-25 or 2025/05/25"
+
+# 1. Regex with capturing parentheses ()
+# Captures year, month, and day separately
+pattern1 = r"(\d{4})[-/](\d{2})[-/](\d{2})"
+matches1 = re.findall(pattern1, text)
+print("With capturing parentheses:", matches1)  # Output: [('2025', '05', '25'), ('2025', '05', '25')]
+
+# 2. Regex with non-capturing group (?:)
+# Groups the separator (hyphen or slash) but only captures the entire date
+pattern2 = r"\d{4}(?:[-/])\d{2}(?:[-/])\d{2}"
+matches2 = re.findall(pattern2, text)
+print("With non-capturing group:", matches2)  # Output: ['2025-05-25', '2025/05/25']
 
 #----------------------------------------------------------------------------#
 #-------------------------- re.findall() ------------------------------------#
