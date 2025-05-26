@@ -8,7 +8,7 @@ try:
 except ValueError:
     print(">>> Error: Your input is not numeric!!!!")
 else:
-    print("Your  input is an integer")
+    print("Your input is an integer")
 
 #----------------------------------------------#
 #---------- try except Exception --------------#
