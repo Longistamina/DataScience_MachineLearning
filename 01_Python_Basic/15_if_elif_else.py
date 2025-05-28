@@ -7,6 +7,8 @@ score = float(input("Input a score: "))
 if score >= 5.0:
     print("Pass")
 
+if score >= 5.0: print("Pass")
+
 if (score >= 5.0) and (score >= 8.0):
     print("Good")
 
@@ -29,14 +31,14 @@ else:
 
 score = float(input("Input a score: "))
 
-if score >= 5.0:
-    print("Average")
-elif score >= 6.5:
-    print("Good")
+if score >= 9.0:
+    print("Excellent")
 elif score >= 8.0:
     print("Very good")
-elif score >= 9.0:
-    print("Excellent")
+elif score >= 6.5:
+    print("Good")
+elif score >= 5.0:
+    print("Average")
 else:
     print("Fail")
 
@@ -53,5 +55,6 @@ if number > 0:
         print("It is even.")
     else:
         print("It is odd.")
+        
 else:
     print("The number is not positive.")

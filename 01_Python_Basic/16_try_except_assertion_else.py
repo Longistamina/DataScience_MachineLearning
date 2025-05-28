@@ -28,6 +28,7 @@ else:
 ## can use "except Exception" to capture all errors that being raised
 
 number = 0
+
 try:
     number / 0
 except Exception:
