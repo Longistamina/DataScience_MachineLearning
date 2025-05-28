@@ -36,4 +36,4 @@ for i in range(5):
         print("Let's pass!")
     print(str(i).center(12))
 
-# Output: 0 1 2 3 4
+# Output: 0 1 2 Let's pass! 3 Let's pass! 4
