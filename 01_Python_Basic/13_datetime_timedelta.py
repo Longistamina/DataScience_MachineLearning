@@ -21,7 +21,6 @@ print(datetime.now())   #Current moment
 print(datetime.today()) #Current day
 
 current_moment = datetime.now()
-current_day = datetime.today()
 
 current_day = current_moment.day        #Get the .day attribute of the current_moment object
 print(current_day)

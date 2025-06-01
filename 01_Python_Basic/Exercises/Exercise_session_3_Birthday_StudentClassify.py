@@ -9,6 +9,7 @@ Q3: what is the weekday of the last day of your birthmonth?
 Q4: is your birth year a leap year? If not, what is the closest one to your birthyear?
 Q5: what is the timedelta counted in days from your birthday to present?
 '''
+
 ##############################################
 
 '''
@@ -24,6 +25,6 @@ Use conditions to classify that student:
     85 - 100: Excellent
 
 Use try-except to ensure the right datatype of the input (float or integer)
-Use try-assert to ensure the right range of the input (score >= 0, not negative)
+Use try-assert to ensure the right range of the input (score >= 0, and score <= 100, not negative)
 Use while loop to ask if the user wants to continue, set the break condition if the does not want to.
 '''
