@@ -4,7 +4,7 @@
 # First element has index = 0
 # Last element has index = len(list) - 1 (or -1)
 
-# Table content:
+# Table of contents:
 ## Create a list
 ## Index/Access list's elements
 ## Update list's elements
