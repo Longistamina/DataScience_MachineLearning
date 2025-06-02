@@ -100,6 +100,18 @@ print(predators) # ['bear', 'eagle']
 #----------------- List methods ----------------------#
 #-----------------------------------------------------#
 
+# .count()
+# .index()
+# .insert()
+# .append()
+# .extend()
+# .remove()
+# .pop()
+# .clear()
+# .copy()
+# .sort()
+# .reverse()
+
 programmer_life = ["waking", "eating", "debugging", "crying", "hoping", "crying"]
 
 
