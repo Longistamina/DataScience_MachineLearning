@@ -1,6 +1,10 @@
 numpy
 pandas
+siuba
 matplotlib
 seaborn
+plotnine
 sklearn = pip3 install -U scikit-learn
 imblearn
+xgboost
+hdbscan
