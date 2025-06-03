@@ -8,3 +8,19 @@ sklearn = pip3 install -U scikit-learn
 imblearn
 xgboost
 hdbscan
+
+#### How to install:
+
+1) install miniconda or conda
+
+2) Go to (base) environment
+
+3) Run this command: conda create -c conda-forge -n ai python numpy pandas siuba matplotlib seaborn plotnine 
+
+4) Then "conda activate ai"
+
+5) Then run this: pip3 install -U scikit-learn (for sklearn)
+
+6) Then: pip3 install imblearn xgboost hdbscan
+
+
