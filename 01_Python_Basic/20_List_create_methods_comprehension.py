@@ -114,16 +114,18 @@ print(predators) # ['bear', 'eagle']
 
 programmer_life = ["waking", "eating", "debugging", "crying", "hoping", "crying"]
 
-
+##################### .count() #############################
 # .count() returns the number of a specified element within a list
 print(programmer_life.count("crying")) # 2
 
 
+##################### .index() #############################
 # .index() returns the index of the first element with the specified value
 print(programmer_life.index("crying")) # 3 (index of the first "crying")
 print(programmer_life.index("eating")) # 1
 
 
+##################### .insert() #############################
 # .insert() to insert new element at a specified index
 programmer_life.insert(0, "dreaming")
 print(programmer_life) 
@@ -134,6 +136,7 @@ print(programmer_life)
 ## => because it modifies the original list directly (in-place) and doesn’t create or return a new list.
 
 
+##################### .append() #############################
 # .append() adds ONLY ONE element per run at the end of the list
 programmer_life.append(4)
 print(programmer_life)
@@ -141,27 +144,34 @@ print(programmer_life)
 
 animals = ["dog", "cat", "bird"]
 animals.append([4, 3])
-print(animals)
-#["dog", "cat", "bird"], [4, 3]]
+print(animals) #["dog", "cat", "bird", [4, 3]]
 
 
+##################### .extend() #############################
 # .extend() acts like .append() but can add any iterable object with separate element
 moods = ["happy", "sad", "anxious"]
 thistuple = ("Yay!!!!", True, 142.2) # or can be a list or set
 moods.extend(thistuple)
 print(moods) # ['happy', 'sad', 'anxious', 'Yay!!!!', True, 142.2]
 
+animals = ["dog", "cat", "bird"]
+animals.extend([4, 3])
+print(animals) #["dog", "cat", "bird", 4, 3]
 
+
+##################### .remove() #############################
 # .remove() to remove ONLY ONE element from a list per run based its VALUE
 programmer_life.remove("debugging")
 print(programmer_life) # ['dreaming', 'waking', 'eating', 'crying', 'hoping', 'crying', 4]
 
 
+##################### .pop() #############################
 # .pop() to remove ONLY ONE element from a list per run based its INDEX
 programmer_life.pop(3)
 print(programmer_life) # ['dreaming', 'waking', 'eating', 'hoping', 'crying', 4]
 
 
+##################### .clear() #############################
 # .clear() will remove all the elements from a list and return an empty list []
 programmer_life.clear()
 print(programmer_life) # []
@@ -171,6 +181,7 @@ print(id(programmer_life)) # still has the id, meaning the variable still exists
 # print(id(programmer_life)) ## raise NameError because the variable does not exist (has been deleted)
 
 
+##################### .copy() #############################
 # .copy() to copy a list (resulting an object having DIFFERENT ID)
 list_original = [1, "a", 2.0, "c", "b", False]
 print(f"list_original   : {list_original}")
@@ -193,6 +204,7 @@ print(f"list_copy_2: {list_copy_2}")     # [1, 'a', 2.0, 'c', 'b', False, 'Goodn
 print(f"list_copy_1: {list_copy_1}")     # [1, 'a', 2.0, 'c', 'b', False]
 
 
+##################### .sort() #############################
 # .sort() to sort a list in ascending or descending, A-Z or Z-A
 names = ["Kitana", "Bruce", "Zealot", "Anna", "Nina"]
 names.sort() # sort Ascending
@@ -211,6 +223,7 @@ numbers.sort(reverse=True)
 print(numbers) # [8.15, 6.03, 3.72, 1.27, 0.49]
 
 
+##################### .reverse() #############################
 # .reverse() to reverse the current order of a list "180 degrees"
 from datetime import date
 list_mix = ["Lentani", 35.5, 20, date(1885, 12, 21), False]
