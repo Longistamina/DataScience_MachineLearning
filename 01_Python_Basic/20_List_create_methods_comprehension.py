@@ -1,5 +1,5 @@
 # List is a type of iteration in Python
-# List allows storing duplicate HETEROGENEOUS datat (different datatypes)
+# List allows storing duplicate HETEROGENEOUS data (different datatypes)
 # (however, should store homogeneous data to facilitate processing steps)
 # First element has index = 0
 # Last element has index = len(list) - 1 (or -1)
@@ -85,7 +85,7 @@ predators = ["tiger", "lion", "leopard"]
 print(predators)
 
 predators[2] = "wolf"
-print(predators) # ['strawberry', 'guava', 'pear']
+print(predators) # ['tiger', 'lion', 'wolf']
 
 predators[0:2] = ["bear", "godzilla"]
 print(predators) # ['bear', 'godzilla', 'wolf']
