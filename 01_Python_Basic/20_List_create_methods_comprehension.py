@@ -10,9 +10,10 @@
 ## Update list's elements
 ## List methods: count, index, insert, append, extend, remove, pop, clear, copy, sort, reverse
 ## List concat and multiply
-## map() to apply custom function to List
-## List and Loops
+## List and Loops and 2D list
 ## List comprehension
+## Numeric List calculating with Aggregate Functions
+## map() and list comprehension for list element-wise calculation
 
 
 #------------------------------------------------------#
@@ -229,3 +230,138 @@ from datetime import date
 list_mix = ["Lentani", 35.5, 20, date(1885, 12, 21), False]
 list_mix.reverse()
 print(list_mix) # [False, datetime.date(1885, 12, 21), 20, 35.5, 'Lentani']
+
+
+#-----------------------------------------------------------------#
+#---------------- List concat and multiply -----------------------#
+#-----------------------------------------------------------------#
+
+lst1 = [1,3,5]
+lst2 = [2,4,6,8]
+lst3 = ['A','B','C']
+
+lst_add = lst1 + lst2 
+print(lst_add) # [1,3,5,2,4,6,8]
+
+print(lst1 + lst3) # [1, 3, 5, 'A', 'B', 'C']
+
+lst_multiply = lst1*3 # [1,3,5,1,3,5,1,3,5]
+print(lst_multiply)
+
+print(lst3*4) # ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C']
+
+
+#-------------------------------------------------------------------#
+#---------------- List and Loops and 2D list -----------------------#
+#-------------------------------------------------------------------#
+
+philosophes = ["Voltaire", "Rousseau", "Montesquieu", "Diderot"]
+
+## For loop through elements
+for homme in philosophes:
+    print(homme)
+
+## For loop through indices
+for i in range(len(philosophes)):
+    print(f"{i} - {philosophes[i]}")
+
+
+## While loop through indices
+i = 0
+while i < len(philosophes):
+    print(f"{i} - {philosophes[i]}")
+    i += 1
+
+
+## Loop through 2D list
+lst_customers = [
+    ['Lucy','Rashford',2000],
+    ['Marcus','Aurelius',300000],
+    ['Hamazuki','Sento',500000000]
+]
+#Method 1:
+for item in lst_customers:
+    first_name = item[0]
+    last_name = item[1]
+    purchase = item[2]
+    print(f'{first_name} {last_name}: {purchase} USD')
+
+#Method 2:
+for first_name, last_name, purchase in lst_customers:
+    print(f'{first_name} {last_name}: {purchase} USD')
+
+# for first_name, purchase in lst_customers:
+#     print(f'{first_name}: {purchase} USD')
+#===> ValueError: too many values to unpack (expected 2)
+# it raises error because the number of iterators and the number of items are not corresponding
+
+
+#-----------------------------------------------------------#
+#---------------- List comprehension -----------------------#
+#-----------------------------------------------------------#
+
+samurais = ["Miyamoto Musashi", "Oda Nobunaga", "Sanada Yukimura", "Honda Tadakatsu"]
+
+samurais_upper = [name.upper() for name in samurais]
+print(samurais_upper) # ['MIYAMOTO MUSASHI', 'ODA NOBUNAGA', 'SANADA YUKIMURA', 'HONDA TADAKATSU']
+
+samurais_y = [name for name in samurais if (("y" in name) or ("Y" in name))]
+print(samurais_y) # ['Miyamoto Musashi', 'Sanada Yukimura']
+
+even_numbers = [number for number in range(20) if (number % 2 == 0)]
+print(even_numbers) # [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
+
+even_numbers = [number if (number % 2 == 0) else "odd" for number in range(10)]
+print(even_numbers) # [0, 'odd', 2, 'odd', 4, 'odd', 6, 'odd', 8, 'odd']
+
+
+#------------------------------------------------------------------------------------------#
+#---------------- Numeric List calculating with Aggregate Functions -----------------------#
+#------------------------------------------------------------------------------------------#
+
+# For numeric list, can use math aggregate functions
+
+# Aggregate Functions are those which take many input numbers but return ONLY ONE output (like mean, min, max, std...)
+
+import numpy as np
+
+lst_floats = [213.0, 321.5, 56198.99, 65489.55, 213.68]
+
+print(np.sum(lst_floats))
+print(np.mean(lst_floats))
+print(np.median(lst_floats))
+print(np.min(lst_floats))
+print(np.max(lst_floats))
+print(np.var(lst_floats))
+print(np.std(lst_floats))
+
+# print(sum(["A", "b", "c"])) #=> TypeError
+
+
+#-------------------------------------------------------------------------------------------------------#
+#---------------- map() and list comprehension for list element-wise calculation -----------------------#
+#-------------------------------------------------------------------------------------------------------#
+import numpy as np
+
+# Use map() to perform list element-wise calculation
+# map() returns a map object; therefore must convert back into list to get the final calculated list
+# map(function, iteration) | list(map(function, iteration))
+
+lst_floats = [213.0, 321.5, 56198.99, 65489.55, 213.68]
+
+output_lst = map(np.sqrt, lst_floats)
+print(output_lst) # <map object at 0x7fc3b19c3550>
+
+output_lst = list(map(np.sqrt, lst_floats)) #convert map object into list before printing out
+print(output_lst)
+print([float(x) for x in output_lst])
+
+output_lst = list(map(lambda x: x/100, lst_floats)) #combine map() with lambda function
+print(output_lst)
+
+
+# Use list comprehension to perform list element-wise calculation
+lst_complexes = [(3+2j), (4+5j), (9.5 + 10j)]
+
+output_lst = [complex**2 for complex in lst_complexes]
+print(output_lst)
