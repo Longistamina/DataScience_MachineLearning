@@ -9,18 +9,49 @@ imblearn
 xgboost
 hdbscan
 
+r-base (for R)
+r-tidyverse (for R)
+
 #### How to install:
 
 1) install miniconda or conda
 
 2) Go to (base) environment
 
-3) Run this command: conda create -c conda-forge -n ai python numpy pandas siuba matplotlib seaborn plotnine 
-
-4) Then "conda activate ai"
-
-5) Then run this: pip3 install -U scikit-learn (for sklearn)
-
-6) Then: pip3 install imblearn xgboost hdbscan
+3) Run this command: conda create -c conda-forge -n data python=3.12 numpy pandas siuba matplotlib seaborn plotnine scikit-learn imblearn xgboost hdbscan r-base r-tidyverse
 
 
+#--------------------------------#
+#--------- pytorch --------------#
+#--------------------------------#
+
+# Remove malformed AMD repo files causing DNF errors:
+sudo rm /etc/yum.repos.d/amdgpu-install.repo
+sudo dnf clean all
+sudo dnf makecache
+
+# Use Fedora’s native ROCm packages for compatibility:
+sudo dnf install rocm-dkms rocm-dev rocm-utils rocm-opencl rocm-libs hipsparselt
+
+# If hipsparselt is missing, build from source:
+git clone https://github.com/ROCm/hipSPARSELt.git
+cd hipSPARSELt
+./install.sh -idc
+
+# Add ROCm libs to LD_LIBRARY_PATH and set ROCM_PATH:
+export ROCM_PATH=/opt/rocm-6.3.4
+export PATH=$ROCM_PATH/bin:$PATH
+export LD_LIBRARY_PATH=$ROCM_PATH/lib:$ROCM_PATH/hipsparselt/lib:$LD_LIBRARY_PATH
+# put in ~/.bashrc to make it permanently
+
+# check
+rocminfo
+clinfo
+
+# download pytorch
+pip3 install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.3.4/
+
+# test torch GPU detection
+python3
+import torch
+print(torch.cuda.is_available())  # Should print True
