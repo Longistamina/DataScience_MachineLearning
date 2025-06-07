@@ -1,0 +1,43 @@
+#------------------------------------------#
+#------------- install vscode -------------#
+#------------------------------------------#
+
+# For Fedora
+
+1) Go to vscode website and download the vscode file with .rpm extension
+
+2) cd ~/Downloads #Or the place you download the file
+
+3)   sudo rpm -i code-*.rpm
+(or) sudo dnf install code-*.rpm
+
+4) type "code" in terminal then Enter to open vscode (should use this with virtual-environment)
+
+
+
+#--------------------------------------------#
+#------------- vscode settings --------------#
+#--------------------------------------------#
+
+Go to the Extension menu (Ctrl + Shift + X) and install these extensions:
+    # Python (Microsoft tick)
+    # Python Debugger (Microsoft tick)
+    # Pylance (Microsoft tick)
+    # Jupyter (all extensions that have Microsoft tick)
+    # R
+    # R Debugger
+    # R Syntax
+    # R Extension Pack (Yuki Ueda)
+    # Excel Viewer (MESCIUS): for .xlsx files and .csv files
+    # Rainbow CSV (for easier to read .csv file)
+    # Live Preview (Microsoft tick): for preview .html file
+
+
+Set clear terminal shortcut:
+    File -> Preferences -> Keyboard Shortcuts -> search "Terminal: Clear" => Ctrl + L
+
+Set run Python file shortcut:
+    File -> Preferences -> Keyboard Shortcuts -> search "Python: Run Python File" => Ctrl + Enter
+
+Set Trigger Parameter Hints shortcut:
+    File -> Preferences -> Keyboard Shortcuts -> search "Trigger Parameter Hints" => Shift + Tab
