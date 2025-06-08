@@ -54,14 +54,14 @@ print(fruits[-2]) # melon
 print(fruits[:4]) # or fruits[0:4]
                   # ['apple', 'banana', 'cherry', 'orange']
 
-print(fruits[2:]) # or fruits(2:-1)
+print(fruits[2:]) # from fruits[2] to the last element fruits[-1] (and also included)
                   # ['cherry', 'orange', 'kiwi', 'melon', 'mango']
 
 print(fruits[-1:-4]) # []
                      # empty list because it index from the last element [-1] to the right
                      # but nothing is at the right at [-1], so return empty list
 
-print(fruits[-1:-5:-1]) # ['mango', 'melon', 'kiwi', "orange"]
+print(fruits[-1:-5:-1]) # ['mango', 'melon', 'kiwi', 'orange']
                         # negative sign "-" means reverse indexing (from left to right)
                         # with step = 1
                         # the -5 "cherry" are excluded
@@ -75,6 +75,10 @@ print(fruits[-4:-1]) # ['orange', 'kiwi', 'melon']
                      # start with -4 "orange"
                      # stop at -1 "mango" but excluded
                      #===> ['orange', 'kiwi', 'melon']
+
+# Check if item exist in List
+if "apple" in fruits:
+    print("Yes, 'apple' is in the fruits list")
 
 
 #---------------------------------------------------------#

@@ -37,7 +37,8 @@ Set clear terminal shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "Terminal: Clear" => Ctrl + L
 
 Set run Python file shortcut:
-    File -> Preferences -> Keyboard Shortcuts -> search "Python: Run Python File" => Ctrl + Enter
+    File -> Preferences -> Keyboard Shortcuts -> search "Python: Run Selection/Line in Python Terminal" => Ctrl + Enter
+(Note: remember to remove other Ctrl+Enter related to "Python: Run...")
 
 Set Trigger Parameter Hints shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "Trigger Parameter Hints" => Shift + Tab
