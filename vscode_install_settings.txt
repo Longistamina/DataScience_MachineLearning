@@ -42,3 +42,7 @@ Set run Python file shortcut:
 
 Set Trigger Parameter Hints shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "Trigger Parameter Hints" => Shift + Tab
+
+Set Outdent Shortcut:
+    File -> Preferences -> Keyboard Shortcuts -> search "outdent" => Ctrl + Tab
+(set this to avoid conflicting the "Trigger Parameter Hints")
