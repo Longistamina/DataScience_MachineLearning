@@ -2,6 +2,8 @@
 
 Tuple stores many elements, each has its own value and index
 
+Tuple allows HETEROGENEOUS datatype
+
 Tuple is like List, but with ONE key difference:
 
     => UNABLE to change or modify
