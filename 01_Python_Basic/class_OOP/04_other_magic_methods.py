@@ -20,10 +20,12 @@ Difference between __repr__() and __str__():
 ## __repr__()
    Purpose: Developer-oriented, unambiguous
    Output: 'Hello, world!' (with quotes ' ' or double quotes " ")
+   When you print a list of objects, Python calls __repr()__ and NOT __str()__
    
 ## __str__()
    Purpose: User-oriented, readable
    Ouput:   Hello, world! (no quotes)
+   When you print an object directly (e.g., print(phone1)), Python calls __str__() if it exists
 
 At the end of this file are the list of many other magic methods.
 '''
