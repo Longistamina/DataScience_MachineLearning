@@ -1,10 +1,18 @@
 # Class methods are the methods that are bound to the class, not the instance of the class.
+# Class methods always require "cls" as the first argument, which refers to the class itself
+# Class methods also need a return value, otherwise it will return None by default
+
+# @classmethod is a decorator that indicates the below method is a class method
+
+# When to use: we should use class methods to do something that is related to the class
+#              but does not need to be unique per instance
+#              and IS involved in creating new instances of the class (like construct_from_csv() below)
 
 import csv
 
 class Employee:
-    @classmethod # This line indicates the below method is a class method, not an instance method
-    def demo_class_method(cls): # always set "cls" as the first argument for class method, like "self" for instance method
+    @classmethod # indicates the below method is a class method, not an instance method
+    def demo_class_method(cls): # class method requires "cls" as the first argument, like "self" for instance method
         print("This is a demo class method of the class Item")
 
     @classmethod
@@ -26,3 +34,5 @@ print(lst_employees)
 # {'Name': 'Alice', 'Age': '30', 'City': 'New York'}
 # {'Name': 'Bob', 'Age': '25', 'City': 'Los Angeles'}
 # {'Name': 'Charlie', 'Age': '35', 'City': 'Chicago'}
+
+### NOT RECOMMEND: class methods can be called from an instance, but should not do so
