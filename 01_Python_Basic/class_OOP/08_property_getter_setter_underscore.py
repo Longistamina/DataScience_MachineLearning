@@ -52,7 +52,7 @@ class ItemWithSetter:
         self.quantity = quantity
         
         self._total_price = self.price * self.quantity
-        # We set the name of the attribute as _total_price
+        # We set the name of the attribute as _total_price (internal use)
         # This will avoid the overlap name with total_price method below (as a property)
         # And avoid RecursionError when we call "obj.total_price"
     
@@ -128,3 +128,11 @@ print(obj._DemoDoubleUnderscore__private)  # Output: 99 (can access using name m
                                            # harder to access, but still possible
 
 print(obj.__private)  # AttributeError: 'MyClass' object has no attribute '__private'
+
+
+#--------------------------------------#
+
+# Python also has many other built-in decorators like @staticmethod, @classmethod, etc.
+# Explore yourself to learn more about them and enjoy Python OOP!
+
+#--------------------------------------#
