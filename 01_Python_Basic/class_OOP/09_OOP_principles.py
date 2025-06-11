@@ -208,4 +208,4 @@ for person in (boy1, girl1):
     # M
     # F
 
-# In this example, 
+# In this example, method .gender() returns different results based on the class of the object calling it.
