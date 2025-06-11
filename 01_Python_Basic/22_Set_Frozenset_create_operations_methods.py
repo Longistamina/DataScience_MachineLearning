@@ -14,6 +14,14 @@ Frozenset:
 
 Set and Fronzeset do not support indexing, slicing, or other sequence-like behavior.
 (because they are unordered collections, and have no index)
+
+# Table of contents:
+#### Create set and frozenset: {}, set(), frozenset()
+#### Check if element exists 
+#### Add and Remove elements: .add(), .update(), .remove(), .discard(), .pop(), .clear()
+#### Loop through elements
+#### Set Operations: .union(), .intersection(), .difference(), .symmetric_difference(), .issubset(), .issuperset(), .isdisjoint()
+#### Other Set Methods: .copy(), .len(), .sorted()
 '''
 
 #------------------------------------------------------------------#
@@ -195,15 +203,6 @@ print(id(set_demo) == id(set_copy))  # False, because they are different objects
 
 # .len(): returns the number of elements in the set
 print(len(set_demo))  # 5, because there are 5 unique elements in set_demo
-
-
-# .max() and .min(): returns the maximum and minimum elements in the set
-print(max(set_demo))  # 'Wood', because it is the last element in alphabetical order
-print(min(set_demo))  # 'Earth', because it is the first element in alphabetical order
-
-set_num = {1, 2, 3, 4, 5}
-print(max(set_num))  # 5, the maximum number in the set
-print(min(set_num))  # 1, the minimum number in the set
 
 
 # .sorted(): returns a sorted list of the elements in the set
