@@ -85,9 +85,8 @@ arr = [2, 3, 8, 9]
 t0 = time.time() # Return the current time in second (before calculating)
 
 thread1 = threading.Thread(target = calc_square, args = (arr, )) # Create thread1 to handle calc_square function
-                                                                 # (arr, ) means arr and other arguments
-
 thread2 = threading.Thread(target = calc_cube, args = (arr, ))   # Create thread2 to handle calc_cube function
+                                                                 # (arr, ) means that this is a tuple, not just arr itself
 
 thread1.start() # activate thread1 to execute calc_square
 thread2.start() # activate thread2 to execute calc_cube
@@ -181,7 +180,6 @@ print(outputs)
 # Output: [[3, 2, 1], ['c', 'b', 'a'], [40, 30, 20, 10], [200, 100], ['z', 'y', 'x']]
 
 
-
 #--------------------------------------------------------#
 #---------------- Multiprocessing -----------------------#
 #--------------------------------------------------------#
@@ -205,6 +203,43 @@ Disadvantages: Higher overhead due to process creation and inter-process communi
 Implementation: Python’s "multiprocessing" module allows creation of processes similar to threading, 
 with APIs like "Process" and "Pool" for managing multiple processes
 '''
+
+############ Example WITH multiprocessing ##################
+
+import time
+import multiprocessing
+import os
+
+print("Number of logical CPUs (threads):", os.cpu_count()) # 16 threads ~ 8 cores
+
+def calc_square(numbers):
+    print("Calculate square numbers:")
+    for n in numbers:
+        time.sleep(0.2) # delay 0.2s in each loop
+        print(f"{n}{chr(178)} = {n**2}")
+
+def calc_cube(numbers):
+    print("Calculate cube of numbers:")
+    for n in numbers:
+        time.sleep(0.2) # delay 0.2s in each loop
+        print(f"{n}{chr(179)} = {n**3}")
+
+arr = [2, 3, 8, 9]
+
+t0 = time.time() # Return the current time in second (before calculating)
+
+processor1 = multiprocessing.Process(target = calc_square, args = (arr, )) # Create processor1 to handle calc_square function
+processor2 = multiprocessing.Process(target = calc_cube, args = (arr, ))   # Create processor2 to handle calc_cube function
+                                                                           # (arr, ) means that this is a tuple, not just arr itself
+                                                                           # Processor here is one CPU CORE
+
+processor1.start() # activate processor1 to execute calc_square
+processor2.start() # activate processor2 to execute calc_cube
+
+processor1.join() # tell the main program to wait until processor1 terminates its process.
+processor2.join() # tell the main program to wait until processor2 terminates its process.
+                  # This ensures that the main program (or the next lines of code) will only proceed 
+                  # after the specified process has completed its task.
 
 
 #---------------------------------------------------------------------------------#
