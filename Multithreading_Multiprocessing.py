@@ -1,3 +1,38 @@
+############ Example WITHOUT multithreading or multiprocessing ##############
+
+import time
+
+def calc_square(numbers):
+    print("Calculate square numbers:")
+    for n in numbers:
+        time.sleep(0.2) # delay 0.2s in each loop
+        print(f"{n}{chr(178)} = {n**2}")
+
+def calc_cube(numbers):
+    print("Calculate cube of numbers:")
+    for n in numbers:
+        time.sleep(0.2) # delay 0.2s in each loop
+        print(f"{n}{chr(179)} = {n**3}")
+
+arr = [2, 3, 8, 9]
+
+t0 = time.time() # Return the current time in second (before calculating)
+calc_square(arr)
+print()
+calc_cube(arr)
+
+print("\nDone single-thread calculating in:", time.time() - t0) # Get the current time after calculating
+                                                                # Then subtract t0 (before calculating)
+                                                                # => results in the processing time
+                                                                # Done single-thread calculating in: 1.6027076244354248
+
+# In this example, the calc_square and calc_cube functions both have 0.2s sleeping time (time.sleep(0.2))
+# function calc_square will keep processing, then sleeping, then processing, then sleeping .... til the end
+# After function calc_square terminates its process, function calc_cube will jump in
+# Then, like before, calc_cube will also keep processing, then sleeping, then processing, ... til the end
+# => Make the total processing time delayed and cost upto 1.602s to finish
+
+
 #--------------------------------------------------#
 #-------------- Multithreading --------------------#
 #--------------------------------------------------#
@@ -24,41 +59,6 @@ since threads share memory.
 Implementation: Python provides the "threading" module 
 and higher-level interfaces like "concurrent.futures.ThreadPoolExecutor" to manage threads
 '''
-
-############ Example WITHOUT multithreading ##############
-
-import time
-
-def calc_square(numbers):
-    print("Calculate square numbers:")
-    for n in numbers:
-        time.sleep(0.2) # delay 0.2s in each loop
-        print(f"{n}{chr(178)} = {n**2}")
-
-def calc_cube(numbers):
-    print("Calculate cube of numbers:")
-    for n in numbers:
-        time.sleep(0.2) # delay 0.2s in each loop
-        print(f"{n}{chr(179)} = {n**3}")
-
-arr = [2, 3, 8, 9]
-
-t0 = time.time() # Return the current time in second (before calculating)
-calc_square(arr)
-print()
-calc_cube(arr)
-
-print("\nDone single-process calculating in:", time.time() - t0) # Get the current time after calculating
-                                                                 # Then subtract t0 (before calculating)
-                                                                 # => results in the processing time
-                                                                 # Done single-process calculating in: 1.6027076244354248
-
-# In this example, the calc_square and calc_cube functions both have 0.2s sleeping time (time.sleep(0.2))
-# function calc_square will keep processing, then sleeping, then processing, then sleeping .... til the end
-# After function calc_square terminates its process, function calc_cube will jump in
-# Then, like before, calc_cube will also keep processing, then sleeping, then processing, ... til the end
-# => Make the total processing time delayed and cost upto 1.602s to finish
-
 
 ############ Example WITH multithreading ##################
 
@@ -92,8 +92,10 @@ thread2 = threading.Thread(target = calc_cube, args = (arr, ))   # Create thread
 thread1.start() # activate thread1 to execute calc_square
 thread2.start() # activate thread2 to execute calc_cube
 
-thread1.join() # tell the other thread to wait until thread1 terminates its process
-thread2.join() # tell the other thread to wait until thread2 terminates its process
+thread1.join() # tell the main program to wait until thread1 terminates its process.
+thread2.join() # tell the main program to wait until thread2 terminates its process.
+               # This ensures that the main program (or the next lines of code) will only proceed 
+               # after the specified thread has completed its task.
 
 # 2² = 4 (the output of thread1 shows up first because it started first, slept first and finished the process first)
 # 2³ = 8
@@ -104,19 +106,23 @@ thread2.join() # tell the other thread to wait until thread2 terminates its proc
 # 9² = 81
 # 9³ = 729
 
-print("\nDone double-process calculating in:", time.time() - t0)
-# Done double-process calculating in: 0.8486087322235107
+print("\nDone double-thread calculating in:", time.time() - t0)
+# Done double-thread calculating in: 0.8486087322235107
 
 # In this example, the calc_square and calc_cube functions both have 0.2s sleeping time (time.sleep(0.2))
 # thread1 calc_square started first, but then encountered 0.2s sleeping time
 # while thread1 is sleeping, the program jumps into thread2 to execute calc_cube function
-# So, by jumping back and forth between thread1 and thread2 while the other is sleeping, multithreading helps accelerate the program
-# => faster and more efficient
+# So, by jumping back and forth between thread1 and thread2 while the other is sleeping, 
+# multithreading helps accelerate the program
+# => faster and more EFFICIENT (not truely parrallel)
 
+# This example uses 2 THREADS ~ 1 CORE (not true parallelism, only efficiency here)
 # Real-life example: ONE CHEFT, while waiting for the water to be boiled, he can preprocess other foods
 
 # NOTE: since this is multithreading, thread1 and thread2 SHARE THE SAME memory and ressoruce for its process
 #       like ONE WORKER handle many tasks but in an efficient way, not one-by-one
+
+# If we defined more threads like 6, then we have 6/2 = 3 CORES (can achive true parallelism)
 
 
 ###################### Dynamic Multithread process using "threading" and "ThreadPoolExecutor" #########################
@@ -155,10 +161,9 @@ def multithread_process(input_blocks, max_threads=4):
             # so executor.submit() is like thread_name.start()
             # then add the created thread/worker to the futures list
 
-
-        # Wait for all threads/workers to complete, this is like thread_name.join()
         for future in futures:
-            future.result()
+            future.result() # Wait for all threads/workers to complete before moving on the next part
+                            # this is like thread_name.join()
 
     return output_blocks
 
