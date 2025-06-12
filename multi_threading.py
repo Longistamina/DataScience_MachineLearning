@@ -128,6 +128,8 @@ print("\nDone double-thread calculating in:", time.time() - t0)
 ###################### Enable defining the maximum number of threads (worker) to use          #########################
 ###################### Automatically create thread, start thread and join thread              #########################
 
+##### Return an output list #####
+
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
@@ -180,66 +182,46 @@ print(outputs)
 # Output: [[3, 2, 1], ['c', 'b', 'a'], [40, 30, 20, 10], [200, 100], ['z', 'y', 'x']]
 
 
-#--------------------------------------------------------#
-#---------------- Multiprocessing -----------------------#
-#--------------------------------------------------------#
+##### Return an output list #####
 
-# GIL = Global Interpreter Lock
+from concurrent.futures import ThreadPoolExecutor
 
-'''
-Concept: Multiple processes run in parallel, each with its SEPARATE memory space, code, and data. 
-This isolates processes from each other, avoiding shared memory issues.
+def target_function(single_block):
+    # Replace with your actual processing logic
+    # For demonstration, return the reversed version of the input block as a string
+    return str(single_block[::-1])
 
-Use case: Ideal for CPU-bound tasks that require heavy computation 
-and can benefit from multiple CPU cores running in parallel.
+def multithread_process(input_blocks, max_threads=4, output_dir="outputs"):
+    import os
+    os.makedirs(output_dir, exist_ok=True)
 
-Performance: Multiprocessing bypasses the GIL by running separate Python interpreters in each process, 
-enabling true parallelism.
+    def worker(idx, single_block):
+        result = target_function(single_block)
+        output_file = os.path.join(output_dir, f"output_{idx}.txt")
+        with open(output_file, "w") as f:
+            f.write(result)
 
-Advantages: Avoids GIL limitations, improves performance for CPU-intensive tasks, provides process isolation which enhances reliability and data integrity.
+    with ThreadPoolExecutor(max_workers=max_threads) as executor:
+        futures = []
+        for idx, single_block in enumerate(input_blocks):
+            futures.append(executor.submit(worker, idx, single_block))
 
-Disadvantages: Higher overhead due to process creation and inter-process communication, more memory consumption, and more complex implementation for sharing data between processes.
+        for future in futures:
+            future.result()  # Wait for all threads to finish
 
-Implementation: Python’s "multiprocessing" module allows creation of processes similar to threading, 
-with APIs like "Process" and "Pool" for managing multiple processes
-'''
+# Example usage:
+inputs = [
+    [1, 2, 3],
+    ['a', 'b', 'c'],
+    [10, 20, 30, 40],
+    [100, 200],
+    ['x', 'y', 'z']
+]
 
-############ Example WITH multiprocessing ##################
+multithread_process(input_blocks=inputs, max_threads=4, output_dir="output_files")
 
-import time
-import multiprocessing
-import os
-
-print("Number of logical CPUs (threads):", os.cpu_count()) # 16 threads ~ 8 cores
-
-def calc_square(numbers):
-    print("Calculate square numbers:")
-    for n in numbers:
-        time.sleep(0.2) # delay 0.2s in each loop
-        print(f"{n}{chr(178)} = {n**2}")
-
-def calc_cube(numbers):
-    print("Calculate cube of numbers:")
-    for n in numbers:
-        time.sleep(0.2) # delay 0.2s in each loop
-        print(f"{n}{chr(179)} = {n**3}")
-
-arr = [2, 3, 8, 9]
-
-t0 = time.time() # Return the current time in second (before calculating)
-
-processor1 = multiprocessing.Process(target = calc_square, args = (arr, )) # Create processor1 to handle calc_square function
-processor2 = multiprocessing.Process(target = calc_cube, args = (arr, ))   # Create processor2 to handle calc_cube function
-                                                                           # (arr, ) means that this is a tuple, not just arr itself
-                                                                           # Processor here is one CPU CORE
-
-processor1.start() # activate processor1 to execute calc_square
-processor2.start() # activate processor2 to execute calc_cube
-
-processor1.join() # tell the main program to wait until processor1 terminates its process.
-processor2.join() # tell the main program to wait until processor2 terminates its process.
-                  # This ensures that the main program (or the next lines of code) will only proceed 
-                  # after the specified process has completed its task.
+# After running, you will find files output_0.txt, output_1.txt, ..., output_4.txt in the "output_files" folder,
+# each containing the reversed block as a string.
 
 
 #---------------------------------------------------------------------------------#
