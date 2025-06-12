@@ -1,8 +1,9 @@
-# List is a type of iteration in Python
-# List allows storing duplicate HETEROGENEOUS data (different datatypes)
-# (however, should store homogeneous data to facilitate processing steps)
-# First element has index = 0
-# Last element has index = len(list) - 1 (or -1)
+'''
+List is a type of iteration in Python
+List allows storing duplicate HETEROGENEOUS data (different datatypes)
+(however, should store homogeneous data to facilitate processing steps)
+First element has index = 0
+Last element has index = len(list) - 1 (or -1)
 
 # Table of contents:
 ## Create a list
@@ -14,6 +15,7 @@
 ## List comprehension
 ## Numeric List calculating with Aggregate Functions
 ## map() and list comprehension for list element-wise calculation
+'''
 
 
 #------------------------------------------------------#

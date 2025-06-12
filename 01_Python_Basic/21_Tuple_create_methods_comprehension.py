@@ -292,11 +292,18 @@ tup_Earthly_Branches = 'Monkey', 'Rooster', 'Dog', 'Pig', 'Rat', 'Ox', 'Tiger', 
 while True:
     try:
         solar_year = int(input('Please input a solar year: '))
+        assert (solar_year >= 1) and (solar_year <= 9999), '>>>Error: a solar year must range from 1 to 9999, please try again!!!'
+    
     except ValueError:
-        print('>>>Error: a solar year must range from 1 to 9999.')
+        print(">>Error: your input must be a number, please try again!!!")
+    
+    except AssertionError as e:
+        print(e)
+    
     else:
-        stem_index = solar_year%10   #The remainer of solar_year%10 will be the index value of tup_Heavenly_Stems
-        branch_index = solar_year%12 #The remainer of solar_year%12 will be the index value of tup_Earthly_Branches
+        stem_index   = solar_year % 10 #The remainer of solar_year%10 will be the index value of tup_Heavenly_Stems
+        branch_index = solar_year % 12 #The remainer of solar_year%12 will be the index value of tup_Earthly_Branches
+        
         print(f'The corresponding Lunar Year is: {tup_Heavenly_Stems[stem_index]} {tup_Earthly_Branches[branch_index]}')
     
     continue_program = input('If you want to continue press [y], otherwise press any key to exit: ')
