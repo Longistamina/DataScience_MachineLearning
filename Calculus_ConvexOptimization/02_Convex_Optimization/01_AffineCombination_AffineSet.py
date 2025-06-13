@@ -5,19 +5,19 @@
 
 An affine combination of vectors x₁, x₂, ..., xₙ is a linear combination
 
-                α₁x₁ + α₂x₂ + ... + αₙxₙ
+              x =  α₁x₁ + α₂x₂ + ... + αₙxₙ
 
-where the coefficients αᵢ satisfy
-
-                ∑ αᵢ = 1.
+        where the coefficients αᵢ satisfy: ∑ αᵢ = 1.
 
 The coefficients can be positive or negative, but must sum to one. 
 This represents a weighted average that may extend beyond the convex hull of the points.
 
 Example:
-For points v₁ and v₂, the midpoint is an affine combination:
+For points v₁ and v₂:
+            
             v = 0.5 v₁ + 0.5 v₂,
-since 0.5 + 0.5 = 1.
+
+            the midpoint is an affine combination, since 0.5 + 0.5 = 1.
 
 Another example: v = 2 v₁ - v₂, since 2 + (-1) = 1.
 
@@ -31,14 +31,15 @@ in A and any scalars a₁, a₂, ..., aₙ whose sum equals 1,
 
                     a₁ + a₂ + ⋯ + aₙ = 1,
 
-the point formed by the affine combination
+the point x formed by the affine combination
 
-                    a₁ x₁ + a₂ x₂ + ⋯ + aₙ xₙ
+                  x =  a₁ x₁ + a₂ x₂ + ⋯ + aₙ xₙ
 
 also lies in A.
 
 
-####### Example: prove a set is affine set
+####### Example: prove a set is an affine set
+        
         The set C = { (x, y) ∈ ℝ² | y = 2x + 1 } is affine.
 Proof:
         Take p₁ = (x₁, 2x₁ + 1), p₂ = (x₂, 2x₂ + 1) in C.
@@ -51,8 +52,10 @@ p = θ p₁ + (1 - θ) p₂
 
 Thus, p ∈ C, so C is affine.
 
-######## Counterexample: prove
+######## Counterexample: prove a set is not an affine set
+    
     D = { (x, y) | y = x² } is not affine.
+
 Take p₁ = (1, 1), p₂ = (-1, 1) in D.
 
 For θ = 0.5,
