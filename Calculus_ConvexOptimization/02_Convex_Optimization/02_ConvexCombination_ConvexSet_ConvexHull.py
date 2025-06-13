@@ -1,3 +1,5 @@
+# https://www.youtube.com/watch?v=QV5qtTq1Tro&list=PL-DDW8QIRjNOVxrU2efygBw0xADVOgpmw&index=2
+
 '''
 #------------------------------------------------------------------------#
 #------------------------ CONVEX COMBINATION ----------------------------#
