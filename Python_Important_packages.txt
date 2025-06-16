@@ -4,6 +4,7 @@ siuba
 matplotlib
 seaborn
 plotnine
+plotly
 sklearn = pip3 install -U scikit-learn
 imblearn
 xgboost
@@ -18,7 +19,8 @@ r-tidyverse (for R)
 
 2) Go to (base) environment
 
-3) Run this command: conda create -c conda-forge -n data python=3.12 numpy pandas siuba matplotlib seaborn plotnine scikit-learn imblearn xgboost hdbscan r-base r-tidyverse
+3) Run this command: 
+conda create -c conda-forge -n data python=3.12 numpy pandas siuba matplotlib seaborn plotnine plotly scikit-learn imblearn xgboost hdbscan r-base r-tidyverse
 
 
 #--------------------------------#
