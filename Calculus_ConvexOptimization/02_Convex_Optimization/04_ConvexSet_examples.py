@@ -146,3 +146,93 @@ Therefore: αy₁ + (1-α)y₂ ∈ E(xc) ✓
 Satisfies triangle inequality: ‖x+y‖P ≤ ‖x‖P + ‖y‖P
 Essential for proving ellipsoid convexity
 '''
+
+#####################################################################
+
+'''
+#---------------------------------------------#
+#--------------- Polyhedra -------------------#
+#---------------------------------------------#
+
+General Form:
+P = {x ∈ ℝⁿ | Ax ≤ b}
+
+Specific Examples:
+
+1. Halfspaces
+   {x : aᵀx ≤ b}
+   where a is a vector and b is a scalar
+
+2. Hyperplanes  
+   {x : aᵀx = b}
+   where a is a vector and b is a scalar
+
+3. Affine Spaces
+   {x : Ax = b}
+   where A is a matrix and b is a vector
+
+4. Probability Simplex
+   conv{e₁, ..., eₙ} = {w : w ≥ 0, 1ᵀw = 1}
+   represents all probability distributions over n outcomes
+
+5. Standard Simplex
+   convex hull of affinely independent points
+
+Convexity Proof:
+For any polyhedron P = {x ∈ ℝⁿ : Ax ≤ b}:
+If x, y ∈ P, then A(λx + (1-λ)y) = λAx + (1-λ)Ay ≤ λb + (1-λ)b = b
+for any λ ∈ [0,1]
+
+'''
+
+####################################################
+
+'''
+#-------------------------------------------------------#
+#------------- Positive Semidefine Cone ----------------#
+#-------------------------------------------------------#
+
+DEFINITION
+S^n_+ = {X ∈ ℝ^(n×n) | X = X_t, X ⪰ 0}
+- Set of all n×n real symmetric matrices with nonnegative eigenvalues
+- Lives in vector space of dimension n(n+1)/2
+
+EQUIVALENT CHARACTERIZATIONS
+A matrix A ∈ S^n_+ if and only if:
+- All eigenvalues of A are nonnegative
+- x_t.A.x ≥ 0 for all x ∈ ℝ^n
+- A = L.L_t for some lower triangular matrix L (Cholesky)
+- All principal minors of A are nonnegative
+
+CONVEXITY PROOF
+If A, B ∈ S^n_+ and θ₁, θ₂ ≥ 0, then θ₁A + θ₂B ∈ S^n_+
+For any x ∈ ℝ^n:
+x_t.(θ₁A + θ₂B).x = θ₁x_t.A.x + θ₂x_t.B.x ≥ 0
+
+CONE PROPERTY
+For any A ∈ S^n_+ and t ≥ 0: tA ∈ S^n_+
+
+PROPER CONE PROPERTIES
+- Convex: proven above
+- Closed: closed under limits
+- Pointed: contains no lines
+- Non-empty interior: positive definite matrices
+
+GEOMETRIC STRUCTURE
+Interior: Positive definite matrices (A ≻ 0)
+Boundary: Singular PSD matrices (at least one zero eigenvalue)
+Vertex: Zero matrix
+
+DUAL REPRESENTATION
+S^n_+ = ∩_{||y||=1} {A ∈ S^n | y_t.A.y ≥ 0}
+
+SELF-DUALITY
+(S^n_+)* = S^n_+ with trace inner product ⟨A,B⟩ = Tr(AB)
+
+2D VISUALIZATION (n=2)
+Matrix [x y; y z] ∈ S^2_+ iff:
+- x ≥ 0
+- z ≥ 0  
+- xz - y² ≥ 0 (determinant constraint)
+
+'''
