@@ -307,5 +307,29 @@ print(x.span()) #Return a tuple containing the start, and end positions of the m
 print(x.string) #Returns the string passed into the function
                 #Here return "The rain in Spain"
 
-print(x.group()) #Returns the part of the string where there was a match
+print(x.group()) #Returns the part of the string group where there was a match
                  #Here return "Spain"
+
+
+# .groups() returns a tuple containing all the subgroups of the match
+import re
+
+pos_nucleotide_1 = "312.1C"
+pos_nucleotide_2 = "42.6del"
+
+pattern = r"(\d+\.?\d+)([a-zA-Z]+\b)"
+
+x = re.search(pattern, pos_nucleotide_1)
+print(x.groups())  # Output: ('312.1', 'C')
+print(x.group(1))  # Output: '312.1'
+print(x.group(2))  # Output: 'C'
+print(x.group())   # Output: '312.1C'
+
+x = re.search(pattern, pos_nucleotide_2)
+print(x.groups())  # Output: ('42.6', 'del')
+print(x.group(1))  # Output: '42.6'
+print(x.group(2))  # Output: 'del'
+print(x.group())   # Output: '42.6del'
+
+
+
