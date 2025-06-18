@@ -11,7 +11,7 @@ Table of contents:
 #### Nested dictionaries
 #### Access values by key: dict[key]
 #### Check if key exists
-#### Add and Remove key-value pairs: .update(), .pop(), .popitem(), .clear()
+#### Add, Update and Remove key-value pairs: .update(), .pop(), .popitem(), .clear()
 #### Dictionary Methods: .keys(), .values(), .items(), .get(), .setdefault(), .copy()
 #### Loop through keys, values, and items
 #### Dictionary Comprehension
@@ -122,7 +122,7 @@ print(dict_acces['city'])  # San Francisco
 # print(dict_acces['country'])  # KeyError: 'country'
 
 
-# Use the get() method to avoid KeyError
+# Use the .get() method to avoid KeyError
 # Accessing a key that does not exist using get() method
 print(dict_acces.get('country'))  # None
 print(dict_acces.get('name'))     # Eve
@@ -130,7 +130,7 @@ print(dict_acces.get('name'))     # Eve
 
 # Access values within a list from a dictionary
 dict_list_access = {
-    'ID': [1, 2, 3],
+    'ID': [0, 2, 3],
     'Name': ['Alice', 'Bob', 'Charlie'],
     'Age': [30, 25, 35]
 }
@@ -177,9 +177,9 @@ print('city' in dict_check.keys())  # True
 print('country' in dict_check.keys())  # False
 
 
-#----------------------------------------------------#
-#---------- Add and Remove key-value pairs ----------#
-#----------------------------------------------------#
+#------------------------------------------------------------#
+#---------- Add, Update and Remove key-value pairs ----------#
+#------------------------------------------------------------#
 
 # Add a new key-value pair
 dict_add = {
@@ -273,7 +273,7 @@ print(sample_dict)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'U
 value = sample_dict.setdefault('city', 'New York')
 print(value)  # Denver
 print(sample_dict)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'USA', 'state': 'Colorado'}
-                     # The value of the key 'city' remains unchanged
+                    # The value of the key 'city' remains unchanged
 
 
 # Create a copy of the dictionary using .copy()

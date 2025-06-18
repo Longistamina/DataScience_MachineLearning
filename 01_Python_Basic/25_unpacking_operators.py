@@ -3,7 +3,7 @@ Unpack operators are used to unpack iterables into individual elements.
 
 There are two types of unpacking operators in Python:
 1. The asterisk (*) operator: Used to unpack iterables like lists or tuples.
-2. The double asterisk (**) operator: Used to unpack dictionaries.
+2. The double asterisks (**) operator: Used to unpack dictionaries.
 '''
 
 
@@ -50,9 +50,9 @@ chars = [*string]
 print(chars)  # Output: ['H', 'e', 'l', 'l', 'o']
 
 
-#--------------------------------------------------------#
-#---------- Unpacking with double asterisk (**) ---------#
-#--------------------------------------------------------#
+#---------------------------------------------------------#
+#---------- Unpacking with double asterisks (**) ---------#
+#---------------------------------------------------------#
 
 # Unpacking a dictionary into individual key-value pairs
 person = {'name': 'Alice', 'age': 30, 'city': 'New York'}
@@ -74,7 +74,7 @@ print(combined_info)
 # Output: {'name': 'Alice', 'age': 30, 'city': 'New York', 'hobby': 'reading', 'profession': 'engineer'}
 
 
-# Unpacking and merging dictionaries with asterisk (*) and double asterisk (**)
+# Unpacking and merging dictionaries with double asterisk (**)
 default_config = {
     'host': 'localhost',
     'port': 8080,

@@ -12,6 +12,8 @@ match expression:
         # code block 2
     case _:
         # default case (optional)
+
+"case _" works like "else", it catches all the remaining situations
 '''
 
 #----------------------------------------------------------#
