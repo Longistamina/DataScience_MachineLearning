@@ -42,3 +42,34 @@ for n in range(1,11,1):
         print(f'{i:2} x {n:2} = {i*n:2}',end='   ') # {i:2} means the space range of this character is 2
     print()
     
+
+#-----------------------------------#
+#---------- for enumerate ----------#
+#-----------------------------------#
+
+# enumerate() is a built-in function that adds a counter to an iterable and returns it as an enumerate object.
+# It is commonly used in loops to get both the index and the value of items in a list or other iterable.
+
+lst_fruits = ['apple', 'banana', 'cherry']
+
+print(enumerate(lst_fruits))  # Output: <enumerate object at 0x...>
+
+print(list(enumerate(lst_fruits)))  # Output: [(0, 'apple'), (1, 'banana'), (2, 'cherry')]
+
+
+# Use enumerate in a for loop
+for index, fruit in enumerate(lst_fruits):
+    print(f'Index: {index}, Fruit: {fruit}')
+# Output:
+# Index: 0, Fruit: apple
+# Index: 1, Fruit: banana
+# Index: 2, Fruit: cherry
+
+
+# Use enumerate with a start index
+for index, fruit in enumerate(lst_fruits, start=1):
+    print(f'Index: {index}, Fruit: {fruit}')
+# Output:
+# Index: 1, Fruit: apple
+# Index: 2, Fruit: banana
+# Index: 3, Fruit: cherry

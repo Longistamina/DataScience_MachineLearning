@@ -164,8 +164,8 @@ for homme in philosophes:
     print(homme)
 
 ## For loop through indices
-for i in range(len(philosophes)):
-    print(f"{i} - {philosophes[i]}")
+for index, element in enumerate(philosophes):
+    print(f"{index} - {element}")
 
 
 ## While loop through indices
