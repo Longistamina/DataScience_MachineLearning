@@ -1,23 +1,6 @@
-# https://www.youtube.com/watch?v=QV5qtTq1Tro&list=PL-DDW8QIRjNOVxrU2efygBw0xADVOgpmw&index=2
+    # https://www.youtube.com/watch?v=QV5qtTq1Tro&list=PL-DDW8QIRjNOVxrU2efygBw0xADVOgpmw&index=2
 
 '''
-#------------------------------------------------------------------------#
-#------------------------ CONVEX COMBINATION ----------------------------#
-#------------------------------------------------------------------------#
-
-A convex combination is a linear combination of points where all coefficients are non-negative and sum to 1. 
-More formally, given points x₁, x₂, ..., xₙ, a convex combination is:
-        
-                α₁x₁ + α₂x₂ + ... + αₙxₙ
-
-        where αᵢ ≥ 0 and α₁ + α₂ + ... + αₙ = 1.
-
-        (so convex combination is actually affine combination but with αᵢ ≥ 0)
-
-Example: Consider two points A = (1, 2) and B = (5, 6). 
-         A convex combination would be 0.3A + 0.7B = 0.3(1,2) + 0.7(5,6) = (3.8, 4.8). 
-         This point lies on the line segment between A and B.
-         
 #----------------------------------------------------------------#
 #------------------------ CONVEX SET ----------------------------#
 #----------------------------------------------------------------#
@@ -37,6 +20,25 @@ Let S be a vector space over ℝ. A subset C ⊆ S is convex if:
 
 Alternative formulation:
 A set C is convex if for any two points x,y ∈ C, the line segment connecting them lies entirely within C.
+
+
+#------------------------------------------------------------------------#
+#------------------------ CONVEX COMBINATION ----------------------------#
+#------------------------------------------------------------------------#
+
+A convex combination is a linear combination of points where all coefficients are non-negative and sum to 1. 
+More formally, given points x₁, x₂, ..., xₙ, a convex combination is:
+        
+                α₁x₁ + α₂x₂ + ... + αₙxₙ
+
+        where αᵢ ≥ 0 and α₁ + α₂ + ... + αₙ = 1.
+
+        (so convex combination is actually affine combination but with αᵢ ≥ 0)
+
+Example: Consider two points A = (1, 2) and B = (5, 6). 
+         A convex combination would be 0.3A + 0.7B = 0.3(1,2) + 0.7(5,6) = (3.8, 4.8). 
+         This point lies on the line segment between A and B.
+         
 
 #-----------------------------------------------------------------#
 #------------------------ CONVEX HULL ----------------------------#

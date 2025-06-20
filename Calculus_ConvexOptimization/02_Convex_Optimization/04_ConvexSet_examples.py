@@ -114,7 +114,7 @@ Step 3: Therefore x ∈ B(xc, r) ✓
 #-----------------------------------------------------------#
 
 Real symmetric matrix A is positive definite if:
-    x^T A x > 0 for all nonzero x ∈ ℝⁿ
+    xᵀAx > 0 for all nonzero x ∈ ℝⁿ
 
 #### ELIPSOID DEFINITION ####
 Standard form: E = {x ∈ ℝⁿ : (x-xc)ᵀP⁻¹(x-xc) ≤ 1}
