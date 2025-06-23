@@ -86,3 +86,6 @@ Thumbs.db
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# vscode workspace file
+*.code-workspace
