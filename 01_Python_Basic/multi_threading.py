@@ -138,33 +138,15 @@ def target_function(single_block):
     # For demonstration, this target_function return the reversed version of the input as single_block
     return single_block[::-1]
 
-def multithread_process(input_blocks, max_threads=4):
+def multithread_process(input_blocks, max_threads = 4):
     """
     input_blocks: List of input blocks (2D list, each element of this list is a single_block input list)
     max_threads: maximum number of concurrent threads
     Returns: List of output blocks corresponding to input blocks
     """
-    output_blocks = [None] * len(input_blocks) # Create initial ouput_blocks = [None, None, None .... None]
-
-    def worker(idx, single_block): # worker here is thread
-        output_blocks[idx] = target_function(single_block)
-        # replace each None with the corresponding output of target_function(single_block)
-
-    with ThreadPoolExecutor(max_workers=max_threads) as executor: 
-        # create an executer object (from class ThreadPoolExecutor)
-        # this is like "thread_name = threading.Thread()"" but more advanced
-        # this executor's thread pool has the maximum number of threads = max_workers = max_threads
-        
-        futures = [] # This futures list will store all the workers (threads) created by the executor.submit() below
-        for idx, single_block in enumerate(input_blocks):
-            futures.append(executor.submit(worker, idx, single_block))
-            # executor submits tasks defined with arguments like worker, idx and single_block to the thread pool
-            # so executor.submit() is like thread_name.start()
-            # then add the created thread/worker to the futures list
-
-        for future in futures:
-            future.result() # Wait for all threads/workers to complete before moving on the next part
-                            # this is like thread_name.join()
+    with ThreadPoolExecutor(max_workers = max_threads) as executor:
+        futures = [executor.submit(fn = target_function, single_block = block) for block in input_blocks]
+        output_blocks = [future.result() for future in futures]
 
     return output_blocks
 
@@ -177,12 +159,12 @@ inputs = [
     ['x', 'y', 'z']
 ]
 
-outputs = multithread_process(input_blocks = inputs, max_threads=4)
+outputs = multithread_process(input_blocks = inputs, max_threads = 4)
 print(outputs)
 # Output: [[3, 2, 1], ['c', 'b', 'a'], [40, 30, 20, 10], [200, 100], ['z', 'y', 'x']]
 
 
-##### Return an output list #####
+##### Write outputs into  files #####
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -191,21 +173,21 @@ def target_function(single_block):
     # For demonstration, return the reversed version of the input block as a string
     return str(single_block[::-1])
 
-def multithread_process(input_blocks, max_threads=4, output_dir="outputs"):
+def write_output_file(idx, single_block, output_dir):
+    import os
+    result = target_function(single_block)
+    output_file = os.path.join(output_dir, f"output_{idx}.txt")
+    with open(output_file, "w") as f:
+        f.write(result)
+
+def multithread_process(input_blocks, max_threads = 4, output_dir = "outputs"):
     import os
     os.makedirs(output_dir, exist_ok=True)
 
-    def worker(idx, single_block):
-        result = target_function(single_block)
-        output_file = os.path.join(output_dir, f"output_{idx}.txt")
-        with open(output_file, "w") as f:
-            f.write(result)
-
-    with ThreadPoolExecutor(max_workers=max_threads) as executor:
-        futures = []
-        for idx, single_block in enumerate(input_blocks):
-            futures.append(executor.submit(worker, idx, single_block))
-
+    with ThreadPoolExecutor(max_workers = max_threads) as executor:
+        futures = [executor.submit(fn = write_output_file, idx = index, single_block = block, output_dir = output_dir) 
+                   for index, block in enumerate(input_blocks)]
+        
         for future in futures:
             future.result()  # Wait for all threads to finish
 
@@ -218,10 +200,49 @@ inputs = [
     ['x', 'y', 'z']
 ]
 
-multithread_process(input_blocks=inputs, max_threads=4, output_dir="output_files")
+multithread_process(input_blocks = inputs, max_threads = 4, output_dir = "output_files")
 
 # After running, you will find files output_0.txt, output_1.txt, ..., output_4.txt in the "output_files" folder,
 # each containing the reversed block as a string.
+
+
+#-------------------------------------------------------------#
+#-------------- using a list of tuples as argument -----------#
+#-------------------------------------------------------------#
+
+from concurrent.futures import ThreadPoolExecutor
+
+# Function with two parameters
+def add_numbers(x, y):
+    return x + y
+
+# Function with single parameter
+def square(x):
+    return x ** 2
+
+# Function with three parameters
+def calculate(x, y, z):
+    return x * y + z
+
+if __name__ == '__main__':
+    
+    # ✅ Multi-argument inputs using list comprehension
+    multi_arg_inputs = [(i, i+1) for i in range(1, 7, 2)]  # [(1, 2), (3, 4), (5, 6)]
+    with ThreadPoolExecutor(max_workers = 4) as executor:
+        results_multi = list(executor.map(lambda args: add_numbers(*args), multi_arg_inputs))
+    print(f"Multi-arg results: {results_multi}")  # [3, 7, 11]
+    
+    # ✅ Single-argument inputs using list comprehension (note the comma for tuple)
+    single_arg_inputs = [(i,) for i in range(2, 6)]  # [(2,), (3,), (4,), (5,)]
+    with ThreadPoolExecutor(max_workers = 4) as executor:
+        results_single = list(executor.map(lambda args: square(*args), single_arg_inputs))
+    print(f"Single-arg results: {results_single}")  # [4, 9, 16, 25]
+    
+    # ✅ Three-argument inputs using list comprehension
+    three_arg_inputs = [(i, i*2, i+1) for i in range(1, 4)]  # [(1, 2, 2), (2, 4, 3), (3, 6, 4)]
+    with ThreadPoolExecutor(max_workers = 4) as executor:
+        results_three = list(executor.map(lambda args: calculate(*args), three_arg_inputs))
+    print(f"Three-arg results: {results_three}")  # [4, 11, 22]
 
 
 #---------------------------------------------------------------------------------#

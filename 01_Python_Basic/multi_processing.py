@@ -114,9 +114,9 @@ def multicore_process(input_blocks, max_processes=4):
     max_processes: maximum number of concurrent processes
     Returns: List of output blocks corresponding to input blocks
     """
-    with Pool(processes=max_processes) as pool:
+    with Pool(processes = max_processes) as pool:
         # map applies target_function to each input block in parallel
-        output_blocks = pool.map(target_function, input_blocks)
+        output_blocks = pool.map(func = target_function, iterable = input_blocks)
     return output_blocks
 
 # Example usage:
@@ -146,9 +146,9 @@ def target_function(single_block, idx):
         f.write(output)
 
 def multicore_process(input_blocks, max_processes=4):
-    with Pool(processes=max_processes) as pool:
+    with Pool(processes = max_processes) as pool:
         # Use starmap to pass index along with block
-        pool.starmap(target_function, [(block, i) for i, block in enumerate(input_blocks)])
+        pool.starmap(funct = target_function, iterable = [(block, i) for i, block in enumerate(input_blocks)])
 
 # Example usage
 inputs = [
@@ -159,6 +159,56 @@ inputs = [
 
 multicore_process(inputs, max_processes=3)
 # This creates files output_block_0.txt, output_block_1.txt, output_block_2.txt
+
+
+#-------------------------------------------------------------#
+#----------- using a list of tuples as argument --------------#
+#-------------------------------------------------------------#
+
+import multiprocessing
+
+# Function with two parameters
+def add_numbers(x, y):
+    return x + y
+
+# Function with single parameter
+def square(x):
+    return x ** 2
+
+# Function with three parameters
+def calculate(x, y, z):
+    return x * y + z
+
+if __name__ == '__main__':
+    
+    # ✅ Multi-argument inputs using list comprehension
+    multi_arg_inputs = [(i, i+1) for i in range(1, 7, 2)]  # [(1, 2), (3, 4), (5, 6)]
+    with multiprocessing.Pool() as pool:
+        results_multi = pool.starmap(func = add_numbers, iterable = multi_arg_inputs)
+    print(f"Multi-arg results: {results_multi}")  # [3, 7, 11]
+    
+    # ✅ Single-argument inputs using list comprehension (note the comma for tuple)
+    single_arg_inputs = [(i,) for i in range(2, 6)]  # [(2,), (3,), (4,), (5,)]
+    with multiprocessing.Pool() as pool:
+        results_single = pool.starmap(func = square, iterable = single_arg_inputs)
+    print(f"Single-arg results: {results_single}")  # [4, 9, 16, 25]
+    
+    # ✅ Three-argument inputs using list comprehension
+    three_arg_inputs = [(i, i*2, i+1) for i in range(1, 4)]  # [(1, 2, 2), (2, 4, 3), (3, 6, 4)]
+    with multiprocessing.Pool() as pool:
+        results_three = pool.starmap(func = calculate, iterable = three_arg_inputs)
+    print(f"Three-arg results: {results_three}")  # [4, 11, 22]
+    
+    # ✅ More complex comprehension examples
+    # Creating pairs from two different ranges
+    complex_inputs = [(x, y) for x in range(1, 4) for y in range(10, 13)]
+    # [(1, 10), (1, 11), (1, 12), (2, 10), (2, 11), (2, 12), (3, 10), (3, 11), (3, 12)]
+    
+    # Using conditional comprehension
+    conditional_inputs = [(i,) for i in range(10) if i % 2 == 0]  # [(0,), (2,), (4,), (6,), (8,)]
+    
+    print(f"Complex inputs: {complex_inputs[:3]}...")  # Show first 3
+    print(f"Conditional inputs: {conditional_inputs}")
 
 
 #---------------------------------------------------------------------------------#
