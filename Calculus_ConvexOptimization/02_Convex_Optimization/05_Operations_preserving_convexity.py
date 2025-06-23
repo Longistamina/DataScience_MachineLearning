@@ -66,6 +66,110 @@ OPERATIONS PRESERVING CONVEXITY FOR SETS
    • Sum of two balls is a larger ball
    • Sum of polytopes is a polytope
 
+6. PERSPECTIVE FUNCTION
+
+   Definition:
+   The perspective function P : ℝⁿ⁺¹ → ℝⁿ is defined as:
+
+      P(x, t) = x/t
+
+   where the domain is dom(P) = {(x, t) | t > 0}.
+
+   The perspective function divides the first n elements of a vector by its last 
+   component, effectively scaling or normalizing vectors so the last component 
+   becomes one, then dropping the last component.
+
+   Convexity Preservation Property:
+
+   Forward Transformation (Image):
+   If S ⊆ dom(P) ⊆ ℝⁿ⁺¹ is convex, then the image P(S) = {P(z) | z ∈ S} is convex.
+
+   Inverse Transformation (Preimage):
+   If T ⊆ ℝⁿ is convex, then the preimage P⁻¹(T) = {(x, t) | t > 0, x/t ∈ T} is 
+   also convex.
+
+   Proof Sketch:
+   The convexity preservation follows from the perspective function's 
+   linear-fractional nature. For any y₁, y₂ ∈ P(S) where y₁ = x₁/t₁ and 
+   y₂ = x₂/t₂, and for any α ∈ [0,1], the convex combination αy₁ + (1-α)y₂ can 
+   be shown to lie in P(S) due to the convexity of S.
+
+   Examples and Applications:
+
+   Geometric Interpretation:
+   The perspective function can be thought of as perspective projection onto the 
+   hyperplane consisting of all points with last coordinate equal to 1. For any 
+   fixed z, P maps all points of the form t(z,1), (t > 0) to z, which form a ray 
+   emanating from the origin.
+
+   In Optimization:
+   Perspective functions are extensively used in mixed integer nonlinear 
+   programming (MINLP) to generate tight, tractable relaxations. They are 
+   particularly applicable when binary indicator variables force continuous 
+   decision variables to take the value 0 or belong to a convex set.
+
+7. LINEAR-FRACTIONAL FUNCTION
+   Definition:
+   A linear-fractional function f : ℝⁿ → ℝᵐ is defined as:
+
+      f(x) = (Ax + b)/(cᵀx + d)
+
+   where:
+   - A ∈ ℝᵐˣⁿ, b ∈ ℝᵐ, c ∈ ℝⁿ, d ∈ ℝ
+   - Domain: dom(f) = {x | cᵀx + d > 0}
+
+   Relationship to Perspective Function:
+   A linear-fractional function is the composition of a perspective function with 
+   an affine function. Specifically, if g : ℝⁿ → ℝᵐ⁺¹ is affine:
+
+      g(x) = [A/cᵀ]x + [b/d]
+
+   and P : ℝᵐ⁺¹ → ℝᵐ is the perspective map, then f = P ∘ g.
+
+   Convexity Preservation Property:
+
+   Forward Transformation:
+   If S ⊆ dom(f) ⊆ ℝⁿ is convex, then the image f(S) = P(g(S)) is convex.
+
+   Inverse Transformation:
+   If T ⊆ ℝᵐ is convex, then the preimage f⁻¹(T) = g⁻¹(P⁻¹(T)) is convex.
+
+   Mathematical Foundation:
+   The convexity preservation follows from the composition of convexity-preserving 
+   operations:
+   1. Affine transformations preserve convexity
+   2. Perspective functions preserve convexity
+   3. The composition of convexity-preserving operations preserves convexity
+
+   Examples:
+
+   Simple Linear-Fractional Function:
+      f(x) = 1/(x₁ + x₂ + 1)
+
+   This maps convex sets to convex sets in the transformed space.
+
+   Quasiconvexity Property:
+   Linear-fractional functions of the form f(x) = (aᵀx + b)/(cᵀx + d) are 
+   quasilinear (both quasiconvex and quasiconcave) on their domain.
+
+   Special Cases:
+   - When c = 0, the function reduces to an affine function: f(x) = (Ax + b)/d
+   - In complex analysis, linear fractional transformations (Möbius 
+   transformations) have the form f(z) = (az + b)/(cz + d) where ad - bc ≠ 0
+
+   Applications:
+
+   Optimization:
+   Linear-fractional functions commonly appear in:
+   - Fractional programming problems
+   - Portfolio optimization with risk measures
+   - Engineering design problems with efficiency ratios
+
+   Geometric Transformations:
+   In projective geometry, linear-fractional transformations preserve certain 
+   geometric properties while maintaining convexity of sets under appropriate 
+   conditions.
+
 ================================================================================
 OPERATIONS PRESERVING CONVEXITY FOR FUNCTIONS
 ================================================================================
@@ -83,7 +187,7 @@ OPERATIONS PRESERVING CONVEXITY FOR FUNCTIONS
 
 2. COMPOSITION WITH AFFINE FUNCTIONS
    Property: Convex functions composed with affine functions remain convex
-   Formula: If f is convex and g(x) = Ax + b is affine, then f(Ax + b) is convex
+   Formula: If f(x) is convex and g(x) = Ax + b is affine, then f(Ax + b) is convex
    
    Examples:
    • f(x) = (2x + 1)² (quadratic composed with affine)
