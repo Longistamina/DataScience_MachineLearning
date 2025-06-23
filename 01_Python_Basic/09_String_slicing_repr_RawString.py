@@ -1,3 +1,7 @@
+#-------------------------------------------------#
+#--------------- String slicing ------------------#
+#-------------------------------------------------#
+
 name = "Le Anh Thu"
 l = len(name)
 first_element = name[0] #---> L
@@ -47,3 +51,30 @@ strEven = strNumbers[1::2]  # slice from the second element to end, but with ind
 
 print("-"*50) #print character '-' 50 times
 print()
+
+
+#-------------------------------------------------#
+#--------------- repr() function -----------------#
+#-------------------------------------------------#
+
+# raw strings are prefixed with 'r' or 'R' and treat backslashes as literal characters, not escape characters.
+normal_string = "Hello\nWorld"  # Normal string with escape sequences
+print(normal_string)  
+# Output: Hello
+#         World
+
+raw_string = r"Hello\nWorld"  # Raw string, no escape sequences
+print(raw_string)  
+# Output: Hello\nWorld
+
+
+# repr() returns a string representation of an object that can be used to recreate the object.
+# (e.g a raw string)
+# It is often used for debugging purposes, as it provides a more detailed and unambiguous representation of the object.
+normal_string = "This is\n the end\n"
+print(normal_string)
+# Output: This is
+#         the end
+
+print(repr(normal_string))
+# Output: 'This is\n the end\n'

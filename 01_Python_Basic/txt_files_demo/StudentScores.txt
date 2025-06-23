@@ -1,0 +1,7 @@
+New Student scores:
+Frank: 80
+Grace: 87
+Hannah: 93
+Ivy: 89
+Jack: 91
+Kathy: 84

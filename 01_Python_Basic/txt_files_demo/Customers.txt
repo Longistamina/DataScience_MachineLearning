@@ -1,0 +1,6 @@
+Anhealdra: 20000
+Anneah: 15000
+Malgnorca: 9000
+Eriksaka: 20000
+Inesotra: 15000
+Minista: 9000
