@@ -92,11 +92,13 @@ if "apple" in fruits:
 #----------------- Modify tuple via list ----------------------#
 #--------------------------------------------------------------#
 
-# Again, Tuple DOES NOT allow modifying its elements
-# So, if we still need to make modifications => convert to list first using list(tuple_name)
+'''
+Again, Tuple DOES NOT allow modifying its elements
+So, if we still need to make modifications => convert to list first using list(tuple_name)
 
-# After that, we can apply list modifying methods: 
-#       insert, append, extend, remove, pop, clear, copy, sort, reverse
+After that, we can apply list modifying methods: 
+      insert, append, extend, remove, pop, clear, copy, sort, reverse
+'''
 
 predators_tup = ("tiger", "lion", "leopard")
 print(predators_tup)
@@ -193,10 +195,13 @@ for item in tup_customers:
 for first_name, last_name, purchase in tup_customers:
     print(f'{first_name} {last_name}: {purchase} USD')
 
-# for first_name, purchase in tup_customers:
-#     print(f'{first_name}: {purchase} USD')
-#===> ValueError: too many values to unpack (expected 2)
-# it raises error because the number of iterators and the number of items are not corresponding
+'''
+for first_name, purchase in tup_customers:
+    print(f'{first_name}: {purchase} USD')
+===> ValueError: too many values to unpack (expected 2)
+
+it raises error because the number of iterators and the number of items are not corresponding
+'''
 
 
 #------------------------------------------------------------#
@@ -217,9 +222,11 @@ print(even_numbers) # (0, 2, 4, 6, 8, 10, 12, 14, 16, 18)
 even_numbers = tuple(number if (number % 2 == 0) else "odd" for number in range(10))
 print(even_numbers) # (0, 'odd', 2, 'odd', 4, 'odd', 6, 'odd', 8, 'odd')
 
-# samurais_upper = (name.upper() for name in samurais)
-# print(samurais_upper)
-# ==> <generator object <genexpr> at 0x7fda43f13850>
+'''
+samurais_upper = (name.upper() for name in samurais)
+print(samurais_upper)
+==> <generator object <genexpr> at 0x7fda43f13850>
+'''
 
 
 #-------------------------------------------------------------------------------------------#

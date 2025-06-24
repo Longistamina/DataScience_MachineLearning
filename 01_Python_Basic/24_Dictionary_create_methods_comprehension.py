@@ -118,8 +118,10 @@ print(dict_acces['age'])   # 28
 print(dict_acces['city'])  # San Francisco
 
 
-# Accessing a key that does not exist raises a KeyError
-# print(dict_acces['country'])  # KeyError: 'country'
+'''
+Accessing a key that does not exist raises a KeyError
+print(dict_acces['country'])  # KeyError: 'country'
+'''
 
 
 # Use the .get() method to avoid KeyError

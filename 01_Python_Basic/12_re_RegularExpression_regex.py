@@ -290,7 +290,9 @@ print(x) #The_rain_in Spain
 #-------------------------- Match Object---------------------------------#
 #------------------------------------------------------------------------#
 # A Match Object is an object containing information about the search and the result.
-# Note: If there is no match, the value None will be returned, instead of the Match Object.
+'''
+Note: If there is no match, the value None will be returned, instead of the Match Object.
+'''
 
 import re
 txt = "The rain in Spain"

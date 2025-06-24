@@ -31,11 +31,14 @@ print(current_month)
 current_year = current_moment.year      #Get the .year attribute of the current_moment object
 print(current_year)
 
-#max: datetime.datetime(9999, 12, 31, 23, 59, 59, 999999) the maximum datetime value in python.
-#It means year 9999, December, day 31st, at 23h 59m 59s 999999ms
+'''
+max: datetime.datetime(9999, 12, 31, 23, 59, 59, 999999) the maximum datetime value in python.
+It means year 9999, December, day 31st, at 23h 59m 59s 999999ms
 
-#min: datetime.datetime(1, 1, 1, 0, 0) the miniimum datetime value in python.
-#It means year 1, January, day 1st, at 0h 0m
+min: datetime.datetime(1, 1, 1, 0, 0) the miniimum datetime value in python.
+It means year 1, January, day 1st, at 0h 0m
+'''
+
 
 print()
 
@@ -46,9 +49,11 @@ print(birthday1)
 birthday2 = datetime(1890,5,19,23,30)   #Like above, but add hour (23) and minute (30)
 print(birthday2)
 
-#Attention: if using datetime.date() or datetime.datetime(), python will raise error since they are different functions
+'''
+Attention: if using datetime.date() or datetime.datetime(), python will raise error since they are different functions
 # datetime.date()     not equal   date()
 # datetime.datetime() not equal   datetime()
+'''
 
 #----- datetime.strptime() convert string into datetime object ------#
 day1 = datetime.strptime('18/2/2024','%d/%m/%Y') # datetime.datetime(2024, 2, 18, 0, 0)

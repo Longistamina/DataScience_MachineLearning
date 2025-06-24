@@ -230,10 +230,12 @@ with open(file = f'{txt_demo_dir}/StudentScores.txt', mode = 'r') as file:
     is_writable = file.writable()  # Check if the file is writable
 print(is_writable)  # False
 
-## NOTE: if the file has previous contents, then when you open it in write mode ('w'), 
-#        it will truncate the file to zero length before writing.
-#        Even if you write nothing to the file, it will still create an empty file !!!!
-#=> That's why in this part, we use append mode ('a') to avoid truncating the file to zero length.
+'''
+NOTE: if the file has previous contents, then when you open it in write mode ('w'), 
+      it will truncate the file to zero length before writing.
+      Even if you write nothing to the file, it will still create an empty file !!!!
+=> That's why in this part, we use append mode ('a') to avoid truncating the file to zero length.
+'''
 
 
 #---------------------------------------------------------------------------------------------------#

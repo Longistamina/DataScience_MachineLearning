@@ -33,9 +33,11 @@ Set and Fronzeset do not support indexing, slicing, or other sequence-like behav
 empty_set = set() # set()
                   # this set() function also helps convert other iterables into set containing unique values
 
-# empty_set = {}         # {}
-# print(type(empty_set)) # 'dict' not 'set'
-                         # In this case, python interpretes {} as an empty dictionary, not set
+'''
+empty_set = {}         # {}
+print(type(empty_set)) # 'dict' not 'set'
+                         In this case, python interpretes {} as an empty dictionary, not set
+'''
 
 set_5_elements = {"Metal", "Wood", "Earth", "Water", "Fire", "Metal"}
 print(set_5_elements) # {'Fire', 'Metal', 'Wood', 'Earth', 'Water'} lose one "Metal"
@@ -48,11 +50,13 @@ print(set_float) # {1.5, 2.0, 3.7, 4.9} lose one 2.0
 set_mix = set(("cd", "pwd", (3 + 5.5j), 2, 5.7, False, ("text", True), "cd")) # convert tuple to set
 print(set_mix) # {False, 2, 5.7, ('text', True), (3+5.5j), 'pwd', 'cd'}
 
-# set(1.2, 3.4, "Text") will raise error because set expected at most 1 argument (1 input)
-# ===> must put it in a list or tupe first: set([1.2, 3.4, "Text"]) or set((1.2, 3.4, "Text"))
+'''
+set(1.2, 3.4, "Text") will raise error because set expected at most 1 argument (1 input)
+===> must put it in a list or tupe first: set([1.2, 3.4, "Text"]) or set((1.2, 3.4, "Text"))
 
-# set([2, [3, "4"]]) will raise error because list is mutable, so they cannot be elements of a set.
-# ===> Instead, try put them in a tuple like this: set(2, (3, "4"))
+set([2, [3, "4"]]) will raise error because list is mutable, so they cannot be elements of a set.
+===> Instead, try put them in a tuple like this: set(2, (3, "4"))
+'''
 
 
 ########### create frozenset using frozenset() ##################
@@ -109,7 +113,7 @@ print(set_1)     # {1, 4, 49, 25}
 
 
 # set.pop() removes a random element from the set (and returns it if that element exists in the set)
-# Note: set.pop() will raise KeyError if the set is empty
+'''NOTE: set.pop() will raise KeyError if the set is empty '''
 set_1 = {1, 2, 3}
 removed_element = set_1.pop()  # removes and returns a random element (could be 1, 2, or 3)
 print(removed_element)         # prints the removed element
@@ -188,7 +192,7 @@ print(set_a.isdisjoint(set_b))   # False
 print(set_a.isdisjoint({7, 8}))  # True, because {7, 8} has no common elements with set_a
 
 
-# Fronzeset operations are similar to set operations, but they are immutable
+'''Fronzeset operations are similar to set operations, but they are immutable'''
 
 
 #-------------------------------------------------------------------------#

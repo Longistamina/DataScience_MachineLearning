@@ -99,9 +99,10 @@ print(predators) # ['bear', 'godzilla', 'wolf']
 predators[1:] = ["eagle"]
 print(predators) # ['bear', 'eagle']
 
-# predators[1:] = "eagle"
-# print(predators) # return ['bear', 'e', 'a', 'g', 'l', 'e']
-
+'''
+predators[1:] = "eagle"
+print(predators) # return ['bear', 'e', 'a', 'g', 'l', 'e']
+'''
 
 #-----------------------------------------------------#
 #----------------- List methods ----------------------#
@@ -138,10 +139,10 @@ programmer_life.insert(0, "dreaming")
 print(programmer_life) 
 #['dreaming', 'waking', 'eating', 'debugging', 'crying', 'hoping', 'crying']
 
-
-## Notice: print(programmer_life.insert(0, "dreaming")) will return None
-## => because it modifies the original list directly (in-place) and doesn’t create or return a new list.
-
+'''
+NOTE: print(programmer_life.insert(0, "dreaming")) will return None
+      => because it modifies the original list directly (in-place) and doesn’t create or return a new list.
+'''
 
 ##################### .append() #############################
 # .append() adds ONLY ONE element per run at the end of the list
@@ -184,8 +185,10 @@ programmer_life.clear()
 print(programmer_life) # []
 print(id(programmer_life)) # still has the id, meaning the variable still exists
 
-# del programmer_life  ## This will erases the variable entirely, no more existence, no more id
-# print(id(programmer_life)) ## raise NameError because the variable does not exist (has been deleted)
+'''
+del programmer_life  ## This will erases the variable entirely, no more existence, no more id
+print(id(programmer_life)) ## raise NameError because the variable does not exist (has been deleted)
+'''
 
 
 ##################### .copy() #############################
@@ -201,7 +204,7 @@ print(f"list_copy_1 id: {id(list_copy_1)}\n") # DIFFERENT id from list_original
 list_copy_2 = list_original
 print(f"list_copy_2 id: {list_copy_2}")
 print(f"list_copy_2 id: {id(list_copy_2)}\n") # SAME id as list_original
-                                            # meaning that if list_original changes, this list_copy_2 will also change
+                                              # meaning that if list_original changes, this list_copy_2 will also change
 
 print(f"list_original and list_copy_2 share the SAME id: {str(id(list_original) == id(list_copy_2)).upper()}\n")
 
@@ -296,10 +299,13 @@ for item in lst_customers:
 for first_name, last_name, purchase in lst_customers:
     print(f'{first_name} {last_name}: {purchase} USD')
 
-# for first_name, purchase in lst_customers:
-#     print(f'{first_name}: {purchase} USD')
-#===> ValueError: too many values to unpack (expected 2)
-# it raises error because the number of iterators and the number of items are not corresponding
+'''
+for first_name, purchase in lst_customers:
+    print(f'{first_name}: {purchase} USD')
+===> ValueError: too many values to unpack (expected 2)
+
+it raises error because the number of iterators and the number of items are not corresponding
+'''
 
 
 #-----------------------------------------------------------#
@@ -341,7 +347,9 @@ print(np.max(lst_floats))
 print(np.var(lst_floats))
 print(np.std(lst_floats))
 
-# print(sum(["A", "b", "c"])) #=> TypeError
+'''
+print(sum(["A", "b", "c"])) #=> TypeError
+'''
 
 
 #-------------------------------------------------------------------------------------------------------#

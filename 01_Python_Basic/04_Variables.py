@@ -1,7 +1,7 @@
-#Variable definition
+# Variable definition
 
-#When you define a variable in Python, you must avoid using Python keywords
-#Python keywords: https://www.w3schools.com/python/python_ref_keywords.asp
+# When you define a variable in Python, you must avoid using Python keywords
+# Python keywords: https://www.w3schools.com/python/python_ref_keywords.asp
 
 salary = 5000 #integer (số nguyên)
 salary_coefficient = 1.475 #float (số thực)
