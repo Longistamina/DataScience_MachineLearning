@@ -243,13 +243,29 @@ data = [
     ['Chicago', 0.7, '20°C']
 ]
 
-# Example of using the "quoting" parameter with QUOTE_ALL
+#############################################################
+## Example of using the "quoting" parameter with QUOTE_ALL ##
+#############################################################
+
 with open(f'{parent_dir}/write_quoting_all.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file, quoting = csv.QUOTE_ALL)  # Quote all fields
     writer.writerows(data)
 
+# "Place","Humidity","Temperature"
+# "New York","0.6","25°C"
+# "Los Angeles","0.5","30°C"
+# "Chicago","0.7","20°C"
 
-# Example of using the "quoting" parameter with QUOTE_NONNUMERIC
+
+####################################################################
+## Example of using the "quoting" parameter with QUOTE_NONNUMERIC ##
+####################################################################
+
 with open(f'{parent_dir}/write_quoting_non_numeric.csv', 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file, quoting = csv.QUOTE_NONNUMERIC)  # Quote all non-numeric fields
     writer.writerows(data)
+
+# "Place","Humidity","Temperature"
+# "New York",0.6,"25°C"
+# "Los Angeles",0.5,"30°C"
+# "Chicago",0.7,"20°C"
