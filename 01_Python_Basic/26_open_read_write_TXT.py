@@ -19,7 +19,7 @@ All file modes:
 'a+' - Append and read. Opens a file for both appending and reading (e.g., 'a+').
 '''
 
-txt_demo_dir = '/home/longdpt/Documents/Academic/DataScience_MachineLearning_Python_SQL/01_Python_Basic/txt_files_demo'
+parent_dir = '/home/longdpt/Documents/Academic/DataScience_MachineLearning_Python_SQL/01_Python_Basic/demo_data/txt_files'
 
 #---------------------------------------------------------------------------------------------#
 #---------------------------------- Read a file ----------------------------------------------#

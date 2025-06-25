@@ -29,7 +29,7 @@ Another package is Pandas also very powerful for handling .csv file, but we will
 #----------------------- Read .csv and .tsv files ------------------------------#
 #-------------------------------------------------------------------------------#
 
-parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning_Python_SQL/01_Python_Basic/csv_tsv_demo_files"
+parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning_Python_SQL/01_Python_Basic/demo_data/csv_tsv_files"
 
 import csv
 
