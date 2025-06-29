@@ -13,6 +13,7 @@ Table of contents:
 #### Check if key exists
 #### Add, Update and Remove key-value pairs: .update(), .pop(), .popitem(), .clear()
 #### Dictionary Methods: .keys(), .values(), .items(), .get(), .setdefault(), .copy()
+#### Sort a dictionary
 #### Loop through keys, values, and items
 #### Dictionary Comprehension
 '''
@@ -220,6 +221,30 @@ print(dict_add)  # {}
                  # The dictionary is now empty, but still exists and has id(dict_add) = .....
 
 
+'''
+NOTE .update(): if you have a list of dictionary like below, must use for loop to update one by one
+'''
+dict_gotham_villain = dict()
+
+list_of_dict = [
+    {"Harley": {"Gender": "F", "Age": 23}},
+    {"Joker": {"Gender": "M", "Age": 535}},
+    {"Scarface": {"Gender": "Unknown", "Age": "Unknown"}}
+]
+
+for small_dict in list_of_dict:
+    dict_gotham_villain.update(small_dict)
+
+for villain, info in dict_gotham_villain.items():
+    print(f"{villain}: {info}")
+
+# Harley: {'Gender': 'F', 'Age': 23}
+# Joker: {'Gender': 'M', 'Age': 535}
+# Scarface: {'Gender': 'Unknown', 'Age': 'Unknown'}
+'''
+END NOTE
+'''
+
 #----------------------------------------------------#
 #----------------- Dictionary Methods ---------------#
 #----------------------------------------------------#
@@ -282,6 +307,67 @@ print(sample_dict)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'U
 dict_copy = sample_dict.copy()
 print(dict_copy)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'USA', 'state': 'Colorado'}
                   # Modifying the copy does not affect the original dictionary
+
+
+#---------------------------------------------------#
+#----------------- Sort a dictionary ---------------#
+#---------------------------------------------------#
+
+# Can sort a dictionary using dict(sorted(dict_name.items(), key = lambda x: x[...]), reverse = True/False)
+
+demo_dict = {
+    "B": 5,
+    "D": 1,
+    "C": 3,
+    "X": 7,
+    "H": 10,
+    "F": 4
+}
+
+##########################################################
+## sort a dict by its KEYS using "key = lambda x: x[0]" ##
+##########################################################
+
+sorted_dict_key = dict(
+    sorted(
+        demo_dict.items(), 
+        key = lambda x: x[0], # sort by keys
+        reverse = False # sort ascending
+    )
+)
+
+for key, value in sorted_dict_key.items():
+    print(f"{key}: {value}")
+
+# B: 5
+# C: 3
+# D: 1
+# F: 4
+# H: 10
+# X: 7
+
+
+############################################################
+## sort a dict by its VALUES using "key = lambda x: x[1]" ##
+############################################################
+
+sorted_dict_value = dict(
+    sorted(
+        demo_dict.items(), 
+        key = lambda x: x[1], # sort by values
+        reverse = True # sort descending
+    )
+)
+
+for key, value in sorted_dict_value.items():
+    print(f"{key}: {value}")
+
+# H: 10
+# X: 7
+# B: 5
+# F: 4
+# C: 3
+# D: 1
 
 
 #----------------------------------------------------------------------#
