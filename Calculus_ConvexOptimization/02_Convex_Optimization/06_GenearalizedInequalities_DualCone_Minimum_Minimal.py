@@ -127,6 +127,41 @@ Key Difference:
 
 ================================================================================
 
+DUAL CONE CHARACTERIZATION OF MINIMUM AND MINIMAL ELEMENTS
+
+================================================================================
+
+The dual cone provides powerful characterizations of both minimum and minimal elements through linear optimization problems, connecting generalized inequalities with supporting hyperplanes.
+
+## Minimum Elements via Dual Cone
+
+**Theorem:** An element x ∈ S is minimum with respect to ≼_K if and only if for all λ ≻_K* 0, x uniquely minimizes λᵀz over z ∈ S.
+
+**Geometric Meaning:** Every vector λ ≻_K* 0 defines a strict supporting hyperplane to S at x. The set S lies entirely in the halfspace {z : λᵀz ≥ λᵀx}, and the hyperplane touches S only at x.
+
+## Minimal Elements via Dual Cone
+
+**Theorem:** For convex S, x is minimal with respect to ≼_K if and only if x minimizes λᵀz over S for some nonzero λ ≽_K* 0.
+
+**Geometric Meaning:** There exists at least one supporting hyperplane at x with normal vector in the dual cone K*. This separates x from strictly better elements.
+
+## Key Insights
+
+**Supporting Hyperplane Connection:**
+- Minimum elements: strict supporting hyperplanes in ALL dual directions λ ≻_K* 0
+- Minimal elements: supporting hyperplane in SOME dual direction λ ≽_K* 0
+
+**Algorithmic Application:**
+1. Choose λ from appropriate dual cone region
+2. Solve min_{z∈S} λᵀz  
+3. Solution is guaranteed minimal (or minimum if λ ≻_K* 0)
+
+**Pareto Optimality:** For K = ℝⁿ₊, minimal elements are Pareto efficient and minimize weighted sums λᵀz where λ ≥ 0, λ ≠ 0.
+
+This characterization unifies optimization theory with geometric hyperplane separation through the dual cone framework.
+
+================================================================================
+
 EXAMPLES AND APPLICATIONS
 
 Componentwise Ordering (ℝ₊ⁿ):
