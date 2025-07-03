@@ -85,8 +85,6 @@ For single-variable functions, this reduces to f''(x) ≥ 0 [2][10][15].
 - Geometric mean: f(x) = (x₁ · x₂ · … · xₙ)^(1/n)
                        = exp((1/n) · (log x₁ + log x₂ + … + log xₙ))
 
-[17][20][23]
-
 
 #####################################
 ## Operations Preserving Convexity ##
@@ -110,5 +108,52 @@ For any convex function f and probability weights λᵢ ≥ 0 with ∑λᵢ = 1:
 f(∑λᵢxᵢ) ≤ ∑λᵢf(xᵢ)
 
 **Probabilistic Form**: If X is a random variable and φ is convex, then φ(E[X]) ≤ E[φ(X)]. 
-This fundamental inequality underlies many important results in probability and analysis [2][5][8].
+This fundamental inequality underlies many important results in probability and analysis.
+
+
+##################
+## Sublevel Set ##
+##################
+
+**Definition**: For a function f: ℝⁿ → ℝ and a real number α ∈ ℝ, the α-sublevel set (or simply sublevel set) is defined as:
+
+            C_α(f) = {x ∈ dom(f) : f(x) ≤ α}
+
+**Geometric Interpretation**: The sublevel set consists of all points in the domain where the function value is at most α. 
+For a one-dimensional function, this represents the x-coordinates where the graph lies on or below the horizontal line y = α.
+
+**Key Properties**:
+- If f is convex, then all its α-sublevel sets are convex for any value of α
+- The converse is not true: a function can have all convex sublevel sets but not be convex itself
+- Functions with convex sublevel sets are called "quasiconvex" 
+
+**Proof of Convexity**: For a convex function f, if x, y ∈ C_α and θ ∈ [0,1], then:
+f(θx + (1-θ)y) ≤ θf(x) + (1-θ)f(y) ≤ θα + (1-θ)α = α
+
+Therefore, θx + (1-θ)y ∈ C_α, proving the sublevel set is convex.
+
+
+###############
+## Epigraphs ##
+###############
+
+**Definition**: The epigraph of a function f: ℝⁿ → ℝ is the set of all points lying on or above the graph of the function:
+
+            epi(f) = {(x,t) ∈ ℝⁿ × ℝ : t ≥ f(x)}
+
+**Geometric Interpretation**: The epigraph includes the graph of the function and the entire region above it, 
+extending infinitely upward.
+
+**Fundamental Theorem**: A function f is convex if and only if its epigraph is a convex set.
+
+**Proof Outline**:
+(⇒) If f is convex: For any (x₁,t₁), (x₂,t₂) ∈ epi(f) and λ ∈ [0,1]:
+- We have f(x₁) ≤ t₁ and f(x₂) ≤ t₂
+- By convexity: f(λx₁ + (1-λ)x₂) ≤ λf(x₁) + (1-λ)f(x₂) ≤ λt₁ + (1-λ)t₂
+- Therefore: (λx₁ + (1-λ)x₂, λt₁ + (1-λ)t₂) ∈ epi(f)
+
+(⇐) If epi(f) is convex: For any x₁, x₂ ∈ dom(f) and λ ∈ [0,1]:
+- Points (x₁,f(x₁)) and (x₂,f(x₂)) are in epi(f)
+- Their convex combination (λx₁ + (1-λ)x₂, λf(x₁) + (1-λ)f(x₂)) is also in epi(f)
+- This means f(λx₁ + (1-λ)x₂) ≤ λf(x₁) + (1-λ)f(x₂), proving convexity
 '''
