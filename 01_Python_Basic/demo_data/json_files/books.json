@@ -1,0 +1,51 @@
+{"Mathematics": 
+    {"book": [
+        {
+            "title": "Applied Linear Statistical Models",
+            "publisher": "McGraw Hill",
+            "isbn": "9780073108742",
+            "pages": "1396",
+            "author": [
+                "Michael Kutner",
+                "William Li",
+                "Christopher Nachtsheim",
+                "John Neter"
+            ],
+            "attribute": [
+                "Exercises",
+                "Illustrations",
+                "Readability"
+            ]
+        },
+        {
+           "title": "Mathematical Proofs: A Transition to Advanced Mathematics",
+            "publisher": "Pearson",
+            "isbn": "9780321390530",
+            "pages": "365",
+            "author": [
+                "Gary Chartrand",
+                "Ping Zhang",
+                "Albert Polimeni"
+            ],
+            "attribute": [
+                "Exercises",
+                "Readability"
+            ]
+        },
+        {
+            "title": "Mathematical Statistics with Resampling and R",
+            "publisher": "Wiley",
+            "isbn": "9781118029855",
+            "pages": "418",
+            "author": [
+                "Laura Chihara",
+                "Tim Hesterberg"
+            ],
+            "attribute": [
+                "Exercises",
+                "Illustrations",
+                "Readability"
+             ]
+        }
+    ]}
+}
