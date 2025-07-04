@@ -14,7 +14,7 @@ The `json` module can be used to convert Python objects into JSON strings and vi
 '''
 
 import json
-print(dir(json)) # List of methods in the json module
+#print(dir(json)) # List of methods in the json module
 
 parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files"
 
@@ -83,6 +83,61 @@ print(python_dict_from_file)
 # 'Salary': ['623.3', '515.2', '611', '729', '843.25', '578', '632.8', '722.5'], 
 # 'StartDate': ['1/1/2012', '9/23/2013', '11/15/2014', '5/11/2014', '3/27/2015', '5/21/2013', '7/30/2013', '6/17/2014'], 
 # 'Dept': ['IT', 'Operations', 'IT', 'HR', 'Finance', 'IT', 'Operations', 'Finance']}
+
+
+#------------------------------------------------------------#
+#------------ json.dumps() and json.dump() ------------------#
+#------------------------------------------------------------#
+
+##################
+## json.dumps() ##
+##################
+
+# json.dumps() is used to convert a Python object (like a dictionary) into a JSON string.
+python_dict_to_convert = {
+    "Name": "Alice",
+    "Age": 28,
+    "City": "Los Angeles"
+}
+
+# Convert to JSON string with indentation for readability
+json_string_converted = json.dumps(python_dict_to_convert, indent=4)
+print(json_string_converted)
+# {
+#     "Name": "Alice",
+#     "Age": 28,
+#     "City": "Los Angeles"
+# }
+
+# Custom separators
+json_string_converted = json.dumps(python_dict_to_convert, indent=4, separators=(';', '__')) 
+print(json_string_converted)
+# {
+#     "Name"__"Alice";
+#     "Age"__28;
+#     "City"__"Los Angeles"
+# }
+
+# Without indentation
+json_string_converted = json.dumps(python_dict_to_convert)
+print(json_string_converted)  # {"Name": "Alice", "Age": 28, "City": "Los Angeles"}
+
+
+#################
+## json.dump() ##
+#################
+
+# json.dump() is used to write a Python object (like a dictionary) into a JSON file.
+dictionary_to_write = {
+    "Name": "Bob",
+    "Age": 35,
+    "City": "San Francisco"
+}
+
+# Open the JSON file in write mode
+with open(f"{parent_dir}/new_written_jsonload.json", "w") as output_file:
+    json.dump(dictionary_to_write, output_file, indent=4)
+
 
 
 #---------------------------------------------#
