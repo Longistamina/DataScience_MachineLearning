@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<STARWARS>
+  <CHARACTER>
+    <Name>Padmé Amidala</Name>
+    <Gender>F</Gender>
+    <Age>27</Age>
+    <Job>Queen of Naboo</Job>
+    <Income currency="$">45000</Income>
+  </CHARACTER>
+  <CHARACTER>
+    <Name>Anakin Skywalker</Name>
+    <Gender>M</Gender>
+    <Age>22</Age>
+    <Job>Jedi</Job>
+    <Income currency="$">23450</Income>
+  </CHARACTER>
+</STARWARS>
