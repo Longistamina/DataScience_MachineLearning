@@ -112,7 +112,7 @@
 + Support Vector Machine
 + Ensemble: Decision Tree, Random Forest, Boosting, Bagging
 + Create pipeline to integrate preprocessing and training steps into one object
-+ Model evaluation: plots and metrics
++ Model evaluation: plots and metrics (F1 score, Accuracy, confusion matrix, sai lam loai 1/2)
 + CrossValidation
 + Parameter Tunning, Grid Search, Randomized Search
 
