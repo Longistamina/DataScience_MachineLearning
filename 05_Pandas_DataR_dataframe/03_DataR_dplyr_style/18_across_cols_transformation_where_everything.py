@@ -7,7 +7,13 @@
 2. dr.across() with dr.summarise()
    + dr.across(dr.c(f.col1, f.col2))): apply functions to specific columns
    + dr.across(dr.where() & |): apply functions to columns that meet certain conditions
-   + dr.across(dr.everything()): apply a function to all columns   
+   + dr.across(dr.everything()): apply a function to all columns
+
+dr.across(
+   cols,
+   func = lambda col: ...,
+    _names = "{_col}_new" # _col is a placeholder for the original
+)
 '''
 
 import datar.all as dr
