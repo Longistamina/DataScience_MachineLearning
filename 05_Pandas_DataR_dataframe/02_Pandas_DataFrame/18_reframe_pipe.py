@@ -1,5 +1,5 @@
 '''
-Un like .assign() and .groupby(), reframe technique allows returning a new DataFrame with a totally different shape.
+Un like .assign() and .agg(), reframe technique allows returning a new DataFrame with a totally different shape.
 
 (.assign() requires the same number of rows as the original DataFrame,
  .groupby() returns a DataFrame the same number of columns as the original DataFrame.)
