@@ -1,7 +1,9 @@
 '''
 1. df.apply() across columns to modify values
 
-2. df.pipe(), df.assign() and df.select_dtypes().columns
+2. df.apply() with aggregation functions to reduce values
+
+3. df.pipe(), df.assign() and df.select_dtypes().columns
 =>  df.pipe(
         lambda df: df.assign(**{
             col: df[col].str.lower() 
@@ -57,7 +59,64 @@ print(df_boston_scaled.head())
 
 
 #----------------------------------------------------------------------------------------------------------------#
-#--------------------------- 2. df.pipe(), df.assign() and df.select_dtypes().columns ---------------------------#
+#--------------------------- 2. df.apply() with aggregation functions to reduce values --------------------------#
+#----------------------------------------------------------------------------------------------------------------#
+'''Using df.apply() with aggregation functions to reduce values'''
+
+df_boston = (
+    pd.read_csv("05_Pandas_DataR_dataframe/data/BostonHousing.csv")
+    .drop(columns=["CHAS", "RAD", "CAT. MEDV"], axis = 1)
+    .pipe(lambda df: df.set_axis(df.columns.str.lower(), axis=1))
+)
+
+print(df_boston.head())
+#       crim    zn  indus    nox     rm   age     dis  tax  ptratio  lstat  medv
+# 0  0.00632  18.0   2.31  0.538  6.575  65.2  4.0900  296     15.3   4.98  24.0
+# 1  0.02731   0.0   7.07  0.469  6.421  78.9  4.9671  242     17.8   9.14  21.6
+# 2  0.02729   0.0   7.07  0.469  7.185  61.1  4.9671  242     17.8   4.03  34.7
+# 3  0.03237   0.0   2.18  0.458  6.998  45.8  6.0622  222     18.7   2.94  33.4
+# 4  0.06905   0.0   2.18  0.458  7.147  54.2  6.0622  222     18.7   5.33  36.2
+
+################################################
+## Apply aggregation functions to all columns ##
+################################################
+
+import numpy as np
+
+print(
+    df_boston.apply(np.mean, axis = 0) # Mean of all columns, axis=0 means apply function across rows for each column
+)
+# crim         3.613524
+# zn          11.363636
+# indus       11.136779
+# nox          0.554695
+# rm           6.284634
+# age         68.574901
+# dis          3.795043
+# tax        408.237154
+# ptratio     18.455534
+# lstat       12.653063
+# medv        22.532806
+# dtype: float64
+
+print(
+    df_boston.apply(np.std, axis = 0) # std of all columns, axis=0 means apply function across rows for each column
+)
+# crim         8.593041
+# zn          23.299396
+# indus        6.853571
+# nox          0.115763
+# rm           0.701923
+# age         28.121033
+# dis          2.103628
+# tax        168.370495
+# ptratio      2.162805
+# lstat        7.134002
+# medv         9.188012
+# dtype: float64
+
+#----------------------------------------------------------------------------------------------------------------#
+#--------------------------- 3. df.pipe(), df.assign() and df.select_dtypes().columns ---------------------------#
 #----------------------------------------------------------------------------------------------------------------#
 '''Using df.pipe(), df.assign() and df.select_dtypes().columns to modify specific type of columns'''
 
