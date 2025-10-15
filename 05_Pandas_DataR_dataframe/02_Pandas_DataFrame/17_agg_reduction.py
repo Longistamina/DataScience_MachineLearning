@@ -5,6 +5,13 @@ Key Features:
 + Can apply single or multiple aggregation functions
 + Returns scalar, Series, or DataFrame depending on input
 + Supports both string function names and custom functions
+
+#################
+
++ Single Function
++ Multiple Functions
++ Dictionary Style
++ Rename Row-Names
 '''
 
 import pandas as pd

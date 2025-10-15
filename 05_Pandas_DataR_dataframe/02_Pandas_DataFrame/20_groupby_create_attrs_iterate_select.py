@@ -17,10 +17,12 @@
 
 import pandas as pd
 
+import warnings
+warnings.filterwarnings("ignore")
+
 df_pokemon = (
     pd.read_csv(
         filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        index_col = "#",
         dtype = {
             "Type 1": "category",
             "Type 2": "category",
@@ -28,12 +30,13 @@ df_pokemon = (
             "Legendary": "bool"
         }
     )
+    .drop(columns = ["#"])
     .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
     .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
 )
 
 print(df_pokemon.info())
-# Index: 800 entries, 1 to 721
+# RangeIndex: 800 entries, 0 to 799
 # Data columns (total 12 columns):
 #  #   Column      Non-Null Count  Dtype   
 # ---  ------      --------------  -----   
@@ -50,7 +53,7 @@ print(df_pokemon.info())
 #  10  Generation  800 non-null    category
 #  11  Legendary   800 non-null    bool    
 # dtypes: bool(1), category(3), int64(7), object(1)
-# memory usage: 60.8+ KB
+# memory usage: 54.7+ KB
 
 
 #----------------------------------------------------------------------------------------------------------#
@@ -155,17 +158,15 @@ for name, group in grouped_single_key:
 
 # Group name: Bug
 #           Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
-# #                                                                                                     
-# 10    Caterpie    Bug     NaN    195  45      30       35      20      20     45          1      False
-# 11     Metapod    Bug     NaN    205  50      20       55      25      25     30          1      False
-# 12  Butterfree    Bug  Flying    395  60      45       50      90      80     70          1      False
+# 13    Caterpie    Bug     NaN    195  45      30       35      20      20     45          1      False
+# 14     Metapod    Bug     NaN    205  50      20       55      25      25     30          1      False
+# 15  Butterfree    Bug  Flying    395  60      45       50      90      80     70          1      False
 # ===================================================================================================
 # Group name: Dark
 #         Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
-# #                                                                                                   
-# 197  Umbreon   Dark     NaN    525  95      65      110      60     130     65          2      False
-# 198  Murkrow   Dark  Flying    405  60      85       42      85      42     91          2      False
-# 215  Sneasel   Dark     Ice    430  55      95       55      35      75    115          2      False
+# 212  Umbreon   Dark     NaN    525  95      65      110      60     130     65          2      False
+# 213  Murkrow   Dark  Flying    405  60      85       42      85      42     91          2      False
+# 233  Sneasel   Dark     Ice    430  55      95       55      35      75    115          2      False
 
 #####################################
 ## Iterate over grouped_multi_keys ##
@@ -178,21 +179,18 @@ for name, group in grouped_multi_keys:  # Iterate over the first 4 groups
 
 # Group name: ('Bug', 'Electric')
 #            Name Type_1    Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
-# #                                                                                                        
-# 595      Joltik    Bug  Electric    319  50      47       50      57      50     65          5      False
-# 596  Galvantula    Bug  Electric    472  70      77       60      97      60    108          5      False
+# 656      Joltik    Bug  Electric    319  50      47       50      57      50     65          5      False
+# 657  Galvantula    Bug  Electric    472  70      77       60      97      60    108          5      False
 # ===================================================================================================
 # Group name: ('Bug', 'Fighting')
 #                         Name Type_1    Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
-# #                                                                                                                     
-# 214                Heracross    Bug  Fighting    500  80     125       75      40      95     85          2      False
-# 214  HeracrossMega Heracross    Bug  Fighting    600  80     185      115      40     105     75          2      False
+# 231                Heracross    Bug  Fighting    500  80     125       75      40      95     85          2      False
+# 232  HeracrossMega Heracross    Bug  Fighting    600  80     185      115      40     105     75          2      False
 # ===================================================================================================
 # Group name: ('Bug', 'Fire')
 #           Name Type_1 Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
-# #                                                                                                    
-# 636   Larvesta    Bug   Fire    360  55      85       55      50      55     60          5      False
-# 637  Volcarona    Bug   Fire    550  85      60       65     135     105    100          5      False
+# 697   Larvesta    Bug   Fire    360  55      85       55      50      55     60          5      False
+# 698  Volcarona    Bug   Fire    550  85      60       65     135     105    100          5      False
 
 
 #-------------------------------------------------------------------------------------------------------#
@@ -205,12 +203,11 @@ for name, group in grouped_multi_keys:  # Iterate over the first 4 groups
 
 print(grouped_single_key.get_group("Fire").head())
 #                         Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
-# #                                                                                                                   
 # 4                 Charmander   Fire     NaN    309  39      52       43      60      50     65          1      False
 # 5                 Charmeleon   Fire     NaN    405  58      64       58      80      65     80          1      False
 # 6                  Charizard   Fire  Flying    534  78      84       78     109      85    100          1      False
-# 6  CharizardMega Charizard X   Fire  Dragon    634  78     130      111     130      85    100          1      False
-# 6  CharizardMega Charizard Y   Fire  Flying    634  78     104       78     159     115    100          1      False
+# 7  CharizardMega Charizard X   Fire  Dragon    634  78     130      111     130      85    100          1      False
+# 8  CharizardMega Charizard Y   Fire  Flying    634  78     104       78     159     115    100          1      False
 
 ###############################
 ## With multiple group names ##
@@ -218,9 +215,8 @@ print(grouped_single_key.get_group("Fire").head())
 
 print(grouped_multi_keys.get_group(("Water", "Flying")).head())
 #          Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
-# #                                                                                                    
-# 130  Gyarados  Water  Flying    540  95     125       79      60     100     81          1      False
-# 226   Mantine  Water  Flying    465  65      40       70      80     140     70          2      False
-# 278   Wingull  Water  Flying    270  40      30       30      55      30     85          3      False
-# 279  Pelipper  Water  Flying    430  60      50      100      85      70     65          3      False
-# 458   Mantyke  Water  Flying    345  45      20       50      60     120     50          4      False
+# 140  Gyarados  Water  Flying    540  95     125       79      60     100     81          1      False
+# 244   Mantine  Water  Flying    465  65      40       70      80     140     70          2      False
+# 301   Wingull  Water  Flying    270  40      30       30      55      30     85          3      False
+# 302  Pelipper  Water  Flying    430  60      50      100      85      70     65          3      False
+# 508   Mantyke  Water  Flying    345  45      20       50      60     120     50          4      False

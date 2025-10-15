@@ -4,19 +4,21 @@
    + df.describe(include = [object, category, "all"]): Include specific data types.
    + df.describe(exclude = [category, bool]): Exclude specific data types.
 
-2. df.group.agg(): Aggregate data using specified functions.
+2. df.groupby().agg(): Aggregate data using specified functions.
    + df.groupby(sort=True/False): Sort group keys.
-   + df.groupby(dropna=True/False): Include/exclude NaN values in group keys.
+   + df.groupby().dropna(): drop NaN values in group keys.
 
-3. df.groupby.apply(): Apply a function to each group.
+3. df.groupby().apply(): Apply a function to each group.
 '''
 
 import pandas as pd
 
+import warnings
+warnings.filterwarnings("ignore")
+
 df_pokemon = (
     pd.read_csv(
         filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        index_col = "#",
         dtype = {
             "Type 1": "category",
             "Type 2": "category",
@@ -24,12 +26,13 @@ df_pokemon = (
             "Legendary": "bool"
         }
     )
+    .drop(columns = ["#"])
     .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
     .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
 )
 
 print(df_pokemon.info())
-# Index: 800 entries, 1 to 721
+# RangeIndex: 800 entries, 0 to 799
 # Data columns (total 12 columns):
 #  #   Column      Non-Null Count  Dtype   
 # ---  ------      --------------  -----   
@@ -46,7 +49,7 @@ print(df_pokemon.info())
 #  10  Generation  800 non-null    category
 #  11  Legendary   800 non-null    bool    
 # dtypes: bool(1), category(3), int64(7), object(1)
-# memory usage: 60.8+ KB
+# memory usage: 54.7+ KB
 
 
 #-------------------------------------------------------------------------------------------------------------#
@@ -112,9 +115,9 @@ print(df_pokemon.describe(exclude = ['category', 'bool']))
 # max        NaN  780.00000  255.000000  190.000000  230.000000  194.000000  230.000000  180.000000
 
 
-#------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 2. df.groupby.agg() ----------------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+#----------------------------------------- 2. df.groupby().agg() ----------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
 
 #################################
 ## df.groupby(sort=True/False) ##
@@ -204,40 +207,9 @@ print(
 # 322  Water     Steel    84.0    84.0  84.000000
 # 323  Water     Water     NaN     NaN        NaN
 
-###################################
-## df.groupby(dropna=True/False) ##
-###################################
-'''By default, dropna=True, which excludes NaN values in the group keys.'''
-
-print(
-    df_pokemon
-    .groupby(by = 'Type_2', dropna = True, observed=False) # observed=False to include all categories in the group keys
-    .agg(
-        min_HP = ('HP', 'min'),
-        max_HP = ('HP', 'max'),
-        mean_HP = ('HP', 'mean')
-    )
-    .reset_index() # Reset index to turn the group keys into a column
-)
-#       Type_2  min_HP  max_HP    mean_HP
-# 0        Bug      40      75  53.333333
-# 1       Dark      45     103  75.550000
-# 2     Dragon      40     150  82.166667
-# 3   Electric      50     125  88.166667
-# 4      Fairy      20     140  64.304348
-# 5   Fighting      48     110  79.461538
-# 6       Fire      45     100  71.250000
-# 7     Flying      30     150  71.391753
-# 8      Ghost       1     100  59.142857
-# 9      Grass      35     100  62.640000
-# 10    Ground      31     111  77.228571
-# 11       Ice      50     130  90.000000
-# 12    Normal      44      86  63.500000
-# 13    Poison      30     114  58.764706
-# 14   Psychic      30     105  72.212121
-# 15      Rock      20     115  68.071429
-# 16     Steel      25     110  64.636364
-# 17     Water      30     110  62.714286
+###########################
+## df.groupby().dropna() ##
+###########################
 
 print(
     df_pokemon
@@ -247,25 +219,26 @@ print(
         max_HP = ('HP', 'max'),
         mean_HP = ('HP', 'mean')
     )
+    .dropna() # Drop rows with NaN values in the result
     .reset_index() # Reset index to turn the group keys into a column
 )
 #     Type_1    Type_2  min_HP  max_HP    mean_HP
-# 0      Bug       Bug     NaN     NaN        NaN
-# 1      Bug      Dark     NaN     NaN        NaN
-# 2      Bug    Dragon     NaN     NaN        NaN
-# 3      Bug  Electric    50.0    70.0  60.000000
-# 4      Bug     Fairy     NaN     NaN        NaN
+# 0      Bug  Electric    50.0    70.0  60.000000
+# 1      Bug  Fighting    80.0    80.0  80.000000
+# 2      Bug      Fire    55.0    85.0  70.000000
+# 3      Bug    Flying    30.0    86.0  63.000000
+# 4      Bug     Ghost     1.0     1.0   1.000000
 # ..     ...       ...     ...     ...        ...
-# 319  Water    Poison    40.0    80.0  61.666667
-# 320  Water   Psychic    60.0    95.0  87.000000
-# 321  Water      Rock    54.0   100.0  70.750000
-# 322  Water     Steel    84.0    84.0  84.000000
-# 323  Water     Water     NaN     NaN        NaN
+# 131  Water       Ice    50.0   130.0  90.000000
+# 132  Water    Poison    40.0    80.0  61.666667
+# 133  Water   Psychic    60.0    95.0  87.000000
+# 134  Water      Rock    54.0   100.0  70.750000
+# 135  Water     Steel    84.0    84.0  84.000000
 
 
-#------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 3. df.groupby.apply() ---------------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+#---------------------------------------- 3. df.groupby().apply() ---------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
 
 def atk_stats(group):
     return pd.Series({

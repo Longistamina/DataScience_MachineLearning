@@ -353,7 +353,7 @@ print(df_dropped)
 
 '''
 This returns an empty DataFrame 
-because there is a row named "grp_outdoor" that contains only one non-missing value, 
+because there is a column named "grp_outdoor" that contains only one non-missing value, 
 and all other rows have at least one missing value.
 
 => All rows are dropped => empty
