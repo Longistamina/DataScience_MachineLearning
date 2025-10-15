@@ -1,5 +1,5 @@
 '''
-Two ways to reorder columns in a Pandas DataFrame.
+Two ways to select and reorder columns in a Pandas DataFrame.
 
 1. df = df[["col3", "col1", "col2"]]
 2. df = df.reindex(columns=["col3", "col1", "col2"])
