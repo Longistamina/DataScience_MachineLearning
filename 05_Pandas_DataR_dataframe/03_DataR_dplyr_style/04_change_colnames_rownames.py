@@ -2,17 +2,13 @@
 1. Change column names:
    + dr.rename()
    + dr.rename_with()
-   + Apply pandas method: (
-        tb
-        .add_prefix('emp_')
-        >> dr.filter_( f.emp_salary > 600)
-   )
+   + Apply pandas method with pipda.register_verb (dr.pipe = register_verb(func = pd.DataFrame.pipe)
 
 2. Change row names (index):
    + dr.column_to_rownames()
    + combine dr.column_to_rownames() with dr.mutate()
    + dr.rownames_to_column() (dr.has_rownames() must be True)
-   + Apply pandas method: with pipda.register_verb (set_index = register_verb(func = pd.DataFrame.set_index))
+   + Apply pandas method with pipda.register_verb (dr.pipe = register_verb(func = pd.DataFrame.pipe)
 '''
 
 import datar.all as dr
@@ -83,10 +79,14 @@ print(tb_renamed2.tail())
 ## pandas method ##
 ###################
 
+from pipda import register_verb
+dr.pipe = register_verb(func = pd.DataFrame.pipe)
+dr.filter = register_verb(func = dr.filter_)
+
 tb_renamed3 = (
     tb_emp 
-    .add_prefix('emp_')
-    >> dr.filter_( f.emp_salary > 600)
+    >> dr.pipe(lambda f: f.add_prefix('emp_'))
+    >> dr.filter( f.emp_salary > 600)
 )
 
 print(tb_renamed3.head())
@@ -97,6 +97,23 @@ print(tb_renamed3.head())
 # 3       4      Ryan      729.00     2014-05-11          HR
 # 4       5      Gary      843.25     2015-03-27     Finance
 # 6       7     Simon      632.80     2013-07-30  Operations
+
+'''--- Example with f.set_axis() ---'''
+
+print(
+    tb_emp 
+    >> dr.pipe(lambda f: f.set_axis(["ID", "Name", "Salary", "Start_Date", "Department"], axis=1))
+)
+#        ID      Name    Salary       Start_Date  Department
+#   <int64>  <object> <float64> <datetime64[ns]>    <object>
+# 0       1      Rick    623.30       2012-01-01          IT
+# 1       2       Dan    515.20       2013-09-23  Operations
+# 2       3  Michelle    611.00       2014-11-15          IT
+# 3       4      Ryan    729.00       2014-05-11          HR
+# 4       5      Gary    843.25       2015-03-27     Finance
+# 5       6      Nina    578.00       2013-05-21          IT
+# 6       7     Simon    632.80       2013-07-30  Operations
+# 7       8      Guru    722.50       2014-06-17     Finance
 
 
 #---------------------------------------------------------------------------------------------------------------------#
@@ -165,13 +182,13 @@ print(tb_from_rownames.head())
 ###################
 
 from pipda import register_verb
-
-set_index = register_verb(func = pd.DataFrame.set_index)
+dr.pipe = register_verb(func = pd.DataFrame.pipe)
 dr.filter = register_verb(func = dr.filter_)
+
 
 tb_set_index = (
     tb_emp 
-    >> set_index('id')
+    >> dr.pipe(lambda f: f.set_index('id'))
     >> dr.filter( f.salary > 600)
 )
 

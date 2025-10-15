@@ -169,7 +169,7 @@ print(
     tb_pokemon
     >> dr.mutate(
         dr.across(
-            dr.where(dr.is_numeric) & ~f["Generation", "Legendary"], # Apply to all numeric columns (except "Generation" and "Legendary")
+            dr.where(dr.is_numeric) & (~f["Generation", "Legendary"]), # Apply to all numeric columns (except "Generation" and "Legendary")
             min_max_scaler # Function to apply
         )
     )
@@ -192,7 +192,7 @@ print(
     tb_pkm_chr
     >> dr.mutate(
         dr.across(
-            dr.where(dr.is_character) & ~f.Name, # Apply to all string columns except the "Name"
+            dr.where(dr.is_character) & (~f.Name), # Apply to all string columns except the "Name"
             lambda col: col.str.lower() # Function to apply
         )
     )
@@ -213,7 +213,7 @@ print(
     tb_pokemon
     >> dr.mutate(
         dr.across(
-            dr.where(dr.is_character) & ~f.Name, # Apply to all string columns except the "Name"
+            dr.where(dr.is_character) & (~f.Name), # Apply to all string columns except the "Name"
             dr.tolower # Function to apply
         )
     )
@@ -283,7 +283,7 @@ print(
     tb_pokemon
     >> dr.summarise(
         dr.across(
-            dr.where(dr.is_numeric) & ~f.Legendary, # All numeric columns except 'Legendary'
+            dr.where(dr.is_numeric) & (~f.Legendary), # All numeric columns except 'Legendary'
             lambda col: np.quantile(col, [0.25, 0.5, 0.75]),
             _names = "quantile_{_col}" # _col is a placeholder for the original column name
         )
@@ -344,9 +344,7 @@ print(
 from scipy import stats
 
 from pipda import register_verb
-@register_verb(pd.DataFrame)
-def pipe(df, func, *args, **kwargs):
-    return func(df, *args, **kwargs)
+dr.pipe = register_verb(func = pd.DataFrame.pipe)
 
 tb_pokemon = dr.tibble(
     pd.read_csv(
@@ -375,7 +373,7 @@ print(
             _names = "{_col}_normality" # _col is a placeholder for the original column name
         )
     )
-    >> pipe(lambda df: df.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
+    >> dr.pipe(lambda df: df.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
 )
 #              Defense_normality  Speed_normality  Attack_normality
 #                      <float64>        <float64>         <float64>
@@ -395,7 +393,7 @@ print(
             _names = "{_col}_quantiles"
         )
     )
-    >> pipe(lambda df: df.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
+    >> dr.pipe(lambda df: df.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
 )
 #     HP_quantiles  Attack_quantiles  Defense_quantiles  Speed_quantiles
 #        <float64>         <float64>          <float64>        <float64>

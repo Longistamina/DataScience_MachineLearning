@@ -11,6 +11,7 @@
    + dr.pivot_longer(names_sep=)
    + dr.pivot_longer(names_pattern=)
    + Combine dr.pivot_longer() with dr.pivot_wider()
+   + Apply dr.pipe(lambda f: pd.wide_to_long(df = f))
 
 3. crosstab, contigency/frequency table: dr.table()
 '''
@@ -313,7 +314,6 @@ print(
 # 8      58       P001          HR        1      62
 # 9      71       P002          HR        1      81
 
-
 #####################################################
 ## Combine dr.pivot_longer() with dr.pivot_wider() ##
 #####################################################
@@ -344,6 +344,43 @@ print(
 # 7      40        2       P007     125      77
 # 8      40        3       P007     137      63
 # 9      48        1       P003     120      61
+
+
+######################################################
+## Apply dr.pipe(lambda f: pd.wide_to_long(df = f)) ##
+######################################################
+
+from pipda import register_verb
+dr.pipe = register_verb(func = pd.DataFrame.pipe)
+
+print(
+    df_measurements 
+    >> dr.pipe(
+        lambda f: pd.wide_to_long(
+            df = f,
+            stubnames = ['BP', 'HR'], 
+            i = ['patient_id', 'age'], 
+            j = 'day', 
+            sep = '_', 
+            suffix = r"\w+"
+        )
+    )
+    >> dr.pipe(lambda f: f.reset_index()) # Reset index to turn MultiIndex into columns
+    >> dr.mutate(day = f.day.str.replace("day", "").astype(int)) # Remove "day" prefix and convert to int
+    >> dr.slice_head(n = 10)
+)
+#   patient_id     age     day      BP      HR
+#     <object> <int64> <int64> <int64> <int64>
+# 0       P001      58       1     128      62
+# 1       P001      58       2     142      62
+# 2       P001      58       3     134      67
+# 3       P002      71       1     132      81
+# 4       P002      71       2     121      96
+# 5       P002      71       3     123      94
+# 6       P003      48       1     120      61
+# 7       P003      48       2     131      66
+# 8       P003      48       3     118      73
+# 9       P004      34       1     120      83
 
 #---------------------------------------------------------------------------------------------------------#
 #---------------------------------------------- 3. Cross-Table -------------------------------------------#

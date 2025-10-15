@@ -31,7 +31,6 @@ warnings.filterwarnings("ignore")
 tb_pokemon = dr.tibble(
     pd.read_csv(
         filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        index_col = "#",
         dtype = {
             "Type 1": "category",
             "Type 2": "category",
@@ -39,6 +38,7 @@ tb_pokemon = dr.tibble(
             "Legendary": "bool"
         }
     )
+    .drop(columns = ["#"])
     .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
     .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
 )
@@ -48,11 +48,10 @@ print(
     >> dr.slice_head(n=5)
 )
 #                     Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
-                                                                                                                             
-# #               <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
-# 1              Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
-# 2                Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
-# 3               Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
+#                 <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
+# 0              Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
+# 1                Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
+# 2               Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
 # 3  VenusaurMega Venusaur      Grass     Poison     625      80     100      123     122     120      80          1      False
 # 4             Charmander       Fire        NaN     309      39      52       43      60      50      65          1      False
 
@@ -76,13 +75,12 @@ print(
     >> dr.slice_head(n=5)
 )
 #                         Name     Type_1     Type_2  Attack  Legendary
-                                                                     
-# #                   <object> <category> <category> <int64>     <bool>
-# 127        PinsirMega Pinsir        Bug     Flying     155      False
-# 130    GyaradosMega Gyarados      Water       Dark     155      False
-# 150      MewtwoMega Mewtwo X    Psychic   Fighting     190       True
-# 214  HeracrossMega Heracross        Bug   Fighting     185      False
-# 248  TyranitarMega Tyranitar       Rock       Dark     164      False
+#                     <object> <category> <category> <int64>     <bool>
+# 137        PinsirMega Pinsir        Bug     Flying     155      False
+# 141    GyaradosMega Gyarados      Water       Dark     155      False
+# 163      MewtwoMega Mewtwo X    Psychic   Fighting     190       True
+# 232  HeracrossMega Heracross        Bug   Fighting     185      False
+# 268  TyranitarMega Tyranitar       Rock       Dark     164      False
 
 print(
     tb_pokemon
@@ -91,13 +89,12 @@ print(
     >> dr.slice_head(n=5)
 )
 #                      Name     Type_1     Type_2  Attack  Sp_Atk  Legendary
-                                                                          
-# #                <object> <category> <category> <int64> <int64>     <bool>
-# 63                   Abra    Psychic        NaN      20     105      False
-# 64                Kadabra    Psychic        NaN      35     120      False
-# 65               Alakazam    Psychic        NaN      50     135      False
-# 65  AlakazamMega Alakazam    Psychic        NaN      50     175      False
-# 81              Magnemite   Electric      Steel      35      95      False
+#                  <object> <category> <category> <int64> <int64>     <bool>
+# 68                   Abra    Psychic        NaN      20     105      False
+# 69                Kadabra    Psychic        NaN      35     120      False
+# 70               Alakazam    Psychic        NaN      50     135      False
+# 71  AlakazamMega Alakazam    Psychic        NaN      50     175      False
+# 88              Magnemite   Electric      Steel      35      95      False
 
 #-------------
 ## < (less than)
@@ -110,13 +107,12 @@ print(
     >> dr.slice_head(n=5)
 )
 #           Name     Type_1     Type_2   Speed  Legendary
-                                                       
-# #     <object> <category> <category> <int64>     <bool>
-# 213    Shuckle        Bug       Rock       5      False
-# 328   Trapinch     Ground        NaN      10      False
-# 438     Bonsly       Rock        NaN      10      False
-# 446   Munchlax     Normal        NaN       5      False
-# 597  Ferroseed      Grass      Steel      10      False
+#       <object> <category> <category> <int64>     <bool>
+# 230    Shuckle        Bug       Rock       5      False
+# 359   Trapinch     Ground        NaN      10      False
+# 486     Bonsly       Rock        NaN      10      False
+# 495   Munchlax     Normal        NaN       5      False
+# 658  Ferroseed      Grass      Steel      10      False
 
 print(
     tb_pokemon
@@ -125,13 +121,12 @@ print(
     >> dr.slice_head(n=5)
 )
 #                      Name     Type_1     Type_2  Attack  Defense  Legendary
-                                                                           
-# #                <object> <category> <category> <int64>  <int64>     <bool>
-# 15               Beedrill        Bug     Poison      90       40      False
-# 15  BeedrillMega Beedrill        Bug     Poison     150       40      False
-# 39             Jigglypuff     Normal      Fairy      45       20      False
-# 50                Diglett     Ground        NaN      55       25      False
-# 56                 Mankey   Fighting        NaN      80       35      False
+#                  <object> <category> <category> <int64>  <int64>     <bool>
+# 18               Beedrill        Bug     Poison      90       40      False
+# 19  BeedrillMega Beedrill        Bug     Poison     150       40      False
+# 44             Jigglypuff     Normal      Fairy      45       20      False
+# 55                Diglett     Ground        NaN      55       25      False
+# 61                 Mankey   Fighting        NaN      80       35      False
 
 '''
 THE SAME FOR ">=" (greater or equal) and "<=" (less or equal)
@@ -154,13 +149,12 @@ print(
     >> dr.slice_head(n=5)
 )
 #                          Name     Type_1     Type_2  Defense  Legendary
-                                                                       
-# #                    <object> <category> <category>  <int64>     <bool>
+#                      <object> <category> <category>  <int64>     <bool>
 # 3       VenusaurMega Venusaur      Grass     Poison      123      False
-# 6   CharizardMega Charizard X       Fire     Dragon      111      False
-# 9                   Blastoise      Water        NaN      100      False
-# 9     BlastoiseMega Blastoise      Water        NaN      120      False
-# 28                  Sandslash     Ground        NaN      110      False
+# 7   CharizardMega Charizard X       Fire     Dragon      111      False
+# 11                  Blastoise      Water        NaN      100      False
+# 12    BlastoiseMega Blastoise      Water        NaN      120      False
+# 33                  Sandslash     Ground        NaN      110      False
 
 #-------------
 ## == (equal)
@@ -173,13 +167,12 @@ print(
     >> dr.slice_head(n=5)
 )
 #                         Name     Type_1     Type_2   Total  Legendary
-                                                                     
-# #                   <object> <category> <category> <int64>     <bool>
+#                     <object> <category> <category> <int64>     <bool>
 # 4                 Charmander       Fire        NaN     309      False
 # 5                 Charmeleon       Fire        NaN     405      False
 # 6                  Charizard       Fire     Flying     534      False
-# 6  CharizardMega Charizard X       Fire     Dragon     634      False
-# 6  CharizardMega Charizard Y       Fire     Flying     634      False
+# 7  CharizardMega Charizard X       Fire     Dragon     634      False
+# 8  CharizardMega Charizard Y       Fire     Flying     634      False
 
 #-------------
 ## != (not equal)
@@ -192,13 +185,12 @@ print(
     >> dr.slice_head(n=5)
 )
 #                     Name     Type_1     Type_2   Total  Legendary
-                                                                 
-# #               <object> <category> <category> <int64>     <bool>
-# 1              Bulbasaur      Grass     Poison     318      False
-# 2                Ivysaur      Grass     Poison     405      False
-# 3               Venusaur      Grass     Poison     525      False
+#                 <object> <category> <category> <int64>     <bool>
+# 0              Bulbasaur      Grass     Poison     318      False
+# 1                Ivysaur      Grass     Poison     405      False
+# 2               Venusaur      Grass     Poison     525      False
 # 3  VenusaurMega Venusaur      Grass     Poison     625      False
-# 7               Squirtle      Water        NaN     314      False
+# 9               Squirtle      Water        NaN     314      False
 
 ##############################
 ##          .isin()         ##
@@ -211,13 +203,12 @@ print(
     >> dr.slice_tail(n=5)
 )
 #           Name     Type_1     Type_2   Total  Legendary
-                                                       
-# #     <object> <category> <category> <int64>     <bool>
-# 667     Litleo       Fire     Normal     369      False
-# 668     Pyroar       Fire     Normal     507      False
-# 692  Clauncher      Water        NaN     330      False
-# 693  Clawitzer      Water        NaN     500      False
-# 721  Volcanion       Fire      Water     600       True
+#       <object> <category> <category> <int64>     <bool>
+# 735     Litleo       Fire     Normal     369      False
+# 736     Pyroar       Fire     Normal     507      False
+# 762  Clauncher      Water        NaN     330      False
+# 763  Clawitzer      Water        NaN     500      False
+# 799  Volcanion       Fire      Water     600       True
 
 print(
     tb_pokemon
@@ -225,19 +216,18 @@ print(
     >> dr.select(f.Name, f.Type_1, f.Type_2, f.Total, f.Generation, f.Legendary)
 )
 #                     Name     Type_1     Type_2   Total Generation  Legendary
-                                                                            
-# #               <object> <category> <category> <int64> <category>     <bool>
-# 387              Turtwig      Grass        NaN     318          4      False
-# 388               Grotle      Grass        NaN     405          4      False
-# 389             Torterra      Grass     Ground     525          4      False
-# 390             Chimchar       Fire        NaN     309          4      False
+#                 <object> <category> <category> <int64> <category>     <bool>
+# 432              Turtwig      Grass        NaN     318          4      False
+# 433               Grotle      Grass        NaN     405          4      False
+# 434             Torterra      Grass     Ground     525          4      False
+# 435             Chimchar       Fire        NaN     309          4      False
 # ..                   ...        ...        ...     ...        ...        ...
-# 391             Monferno       Fire   Fighting     405          4      False
-# 719              Diancie       Rock      Fairy     600          6       True
-# 719  DiancieMega Diancie       Rock      Fairy     700          6       True
-# 720  HoopaHoopa Confined    Psychic      Ghost     600          6       True
-# 720   HoopaHoopa Unbound    Psychic       Dark     680          6       True
-# 721            Volcanion       Fire      Water     600          6       True
+# 436             Monferno       Fire   Fighting     405          4      False
+# 795              Diancie       Rock      Fairy     600          6       True
+# 796  DiancieMega Diancie       Rock      Fairy     700          6       True
+# 797  HoopaHoopa Confined    Psychic      Ghost     600          6       True
+# 798   HoopaHoopa Unbound    Psychic       Dark     680          6       True
+# 799            Volcanion       Fire      Water     600          6       True
 
 ##############################
 ##      String Boolean      ##
@@ -250,13 +240,12 @@ print(
     >> dr.slice_head(n=5)
 )
 #                          Name     Type_1     Type_2   Total  Legendary
-                                                                      
-# #                    <object> <category> <category> <int64>     <bool>
+#                      <object> <category> <category> <int64>     <bool>
 # 3       VenusaurMega Venusaur      Grass     Poison     625      False
-# 6   CharizardMega Charizard X       Fire     Dragon     634      False
-# 6   CharizardMega Charizard Y       Fire     Flying     634      False
-# 9     BlastoiseMega Blastoise      Water        NaN     630      False
-# 15      BeedrillMega Beedrill        Bug     Poison     495      False
+# 7   CharizardMega Charizard X       Fire     Dragon     634      False
+# 8   CharizardMega Charizard Y       Fire     Flying     634      False
+# 12    BlastoiseMega Blastoise      Water        NaN     630      False
+# 19      BeedrillMega Beedrill        Bug     Poison     495      False
 
 print(
     tb_pokemon
@@ -265,13 +254,12 @@ print(
     >> dr.slice_head(n=5)
 )
 #                         Name     Type_1     Type_2   Total  Legendary
-                                                                     
-# #                   <object> <category> <category> <int64>     <bool>
-# 255                  Torchic       Fire        NaN     310      False
-# 324                  Torkoal       Fire        NaN     470      False
-# 389                 Torterra      Grass     Ground     525      False
-# 641  TornadusIncarnate Forme     Flying        NaN     580       True
-# 641    TornadusTherian Forme     Flying        NaN     580       True
+#                     <object> <category> <category> <int64>     <bool>
+# 276                  Torchic       Fire        NaN     310      False
+# 355                  Torkoal       Fire        NaN     470      False
+# 434                 Torterra      Grass     Ground     525      False
+# 702  TornadusIncarnate Forme     Flying        NaN     580       True
+# 703    TornadusTherian Forme     Flying        NaN     580       True
 
 print(
     tb_pokemon
@@ -280,13 +268,12 @@ print(
     >> dr.slice_head(n=5)
 )
 #           Name     Type_1     Type_2   Total  Legendary
-                                                       
-# #     <object> <category> <category> <int64>     <bool>
-# 81   Magnemite   Electric      Steel     325      False
-# 149  Dragonite     Dragon     Flying     600      False
-# 307   Meditite   Fighting    Psychic     280      False
-# 444     Gabite     Dragon     Ground     410      False
-# 499    Pignite       Fire   Fighting     418      False
+#       <object> <category> <category> <int64>     <bool>
+# 88   Magnemite   Electric      Steel     325      False
+# 161  Dragonite     Dragon     Flying     600      False
+# 334   Meditite   Fighting    Psychic     280      False
+# 492     Gabite     Dragon     Ground     410      False
+# 558    Pignite       Fire   Fighting     418      False
 
 ##############################
 ##     DateTime Boolean     ##
@@ -320,21 +307,24 @@ print(
 #---------------------------- 2. Negation of Condition: ~ (tilde) operator -----------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
+import numpy as np
+
+np.random.seed(1)
 print(
     tb_pokemon
     >> dr.filter(~(f.Type_1 == 'Fire')) # Type_1 not equal to 'Fire'
     >> dr.select(f.Name, f.Type_1, f.Type_2, f.Total, f.Legendary)
-    >> dr.slice_head(n=5)
+    >> dr.slice_sample(n=5)
 )
-#                     Name     Type_1     Type_2   Total  Legendary
-                                                                 
-# #               <object> <category> <category> <int64>     <bool>
-# 1              Bulbasaur      Grass     Poison     318      False
-# 2                Ivysaur      Grass     Poison     405      False
-# 3               Venusaur      Grass     Poison     525      False
-# 3  VenusaurMega Venusaur      Grass     Poison     625      False
-# 7               Squirtle      Water        NaN     314      False
+#         Name     Type_1     Type_2   Total  Legendary
+#     <object> <category> <category> <int64>     <bool>
+# 291  Cascoon        Bug        NaN     205      False
+# 554    Snivy      Grass        NaN     308      False
+# 627   Archen       Rock     Flying     401      False
+# 768   Amaura       Rock        Ice     362      False
+# 101   Gengar      Ghost     Poison     500      False
 
+np.random.seed(2)
 print(
     tb_pokemon
     >> dr.filter(~f.Type_2.isin(['Flying', 'Dragon'])) # Type_2 not in the list ['Flying', 'Dragon']
@@ -342,11 +332,10 @@ print(
     >> dr.slice_head(n=5)
 )
 #                     Name     Type_1     Type_2   Total  Legendary
-                                                                 
-# #               <object> <category> <category> <int64>     <bool>
-# 1              Bulbasaur      Grass     Poison     318      False
-# 2                Ivysaur      Grass     Poison     405      False
-# 3               Venusaur      Grass     Poison     525      False
+#                 <object> <category> <category> <int64>     <bool>
+# 0              Bulbasaur      Grass     Poison     318      False
+# 1                Ivysaur      Grass     Poison     405      False
+# 2               Venusaur      Grass     Poison     525      False
 # 3  VenusaurMega Venusaur      Grass     Poison     625      False
 # 4             Charmander       Fire        NaN     309      False
 
@@ -367,25 +356,22 @@ print(
     >> dr.slice_head(n=5)
 )
 #                           Name     Type_1  Attack
-                                                 
-# #                     <object> <category> <int64>
-# 6    CharizardMega Charizard X       Fire     130
-# 6    CharizardMega Charizard Y       Fire     104
-# 59                    Arcanine       Fire     110
-# 136                    Flareon       Fire     130
-# 244                      Entei       Fire     115
+#                       <object> <category> <int64>
+# 7    CharizardMega Charizard X       Fire     130
+# 8    CharizardMega Charizard Y       Fire     104
+# 64                    Arcanine       Fire     110
+# 147                    Flareon       Fire     130
+# 263                      Entei       Fire     115
 
 print(
     tb_pokemon
     >> dr.filter((f.Type_1 == 'Fire') & (f.Attack > 100) & (f.Generation == "5"))
     >> dr.select(f.Name, f.Type_1, f.Attack, f.Generation, f.Legendary)
-    >> dr.slice_head(n=5)
 )
 #                         Name     Type_1  Attack Generation  Legendary
-                                                                     
-# #                   <object> <category> <int64> <category>     <bool>
-# 500                   Emboar       Fire     123          5      False
-# 555  DarmanitanStandard Mode       Fire     140          5      False
+#                     <object> <category> <int64> <category>     <bool>
+# 559                   Emboar       Fire     123          5      False
+# 615  DarmanitanStandard Mode       Fire     140          5      False
 
 ###########################
 ##       | (or)          ##
@@ -398,19 +384,18 @@ print(
     >> dr.select(f.Name, f.Type_1, f.Type_2, f.Total, f.Legendary)
 )
 #                           Name     Type_1     Type_2   Total  Legendary
-                                                                       
-# #                     <object> <category> <category> <int64>     <bool>
+#                       <object> <category> <category> <int64>     <bool>
 # 4                   Charmander       Fire        NaN     309      False
 # 5                   Charmeleon       Fire        NaN     405      False
 # 6                    Charizard       Fire     Flying     534      False
-# 6    CharizardMega Charizard X       Fire     Dragon     634      False
+# 7    CharizardMega Charizard X       Fire     Dragon     634      False
 # ..                         ...        ...        ...     ...        ...
-# 6    CharizardMega Charizard Y       Fire     Flying     634      False
-# 667                     Litleo       Fire     Normal     369      False
-# 668                     Pyroar       Fire     Normal     507      False
-# 692                  Clauncher      Water        NaN     330      False
-# 693                  Clawitzer      Water        NaN     500      False
-# 721                  Volcanion       Fire      Water     600       True
+# 8    CharizardMega Charizard Y       Fire     Flying     634      False
+# 735                     Litleo       Fire     Normal     369      False
+# 736                     Pyroar       Fire     Normal     507      False
+# 762                  Clauncher      Water        NaN     330      False
+# 763                  Clawitzer      Water        NaN     500      False
+# 799                  Volcanion       Fire      Water     600       True
 
 print(
     tb_pokemon
@@ -419,11 +404,10 @@ print(
     >> dr.slice_head(n=5)
 )
 #          Name  Attack  Defense  Sp_Atk  Sp_Def
-                                              
-# #    <object> <int64>  <int64> <int64> <int64>
-# 1   Bulbasaur      49       49      65      65
-# 2     Ivysaur      62       63      80      80
-# 3    Venusaur      82       83     100     100
+#      <object> <int64>  <int64> <int64> <int64>
+# 0   Bulbasaur      49       49      65      65
+# 1     Ivysaur      62       63      80      80
+# 2    Venusaur      82       83     100     100
 # 4  Charmander      52       43      60      50
 # 5  Charmeleon      64       58      80      65
 
@@ -439,14 +423,13 @@ print(
     >> dr.select(f.Name, f.Type_1, f.Attack, f.Legendary)
     >> dr.slice_head(n=5)
 )
-#                          Name     Type_1  Attack  Legendary
-                                                           
-# #                    <object> <category> <int64>     <bool>
-# 6   CharizardMega Charizard X       Fire     130      False
-# 6   CharizardMega Charizard Y       Fire     104      False
-# 9     BlastoiseMega Blastoise      Water     103      False
-# 59                   Arcanine       Fire     110      False
-# 98                     Krabby      Water     105      False
+#                           Name     Type_1  Attack  Legendary
+#                       <object> <category> <int64>     <bool>
+# 7    CharizardMega Charizard X       Fire     130      False
+# 8    CharizardMega Charizard Y       Fire     104      False
+# 12     BlastoiseMega Blastoise      Water     103      False
+# 64                    Arcanine       Fire     110      False
+# 106                     Krabby      Water     105      False
 
 
 #-------------------------------------------------------------------------------------------------------------#

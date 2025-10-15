@@ -27,9 +27,7 @@ warnings.filterwarnings("ignore")
 ########################
 
 from pipda import register_verb
-@register_verb(pd.DataFrame)
-def pipe(df, func, *args, **kwargs):
-    return func(df, *args, **kwargs)
+dr.pipe = register_verb(func = pd.DataFrame.pipe)
 
 tb_pokemon = dr.tibble(
     pd.read_csv(
@@ -69,12 +67,12 @@ print(
 print(
     tb_pokemon
     >> dr.reframe(
-        HP_normality = pipe(lambda f: stats.shapiro(f['HP'])),
-        Attack_normality = pipe(lambda f: stats.shapiro(f['Attack'])),
-        Defense_normality = pipe(lambda f: stats.shapiro(f['Defense'])),
-        Speed_normality = pipe(lambda f: stats.shapiro(f['Speed']))
+        HP_normality = dr.pipe(lambda f: stats.shapiro(f['HP'])),
+        Attack_normality = dr.pipe(lambda f: stats.shapiro(f['Attack'])),
+        Defense_normality = dr.pipe(lambda f: stats.shapiro(f['Defense'])),
+        Speed_normality = dr.pipe(lambda f: stats.shapiro(f['Speed']))
     )
-    >> pipe(lambda df: df.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
+    >> dr.pipe(lambda df: df.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
 )
 #              HP_normality  Attack_normality  Defense_normality  Speed_normality
 #                 <float64>         <float64>          <float64>        <float64>
@@ -88,11 +86,11 @@ print(
 print(
     tb_pokemon
     >> dr.reframe(
-        HP_quantiles = pipe(lambda f: np.percentile(f['HP'], q=[0.25, 0.5, 0.75, 1])),
-        Attack_quantiles = pipe(lambda f: np.percentile(f['Attack'], q=[0.25, 0.5, 0.75, 1])),
-        Defense_quantiles = pipe(lambda f: np.percentile(f['Defense'], q=[0.25, 0.5, 0.75, 1]))
+        HP_quantiles = dr.pipe(lambda f: np.percentile(f['HP'], q=[0.25, 0.5, 0.75, 1])),
+        Attack_quantiles = dr.pipe(lambda f: np.percentile(f['Attack'], q=[0.25, 0.5, 0.75, 1])),
+        Defense_quantiles = dr.pipe(lambda f: np.percentile(f['Defense'], q=[0.25, 0.5, 0.75, 1]))
     )
-    >> pipe(lambda df: df.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
+    >> dr.pipe(lambda df: df.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
 )
 #     HP_quantiles  Attack_quantiles  Defense_quantiles
 #        <float64>         <float64>          <float64>
@@ -120,7 +118,7 @@ print(
             _names = "{_col}_normality" # _col is a placeholder for the original column name
         )
     )
-    >> pipe(lambda df: df.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
+    >> dr.pipe(lambda df: df.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
 )
 #              Defense_normality  Speed_normality  Attack_normality
 #                      <float64>        <float64>         <float64>
@@ -140,7 +138,7 @@ print(
             _names = "{_col}_quantiles"
         )
     )
-    >> pipe(lambda df: df.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
+    >> dr.pipe(lambda df: df.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
 )
 #     HP_quantiles  Attack_quantiles  Defense_quantiles  Speed_quantiles
 #        <float64>         <float64>          <float64>        <float64>
@@ -178,11 +176,11 @@ medv ~ gamma distribution
 print(
     tb_pokemon
     >> dr.reframe(
-        HP_norm = pipe(lambda f: stats.norm.ppf(q=[0.25, 0.5, 0.75, 1], loc=f['HP'].mean(), scale=f['HP'].std())),
-        Attack_exp = pipe(lambda f: stats.expon.ppf(q=[0.25, 0.5, 0.75, 1], scale=f['Attack'].mean())),
-        Defense_gamma = pipe(lambda f: stats.gamma.ppf(q=[0.25, 0.5, 0.75, 1], a=2, scale=f['Defense'].mean() / 2))
+        HP_norm = dr.pipe(lambda f: stats.norm.ppf(q=[0.25, 0.5, 0.75, 1], loc=f['HP'].mean(), scale=f['HP'].std())),
+        Attack_exp = dr.pipe(lambda f: stats.expon.ppf(q=[0.25, 0.5, 0.75, 1], scale=f['Attack'].mean())),
+        Defense_gamma = dr.pipe(lambda f: stats.gamma.ppf(q=[0.25, 0.5, 0.75, 1], a=2, scale=f['Defense'].mean() / 2))
     )
-    >> pipe(lambda df: df.set_axis(["ppf_25th", "ppf_50th", "ppf_75th", "ppf_100th"], axis=0)) # rename the index
+    >> dr.pipe(lambda df: df.set_axis(["ppf_25th", "ppf_50th", "ppf_75th", "ppf_100th"], axis=0)) # rename the index
 )
 #              HP_norm  Attack_exp  Defense_gamma
 #            <float64>   <float64>      <float64>

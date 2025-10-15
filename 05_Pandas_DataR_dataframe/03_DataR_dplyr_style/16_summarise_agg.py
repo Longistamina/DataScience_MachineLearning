@@ -17,6 +17,9 @@ from datar import f
 import pandas as pd
 import numpy as np
 
+from pipda import register_verb
+dr.pipe = register_verb(func = pd.DataFrame.pipe)
+
 # Suppress all warnings
 import warnings
 warnings.filterwarnings("ignore")
@@ -26,13 +29,13 @@ warnings.filterwarnings("ignore")
 tb_pokemon = dr.tibble(
     pd.read_csv(
         filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        index_col = "#",
         dtype = {"Legendary": "bool"}
     )
+    .drop(columns = ["#"])
     .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
     >> dr.mutate(
         dr.across(
-            dr.where(dr.is_character) | f.Type_2 | f.Generation, # Convert to categorical (factor)
+            (dr.where(dr.is_character) | f.Type_2 | f.Generation) & (~f.Name), # Convert to categorical (factor), except 'Name'
             dr.as_factor
         )
     )
@@ -43,11 +46,10 @@ print(
     >> dr.slice_head(n=5)
 )
 #                     Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
-                                                                                                                             
-# #             <category> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
-# 1              Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
-# 2                Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
-# 3               Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
+#                 <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
+# 0              Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
+# 1                Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
+# 2               Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
 # 3  VenusaurMega Venusaur      Grass     Poison     625      80     100      123     122     120      80          1      False
 # 4             Charmander       Fire        NaN     309      39      52       43      60      50      65          1      False
 
@@ -118,8 +120,7 @@ print(
             _names = "quantile_{_col}" # _col is a placeholder for the original column name
         )
     )
-    >> dr.mutate(id = ["Q1", "Median", "Q3"]) # Add an id column for the quantiles
-    >> dr.column_to_rownames("id") # Set the id column as row names
+    >> dr.pipe(lambda f: f.set_axis(["Q1", "Median", "Q3"], axis = 0))
 )
 #         quantile_Total  quantile_HP  quantile_Attack  quantile_Defense  quantile_Sp_Atk  quantile_Sp_Def  quantile_Speed
 #              <float64>    <float64>        <float64>         <float64>        <float64>        <float64>       <float64>

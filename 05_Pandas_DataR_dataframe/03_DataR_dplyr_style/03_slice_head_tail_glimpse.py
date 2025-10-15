@@ -17,7 +17,6 @@ tb_pokemon = dr.tibble(
     (
         pd.read_csv(
             filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-            index_col = "#",
             dtype = {
                 "Type 1": "category",
                 "Type 2": "category",
@@ -25,6 +24,7 @@ tb_pokemon = dr.tibble(
                 "Legendary": "bool"
             }
         )
+        .drop(columns = ["#"])
         .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
         .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
     )
@@ -39,11 +39,10 @@ print(
     tb_pokemon >> dr.slice_head(n = 3)
 )
 #         Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
-                                                                                                                 
-# #   <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
-# 1  Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
-# 2    Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
-# 3   Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
+#     <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
+# 0  Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
+# 1    Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
+# 2   Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
 
 # Show the first 1 row (default)
 print(
@@ -51,9 +50,8 @@ print(
     >> dr.slice_head()
 )
 #         Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
-                                                                                                                 
-# #   <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
-# 1  Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False      False
+#     <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
+# 0  Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
 
 
 #--------------------------------------------------------------------------------------------------------------------#
@@ -65,11 +63,10 @@ print(
     tb_pokemon >> dr.slice_tail(n = 3)
 )
 #                     Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
-                                                                                                                             
-# #               <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
-# 720  HoopaHoopa Confined    Psychic      Ghost     600      80     110       60     150     130      70          6       True
-# 720   HoopaHoopa Unbound    Psychic       Dark     680      80     160       60     170     130      80          6       True
-# 721            Volcanion       Fire      Water     600      80     110      120     130      90      70          6       True
+#                 <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
+# 797  HoopaHoopa Confined    Psychic      Ghost     600      80     110       60     150     130      70          6       True
+# 798   HoopaHoopa Unbound    Psychic       Dark     680      80     160       60     170     130      80          6       True
+# 799            Volcanion       Fire      Water     600      80     110      120     130      90      70          6       True
 
 # Show the last 1 rows (default)
 print(
