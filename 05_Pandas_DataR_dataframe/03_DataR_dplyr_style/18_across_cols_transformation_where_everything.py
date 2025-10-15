@@ -9,6 +9,8 @@
    + dr.across(dr.where() & |): apply functions to columns that meet certain conditions
    + dr.across(dr.everything()): apply a function to all columns
 
+3. dr.across() with dr.reframe()
+
 dr.across(
    cols,
    func = lambda col: ...,
@@ -332,3 +334,72 @@ print(
 #      Name  Type_1  Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed  Generation  Legendary
 #   <int64> <int64> <int64> <int64> <int64> <int64>  <int64> <int64> <int64> <int64>     <int64>    <int64>
 # 0     800      18      19     200      94     111      103     105      92     108           6          2
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#----------------------------------- 3. dr.across() with dr.reframe() -----------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+'''Apply the same reframing function to multiple columns of the DataFrame.'''
+
+from scipy import stats
+
+from pipda import register_verb
+@register_verb(pd.DataFrame)
+def pipe(df, func, *args, **kwargs):
+    return func(df, *args, **kwargs)
+
+tb_pokemon = dr.tibble(
+    pd.read_csv(
+        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
+        dtype = {
+            "Type 1": "category",
+            "Type 2": "category",
+            "Generation": "category"
+        }
+    )
+    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .drop(columns = ["Total", "#", "Sp_Atk", "Sp_Def", "Legendary"])
+    .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
+)
+
+#################################################################
+## Example 1: calculate the Shapiro-Wilk test for some columns ##
+#################################################################
+
+print(
+    tb_pokemon
+    >> dr.reframe(
+        dr.across(
+            f.Defense | f.Speed | f.Attack, # specify multiple columns with | (bitwise or)
+            lambda col: stats.shapiro(col),
+            _names = "{_col}_normality" # _col is a placeholder for the original column name
+        )
+    )
+    >> pipe(lambda df: df.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
+)
+#              Defense_normality  Speed_normality  Attack_normality
+#                      <float64>        <float64>         <float64>
+# W-statistic       9.380628e-01     9.841602e-01      9.789301e-01
+# p-value           9.923172e-18     1.309542e-07      2.472154e-09
+
+#####################################################
+## Example 2: calculate quantiles for some columns ##
+#####################################################
+
+print(
+    tb_pokemon
+    >> dr.reframe(
+        dr.across(
+            dr.where(dr.is_numeric),
+            lambda col: np.percentile(col, q=[0.25, 0.5, 0.75, 1]),
+            _names = "{_col}_quantiles"
+        )
+    )
+    >> pipe(lambda df: df.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
+)
+#     HP_quantiles  Attack_quantiles  Defense_quantiles  Speed_quantiles
+#        <float64>         <float64>          <float64>        <float64>
+# Q1        19.975            9.9875             9.9875           9.9875
+# Q2        20.000           10.0000            15.0000          10.0000
+# Q3        20.000           19.9625            15.0000          15.0000
+# Q4        24.950           20.0000            20.0000          15.0000
