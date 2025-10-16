@@ -2,13 +2,13 @@
 1. Change column names:
    + dr.rename()
    + dr.rename_with()
-   + Apply pandas method with pipda.register_verb (dr.pipe = register_verb(func = pd.DataFrame.pipe)
+   + Apply pandas method with dr.pipe()
 
 2. Change row names (index):
    + dr.column_to_rownames()
    + combine dr.column_to_rownames() with dr.mutate()
    + dr.rownames_to_column() (dr.has_rownames() must be True)
-   + Apply pandas method with pipda.register_verb (dr.pipe = register_verb(func = pd.DataFrame.pipe)
+   + Apply pandas method dr.pipe()
 '''
 
 import datar.all as dr
@@ -80,7 +80,6 @@ print(tb_renamed2.tail())
 ###################
 
 from pipda import register_verb
-dr.pipe = register_verb(func = pd.DataFrame.pipe)
 dr.filter = register_verb(func = dr.filter_)
 
 tb_renamed3 = (
@@ -182,7 +181,6 @@ print(tb_from_rownames.head())
 ###################
 
 from pipda import register_verb
-dr.pipe = register_verb(func = pd.DataFrame.pipe)
 dr.filter = register_verb(func = dr.filter_)
 
 

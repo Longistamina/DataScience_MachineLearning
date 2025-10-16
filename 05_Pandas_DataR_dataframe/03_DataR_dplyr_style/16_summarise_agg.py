@@ -17,9 +17,6 @@ from datar import f
 import pandas as pd
 import numpy as np
 
-from pipda import register_verb
-dr.pipe = register_verb(func = pd.DataFrame.pipe)
-
 # Suppress all warnings
 import warnings
 warnings.filterwarnings("ignore")
@@ -32,7 +29,7 @@ tb_pokemon = dr.tibble(
         dtype = {"Legendary": "bool"}
     )
     .drop(columns = ["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
     >> dr.mutate(
         dr.across(
             (dr.where(dr.is_character) | f.Type_2 | f.Generation) & (~f.Name), # Convert to categorical (factor), except 'Name'

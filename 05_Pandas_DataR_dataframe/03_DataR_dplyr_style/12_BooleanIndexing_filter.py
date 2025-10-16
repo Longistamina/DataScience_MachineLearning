@@ -39,8 +39,8 @@ tb_pokemon = dr.tibble(
         }
     )
     .drop(columns = ["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
-    .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
+    .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .assign(Generation = lambda f: f['Generation'].cat.as_ordered())
 )
 
 print(

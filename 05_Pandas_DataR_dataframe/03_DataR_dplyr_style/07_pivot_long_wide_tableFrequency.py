@@ -54,7 +54,7 @@ df_sales = pd.DataFrame(
         'quantity'  : np.random.randint(1, 20, size=200),
         'unit_price': np.round(np.random.uniform(5, 50, size=200), 2)
     }
-).assign(sales = lambda df: df.eval("quantity * unit_price")) # Add a column with the total sales amount
+).assign(sales = lambda f: f.eval("quantity * unit_price")) # Add a column with the total sales amount
 
 df_sales.head()
 #    ID       date region    product  quantity  unit_price   sales
@@ -349,9 +349,6 @@ print(
 ######################################################
 ## Apply dr.pipe(lambda f: pd.wide_to_long(df = f)) ##
 ######################################################
-
-from pipda import register_verb
-dr.pipe = register_verb(func = pd.DataFrame.pipe)
 
 print(
     df_measurements 

@@ -35,7 +35,7 @@ tb_pokemon = dr.tibble(
         index_col = "#",
         dtype = {"Legendary": "bool"}
     )
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
 )
 
 print(
@@ -343,9 +343,6 @@ print(
 
 from scipy import stats
 
-from pipda import register_verb
-dr.pipe = register_verb(func = pd.DataFrame.pipe)
-
 tb_pokemon = dr.tibble(
     pd.read_csv(
         filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
@@ -355,9 +352,9 @@ tb_pokemon = dr.tibble(
             "Generation": "category"
         }
     )
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
     .drop(columns = ["Total", "#", "Sp_Atk", "Sp_Def", "Legendary"])
-    .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
+    .assign(Generation = lambda f: f['Generation'].cat.as_ordered())
 )
 
 #################################################################
@@ -373,7 +370,7 @@ print(
             _names = "{_col}_normality" # _col is a placeholder for the original column name
         )
     )
-    >> dr.pipe(lambda df: df.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
+    >> dr.pipe(lambda f: f.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
 )
 #              Defense_normality  Speed_normality  Attack_normality
 #                      <float64>        <float64>         <float64>
@@ -393,7 +390,7 @@ print(
             _names = "{_col}_quantiles"
         )
     )
-    >> dr.pipe(lambda df: df.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
+    >> dr.pipe(lambda f: f.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
 )
 #     HP_quantiles  Attack_quantiles  Defense_quantiles  Speed_quantiles
 #        <float64>         <float64>          <float64>        <float64>

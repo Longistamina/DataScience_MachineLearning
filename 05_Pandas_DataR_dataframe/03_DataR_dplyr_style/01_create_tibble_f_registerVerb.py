@@ -7,8 +7,11 @@ DataR offers the "f" expression syntax, which allows for a more concise and read
 #############################
 
 1. Create dataframe using datar.tibble.tibble()
+
 2. Convert pandas DataFrame to datar tibble
+
 3. "f" expression syntax for DataFrame manipulation
+    + register_verb(): dr.filter() = register_verb(func = dr.filter_)
 '''
 
 import datar.all as dr
@@ -68,6 +71,10 @@ it liberates us from typing the DataFrame name repeatedly (like df[df['A'] > 1])
 
 This also supports pandas DataFrame
 '''
+
+#####################
+## register_verb() ##
+#####################
 
 from pipda import register_verb
 
