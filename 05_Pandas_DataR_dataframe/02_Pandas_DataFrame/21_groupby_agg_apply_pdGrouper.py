@@ -237,7 +237,7 @@ print(df_aq.info())
 # ---  ------     --------------  -----              
 #  0   city       2068 non-null   object             
 #  1   country    2068 non-null   object             
-#  2   date       2068 non-null   datetime64[ns, UTC]
+#  2   date       2068 non-null   datetime64[ns, UTC]        # MUST BE datetime TYPE (NOT object)
 #  3   location   2068 non-null   object             
 #  4   parameter  2068 non-null   object             
 #  5   value      2068 non-null   float64            
