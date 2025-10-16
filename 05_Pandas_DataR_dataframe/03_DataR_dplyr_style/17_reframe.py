@@ -64,10 +64,10 @@ print(
 print(
     tb_pokemon
     >> dr.reframe(
-        HP_normality = dr.pipe(lambda f: stats.shapiro(f['HP'])),
-        Attack_normality = dr.pipe(lambda f: stats.shapiro(f['Attack'])),
-        Defense_normality = dr.pipe(lambda f: stats.shapiro(f['Defense'])),
-        Speed_normality = dr.pipe(lambda f: stats.shapiro(f['Speed']))
+        HP_normality = stats.shapiro(f['HP']),            # NOT stats.shapiro(f.HP)
+        Attack_normality = stats.shapiro(f['Attack']),    # NOT stats.shapiro(f.Attack)
+        Defense_normality = stats.shapiro(f['Defense']),  # NOT stats.shapiro(f.Defense)
+        Speed_normality = stats.shapiro(f['Speed'])       # NOT stats.shapiro(f.Speed)
     )
     >> dr.pipe(lambda f: f.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
 )
@@ -76,6 +76,13 @@ print(
 # W-statistic  9.158321e-01      9.789301e-01       9.380628e-01     9.841602e-01
 # p-value      1.152364e-20      2.472154e-09       9.923172e-18     1.309542e-07
 
+print(
+    tb_pokemon
+    >> dr.reframe(
+        HP_normality = stats.shapiro(f.HP)
+               )           # NOT stats.shapiro(f
+)
+
 #####################################################
 ## Example 2: calculate quantiles for some columns ##
 #####################################################
@@ -83,9 +90,9 @@ print(
 print(
     tb_pokemon
     >> dr.reframe(
-        HP_quantiles = dr.pipe(lambda f: np.percentile(f['HP'], q=[0.25, 0.5, 0.75, 1])),
-        Attack_quantiles = dr.pipe(lambda f: np.percentile(f['Attack'], q=[0.25, 0.5, 0.75, 1])),
-        Defense_quantiles = dr.pipe(lambda f: np.percentile(f['Defense'], q=[0.25, 0.5, 0.75, 1]))
+        HP_quantiles = np.percentile(f.HP, q=[0.25, 0.5, 0.75, 1]),            
+        Attack_quantiles = np.percentile(f['Attack'], q=[0.25, 0.5, 0.75, 1]),    
+        Defense_quantiles = np.percentile(f.Defense, q=[0.25, 0.5, 0.75, 1])
     )
     >> dr.pipe(lambda f: f.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
 )
