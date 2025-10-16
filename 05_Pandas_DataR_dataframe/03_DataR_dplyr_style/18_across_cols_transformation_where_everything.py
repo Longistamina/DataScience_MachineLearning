@@ -386,7 +386,7 @@ print(
     >> dr.reframe(
         dr.across(
             dr.where(dr.is_numeric),
-            lambda col: np.percentile(col, q=[0.25, 0.5, 0.75, 1]),
+            lambda col: np.quantile(col, q=[0.25, 0.5, 0.75, 1]),
             _names = "{_col}_quantiles"
         )
     )

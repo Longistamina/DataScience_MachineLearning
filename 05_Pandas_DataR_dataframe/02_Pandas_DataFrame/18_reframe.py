@@ -57,7 +57,7 @@ print(
 
 print(
     df_boston[["rm", "lstat", "medv"]]
-    .apply(lambda col: np.percentile(col, q=[0.25, 0.5, 0.75, 1]), axis=0)
+    .apply(lambda col: np.quantile(col, q=[0.25, 0.5, 0.75, 1]), axis=0)
     .set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0) # rename the index
 )
 #           rm    lstat     medv

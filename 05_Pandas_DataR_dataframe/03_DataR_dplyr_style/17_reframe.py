@@ -57,6 +57,26 @@ print(
 #-------------------------------------- 1. dr.reframe() - how to use ------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
+#####################################################
+## Example 2: calculate quantiles for some columns ##
+#####################################################
+
+print(
+    tb_pokemon
+    >> dr.reframe(
+        HP_quantiles = np.quantile(f.HP, q=[0.25, 0.5, 0.75, 1]),            
+        Attack_quantiles = np.quantile(f['Attack'], q=[0.25, 0.5, 0.75, 1]),    
+        Defense_quantiles = np.quantile(f.Defense, q=[0.25, 0.5, 0.75, 1])
+    )
+    >> dr.pipe(lambda f: f.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
+)
+#     HP_quantiles  Attack_quantiles  Defense_quantiles
+#        <float64>         <float64>          <float64>
+# Q1          50.0              55.0               50.0
+# Q2          65.0              75.0               70.0
+# Q3          80.0             100.0               90.0
+# Q4         255.0             190.0              230.0
+
 #################################################################
 ## Example 1: calculate the Shapiro-Wilk test for some columns ##
 #################################################################
@@ -76,41 +96,36 @@ print(
 # W-statistic  9.158321e-01      9.789301e-01       9.380628e-01     9.841602e-01
 # p-value      1.152364e-20      2.472154e-09       9.923172e-18     1.309542e-07
 
-print(
-    tb_pokemon
-    >> dr.reframe(
-        HP_normality = stats.shapiro(f.HP)
-               )           # NOT stats.shapiro(f
-)
-
-#####################################################
-## Example 2: calculate quantiles for some columns ##
-#####################################################
-
-print(
-    tb_pokemon
-    >> dr.reframe(
-        HP_quantiles = np.percentile(f.HP, q=[0.25, 0.5, 0.75, 1]),            
-        Attack_quantiles = np.percentile(f['Attack'], q=[0.25, 0.5, 0.75, 1]),    
-        Defense_quantiles = np.percentile(f.Defense, q=[0.25, 0.5, 0.75, 1])
-    )
-    >> dr.pipe(lambda f: f.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
-)
-#     HP_quantiles  Attack_quantiles  Defense_quantiles
-#        <float64>         <float64>          <float64>
-# Q1        19.975            9.9875             9.9875
-# Q2        20.000           10.0000            15.0000
-# Q3        20.000           19.9625            15.0000
-# Q4        24.950           20.0000            20.0000
-
 
 #--------------------------------------------------------------------------------------------------------------#
 #----------------------------------- 2. dr.reframe() and dr.across() ------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 '''Apply the same reframing function to multiple columns of the DataFrame.'''
 
+#####################################################
+## Example 1: calculate quantiles for some columns ##
+#####################################################
+
+print(
+    tb_pokemon
+    >> dr.reframe(
+        dr.across(
+            dr.where(dr.is_numeric),
+            lambda col: np.quantile(col, q=[0.25, 0.5, 0.75, 1]),
+            _names = "{_col}_quantiles"
+        )
+    )
+    >> dr.pipe(lambda f: f.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
+)
+#     HP_quantiles  Attack_quantiles  Defense_quantiles  Speed_quantiles
+#        <float64>         <float64>          <float64>        <float64>
+# Q1          50.0              55.0               50.0             45.0
+# Q2          65.0              75.0               70.0             65.0
+# Q3          80.0             100.0               90.0             90.0
+# Q4         255.0             190.0              230.0            180.0
+
 #################################################################
-## Example 1: calculate the Shapiro-Wilk test for some columns ##
+## Example 2: calculate the Shapiro-Wilk test for some columns ##
 #################################################################
 
 print(
@@ -128,28 +143,6 @@ print(
 #                      <float64>        <float64>         <float64>
 # W-statistic       9.380628e-01     9.841602e-01      9.789301e-01
 # p-value           9.923172e-18     1.309542e-07      2.472154e-09
-
-#####################################################
-## Example 2: calculate quantiles for some columns ##
-#####################################################
-
-print(
-    tb_pokemon
-    >> dr.reframe(
-        dr.across(
-            dr.where(dr.is_numeric),
-            lambda col: np.percentile(col, q=[0.25, 0.5, 0.75, 1]),
-            _names = "{_col}_quantiles"
-        )
-    )
-    >> dr.pipe(lambda f: f.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
-)
-#     HP_quantiles  Attack_quantiles  Defense_quantiles  Speed_quantiles
-#        <float64>         <float64>          <float64>        <float64>
-# Q1        19.975            9.9875             9.9875           9.9875
-# Q2        20.000           10.0000            15.0000          10.0000
-# Q3        20.000           19.9625            15.0000          15.0000
-# Q4        24.950           20.0000            20.0000          15.0000
 
 
 #--------------------------------------------------------------------------------------------------------------#
@@ -192,3 +185,4 @@ print(
 # ppf_50th   69.258750   54.759494      61.966669
 # ppf_75th   86.481623  109.518987      99.415433
 # ppf_100th        inf         inf            inf
+
