@@ -321,20 +321,19 @@ print(
 # 768   Amaura       Rock        Ice     362      False
 # 101   Gengar      Ghost     Poison     500      False
 
-np.random.seed(2)
 print(
     tb_pokemon
     >> dr.filter(~f.Type_2.isin(['Flying', 'Dragon'])) # Type_2 not in the list ['Flying', 'Dragon']
     >> dr.select(f.Name, f.Type_1, f.Type_2, f.Total, f.Legendary)
-    >> dr.slice_head(n=5)
+    >> dr.slice_sample(n=5, random_state=2)
 )
-#                     Name     Type_1     Type_2   Total  Legendary
-#                 <object> <category> <category> <int64>     <bool>
-# 0              Bulbasaur      Grass     Poison     318      False
-# 1                Ivysaur      Grass     Poison     405      False
-# 2               Venusaur      Grass     Poison     525      False
-# 3  VenusaurMega Venusaur      Grass     Poison     625      False
-# 4             Charmander       Fire        NaN     309      False
+#            Name     Type_1     Type_2   Total  Legendary
+#        <object> <category> <category> <int64>     <bool>
+# 122     Tangela      Grass        NaN     435      False
+# 246    Houndour       Dark       Fire     330      False
+# 740      Skiddo      Grass        NaN     350      False
+# 732  Scatterbug        Bug        NaN     200      False
+# 350     Wailmer      Water        NaN     400      False
 
 
 #-------------------------------------------------------------------------------------------------------------#
