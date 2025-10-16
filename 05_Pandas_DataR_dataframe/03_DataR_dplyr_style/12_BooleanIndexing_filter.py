@@ -307,14 +307,11 @@ print(
 #---------------------------- 2. Negation of Condition: ~ (tilde) operator -----------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
-import numpy as np
-
-np.random.seed(1)
 print(
     tb_pokemon
     >> dr.filter(~(f.Type_1 == 'Fire')) # Type_1 not equal to 'Fire'
     >> dr.select(f.Name, f.Type_1, f.Type_2, f.Total, f.Legendary)
-    >> dr.slice_sample(n=5)
+    >> dr.slice_sample(n=5, random_state=1)
 )
 #         Name     Type_1     Type_2   Total  Legendary
 #     <object> <category> <category> <int64>     <bool>
