@@ -27,17 +27,15 @@ warnings.filterwarnings("ignore")
 ########################
 
 tb_pokemon = dr.tibble(
-    pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        dtype = {
-            "Type 1": "category",
-            "Type 2": "category",
-            "Generation": "category"
-        }
+    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
+    >> dr.select(~f["#"]) # Drop the "#" column
+    >> dr.mutate(
+        Type_1 = f.Type_1.astype("category"),      # convert to category (pandas style)
+        Type_2 = dr.as_factor(f.Type_2),           # convert to category (datar style)
+        Generation = dr.as_ordered(f.Generation),  # convert to ordered category (datar style)
+        Legendary = dr.as_logical(f.Legendary)     # convert to boolean (datar style)
     )
-    .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
-    .drop(columns = ["Total", "#", "Sp_Atk", "Sp_Def", "Legendary"])
-    .assign(Generation = lambda f: f['Generation'].cat.as_ordered())
 )
 
 print(
@@ -81,13 +79,16 @@ print(
 ## Example 1: calculate the Shapiro-Wilk test for some columns ##
 #################################################################
 
+from pipda import register_func
+dr.shapiro = register_func(stats.shapiro)
+
 print(
     tb_pokemon
     >> dr.reframe(
-        HP_normality = stats.shapiro(f['HP']),            # NOT stats.shapiro(f.HP)
-        Attack_normality = stats.shapiro(f['Attack']),    # NOT stats.shapiro(f.Attack)
-        Defense_normality = stats.shapiro(f['Defense']),  # NOT stats.shapiro(f.Defense)
-        Speed_normality = stats.shapiro(f['Speed'])       # NOT stats.shapiro(f.Speed)
+        HP_normality = dr.shapiro(f.HP),            
+        Attack_normality = dr.shapiro(f['Attack']),    
+        Defense_normality = dr.shapiro(f['Defense']),  
+        Speed_normality = dr.shapiro(f.Speed)       
     )
     >> dr.pipe(lambda f: f.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
 )
@@ -156,7 +157,7 @@ that a random variable is less than or equal to that value;
 The percent-point function (PPF), also called the inverse CDF or quantile function, 
 takes a probability and returns the corresponding value whose CDF equals that probability. 
 
-In short: CDF input is a value and output is a probability in ; 
+In short: CDF input is a value and output is a probability in; 
 PPF input is a probability in and output is a value on the distribution's scale.
 
 ########################
@@ -165,9 +166,9 @@ In this example,  for the sake of reframing demonstration,
 we will calculate the PPF values for the 25th, 50th, 75th, and 100th percentiles,
 but for different distributions: normal, exponential and gamma.
 
-rm ~ normal distribution
-lstat ~ exponential distribution
-medv ~ gamma distribution
+HP ~ normal distribution
+Attack ~ exponential distribution
+Defense ~ gamma distribution
 '''
 
 print(

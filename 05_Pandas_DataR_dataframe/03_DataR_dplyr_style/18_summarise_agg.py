@@ -24,17 +24,14 @@ warnings.filterwarnings("ignore")
 ########################
 
 tb_pokemon = dr.tibble(
-    pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        dtype = {"Legendary": "bool"}
-    )
-    .drop(columns = ["#"])
-    .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
+    >> dr.select(~f["#"]) # Drop the "#" column
     >> dr.mutate(
-        dr.across(
-            (dr.where(dr.is_character) | f.Type_2 | f.Generation) & (~f.Name), # Convert to categorical (factor), except 'Name'
-            dr.as_factor
-        )
+        Type_1 = f.Type_1.astype("category"),      # convert to category (pandas style)
+        Type_2 = dr.as_factor(f.Type_2),           # convert to category (datar style)
+        Generation = dr.as_ordered(f.Generation),  # convert to ordered category (datar style)
+        Legendary = dr.as_logical(f.Legendary)     # convert to boolean (datar style)
     )
 )
 

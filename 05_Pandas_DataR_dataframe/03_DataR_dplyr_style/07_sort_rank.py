@@ -47,7 +47,10 @@ print(tb_raw)
 ##################################
 
 # Sort by one column
-print(tb_raw >> dr.arrange(f.score))
+print(
+    tb_raw 
+    >> dr.arrange(f.score)
+)
 #       name  subject   score     age
 #   <object> <object> <int64> <int64>
 # 2    Alice  Science      78      20
@@ -73,7 +76,10 @@ print(tb_raw >> dr.arrange(f.name, f.score))
 ############################################
 
 # Sort by one column
-print(tb_raw >> dr.arrange(dr.desc(f.score)))
+print(
+    tb_raw 
+    >> dr.arrange(dr.desc(f.score))
+)
 #       name  subject   score     age
 #   <object> <object> <int64> <int64>
 # 5  Charlie     Math      95      23
@@ -84,7 +90,10 @@ print(tb_raw >> dr.arrange(dr.desc(f.score)))
 # 2    Alice  Science      78      20
 
 # Sort by multiple columns
-print(tb_raw >> dr.arrange(dr.desc(f.age), dr.desc(f.score)))
+print(
+    tb_raw 
+    >> dr.arrange(dr.desc(f.age), dr.desc(f.score))
+)
 #       name  subject   score     age
 #   <object> <object> <int64> <int64>
 # 5  Charlie     Math      95      23
@@ -98,7 +107,10 @@ print(tb_raw >> dr.arrange(dr.desc(f.age), dr.desc(f.score)))
 ## Combine ascending and descending order ##
 ############################################
 
-print(tb_raw >> dr.arrange(f.name, dr.desc(f.score)))
+print(
+    tb_raw 
+    >> dr.arrange(f.name, dr.desc(f.score))
+)
 #       name  subject   score     age
 #   <object> <object> <int64> <int64>
 # 1    Alice  English      90      20
@@ -126,7 +138,10 @@ NOTE: dr.row_number() breaks ties,
 meaning even if two rows have the same ordering key value, they still get distinct consecutive numbers
 '''
 
-print(tb_raw >> dr.mutate(row_num = dr.row_number(f.score)))
+print(
+    tb_raw 
+    >> dr.mutate(row_num = dr.row_number(f.score))
+)
 #       name  subject   score     age   row_num
 #   <object> <object> <int64> <int64> <float64>
 # 0    Alice     Math      85      20       2.0
@@ -136,7 +151,10 @@ print(tb_raw >> dr.mutate(row_num = dr.row_number(f.score)))
 # 4      Bob  English      88      22       3.0
 # 5  Charlie     Math      95      23       6.0
 
-print(tb_raw >> dr.mutate(row_num = dr.row_number(f.age)))
+print(
+    tb_raw 
+    >> dr.mutate(row_num = dr.row_number(f.age))
+)
 #       name  subject   score     age   row_num
 #   <object> <object> <int64> <int64> <float64>
 # 0    Alice     Math      85      20       1.0 (lowest age)
@@ -150,7 +168,10 @@ print(tb_raw >> dr.mutate(row_num = dr.row_number(f.age)))
 ## highest score = 1
 #------
 
-print(tb_raw >> dr.mutate(row_num = dr.row_number(dr.desc(f.score))))
+print(
+    tb_raw 
+    >> dr.mutate(row_num = dr.row_number(dr.desc(f.score)))
+)
 #       name  subject   score     age   row_num
 #   <object> <object> <int64> <int64> <float64>
 # 0    Alice     Math      85      20       5.0
@@ -168,7 +189,10 @@ Assigns the minimum rank to each row within a partition of a result set.
 Ties receive the same rank, and the next rank(s) are skipped.
 '''
 
-print(tb_raw >> dr.mutate(min_rank = dr.min_rank(f.score)))
+print(
+    tb_raw 
+    >> dr.mutate(min_rank = dr.min_rank(f.score))
+)
 #       name  subject   score     age  min_rank
 #   <object> <object> <int64> <int64> <float64>
 # 0    Alice     Math      85      20       2.0
@@ -178,7 +202,10 @@ print(tb_raw >> dr.mutate(min_rank = dr.min_rank(f.score)))
 # 4      Bob  English      88      22       3.0
 # 5  Charlie     Math      95      23       6.0
 
-print(tb_raw >> dr.mutate(min_rank = dr.min_rank(f.age)))
+print(
+    tb_raw 
+    >> dr.mutate(min_rank = dr.min_rank(f.age))
+)
 #       name  subject   score     age  min_rank
 #   <object> <object> <int64> <int64> <float64>
 # 0    Alice     Math      85      20       1.0
@@ -192,7 +219,10 @@ print(tb_raw >> dr.mutate(min_rank = dr.min_rank(f.age)))
 ## highest age = 1
 #---
 
-print(tb_raw >> dr.mutate(min_rank = dr.min_rank(dr.desc(f.age))))
+print(
+    tb_raw 
+    >> dr.mutate(min_rank = dr.min_rank(dr.desc(f.age)))
+)
 #       name  subject   score     age  min_rank
 #   <object> <object> <int64> <int64> <float64>
 # 0    Alice     Math      85      20       4.0
@@ -210,7 +240,10 @@ Assigns ranks to rows within a partition of a result set, with no gaps in rankin
 Ties receive the same rank, and the next rank is the next consecutive integer.
 '''
 
-print(tb_raw >> dr.mutate(dense_rank = dr.dense_rank(f.age)))
+print(
+    tb_raw 
+    >> dr.mutate(dense_rank = dr.dense_rank(f.age))
+)
 #       name  subject   score     age  dense_rank
 #   <object> <object> <int64> <int64>   <float64>
 # 0    Alice     Math      85      20         1.0
@@ -224,7 +257,10 @@ print(tb_raw >> dr.mutate(dense_rank = dr.dense_rank(f.age)))
 ## highest age = 1
 #---
 
-print(tb_raw >> dr.mutate(dense_rank = dr.dense_rank(dr.desc(f.age))))
+print(
+    tb_raw 
+    >> dr.mutate(dense_rank = dr.dense_rank(dr.desc(f.age)))
+)
 #       name  subject   score     age  dense_rank
 #   <object> <object> <int64> <int64>   <float64>
 # 0    Alice     Math      85      20         3.0
@@ -243,7 +279,10 @@ The formula used is (rank - 1) / (total rows in the partition - 1).
 The result is a value between 0 and 1, inclusive.
 '''
 
-print(tb_raw >> dr.mutate(percent_rank = dr.percent_rank(f.score)))
+print(
+    tb_raw 
+    >> dr.mutate(percent_rank = dr.percent_rank(f.score))
+)
 #       name  subject   score     age  percent_rank
 #   <object> <object> <int64> <int64>     <float64>
 # 0    Alice     Math      85      20           0.2
@@ -253,7 +292,10 @@ print(tb_raw >> dr.mutate(percent_rank = dr.percent_rank(f.score)))
 # 4      Bob  English      88      22           0.4
 # 5  Charlie     Math      95      23           1.0
 
-print(tb_raw >> dr.mutate(percent_rank = dr.percent_rank(f.age)))
+print(
+    tb_raw 
+    >> dr.mutate(percent_rank = dr.percent_rank(f.age))
+)
 #       name  subject   score     age  percent_rank
 #   <object> <object> <int64> <int64>     <float64>
 # 0    Alice     Math      85      20           0.0
@@ -267,7 +309,10 @@ print(tb_raw >> dr.mutate(percent_rank = dr.percent_rank(f.age)))
 ## highest age = 0
 #---
 
-print(tb_raw >> dr.mutate(percent_rank = dr.percent_rank(dr.desc(f.age))))
+print(
+    tb_raw 
+    >> dr.mutate(percent_rank = dr.percent_rank(dr.desc(f.age)))
+)
 #       name  subject   score     age  percent_rank
 #   <object> <object> <int64> <int64>     <float64>
 # 0    Alice     Math      85      20      1.000000

@@ -1,7 +1,7 @@
 '''
 1. Change column names:
-   + dr.rename()
-   + dr.rename_with()
+   + dr.rename(): new_name = old_name
+   + dr.rename_with() and lambda
    + Apply pandas method with dr.pipe()
 
 2. Change row names (index):
@@ -42,6 +42,7 @@ print(tb_emp)
 #################
 ## dr.rename() ##
 #################
+''' new_name = old_name'''
 
 tb_renamed = (
     tb_emp 
@@ -61,6 +62,10 @@ print(tb_renamed.head())
 ## dr.rename_with() ##
 ######################
 
+#----
+## Normal function
+#----
+
 tb_renamed2 = (
     tb_emp 
     >> dr.rename_with(str.upper, f[f.salary, f.dept])
@@ -74,6 +79,24 @@ print(tb_renamed2.tail())
 # 5       6     Nina    578.00  2013-05-21          IT
 # 6       7    Simon    632.80  2013-07-30  Operations
 # 7       8     Guru    722.50  2014-06-17     Finance
+
+#----
+## Lambda function
+#----
+
+tb_pokemon = dr.tibble(
+    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", ""))
+)
+
+print(tb_pokemon.head())
+#         #                   Name   Type_1   Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed  Generation  Legendary
+#   <int64>               <object> <object> <object> <int64> <int64> <int64>  <int64> <int64> <int64> <int64>     <int64>     <bool>
+# 0       1              Bulbasaur    Grass   Poison     318      45      49       49      65      65      45           1      False
+# 1       2                Ivysaur    Grass   Poison     405      60      62       63      80      80      60           1      False
+# 2       3               Venusaur    Grass   Poison     525      80      82       83     100     100      80           1      False
+# 3       3  VenusaurMega Venusaur    Grass   Poison     625      80     100      123     122     120      80           1      False
+# 4       4             Charmander     Fire      NaN     309      39      52       43      60      50      65           1      False
 
 ###################
 ## pandas method ##

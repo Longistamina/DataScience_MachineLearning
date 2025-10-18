@@ -5,6 +5,7 @@
 '''
 
 import datar.all as dr
+from datar import f
 import pandas as pd
 
 # Suppress all warnings
@@ -14,19 +15,14 @@ warnings.filterwarnings("ignore")
 ########################
 
 tb_pokemon = dr.tibble(
-    (
-        pd.read_csv(
-            filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-            dtype = {
-                "Type 1": "category",
-                "Type 2": "category",
-                "Generation": "category",
-                "Legendary": "bool"
-            }
-        )
-        .drop(columns = ["#"])
-        .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
-        .assign(Generation = lambda f: f['Generation'].cat.as_ordered())
+    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
+    >> dr.select(~f["#"]) # Drop the "#" column
+    >> dr.mutate(
+        Type_1 = f.Type_1.astype("category"),      # convert to category (pandas style)
+        Type_2 = dr.as_factor(f.Type_2),           # convert to category (datar style)
+        Generation = dr.as_ordered(f.Generation),  # convert to ordered category (datar style)
+        Legendary = dr.as_logical(f.Legendary)     # convert to boolean (datar style)
     )
 )
 
@@ -34,7 +30,10 @@ tb_pokemon = dr.tibble(
 #--------------------------------------------- 1. dr.slice_head() ---------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------------#
 
-# Show the first 3 rows
+###########################
+## Show the first 3 rows ##
+############################
+
 print(
     tb_pokemon >> dr.slice_head(n = 3)
 )
@@ -44,7 +43,10 @@ print(
 # 1    Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
 # 2   Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
 
-# Show the first 1 row (default)
+####################################
+## Show the first 1 row (default) ##
+####################################
+
 print(
     tb_pokemon 
     >> dr.slice_head()
@@ -58,7 +60,10 @@ print(
 #--------------------------------------------- 2. dr.slice_tail() ---------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------------#
 
-# Show the last 3 rows
+##########################
+## Show the last 3 rows ##
+##########################
+
 print(
     tb_pokemon >> dr.slice_tail(n = 3)
 )
@@ -68,7 +73,10 @@ print(
 # 798   HoopaHoopa Unbound    Psychic       Dark     680      80     160       60     170     130      80          6       True
 # 799            Volcanion       Fire      Water     600      80     110      120     130      90      70          6       True
 
-# Show the last 1 rows (default)
+####################################
+## Show the last 1 rows (default) ##
+####################################
+
 print(
     tb_pokemon 
     >> dr.slice_tail()
