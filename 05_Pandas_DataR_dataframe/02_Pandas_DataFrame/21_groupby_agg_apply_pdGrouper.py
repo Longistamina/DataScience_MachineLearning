@@ -1,5 +1,6 @@
 '''
 1. df.groupby().agg(): Aggregate data using specified functions.
+   + count the group size: count = ('column_name', 'size')
    + df.groupby(sort=True/False): Sort group keys.
    + df.groupby().dropna(): drop NaN values in group keys.
 
@@ -53,40 +54,75 @@ print(df_pokemon.info())
 #----------------------------------------- 1. df.groupby().agg() ----------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
-#################################
-## df.groupby(sort=True/False) ##
-#################################
-'''Sort group keys in ascending order by default.'''
+##########################
+## Count the group size ##
+##########################
 
 print(
     df_pokemon
-    .groupby(by = 'Type_1', sort = True, observed=False) # observed=False to include all categories in the group keys
+    .groupby(by = 'Type_1', observed=False) # observed=False to include all categories in the group keys
     .agg(
-        min_HP = ('HP', 'min'),
-        max_HP = ('HP', 'max'),
-        mean_HP = ('HP', 'mean')
+        count = ('HP', 'size'),  # Count the number of entries in each group
+        avg_HP = ('HP', 'mean')  # Calculate the mean of the 'HP' column for each group
     )
 )
-#           min_HP  max_HP    mean_HP
-# Type_1                             
-# Bug            1      86  56.884058
-# Dark          35     126  66.806452
-# Dragon        41     125  83.312500
-# Electric      20      90  59.795455
-# Fairy         35     126  74.117647
-# Fighting      30     144  69.851852
-# Fire          38     115  69.903846
-# Flying        40      85  70.750000
-# Ghost         20     150  64.437500
-# Grass         30     123  67.271429
-# Ground        10     115  73.781250
-# Ice           36     110  72.000000
-# Normal        30     255  77.275510
-# Poison        35     105  67.250000
-# Psychic       20     190  70.631579
-# Rock          30     123  65.363636
-# Steel         40     100  65.222222
-# Water         20     170  72.062500
+#            count     avg_HP
+                           
+# Type_1   <int64>  <float64>
+# Bug           69  56.884058
+# Dark          31  66.806452
+# Dragon        32  83.312500
+# Electric      44  59.795455
+# Fairy         17  74.117647
+# Fighting      27  69.851852
+# Fire          52  69.903846
+# Flying         4  70.750000
+# Ghost         32  64.437500
+# Grass         70  67.271429
+# Ground        32  73.781250
+# Ice           24  72.000000
+# Normal        98  77.275510
+# Poison        28  67.250000
+# Psychic       57  70.631579
+# Rock          44  65.363636
+# Steel         27  65.222222
+# Water        112  72.062500
+
+print(
+    df_pokemon
+    .groupby(by = 'Type_1', observed=False) # observed=False to include all categories in the group keys
+    .agg(
+        count = ('HP', 'size'),  # Count the number of entries in each group
+        avg_HP = ('HP', 'mean')  # Calculate the mean of the 'HP' column for each group
+    )
+    .reset_index() # Reset index to turn the group keys into a column
+)
+#        Type_1   count     avg_HP
+#    <category> <int64>  <float64>
+# 0         Bug      69  56.884058
+# 1        Dark      31  66.806452
+# 2      Dragon      32  83.312500
+# 3    Electric      44  59.795455
+# 4       Fairy      17  74.117647
+# 5    Fighting      27  69.851852
+# 6        Fire      52  69.903846
+# 7      Flying       4  70.750000
+# 8       Ghost      32  64.437500
+# 9       Grass      70  67.271429
+# 10     Ground      32  73.781250
+# 11        Ice      24  72.000000
+# 12     Normal      98  77.275510
+# 13     Poison      28  67.250000
+# 14    Psychic      57  70.631579
+# 15       Rock      44  65.363636
+# 16      Steel      27  65.222222
+# 17      Water     112  72.062500
+
+#################################
+## df.groupby(sort=True/False) ##
+#################################
+
+'''Single grouping key, sort = False'''
 
 print(
     df_pokemon
@@ -117,6 +153,8 @@ print(
 # 15      Dark      35     126  66.806452
 # 16     Steel      40     100  65.222222
 # 17    Flying      40      85  70.750000
+
+'''Multiple grouping keys, sort = True'''
 
 print(
     df_pokemon
