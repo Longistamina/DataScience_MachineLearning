@@ -19,42 +19,38 @@ In dataR (as well as R), categorical variables are often represented as factors.
    + dr.fct_unique()
    + dr.fct_count()
 
-4. Add levels:
-   + dr.factor(levels=..., labels=...)
-   + dr.fct_expand()
+4. Add and Remove levels:
+   + Add: dr.fct_expand()
+   + Remove: dr.fct_drop(), dr.droplevels()
 
-5. Remove levels:
-   + dr.droplevels()
-   + dr.fct_drop()
-
-6. Reorder levels:
+5. Reorder levels:
    + Manual reordering: dr.fct_relevel()
    + Automatic reordering: dr.fct_inorder(), dr.fct_infreq(), dr.fct_inseq()
    + Reordering by another variable: dr.fct_reorder(), dr.fct_reorder2()
    + Reverse/shift: dr.fct_rev(), dr.fct_shift()
 
-7. Rename levels:
+6. Rename levels:
    + Manual renaming: dr.fct_recode()
    + Combine multiple levels into one: dr.fct_collapse()
    + Lumping infrequent levels: dr.fct_lump(), dr.fct_lump_min(), dr.fct_lump_prop(), dr.fct_lump_n(), dr.fct_lump_lowfreq()
    + Replacing with "other": dr.fct_other()
    + Automatic relabeling: dr.fct_relabel()
 
-8. Handle multiple factors:
+7. Handle multiple factors:
    + Concatenate factors: dr.fct_c()
    + Cross factors: dr.fct_cross()
    + Unify levels: dr.fct_unify(), dr.lvls_union()
 
-9. Special Operations:
+8. Special Operations:
    + Handle missing levels: dr.fct_explicit_na()
    + Anonymize levels: dr.fct_anon()
 
-10. Low-level operations:
+9. Low-level operations:
    + dr.lvls_reorder()
    + dr.lvls_revalue()
    + dr.lvls_expand()
 
-11. Apply to processing pipelines with dr.mutate()
+10. Apply to processing pipelines with dr.mutate()
 '''
 
 import datar.all as dr
@@ -270,7 +266,62 @@ print(dr.fct_count(ord_degree))
 
 
 #------------------------------------------------------------------------------------------------------------#
-#--------------------------- 12. Apply to processing pipelines with dr.mutate() -----------------------------#
+#----------------------------------------- 4. Add and Remove levels -----------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+
+fct_gender = dr.factor(x = ["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"])
+
+ord_size = dr.ordered(x = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
+
+ord_degree = dr.ordered(
+      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
+      levels = ["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
+)
+
+#####################
+## dr.fct_expand() ##
+#####################
+'''Add new levels to a factor variable.'''
+
+added_gender = dr.fct_expand(fct_gender, ["N/A", "Unknown"])
+print(dr.levels(added_gender)) # ['F' 'M' 'Others' 'N/A' 'Unknown']
+
+added_degree = dr.fct_expand(ord_degree, "PostDoc")
+print(dr.levels(added_degree)) # ['Bachelors' 'Masters' 'PhD' 'AscProf' 'PostDoc']
+
+###################
+## dr.fct_drop() ##
+###################
+'''
+Remove unused levels from a factor variable
+Using condition to filter the target levels to be kept.
+'''
+
+dropped_degree = dr.fct_drop(ord_degree)
+print(dr.levels(dropped_degree)) # ['Bachelors' 'Masters' 'PhD' 'AscProf']
+                                 # "PostDoc" level is removed since it is unused.
+
+dropped_degree = dr.fct_drop(ord_degree[ord_degree != "AscProf"], only = ["AscProf"]) # Remove "AscProf" level, still keep "PostDoc"
+print(dr.levels(dropped_degree)) # ['Bachelors' 'Masters' 'PhD' 'PostDoc']
+
+
+#####################
+## dr.droplevels() ##
+#####################
+'''
+Remove unused levels from a factor variable.
+Using condition to filter the target levels to be kept.
+'''
+
+dropped_size = dr.droplevels(ord_size[ord_size > 38]) # Keep only levels > 38
+print(dr.levels(dropped_size)) # [39 40 41 42]
+
+dropped_gender = dr.droplevels(fct_gender[~fct_gender.isin(["Others"])]) # Remove "Others" level
+print(dr.levels(dropped_gender)) # ['F' 'M']
+
+
+#------------------------------------------------------------------------------------------------------------#
+#--------------------------- 10. Apply to processing pipelines with dr.mutate() -----------------------------#
 #------------------------------------------------------------------------------------------------------------#
 
 tb_pokemon = dr.tibble(
