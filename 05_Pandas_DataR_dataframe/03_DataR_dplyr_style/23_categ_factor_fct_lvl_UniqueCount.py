@@ -18,7 +18,6 @@ In dataR (as well as R), categorical variables are often represented as factors.
    + dr.is_ordered()
    + dr.fct_unique()
    + dr.fct_count()
-   + dr.fct_match()
 
 4. Add levels:
    + dr.factor(levels=..., labels=...)
@@ -53,7 +52,9 @@ In dataR (as well as R), categorical variables are often represented as factors.
 10. Low-level operations:
    + dr.lvls_reorder()
    + dr.lvls_revalue()
-   + dr.lvls_expand() 
+   + dr.lvls_expand()
+
+11. Apply to processing pipelines with dr.mutate()
 '''
 
 import datar.all as dr
@@ -66,32 +67,6 @@ dr.filter = register_verb(func = dr.filter_)
 # Suppress all warnings
 import warnings
 warnings.filterwarnings("ignore")
-
-########################
-
-tb_pokemon = dr.tibble(
-    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
-    >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
-    >> dr.select(f.Name, f.Type_1, f.Type_2, f.Speed, f.Generation, f.Legendary)
-    >> dr.mutate(
-        Type_1 = f.Type_1.astype("category"),      # convert to category (pandas style)
-        Type_2 = dr.as_factor(f.Type_2),           # convert to category (datar style)
-        Generation = dr.as_ordered(f.Generation),  # convert to ordered category (datar style)
-        Legendary = dr.as_logical(f.Legendary)     # convert to boolean (datar style)
-    )
-)
-
-print(
-    tb_pokemon
-    >> dr.slice_head(n=5)
-)
-#                     Name     Type_1     Type_2   Speed Generation  Legendary
-#                 <object> <category> <category> <int64> <category>     <bool>
-# 0              Bulbasaur      Grass     Poison      45          1      False
-# 1                Ivysaur      Grass     Poison      60          1      False
-# 2               Venusaur      Grass     Poison      80          1      False
-# 3  VenusaurMega Venusaur      Grass     Poison      80          1      False
-# 4             Charmander       Fire        NaN      65          1      False
 
 
 #------------------------------------------------------------------------------------------------------------#
@@ -199,3 +174,125 @@ print(ord_size2)
 #------------------------------------------------------------------------------------------------------------#
 #-------------------------- 3. Inspect core properties of factor variable -----------------------------------#
 #------------------------------------------------------------------------------------------------------------#
+
+fct_gender = dr.factor(x = ["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"])
+
+ord_size = dr.ordered(x = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
+
+ord_degree = dr.ordered(
+      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
+      levels = ["Bachelors", "Masters", "PhD", "AscProf"]
+)
+
+##################
+## dr.nlevels() ##
+##################
+'''Return the number of levels in a factor variable.'''
+
+print(dr.nlevels(fct_gender)) # 3
+print(dr.nlevels(ord_size))   # 7
+print(dr.nlevels(ord_degree)) # 4
+
+#################
+## dr.levels() ##
+#################
+'''Return the levels of a factor variable'''
+
+print(dr.levels(fct_gender)) # ['F' 'M' 'Others']
+print(dr.levels(ord_size))   # [36 37 38 39 40 41 42]
+print(dr.levels(ord_degree)) # ['Bachelors' 'Masters' 'PhD' 'AscProf']
+
+####################
+## dr.is_factor() ##
+####################
+'''Check if a variable is a factor variable.'''
+
+print(dr.is_factor(fct_gender)) # True
+print(dr.is_factor(ord_size))   # True
+print(dr.is_factor(ord_degree)) # True
+
+#####################
+## dr.is_ordered() ##
+#####################
+'''Check if a variable is an ordered factor variable.'''
+
+print(dr.is_ordered(fct_gender)) # False
+print(dr.is_ordered(ord_size))   # True
+print(dr.is_ordered(ord_degree)) # True
+
+#####################
+## dr.fct_unique() ##
+#####################
+'''Return the unique values of a factor variable, preserving the levels order.'''
+
+print(dr.fct_unique(fct_gender))
+# ['F', 'M', 'Others']
+# Categories (3, object): ['F', 'M', 'Others']
+
+print(dr.fct_unique(ord_size))
+# [36, 37, 38, 39, 40, 41, 42]
+# Categories (7, int64): [36 < 37 < 38 < 39 < 40 < 41 < 42]
+
+print(dr.fct_unique(ord_degree))
+# ['Bachelors', 'Masters', 'PhD', 'AscProf']
+# Categories (4, object): ['Bachelors' < 'Masters' < 'PhD' < 'AscProf']
+
+####################
+## dr.fct_count() ##
+####################
+'''Count the occurrences of each level in a factor variable.'''
+
+print(dr.fct_count(fct_gender))
+#            f       n
+#   <category> <int64>
+# 0          F       4
+# 1          M       4
+# 2     Others       2
+
+print(dr.fct_count(ord_size))
+#            f       n
+#   <category> <int64>
+# 0         36       1
+# 1         37       1
+# 2         38       1
+# 3         39       2
+# 4         40       2
+# 5         41       1
+# 6         42       2
+
+print(dr.fct_count(ord_degree))
+#            f       n
+#   <category> <int64>
+# 0  Bachelors       3
+# 1    Masters       2
+# 2        PhD       2
+# 3    AscProf       1
+
+
+#------------------------------------------------------------------------------------------------------------#
+#--------------------------- 12. Apply to processing pipelines with dr.mutate() -----------------------------#
+#------------------------------------------------------------------------------------------------------------#
+
+tb_pokemon = dr.tibble(
+    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
+    >> dr.select(f.Name, f.Type_1, f.Type_2, f.Speed, f.Generation, f.Legendary)
+    >> dr.mutate(
+        Type_1 = f.Type_1.astype("category"),      # convert to category (pandas style)
+        Type_2 = dr.as_factor(f.Type_2),           # convert to category (datar style)
+        Generation = dr.as_ordered(f.Generation),  # convert to ordered category (datar style)
+        Legendary = dr.as_logical(f.Legendary)     # convert to boolean (datar style)
+    )
+)
+
+print(
+    tb_pokemon
+    >> dr.slice_head(n=5)
+)
+#                     Name     Type_1     Type_2   Speed Generation  Legendary
+#                 <object> <category> <category> <int64> <category>     <bool>
+# 0              Bulbasaur      Grass     Poison      45          1      False
+# 1                Ivysaur      Grass     Poison      60          1      False
+# 2               Venusaur      Grass     Poison      80          1      False
+# 3  VenusaurMega Venusaur      Grass     Poison      80          1      False
+# 4             Charmander       Fire        NaN      65          1      False
