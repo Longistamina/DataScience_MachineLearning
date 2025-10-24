@@ -93,3 +93,109 @@ print(
 # 3  VenusaurMega Venusaur      Grass     Poison      80          1      False
 # 4             Charmander       Fire        NaN      65          1      False
 
+
+#------------------------------------------------------------------------------------------------------------#
+#---------------------------------------- 1. Create factor variable -----------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+
+#################
+## dr.factor() ##
+#################
+'''Create a factor (categorical variable) from a list-like object.'''
+
+fct_gender = dr.factor(
+    x = ["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"],
+    ordered = False # non-ordered factor
+)
+
+print(fct_gender)
+# ['M', 'F', 'F', 'M', 'Others', 'F', 'M', 'M', 'F', 'Others']
+# Categories (3, object): ['F', 'M', 'Others']
+
+##################
+## dr.ordered() ##
+##################
+'''Create an ordered factor (ordered categorical variable) from a list-like object.'''
+
+#----
+## Example 1
+#----
+
+ord_degree = dr.ordered(
+      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AssociateProf"],
+      levels = ["Bachelors", "Masters", "PhD", "AssociateProf"]  # specify the order of levels
+)
+
+print(ord_degree)
+# ['Bachelors', 'Masters', 'PhD', 'Bachelors', 'PhD', 'Masters', 'Bachelors', 'AssociateProf']
+# Categories (4, object): ['Bachelors' < 'Masters' < 'PhD' < 'AssociateProf']
+
+#----
+## Example 2
+#----
+
+ord_size = dr.ordered(
+    x = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40],
+    levels = [36, 37, 38, 39, 40, 41, 42]  # specify the order of levels
+)
+
+print(ord_size)
+# [39, 42, 36, 40, 38, 41, 39, 37, 42, 40]
+# Categories (7, int64): [36 < 37 < 38 < 39 < 40 < 41 < 42]
+
+
+#------------------------------------------------------------------------------------------------------------#
+#------------------------------------- 2. Convert to factor variable ----------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+
+####################
+## dr.as_factor() ##
+####################
+'''Convert an existing variable to a factor (categorical variable).'''
+
+lst_gender = ["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"]
+
+fct_gender2 = dr.as_factor(lst_gender)
+
+print(fct_gender2)
+# ['M', 'F', 'F', 'M', 'Others', 'F', 'M', 'M', 'F', 'Others']
+# Categories (3, object): ['F', 'M', 'Others']
+
+#####################
+## dr.as_ordered() ##
+#####################
+'''Convert an existing variable to an ordered factor (ordered categorical variable).'''
+
+#----
+## Example 1
+#----
+
+lst_degree = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AssociateProf"]
+
+ord_degree2 = dr.as_ordered(lst_degree)
+
+print(ord_degree2)
+# ['Bachelors', 'Masters', 'PhD', 'Bachelors', 'PhD', 'Masters', 'Bachelors', 'AssociateProf']
+# Categories (4, object): ['AssociateProf' < 'Bachelors' < 'Masters' < 'PhD']
+
+'''
+NOTE: dr.as_ordered() DOES NOT allow specifying levels.
+      it will set the order automatically like A-Z, 0-9 based on unique values.
+'''
+
+#----
+## Example 2
+#----
+
+lst_size = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40]
+
+ord_size2 = dr.as_ordered(lst_size)
+
+print(ord_size2)
+# [39, 42, 36, 40, 38, 41, 39, 37, 42, 40]
+# Categories (7, int64): [36 < 37 < 38 < 39 < 40 < 41 < 42]
+
+
+#------------------------------------------------------------------------------------------------------------#
+#-------------------------- 3. Inspect core properties of factor variable -----------------------------------#
+#------------------------------------------------------------------------------------------------------------#
