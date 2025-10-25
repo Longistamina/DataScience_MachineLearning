@@ -35,7 +35,7 @@ In dataR (as well as R), categorical variables are often represented as factors.
    + Combine multiple levels into one: dr.fct_collapse()
    + Lumping infrequent levels: dr.fct_lump(), dr.fct_lump_min(), dr.fct_lump_prop(), dr.fct_lump_n(), dr.fct_lump_lowfreq()
    + Replacing with "other": dr.fct_other()
-   + Automatic relabeling: dr.fct_relabel()
+   + Apply function to relabel: dr.fct_relabel()
 
 7. Handle multiple factors:
    + Concatenate factors: dr.fct_c()
@@ -558,6 +558,190 @@ print(dr.levels(shifted_size))   # [37 38 39 40 41 42 36]
 shifted_size_left = dr.fct_shift(ord_size, n = -2) # Shift left by 2
 print(dr.levels(shifted_size_left))   # [41 42 36 37 38 39 40]
                                  
+
+#------------------------------------------------------------------------------------------------------------#
+#--------------------------------- 6. Rename levels of factor variable --------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+
+fct_product = dr.factor([
+    "Apple", "Samsung", "Apple", "Xiaomi", "Apple", "Huawei", "Samsung",
+    "OnePlus", "Apple", "Oppo", "Vivo", "Apple", "Samsung", "Realme"
+])
+
+ord_size = dr.ordered(x = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
+
+ord_degree = dr.ordered(
+      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
+      levels = ["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
+)
+
+#############################
+##     dr.fct_recode()     ##
+#############################
+'''
+Change level names one by one, combine levels, or remove levels
+NOTE: automatically drops unused levels.
+'''
+
+#------
+## Basic renaming
+#------
+# new_name = "old_name"
+
+renamed_gender = dr.fct_recode(
+    fct_gender,
+    Male = "M",
+    Female = "F",
+    LGBTQ = "Others"
+)
+
+print(renamed_gender)
+# ['Male', 'Female', 'Female', 'Male', 'LGBTQ', 'Female', 'Male', 'Male', 'Female', 'LGBTQ']
+# Categories (3, object): ['Female', 'Male', 'LGBTQ']
+
+#------
+## Combine levels
+#------
+# new_name = ["old_name1", "old_name2", ...]
+
+renamed_degree = dr.fct_recode(
+    ord_degree,
+    **{"Undergraduate": "Bachelors", "Graduate": ["Masters", "PhD"]}
+)
+
+print(renamed_degree)
+# ['Undergraduate', 'Graduate', 'Graduate', 'Undergraduate', 'Graduate', 'Graduate', 'Undergraduate', 'AscProf']
+# Categories (3, object): ['Undergraduate', 'Graduate', 'AscProf']
+
+#############################
+##    dr.fct_collapse()    ##
+#############################
+'''Shortcut for combining many levels at once (cleaner than multiple fct_recode() calls)'''
+
+collapsed_size = dr.fct_collapse(
+    ord_size,
+    Small = [36, 37, 38],
+    Medium = [39, 40],
+    Large = [41, 42]
+)
+
+print(collapsed_size)
+# ['Medium', 'Large', 'Small', 'Medium', 'Small', 'Large', 'Medium', 'Small', 'Large', 'Medium']
+# Categories (3, object): ['Small' < 'Medium' < 'Large']
+
+##############################
+##     dr.fct_lump_min()    ##
+##############################
+'''Lump levels appearing fewer than min times into "Other"'''
+
+lumped_product = dr.fct_lump_min(
+    fct_product,
+    min = 3,               # levels appearing less than 3 times will be lumped
+    other_level = "Rare"   # rename the rests to "Rare" (default is "Other")
+)
+
+print(lumped_product)
+# ['Apple', 'Samsung', 'Apple', 'Rare', 'Apple', ..., 'Rare', 'Rare', 'Apple', 'Samsung', 'Rare']
+# Length: 14
+# Categories (3, object): ['Apple', 'Samsung', 'Rare']
+'''Other products are lumped into "Rare" since they appear less than 3 times.'''
+
+###############################
+##      dr.fct_lump_n()      ##
+###############################
+'''Keep only the n most (or least) frequent levels, lump the rest into "Other"'''
+
+lumped_product_n = dr.fct_lump_n(
+    fct_product,
+    n = 1,                  # keep only top 1 most frequent level
+    other_level = "Others", # rename the rests to "Others" (default is "Other")
+)
+
+print(lumped_product_n)
+# ['Apple', 'Others', 'Apple', 'Others', 'Apple', ..., 'Others', 'Others', 'Apple', 'Others', 'Others']
+# Length: 14
+# Categories (2, object): ['Apple', 'Others']
+
+#################################
+##      dr.fct_lump_prop()     ##
+#################################
+'''Lump levels appearing in less than prop proportion of data into "Other"'''
+
+lumped_product_prop = dr.fct_lump_prop(
+    fct_product,
+    prop = 0.2,              # levels appearing in less than 20% of data will be lumped
+    other_level = "Misc"     # rename the rests to "Misc" (default is "Other")
+)
+
+print(lumped_product_prop)
+# ['Apple', 'Samsung', 'Apple', 'Misc', 'Apple', ..., 'Misc', 'Misc', 'Apple', 'Samsung', 'Misc']
+# Length: 14
+# Categories (3, object): ['Apple', 'Samsung', 'Misc']
+
+####################################
+##      dr.fct_lump_lowfreq()     ##
+####################################
+'''Lump levels with low frequency into "Other" based on a statistical method'''
+
+lumped_degree_lowfreq = dr.fct_lump_lowfreq(
+    ord_degree,
+    other_level = "OtherDegrees"  # rename the rests to "OtherDegrees" (default is "Other")
+)
+
+print(lumped_degree_lowfreq)
+# ['Bachelors', 'Masters', 'PhD', 'Bachelors', 'PhD', 'Masters', 'Bachelors', 'OtherDegrees']
+# Categories (4, object): ['Bachelors', 'Masters', 'PhD', 'OtherDegrees']
+
+##############################
+##      dr.fct_other()      ##
+##############################
+'''Manually specify which levels to keep or drop, converting the rest to "Other"'''
+
+#------
+## Keep specific levels
+#------
+
+product_keep = dr.fct_other(
+    fct_product,
+    keep = ["Apple", "Xiaomi"],  # keep only these levels
+    other_level = "OtherBrands" # rename the rests to "OtherBrands" (default is "Other")
+)
+
+print(product_keep)
+# ['Apple', 'OtherBrands', 'Apple', 'Xiaomi', 'Apple', ..., 'OtherBrands', 'OtherBrands', 'Apple', 'OtherBrands', 'OtherBrands']
+# Length: 14
+# Categories (3, object): ['Apple', 'Xiaomi', 'OtherBrands']
+
+#------
+## Drop specific levels
+#------
+
+product_drop = dr.fct_other(
+    fct_product,
+    drop = ["Samsung", "Huawei", "Apple"], # drop these levels into "Other"
+    other_level = "OtherBrands"   # rename the rests to "OtherBrands" (default is "Other")
+)
+
+print(product_drop)
+# ['OtherBrands', 'OtherBrands', 'OtherBrands', 'Xiaomi', 'OtherBrands', ..., 'Oppo', 'Vivo', 'OtherBrands', 'OtherBrands', 'Realme']
+# Length: 14
+# Categories (6, object): ['OnePlus', 'Oppo', 'Realme', 'Vivo', 'Xiaomi', 'OtherBrands']
+
+#############################
+##     dr.fct_relabel()    ##
+#############################
+'''Apply a function to transform all level names at once'''
+
+relabel_product = dr.fct_relabel(
+    fct_product,
+    dr.toupper  # convert all level names to uppercase
+)
+
+print(relabel_product)
+# ['APPLE', 'SAMSUNG', 'APPLE', 'XIAOMI', 'APPLE', ..., 'OPPO', 'VIVO', 'APPLE', 'SAMSUNG', 'REALME']
+# Length: 14
+# Categories (8, object): ['APPLE', 'HUAWEI', 'ONEPLUS', 'OPPO', 'REALME', 'SAMSUNG', 'VIVO', 'XIAOMI']
+
 
 #------------------------------------------------------------------------------------------------------------#
 #--------------------------- 10. Apply to processing pipelines with dr.mutate() -----------------------------#
