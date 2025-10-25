@@ -27,6 +27,7 @@ In dataR (as well as R), categorical variables are often represented as factors.
    + Manual reordering: dr.fct_relevel()
    + Automatic reordering: dr.fct_inorder(), dr.fct_infreq(), dr.fct_inseq()
    + Reordering by another variable: dr.fct_reorder(), dr.fct_reorder2()
+   + Shuffle: dr.fct_shuffle()
    + Reverse/shift: dr.fct_rev(), dr.fct_shift()
 
 6. Rename levels:
@@ -319,6 +320,244 @@ print(dr.levels(dropped_size)) # [39 40 41 42]
 dropped_gender = dr.droplevels(fct_gender[~fct_gender.isin(["Others"])]) # Remove "Others" level
 print(dr.levels(dropped_gender)) # ['F' 'M']
 
+
+#------------------------------------------------------------------------------------------------------------#
+#-------------------------------- 5. Reorder levels of factor variable --------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+
+fct_gender = dr.factor(x = ["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"])
+
+ord_size = dr.ordered(x = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
+
+ord_degree = dr.ordered(
+      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
+      levels = ["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
+)
+
+############################
+##    dr.fct_relevel()    ##
+############################
+''' Manually specify which levels to move and where to move them.'''
+
+#------
+## Original
+#------
+
+print(dr.levels(fct_gender)) # ['F' 'M' 'Others']
+print(dr.levels(ord_size))   # [36 37 38 39 40 41 42]
+print(dr.levels(ord_degree)) # ['Bachelors' 'Masters' 'PhD' 'AscProf' 'PostDoc']
+
+#------
+## dr.fct_relevel()
+#------
+
+relevel_gender = dr.fct_relevel(fct_gender, ["Others", "M", "F"])
+print(dr.levels(relevel_gender)) # ['Others' 'M' 'F']
+
+relevel_size = dr.fct_relevel(ord_size, [42, 41, 40]) # Move levels 42, 41, 40 to the front
+print(dr.levels(relevel_size)) # [42 41 40 36 37 38 39]
+
+relevel_degree = dr.fct_relevel(ord_degree, "PostDoc") # Move "PostDoc" level to the front
+print(dr.levels(relevel_degree)) # ['PostDoc' 'Bachelors' 'Masters 'PhD' 'AscProf']
+
+relevel_degree_after = dr.fct_relevel(ord_degree, "PostDoc", after = 2) # Move "PostDoc" level after the 2-indexed position
+print(dr.levels(relevel_degree_after)) # ['Bachelors' 'Masters' 'PhD' 'PostDoc' 'AscProf']
+
+############################
+##    dr.fct_inorder()    ##
+############################
+'''Reorder levels by the order they first appear in the data'''
+
+#------
+## Original
+#------
+
+print(fct_gender)
+# ['M', 'F', 'F', 'M', 'Others', 'F', 'M', 'M', 'F', 'Others']
+# Categories (3, object): ['F', 'M', 'Others']
+
+print(ord_size)
+# [39, 42, 36, 40, 38, 41, 39, 37, 42, 40]
+# Categories (7, int64): [36 < 37 < 38 < 39 < 40 < 41 < 42]
+
+#------
+## dr.fct_inorder()
+#------
+
+inorder_gender = dr.fct_inorder(fct_gender)
+print(dr.levels(inorder_gender)) # ['M' 'F' 'Others']
+                                 # M appears first in the data, so it becomes the first level.
+
+inorder_size = dr.fct_inorder(ord_size)
+print(dr.levels(inorder_size))   # [39 42 36 40 38 41 37]
+                                 # 39 appears first, then 42, and so on. So the levels are reordered accordingly.
+
+###########################
+##    dr.fct_infreq()    ##
+###########################
+'''Reorder levels from most frequent to least frequent'''
+
+#------
+## Original
+#------
+
+print(fct_gender)
+# ['M', 'F', 'F', 'M', 'Others', 'F', 'M', 'M', 'F', 'Others']
+# Categories (3, object): ['F', 'M', 'Others']
+
+print(ord_size)
+# [39, 42, 36, 40, 38, 41, 39, 37, 42, 40]
+# Categories (7, int64): [36 < 37 < 38 < 39 < 40 < 41 < 42]
+
+#------
+## dr.fct_infreq()
+#------
+
+infreq_gender = dr.fct_infreq(fct_gender)
+print(dr.levels(infreq_gender)) # ['M' 'F' 'Others']
+                                # M and F both appear 4 times, but M comes first in the original levels, so it is placed first.
+                                # Then "Others" appears 2 times, so it is last.
+
+infreq_size = dr.fct_infreq(ord_size)
+print(dr.levels(infreq_size))   # [42 40 39 41 38 37 36]
+                                # 42 appears 2 times, then 40 appears 2 times, then 39 appears 2 times, and so on.
+
+##########################
+##    dr.fct_inseq()    ##
+##########################
+'''
+Reorder numeric factor levels by their numeric values
+NOTE: only works for NUMERIC factor variables.
+'''
+
+#------
+## Original
+#------
+
+generation = dr.ordered(
+    x = [3, 1, 4, 2, 5, 1, 2, 3, 4, 5],
+    levels = [5, 2, 4, 1 , 3] # original unordered levels
+)
+
+print(generation)
+# [3, 1, 4, 2, 5, 1, 2, 3, 4, 5]
+# Categories (5, int64): [5 < 2 < 4 < 1 < 3]
+
+#------
+## dr.fct_inseq()
+#------
+
+inseq_generation = dr.fct_inseq(generation)
+print(inseq_generation)
+# [3, 1, 4, 2, 5, 1, 2, 3, 4, 5]
+# Categories (5, int64): [1 < 2 < 3 < 4 < 5]
+
+############################
+##    dr.fct_reorder()    ##
+############################
+'''Reorder factor levels based on a summary function applied to another variable'''
+
+df_color = dr.tribble(
+    f.color,  f.a, f.b,
+    "blue",   1,   2,
+    "green",  6,   2,
+    "purple", 3,   3,
+    "red",    2,   3,
+    "yellow", 5,   1
+) >> dr.mutate(color=dr.as_factor(f.color))
+
+# Reorder gender by median salary
+color_by_a = dr.fct_reorder(
+    df_color['color'],
+    df_color['a'],
+    _fun = dr.median,
+    _desc = False # ascending order
+)
+
+print(color_by_a)
+# ['blue', 'green', 'purple', 'red', 'yellow']
+# Categories (5, object): ['blue', 'red', 'purple', 'yellow', 'green']
+
+
+############################
+##   dr.fct_reorder2()    ##
+############################
+'''Reorder based on two variables, useful for line plots where you want legend order to match line endpoints'''
+
+color_by_a_b = dr.fct_reorder2(
+    df_color['color'],
+    df_color['a'],
+    df_color['b'],
+    _desc = True # descending order
+)
+
+print(color_by_a_b)
+# ['blue', 'green', 'purple', 'red', 'yellow']
+# Categories (5, object): ['red', 'purple', 'green', 'blue', 'yellow']
+
+###########################
+##    dr.fct_shuffle()   ##
+###########################
+'''Randomly shuffle the levels of a factor variable'''
+
+#------
+## Original
+#------
+
+print(ord_size)
+# [39, 42, 36, 40, 38, 41, 39, 37, 42, 40]
+# Categories (7, int64): [36 < 37 < 38 < 39 < 40 < 41 < 42]
+
+#------
+## dr.fct_shuffle()
+#------
+
+shuffled_size = dr.fct_shuffle(ord_size)
+
+print(shuffled_size)
+# [39, 42, 36, 40, 38, 41, 39, 37, 42, 40]
+# Categories (7, int64): [40 < 39 < 42 < 36 < 38 < 41 < 37]
+
+#########################
+##     dr.fct_rev()    ##
+#########################
+'''Simply reverse the current level order'''
+
+#------
+## Original
+#------
+
+print(dr.levels(ord_degree)) # ['Bachelors' 'Masters' 'PhD' 'AscProf' 'PostDoc']
+
+#------
+## dr.fct_rev()
+#------
+
+reversed_degree = dr.fct_rev(ord_degree)
+print(dr.levels(reversed_degree)) # ['PostDoc' 'AscProf' 'PhD' 'Masters' 'Bachelors']
+
+#########################
+##    dr.fct_shift()   ##
+#########################
+'''Rotate levels left or right, wrapping around'''
+
+#------
+## Original
+#------
+
+print(dr.levels(ord_size))   # [36 37 38 39 40 41 42]
+
+#------
+## dr.fct_shift()
+#------
+
+shifted_size = dr.fct_shift(ord_size, n = 1) # Shift right by 1
+print(dr.levels(shifted_size))   # [37 38 39 40 41 42 36]
+                                 # "36" is wrapped around to the end.
+
+shifted_size_left = dr.fct_shift(ord_size, n = -2) # Shift left by 2
+print(dr.levels(shifted_size_left))   # [41 42 36 37 38 39 40]
+                                 
 
 #------------------------------------------------------------------------------------------------------------#
 #--------------------------- 10. Apply to processing pipelines with dr.mutate() -----------------------------#
