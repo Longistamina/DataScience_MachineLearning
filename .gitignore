@@ -89,6 +89,8 @@ Thumbs.db
 
 # vscode workspace file
 *.code-workspace
-*.vscode
+/home/longdpt/Documents/Academic/DataScience_MachineLearning/.vscode
 
 test.py
+
+*.gitignore
