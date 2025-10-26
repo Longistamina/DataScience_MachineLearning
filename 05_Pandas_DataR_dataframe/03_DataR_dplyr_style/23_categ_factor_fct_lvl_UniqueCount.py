@@ -744,6 +744,70 @@ print(relabel_product)
 
 
 #------------------------------------------------------------------------------------------------------------#
+#---------------------------------------- 7. Handle multiple factors ----------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+
+######################
+##    dr.fct_c()    ##
+######################
+'''Combine multiple factors into one, unifying their levels (useful when combining data from different sources)'''
+
+survey_region1 = dr.factor(["High", "Medium", "Low", "High"])
+survey_region2 = dr.factor(["Medium", "Very High", "Very Low", "Medium", "Low"])
+
+combined_survey = dr.fct_c(survey_region1, survey_region2)
+
+print(combined_survey)
+# ['High', 'Medium', 'Low', 'High', 'Medium', 'Very High', 'Very Low', 'Medium', 'Low']
+# Categories (5, object): ['High', 'Low', 'Medium', 'Very High', 'Very Low']
+
+########################
+##   dr.fct_cross()   ##
+########################
+'''Create interaction factors - all combinations of levels from multiple factors (like interaction terms in ANOVA)'''
+
+fct_A = dr.factor(["A1", "A2", "A1", "A3"])
+fct_B = dr.factor(["B1", "B1", "B2", "B2"])
+
+crossed_factors = dr.fct_cross(fct_A, fct_B, sep = "-")
+
+print(crossed_factors)
+# ['A1-B1', 'A2-B1', 'A1-B2', 'A3-B2']
+# Categories (4, object): ['A1-B1', 'A1-B2', 'A2-B1', 'A3-B2']
+
+#######################
+##   dr.fct_unify()  ##
+#######################
+'''Standardize levels across a list of factors (make them all have the same levels)'''
+
+factor1 = dr.factor(["a", "b", "a"])
+factor2 = dr.factor(["b", "c", "b"])
+factor3 = dr.factor(["a", "b", "c", "a"])
+
+unified_factors = dr.fct_unify([factor1, factor2, factor3]) # Must put them in a list
+
+print(unified_factors)
+# [['a', 'b', 'a']
+# Categories (3, object): ['a', 'b', 'c'], ['b', 'c', 'b']
+# Categories (3, object): ['a', 'b', 'c'], ['a', 'b', 'c', 'a']
+# Categories (3, object): ['a', 'b', 'c']]
+
+for i, f in enumerate(unified_factors, start = 1):
+    print(f"Factor: {dr.unique(f)} ___ Levels: {dr.levels(f)}")
+# Factor: ['a' 'b'] ___ Levels: ['a' 'b' 'c']
+# Factor: ['b' 'c'] ___ Levels: ['a' 'b' 'c']
+# Factor: ['a' 'b' 'c'] ___ Levels: ['a' 'b' 'c']
+
+'''
+Before unification, your three factors had different levels:
++ factor1: values ["a", "b", "a"] with levels ['a', 'b'] (only 2 levels)
++ factor2: values ["b", "c", "b"] with levels ['b', 'c'] (only 2 levels)
++ factor3: values ["a", "b", "c", "a"] with levels ['a', 'b', 'c'] (3 levels)
+
+After unification, all three factors now share the same complete set of levels: ['a', 'b', 'c']
+'''
+
+#------------------------------------------------------------------------------------------------------------#
 #--------------------------- 10. Apply to processing pipelines with dr.mutate() -----------------------------#
 #------------------------------------------------------------------------------------------------------------#
 
