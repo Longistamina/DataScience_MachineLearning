@@ -873,6 +873,104 @@ print(anon_nationality)
 
 
 #------------------------------------------------------------------------------------------------------------#
+#-------------------------------------- 9. Low-level operations ---------------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+
+ord_degree = dr.ordered(
+      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
+      levels = ["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
+)
+
+###########################
+##   dr.lvls_reorder()   ##
+###########################
+'''
+Directly reorder the sequence of levels without changing the underlying data values
+Requires you to specify complete new level order
+'''
+
+#------
+## Original
+#------
+
+print(ord_degree)
+# ['Bachelors', 'Masters', 'PhD', 'Bachelors', 'PhD', 'Masters', 'Bachelors', 'AscProf']
+# Categories (5, object): ['Bachelors' < 'Masters' < 'PhD' < 'AscProf' < 'PostDoc']
+
+#------
+## dr.lvls_reorder()
+#------
+
+reordered_degree = dr.lvls_reorder(
+    ord_degree,
+    idx = [4, 0, 2, 1, 3]  # New order of levels by their original indices
+)
+
+print(reordered_degree)
+# ['Bachelors', 'Masters', 'PhD', 'Bachelors', 'PhD', 'Masters', 'Bachelors', 'AscProf']
+# Categories (5, object): ['PostDoc' < 'Bachelors' < 'PhD' < 'Masters' < 'AscProf']
+
+#############################
+##    dr.lvls_revalue()    ##
+#############################
+'''
+Directly rename/recode factor levels by providing a mapping (Dictionary)
+Low-level, straightforward 1-to-1 renaming
+'''
+
+#------
+## Original
+#------
+
+print(ord_degree)
+# ['Bachelors', 'Masters', 'PhD', 'Bachelors', 'PhD', 'Masters', 'Bachelors', 'AscProf']
+# Categories (5, object): ['Bachelors' < 'Masters' < 'PhD' < 'AscProf' < 'PostDoc']
+
+#------
+## dr.lvls_revalue()
+#------
+
+revalued_degree = dr.lvls_revalue(
+    ord_degree,
+    new_levels=["BSc", "MSc", "PhD", "AscProf", "PostDoc"]
+    #            ↑      ↑      ↑      ↑         ↑
+    #         Level1  Level2  Level3 Level4   Level5
+    # Must match the order and count of original levels!
+)
+
+print(revalued_degree)
+# ['BSc', 'MSc', 'PhD', 'BSc', 'PhD', 'MSc', 'BSc', 'AscProf']
+# Categories (4, object): ['BSc', 'MSc', 'PhD', 'AscProf']
+'''Lose the ordinal property since levels are renamed arbitrarily, and "PostDoc" level is unused and dropped.'''
+
+############################
+##    dr.lvls_expand()    ##
+############################
+'''Add additional levels to a factor without them appearing in the data'''
+
+#------
+## Original
+#------
+
+print(ord_degree)
+# ['Bachelors', 'Masters', 'PhD', 'Bachelors', 'PhD', 'Masters', 'Bachelors', 'AscProf']
+# Categories (5, object): ['Bachelors' < 'Masters' < 'PhD' < 'AscProf' < 'PostDoc']
+
+#------
+## dr.lvls_expand()
+#------
+
+expanded_degree = dr.lvls_expand(
+    ord_degree,
+    new_levels = ["Bachelors", "Masters", "PhD", "AscProf", "PostDoc", "Professor"]
+)
+
+print(expanded_degree)
+# ['Bachelors', 'Masters', 'PhD', 'Bachelors', 'PhD', 'Masters', 'Bachelors', 'AscProf']
+# Categories (6, object): ['Bachelors' < 'Masters' < 'PhD' < 'AscProf' < 'PostDoc' < 'Professor']
+
+
+#------------------------------------------------------------------------------------------------------------#
 #--------------------------- 10. Apply to processing pipelines with dr.mutate() -----------------------------#
 #------------------------------------------------------------------------------------------------------------#
 
