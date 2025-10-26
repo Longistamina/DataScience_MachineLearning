@@ -57,9 +57,7 @@ In dataR (as well as R), categorical variables are often represented as factors.
 import datar.all as dr
 from datar import f
 import pandas as pd
-
-from pipda import register_verb
-dr.filter = register_verb(func = dr.filter_)
+import numpy as np
 
 # Suppress all warnings
 import warnings
@@ -806,6 +804,73 @@ Before unification, your three factors had different levels:
 
 After unification, all three factors now share the same complete set of levels: ['a', 'b', 'c']
 '''
+
+
+#------------------------------------------------------------------------------------------------------------#
+#------------------------------- 8. Special operations on factor variable -----------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+
+##############################
+##   dr.fct_explicit_na()   ##
+##############################
+'''Convert NA (missing) values into an explicit factor level, making them visible in summaries, tables, and plots'''
+
+#------
+## Before
+#------
+survey_response = dr.factor([
+    "Satisfied", "Very Satisfied", None, "Satisfied", 
+    "Dissatisfied", None, "Very Satisfied", np.nan, 
+    "Satisfied", None, "Very Satisfied"
+])
+
+print(survey_response)
+# ['Satisfied', 'Very Satisfied', NaN, 'Satisfied', 'Dissatisfied', ..., 'Very Satisfied', NaN, 'Satisfied', NaN, 'Very Satisfied']
+# Length: 11
+# Categories (3, object): ['Dissatisfied', 'Satisfied', 'Very Satisfied']
+'''None/NaN values are not shown as a level.'''
+
+print(dr.table(survey_response))
+#        Dissatisfied  Satisfied  Very Satisfied
+#             <int64>    <int64>         <int64>
+# count             1          3               3
+
+#------
+## After
+#------
+
+explicit_na_response = dr.fct_explicit_na(survey_response, na_level = "No Response")
+
+print(explicit_na_response)
+# ['Satisfied', 'Very Satisfied', 'No Response', 'Satisfied', 'Dissatisfied', ..., 'Very Satisfied', 'No Response', 'Satisfied', 'No Response', 'Very Satisfied']
+# Length: 11
+# Categories (4, object): ['Dissatisfied', 'Satisfied', 'Very Satisfied', 'No Response']
+'''Now None/NaN values are converted to "No Response" level and shown in the levels.'''
+
+print(dr.table(explicit_na_response))
+#        Dissatisfied  Satisfied  Very Satisfied  No Response
+#             <int64>    <int64>         <int64>      <int64>
+# count             1          3               3            4
+
+#########################
+##    dr.fct_anon()    ##
+#########################
+'''
+Replace factor levels with anonymized values (typically random letters or numbers) 
+for privacy protection while preserving factor structure.
+'''
+
+patient_nationality = dr.factor([
+    "USA", "Canada", "Mexico", "USA", "Canada",
+    "USA", "Mexico", "Canada", "USA", "Mexico"
+])
+
+anon_nationality = dr.fct_anon(patient_nationality, prefix = "Nat_")
+
+print(anon_nationality)
+# ['Nat_1', 'Nat_0', 'Nat_2', 'Nat_1', 'Nat_0', 'Nat_1', 'Nat_2', 'Nat_0', 'Nat_1', 'Nat_2']
+# Categories (3, object): ['Nat_0', 'Nat_1', 'Nat_2']
+
 
 #------------------------------------------------------------------------------------------------------------#
 #--------------------------- 10. Apply to processing pipelines with dr.mutate() -----------------------------#
