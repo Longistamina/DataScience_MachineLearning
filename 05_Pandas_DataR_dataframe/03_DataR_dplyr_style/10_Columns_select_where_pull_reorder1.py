@@ -6,11 +6,18 @@
    + Using string function: dr.select(dr.starts_with("col")), dr.select(dr.ends_with("col")), dr.select(dr.contains("col"))
    + Exclusive selection: dr.select(~f.col1, ~f.col2), dr.select(~f[f.col2:f.col4]), dr.select(~f[1, 3]), dr.select(~f[0:3])
 
-2. dr.pull() - Pull a single column as a Series
+2. Select columns based on datatype: dr.select(dr.where(dr.is_datatype))
+   + dr.select(dr.where(dr.is_character))
+   + dr.select(dr.where(dr.is_numeric))
+   + dr.select(dr.where(dr.is_factor))
+   + dr.select(dr.where(dr.is_ordered))
+   + dr.select(dr.where(dr.is_logical))
+
+3. dr.pull() - Pull a single column as a Series
    + Demo: dr.pull(f.col)
    + Assign to a variable: var = dr.pull(f.col)
 
-3. Reorder columns using dr.select(): dr.select(f.col3, f.col1, f.col2)
+4. Reorder columns using dr.select(): dr.select(f.col3, f.col1, f.col2)
 '''
 
 import datar.all as dr
@@ -305,8 +312,122 @@ print(
 # 6       7     Simon
 # 7       8      Guru
 
+
 #----------------------------------------------------------------------------------------------------------#
-#---------------------------- 2. dr.pull() - Pull a single column as a Series -----------------------------#
+#----------------- 2. Select columns based on datatype: dr.select(dr.where(dr.is_datatype)) ---------------#
+#----------------------------------------------------------------------------------------------------------#
+
+tb_pokemon = dr.tibble(
+    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
+    >> dr.select(~f["#"]) # Drop the "#" column
+    >> dr.mutate(
+        Type_1 = f.Type_1.astype("category"),      # convert to category (pandas style)
+        Type_2 = dr.as_factor(f.Type_2),           # convert to category (datar style)
+        Generation = dr.as_ordered(f.Generation),  # convert to ordered category (datar style)
+        Legendary = dr.as_logical(f.Legendary)     # convert to boolean (datar style)
+    )
+)
+
+print(
+    tb_pokemon
+    >> dr.slice_head(n=5)
+)
+#                     Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
+#                 <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
+# 0              Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
+# 1                Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
+# 2               Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
+# 3  VenusaurMega Venusaur      Grass     Poison     625      80     100      123     122     120      80          1      False
+# 4             Charmander       Fire        NaN     309      39      52       43      60      50      65          1      False
+
+##########################################
+## dr.select(dr.where(dr.is_character)) ##
+##########################################
+
+print(
+    tb_pokemon
+    >> dr.select(dr.where(dr.is_character))
+    >> dr.slice_head(n=5)
+)
+#                     Name     Type_1     Type_2
+#                 <object> <category> <category>
+# 0              Bulbasaur      Grass     Poison
+# 1                Ivysaur      Grass     Poison
+# 2               Venusaur      Grass     Poison
+# 3  VenusaurMega Venusaur      Grass     Poison
+# 4             Charmander       Fire        NaN
+
+########################################
+## dr.select(dr.where(dr.is_numeric)) ##
+########################################
+
+print(
+    tb_pokemon
+    >> dr.select(dr.where(dr.is_numeric))
+    >> dr.slice_head(n=5)
+)
+#     Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed  Legendary
+#   <int64> <int64> <int64>  <int64> <int64> <int64> <int64>     <bool>
+# 0     318      45      49       49      65      65      45      False
+# 1     405      60      62       63      80      80      60      False
+# 2     525      80      82       83     100     100      80      False
+# 3     625      80     100      123     122     120      80      False
+# 4     309      39      52       43      60      50      65      False
+
+#######################################
+## dr.select(dr.where(dr.is_factor)) ##
+#######################################
+
+print(
+    tb_pokemon
+    >> dr.select(dr.where(dr.is_factor))
+    >> dr.slice_head(n=5)
+)
+#       Type_1     Type_2 Generation
+#   <category> <category> <category>
+# 0      Grass     Poison          1
+# 1      Grass     Poison          1
+# 2      Grass     Poison          1
+# 3      Grass     Poison          1
+# 4       Fire        NaN          1
+
+########################################
+## dr.select(dr.where(dr.is_ordered)) ##
+########################################
+
+print(
+    tb_pokemon
+    >> dr.select(dr.where(dr.is_ordered))
+    >> dr.slice_head(n=5)
+)
+#   Generation
+#   <category>
+# 0          1
+# 1          1
+# 2          1
+# 3          1
+# 4          1
+
+########################################
+## dr.select(dr.where(dr.is_logical)) ##
+########################################
+
+print(
+    tb_pokemon
+    >> dr.select(dr.where(dr.is_logical))
+    >> dr.slice_head(n=5)
+)
+#    Legendary
+#       <bool>
+# 0      False
+# 1      False
+# 2      False
+# 3      False
+# 4      False
+
+#----------------------------------------------------------------------------------------------------------#
+#---------------------------- 3. dr.pull() - Pull a single column as a Series -----------------------------#
 #----------------------------------------------------------------------------------------------------------#
 
 ##########
@@ -348,7 +469,7 @@ print(salary)
 
 
 #----------------------------------------------------------------------------------------------------------#
-#------------------------------------ 3. Reorder columns using dr.select() --------------------------------#
+#------------------------------------ 4. Reorder columns using dr.select() --------------------------------#
 #----------------------------------------------------------------------------------------------------------#
 
 print(
