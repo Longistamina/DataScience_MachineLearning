@@ -173,7 +173,15 @@ print(
     )
     >> dr.arrange(f.Type_1, f.Legendary)
 )
-# ValueError: operands could not be broadcast together with shapes (36,) (33,)
+#        Type_1  Legendary   count   avg_total
+#    <category>     <bool> <int64>   <float64>
+# 0         Bug      False      69  378.927536
+# 1        Dark      False      29  432.344828
+# 2        Dark       True       2  640.000000
+# 3      Dragon      False      20  476.850000
+# 4      Dragon       True      12  673.333333
+# 5    Electric      False      40  429.750000
+# 6    Electric       True       4  580.000000
 
 
 #------------------------------------------------------------------------------------------------------------#
@@ -202,3 +210,15 @@ print(
     >> dr.group_by(pd.Grouper(key="date", freq="5D"))
     >> dr.summarize(value_mean = f.value.mean()) # Calculate the mean of "value" column every 5 days
 )
+#                        date  value_mean
+#       <datetime64[ns, UTC]>   <float64>
+# 0 2019-05-07 00:00:00+00:00   30.286017
+# 1 2019-05-12 00:00:00+00:00   24.975304
+# 2 2019-05-17 00:00:00+00:00   30.772917
+# 3 2019-05-22 00:00:00+00:00   32.298340
+# 4 2019-05-27 00:00:00+00:00   20.337705
+# 5 2019-06-01 00:00:00+00:00   25.743933
+# 6 2019-06-06 00:00:00+00:00   19.717273
+# 7 2019-06-11 00:00:00+00:00   25.300855
+# 8 2019-06-16 00:00:00+00:00   25.027119
+# 9 2019-06-21 00:00:00+00:00   20.000000

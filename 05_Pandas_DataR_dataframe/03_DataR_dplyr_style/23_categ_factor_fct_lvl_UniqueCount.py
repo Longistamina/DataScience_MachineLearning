@@ -625,7 +625,7 @@ collapsed_size = dr.fct_collapse(
 
 print(collapsed_size)
 # ['Medium', 'Large', 'Small', 'Medium', 'Small', 'Large', 'Medium', 'Small', 'Large', 'Medium']
-# Categories (3, object): ['Small' < 'Medium' < 'Large']
+# Categories (3, object): ['Small', 'Medium', 'Large']
 
 ##############################
 ##     dr.fct_lump_min()    ##
