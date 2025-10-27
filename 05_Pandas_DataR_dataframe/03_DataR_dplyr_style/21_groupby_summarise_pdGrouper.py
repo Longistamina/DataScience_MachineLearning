@@ -168,28 +168,37 @@ print(
     tb_pokemon
     >> dr.group_by(f.Type_1, f.Legendary)
     >> dr.summarise(
-        avg_total = dr.mean(f.Total)
+        count = dr.n(),
+        avg_total = np.mean(f.Total)
     )
     >> dr.arrange(f.Type_1, f.Legendary)
 )
 # ValueError: operands could not be broadcast together with shapes (36,) (33,)
 
-print(
-    tb_pokemon
-    .groupby(['Type_1', 'Legendary'], dropna=False)
-    .agg(
-        count=('Total', 'size'),
-        avg_total=('Total', 'mean')
-    )
-    .reset_index()
-    .rename(columns={'Total': 'avg_total'})
-    .sort_values(['Type_1','Legendary'])
+
+#------------------------------------------------------------------------------------------------------------#
+#-------------------------------------- 4. combine with pd.Grouper() ----------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+
+df_aq = (
+    pd.read_csv("05_Pandas_DataR_dataframe/data/air_quality_no2_long.csv")
+    .rename(columns={"date.utc": "date"})
+    .assign(date = lambda df: pd.to_datetime(df["date"], format="%Y-%m-%d %H:%M:%S%z")) # Must be datetime type for pd.Grouper
 )
-#        Type_1  Legendary   count   avg_total
-#    <category>     <bool> <int64>   <float64>
-# 0         Bug      False      69  378.927536
-# 1         Bug       True       0         NaN
-# 2        Dark      False      29  432.344828
-# 3        Dark       True       2  640.000000
-# 4      Dragon      False      20  476.850000
-# 5      Dragon       True      12  673.333333
+
+print(df_aq.head(3))
+#       city  country                      date location parameter     value     unit
+#   <object> <object>     <datetime64[ns, UTC]> <object>  <object> <float64> <object>
+# 0    Paris       FR 2019-06-21 00:00:00+00:00  FR04014       no2      20.0    µg/m³
+# 1    Paris       FR 2019-06-20 23:00:00+00:00  FR04014       no2      21.8    µg/m³
+# 2    Paris       FR 2019-06-20 22:00:00+00:00  FR04014       no2      26.5    µg/m³
+
+#####################################
+## dr.group_by() with pd.Grouper() ##
+#####################################
+
+print(
+    df_aq
+    >> dr.group_by(pd.Grouper(key="date", freq="5D"))
+    >> dr.summarize(value_mean = f.value.mean()) # Calculate the mean of "value" column every 5 days
+)
