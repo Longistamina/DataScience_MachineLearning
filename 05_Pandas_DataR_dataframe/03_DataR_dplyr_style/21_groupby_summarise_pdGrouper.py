@@ -4,13 +4,9 @@
    + combine with dr.arrange() to sort keys
    + multiple grouping variables
 
-2. dr.group_trim(): remove groups with all NA values
+2. combine with pd.Grouper for time-based grouping
 
-3. dr.group_map(): apply a function to all the groups
-
-4. combine with pd.Grouper for time-based grouping
-
-5. dr.group_split(): split a groupped DataFrame into a list of DataFrames
+3. dr.group_split(): split a groupped DataFrame into a list of DataFrames
 '''
 
 import datar.all as dr
@@ -185,7 +181,7 @@ print(
 
 
 #------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 4. combine with pd.Grouper() ----------------------------------------#
+#-------------------------------------- 2. combine with pd.Grouper() ----------------------------------------#
 #------------------------------------------------------------------------------------------------------------#
 
 df_aq = (
@@ -222,3 +218,49 @@ print(
 # 7 2019-06-11 00:00:00+00:00   25.300855
 # 8 2019-06-16 00:00:00+00:00   25.027119
 # 9 2019-06-21 00:00:00+00:00   20.000000
+
+
+#------------------------------------------------------------------------------------------------------------#
+#--------------------------------------- 3. dr.group_split() ------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+'''
+Split a groupped DataFrame into a list of DataFrames
+MUST WRAP INSIDE list() TO PRINT THE RESULT
+'''
+
+print(
+    list(
+        tb_pokemon
+        >> dr.group_by(f.Legendary)
+        >> dr.group_split()
+    )
+)
+# [                      Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
+#                   <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
+# 0                Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
+# 1                  Ivysaur      Grass     Poison     405      60      62       63      80      80      60          1      False
+# 2                 Venusaur      Grass     Poison     525      80      82       83     100     100      80          1      False
+# 3    VenusaurMega Venusaur      Grass     Poison     625      80     100      123     122     120      80          1      False
+# ..                     ...        ...        ...     ...     ...     ...      ...     ...     ...     ...        ...        ...
+# 4               Charmander       Fire        NaN     309      39      52       43      60      50      65          1      False
+# 730    GourgeistSuper Size      Ghost      Grass     494      85     100      122      58      75      54          6      False
+# 731               Bergmite        Ice        NaN     304      55      69       85      32      35      28          6      False
+# 732                Avalugg        Ice        NaN     514      95     117      184      44      46      28          6      False
+# 733                 Noibat     Flying     Dragon     245      40      30       35      45      40      55          6      False
+# 734                Noivern     Flying     Dragon     535      85      70       80      97      80     123          6      False
+
+# [735 rows x 12 columns],                    Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
+#                <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
+# 0              Articuno        Ice     Flying     580      90      85      100      95     125      85          1       True
+# 1                Zapdos   Electric     Flying     580      90      90       85     125      90     100          1       True
+# 2               Moltres       Fire     Flying     580      90     100       90     125      85      90          1       True
+# 3                Mewtwo    Psychic        NaN     680     106     110       90     154      90     130          1       True
+# ..                  ...        ...        ...     ...     ...     ...      ...     ...     ...     ...        ...        ...
+# 4   MewtwoMega Mewtwo X    Psychic   Fighting     780     106     190      100     154     100     130          1       True
+# 60              Diancie       Rock      Fairy     600      50     100      150     100     150      50          6       True
+# 61  DiancieMega Diancie       Rock      Fairy     700      50     160      110     160     110     110          6       True
+# 62  HoopaHoopa Confined    Psychic      Ghost     600      80     110       60     150     130      70          6       True
+# 63   HoopaHoopa Unbound    Psychic       Dark     680      80     160       60     170     130      80          6       True
+# 64            Volcanion       Fire      Water     600      80     110      120     130      90      70          6       True
+
+# [65 rows x 12 columns]]
