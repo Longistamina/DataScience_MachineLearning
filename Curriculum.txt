@@ -61,7 +61,12 @@
 + Plotnine: datavisualization with ggplot style
 + Plotly: 3D visualization
 
-8. Linear Algebra
+8. Calculus - SymPy - Limits - Derivative - Integral:
++ Limits
++ Derivative
++ Integral
+
+9. Linear Algebra
 + Vector and Matrix operations
 + Rank, Determinant, Trace
 + Transpose, Inverse Matrix
@@ -70,7 +75,7 @@
 + Pseudo Inverse Matrix
 + Dimension Reduction: PCA, TSVD
 
-9. Statistics
+10. Statistics
 + Probability Revision
 + Random Variable
 + Bayesian Probability
@@ -82,11 +87,6 @@
 + Skewness ~ Kurtosis
 + Univariate Analysis: descriptive statistics for quantitative variable, categorical count
 + Bivariate Analysis: Covariance, Correlation, Chi-squared test, T-test, Mann-Whitney U test, Wilcoxon signed rank test, ANOVA, Kruskal=Wallis test, ANOVA repeated measurements, Friedman test
-
-10. Calculus - SymPy - Limits - Derivative - Integral:
-+ Limits
-+ Derivative
-+ Integral
 
 11. Convex Optimization - CVXPY:
 
