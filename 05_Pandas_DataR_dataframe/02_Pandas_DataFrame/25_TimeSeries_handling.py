@@ -97,7 +97,11 @@ print(df_aq.head())
 ## Groupby weekday and location, compute the mean value
 #----------------
 
-df_aq_grouped = df_aq.groupby([df_aq["date"].dt.weekday, "location"]).agg({"value": "mean"})
+df_aq_grouped = (
+    df_aq
+    .groupby([df_aq["date"].dt.weekday, "location"])
+    .agg({"value": "mean"})
+)
 
 print(df_aq_grouped.head())
 #                              value
@@ -114,7 +118,8 @@ print(df_aq_grouped.head())
 
 df_aq_grouped_5d = (
     df_aq.copy()
-    .groupby([pd.Grouper(key="date", freq="5D"), "country"]).agg({"value": "mean"})
+    .groupby([pd.Grouper(key="date", freq="5D"), "country"])
+    .agg({"value": "mean"})
     .reset_index() # to turn the index back into columns
 )
 
@@ -135,7 +140,12 @@ print(df_aq_grouped_5d)
 ## df.rolling(), df.expanding() and df.ewm() on time-serie indexed ##
 #####################################################################
 
-df_aq_paris = df_aq.query("city == 'Paris'").set_index("date").sort_index()
+df_aq_paris = (
+    df_aq
+    .query("city == 'Paris'")
+    .set_index("date")
+    .sort_index()
+)
 
 print(df_aq_paris.head())
 #                             city country location parameter  value   unit  month

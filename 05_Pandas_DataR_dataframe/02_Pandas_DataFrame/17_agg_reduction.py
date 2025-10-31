@@ -45,7 +45,8 @@ print(
 # dtype: float64
 
 print(
-    df_baseball[["Height", "Weight"]].agg(np.median)
+    df_baseball[["Height", "Weight"]]
+    .agg(np.median)
 )
 # Height    187.9600
 # Weight     90.7184
@@ -67,7 +68,8 @@ print(
 #######################################
 
 print(
-    df_baseball[["Height", "Weight"]].agg(["mean", "median", "std"])
+    df_baseball[["Height", "Weight"]]
+    .agg(["mean", "median", "std"])
 )
 #             Height     Weight
 # mean    187.171724  91.330191
@@ -79,7 +81,8 @@ print(
 ############################
 
 print(
-    df_baseball.agg({
+    df_baseball
+    .agg({
         "Height": ["min", "max", "mean"],
         "Weight": ["median", "var", np.std]
     })
@@ -97,7 +100,8 @@ print(
 ######################
 
 print(
-    df_baseball[["Height", "Weight"]].agg(
+    df_baseball[["Height", "Weight"]]
+    .agg(
         mean_height = ("Height", "mean"),
         median_weight = ("Weight", "median"),
         std_weight = ("Weight", np.std) 

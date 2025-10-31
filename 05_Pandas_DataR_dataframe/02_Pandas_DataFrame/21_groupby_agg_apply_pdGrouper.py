@@ -290,7 +290,8 @@ print(df_aq.info())
 
 df_aq_grouped_5d = (
     df_aq.copy()
-    .groupby([pd.Grouper(key="date", freq="5D"), "country"]).agg({"value": "mean"})
+    .groupby([pd.Grouper(key="date", freq="5D"), "country"])
+    .agg({"value": "mean"})
     .reset_index() # to turn the index back into columns
 )
 
