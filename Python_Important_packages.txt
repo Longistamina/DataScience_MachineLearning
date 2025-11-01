@@ -18,7 +18,7 @@ umap
 
 Use conda-forge for stable version
 
-1) install miniconda or conda
+1) install miniconda
 
 2) Go to (base) environment
 
@@ -32,7 +32,7 @@ Use conda-forge for stable version
 
 Use pip3 install -U for latest versions
 
-1) install miniconda or conda
+1) install miniconda
 
 2) Go to (base) environment
 
