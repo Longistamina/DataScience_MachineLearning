@@ -1,3 +1,5 @@
+github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
+
 1. Python Basic
 + Basic commands
 + Variables
