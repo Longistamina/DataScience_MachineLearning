@@ -277,3 +277,230 @@ print(
 
 # [122 rows x 19 columns]
 '''Rows where both competitor and share_of_spend are NA are dropped.'''
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#----------------------------------------- 4. dr.replace_na() -------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+'''
+Purpose: Replace NA values with specified values.
+
+Parameters:
+# data: Data frame or vector
+# data_or_replace: When used as a verb, this is the data; otherwise it's the replacement value
+# replace: Dict (for data frames) mapping column names to replacement values, or scalar (for vectors)
+
+Important note: For data frames, replace must be a dict like {'column_name': value}. 
+You cannot replace all NAs at once with a single scalar value (unlike some pandas methods).
+'''
+
+tb_empty = dr.tibble(
+    x=[1, 2, None],
+    y=['a', None, 'b']
+)
+
+print(tb_empty)
+#           x        y
+#   <float64> <object>
+# 0       1.0        a
+# 1       2.0     None
+# 2       NaN        b
+
+##############################
+##     dr.replace_na()      ##
+##############################
+
+print(
+    tb_empty
+    >> dr.replace_na(replace={ 'x': 0, 'y': 'unknown' })
+)
+#           x        y
+#   <float64> <object>
+# 0       1.0        a
+# 1       2.0  unknown
+# 2       0.0        b
+
+print(
+    tb_empty
+    >> dr.mutate(x = dr.replace_na(f.x, replace = 'empty')) # Single column replacement
+)
+#          x        y
+#   <object> <object>
+# 0      1.0        a
+# 1      2.0     None
+# 2    empty        b
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------- 5. dr.fill() -----------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+'''
+Fill missing values using the previous or next non-NA value (forward fill or backward fill).
+
+Parameters:
+# _data: Your data frame
+# *columns: Columns to fill
+# _direction: Direction to fill - 'down' (default), 'up', 'downup', or 'updown'
+'''
+
+tb_fill = dr.tibble(
+    group = [None, 'A', None, 'B', None],
+    value = [1, 2, 3, 4, 5]
+)
+
+print(tb_fill)
+#      group   value
+#   <object> <int64>
+# 0     None       1
+# 1        A       2
+# 2     None       3
+# 3        B       4
+# 4     None       5
+
+#############################################
+##       dr.fill(_direction = 'down')      ##
+#############################################
+
+print(
+    tb_fill
+    >> dr.fill(f.group, _direction = 'down')
+)
+#      group   value
+#   <object> <int64>
+# 0     None       1
+# 1        A       2
+# 2        A       3
+# 3        B       4
+# 4        B       5
+
+#############################################
+##        dr.fill(_direction = 'up')       ##
+#############################################
+
+print(
+    tb_fill
+    >> dr.fill(f.group, _direction = 'up')
+)
+#      group   value
+#   <object> <int64>
+# 0        A       1
+# 1        A       2
+# 2        B       3
+# 3        B       4
+# 4     None       5
+
+############################################
+##     dr.fill(_direction = 'downup')     ##
+############################################
+
+print(
+    tb_fill
+    >> dr.fill(f.group, _direction = 'downup')
+)
+#      group   value
+#   <object> <int64>
+# 0        A       1
+# 1        A       2
+# 2        A       3
+# 3        B       4
+# 4        B       5
+
+'''First fills downwards, then upwards.'''
+
+#############################################
+##      dr.fill(_direction = 'updown')     ##
+#############################################
+
+print(
+    tb_fill
+    >> dr.fill(f.group, _direction = 'updown')
+)
+#      group   value
+#   <object> <int64>
+# 0        A       1
+# 1        A       2
+# 2        B       3
+# 3        B       4
+# 4        B       5
+
+'''First fills upwards, then downwards.'''
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------- 6. dr.coalesce() ------------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+'''
+Replace missing values with the given values in order.
+
+Parameters:
+# x: A vector
+# *replace: Values to replace missing values with.
+'''
+
+tb_coalesce = dr.tibble(
+    x=[1, None, None, 4],
+    y=[None, 2, None, 5],
+    z=[10, 20, 30, 40]
+)
+
+print(tb_coalesce)
+#           x         y       z
+#   <float64> <float64> <int64>
+# 0       1.0       NaN      10
+# 1       NaN       2.0      20
+# 2       NaN       NaN      30
+# 3       4.0       5.0      40
+
+##############################
+##      dr.coalesce()       ##
+##############################
+
+print(
+    tb_coalesce
+    >> dr.mutate(y = dr.coalesce(f.y, 'empty'))
+)
+#           x        y       z
+#   <float64> <object> <int64>
+# 0       1.0    empty      10
+# 1       NaN      2.0      20
+# 2       NaN    empty      30
+# 3       4.0      5.0      40
+
+print(
+    tb_coalesce
+    >> dr.mutate(x = dr.coalesce(f.x, f.z)) # Replace NA in x with values from z
+)
+#           x         y       z
+#   <float64> <float64> <int64>
+# 0       1.0       NaN      10
+# 1      20.0       2.0      20
+# 2      30.0       NaN      30
+# 3       4.0       5.0      40
+
+print(
+    tb_coalesce
+    >> dr.mutate(x = dr.coalesce(f.x, f.y, f.z)) # Replace NA in x with values from y, then z
+)
+#           x         y       z
+#   <float64> <float64> <int64>
+# 0       1.0       NaN      10
+# 1       2.0       2.0      20
+# 2      30.0       NaN      30
+# 3       4.0       5.0      40
+
+#--------------------------------------------------------------------------------------------------------------#
+#------------------------------------ 7. Using Pandas method with dr.pipe() -----------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+
+print(
+    tb_mkt_dropped
+    >> dr.pipe(lambda f: f.ffill().bfill())  # Fill NAs using Pandas interpolate()
+    >> dr.slice_head(n=5)
+)
+#      week    year  market_share  av_price_per_kg  non-promo_price_per_kg       spontaneous     aided  penetration  competitor  share_of_spend
+#   <int64> <int64>     <float64>        <float64>               <float64>  ...    <float64> <float64>    <float64>   <float64>       <float64>
+# 0      19    2010         38.40             7.61                    7.77  ...         77.9      98.1          0.0         0.0       79.185402
+# 1      20    2010         36.80             7.60                    7.80  ...         77.9      98.1          0.0         0.0       79.185402
+# 2      21    2010         35.21             7.63                    7.85  ...         77.9      98.1          0.0         0.0       79.185402
+# 3      22    2010         35.03             7.22                    7.76  ...         77.9      98.1          0.0         0.0       79.185402
+# 4      23    2010         32.37             7.70                    7.78  ...         77.9      98.1          0.0         0.0       79.185402
