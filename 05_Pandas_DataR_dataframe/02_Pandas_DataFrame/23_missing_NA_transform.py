@@ -1,37 +1,39 @@
 '''
 1. Detect missing values:
-  + df.isna() or df.isnull(): Returns a DataFrame of the same shape as df, with True for missing values
-  + df.isna().sum() or df.isnull().sum(): Returns the count of missing values in each column
-  + df.info(): Provides a summary of the DataFrame, including non-null counts
+   + df.isna() or df.isnull(): Returns a DataFrame of the same shape as df, with True for missing values
+   + df.isna().sum() or df.isnull().sum(): Returns the count of missing values in each column
+   + df.info(): Provides a summary of the DataFrame, including non-null counts
 
 2. Detect non-missing values:
-  + df.notna() or df.notnull(): Returns a DataFrame of the same shape as df, with True for non-missing values
-  + df.notna().sum() or df.notnull().sum(): Returns the count of non-missing values in each column
+   + df.notna() or df.notnull(): Returns a DataFrame of the same shape as df, with True for non-missing values
+   + df.notna().sum() or df.notnull().sum(): Returns the count of non-missing values in each column
 
-3. Drop missing values:
-  + df.dropna(): Returns a DataFrame with rows containing any missing values removed
-  + df.dropna(axis=...)
-  + df.dropna(how=...)
-  + df.dropna(thresh=...)
-  + df.dropna(subset=...)
+3. Drop missing values along columns:
+   + df.dropna(axis=1, how=...)
+   + df.dropna(axis=1, thresh=...): drop columns having too much missing values
+  
+4. Drop missing values along rows:
+   + df.dropna(axis=0): Returns a DataFrame with rows containing any missing values removed
+   + df.dropna(axis=0, how=...)
+   + df.dropna(axis=0, subset=...)
 
-4. Fill missing values:
-  + df.fillna(value): Returns a DataFrame with missing values filled with the specified value
-  + df.fillna({dictionary}): Fill different columns with different values
-  + df.fillna(df.mean()): Fill missing values with the mean of each column
-  + df.ffill(): Fill missing values using forward fill method
-  + df.bfill(): Fill missing values using backward fill method
+5. Fill missing values:
+   + df.fillna(value): Returns a DataFrame with missing values filled with the specified value
+   + df.fillna({dictionary}): Fill different columns with different values
+   + df.fillna(df.mean()): Fill missing values with the mean of each column
+   + df.ffill(): Fill missing values using forward fill method
+   + df.bfill(): Fill missing values using backward fill method
 
-5. Interpolate missing values:
+6. Interpolate missing values:
   + df.interpolate(axis=0, limit_direction='both'): linear interpolation
   + df.interpolate(method = "polynomial", order = n): polynomial interpolation of order n
   + df.interpolate(method = "spline", order = n): spline interpolation of order n
   + df.interpolate(method = "time"): time-based interpolation (requires a datetime index)
   + df.interpolate(method = "nearest"): nearest neighbor interpolation
 
-6. Conditional filling: df['C'] = np.where(df['C'].isna(), df['A'] + df['B'], df['C'])
+7. Conditional filling: df['C'] = np.where(df['C'].isna(), df['A'] + df['B'], df['C'])
 
-7. Group-based filling, transform
+8. Group-based filling, transform
   + df_group_filled = df_missing.fillna(df_missing.groupby("week").transform("mean"))
 '''
 
@@ -304,12 +306,39 @@ print(df_mkt.notnull().sum())
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 3. Drop missing values ----------------------------------------------#
+#-------------------------------- 3. Drop missing values along columns ----------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
-#################
-## df.dropna() ##
-#################
+################################
+## df.dropna(axis=1, how=...) ##
+################################
+
+#----
+## how='all'
+#----
+
+print(
+    df_mkt
+    .dropna(axis = 1, how = 'all')
+    .head()
+)
+#   week  year  market_share  av_price_per_kg  non_promo_price_per_kg  promo_vol_share  ...  grp_tv  reach_tv  reach_cinema  grp_outdoor  grp_print  share_of_spend
+# 0   19  2010         38.40             7.61                    7.77            26.87  ...     NaN       NaN           NaN          NaN        NaN             NaN
+# 1   20  2010         36.80             7.60                    7.80            29.42  ...     NaN       NaN           NaN          NaN        NaN             NaN
+# 2   21  2010         35.21             7.63                    7.85            27.27  ...     NaN       NaN           NaN          NaN        NaN             NaN
+# 3   22  2010         35.03             7.22                    7.76            52.48  ...     NaN       NaN           NaN          NaN        NaN             NaN
+# 4   23  2010         32.37             7.70                    7.78            16.11  ...     NaN       NaN           NaN          NaN        NaN             NaN
+
+# [5 rows x 26 columns]
+'''No columns are dopped because no columns have all NA values'''
+
+#--------------------------------------------------------------------------------------------------------------#
+#--------------------------------- 4. Drop missing values along rows ------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+
+#######################
+## df.dropna(axis=0) ##
+#######################
 '''Returns a DataFrame with rows containing any missing values removed'''
 
 df_dropped = df_mkt.dropna()
@@ -526,7 +555,7 @@ print(df_dropped_subset.info())
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 4. Fill missing values --------------------------------------------#
+#------------------------------------------ 5. Fill missing values --------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
 # Drop "category" columns before filling NA with 0, avoid error
@@ -623,7 +652,7 @@ print(s_misisng.bfill())
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 5. Interpolate missing values ----------------------------------------#
+#--------------------------------------- 6. Interpolate missing values ----------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
 # Drop "category" columns before interpolation, avoid error
@@ -747,7 +776,7 @@ print(df_interpolated_nearest.isna().sum().pipe(lambda x: x[x > 0]))
 
 
 #--------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 6. Conditional filling ------------------------------------------------#
+#-------------------------------------------- 7. Conditional filling ------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------------#
 
 # Drop "category" columns before filling NA with mean, avoid error
@@ -784,7 +813,7 @@ print(df_filled.isna().sum())
 
 
 #------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 7. Group-based filling, transform -----------------------------------------#
+#-------------------------------------- 8. Group-based filling, transform -----------------------------------------#
 #------------------------------------------------------------------------------------------------------------------#
 
 df_missing = df_mkt.drop("year", axis = 1)
