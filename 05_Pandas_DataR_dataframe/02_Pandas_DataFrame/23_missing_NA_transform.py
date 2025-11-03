@@ -13,7 +13,6 @@
    + df.dropna(axis=1, thresh=...): drop columns having too much missing values
   
 4. Drop missing values along rows:
-   + df.dropna(axis=0): Returns a DataFrame with rows containing any missing values removed
    + df.dropna(axis=0, how=...)
    + df.dropna(axis=0, subset=...)
 
@@ -312,6 +311,8 @@ print(df_mkt.notnull().sum())
 ################################
 ## df.dropna(axis=1, how=...) ##
 ################################
+'''how='any' (default): Drop rows with any missing values
+   how='all': Drop rows where all values are missing'''
 
 #----
 ## how='all'
@@ -332,94 +333,60 @@ print(
 # [5 rows x 26 columns]
 '''No columns are dopped because no columns have all NA values'''
 
+#----
+## how='any'
+#----
+
+print(
+    df_mkt
+    .dropna(axis = 1, how = 'any')
+    .head()
+)
+#   week  year  market_share  av_price_per_kg  ...  non_promo_price_vs_plb  promo_vol_sh_index_vs_plb  total_cm_shelf  shelf_share
+# 0   19  2010         38.40             7.61  ...                    2.20                       2.02        754253.0         0.25
+# 1   20  2010         36.80             7.60  ...                    2.19                       1.59        752248.7         0.25
+# 2   21  2010         35.21             7.63  ...                    2.23                       1.03        750244.4         0.25
+# 3   22  2010         35.03             7.22  ...                    2.12                       1.04        748240.1         0.25
+# 4   23  2010         32.37             7.70  ...                    2.15                       0.66        746235.8         0.25
+
+# [5 rows x 13 columns]
+'''Any rows having at least one NA value are dropped.'''
+
+###################################
+## df.dropna(axis=1, thresh=...) ##
+###################################
+
+print(
+    df_mkt
+    .dropna(axis = 1, thresh = 2/3 * df_mkt.shape[0]) # Keep columns with at least 2/3 non-missing values
+    .head()
+)
+#   week  year  market_share  av_price_per_kg  non_promo_price_per_kg  ...  spontaneous  aided  penetration  competitor  share_of_spend
+# 0   19  2010         38.40             7.61                    7.77  ...          NaN    NaN          NaN         NaN             NaN
+# 1   20  2010         36.80             7.60                    7.80  ...          NaN    NaN          NaN         NaN             NaN
+# 2   21  2010         35.21             7.63                    7.85  ...          NaN    NaN          NaN         NaN             NaN
+# 3   22  2010         35.03             7.22                    7.76  ...          NaN    NaN          NaN         NaN             NaN
+# 4   23  2010         32.37             7.70                    7.78  ...          NaN    NaN          NaN         NaN             NaN
+
+# [5 rows x 19 columns]
+
+
 #--------------------------------------------------------------------------------------------------------------#
 #--------------------------------- 4. Drop missing values along rows ------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
-#######################
-## df.dropna(axis=0) ##
-#######################
-'''Returns a DataFrame with rows containing any missing values removed'''
+df_mkt2 = df_mkt.dropna(axis = 1, thresh = 2/3 * df_mkt.shape[0]) # Keep columns with at least 2/3 non-missing values
 
-df_dropped = df_mkt.dropna()
+print(df_mkt2.shape) # (156, 19)
 
-print(df_dropped.info())
-# Index: 0 entries
-# Data columns (total 26 columns):
-#  #   Column                     Non-Null Count  Dtype   
-# ---  ------                     --------------  -----   
-#  0   week                       0 non-null      category
-#  1   year                       0 non-null      category
-#  2   market_share               0 non-null      float64 
-#  3   av_price_per_kg            0 non-null      float64 
-#  4   non_promo_price_per_kg     0 non-null      float64 
-#  5   promo_vol_share            0 non-null      float64 
-#  6   total_weigh                0 non-null      int64   
-#  7   share_of_ean_weigh         0 non-null      float64 
-#  8   avg_price_vs_plb           0 non-null      float64 
-#  9   non_promo_price_vs_plb     0 non-null      float64 
-#  10  promo_vol_sh_index_vs_plb  0 non-null      float64 
-#  11  total_cm_shelf             0 non-null      float64 
-#  12  shelf_share                0 non-null      float64 
-#  13  top_of_mind                0 non-null      float64 
-#  14  spontaneous                0 non-null      float64 
-#  15  aided                      0 non-null      float64 
-#  16  penetration                0 non-null      float64 
-#  17  competitor                 0 non-null      float64 
-#  18  grp_radio                  0 non-null      float64 
-#  19  reach_radio                0 non-null      float64 
-#  20  grp_tv                     0 non-null      float64 
-#  21  reach_tv                   0 non-null      float64 
-#  22  reach_cinema               0 non-null      float64 
-#  23  grp_outdoor                0 non-null      float64 
-#  24  grp_print                  0 non-null      float64 
-#  25  share_of_spend             0 non-null      float64 
-# dtypes: category(2), float64(23), int64(1)
-# memory usage: 2.5 KB
-
-print(df_dropped)
-# Empty DataFrame
-
-'''
-This returns an empty DataFrame 
-because there is a column named "grp_outdoor" that contains only one non-missing value, 
-and all other rows have at least one missing value.
-
-=> All rows are dropped => empty
-'''
-
-##########################
-## df.dropna(axis=...)  ##
-##########################
-'''axis=0 (default): Drop rows with any missing values
-   axis=1: Drop columns with any missing values'''
-
-# Use axis=1 to drop columns with any missing values
-df_dropped_columns = df_mkt.dropna(axis=1)
-
-print(df_dropped_columns.info())
-# <class 'pandas.core.frame.DataFrame'>
-# RangeIndex: 156 entries, 0 to 155
-# Data columns (total 13 columns):
-#  #   Column                     Non-Null Count  Dtype   
-# ---  ------                     --------------  -----   
-#  0   week                       156 non-null    category
-#  1   year                       156 non-null    category
-#  2   market_share               156 non-null    float64 
-#  3   av_price_per_kg            156 non-null    float64 
-#  4   non_promo_price_per_kg     156 non-null    float64 
-#  5   promo_vol_share            156 non-null    float64 
-#  6   total_weigh                156 non-null    int64   
-#  7   share_of_ean_weigh         156 non-null    float64 
-#  8   avg_price_vs_plb           156 non-null    float64 
-#  9   non_promo_price_vs_plb     156 non-null    float64 
-#  10  promo_vol_sh_index_vs_plb  156 non-null    float64 
-#  11  total_cm_shelf             156 non-null    float64 
-#  12  shelf_share                156 non-null    float64 
-# dtypes: category(2), float64(10), int64(1)
-# memory usage: 16.3 KB
-
-'''Here, 13 columns are retained because they have no missing values.'''
+print(df_mkt2.isna().sum().pipe(lambda x: x[x > 0])) # Count missing values, return only columns having missing values
+# top_of_mind       33
+# spontaneous       33
+# aided             33
+# penetration       33
+# competitor        45
+# share_of_spend    40
+# dtype: int64
 
 ###########################
 ## df.dropna(how=...)    ##
@@ -427,131 +394,76 @@ print(df_dropped_columns.info())
 '''how='any' (default): Drop rows with any missing values
    how='all': Drop rows where all values are missing'''
 
-# Use how='all' to drop rows where all values are missing
-df_dropped_all = df_mkt.dropna(how='all')
+#----
+## how='any'
+#----
 
-print(df_dropped_all.info())
-# RangeIndex: 156 entries, 0 to 155
-# Data columns (total 26 columns):
-#  #   Column                     Non-Null Count  Dtype   
-# ---  ------                     --------------  -----   
-#  0   week                       156 non-null    category
-#  1   year                       156 non-null    category
-#  2   market_share               156 non-null    float64 
-#  3   av_price_per_kg            156 non-null    float64 
-#  4   non_promo_price_per_kg     156 non-null    float64 
-#  5   promo_vol_share            156 non-null    float64 
-#  6   total_weigh                156 non-null    int64   
-#  7   share_of_ean_weigh         156 non-null    float64 
-#  8   avg_price_vs_plb           156 non-null    float64 
-#  9   non_promo_price_vs_plb     156 non-null    float64 
-#  10  promo_vol_sh_index_vs_plb  156 non-null    float64 
-#  11  total_cm_shelf             156 non-null    float64 
-#  12  shelf_share                156 non-null    float64 
-#  13  top_of_mind                123 non-null    float64 
-#  14  spontaneous                123 non-null    float64 
-#  15  aided                      123 non-null    float64 
-#  16  penetration                123 non-null    float64 
-#  17  competitor                 111 non-null    float64 
-#  18  grp_radio                  14 non-null     float64 
-#  19  reach_radio                14 non-null     float64 
-#  20  grp_tv                     52 non-null     float64 
-#  21  reach_tv                   52 non-null     float64 
-#  22  reach_cinema               18 non-null     float64 
-#  23  grp_outdoor                1 non-null      float64 
-#  24  grp_print                  22 non-null     float64 
-#  25  share_of_spend             116 non-null    float64 
-# dtypes: category(2), float64(23), int64(1)
-# memory usage: 32.2 KB
+print(
+    df_mkt2
+    .dropna(axis = 0, how = 'any')
+)
+#     week  year  market_share  av_price_per_kg  non_promo_price_per_kg  ...  spontaneous  aided  penetration  competitor  share_of_spend
+# 45    12  2011         39.05             7.34                    7.69  ...         68.6   95.7         70.0         0.0       63.886185
+# 46    13  2011         37.52             7.37                    7.67  ...         68.6   95.7         70.0         0.2       79.064596
+# 47    14  2011         33.80             7.39                    7.55  ...         78.7   98.0         71.8         0.2       92.590148
+# 48    15  2011         35.40             7.35                    7.55  ...         78.7   98.0         71.8         0.4       13.358451
+# 49    16  2011         35.29             7.37                    7.54  ...         78.7   98.0         71.8         0.5        8.708819
+# ..   ...   ...           ...              ...                     ...  ...          ...    ...          ...         ...             ...
+# 145    8  2013         33.45             7.65                    7.69  ...         77.5   99.5         71.2         6.1       45.222828
+# 146    9  2013         34.57             7.64                    7.67  ...         77.5   99.5         71.2         5.8       82.679470
+# 147   10  2013         32.03             7.65                    7.69  ...         76.0   98.2         62.4         5.1       97.452067
+# 148   11  2013         32.17             7.67                    7.70  ...         76.0   98.2         62.4         5.0       68.861555
+# 149   12  2013         33.81             7.65                    7.74  ...         76.0   98.2         62.4         4.7       84.546201
 
-'''No rows are dropped because there are no rows where all values are missing.'''
+# [105 rows x 19 columns]
+'''Here, 51 rows are dropped because they have at least one missing value.'''
 
-####################################
-## df.dropna(thresh=..., axis=1)  ##
-####################################
-'''thresh=n: Drop columns with less than n non-missing values'''
+#----
+## how='all'
+#----
 
-non_NA_percent = 0.6
-thresh_value = int(non_NA_percent * df_mkt.shape[0])
+print(
+    df_mkt2
+    .dropna(axis = 0, how = 'all')
+)
+#     week  year  market_share  av_price_per_kg  non_promo_price_per_kg  ...  spontaneous  aided  penetration  competitor  share_of_spend
+# 0     19  2010         38.40             7.61                    7.77  ...          NaN    NaN          NaN         NaN             NaN
+# 1     20  2010         36.80             7.60                    7.80  ...          NaN    NaN          NaN         NaN             NaN
+# 2     21  2010         35.21             7.63                    7.85  ...          NaN    NaN          NaN         NaN             NaN
+# 3     22  2010         35.03             7.22                    7.76  ...          NaN    NaN          NaN         NaN             NaN
+# 4     23  2010         32.37             7.70                    7.78  ...          NaN    NaN          NaN         NaN             NaN
+# ..   ...   ...           ...              ...                     ...  ...          ...    ...          ...         ...             ...
+# 151   14  2013         33.26             7.63                    7.66  ...         83.7   99.5         71.6         4.6             NaN
+# 152   15  2013         33.99             7.59                    7.64  ...         83.7   99.5         71.6         4.7             NaN
+# 153   16  2013         30.57             7.66                    7.68  ...         83.7   99.5         71.6         4.6             NaN
+# 154   17  2013         32.24             7.63                    7.66  ...         83.7   99.5         71.6         4.7             NaN
+# 155   18  2013         34.63             7.61                    7.61  ...         83.7   99.5         71.6         5.0             NaN
 
-print(thresh_value)
-# 93
-
-# Drop columns with less than thresh_value (93) non-missing values
-df_dropped_thresh = df_mkt.dropna(thresh=thresh_value, axis = 1)
-
-print(df_dropped_thresh.info())
-# RangeIndex: 156 entries, 0 to 155
-# Data columns (total 19 columns):
-#  #   Column                     Non-Null Count  Dtype   
-# ---  ------                     --------------  -----   
-#  0   week                       156 non-null    category
-#  1   year                       156 non-null    category
-#  2   market_share               156 non-null    float64 
-#  3   av_price_per_kg            156 non-null    float64 
-#  4   non_promo_price_per_kg     156 non-null    float64 
-#  5   promo_vol_share            156 non-null    float64 
-#  6   total_weigh                156 non-null    int64   
-#  7   share_of_ean_weigh         156 non-null    float64 
-#  8   avg_price_vs_plb           156 non-null    float64 
-#  9   non_promo_price_vs_plb     156 non-null    float64 
-#  10  promo_vol_sh_index_vs_plb  156 non-null    float64 
-#  11  total_cm_shelf             156 non-null    float64 
-#  12  shelf_share                156 non-null    float64 
-#  13  top_of_mind                123 non-null    float64 
-#  14  spontaneous                123 non-null    float64 
-#  15  aided                      123 non-null    float64 
-#  16  penetration                123 non-null    float64 
-#  17  competitor                 111 non-null    float64 
-#  18  share_of_spend             116 non-null    float64 
-# dtypes: category(2), float64(16), int64(1)
-# memory usage: 23.6 KB
-
-'''Here, 19 columns are retained because they have at least 93 non-missing values.'''
+# [156 rows x 19 columns]
+'''No rows are dropped because no rows have all NA values.'''
 
 ###########################
 ## df.dropna(subset=...) ##
 ###########################
 '''subset=[col1, col2, ...]: Drop rows with missing values in the specified columns'''
 
-# Drop rows with missing values in the 'top_of_mind' and 'spontaneous' columns
-df_dropped_subset = df_mkt.dropna(subset=['top_of_mind', 'spontaneous'])
+print(
+    df_mkt2
+    .dropna(axis = 0, subset = ['top_of_mind', 'spontaneous']) # Drop rows with missing values in the 'top_of_mind' or 'spontaneous' columns
+    .isna().sum()
+    .pipe(lambda x: x[x > 0])
+)
+# competitor        12
+# share_of_spend     7
+# dtype: int64
 
-print(df_dropped_subset.info())
-# Index: 123 entries, 33 to 155
-# Data columns (total 26 columns):
-#  #   Column                     Non-Null Count  Dtype   
-# ---  ------                     --------------  -----   
-#  0   week                       123 non-null    category
-#  1   year                       123 non-null    category
-#  2   market_share               123 non-null    float64 
-#  3   av_price_per_kg            123 non-null    float64 
-#  4   non_promo_price_per_kg     123 non-null    float64 
-#  5   promo_vol_share            123 non-null    float64 
-#  6   total_weigh                123 non-null    int64   
-#  7   share_of_ean_weigh         123 non-null    float64 
-#  8   avg_price_vs_plb           123 non-null    float64 
-#  9   non_promo_price_vs_plb     123 non-null    float64 
-#  10  promo_vol_sh_index_vs_plb  123 non-null    float64 
-#  11  total_cm_shelf             123 non-null    float64 
-#  12  shelf_share                123 non-null    float64 
-#  13  top_of_mind                123 non-null    float64 
-#  14  spontaneous                123 non-null    float64 
-#  15  aided                      123 non-null    float64 
-#  16  penetration                123 non-null    float64 
-#  17  competitor                 111 non-null    float64 
-#  18  grp_radio                  14 non-null     float64 
-#  19  reach_radio                14 non-null     float64 
-#  20  grp_tv                     52 non-null     float64 
-#  21  reach_tv                   52 non-null     float64 
-#  22  reach_cinema               18 non-null     float64 
-#  23  grp_outdoor                1 non-null      float64 
-#  24  grp_print                  22 non-null     float64 
-#  25  share_of_spend             116 non-null    float64 
-# dtypes: category(2), float64(23), int64(1)
-# memory usage: 26.8 KB
-
-'''Here, 33 rows are dropped because they have missing values in either the 'top_of_mind' or 'spontaneous' columns.'''
+print(
+    df_mkt2
+    .dropna(axis = 0, subset = ['top_of_mind', 'spontaneous'])
+    .shape
+)
+# (123, 19)
+'''Here 33 rows are dropped because they have missing values in the 'top_of_mind' or 'spontaneous' columns.'''
 
 
 #--------------------------------------------------------------------------------------------------------------#
@@ -566,9 +478,11 @@ df_missing = df_mkt.drop(["week", "year"], axis = 1)
 #################
 '''Returns a DataFrame with missing values filled with the specified value'''
 
-df_filled = df_missing.fillna(0, inplace = False)
-
-print(df_filled.head())
+print(
+    df_missing
+    .fillna(0, inplace = False)
+    .head()
+)
 #    market_share  av_price_per_kg  non_promo_price_per_kg  ...  grp_outdoor  grp_print  share_of_spend
 # 0         38.40             7.61                    7.77  ...          0.0        0.0             0.0
 # 1         36.80             7.60                    7.80  ...          0.0        0.0             0.0
@@ -581,34 +495,42 @@ print(df_filled.head())
 #############################
 '''Fill different columns with different values'''
 
-df_filled_dict = df_missing.fillna({
-    'top_of_mind': df_missing['top_of_mind'].mean(),
-    'spontaneous': df_missing['spontaneous'].median(),
-    'aided': df_missing['aided'].min(),
-    'penetration': df_missing['penetration'].max()
-}, inplace = False)
-
-print(df_filled_dict[['top_of_mind', 'spontaneous', 'aided', 'penetration']].head(10))
-#    top_of_mind  spontaneous  aided  penetration
-# 0    50.465041         78.2   95.7         76.8
-# 1    50.465041         78.2   95.7         76.8
-# 2    50.465041         78.2   95.7         76.8
-# 3    50.465041         78.2   95.7         76.8
-# 4    50.465041         78.2   95.7         76.8
-# 5    50.465041         78.2   95.7         76.8
-# 6    50.465041         78.2   95.7         76.8
-# 7    50.465041         78.2   95.7         76.8
-# 8    50.465041         78.2   95.7         76.8
-# 9    50.465041         78.2   95.7         76.8
+print(
+    df_missing
+    .fillna(
+        {
+            'top_of_mind': df_missing['top_of_mind'].mean(),
+            'spontaneous': df_missing['spontaneous'].median(),
+            'aided': df_missing['aided'].min(),
+            'penetration': df_missing['penetration'].max()
+        },
+        inplace = False
+    )
+    .reindex(columns = ['top_of_mind', 'spontaneous', 'aided', 'penetration'])
+)
+#      top_of_mind  spontaneous  aided  penetration
+# 0      50.465041         78.2   95.7         76.8
+# 1      50.465041         78.2   95.7         76.8
+# 2      50.465041         78.2   95.7         76.8
+# 3      50.465041         78.2   95.7         76.8
+# 4      50.465041         78.2   95.7         76.8
+# ..           ...          ...    ...          ...
+# 151    50.200000         83.7   99.5         71.6
+# 152    50.200000         83.7   99.5         71.6
+# 153    50.200000         83.7   99.5         71.6
+# 154    50.200000         83.7   99.5         71.6
+# 155    50.200000         83.7   99.5         71.6
 
 ##########################
 ## df.fillna(df.mean()) ##
 ##########################
 '''Fill missing values with the mean of each column'''
 
-df_filled_mean = df_missing.fillna(df_missing.mean(), inplace = False)
-
-print(df_filled_mean.head())
+print(
+    df_missing
+    .fillna(df_missing.mean(), inplace = False)
+    .head()
+)
 #    market_share  av_price_per_kg  non_promo_price_per_kg  ...  grp_outdoor  grp_print  share_of_spend
 # 0         38.40             7.61                    7.77  ...       1127.0  14.904545       45.314027
 # 1         36.80             7.60                    7.80  ...       1127.0  14.904545       45.314027
@@ -682,7 +604,7 @@ df_interpolated = df_missing.interpolate(axis=0, inplace = False, limit_directio
 
 print(df_interpolated.isna().sum().pipe(lambda x: x[x > 0]))
 # Series([], dtype: int64)
-# All missing values are filleds
+'''All missing values are filled'''
 
 ######################################################
 ## df.interpolate(method = "polynomial", order = n) ##
@@ -713,6 +635,7 @@ print(df_interpolated_poly.isna().sum().pipe(lambda x: x[x > 0]))
 # grp_print          68
 # share_of_spend     40
 # dtype: int64
+'''Only fills missing values between two non-missing values, ignore the boundary missing values'''
 
 ##################################################
 ## df.interpolate(method = "spline", order = n) ##
@@ -727,7 +650,7 @@ df_interpolated_spline = (
 
 print(df_interpolated_spline.isna().sum().pipe(lambda x: x[x > 0]))
 # Series([], dtype: int64)
-# All missing values are filleds
+'''All missing values are filled'''
 
 #####################################
 ## df.interpolate(method = "time") ##
@@ -745,7 +668,7 @@ df_interpolated_time = df_missing_time.interpolate(method = "time", inplace = Fa
 
 print(df_interpolated_time.isna().sum().pipe(lambda x: x[x > 0]))
 # Series([], dtype: int64)
-# All missing values are filleds
+'''All missing values are filled'''
 
 ########################################
 ## df.interpolate(method = "nearest") ##
@@ -773,6 +696,7 @@ print(df_interpolated_nearest.isna().sum().pipe(lambda x: x[x > 0]))
 # grp_print          68
 # share_of_spend     40
 # dtype: int64
+'''Only fills missing values between two non-missing values, ignore the boundary missing values'''
 
 
 #--------------------------------------------------------------------------------------------------------------------#
@@ -810,6 +734,7 @@ print(df_filled.isna().sum())
 # grp_print                    0
 # share_of_spend               0
 # dtype: int64
+'''All missing values are filled'''
 
 
 #------------------------------------------------------------------------------------------------------------------#
@@ -857,3 +782,4 @@ print(df_group_filled.head())
 # 3   22         35.03             7.22                    7.76            52.48  ...    20.382           NaN          NaN        NaN       34.323685
 # 4   23         32.37             7.70                    7.78            16.11  ...    40.245           NaN          NaN        NaN       50.000000
 
+'''Cannot fill all missing values because some "week" groups have all NA values in certain columns'''
