@@ -23,12 +23,15 @@
 6. String replacement:
    + dr.sub(): Replace first occurrence.
    + dr.gsub(): Replace all occurrences.
+   + dr.chartr(): Character translation.
    
 7. Substring extraction:
-   + dr.substr(): Get substring.
-   + dr.substring(): Get substring with a start only.
+   + dr.substr(): Get substring from start to stop.
+   + dr.substring(): Get substring with a start only (to stop).
 
-8. String splitting: dr.strsplit()
+8. String splitting:
+   + dr.strsplit(): Split strings into substrings based on a specified separator.
+   + dr.strsplit() with RegEx: Split strings using regular expressions.
 
 9. String concatenation: 
    + dr.paste() 
@@ -39,7 +42,14 @@
     + dr.trimws(texts, which="left"): trim left side
     + dr.trimws(texts, which="right"): trim right side
 
-11. Some applications:
+13. Extract, Separate, and Unite:
+    + dr.extract(): Extract substrings using regular expressions with capturing groups.
+    + dr.separate(): Separate a single string column into multiple columns based on a specified separator.
+    + dr.unite(): Unite multiple string columns into a single column with a specified separator.
+    
+12. Apply pandas df.str methods using dr.pipe()
+
+13. Some applications:
     + Data cleaning pipeline
     + Email validation
 '''
@@ -50,6 +60,7 @@ import pandas as pd
 
 from pipda import register_verb
 dr.filter = register_verb(func = dr.filter_)
+dr.slice = register_verb(func = dr.slice_)
 
 # Suppress all warnings
 import warnings
@@ -270,3 +281,266 @@ print(
 # 2               Venusaur               VENUSAUR
 # 3  VenusaurMega Venusaur  VENUSAURMEGA VENUSAUR
 # 4             Charmander             CHARMANDER
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------ 5. Pattern matching and searching -----------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
+###############
+## dr.grep() ##
+###############
+'''
+Test if pattern exists in strings
+Returns the INDICES of the elements that contain the pattern
+
+dr.grep(pattern, x)
+'''
+
+#-----
+## Demo
+#-----
+
+print(dr.grep(pattern = "Mega", x = tb_pokemon.Name))
+# [  3   7   8  12  19  23  71  87 102 124 137 141 154 163 164 168 196 224
+#  229 232 248 268 275 279 283 306 327 329 333 336 339 349 354 366 387 393
+#  397 409 413 418 420 426 476 494 498 511 527 591 796]
+
+#-----
+## Slice using dr.grep()
+#-----
+
+print(
+    tb_pokemon
+    >> dr.slice_(dr.grep("Mega", tb_pokemon.Name))
+    >> dr.select(f.Name)
+    >> dr.slice_head(n=5)
+)
+#                          Name
+#                      <object>
+# 3       VenusaurMega Venusaur
+# 7   CharizardMega Charizard X
+# 8   CharizardMega Charizard Y
+# 12    BlastoiseMega Blastoise
+# 19      BeedrillMega Beedrill
+
+################
+## dr.grepl() ##
+################
+'''
+Like dr.grep(), but returns a boolean array
+
+dr.grepl(pattern, x)
+'''
+
+#-----
+## Demo
+#-----
+
+print(
+    tb_pokemon
+    >> dr.mutate(
+        Has_Mega = dr.grepl("Mega", f.Name)
+    )
+    >> dr.select(f.Name, f.Has_Mega)
+    >> dr.slice_head(n=5)
+)
+#                     Name  Has_Mega
+#                 <object>    <bool>
+# 0              Bulbasaur     False
+# 1                Ivysaur     False
+# 2               Venusaur     False
+# 3  VenusaurMega Venusaur      True
+# 4             Charmander     False
+
+#-----
+## Filter using dr.grepl()
+#-----
+
+print(
+    tb_pokemon
+    >> dr.filter(dr.grepl("Mega", f.Name))
+    >> dr.select(f.Name)
+    >> dr.slice_head(n=5)
+)
+#                          Name
+#                      <object>
+# 3       VenusaurMega Venusaur
+# 7   CharizardMega Charizard X
+# 8   CharizardMega Charizard Y
+# 12    BlastoiseMega Blastoise
+# 19      BeedrillMega Beedrill
+
+#####################
+## dr.startswith() ##
+#####################
+'''
+Check if strings start with a specified prefix
+
+dr.startswith(x, prefix)
+'''
+
+print(
+    tb_pokemon
+    >> dr.filter(dr.startswith(f.Type_1, 'F'))
+    >> dr.select(f.Name, f.Type_1, f.Type_2)
+    >> dr.slice_tail(n=5)
+)
+#           Name     Type_1     Type_2
+#       <object> <category> <category>
+# 771   Hawlucha   Fighting     Flying
+# 790     Noibat     Flying     Dragon
+# 791    Noivern     Flying     Dragon
+# 792    Xerneas      Fairy        NaN
+# 799  Volcanion       Fire      Water
+
+###################
+## dr.endswith() ##
+###################
+'''
+Check if strings end with a specified suffix
+
+dr.endswith(x, suffix)
+'''
+
+print(
+    tb_pokemon
+    >> dr.filter(dr.endswith(f.Name, 'ion'))
+    >> dr.select(f.Name, f.Type_1, f.Type_2)
+)
+#            Name     Type_1     Type_2
+#        <object> <category> <category>
+# 171  Typhlosion       Fire        NaN
+# 502     Drapion     Poison       Dark
+# 639     Duosion    Psychic        NaN
+# 699    Cobalion      Steel   Fighting
+# 700   Terrakion       Rock   Fighting
+# 701    Virizion      Grass   Fighting
+# 799   Volcanion       Fire      Water
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------- 6. String replacement ---------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
+names = ["John  Hans Smith", "Jane  Mary Doe", "Alice   Bob Johnson"]
+
+##############
+## dr.sub() ##
+##############
+'''
+Replace first occurrence
+
+dr.sub(pattern, replacement, x)
+'''
+
+print(dr.sub(r"\s+", "_", names))
+# ['John_Hans Smith' 'Jane_Mary Doe' 'Alice_Bob Johnson']
+
+'''Only the first r"\s+" (space character) is replaced with "_" in each string element'''
+
+###############
+## dr.gsub() ##
+###############
+'''
+Replace all occurrences
+
+dr.gsub(pattern, replacement, x)
+'''
+
+print(dr.gsub(r"\s+", "-", names))
+# ['John-Hans-Smith' 'Jane-Mary-Doe' 'Alice-Bob-Johnson']
+
+'''All r"\s+" (space character) are replaced with "-" in each string element'''
+
+#################
+## dr.chartr() ##
+#################
+'''
+Character translation.
+
+dr.chartr(old, new, x)
+'''
+
+print(dr.chartr("aeiou", "12345", names))
+# ['J4hn  H1ns Sm3th' 'J1n2  M1ry D42' 'Al3c2   B4b J4hns4n']
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------- 7. Substring extraction -----------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
+names = ["John_Hans_Smith", "Jane_Mary_Doe", "Alice_Bob_Johnson"]
+
+#################
+## dr.substr() ##
+#################
+'''
+Get substring from start to stop.
+
+dr.substr(x, start, stop)
+
+NOTE: stop is still INDCLUDED
+'''
+
+print(dr.substr(names, 0, 6))
+# ['John_H' 'Jane_M' 'Alice_']
+
+####################
+## dr.substring() ##
+####################
+'''
+Get substring with a start only (to stop).
+
+dr.substring(x, first, last=None)
+If last is None, goes to the end of the string.
+'''
+
+print(dr.substring(names, 5))
+# ['Hans_Smith' 'Mary_Doe' '_Bob_Johnson']
+
+print(dr.substring(names, 5, 9))
+# ['Hans' 'Mary' '_Bob']
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------- 8. String splitting --------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
+###################
+## dr.strsplit() ##
+###################
+
+names = ["John_Hans_Smith", "Jane_Mary_Doe", "Alice_Bob_Johnson"]
+
+print(dr.strsplit(names, "_"))
+# [
+#   list(['John', 'Hans', 'Smith']) 
+#   list(['Jane', 'Mary', 'Doe'])
+#   list(['Alice', 'Bob', 'Johnson'])
+# ]
+
+##############################
+## dr.strsplit() with RegEx ##
+##############################
+
+names2 = ["John-Hans.Smith", "Jane_Mary-Doe", "Alice.Bob_Johnson"]
+
+print(dr.strsplit(names2, r"[-._]"))
+# [
+#   list(['John', 'Hans', 'Smith']) 
+#   list(['Jane', 'Mary', 'Doe'])
+#   list(['Alice', 'Bob', 'Johnson'])
+# ]
+
+print(dr.strsplit(names2, r"\W+")) # \W+ matches any non-word character
+# [
+#   list(['John', 'Hans', 'Smith']) 
+#   list(['Jane', 'Mary', 'Doe'])
+#   list(['Alice', 'Bob', 'Johnson'])
+# ]
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------- 9. String concatenation -----------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
