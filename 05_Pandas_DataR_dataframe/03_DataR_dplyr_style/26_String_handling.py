@@ -833,3 +833,39 @@ print(
 #----------------------------------------------------------------------------------------------------------------------#
 #------------------------------------------------ 13. Some applications -----------------------------------------------#
 #----------------------------------------------------------------------------------------------------------------------#
+
+############################
+## Data cleaning pipeline ##
+############################
+
+messy = ["  john_DOE  ", "JANE-smith", "  Bob JOHNSON  "]
+
+# Clean pipeline
+cleaned = (
+    messy
+    >> dr.pipe(lambda x: dr.trimws(x))  # Trim whitespace
+    >> dr.pipe(lambda x: dr.tolower(x))  # Convert to lowercase
+    >> dr.pipe(lambda x: dr.gsub("_|-", " ", x))  # Replace delimiters
+)
+
+print(cleaned)
+# ['john doe' 'jane smith' 'bob johnson']
+
+######################
+## Email validation ##
+######################
+
+emails = ["user@example.com", "admin@site.org", "invalid.email"]
+
+# Validate email pattern
+pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+
+print(
+    dr.tibble(email = emails) # Convert to datar tibble for filter()
+    >> dr.filter(dr.grepl(pattern, emails) == True)
+    >> dr.separate(col = f, into = ['username', 'domain'], sep = '@', remove = False)
+)
+#               email username       domain
+#            <object> <object>     <object>
+# 0  user@example.com     user  example.com
+# 1    admin@site.org    admin     site.org
