@@ -4,6 +4,8 @@
 2. dr.as_double(): Convert to Double
 
 3. dr.as_numeric(): Convert to Numeric
+
+4. Use Pandas conversion methods or functions
 '''
 
 import datar.all as dr
@@ -91,3 +93,57 @@ print(dr.as_numeric(s_str))
 print(dr.as_numeric(s_mixed))
 # raise ValueError(f"Cannot convert {x} to numeric")
 # ValueError: Cannot convert 0       1
+
+
+#---------------------------------------------------------------------------------------------------------------#
+#-------------------------------- 4. Use Pandas conversion methods or functions --------------------------------#
+#---------------------------------------------------------------------------------------------------------------#
+
+###########################
+## Using pd.to_numeric() ##
+###########################
+
+print(
+    s_float
+    >> dr.pipe(lambda x: pd.to_numeric(x, errors='coerce'))
+)
+# 0    1.0
+# 1    2.5
+# 2    3.7
+# 3    4.2
+# 4    5.9
+# dtype: float64
+
+###########################
+## Using Series.astype() ##
+###########################
+
+print(s_str.astype(float))
+# 0    1.0
+# 1    2.0
+# 2    3.0
+# 3    4.6
+# 4    5.7
+# dtype: float64
+
+#---
+# Using in dr.mutate()
+#---
+
+df_demo = pd.DataFrame({
+    'A': ['1', '2', '3'],
+    'B': ['4.1', '5.2', '6.3']
+})
+
+print(
+    df_demo
+    >> dr.mutate(
+        A = f.A.astype(int),
+        B = f.B.astype(float)
+    )
+)
+#         A         B
+#   <int64> <float64>
+# 0       1       4.1
+# 1       2       5.2
+# 2       3       6.3
