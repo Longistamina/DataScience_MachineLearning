@@ -267,7 +267,16 @@ df_bac = (
           df.assign(**{subj: df['SCORE'].str.extract(fr'{subj}:\s*(\d+\.\d+)', expand=False).astype(float) for subj in dict_subjects.values()})
     ) 
     .drop(columns=['SCORE', 'BIRTHDAY', 'EXAM_LOCATION'])
-    .set_index('ID') 
+    .set_index('ID')
+    .pipe(lambda df: df.assign(**{col: df[col].fillna('not_attend') for col in dict_subjects.values()})) # Dummy pipe to end the chain
 )
 
 print(df_bac.head())
+#                FULL_NAME     GENDER     Math Literature Geography     History     English     Biology     Physics   Chemistry
+                                                                                                                             
+# ID              <object> <category> <object>   <object>  <object>    <object>    <object>    <object>    <object>    <object>
+# 018000001  DƯƠNG VIỆT AN       Male      2.0        5.5       5.0         3.0  not_attend  not_attend  not_attend  not_attend
+# 018000002      ĐỖ VĂN AN       Male      5.5       5.25       5.5  not_attend        3.68  not_attend  not_attend  not_attend
+# 018000003     ĐỖ XUÂN AN       Male      4.5        5.5      3.75  not_attend        2.25  not_attend  not_attend  not_attend
+# 018000004   ĐẶNG PHÚC AN     Female      3.0        6.0       5.5  not_attend         1.5  not_attend  not_attend  not_attend
+# 018000005    ĐẶNG VĂN AN       Male     2.25       4.75      5.25  not_attend         2.0  not_attend  not_attend  not_attend
