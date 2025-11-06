@@ -42,12 +42,13 @@
     + dr.trimws(texts, which="left"): trim left side
     + dr.trimws(texts, which="right"): trim right side
 
-13. Extract, Separate, and Unite:
-    + dr.extract(): Extract substrings using regular expressions with capturing groups.
+11. Extract, Separate, and Unite:
+    + dr.extract(): Extract substrings into multiple columns using regular expressions with capturing groups.
     + dr.separate(): Separate a single string column into multiple columns based on a specified separator.
+    + dr.separate_rows(): Separate a single string column into multiple rows based on a specified separator.
     + dr.unite(): Unite multiple string columns into a single column with a specified separator.
     
-12. Apply pandas df.str methods using dr.pipe()
+12. Apply Pandas f.str methods
 
 13. Some applications:
     + Data cleaning pipeline
@@ -543,4 +544,292 @@ print(dr.strsplit(names2, r"\W+")) # \W+ matches any non-word character
 
 #----------------------------------------------------------------------------------------------------------------------#
 #---------------------------------------------- 9. String concatenation -----------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
+firts = dr.c("John", "Jane", "Alice")
+lasts = dr.c("Smith", "Doe", "Johnson")
+
+################
+## dr.paste() ##
+################
+'''
+Concatenate strings with a separator (default is space " ")
+
+dr.paste(..., sep=" ")
+'''
+
+print(dr.paste(firts, lasts))
+# ['John Smith' 'Jane Doe' 'Alice Johnson']
+
+print(dr.paste(firts, lasts, sep = "_"))
+# ['John_Smith' 'Jane_Doe' 'Alice_Johnson']
+
+#################
+## dr.paste0() ##
+#################
+'''
+Concatenate strings without any separator
+
+dr.paste0(...)
+'''
+
+print(dr.paste0(firts, lasts))
+# ['JohnSmith' 'JaneDoe' 'AliceJohnson']
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------- 10. Trimming whitespace -----------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
+texts = ["   Hello World   ", "   DataR is great!   ", "   Pandas and DataR   "]
+
+#################
+## dr.trimws() ##
+#################
+'''Trim whitespace from both sides (as default)'''
+
+print(dr.trimws(texts))
+# ['Hello World' 'DataR is great!' 'Pandas and DataR']
+
+###############################
+## dr.trimws(which = 'left') ##
+###############################
+'''Trim whitespace from left side'''
+
+print(dr.trimws(texts, which="left"))
+# ['Hello World   ' 'DataR is great!   ' 'Pandas and DataR   ']
+
+################################
+## dr.trimws(which = 'right') ##
+################################
+'''Trim whitespace from right side'''
+
+print(dr.trimws(texts, which="right"))
+# ['   Hello World' '   DataR is great!' '   Pandas and DataR']
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------ 11. Extract, Separate, and Unite ------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
+##################
+## dr.extract() ##
+##################
+'''
+Extract based on REGULAR EXPRESSIONS with capturing groups
+
+dr.extract(data, col, regex, into)
+'''
+
+df_extract = pd.DataFrame({
+    'id': ['A-001', 'B-002', 'C-003']
+})
+
+print(df_extract)
+#         id
+#   <object>
+# 0    A-001
+# 1    B-002
+# 2    C-003
+
+#-----
+## Extract into multiple columns
+#-----
+
+print(
+    df_extract
+    >> dr.extract(f.id, regex=r'([A-Z])-(\d+)', into=['prefix', 'number'])
+)
+#     prefix   number
+#   <object> <object>
+# 0        A      001
+# 1        B      002
+# 2        C      003
+
+#-----
+## remove=False to keep original column
+#-----
+
+print(
+    df_extract
+    >> dr.extract(f.id, regex=r'([A-Z])-(\d+)', into=['prefix', 'number'], remove=False)
+)
+#         id   prefix   number
+#   <object> <object> <object>
+# 0    A-001        A      001
+# 1    B-002        B      002
+# 2    C-003        C      003
+
+###################
+## dr.separate() ##
+###################
+'''
+Separate a single string column into multiple columns based on a specified SEPARATOR.
+
+dr.separate(data, col, into, sep)
+'''
+
+df_separate = pd.DataFrame({
+    'name_age': ['John_25', 'Jane_30', 'Bob_35']
+})
+
+print(df_separate)
+#   name_age
+#   <object>
+# 0  John_25
+# 1  Jane_30
+# 2   Bob_35
+
+#-----
+## Separate into multiple columns
+#-----
+
+print(
+    df_separate
+    >> dr.separate(f.name_age, into = ['name', 'age'], sep = '_')
+)
+#       name      age
+#   <object> <object>
+# 0     John       25
+# 1     Jane       30
+# 2      Bob       35
+
+#-----
+## remove=False to keep original column
+#-----
+
+print(
+    df_separate
+    >> dr.separate(f.name_age, into = ['name', 'age'], sep = '_', remove=False)
+)
+#   name_age     name      age
+#   <object> <object> <object>
+# 0  John_25     John       25
+# 1  Jane_30     Jane       30
+# 2   Bob_35      Bob       35
+
+########################
+## dr.separate_rows() ##
+########################
+'''
+Separate collapsed values into multiple rows
+
+dr.separate_rows(data, col, sep)
+'''
+
+df_sep_rows = pd.DataFrame({
+    'id': [1, 2],
+    'values': ['a,b,c', 'x,y,z']
+})
+
+print(df_sep_rows)
+#        id   values
+#   <int64> <object>
+# 0       1    a,b,c
+# 1       2    x,y,z
+
+#-----
+## Separate into multiple rows
+#-----
+
+print(
+    df_sep_rows
+    >> dr.separate_rows(f.values, sep = ',')
+)
+#        id   values
+#   <int64> <object>
+# 0       1        a
+# 1       1        b
+# 2       1        c
+# 3       2        x
+# 4       2        y
+# 5       2        z
+
+################
+## dr.unite() ##
+################
+'''
+Unite multiple columns into one
+
+dr.unite(data, col, cols, sep)
+'''
+
+df_unite = pd.DataFrame({
+    'first': ['John', 'Jane'],
+    'last': ['Doe', 'Smith']
+})
+
+print(df_unite)
+#      first     last
+#   <object> <object>
+# 0     John      Doe
+# 1     Jane    Smith
+
+#-----
+## Unite into single column
+#-----
+
+print(
+    df_unite
+    >> dr.unite('full_name', ['first', 'last'], sep = ' ')
+)
+#     full_name
+#      <object>
+# 0    John Doe
+# 1  Jane Smith
+
+#-----
+## remove=False to keep original columns
+#-----
+
+print(
+    df_unite
+    >> dr.unite('full_name', ['first', 'last'], sep = '_', remove=False)
+)
+#     full_name    first     last
+#      <object> <object> <object>
+# 0    John_Doe     John      Doe
+# 1  Jane_Smith     Jane    Smith
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------ 12. Apply Pandas f.str methods --------------------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
+print(
+    tb_pokemon
+    >> dr.mutate(
+        Name_lower = f.Name.str.lower(),
+        Name_length = f.Name.str.len()
+    )
+    >> dr.select(f.Name, f.Name_lower, f.Name_length)
+    >> dr.slice_head(n=5)
+)
+#                     Name             Name_lower  Name_length
+#                 <object>               <object>      <int64>
+# 0              Bulbasaur              bulbasaur            9
+# 1                Ivysaur                ivysaur            7
+# 2               Venusaur               venusaur            8
+# 3  VenusaurMega Venusaur  venusaurmega venusaur           21
+# 4             Charmander             charmander           10
+
+###################
+
+print(
+    tb_pokemon
+    >> dr.filter(f.Name.str.contains("Mega"))
+    >> dr.select(f.Name)
+    >> dr.slice_head(n=5)
+)
+#                          Name
+#                      <object>
+# 3       VenusaurMega Venusaur
+# 7   CharizardMega Charizard X
+# 8   CharizardMega Charizard Y
+# 12    BlastoiseMega Blastoise
+# 19      BeedrillMega Beedrill
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------ 13. Some applications -----------------------------------------------#
 #----------------------------------------------------------------------------------------------------------------------#
