@@ -10,6 +10,8 @@ imblearn
 xgboost
 hdbscan
 umap
+mlxtend pyECLAT
+pmdarima
 
 
 ###############################
@@ -23,7 +25,7 @@ Use conda-forge for stable version
 2) Go to (base) environment
 
 3) Run this command to create a conda environment and install libraries: 
-   conda create -c conda-forge -n data python=3.12 termcolor loguru numpy pandas datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine[all] plotly scipy statsmodels sympy cvxpy scikit-learn imbalanced-learn xgboost hdbscan umap
+   conda create -c conda-forge -n data python=3.12 termcolor loguru numpy pandas datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine[all] plotly scipy statsmodels sympy cvxpy scikit-learn imbalanced-learn xgboost hdbscan mlxtend pyECLAT umap pmdarima
 
 
 ########################
@@ -43,7 +45,7 @@ Use pip3 install -U for latest versions
    conda activate data
 
 5) Install libraries:
-   pip3 install -U termcolor loguru numpy pandas datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine[all] plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan umap
+   pip3 install -U termcolor loguru numpy pandas datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine[all] plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap pmdarima
 
 
 #---------------------------------------------------------------------------------------------#
