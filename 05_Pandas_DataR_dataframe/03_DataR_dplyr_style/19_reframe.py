@@ -20,10 +20,6 @@ import pandas as pd
 from scipy import stats
 import numpy as np
 
-# Suppress all warnings
-import warnings
-warnings.filterwarnings("ignore")
-
 ########################
 
 tb_pokemon = dr.tibble(

@@ -5,9 +5,6 @@ To read dataframe, just use pandas.read.....() functions, then convert to datar 
 import datar.all as dr
 import pandas as pd
 
-# Suppress all warnings
-import warnings
-warnings.filterwarnings("ignore")
 
 #--------------------------------------------------------------------------------------------------------------------#
 #------------------------------------- Read dataframe using pandas.read...() ----------------------------------------#

@@ -10,9 +10,6 @@ import datar.all as dr
 from datar import f
 import pandas as pd
 
-# Suppress all warnings
-import warnings
-warnings.filterwarnings("ignore")
 
 #---------------------------------------------------------------------------------------------------------------------#
 #---------------------------------------------- 1. "f" expression ----------------------------------------------------#

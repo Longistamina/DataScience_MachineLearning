@@ -17,10 +17,6 @@ from datar import f
 import pandas as pd
 import numpy as np
 
-# Suppress all warnings
-import warnings
-warnings.filterwarnings("ignore")
-
 ########################
 
 tb_pokemon = dr.tibble(

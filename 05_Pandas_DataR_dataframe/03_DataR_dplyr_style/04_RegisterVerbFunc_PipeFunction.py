@@ -18,9 +18,6 @@ import pandas as pd
 
 from pipda import register_verb, register_func
 
-# Suppress all warnings
-import warnings
-warnings.filterwarnings("ignore")
 
 #######################
 ## Datar preparation ##

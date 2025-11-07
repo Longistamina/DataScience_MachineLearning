@@ -13,10 +13,6 @@ from datar import f
 
 import pandas as pd
 
-# Suppress all warnings
-import warnings
-warnings.filterwarnings("ignore")
-
 ########################
 
 df_baseball = pd.read_csv(

@@ -59,10 +59,6 @@ from datar import f
 import pandas as pd
 import numpy as np
 
-# Suppress all warnings
-import warnings
-warnings.filterwarnings("ignore")
-
 
 #------------------------------------------------------------------------------------------------------------#
 #---------------------------------------- 1. Create factor variable -----------------------------------------#

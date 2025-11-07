@@ -14,10 +14,6 @@ from pipda import register_verb
 dr.filter = register_verb(func = dr.filter_)
 dr.slice = register_verb(func = dr.slice_)
 
-# Suppress all warnings
-import warnings
-warnings.filterwarnings("ignore")
-
 ###############################
 
 tb_aq = (

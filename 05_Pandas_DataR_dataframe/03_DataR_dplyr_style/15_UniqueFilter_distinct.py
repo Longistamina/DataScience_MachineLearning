@@ -10,10 +10,6 @@ import datar.all as dr
 from datar import f
 import numpy as np
 
-# Suppress all warnings
-import warnings
-warnings.filterwarnings("ignore")
-
 ########################
 
 np.random.seed(42)

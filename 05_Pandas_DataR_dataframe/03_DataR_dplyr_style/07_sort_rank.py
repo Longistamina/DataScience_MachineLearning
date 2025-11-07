@@ -14,9 +14,6 @@
 import datar.all as dr
 from datar import f
 
-# Suppress all warnings
-import warnings
-warnings.filterwarnings("ignore")
 
 ########################
 
