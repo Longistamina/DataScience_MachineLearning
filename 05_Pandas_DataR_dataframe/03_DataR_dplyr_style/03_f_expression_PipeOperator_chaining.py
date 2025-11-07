@@ -1,7 +1,9 @@
 '''
 1. "f" expression syntax for DataFrame manipulation
 
-3. Pipe Operator ">>" allows a feature like method chaining in pandas.
+2. Pipe Operator ">>" allows a feature like method chaining in pandas.
+
+3. Functions that support "f" expression and Pipe Operator ">>" in datar package
 '''
 
 import datar.all as dr
@@ -167,3 +169,29 @@ print(
 # 799    6
 # Name: Generation, Length: 800, dtype: category
 # Categories (6, int64): [1 < 2 < 3 < 4 < 5 < 6]
+
+
+#---------------------------------------------------------------------------------------------------------------------#
+#--------------------------- 3. Functions that support "f" expression and Pipe Operator ">>" -------------------------#
+#---------------------------------------------------------------------------------------------------------------------#
+'''
+dr.slice_head(), dr.slice_tail(), dr.glimpse(), dr.rename(), 
+
+dr.inner_join(), dr.left_join(), dr.right_join(), dr.full_join(), dr.anti_join(), dr.semi_join(), 
+
+dr.pivot_wider(), dr.pivot_longer()
+
+dr.select(), dr.pull(), dr.relocate()
+
+dr.slice_(), dr.slice_min(), dr.slice_max()
+
+dr.filter_()
+
+dr.add_column(), dr.add_row(), dr.mutate()
+
+dr.summarise()
+
+dr.pipe()
+
+dr.extract(), dr.separate(), dr.separate_rows(), dr.unite()
+'''
