@@ -4,6 +4,7 @@
    + Derive new cols from existing columns 
    + Create completely new columns
    + Apply pandas methods inside dr.mutate()
+   + Using dr.mutate(**{col_name: function}) syntax
 
 2. dr.if_else(): vectorized conditional function, similar to numpy.where
    
@@ -151,6 +152,65 @@ print(
 # 1        Paul_Bako      bal      74     215
 # 2  Ramon_Hernandez      bal      72     210
 # 3     Kevin_Millar      bal      72     210
+
+#############################################
+## Using dr.mutate(**{col_name: function}) ##
+#############################################
+
+#--------
+## Single column (name overlaps with Python's keyword)
+#--------
+
+print(
+    df_baseball
+    >> dr.mutate(**{"raise": np.random.choice([True, False], size = len(df_baseball))})
+    >> dr.slice_head(4)
+)
+#               Name       Team  Height  Weight  raise
+#           <object> <category> <int64> <int64> <bool>
+# 0    Adam_Donachie        BAL      74     180   True
+# 1        Paul_Bako        BAL      74     215   True
+# 2  Ramon_Hernandez        BAL      72     210   True
+# 3     Kevin_Millar        BAL      72     210  False
+
+#--------
+## Multiple columns
+#--------
+
+print(
+    df_baseball
+    >> dr.mutate(
+        **{
+            "Height_in_cm": f.Height * 2.54,  # inch to cm
+            "Weight_in_kg": f.Weight / 2.205   # lbs to kg
+        }
+    )
+    >> dr.slice_head(4)
+)
+#               Name       Team  Height  Weight  Height_in_cm  Weight_in_kg
+#           <object> <category> <int64> <int64>     <float64>     <float64>
+# 0    Adam_Donachie        BAL      74     180        187.96     81.632653
+# 1        Paul_Bako        BAL      74     215        187.96     97.505669
+# 2  Ramon_Hernandez        BAL      72     210        182.88     95.238095
+# 3     Kevin_Millar        BAL      72     210        182.88     95.238095
+
+#---------
+## Apply for loop  **{col: dr.pipe(lambda df: ... for col in cols)}
+#---------
+
+print(
+    df_baseball
+    >> dr.mutate(
+        **{col: dr.pipe(lambda df: df[col].astype(float)) for col in ["Height", "Weight"]}
+    )
+    >> dr.slice_head(4)
+)
+#               Name       Team    Height    Weight
+#           <object> <category> <float64> <float64>
+# 0    Adam_Donachie        BAL     180.0     180.0
+# 1        Paul_Bako        BAL     215.0     215.0
+# 2  Ramon_Hernandez        BAL     210.0     210.0
+# 3     Kevin_Millar        BAL     210.0     210.0
 
 
 #------------------------------------------------------------------------------------------------------------------#
