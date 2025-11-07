@@ -4,7 +4,7 @@
 # Python keywords: https://www.w3schools.com/python/python_ref_keywords.asp
 
 salary = 5000 # integer (số nguyên)
-salary_coefficient = 1.475 #float (số thực)
+salary_coefficient = 1.475 # float (số thực, dấu phẩy động)
 single = True # kiểu luận lý boolean (True/False)
 full_name = "Tran Ngoc Dung" # character / string
 job = 'engineer'
