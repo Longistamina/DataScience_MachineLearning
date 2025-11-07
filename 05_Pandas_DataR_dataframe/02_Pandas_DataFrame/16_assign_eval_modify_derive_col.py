@@ -200,6 +200,24 @@ print(df_demo.head(3))
 # 1        Paul_Bako  bal      74     215     187.96   97.52228  0.002760
 # 2  Ramon_Hernandez  bal      72     210     182.88   95.25432  0.002848
 
+#------------------
+## Apply for loops **{col: lambda df: ... for col in cols}
+#------------------
+
+print(
+    df_baseball
+    .copy()
+    .assign(**{col: lambda df: df[col].astype(float) for col in ["Height", "Weight"]})
+    .head(5)
+)
+#               Name       Team    Height    Weight
+#           <object> <category> <float64> <float64>
+# 0    Adam_Donachie        BAL     180.0     180.0
+# 1        Paul_Bako        BAL     215.0     215.0
+# 2  Ramon_Hernandez        BAL     210.0     210.0
+# 3     Kevin_Millar        BAL     210.0     210.0
+# 4      Chris_Gomez        BAL     188.0     188.0
+
 
 #---------------------------------------------------------------------------------------------------------------#
 #------------------------------------------- 3. Using df.eval() ------------------------------------------------#
