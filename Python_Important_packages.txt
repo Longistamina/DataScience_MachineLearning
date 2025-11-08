@@ -39,7 +39,7 @@ Use pip3 install -U for latest versions
 2) Go to (base) environment
 
 3) Create conda environment:
-   conda create -n data python=3.12
+   conda create -n data python=3.12 -y
 
 4) Activate the environment:
    conda activate data
