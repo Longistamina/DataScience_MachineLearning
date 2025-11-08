@@ -9,12 +9,18 @@ single = True # kiểu luận lý boolean (True/False)
 full_name = "Tran Ngoc Dung" # character / string
 job = 'engineer'
 
+#------
+
 company_info ='''
 Company ABC
 Location: 123xyz
 '''
 
 print(company_info)
+# Company ABC
+# Location: 123xyz
+
+#------
 
 # Multiple-variable definition
 x, y, z = 3, 7, 15
@@ -25,8 +31,8 @@ print(x,y,z)
 #----------------------------- GLOBAL VARIABLES --------- LOCAL VARIABLES --------------------------------#
 #---------------------------------------------------------------------------------------------------------#
 
-print()
 student_name = 'An' # Global variable, always exists after being defined, independent from For and While loops, or Function 
+
 def display_information_1():
     print(f'1 - Student name (global variable): {student_name}')
 
