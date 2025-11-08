@@ -10,12 +10,22 @@ print('Hello world!')
 ## Multiple-line print() [METHOD 1] ##
 ######################################
 
+print("""
+Immanuel Kant was born in 1724 in Königsberg, Prussia (now Kaliningrad, Russia).\n
+He spent his entire life in this city, rarely traveling far from home.\n
+He is best known for his work in epistemology, ethics, and aesthetics.
+""")
+
+#--------------
+
 print('''
-Immanuel Kant's Principle of Universalizability:
+Immanuel Kant's Principle of Universalizability:\n
 
-"Act only according to that maxim whereby you can at the same time will that it should become a universal law."
+"Act only according to that maxim whereby you can at the same time will that it should become a universal law."\n
 
-This principle states that before acting, you should consider whether the rule guiding your action could be applied universally, to everyone, without contradiction. 
+This principle states that before acting,
+you should consider whether the rule guiding your action could be applied universally, to everyone, without contradiction.\n
+
 If the action cannot be universalized without causing a contradiction or harm, then it is immoral.
 ''')
 
@@ -70,10 +80,10 @@ The termcolor module lets you add ANSI colors and text attributes (bold, underli
 
 It provides two primary functions:
     # colored(text, color, on_color=None, attrs=None):
-     ==> Returns the input string wrapped in ANSI escape codes.
+    ==> Returns the input string wrapped in ANSI escape codes.
 
     **cprint(text, color, on_color=None, attrs=None, kwargs):
-    ==>  Prints colored text directly to the terminal.
+    ==> Prints colored text directly to the terminal.
 '''
 
 from termcolor import colored, cprint
