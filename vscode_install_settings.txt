@@ -35,7 +35,7 @@ Go to the Extension menu (Ctrl + Shift + X) and install these extensions:
 Set clear terminal shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "Terminal: Clear" => Ctrl + L
 
-Set run Python file shortcut:
+Set run Python selected codes/lines shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "Python: Run Selection/Line in Python Terminal" => Ctrl + Enter
 (Note: remember to remove other Ctrl+Enter related to "Python: Run...")
 
