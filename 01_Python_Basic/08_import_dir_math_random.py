@@ -28,20 +28,26 @@ Take math.modf(2.5) as example:
 This is due to the way floating-point numbers are represented in binary, which can lead to small rounding errors.
 '''
 
+
 #---------------------------------------------------------------------------------------------------------------------#
 #------------------------------------------------ random Library -----------------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------------#
 
 import random
 
-n1 = random.random() #Generate a random float number in range of [0,1)
+n1 = random.random() # Generate a random float number in range of [0,1)
 print(n1)
 
-n2 = random.uniform(10,20) #Generate a random float number x where 10 =< x < 20
+n2 = random.uniform(10,20) # Generate a random float number x where 10 =< x < 20
 print(n2)
 
-n3 = random.randrange(10,20,1) #Returns a randomly selected element from the specified range (start = 10, stop = 20, step = 1).
+n3 = random.randrange(10,20,1) # Returns a randomly selected element from the specified range (start = 10, stop = 20, step = 1).
 print(n3)
 
-n4 = random.randint(10,20) #Generate a random integer number in range of [10,20]
+n4 = random.randint(10,20) # Generate a random integer number in range of [10,20]
 print(n4)
+
+################
+
+random.seed(42) # Set the seed for random number generator for reproducibility
+print(random.random()) # This will always print the same number when the seed is set to
