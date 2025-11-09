@@ -4,13 +4,25 @@
 
 name = "Le Anh Thu"
 l = len(name)
+
 first_element = name[0] # L
 fourth_element = name[3] # A
 
 last_element = name[-1] # u
 name[l-1] # u
 name[-2] # h
-name[-3] # T 
+name[-3] # T
+
+'''
+Explanation of negative indexing (reverse indexing):
+
+name[-3] = "T"
+name[7] = "T"
+
+=> So actually, name[-3] = name[10-3] = name[7] (10 is the length of the string "Le Anh Thu")
+'''
+
+##########################
 
 ''' Python considers 0 as the index of the first element of an iterator '''
 
@@ -50,7 +62,6 @@ strOdd = strNumbers[0::2] # slice from start to end, but with index step = 2, re
 strEven = strNumbers[1::2]  # slice from the second element to end, but with index step = 2, return "2468"
 
 print("-"*50) # print character '-' 50 times
-print()
 
 
 #---------------------------------------------------------------------------------------------------------------------#
@@ -67,7 +78,6 @@ print(normal_string)
 # Output: Hello
 #         World
 
-
 ################
 ## Raw string ##
 ################
@@ -78,7 +88,6 @@ raw_string = r"Hello\nWorld"  # Raw string, no escape sequences
 
 print(raw_string)  
 # Output: Hello\nWorld
-
 
 #####################
 ## repr() function ##
