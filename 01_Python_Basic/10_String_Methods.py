@@ -40,14 +40,14 @@ Flow of contents:
 """
 
 #----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 1. Basic Transformations ------------------------------------------#
+#------------------------------------------------- 1. Basic Transformations -------------------------------------------#
 #----------------------------------------------------------------------------------------------------------------------#
 
 ##########################
 ## Case transformations ##
 ##########################
 
-s1 = 'Hello World Python'
+s1 = 'Hello World python'
 
 k1 = s1.capitalize()    # 'Hello world python' - capitalize first character only
 k2 = s1.upper()         # 'HELLO WORLD PYTHON' - all uppercase
@@ -82,6 +82,7 @@ print(f"rstrip(): '{k9}'")  # ' Hello World Python'
 ################################
 
 s3 = '---Hello World---'
+
 k10 = s3.strip('-')     # 'Hello World' - remove '-' from both ends
 k11 = s3.lstrip('-')    # 'Hello World---' - remove '-' from left only
 k12 = s3.rstrip('-')    # '---Hello World' - remove '-' from right only
@@ -120,6 +121,7 @@ full_name = 'John Michael Smith'
 print(f"Original: '{full_name}'")
 print(f"find(' '): {full_name.find(' ')}")           # 4 (Index of the first space from left)
 print(f"rfind(' '): {full_name.rfind(' ')}")         # 12 (Index of the first space from right)
+
 print(f"index(' '): {full_name.index(' ')}")         # 4 (Like find but raises error if not found)
 print(f"rindex(' '): {full_name.rindex(' ')}")       # 12 (Like rfind but raises error if not found)
 
@@ -242,7 +244,7 @@ Testing: 'MyVar'
 
 
 #----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 4. Prefix/Suffix Checks --------------------------------------------#
+#--------------------------------------------- 4. Prefix/Suffix Checks ------------------------------------------------#
 #----------------------------------------------------------------------------------------------------------------------#
 
 filename = 'document.pdf'
@@ -256,8 +258,8 @@ greeting = 'Hello World'
 print(filename.endswith('.pdf'))  # True
 print(filename.endswith('.doc'))  # False
 
-print(url.startswith('https'))      # True
-print(url.startswith('www'))       # False
+print(url.startswith('https'))    # True
+print(url.startswith('www'))      # False
 
 ########################################
 ## Multiple prefixes/suffixes (tuple) ##
@@ -265,7 +267,7 @@ print(url.startswith('www'))       # False
 
 print(filename.endswith(('.pdf', '.docx', '.txt')))  # True (only need one to match)
 
-print(url.startswith(('http://', 'https://')))      # True (only need one to match)
+print(url.startswith(('http://', 'https://')))       # True (only need one to match)
 
 ##############################
 ## With start/end positions ##
@@ -279,7 +281,7 @@ print(greeting.endswith('World', 0, 5)) # False (check 'World' in substring [0:5
 
 
 #----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 5. Splitting and Joining -------------------------------------------#
+#-------------------------------------------- 5. Splitting and Joining ------------------------------------------------#
 #----------------------------------------------------------------------------------------------------------------------#
 
 #####################
@@ -293,14 +295,14 @@ print(full_name.split()) # ['Arthur', 'Conan', 'Doyle']
 
 print(numbers.split(',')) # ['12', '13', '14', '15', '16']
 
-print(numbers.split(',', maxsplit=2)) # ['12', '13', '14,15,16']
+print(numbers.split(',', maxsplit = 2)) # ['12', '13', '14,15,16']
 '''maxsplit=2 means at most 2 splits, resulting in 3 parts.'''
 
 #################
 ## Right split ##
 #################
 
-print(numbers.rsplit(',', maxsplit=2)) # ['12,13,14', '15', '16']
+print(numbers.rsplit(',', maxsplit = 2)) # ['12,13,14', '15', '16']
 
 #######################
 ## Partition methods ##
@@ -324,7 +326,7 @@ multiline = 'Line 1\nLine 2\rLine 3\r\nLine 4'
 
 print(multiline.splitlines()) # ['Line 1', 'Line 2', 'Line 3', 'Line 4']
 
-print(multiline.splitlines(keepends=True)) # ['Line 1\n', 'Line 2\r', 'Line 3\r\n', 'Line 4']
+print(multiline.splitlines(keepends = True)) # ['Line 1\n', 'Line 2\r', 'Line 3\r\n', 'Line 4']
 
 #############
 ## Joining ##
@@ -336,6 +338,8 @@ print(''.join(lst))    # 'ABCDE'
 print(' '.join(lst))   # 'A B C D E'
 print(','.join(lst))   # 'A,B,C,D,E'
 print(' | '.join(lst)) # 'A | B | C | D | E'
+
+print('_'.join(['A', 'B', 'C'])) # 'A_B_C'
 
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -426,7 +430,7 @@ print(f"expandtabs(4): '{tabbed_text.expandtabs(10)}'")  # 'Hello     World     
 ## Create translation table ##
 ##############################
 
-translation_table = str.maketrans('aeiou', '12345')
+translation_table = str.maketrans('eaiou', '12345')
 
 text = 'Hello World'
 translated = text.translate(translation_table)
