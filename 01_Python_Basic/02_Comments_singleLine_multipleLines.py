@@ -18,3 +18,13 @@ Newton looked at him and said, “If you can't believe that this small model cam
 then how can you believe that the real solar system, infinitely more complex and vast, 
 came into existence without a Creator?"
 '''
+
+###############
+
+"""
+This is also a multiple-line comment.
+
+Everything written here will not interfere the program as well.
+
+Wish you all the best!
+"""
