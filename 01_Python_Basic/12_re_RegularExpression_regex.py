@@ -5,20 +5,32 @@
 
 # Python has a built-in package called re, which can be used to work with Regular Expressions.
 
-import re
-
 '''
-re.match()    # Determines if the RE matches at the beginning of the string
-re.findall()  # Returns a list containing all matches
-re.search()   # Returns a Match object if there is a match anywhere in the string
-re.split()    # Returns a list where the string has been split at each match
-re.sub()      # Replaces one or many matches with a string
+1. Example
+2. "[]" = A set of characters
+3. "\" = Signals a special sequence, or escapes special character
+4. "." = Any character (except newline character)
+5. "^" = Starts with
+6. "$" = Ends with
+7. "*" = Zero or more occurrences
+8. "+" = One or more occurrences
+9. "?" = Zero or one occurrences
+10. "{}" = Exactly the specified number of occurrences
+11. "|" = Either or
+12. () group capturing
+13. (?:) non-group capturing
+14. re.match(): Determines if the RE matches at the beginning of the string
+15. re.findall(): Returns a list containing all matches
+16. re.search(): Returns a Match object if there is a match anywhere in the string
+17. re.split(): Returns a list where the string has been split at each match
+18. re.sub(): Replaces one or many matches with a string
+19. Match Object
 '''
 
 
-#----------------------------------------------------------------------#
-#------------------------------- Example ------------------------------#
-#----------------------------------------------------------------------#
+#-------------------------------------------------------------------------#
+#------------------------------- 1. Example ------------------------------#
+#-------------------------------------------------------------------------#
 
 import re
 
@@ -31,9 +43,9 @@ else:
   print("No match")
 
 
-#------------------------------------------------------------------------------------------#
-#-------------------------- "[]" = A set of characters ------------------------------------#
-#------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------#
+#-------------------------- 2. "[]" = A set of characters ------------------------------------#
+#---------------------------------------------------------------------------------------------#
 
 import re
 
@@ -56,44 +68,44 @@ print(x) # ['h', 'e', 'a', 'i', 'i', 'a', 'i']
 
 
 #-------------------------------------------------------------------------------------------------------------------------------#
-#-------------------------- "\\" = Signals a special sequence, or escapes special character ------------------------------------#
+#-------------------------- 3. "\" = Signals a special sequence, or escapes special character ----------------------------------#
 #-------------------------------------------------------------------------------------------------------------------------------#
 
 import re
 
 txt = "That will be 59 dollars"
 
-x = re.findall("\\d", txt) # Find all digit characters:
+x = re.findall("\d", txt) # Find all digit characters:
 print(x) # ['5', '9']
 
 '''
-                                       SPECIAL CHARACTERS with \\
+                                       SPECIAL CHARACTERS with \
 
-## \\A	Returns a match if the specified characters are at the beginning of the string =>	"\\AThe"	
+## \A	Returns a match if the specified characters are at the beginning of the string =>	"\AThe"	
 
-## \\b	Returns a match where the specified characters are at the beginning or at the end of a word => r"\\bain"; r"ain\\b"
+## \b	Returns a match where the specified characters are at the beginning or at the end of a word => r"\bain"; r"ain\b"
 ## (the "r" in the beginning is making sure that the string is being treated as a "raw string")	
 
-## \\B	Returns a match where the specified characters are present, but NOT at the beginning (or at the end) of a word => r"ain\\B"; r"\\Bain"
+## \B	Returns a match where the specified characters are present, but NOT at the beginning (or at the end) of a word => r"ain\B"; r"\Bain"
 ## (the "r" in the beginning is making sure that the string is being treated as a "raw string")	
 
 
-## \\d	Returns a match where the string contains digits (numbers from 0-9)	"\\d"	
-## \\D	Returns a match where the string DOES NOT contain digits	"\\D"	
+## \d	Returns a match where the string contains digits (numbers from 0-9)	"\d"	
+## \D	Returns a match where the string DOES NOT contain digits	"\D"	
 
-## \\s	Returns a match where the string contains a white space character	"\\s"	
-## \\S	Returns a match where the string DOES NOT contain a white space character	"\\S"	
+## \s	Returns a match where the string contains a white space character	"\s"	
+## \S	Returns a match where the string DOES NOT contain a white space character	"\S"	
 
-## \\w	Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, and the underscore _ character)	"\\w"	
-## \\W	Returns a match where the string DOES NOT contain any word characters	"\\W"	
+## \w	Returns a match where the string contains any word characters (characters from a to Z, digits from 0-9, and the underscore _ character)	"\w"	
+## \W	Returns a match where the string DOES NOT contain any word characters	"\W"	
 
-## \\Z	Returns a match if the specified characters are at the end of the string	"Spain\\Z"
+## \Z	Returns a match if the specified characters are at the end of the string	"Spain\Z"
 '''
 
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#-------------------------- "." = Any character (except newline character) ------------------------------------#
+#-------------------------- 4. "." = Any character (except newline character) ---------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
 import re
@@ -105,7 +117,7 @@ print(x) # ['hello']
 
 
 #---------------------------------------------------------------------------------#
-#-------------------------- "^" = Starts with ------------------------------------#
+#-------------------------- 5. "^" = Starts with ---------------------------------#
 #---------------------------------------------------------------------------------#
 
 import re
@@ -122,7 +134,7 @@ else:
 
 
 #------------------------------------------------------------------------------------------------#
-#---------------------------------- "$" = Ends with ---------------------------------------------#
+#---------------------------------- 6. "$" = Ends with ------------------------------------------#
 #------------------------------------------------------------------------------------------------#
 
 import re
@@ -139,7 +151,7 @@ else:
 
 
 #----------------------------------------------------------------------------------------------#
-#-------------------------- "*" = Zero or more occurrences ------------------------------------#
+#-------------------------- 7. "*" = Zero or more occurrences ---------------------------------#
 #----------------------------------------------------------------------------------------------#
 
 import re
@@ -158,7 +170,7 @@ print("With * (zero or more):", matches1)  # Output: ['a', 'aa', 'aaa', 'aaaa', 
 
 
 #---------------------------------------------------------------------------------------------#
-#-------------------------- "+" = One or more occurrences ------------------------------------#
+#-------------------------- 8. "+" = One or more occurrences ---------------------------------#
 #---------------------------------------------------------------------------------------------#
 
 import re
@@ -173,7 +185,7 @@ matches2 = re.findall(pattern2, text)
 print("With + (one or more):", matches2)  # Output: ['a', 'aa', 'aaa', 'aaaa']
 
 #---------------------------------------------------------------------------------------------#
-#-------------------------- "?" = Zero or one occurrences ------------------------------------#
+#-------------------------- 9. "?" = Zero or one occurrences ---------------------------------#
 #---------------------------------------------------------------------------------------------#
 import re
 text = "a aa aaa aaaa b bb bbb"
@@ -188,7 +200,7 @@ print("With + (one or more):", matches3)
 
 
 #------------------------------------------------------------------------------------------------------------------#
-#-------------------------- "{}" = Exactly the specified number of occurrences ------------------------------------#
+#-------------------------- 10. "{}" = Exactly the specified number of occurrences --------------------------------#
 #------------------------------------------------------------------------------------------------------------------#
 
 import re
@@ -201,13 +213,13 @@ print(x) # ['hello']
 #########
 
 text = "1234 56 7 89012"
-pattern = r"\\d{1,3}" # {1,3} quantifier meaning at least 1 digit and at most 3 digits
+pattern = r"\d{1,3}" # {1,3} quantifier meaning at least 1 digit and at most 3 digits
 matches = re.findall(pattern, text)
 print(matches) # Output: ['123', '4', '56', '7', '890', '12']
 
 
 #-------------------------------------------------------------------------------#
-#-------------------------- "|" = Either or ------------------------------------#
+#-------------------------- 11. "|" = Either or --------------------------------#
 #-------------------------------------------------------------------------------#
 
 import re
@@ -226,7 +238,7 @@ else:
 
 
 #-----------------------------------------------------------------------------#
-#------------------------- () group capturing --------------------------------#
+#------------------------- 12. () group capturing ----------------------------#
 #-----------------------------------------------------------------------------#
 
 import re
@@ -234,21 +246,35 @@ import re
 # Sample text
 text = "cat123 dog456 bird789"
 
-# 1. Regex without parentheses
+##################################
+## 1. Regex without parentheses ##
+##################################
+
 # Matches 'cat' followed by digits
-pattern1 = r"\\w+\\d+"
+pattern1 = r"\w+\d+"
 matches1 = re.findall(pattern1, text)
 print("Without parentheses:", matches1)  # Output: ['cat123', 'dog456', 'bird789']
 
-# 2. Regex with capturing parentheses ()
+############################################
+## 2. Regex with capturing parentheses () ##
+############################################
+
 # Captures the letters and digits separately
-pattern2 = r"(\\w+)(\\d+)"
+pattern2 = r"(\w+)(\d+)"
 matches2 = re.findall(pattern2, text)
 print("With capturing parentheses:", matches2)  # Output: [('cat', '123'), ('dog', '456'), ('bird', '789')]
 
+####################################################
+## 3. Use "()" and "| to capture different groups ##
+####################################################
+
+# Capture pattern starts with 'c' or 'd' followed by digits
+pattern3 = r"(c\w+|d\w+)\d+"
+print(re.findall(pattern3, text))  # Output: ['cat12', 'dog45', 'd78']
+
 
 #----------------------------------------------------#
-#--------- (?:) non-group capturing -----------------#
+#--------- 13. (?:) non-group capturing -------------#
 #----------------------------------------------------#
 
 import re
@@ -256,27 +282,41 @@ import re
 # Sample text
 text = "date: 2025-05-25 or 2025/05/25"
 
-# 1. Regex with capturing parentheses ()
+############################################
+## 1. Regex with capturing parentheses () ##
+############################################
+
 # Captures year, month, and day separately
-pattern1 = r"(\\d{4})[-/](\\d{2})[-/](\\d{2})"
+pattern1 = r"(\d{4})[-/](\d{2})[-/](\d{2})"
 matches1 = re.findall(pattern1, text)
 print("With capturing parentheses:", matches1)  # Output: [('2025', '05', '25'), ('2025', '05', '25')]
 
-# 2. Regex with non-capturing group (?:)
+############################################
+## 2. Regex with non-capturing group (?:) ##
+############################################
+
 # Groups the separator (hyphen or slash) but only captures the entire date
-pattern2 = r"\\d{4}(?:[-/])\\d{2}(?:[-/])\\d{2}"
+pattern2 = r"\d{4}(?:[-/])\d{2}(?:[-/])\d{2}"
 matches2 = re.findall(pattern2, text)
 print("With non-capturing group:", matches2)  # Output: ['2025-05-25', '2025/05/25']
 
+##########################################################################
+## 3. Use non-capturing group (?:) with alternation | to match patterns ##
+##########################################################################
+
+# Matches dates with either hyphen or slash as separators
+pattern3 = r"\d{4}(?:-|/)\d{2}(?:-|/)\d{2}"
+matches3 = re.findall(pattern3, text)
+print("With non-capturing group and alternation:", matches3)  # Output: ['2025-05-25', '2025/05/25']
+
 
 #----------------------------------------------------------------------------#
-#--------------------------- re.match() -------------------------------------#
+#--------------------------- 14. re.match() ---------------------------------#
 #----------------------------------------------------------------------------#
 
 # The match() function checks for a match only at the BEGINNING of the string.
 
 import re
-
 
 #####################
 ## not None result ##
@@ -291,7 +331,6 @@ if x:
   print("Yes, the string starts with 'The'")
 else:
   print("No match")
-
 
 ###################
 ## None result ####
@@ -309,7 +348,7 @@ else:
 
 
 #----------------------------------------------------------------------------#
-#-------------------------- re.findall() ------------------------------------#
+#-------------------------- 15. re.findall() --------------------------------#
 #----------------------------------------------------------------------------#
 
 # The findall() function returns a list containing all matches.
@@ -325,7 +364,7 @@ print(x) # []
 
 
 #---------------------------------------------------------------------------#
-#-------------------------- re.search() ------------------------------------#
+#-------------------------- 16. re.search() --------------------------------#
 #---------------------------------------------------------------------------#
 
 # The search() function searches the string for a match, and returns a Match object if there is a match.
@@ -333,7 +372,7 @@ print(x) # []
 import re
 txt = "The rain in Spain"
 
-x = re.search("\\s", txt)
+x = re.search("\s", txt)
 print("The first white-space character is located in position:", x.start()) # Return 3
 
 x = re.search("Portugal", txt)
@@ -341,7 +380,7 @@ print(x) # Return None
 
 
 #--------------------------------------------------------------------------#
-#-------------------------- re.split() ------------------------------------#
+#-------------------------- 17. re.split() --------------------------------#
 #--------------------------------------------------------------------------#
 
 # The split() function returns a list where the string has been split at each match:
@@ -349,15 +388,15 @@ print(x) # Return None
 import re
 txt = "The rain in Spain"
 
-x = re.split("\\s", txt)
+x = re.split("\s", txt)
 print(x) # ['The', 'rain', 'in', 'Spain']
 
-x = re.split("\\s", txt, 1) #Split the string only at the first occurrence
+x = re.split("\s", txt, 1) #Split the string only at the first occurrence
 print(x) # ['The', 'rain in Spain']
 
 
 #------------------------------------------------------------------------#
-#-------------------------- re.sub() ------------------------------------#
+#-------------------------- 18. re.sub() --------------------------------#
 #------------------------------------------------------------------------#
 
 # The sub() function replaces the matches with the text of your choice:
@@ -365,15 +404,15 @@ print(x) # ['The', 'rain in Spain']
 import re
 txt = "The rain in Spain"
 
-x = re.sub("\\s", "_", txt) # Replace all white-space characters with the "_" character:
+x = re.sub("\s", "_", txt) # Replace all white-space characters with the "_" character:
 print(x) # The_rain_in_Spain
 
-x = re.sub("\\s", "_", txt, 2) #Replace only the first 2 occurrences:
+x = re.sub("\s", "_", txt, 2) #Replace only the first 2 occurrences:
 print(x) # The_rain_in Spain
 
 
 #------------------------------------------------------------------------#
-#-------------------------- Match Object---------------------------------#
+#-------------------------- 19. Match Object-----------------------------#
 #------------------------------------------------------------------------#
 
 # A Match Object is an object containing information about the search and the result.
@@ -394,7 +433,7 @@ x = re.search("ai", txt)
 print(x) # this will print an object
          # <_sre.SRE_Match object; span=(5, 7), match='ai'>
 
-x = re.search(r"\\bS\\w+", txt) # Search for an upper case "S" character in the beginning of a word, and print the word:
+x = re.search(r"\bS\w+", txt) # Search for an upper case "S" character in the beginning of a word, and print the word:
 
 print(x.span()) # Return a tuple containing the start, and end positions of the match
                 # Here return (12,17) means the match starts at 12, ends at 17
@@ -412,7 +451,7 @@ import re
 pos_nucleotide_1 = "312.1C"
 pos_nucleotide_2 = "42.6del"
 
-pattern = r"(\\d+\\.?\\d+)([a-zA-Z]+\\b)"
+pattern = r"(\d+\.?\d+)([a-zA-Z]+\b)"
 
 x = re.search(pattern, pos_nucleotide_1)
 print(x.groups())  # Output: ('312.1', 'C')
