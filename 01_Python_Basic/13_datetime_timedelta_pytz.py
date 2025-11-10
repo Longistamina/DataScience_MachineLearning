@@ -168,6 +168,7 @@ print(total_delta_seconds)
 #-----------------------------------------------------------------------------------------------------------------------#
 
 import pytz
+import datetime
 
 ###########################
 ## Get a timezone object ##
@@ -236,10 +237,8 @@ for i, tz_name in enumerate(pytz.all_timezones):
 ################################
 '''Use timezone_object.localize(datetime_object) to localize a datetime object to a specific timezone.'''
 
-import datetime
-
 # Create a datetime object without timezone info
-dt_obj = datetime.datetime(2024,6,18,12,0,0)
+dt_obj = datetime.datetime(2024, 6, 18, 12, 0, 0)
 print(dt_obj) # 2024-06-18 12:00:00
 
 # Create a timezone object
@@ -256,7 +255,7 @@ At UTC, it will be 16:00 PM (4 hours ahead).
 '''
 
 # One-liner version
-dt_Seoul = pytz.timezone('Asia/Seoul').localize(datetime.datetime(2024,6,18,12,0,0))
+dt_Seoul = pytz.timezone('Asia/Seoul').localize(datetime.datetime(2024, 6, 18, 12, 0, 0))
 print(dt_Seoul) # 2024-06-18 12:00:00+09:00
 '''
 The +09:00 indicates that Seoul is 9 hours ahead of UTC.
@@ -271,7 +270,7 @@ At UTC, it will be 03:00 AM (9 hours behind).
 '''Use datetime_object.astimezone(timezone_object) to convert a datetime object to another timezone.'''
 
 # Create a datetime object in UTC timezone
-dt_UTC = pytz.timezone('UTC').localize(datetime.datetime(2024,6,18,8,35,12))
+dt_UTC = pytz.timezone('UTC').localize(datetime.datetime(2024, 6, 18, 8, 35, 12))
 print(dt_UTC) # 2024-06-18 08:35:12+00:00
 
 # Convert to NY timezone
@@ -288,20 +287,64 @@ print(dt_UTC.astimezone(pytz.timezone('Asia/Ho_Chi_Minh'))) # 2024-06-18 15:35:1
 ## Normalize a datetime object ##
 #################################
 '''
-Normalize means adjusting a datetime object to account for Daylight Saving Time (DST) transitions.
-Use timezone_object.normalize(datetime_object) to normalize a datetime object.
-    pytz.timezone('Your/Timezone').normalize(your_datetime_object)
+------------------------------
+
+Daylight Saving Time (DST) Transitions are when clocks change between Standard Time and Daylight Saving Time, 
+happening twice per year:
+
+Spring Forward
+# Clocks jump ahead 1 hour (2:00 AM → 3:00 AM
+# The 2:00 AM hour is skipped (doesn't exist)
+# Day is only 23 hours long
+
+Fall (Autumn) Back
+# Clocks jump backward 1 hour (2:00 AM → 1:00 AM)
+# The 1:00 AM hour happens twice (ambiguous)
+# Day is 25 hours long
+
+Why It Matters for Code
+When datetime arithmetic crosses these boundaries, you can get non-existent times (spring) or ambiguous times (fall), 
+and the UTC offset changes (e.g., -05:00 → -04:00). This is why normalize() is needed to fix the resulting datetime.
+
+------------------------------
+
+When you do datetime arithmetic (like adding hours) with pytz timezone-aware datetimes, 
+the offset might not automatically update if you've crossed a daylight saving time (DST) boundary. 
+This can leave you with a datetime that shows the wrong local time or offset, 
+even though it represents the correct instant in absolute time.
+
+normalize() fixes this by recalculating which UTC offset should apply at the new moment in local time. 
+It ensures that your datetime matches real-world clocks after any addition or subtraction that might span a DST change.
+
+------------------------------
+
+Bottom line:
+Call normalize() after any arithmetic on pytz-aware datetimes to get the correct wall clock time, 
+especially when crossing DST transitions.
+
+------------------------------
+
+Use: 
+# timezone_object.normalize(datetime_object)
+# pytz.timezone('Your/Timezone').normalize(your_datetime_object)
 '''
 
-dt_Eastern = pytz.timezone('US/Eastern').localize(datetime.datetime(2024,3,10,12,3,22)) # Before DST starts
-print(dt_Eastern) # 2024-03-10 12:03:22-04:00
+dt_Eastern = pytz.timezone('US/Eastern').localize(datetime.datetime(2024, 3, 10, 1, 30)) # Before DST starts
+print(dt_Eastern) # 2024-03-10 01:30:00-05:00
 
 dt_plus_3h = dt_Eastern + datetime.timedelta(hours=3) # Add 3 hours, crossing DST start
-print(dt_plus_3h) # 2024-03-10 15:03:22-04:00
+print(dt_plus_3h) # 2024-03-10 04:30:00-05:00
 
 dt_normalized = pytz.timezone('US/Eastern').normalize(dt_plus_3h) # Normalize to adjust for DST
-print(dt_normalized) # 2024-03-10 16:03:22
+print(dt_normalized) # 2024-03-10 05:30:00-04:00
 
+'''
+After normalization, the time is adjusted to 05:30 AM, reflecting the start of Daylight Saving Time (UTC-4).
+
+Why from -05:00 to -04:00?
+- Before DST starts, Eastern Time is UTC-5.
+- After DST starts, Eastern Time shifts to UTC-4.
+'''
 
 ############################################
 ## Check timezone info of datetime object ##
@@ -314,14 +357,3 @@ print(naive_dt.tzinfo) # None
 localized_dt = pytz.timezone('Asia/Seoul').localize(naive_dt) # Localized datetime object
 print(localized_dt.tzinfo) # Asia/Seoul
 
-
-
-import pytz
-from datetime import datetime, timedelta
-
-eastern = pytz.timezone('US/Eastern')
-dt = eastern.localize(datetime(2002, 10, 27, 1, 30))
-
-# After arithmetic, normalize to correct the timezone
-dt_plus_hour = dt + timedelta(hours=1)
-dt_normalized = eastern.normalize(dt_plus_hour)
