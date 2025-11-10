@@ -245,9 +245,11 @@ for i, tz_name in enumerate(pytz.all_timezones):
 import re
 
 for tz_name in pytz.all_timezones:
-    if re.match(r"^Asia.+ra$", tz_name): # Timezones start with Asia and end with "ra"
+    if re.match(r"^Asia.+(ka|ra)$", tz_name): # Timezones start with Asia and end with "ra" or "ka"
         print(tz_name)
+# Asia/Dhaka
 # Asia/Jayapura
+# Asia/Kamchatka
 # Asia/Ust-Nera
 
 
