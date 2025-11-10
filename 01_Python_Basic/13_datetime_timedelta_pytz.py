@@ -9,7 +9,7 @@
 
 5. pytz module (timezone)
    + Get a timezone object
-   + Get the name of all timezones
+   + Get the name of all timezones: filter with if-else, regex
    + Localize timezone
    + Convert between timezones
    + Normalize timezone
