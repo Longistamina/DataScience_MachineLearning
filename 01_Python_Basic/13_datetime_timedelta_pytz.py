@@ -8,6 +8,12 @@
 4. timedelta
 
 5. pytz module (timezone)
+   + Get a timezone object
+   + Get the name of all timezones
+   + Localize timezone
+   + Convert between timezones
+   + Normalize timezone
+   + Get tzinfo (timezone information)
 '''
 
 # https://www.programiz.com/python-programming/datetime
@@ -214,7 +220,7 @@ for i, tz_name in enumerate(pytz.all_timezones):
 # 10 Africa/Blantyre
 
 #----
-## Print timezone names with conditions
+## Use if-else conditions to filter timezones
 #----
 
 for i, tz_name in enumerate(pytz.all_timezones):
@@ -231,6 +237,19 @@ for i, tz_name in enumerate(pytz.all_timezones):
 # 277 Asia/Kabul
 # 278 Asia/Kamchatka
 # 279 Asia/Karachi
+
+#----
+## Use Regular Expression to filter timezones
+#----
+
+import re
+
+for tz_name in pytz.all_timezones:
+    if re.match(r"^Asia.+ra$", tz_name): # Timezones start with Asia and end with "ra"
+        print(tz_name)
+# Asia/Jayapura
+# Asia/Ust-Nera
+
 
 ################################
 ## Localize a datetime object ##
