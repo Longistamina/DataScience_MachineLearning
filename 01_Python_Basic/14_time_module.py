@@ -29,7 +29,7 @@
 
 7. Timezone Handling
    + Timezone Constants: time.timezone, time.altzone, time.daylight, time.tzname
-   + Set timezone (Unix): time.tzset()
+   + Set timezone (Unix only): time.tzset()
 '''
 
 import time
@@ -343,3 +343,44 @@ thread.join()
 # Thread CPU time: 0.001383s
 
 
+#---------------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------- 7. Timezone Handling -------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------#
+
+########################
+## Timezone Constants ##
+########################
+
+print(time.timezone)   # -32400 (UTC-9 hours, standard time offset)
+print(time.altzone)    # -32400 (UTC-8 hours, daylight saving time offset)
+print(time.daylight)   # 0 (1 if DST is in effect, 0 if DST is not observed)
+print(time.tzname)     # ('KST', 'KST') (Standard and DST timezone names)
+
+##################
+## Set timezone ##
+##################
+'''Set timezone (Unix systems only)'''
+
+import os
+
+#---
+## Set timezone to Hong Kong
+#---
+
+os.environ['TZ'] = 'Asia/Hong_Kong'  # Set tz to Hong Kong
+time.tzset()  # Apply the timezone change
+
+print(time.strftime('%X %x %Z'))
+# 19:14:09 11/11/25 HKT
+# (Current time in Hong Kong timezone)
+
+#---
+## Set back to Seoul timezone
+#---
+
+os.environ['TZ'] = 'Asia/Seoul'  # Set tz back to Seoul
+time.tzset()  # Apply the timezone change
+
+print(time.strftime('%X %x %Z'))
+# 20:14:09 11/11/25 KST
+# (Current time in Seoul timezone)
