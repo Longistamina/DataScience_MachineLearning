@@ -106,8 +106,6 @@ day4 = day1.strftime('%d-%m-%Y')    # '18-02-2024'
 day5 = day2.strftime('%A %d/%m/%Y') # 'Sunday 18/02/2024' (return a string object)
 day6 = day3.strftime('%a %m/%d/%Y') # 'Sun 02/18/2024'
 
-
-
 week_day = day1.strftime('%A')  # Return the day of the week as string, 
 print(week_day) # 'Sunday'
 
@@ -115,6 +113,23 @@ index_week_day = day1.weekday() # Return the day of the week as index, return  6
 print(index_week_day) # 6
 
 # (0: Monday, 1: Tuesday,....., 6: Sunday)
+
+'''
+%Y - Year with century (2025)
+%m - Month as number (01-12)
+%d - Day of month (01-31)
+%H - Hour 24-hour (00-23)
+%I - Hour 12-hour (01-12)
+%M - Minute (00-59)
+%S - Second (00-59)
+%p - AM/PM
+%A - Full weekday name
+%B - Full month name
+%a - Abbreviated weekday
+%b - Abbreviated month
+%j - Day of year (001-366)
+%z - UTC offset (+HHMM or -HHMM)
+'''
 
 
 #-----------------------------------------------------------------------------------------------------------------------#
