@@ -14,6 +14,9 @@
    + time.gmtime([secs]): Similar to localtime() but returns UTC time.
    + time.mktime(struct_time): Converts a struct_time object in local time to a timestamp.
 
+5. Format and Parsing:
+   + time.strftime(format, struct_time): struc_time -> string
+   + time.strptime(string, format): string -> struct_time
 '''
 
 import time
@@ -51,11 +54,31 @@ print(time.time_ns()) # 1762842972445317760
 #----------------------------------------------- 2. time.sleep(secs) -------------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------------#
 
+##########
+## Demo ##
+##########
+
 print("Sleeping for 5 seconds...")
 
 time.sleep(5)  # Pause execution for 5 seconds
 
 print("Awake!")
+
+#################
+## Application ##
+#################
+
+t1 = time.time()
+
+for i in range(10):
+    print(i)
+    time.sleep(0.3)  # Sleep for 0.3 second between prints
+
+t2 = time.time()
+
+delta = t2 - t1
+
+print(f"Total time taken: {delta} seconds")
 
 
 #---------------------------------------------------------------------------------------------------------------------#
@@ -139,6 +162,13 @@ timestamp = time.mktime(time_tuple)
 print(timestamp)  # 1762839000.0
 
 
+#---------------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------- 5. Format and Parsing ------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------#
+
+#####################
+## time.strftime() ##
+#####################
 
 '''
 | Function          | Purpose             | Returns         | Notes                           |

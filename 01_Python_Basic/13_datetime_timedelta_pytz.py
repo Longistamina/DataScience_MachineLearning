@@ -82,6 +82,23 @@ Difference between date() and datetime():
 #------------------------------ 3. datetime.strptime() and datetime.strftime() ----------------------------------#
 #----------------------------------------------------------------------------------------------------------------#
 
+'''
+%Y - Year with century (2025)
+%m - Month as number (01-12)
+%d - Day of month (01-31)
+%H - Hour 24-hour (00-23)
+%I - Hour 12-hour (01-12)
+%M - Minute (00-59)
+%S - Second (00-59)
+%p - AM/PM
+%A - Full weekday name
+%B - Full month name
+%a - Abbreviated weekday
+%b - Abbreviated month
+%j - Day of year (001-366)
+%z - UTC offset (+HHMM or -HHMM)
+'''
+
 #############################################################
 ## datetime.strptime() convert string into datetime object ##
 #############################################################
@@ -113,23 +130,6 @@ index_week_day = day1.weekday() # Return the day of the week as index, return  6
 print(index_week_day) # 6
 
 # (0: Monday, 1: Tuesday,....., 6: Sunday)
-
-'''
-%Y - Year with century (2025)
-%m - Month as number (01-12)
-%d - Day of month (01-31)
-%H - Hour 24-hour (00-23)
-%I - Hour 12-hour (01-12)
-%M - Minute (00-59)
-%S - Second (00-59)
-%p - AM/PM
-%A - Full weekday name
-%B - Full month name
-%a - Abbreviated weekday
-%b - Abbreviated month
-%j - Day of year (001-366)
-%z - UTC offset (+HHMM or -HHMM)
-'''
 
 
 #-----------------------------------------------------------------------------------------------------------------------#
