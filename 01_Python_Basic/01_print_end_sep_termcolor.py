@@ -11,27 +11,31 @@ print('Hello world!')
 ######################################
 
 print("""
-Immanuel Kant's first Principle of Universalizability:
-      
-"Act only according to that maxim whereby you can at the same time will that it should become a universal law."
+Sir Isaac Newton was born on January 4, 1643, in Woolsthorpe, England.
 
-This principle states that before acting, you should consider whether the rule guiding your action could be applied universally, 
-to everyone, without contradiction.
+He was a physicist, mathematician, astronomer, and author 
+who is widely recognized as one of the most influential scientists of all time.
       
-If the action cannot be universalized without causing a contradiction or harm, then it is immoral.
+Two his greatest contributions to science are:
++ The 3 laws of motion
++ The invention of calculus (integral and differential calculus)
 """)
 
 #--------------
 
 print('''
-Immanuel Kant's second Principle of Universalizability (Formula of Humanity):\n
+Sir Isaac Newton, a devout Christian, had a close friend who was an atheist. 
+One day, Newton invited him over to his study. 
+As the friend entered, he noticed a beautifully crafted model of the solar system—made of gold and other fine materials. 
+The planets were positioned accurately and moved in perfect harmony.\n
 
-"Act so that you use humanity, whether in your own person or in the person of any other, 
-always at the same time as an end, never merely as a means."\n
+Amazed, the friend asked, “This is incredible! Who made it?"
+Newton calmly replied, “No one. It just formed itself—particles randomly came together to create it.”
+The friend laughed and said, “Come on, that's impossible. Someone clearly designed and built this!”\n
 
-This principle states that you must treat every person as having intrinsic value—never exploit anyone simply as a tool for your own goals.\n
-      
-If your action uses someone merely as a means, without respecting their dignity and autonomy, it is immoral.
+Newton looked at him and said, “If you can't believe that this small model came about by chance, 
+then how can you believe that the real solar system, infinitely more complex and vast, 
+came into existence without a Creator?"
 ''')
 
 
