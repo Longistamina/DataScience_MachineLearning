@@ -11,22 +11,27 @@ print('Hello world!')
 ######################################
 
 print("""
-Immanuel Kant was born in 1724 in Königsberg, Prussia (now Kaliningrad, Russia).\n
-He spent his entire life in this city, rarely traveling far from home.\n
-He is best known for his work in epistemology, ethics, and aesthetics.
+Immanuel Kant's first Principle of Universalizability:
+      
+"Act only according to that maxim whereby you can at the same time will that it should become a universal law."
+
+This principle states that before acting, you should consider whether the rule guiding your action could be applied universally, 
+to everyone, without contradiction.
+      
+If the action cannot be universalized without causing a contradiction or harm, then it is immoral.
 """)
 
 #--------------
 
 print('''
-Immanuel Kant's Principle of Universalizability:\n
+Immanuel Kant's second Principle of Universalizability (Formula of Humanity):\n
 
-"Act only according to that maxim whereby you can at the same time will that it should become a universal law."\n
+"Act so that you use humanity, whether in your own person or in the person of any other, 
+always at the same time as an end, never merely as a means."\n
 
-This principle states that before acting,
-you should consider whether the rule guiding your action could be applied universally, to everyone, without contradiction.\n
-
-If the action cannot be universalized without causing a contradiction or harm, then it is immoral.
+This principle states that you must treat every person as having intrinsic value—never exploit anyone simply as a tool for your own goals.\n
+      
+If your action uses someone merely as a means, without respecting their dignity and autonomy, it is immoral.
 ''')
 
 
