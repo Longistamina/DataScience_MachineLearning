@@ -64,11 +64,11 @@ It means year 1, January, day 1st, at 0h 0m
 #----------------------------------------------------------------------------------------------------------------#
 
 # date() is a class inside the datetime module, used to create date objects
-birthday1 = date(1890,5,19)             # Generate a datetime object, year 1890, May, day 29th
+birthday1 = date(1890, 5, 19)             # Generate a datetime object, year 1890, May, day 29th
 print(birthday1)
 
 # datetime() is a class inside the datetime module, used to create datetime objects
-birthday2 = datetime(1890,5,19,23,30)   # Like above, but add hour (23) and minute (30)
+birthday2 = datetime(1890, 5, 19, 23, 30)   # Like above, but add hour (23) and minute (30)
 print(birthday2)
 
 '''
@@ -145,8 +145,8 @@ from datetime import date, datetime, timedelta
 ###################################
 
 # Calculate timedelta as day and second
-day1 = datetime(2018,6,18,7,30,00)
-day2 = datetime(2019,7,20,8,32,20)
+day1 = datetime(2018, 6, 18, 7, 30, 00)
+day2 = datetime(2019, 7, 20, 8, 32, 20)
 
 t1 = day2-day1 # return t1 as a timedelta() object
 print(t1)
@@ -162,13 +162,13 @@ print(delta_seconds)
 ## timedelta() function ##
 ##########################
 
-tomorrow = date.today() + timedelta(days = 1)
+tomorrow = date.today() + timedelta(days=1)
 print(tomorrow)
 
-yesterday1 = date.today() + timedelta(days = -1)
+yesterday1 = date.today() + timedelta(days=-1)
 print(yesterday1)
 
-yesterday2 = date.today() - timedelta(days = 1)
+yesterday2 = date.today() - timedelta(days=1)
 print(yesterday2)
 
 # yesterday1 and yesterday2 will share the same value
@@ -178,7 +178,7 @@ print(yesterday2)
 ## Create a timedelta() object ##
 #################################
 
-t = timedelta(days = 5, hours = 1,minutes = 10, seconds = 30)
+t = timedelta(days=5, hours=1, minutes=10, seconds=30)
 
 total_delta_seconds = t.total_seconds() # Convert all the timedelta into seconds  = 436230 seconds
 print(total_delta_seconds)
@@ -387,7 +387,7 @@ Why from -05:00 to -04:00?
 ############################################
 '''Use datetime_object.tzinfo to check the timezone info of a datetime object.'''
 
-naive_dt = datetime.datetime(2024,6,18,12,0,0) # Naive datetime object (no timezone info)
+naive_dt = datetime.datetime(2024, 6, 18, 12, 0, 0) # Naive datetime object (no timezone info)
 print(naive_dt.tzinfo) # None
 
 localized_dt = pytz.timezone('Asia/Seoul').localize(naive_dt) # Localized datetime object

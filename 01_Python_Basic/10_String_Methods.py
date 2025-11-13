@@ -295,14 +295,14 @@ print(full_name.split()) # ['Arthur', 'Conan', 'Doyle']
 
 print(numbers.split(',')) # ['12', '13', '14', '15', '16']
 
-print(numbers.split(',', maxsplit = 2)) # ['12', '13', '14,15,16']
+print(numbers.split(',', maxsplit=2)) # ['12', '13', '14,15,16']
 '''maxsplit=2 means at most 2 splits, resulting in 3 parts.'''
 
 #################
 ## Right split ##
 #################
 
-print(numbers.rsplit(',', maxsplit = 2)) # ['12,13,14', '15', '16']
+print(numbers.rsplit(',', maxsplit=2)) # ['12,13,14', '15', '16']
 
 #######################
 ## Partition methods ##
@@ -326,7 +326,7 @@ multiline = 'Line 1\nLine 2\rLine 3\r\nLine 4'
 
 print(multiline.splitlines()) # ['Line 1', 'Line 2', 'Line 3', 'Line 4']
 
-print(multiline.splitlines(keepends = True)) # ['Line 1\n', 'Line 2\r', 'Line 3\r\n', 'Line 4']
+print(multiline.splitlines(keepends=True)) # ['Line 1\n', 'Line 2\r', 'Line 3\r\n', 'Line 4']
 
 #############
 ## Joining ##
