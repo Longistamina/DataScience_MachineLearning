@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__) # Get a logger for the current module
                                      # This allows for module-specific logging configuration, 
                                      # and avoids conflicts with other modules.
                                     
-def logging_with_level(log_level = None):
+def logging_with_level(log_level=None):
     if log_level is not None:
         logging.basicConfig(level=log_level) # Set the logging level to the specified log_level
         logger.setLevel(log_level) # Set the logger's level to the specified log_level

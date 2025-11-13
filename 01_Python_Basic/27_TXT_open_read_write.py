@@ -32,7 +32,7 @@ parent_dir = '/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Py
 ## file_pointer.close()      ##
 ###############################
 
-file_pointer = open(file = f'{parent_dir}/JohnnyJohnny.txt', mode = 'r')  # "file" variable here is a file pointer
+file_pointer = open(file=f'{parent_dir}/JohnnyJohnny.txt', mode='r')  # "file" variable here is a file pointer
 content = file_pointer.read()  # Read the entire file content as a whole string
 file_pointer.close()
 # (Must close the file pointer maunally)
@@ -52,7 +52,7 @@ print(type(content)) # <class 'str'>
 ##      txt = file_pointer.read()  ##
 #####################################
 
-with open(file = f'{parent_dir}/JohnnyJohnny.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/JohnnyJohnny.txt', mode='r') as file_pointer:
     content = file_pointer.read()  # Read the entire file content as a whole string
 # The file is automatically closed after the block of code is executed, no need to close it manually
 
@@ -66,7 +66,7 @@ print(type(content)) # <class 'str'>
 
 
 # file_pointer.read(n) reads the first n characters from the file, if n is not specified, it reads the entire file.
-with open(file = f'{parent_dir}/JohnnyJohnny.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/JohnnyJohnny.txt', mode='r') as file_pointer:
     first_10_chars = file_pointer.read(10)  # Read the first 10 characters from the file
 print(first_10_chars)  # Johnny Joh
 # (If the file has less than n characters, it will read the entire file and return it as a string)
@@ -77,7 +77,7 @@ print(first_10_chars)  # Johnny Joh
 #############################
 
 # file_pointer.readline() reads a single line from the file, including the newline character at the end of the line.
-with open(file = f'{parent_dir}/HumptyDumpty.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/HumptyDumpty.txt', mode='r') as file_pointer:
     line1 = file_pointer.readline()  # Read the first line
     line2 = file_pointer.readline()  # Read the second line
     line3 = file_pointer.readline()  # Read the third line
@@ -101,7 +101,7 @@ print(line3.startswith('Humpty'))  # False
 ##############################
 
 # file_pointer.readlines() reads all lines from the file and returns a list of strings, each string is a line in the file.
-with open(file = f'{parent_dir}/HumptyDumpty.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/HumptyDumpty.txt', mode='r') as file_pointer:
     list_lines = file_pointer.readlines()  # Read all lines into a list
                                    # Read the line as raw string, including the newline character at the end of the line
 
@@ -124,7 +124,7 @@ print(list_lines)  # ['Humpty Dumpty sat on a wall,', 'Humpty Dumpty had a great
 #############################
 
 # file_pointer.readable() returns True if the file is readable, False otherwise.
-with open(file = f'{parent_dir}/JohnnyJohnny.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/JohnnyJohnny.txt', mode='r') as file_pointer:
     is_readable = file_pointer.readable()  # Check if the file is readable
 print(is_readable)  # True
 
@@ -132,7 +132,7 @@ print(is_readable)  # True
 ###########################################################
 ## Most memory-efficient way to read a file line by line ##
 ###########################################################
-with open(file = f'{parent_dir}/ADream.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/ADream.txt', mode='r') as file_pointer:
     for line in file_pointer:
         print(line.strip())
 
@@ -148,7 +148,7 @@ with open(file = f'{parent_dir}/ADream.txt', mode = 'r') as file_pointer:
 # file_pointer.write() writes a string to the file, if the file does not exist, it creates a new file.
 # If the file exists, it truncates the file to zero length before writing (overwrite)
 
-with open(file = f'{parent_dir}/StudentScores.txt', mode = 'w') as file_pointer:
+with open(file=f'{parent_dir}/StudentScores.txt', mode='w') as file_pointer:
     file_pointer.write("Student scores:\n")  # Write a string to the file
     file_pointer.write("Alice: 90\n")
     file_pointer.write("Bob: 85\n")
@@ -156,7 +156,7 @@ with open(file = f'{parent_dir}/StudentScores.txt', mode = 'w') as file_pointer:
 
 
 # Check the content of the file
-with open(file = f'{parent_dir}/StudentScores.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/StudentScores.txt', mode='r') as file_pointer:
     content = file_pointer.read()   
 
 print(content)
@@ -166,13 +166,13 @@ print(content)
 # Charlie: 95
 
 ################### let's overwrite the file again ###################
-with open(file = f'{parent_dir}/StudentScores.txt', mode = 'w') as file_pointer:
+with open(file=f'{parent_dir}/StudentScores.txt', mode='w') as file_pointer:
     file_pointer.write("New Student scores:\n")  # Write a new string to the file
     file_pointer.write("David: 88\n")
     file_pointer.write("Eva: 92\n")
 
 # Check the content of the file again
-with open(file = f'{parent_dir}/StudentScores.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/StudentScores.txt', mode='r') as file_pointer:
     content = file_pointer.read()
 
 print(content)
@@ -188,7 +188,7 @@ print(content)
 # file_pointer.writelines() writes a list of strings to the file, if the file does not exist, it creates a new file.
 # If the file exists, it truncates the file to zero length before writing (overwrite)
 
-with open(file = f'{parent_dir}/StudentScores.txt', mode = 'w') as file_pointer:
+with open(file=f'{parent_dir}/StudentScores.txt', mode='w') as file_pointer:
     lines = [
         "New Student scores:\n",
         "Frank: 80\n",
@@ -198,7 +198,7 @@ with open(file = f'{parent_dir}/StudentScores.txt', mode = 'w') as file_pointer:
     file_pointer.writelines(lines)  # Write a list of strings to the file
 
 # Check the content of the file again
-with open(file = f'{parent_dir}/StudentScores.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/StudentScores.txt', mode='r') as file_pointer:
     content = file_pointer.read()
 
 print(content)
@@ -213,12 +213,12 @@ print(content)
 #############################
 
 # file_pointer.writable() returns True if the file is writable, False otherwise.
-with open(file = f'{parent_dir}/StudentScores.txt', mode = 'a') as file_pointer: # use mode 'a' to avoid truncating the file to zero length
+with open(file=f'{parent_dir}/StudentScores.txt', mode='a') as file_pointer: # use mode 'a' to avoid truncating the file to zero length
     is_writable = file_pointer.writable()  # Check if the file is writable
 print(is_writable)  # True
 
 # False if the file is opened in read mode
-with open(file = f'{parent_dir}/StudentScores.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/StudentScores.txt', mode='r') as file_pointer:
     is_writable = file_pointer.writable()  # Check if the file is writable
 print(is_writable)  # False
 
@@ -238,12 +238,12 @@ NOTE: if the file has previous contents, then when you open it in write mode ('w
 # If the file does not exist, it creates a new file.
 
 # using append mode 'a' or 'a+' (append and read)
-with open(file = f'{parent_dir}/StudentScores.txt', mode = 'a') as file_pointer:
+with open(file=f'{parent_dir}/StudentScores.txt', mode='a') as file_pointer:
     file_pointer.write("Ivy: 89\n")  # Append a string to the file
     file_pointer.writelines(["Jack: 91\n", "Kathy: 84\n"])  # Append a list of strings to the file  
 
 # Check the content of the file again
-with open(file = f'{parent_dir}/StudentScores.txt', mode = 'r') as file_pointer:
+with open(file=f'{parent_dir}/StudentScores.txt', mode='r') as file_pointer:
     content = file_pointer.read()
 
 print(content)

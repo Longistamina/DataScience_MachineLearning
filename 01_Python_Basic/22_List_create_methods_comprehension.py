@@ -252,7 +252,7 @@ names.sort() # sort Ascending
 print(names) # ['Anna', 'Bruce', 'Kitana', 'Nina', 'Zealot']
 
 names = ["Kitana", "Bruce", "Zealot", "Anna", "Nina"]
-names.sort(reverse = True) # sort Descending
+names.sort(reverse=True) # sort Descending
 print(names) # ['Zealot', 'Nina', 'Kitana', 'Bruce', 'Anna']
 
 numbers = [3.72, 8.15, 0.49, 6.03, 1.27]
@@ -332,9 +332,9 @@ while i < len(philosophes):
 ##########################
 
 lst_customers = [
-    ['Lucy','Rashford',2000],
-    ['Marcus','Aurelius',300000],
-    ['Hamazuki','Sento',500000000]
+    ['Lucy', 'Rashford', 2000],
+    ['Marcus', 'Aurelius', 300000],
+    ['Hamazuki', 'Sento', 500000000]
 ]
 
 # Method 1:

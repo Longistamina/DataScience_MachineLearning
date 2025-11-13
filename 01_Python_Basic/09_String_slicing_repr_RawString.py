@@ -61,7 +61,7 @@ strNumbers = "123456789"
 strOdd = strNumbers[0::2] # slice from start to end, but with index step = 2, return "13579"
 strEven = strNumbers[1::2]  # slice from the second element to end, but with index step = 2, return "2468"
 
-print("-"*50) # print character '-' 50 times
+print("-" * 50) # print character '-' 50 times
 
 
 #---------------------------------------------------------------------------------------------------------------------#

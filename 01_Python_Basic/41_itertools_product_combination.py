@@ -35,7 +35,7 @@ NOTE: it will not stop until you stop it manually (using a stop condition or Key
 
 from itertools import count
 
-counter = count(start = 10, step = 2)  # Start from 5, increment by 2
+counter = count(start=10, step=2)  # Start from 5, increment by 2
 
 for num in counter:
     print(num)
@@ -94,7 +94,7 @@ for i, color in enumerate(cyler):
 
 from itertools import repeat
 
-repeater = repeat(object = 'Hello', times = 3)  # Repeat 'Hello' 3 times
+repeater = repeat(object='Hello', times=3)  # Repeat 'Hello' 3 times
 
 print(repeater) # repeat('Hello', 3)
                 # Not an iterator, but a repeat object
@@ -118,7 +118,7 @@ print(
 ## Loop through repeater ##
 ###########################
 
-repeater = repeat(object = 'Hello', times = 3)
+repeater = repeat(object='Hello', times=3)
 
 for i, value in enumerate(repeater):
     print(f"{i} - {value}")
@@ -157,7 +157,7 @@ from itertools import accumulate
 from operator import mul  # Importing multiplication operator
 
 numbers = [1, 2, 3, 4, 5]
-accumulated_product = accumulate(numbers, func = mul)  # Using multiplication as the binary function
+accumulated_product = accumulate(numbers, func=mul)  # Using multiplication as the binary function
 
 print(list(accumulated_product))
 # [1, 2, 6, 24, 120]
@@ -198,7 +198,7 @@ print(list(chained_iterable))
 from itertools import compress
 
 data = ['A', 'B', 'C', 'D', 'E']
-selectors = [1, 0, 1, 0, 1]  # Selector iterable (1 = include, 0 = exclude)
+selectors = [1, 0, 1, 0, 1]  # Selector iterable (1=include, 0=exclude)
 
 compressed_data = compress(data, selectors)
 print(list(compressed_data))
@@ -270,7 +270,7 @@ from itertools import groupby
 
 data = [('A', 1), ('A', 2), ('B', 3), ('B', 4), ('C', 5)]
 
-grouped_data = groupby(data, key = lambda x: x[0])  # Group by the first element of each tuple
+grouped_data = groupby(data, key=lambda x: x[0])  # Group by the first element of each tuple
 
 for key, group in grouped_data:
     print(key, list(group), sep = ": ")
@@ -286,9 +286,9 @@ for key, group in grouped_data:
 from itertools import groupby
 
 data = [('A', 1), ('B', 2), ('A', 3), ('B', 4), ('C', 5)]
-sorted_data = sorted(data, key = lambda x: x[0])  # Sort data to ensure grouping works correctly
+sorted_data = sorted(data, key=lambda x: x[0])  # Sort data to ensure grouping works correctly
 
-grouped_data = groupby(sorted_data, key = lambda x: x[0])  # Group by the first element of each tuple
+grouped_data = groupby(sorted_data, key=lambda x: x[0])  # Group by the first element of each tuple
 
 for key, group in grouped_data:
     print(key, list(group), sep = ": ")
@@ -506,7 +506,7 @@ zipped = zip_longest(iter1, iter2, iter3)  # Combine iterables, filling missing 
 print(list(zipped))
 # [(1, 'a', True), (2, 'b', False), (3, 'c', None), (4, None, None), (5, None, None)]
 
-for i, j, k in zipped: # or in zip_longest(iter1, iter2, iter3, fillvalue = 'X'):
+for i, j, k in zipped: # or in zip_longest(iter1, iter2, iter3, fillvalue='X'):
     print(f"{i} - {j} - {k}")
 # 1 - a - True
 # 2 - b - False
@@ -530,11 +530,11 @@ iter1 = [1, 2, 3, 4, 5]
 iter2 = ['a', 'b', 'c']
 iter3 = [True, False]
 
-zipped = zip_longest(iter1, iter2, iter3, fillvalue = "Empty")  # Combine iterables, filling missing values with None
+zipped = zip_longest(iter1, iter2, iter3, fillvalue="Empty")  # Combine iterables, filling missing values with None
 print(list(zipped))
 # [(1, 'a', True), (2, 'b', False), (3, 'c', 'Empty'), (4, 'Empty', 'Empty'), (5, 'Empty', 'Empty')]
 
-for i, j, k in zipped:  # or in zip_longest(iter1, iter2, iter3, fillvalue = 'X'):
+for i, j, k in zipped:  # or in zip_longest(iter1, iter2, iter3, fillvalue='X'):
     print(f"{i} - {j} - {k}")
 # 1 - a - True
 # 2 - b - False
@@ -593,7 +593,7 @@ for result in list(cartesian_product):
 
 # The repeat argument allows you to compute the Cartesian product of the same iterable multiple times.
 
-product_with_repeat = product(iter1, iter2, repeat = 2)  # Compute the Cartesian product with repeat
+product_with_repeat = product(iter1, iter2, repeat=2)  # Compute the Cartesian product with repeat
 
 for result in product_with_repeat:
     print(result)
@@ -653,7 +653,7 @@ print(list(permutations_result))
 # Loop through the permutations
 permutations_result = permutations(letter)
 for perm in list(permutations_result):
-    print(*perm, sep = " - ")
+    print(*perm, sep=" - ")
 # A - B - C
 # A - C - B
 # B - A - C
@@ -668,7 +668,7 @@ for perm in list(permutations_result):
 
 letter = ['A', 'B', 'C']
 
-permutations_result = permutations(letter, r = 2)  # Generate permutations of length 2
+permutations_result = permutations(letter, r=2)  # Generate permutations of length 2
 print(list(permutations_result))
 # [('A', 'B'), ('A', 'C'), ('B', 'A'), ('B', 'C'), ('C', 'A'), ('C', 'B')]
 
@@ -684,12 +684,12 @@ from itertools import combinations
 
 letters = ['A', 'B', 'C']
 
-combination_3 = combinations(letters, r = 3)  # Generate combinations of length 3
+combination_3 = combinations(letters, r=3)  # Generate combinations of length 3
 print(list(combination_3))
 # [('A', 'B', 'C')]
 # If the r equals the length of the iterable, it will return only one combination (the iterable itself).
 
-combination_2 = combinations(letters, r = 2)  # Generate combinations of length 2
+combination_2 = combinations(letters, r=2)  # Generate combinations of length 2
 print(list(combination_2))
 # [('A', 'B'), ('A', 'C'), ('B', 'C')]
 
@@ -705,7 +705,7 @@ from itertools import combinations_with_replacement
 
 data = [0, 1, 2, 3]
 
-result = combinations_with_replacement(data, r = 2)  # Generate combinations of length 2 with replacement
+result = combinations_with_replacement(data, r=2)  # Generate combinations of length 2 with replacement
 
 for comb in list(result):
     print(comb)

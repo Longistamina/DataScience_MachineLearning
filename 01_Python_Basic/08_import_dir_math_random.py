@@ -41,7 +41,7 @@ print(n1)
 n2 = random.uniform(10,20) # Generate a random float number x where 10 =< x < 20
 print(n2)
 
-n3 = random.randrange(10,20,1) # Returns a randomly selected element from the specified range (start = 10, stop = 20, step = 1).
+n3 = random.randrange(10,20,1) # Returns a randomly selected element from the specified range (start=10, stop=20, step=1).
 print(n3)
 
 n4 = random.randint(10,20) # Generate a random integer number in range of [10,20]

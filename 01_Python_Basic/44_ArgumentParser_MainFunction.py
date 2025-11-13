@@ -83,7 +83,7 @@ def save_results(out_message, filepath):
 from argparse import ArgumentParser, HelpFormatter
 
 # Custom formatter with increased width and max help position
-formatter = lambda prog: HelpFormatter(prog, width = 200, max_help_position = 50)
+formatter = lambda prog: HelpFormatter(prog, width=200, max_help_position=50)
 
 # Put the parser inside a function so that it will not be executed when the module is imported
 def parse_args():
@@ -96,16 +96,16 @@ def parse_args():
                             formatter_class = formatter)
 
     # Add arguments to the "parser" object
-    parser.add_argument("-l", "--length", required = True, metavar = "\b", help = "Length of the rectangle (expected to be a positive number).")
-    parser.add_argument("-w", "--width", required = True, metavar = "\b", help = "Width of the rectangle (expected to be a positive number).")
-    parser.add_argument("-o", "--out", required = False, metavar = "\b", type = str, default = "", help = "Path to the output file saving the results.")
+    parser.add_argument("-l", "--length", required=True, metavar="\b", help="Length of the rectangle (expected to be a positive number).")
+    parser.add_argument("-w", "--width", required=True, metavar="\b", help="Width of the rectangle (expected to be a positive number).")
+    parser.add_argument("-o", "--out", required=False, metavar="\b", type=str, default="", help="Path to the output file saving the results.")
 
     return parser.parse_args()  # Parse the command-line arguments and return them
 
 # -o means short flag
 # --out means long flag
 # required = True means that the argument is mandatory (False means optional)
-# metavar = "\b" to hide the metavar like LENGTH and WIDTH, and avoid the space character like "-l , --length" (if set metavar = "")
+# metavar = "\b" to hide the metavar like LENGTH and WIDTH, and avoid the space character like "-l , --length" (if set metavar="")
 # type = str means that the argument MUST be a string
 # default = "" means that if the user doesn't provide this argument, an empty string will be parsed as default value
 # help = "..." is the description of the argument that will be shown in the help message

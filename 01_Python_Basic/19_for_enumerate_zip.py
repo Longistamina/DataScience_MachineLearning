@@ -27,19 +27,19 @@ print('-'*116)
 
 mult_table = ''
 
-for n in range(1,11,1):
-    for i in range (2,10,1):
-        mult_table += f'{i:2} x {n:2} = {i*n:2}   ' # {i:2} means the space range of this character is 2
+for n in range(1, 11, 1):
+    for i in range (2, 10, 1):
+        mult_table += f'{i:2} x {n:2} = {i * n:2}   ' # {i:2} means the space range of this character is 2
     mult_table +='\n'
 print(mult_table)
 
-print('-'*116)
+print('-' * 116)
 print('Multiplication table - Method 2'.center(116))
-print('-'*116)
+print('-' * 116)
 
-for n in range(1,11,1):
-    for i in range (2,10,1):
-        print(f'{i:2} x {n:2} = {i*n:2}',end='   ') # {i:2} means the space range of this character is 2
+for n in range(1, 11, 1):
+    for i in range (2, 10, 1):
+        print(f'{i:2} x {n:2} = {i*n:2}', end='   ') # {i:2} means the space range of this character is 2
     print()
     
 
@@ -67,7 +67,7 @@ for index, fruit in enumerate(lst_fruits):
 
 
 # Use enumerate with a start index
-for index, fruit in enumerate(lst_fruits, start = 1):
+for index, fruit in enumerate(lst_fruits, start=1):
     print(f'Index: {index}, Fruit: {fruit}')
 # Output:
 # Index: 1, Fruit: apple

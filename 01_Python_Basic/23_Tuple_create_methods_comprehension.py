@@ -38,9 +38,9 @@ tup1 = ('one','two','three','four')
 print(tup1)
 print(type(tup1))
 
-tup2 = (1,2,3,4,5)
-tup3 = 6,7,8,9,10
-tup4 = 8,         #If have only one element, must end with "," to make Python understand this as Tuple
+tup2 = (1, 2, 3, 4, 5)
+tup3 = 6, 7, 8, 9, 10
+tup4 = 8,              # If have only one element, must end with "," to make Python understand this as Tuple
 tup5 = ('abc',)
 tup6 = ('cdf', True, 1.2, 3, ["Name", False])
 
@@ -118,7 +118,6 @@ predators_tup = tuple(predators_list)
 print(predators_tup) # ('tiger', 'lion', 'wolf', 'eagle', 'cheetah', 'batman')
 
 
-
 #------------------------------------------------------#
 #----------------- Tuple methods ----------------------#
 #------------------------------------------------------#
@@ -133,7 +132,6 @@ float_tup = (3.72, 8.15, 0.49, 6.03, 1.27, 0.49, 0.48, 0.49)
 
 # .count() returns the number of a specified element within a tuple
 print(float_tup.count(0.49)) # 3 (value 0.49 shows up 3 times)
-
 
 ##############
 ## .index() ##
@@ -174,14 +172,12 @@ philosophes = "Voltaire", "Rousseau", "Montesquieu", "Diderot"
 for homme in philosophes:
     print(homme)
 
-
 ##############################
 ## For loop through indices ##
 ##############################
 
 for index, element in enumerate(philosophes):
     print(f"{index} - {element}")
-
 
 ################################
 ## While loop through indices ##
@@ -191,7 +187,6 @@ i = 0
 while i < len(philosophes):
     print(f"{i} - {philosophes[i]}")
     i += 1
-
 
 ##########################
 ## Loop through 2D list ##
@@ -290,14 +285,14 @@ print(output) # <map object at 0x7fda43fbf5e0>
 output_tuple = tuple(map(np.sqrt, tuple_floats)) #convert map object into tuple before printing out
 print(output_tuple)
 
-output_tuple = tuple(map(lambda x: x/100, tuple_floats)) #combine map() with lambda function
+output_tuple = tuple(map(lambda x: x / 100, tuple_floats)) #combine map() with lambda function
 print(output_tuple)
 
 
 # Use tuple comprehension to perform list element-wise calculation
-tuple_complexes = ((3+2j), (4+5j), (9.5 + 10j))
+tuple_complexes = ((3 + 2j), (4 + 5j), (9.5 + 10j))
 
-output_tuple = tuple(complex**2 for complex in tuple_complexes)
+output_tuple = tuple(complex ** 2 for complex in tuple_complexes)
 print(output_tuple)
 
 

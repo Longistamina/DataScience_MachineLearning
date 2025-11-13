@@ -501,7 +501,7 @@ from pathlib import Path
 
 # mkdir() basic use
 data_dir = Path('./data')
-data_dir.mkdir(exist_ok = True)  # Create 'data' directory (at existed parent dir) like os.mkdir()
+data_dir.mkdir(exist_ok=True)  # Create 'data' directory (at existed parent dir) like os.mkdir()
                                  # Don't fail if exists
 
 

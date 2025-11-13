@@ -1,13 +1,13 @@
 # Operators = toán tử
 
 '''
-a+b
-a-b
-a*b
-a**b -> a exponential b times (ex: 7**3 = 7*7*7=343)
-a/b  -> conventional division
-a%b  -> get the remainer (chia lay phan du)
-a//b -> get the quotient (chia lay phan nguyen)
+a + b
+a - b
+a * b
+a ** b -> a exponential b times (ex: 7**3 = 7*7*7 = 343)
+a / b  -> conventional division
+a % b  -> get the remainer (chia lay phan du)
+a // b -> get the quotient (chia lay phan nguyen)
 '''
 
 '''

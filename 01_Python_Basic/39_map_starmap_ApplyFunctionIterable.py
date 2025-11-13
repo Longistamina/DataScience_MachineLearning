@@ -63,9 +63,9 @@ print(list(map(pow, nums, exps1)))   # 1**2, 2**3, 3**4
 
 '''
 what actually happens is:
-    pow(base = 1, exp = 2) = (1²) = 1
-    pow(base = 2, exp = 3) = (2³) = 8
-    pow(base = 3, exp = 4) = (3⁴) = 81
+    pow(base=1, exp=2) = (1²) = 1
+    pow(base=2, exp=3) = (2³) = 8
+    pow(base=3, exp=4) = (3⁴) = 81
 '''
 
 #-------------
@@ -77,9 +77,9 @@ print(list(map(pow, nums, exps1, exps2)))
 
 '''
 what actually happens is:
-    pow(base = 1, exp = 2, mod = 5) = (1²) % 5 = 1 % 5 = 1
-    pow(base = 2, exp = 3, mod = 6) = (2³) % 6 = 8 % 6 = 2
-    pow(base = 3, exp = 4, mod = 7) = (3⁴) % 7 = 81 % 7 = 4
+    pow(base=1, exp=2, mod=5) = (1²) % 5 = 1 % 5 = 1
+    pow(base=2, exp=3, mod=6) = (2³) % 6 = 8 % 6 = 2
+    pow(base=3, exp=4, mod=7) = (3⁴) % 7 = 81 % 7 = 4
 '''
 
 

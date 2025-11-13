@@ -220,7 +220,7 @@ ET.SubElement(character_1, "Name").text = "Padmé Amidala" # Add subelement "Nam
 ET.SubElement(character_1, "Gender").text = "F"           # Add subelement "Gender" for the character_1 element
 ET.SubElement(character_1, "Age").text = "27"             # Add subelement "Age" for the character_1 element
 ET.SubElement(character_1, "Job").text = "Queen of Naboo" # Add subelement "Job" for the character_1 element
-ET.SubElement(character_1, "Income", currency = "$").text = "45000" # Add subelement "Income" for the character_1 element with currency
+ET.SubElement(character_1, "Income", currency="$").text = "45000" # Add subelement "Income" for the character_1 element with currency
 
 
 # Add the second child element also with the tag "CHARACTER" 
@@ -230,7 +230,7 @@ ET.SubElement(character_2, "Name").text = "Anakin Skywalker"
 ET.SubElement(character_2, "Gender").text = "M"
 ET.SubElement(character_2, "Age").text = "22"
 ET.SubElement(character_2, "Job").text = "Jedi"
-ET.SubElement(character_2, "Income", currency = "$").text = "23450"
+ET.SubElement(character_2, "Income", currency="$").text = "23450"
 
 
 # Create the XML tree from the defined root element
@@ -256,7 +256,7 @@ for character_element in root_starwars:
 #-------------------------------------------------------------------#
 
 # Add indentation before writing
-ET.indent(tree_starwars, space="  ", level = 0)
+ET.indent(tree_starwars, space="  ", level=0)
 
 # tree.write() to save a xml tree to a .xml file
 tree_starwars.write(

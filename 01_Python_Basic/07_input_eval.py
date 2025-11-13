@@ -9,7 +9,7 @@ y = int(input("Input variable y: "))
 
 print("Sum x + y =", x + y)
 print("Subtract x - y =", x - y)
-print("Multiplication x*y = ", x * y)
+print("Multiplication x*y =", x * y)
 print("Division x/y =", x / y)
 
 

@@ -211,7 +211,7 @@ def person_info(name, age, city):
 
 
 # Call the function with keyword arguments with the same order as parameters
-person_info(name = "John", age = 30, city = "New York")
+person_info(name="John", age=30, city="New York")
 # Name: John, Age: 30, City: New York
 
 
@@ -353,7 +353,7 @@ def demo_kwargs(**kwargs):
 
 
 # Call the function with multiple keyword arguments
-demo_kwargs(key1 = "value1", key2 = "value2", key3 = 42)
+demo_kwargs(key1="value1", key2="value2", key3=42)
 # <class 'dict'>
 # {'key1': 'value1', 'key2': 'value2', 'key3': 42}
 # dict_keys(['key1', 'key2', 'key3'])
@@ -371,7 +371,7 @@ def display_info(**info):  # Now **info will work as **kwargs to collect all key
         
 
 # Call the function with keyword arguments
-display_info(name = "Alice", age = 30, city = "New York")
+display_info(name="Alice", age=30, city="New York")
 # name: Alice
 # age: 30
 # city: New York

@@ -13,7 +13,7 @@ Otherwise, reach for "def" once the function grows or needs a name, documentatio
 
 square = lambda x: x ** 2 # can under stand as "square = def square(x): return x ** 2"
 
-print(square(x = 5)) # Keyword argument
+print(square(x=5)) # Keyword argument
 # 25
 
 print(square(10)) # Positional argument
@@ -26,7 +26,7 @@ print(square(10)) # Positional argument
 
 affine_combination = lambda x, y, theta: theta*x + (1-theta)*y
 
-affine_1 = affine_combination(x = 2, y = 3, theta = 0.5)
+affine_1 = affine_combination(x=2, y=3, theta=0.5)
 print(affine_1)
 # 2.5
 

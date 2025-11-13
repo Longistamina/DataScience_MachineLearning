@@ -202,7 +202,6 @@ set_union = set_a.union(set_b)  # or set_a | set_b
 print(set_union)      # {1, 2, 3, 4, 5, 6}
 print(set_a | set_b)  # {1, 2, 3, 4, 5, 6}
 
-
 ###########################################################################
 ## .intersection(): returns elements common to both sets (set_a & set_b) ##
 ###########################################################################
@@ -210,7 +209,6 @@ print(set_a | set_b)  # {1, 2, 3, 4, 5, 6}
 set_intersection = set_a.intersection(set_b)  # or set_a & set_b
 print(set_intersection)  # {3, 4}
 print(set_a & set_b)     # {3, 4}
-
 
 ####################################################################################
 ## .difference(): returns elements in set_a that are not in set_b (set_a - set_b) ##
@@ -220,7 +218,6 @@ set_difference = set_a.difference(set_b)  # or set_a - set_b
 print(set_difference)  # {1, 2}
 print(set_a - set_b)   # {1, 2}
 
-
 #####################################################################################################
 ## .symmetric_difference(): returns elements in either set_a or set_b but not both (set_a ^ set_b) ##
 #####################################################################################################
@@ -228,7 +225,6 @@ print(set_a - set_b)   # {1, 2}
 set_symmetric_difference = set_a.symmetric_difference(set_b)  # or set_a ^ set_b
 print(set_symmetric_difference)  # {1, 2, 5, 6}
 print(set_a ^ set_b)             # {1, 2, 5, 6}
-
 
 ###########################################################################################
 ## .issubset(): checks if set_a is a subset of set_b (set_a <= set_b) or (set_a < set_b) ##
@@ -238,7 +234,6 @@ print(set_a.issubset(set_b))  # False
 print(set_a <= set_b)         # False
 print(set_a < set_b)          # False
 
-
 ###############################################################################################
 ## .issuperset(): checks if set_a is a superset of set_b (set_a >= set_b) or (set_a > set_b) ##
 ###############################################################################################
@@ -246,7 +241,6 @@ print(set_a < set_b)          # False
 print(set_a.issuperset(set_b))  # False
 print(set_a >= set_b)           # False
 print(set_a > set_b)            # False
-
 
 #########################################################################
 ## .isdisjoint(): checks if set_a and set_b have no elements in common ##
@@ -265,7 +259,6 @@ print(set_a.isdisjoint({7, 8}))  # True, because {7, 8} has no common elements w
 
 set_demo = {"Metal", "Wood", "Earth", "Water", "Fire"}
 
-
 ################################################
 ## .copy(): creates a shallow copy of the set ##
 ################################################
@@ -273,7 +266,6 @@ set_demo = {"Metal", "Wood", "Earth", "Water", "Fire"}
 set_copy = set_demo.copy()
 print(set_copy)  # {'Fire', 'Metal', 'Wood', 'Earth', 'Water'}
 print(id(set_demo) == id(set_copy)) # False, because they are different objects
-
 
 ################################################################
 ## sorted(): returns a sorted list of the elements in the set ##
