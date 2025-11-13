@@ -11,7 +11,7 @@ from rectangle_module import RectangleCalculator
 #-----------------------------------------------------------------------------------------------------------------------------------#
 
 # Initialize an object belonging to the RectangleCalculator module with given attributes (length and width)
-rectangle = RectangleCalculator(length = 355, width = 263)
+rectangle = RectangleCalculator(length=355, width=263)
 
 # Display information
 print(rectangle.length) # 355
@@ -80,7 +80,7 @@ and ensure that the perimeter and area are always calculated based on the length
 ## (NOT RECOMMENDED) Access the private attributes self.__perimeter and self.__area directly ##
 ###############################################################################################
 
-rectangle = RectangleCalculator(length = 355, width = 263)
+rectangle = RectangleCalculator(length=355, width=263)
 
 old_perimeter = rectangle.perimeter
 old_area = rectangle.area

@@ -35,7 +35,7 @@ class Item:
 # => Create a new class Phone that inherits from Item
 
 class Phone(Item): # The "Item" inside the parentheses means that Phone is inheriting from Item
-    def __init__(self, name: str, price: float, quantity: int, broken_phone: bool = False):
+    def __init__(self, name: str, price: float, quantity: int, broken_phone: bool=False):
         super().__init__(name, price, quantity)  
         # This links to the __init__ method of Item
         # So that we don't have to set "self.attributes = arguments" again and again
@@ -70,7 +70,7 @@ import csv
 from item import Item # Make sure file item.py is in the same directory or adjust the import path accordingly
 
 class Fruit(Item):
-    def __init__(self, name: str, price: float, quantity: int, is_organic: bool = False):
+    def __init__(self, name: str, price: float, quantity: int, is_organic: bool=False):
         super().__init__(name, price, quantity)
         self.is_organic = is_organic  # New attribute specific to Fruit class
 

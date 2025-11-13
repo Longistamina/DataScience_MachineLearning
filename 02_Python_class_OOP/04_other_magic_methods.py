@@ -8,7 +8,7 @@ __repr__()    Called by repr() to get an official string representation useful f
 __str__()     Called by str() to define the “informal” string representation of an instance
 __len__()     Called by len() to return the lenght of an object via len(obj)
 __getitem__() Called to enable bracket access (obj[key]).
-__setitem__() Called to enable item assignment (obj[key] = value).
+__setitem__() Called to enable item assignment (obj[key]=value).
 __eq__()      Called to enable equality comparison (obj1 == obj2)
 __add__()     Called to enable arithmetic addition (obj1 + obj2)
 __call__()    Makes an instance callable like a function
@@ -132,7 +132,7 @@ print(c[0])  # Output: red
 #-------- __setitem__() method ------------#
 #------------------------------------------#
 
-# __setitem__() Called to enable item assignment (obj[key] = value).
+# __setitem__() Called to enable item assignment (obj[key]=value).
 
 # without __setitem__()
 class Basket:

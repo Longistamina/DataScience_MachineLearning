@@ -29,7 +29,7 @@ print(Employee.demo_class_method()) # Execute a class method
 
 csv_path = "/home/longdpt/Documents/Academic/DataScience_MachineLearning_Python_SQL/01_Python_Basic/class_OOP/class_method_employees.csv"
 
-lst_employees = Employee.construct_from_csv(file_path = csv_path)
+lst_employees = Employee.construct_from_csv(file_path=csv_path)
 print(lst_employees)
 # {'Name': 'Alice', 'Age': '30', 'City': 'New York'}
 # {'Name': 'Bob', 'Age': '25', 'City': 'Los Angeles'}

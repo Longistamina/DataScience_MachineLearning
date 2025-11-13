@@ -21,7 +21,7 @@ class RectangleCalculator:
     '''
 
 
-    def __init__(self, length = None, width = None):
+    def __init__(self, length=None, width=None):
         '''
         input: the path leading to an input directory containing JSON files, or directly to a specified JSON file
         output: the path leading to on output directory to store the results in JSON files, or directly to a specified JSON file
@@ -60,7 +60,7 @@ class RectangleCalculator:
                 if (self._output.is_dir()) and (non_json_count == 0):
                     shutil.rmtree(self._output)
                 
-                self._output.mkdir(exist_ok = True, parents = True)
+                self._output.mkdir(exist_ok=True, parents=True)
         
         return self._output
 
@@ -89,10 +89,10 @@ class RectangleCalculator:
             
             if (json_output_file.is_dir()) and (non_json_count == 0):
                 shutil.rmtree(json_output_file)
-                json_output_file.mkdir(exist_ok = True)
+                json_output_file.mkdir(exist_ok=True)
             
             else:
-                json_output_file.mkdir(exist_ok = True, parents = True)
+                json_output_file.mkdir(exist_ok=True, parents=True)
             
             json_output_file = json_output_file.joinpath("nameless.json")
 
@@ -135,7 +135,7 @@ class RectangleCalculator:
             length, width = RectangleCalculator.__valiate_input_number(length, width)
         
         if None in [length, width]:
-            json_rectangle_file = colored(json_rectangle_file, "yellow", attrs = ['bold'])
+            json_rectangle_file = colored(json_rectangle_file, "yellow", attrs=['bold'])
             datatype_hint = colored("! They are expected to be POSITIVE NUMBERS (greater than zero)", "red", attrs = ['bold'])
             logger.error(f"CORRUPTED inputs are detected in {json_rectangle_file}{datatype_hint}\n")
         
@@ -194,7 +194,7 @@ class RectangleCalculator:
             return None # Don't save the file if its outputs are corrupted
        
         with open(self._single_output_path, "w") as json_pointer:
-            json.dump(result_dict, json_pointer, indent = 4)
+            json.dump(result_dict, json_pointer, indent=4)
 
     
     def _display_saving_single_output_message(self):
@@ -206,9 +206,9 @@ class RectangleCalculator:
                 logger.info(f"The result is saved in {result_path}\n")
 
     
-    def summary(self, rectangle_output_name = "nameless"):
+    def summary(self, rectangle_output_name="nameless"):
         rectangle_output_name = colored(str(rectangle_output_name), (139, 0, 0), attrs=["bold"])
-        prioritize_message = colored(", prioritize them for calculation.", "yellow", attrs = ['bold'])
+        prioritize_message = colored(", prioritize them for calculation.", "yellow", attrs=['bold'])
 
         if (None in [self.__length, self.__width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
             length, width = self.length, self.width
@@ -322,7 +322,7 @@ def __config_log_file(project_dir): # Internal use only, cannot call out when th
 #--------------------------------------------------------------------------------------------------------------#
 
 def __parse_args():
-    formatter = lambda prog: HelpFormatter(prog, width = 200, max_help_position = 50)
+    formatter = lambda prog: HelpFormatter(prog, width=200, max_help_position=50)
 
     parser = ArgumentParser(
         prog = "Rectangle Calculator Program",
@@ -331,11 +331,11 @@ def __parse_args():
         formatter_class = formatter
     )
     
-    parser.add_argument("-l", "--length", required = False, default = None, metavar = "\b", help = "Length of the rectangle (expected to be a positive number).")
-    parser.add_argument("-w", "--width", required = False, default = None, metavar = "\b", help = "Width of the rectangle (expected to be a positive number).")
-    parser.add_argument("-i", "--input", required = False, default = "", metavar = "\b", help = "Input path leading to a JSON file containing the length and width of a rectangle, or to a directory having multiple JSON input files.")
-    parser.add_argument("-o", "--output", required = False, default = "", metavar = "\b", help = "Output path leading to a JSON file to store the results, or to a directory to store multiple JSON output files.")
-    parser.add_argument("-c", "--cores", required = False, default = 2, type = int, metavar = "\b", help = "The number of CPU cores to be used for parallel computing.")
+    parser.add_argument("-l", "--length", required=False, default=None, metavar="\b", help="Length of the rectangle (expected to be a positive number).")
+    parser.add_argument("-w", "--width", required=False, default=None, metavar="\b", help="Width of the rectangle (expected to be a positive number).")
+    parser.add_argument("-i", "--input", required=False, default="", metavar="\b", help="Input path leading to a JSON file containing the length and width of a rectangle, or to a directory having multiple JSON input files.")
+    parser.add_argument("-o", "--output", required=False, default="", metavar="\b", help="Output path leading to a JSON file to store the results, or to a directory to store multiple JSON output files.")
+    parser.add_argument("-c", "--cores", required=False, default=2, type=int, metavar="\b", help="The number of CPU cores to be used for parallel computing.")
 
     return parser.parse_args()
 
@@ -382,11 +382,11 @@ def main():
                             )
                         )
                         
-                        answer = input(colored("Would you like to proceed? [y/n]: ", "blue", attrs = ["bold"]))
+                        answer = input(colored("Would you like to proceed? [y/n]: ", "blue", attrs=["bold"]))
 
                         if answer.lower() == "y":
-                            with multiprocessing.Pool(processes = calculator._cores) as pool:
-                                pool.starmap(func = calculator._single_workflow, iterable = input_json_files)
+                            with multiprocessing.Pool(processes=calculator._cores) as pool:
+                                pool.starmap(func=calculator._single_workflow, iterable=input_json_files)
                         
                         else:
                             return None # stop the program
@@ -394,8 +394,8 @@ def main():
                     case _:
                         __config_log_file(calculator._input.parent) # Only produce rectangle_logs.txt if the input and output directories or files are given           
                         
-                        with multiprocessing.Pool(processes = calculator._cores) as pool:
-                                pool.starmap(func = calculator._single_workflow, iterable = input_json_files)
+                        with multiprocessing.Pool(processes=calculator._cores) as pool:
+                                pool.starmap(func=calculator._single_workflow, iterable=input_json_files)
                         
                         # for entry in calculator._input.glob("*.json"):
                         #     calculator._single_workflow(entry.name)
