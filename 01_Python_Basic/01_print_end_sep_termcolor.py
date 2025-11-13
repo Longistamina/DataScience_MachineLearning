@@ -59,10 +59,10 @@ print(
 ## print() with "end =" ##
 ##########################
  
-print("Happiness is simple", end = ".")
+print("Happiness is simple", end=".")
 # Happiness is simple.>>>
 
-print("Happiness is simple", end = " .\n")
+print("Happiness is simple", end=" .\n")
 # Happiness is simple .
 # >>> 
 
@@ -71,10 +71,10 @@ print("Happiness is simple", end = " .\n")
 ## print() with "sep =" ##
 ##########################
 
-print("Happiness", "is", "simple", sep = " - ")
+print("Happiness", "is", "simple", sep=" - ")
 # Happiness - is - simple
 
-print("Happiness", "is", "simple", sep = "|")
+print("Happiness", "is", "simple", sep="|")
 # Happiness|is|simple
 
 
@@ -158,6 +158,6 @@ cprint(
 #############################################################
 
 print(
-    colored("In brightest day, in blackest night, no evil shall escape my sight.", "green", attrs = ["bold"]),
-    colored("\nLet those who worship evil's might, beware my power, Green Lantern's light.", "green", attrs = ["bold"])
+    colored("In brightest day, in blackest night, no evil shall escape my sight.", "green", attrs=["bold"]),
+    colored("\nLet those who worship evil's might, beware my power, Green Lantern's light.", "green", attrs=["bold"])
 )
