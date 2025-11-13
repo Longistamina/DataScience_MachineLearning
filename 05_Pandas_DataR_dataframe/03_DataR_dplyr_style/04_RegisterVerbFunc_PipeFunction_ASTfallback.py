@@ -10,6 +10,8 @@
    + Apply custom lambda functions (usefull for pandas methods)
    + Apply user-defined functions directly in the pipe chain
    + Apply sicpy.stats functions without registering
+
+4. Set __ast_fallback = "normal" to avoid PipeableCallCheckWarning
 '''
 
 import datar.all as dr
@@ -228,3 +230,49 @@ print(
 # ppf_50th     73.689655    168.966550
 # ppf_75th     75.250379    271.079323
 # ppf_100th          inf           inf
+
+
+#---------------------------------------------------------------------------------------------------------------------#
+#--------------------------------------- 4. Set __ast_fallback = "normal" --------------------------------------------#
+#---------------------------------------------------------------------------------------------------------------------#
+'''
+While using Pipe Operator ">>", you might encounter PipeableCallCheckWarning for some complex expressions.
+
+To avoid this warning, you can set the argument __ast_fallback = "normal" in the function called.
+'''
+
+####################################
+## Cause PipeableCallCheckWarning ##
+####################################
+
+print(
+    df_baseball
+    >> dr.mutate(Team = dr.as_factor(f.Team))
+    >> dr.slice_head(4)
+)
+# /home/longdpt/miniconda3/envs/data/lib/python3.12/site-packages/pipda/utils.py:82: PipeableCallCheckWarning: Failed to detect AST node calling `as_factor`, assuming a normal call.
+#   warnings.warn(
+#               Name       Team  Height  Weight
+#           <object> <category> <int64> <int64>
+# 0    Adam_Donachie        BAL      74     180
+# 1        Paul_Bako        BAL      74     215
+# 2  Ramon_Hernandez        BAL      72     210
+# 3     Kevin_Millar        BAL      72     210
+
+#############################################
+## Set __ast_fallback="normal" to avoid it ##
+#############################################
+
+print(
+    df_baseball
+    >> dr.mutate(Team = dr.as_factor(f.Team, __ast_fallback="normal"))
+    >> dr.slice_head(4)
+)
+#               Name       Team  Height  Weight
+#           <object> <category> <int64> <int64>
+# 0    Adam_Donachie        BAL      74     180
+# 1        Paul_Bako        BAL      74     215
+# 2  Ramon_Hernandez        BAL      72     210
+# 3     Kevin_Millar        BAL      72     210
+
+'''No more PipeableCallCheckWarning'''
