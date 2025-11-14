@@ -15,16 +15,20 @@
 7. "*" = Zero or more occurrences
 8. "+" = One or more occurrences
 9. "?" = Zero or one occurrences
-10. "{}" = Exactly the specified number of occurrences
-11. "|" = Either or
-12. () group capturing
-13. (?:) non-group capturing
-14. re.match(): Determines if the RE matches at the beginning of the string
-15. re.findall(): Returns a list containing all matches
-16. re.search(): Returns a Match object if there is a match anywhere in the string
-17. re.split(): Returns a list where the string has been split at each match
-18. re.sub(): Replaces one or many matches with a string
-19. Match Object
+10. "*?" = Zero or more occurences, but as few as possible
+11. "+?" = One or more occurences, but as few as possible
+12. "{}" = Exactly the specified number of occurrences
+13. "|" = Either or
+14. () = group capturing
+15. (?:) = non-group capturing
+16. (?<=Y)X and (?<!Y)X = Positive lookbehind and Negative lookbehind
+17. X(?=Y) and X(?!Y) = Positive lookahead and Negative lookahead
+18. re.match(): Determines if the RE matches at the beginning of the string
+19. re.findall(): Returns a list containing all matches
+20. re.search(): Returns a Match object if there is a match anywhere in the string
+21. re.split(): Returns a list where the string has been split at each match
+22. re.sub(): Replaces one or many matches with a string
+23. Match Object
 '''
 
 
@@ -159,14 +163,16 @@ import re
 text = "a aa aaa aaaa b bb bbb"
 
 # 1. Using * (zero or more)
-# Matches 'a' followed by zero or more 'a' characters
+# Matches zero or more occurrences of 'a' characters
 
 pattern1 = r"a*"
 matches1 = re.findall(pattern1, text)
-print("With * (zero or more):", matches1)  # Output: ['a', 'aa', 'aaa', 'aaaa', '', 'b', 'bb', 'bbb', '']
-                                           # Output has two '' characters (meaning match "no a")
-                                           # One '' is for the space character ' ' (has no "a")
-                                           # Other '' is for the empty character '' (also has no "a")
+print("With * (zero or more):", matches1)
+
+# Output: ['a', '', 'aa', '', 'aaa', '', 'aaaa', '', '', '', '', '', '', '', '', '', '']
+# The r"*a*" pattern matches 'a' characters of varying lengths, including zero occurrences (represented by empty strings).
+# So "" means zero occurrence of 'a'
+# For example, the "b" or "bb" have no 'a' characters, so it matches zero occurrences, resulting in an empty string in the output list.
 
 
 #---------------------------------------------------------------------------------------------#
@@ -178,32 +184,103 @@ import re
 text = "a aa aaa aaaa b bb bbb"
 
 # 2. Using + (one or more)
-# Matches 'a' followed by one or more 'a' characters
+# Matches one or more occurrences of 'a' characters
 
 pattern2 = r"a+"
 matches2 = re.findall(pattern2, text)
-print("With + (one or more):", matches2)  # Output: ['a', 'aa', 'aaa', 'aaaa']
+print("With + (one or more):", matches2)  
+
+# Output: ['a', 'aa', 'aaa', 'aaaa']
+# The r"+a+" pattern matches 'a' characters of varying lengths, but only those with at least one occurrence.
+# So it does not match the "b" or "bb" since they have no 'a' characters.
+
 
 #---------------------------------------------------------------------------------------------#
 #-------------------------- 9. "?" = Zero or one occurrences ---------------------------------#
 #---------------------------------------------------------------------------------------------#
+
 import re
+
 text = "a aa aaa aaaa b bb bbb"
 
 # 3. Using ? (zero or one)
-# Matches 'a' followed by zero or one 'a' character
+# Matches zero or one occurrence of 'a' characters
 
 pattern3 = r"a?"
 matches3 = re.findall(pattern3, text)
-print("With + (one or more):", matches3) 
+print("With + (one or more):", matches3)
+
 # Output: ['a', '', 'a', 'a', '', 'a', 'a', 'a', '', 'a', 'a', 'a', 'a', '', '', '', '', '', '', '', '', '', '']
+# The r"?a?" pattern matches one-length 'a' characters, including zero occurrences (represented by empty strings).
+# So "" means zero occurrence of 'a' (like in "b" or "bb")
+
+
+#----------------------------------------------------------------------------------------------------#
+#------------------------- 10. "*?" = Zero or more occurences, but as few as possible ---------------#
+#----------------------------------------------------------------------------------------------------#
+
+import re
+
+text = '<a>first</a><b>second</b>'
+
+print(re.search(r'<b.*>', text).group())   # Output: <b>second</b>
+print(re.search(r'<b.+?>', text).group())  # Output: <b>second</b>
+
+print(re.search(r'<b.*?>', text).group())  # Output: <b>
+
+'''
+Explanation:
+1. In the first example, the pattern <b.*> uses the greedy quantifier *, 
+   which matches as many characters as possible.
+   Therefore, it captures everything from the first <b> to the last >, resulting in <b>second</b>.
+
+2. In the second example, the pattern <b.+?> uses the non-greedy quantifier +?, 
+   but the ".+?" still requires at least one character to be matched.
+   Since there are characters between <b> and </b>, it captures the entire <b>second</b>.
+  
+3. In the third example, the pattern <b.*?> uses the non-greedy quantifier *?, 
+   The ".*?" matches as few characters as possible, so it stops at the first > it encounters, resulting in <b>.
+   (between <b amd > there is no character, so it matches zero occurrence of any character)
+'''
+
+
+#----------------------------------------------------------------------------------------------------#
+#------------------- 11. "+?" = One or more occurences, but as few as possible ----------------------#
+#----------------------------------------------------------------------------------------------------#
+
+import re
+
+text = '<foo>, <>, <bar>, <baz>, <>'
+
+print(re.findall(r'<.+>', text))    # Output: ['<foo>, <>, <bar>, <baz>, <>']
+print(re.findall(r'<.*?>', text))   # Output: ['<foo>', '<>', '<bar>', '<baz>', '<>']
+
+print(re.findall(r'<.+?>', text))   # Output: ['<foo>', '<bar>', '<baz>']
+
+'''
+Explanation:
+1. In the first example, the pattern <.+> uses the greedy quantifier +, 
+   which matches as many characters as possible.
+   Therefore, it captures everything from the first < to the last >, 
+   resulting in '<foo>, <>, <bar>, <baz>, <>' (one string as a whole).
+
+2. In the second example, the pattern <.*?> uses the non-greedy quantifier *?, 
+   which matches as few characters as possible.
+   Therefore, it captures each individual tag, resulting in ['<foo>', '<>', '<bar>', '<baz>', '<>'].
+
+3. In the third example, the pattern <.+?> uses the non-greedy quantifier +?, 
+   which matches as few characters as possible but requires at least one character.
+   Therefore, it captures each individual tag that contains at least one character between < and >, 
+   resulting in ['<foo>', '<bar>', '<baz>'] (it excludes the empty tags <>).
+''' 
 
 
 #------------------------------------------------------------------------------------------------------------------#
-#-------------------------- 10. "{}" = Exactly the specified number of occurrences --------------------------------#
+#-------------------------- 12. "{}" = Exactly the specified number of occurrences --------------------------------#
 #------------------------------------------------------------------------------------------------------------------#
 
 import re
+
 txt = "hello helllo planet"
 
 x = re.findall("he.{2}o", txt) # Search for a sequence that starts with "he", followed excactly 2 (any) characters, and an "o":
@@ -219,7 +296,7 @@ print(matches) # Output: ['123', '4', '56', '7', '890', '12']
 
 
 #-------------------------------------------------------------------------------#
-#-------------------------- 11. "|" = Either or --------------------------------#
+#-------------------------- 13. "|" = Either or --------------------------------#
 #-------------------------------------------------------------------------------#
 
 import re
@@ -238,7 +315,7 @@ else:
 
 
 #-----------------------------------------------------------------------------#
-#------------------------- 12. () group capturing ----------------------------#
+#------------------------- 14. () group capturing ----------------------------#
 #-----------------------------------------------------------------------------#
 
 import re
@@ -274,7 +351,7 @@ print(re.findall(pattern3, text))  # Output: ['cat12', 'dog45', 'd78']
 
 
 #----------------------------------------------------#
-#--------- 13. (?:) non-group capturing -------------#
+#--------- 15. (?:) non-group capturing -------------#
 #----------------------------------------------------#
 
 import re
@@ -311,7 +388,7 @@ print("With non-capturing group and alternation:", matches3)  # Output: ['2025-0
 
 
 #----------------------------------------------------------------------------#
-#--------------------------- 14. re.match() ---------------------------------#
+#--------------------------- 18. re.match() ---------------------------------#
 #----------------------------------------------------------------------------#
 
 # The match() function checks for a match only at the BEGINNING of the string.
@@ -348,7 +425,7 @@ else:
 
 
 #----------------------------------------------------------------------------#
-#-------------------------- 15. re.findall() --------------------------------#
+#-------------------------- 19. re.findall() --------------------------------#
 #----------------------------------------------------------------------------#
 
 # The findall() function returns a list containing all matches.
@@ -364,7 +441,7 @@ print(x) # []
 
 
 #---------------------------------------------------------------------------#
-#-------------------------- 16. re.search() --------------------------------#
+#-------------------------- 20. re.search() --------------------------------#
 #---------------------------------------------------------------------------#
 
 # The search() function searches the string for a match, and returns a Match object if there is a match.
@@ -380,7 +457,7 @@ print(x) # Return None
 
 
 #--------------------------------------------------------------------------#
-#-------------------------- 17. re.split() --------------------------------#
+#-------------------------- 21. re.split() --------------------------------#
 #--------------------------------------------------------------------------#
 
 # The split() function returns a list where the string has been split at each match:
@@ -396,7 +473,7 @@ print(x) # ['The', 'rain in Spain']
 
 
 #------------------------------------------------------------------------#
-#-------------------------- 18. re.sub() --------------------------------#
+#-------------------------- 22. re.sub() --------------------------------#
 #------------------------------------------------------------------------#
 
 # The sub() function replaces the matches with the text of your choice:
@@ -412,7 +489,7 @@ print(x) # The_rain_in Spain
 
 
 #------------------------------------------------------------------------#
-#-------------------------- 19. Match Object-----------------------------#
+#-------------------------- 23. Match Object-----------------------------#
 #------------------------------------------------------------------------#
 
 # A Match Object is an object containing information about the search and the result.
