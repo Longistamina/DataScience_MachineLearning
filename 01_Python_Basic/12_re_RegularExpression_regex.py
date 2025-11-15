@@ -468,7 +468,7 @@ We can combine non-greedy, lookbehind, and lookahead to extract sequences inside
 
 import regex # Must use regex module to allow variable-width lookbehind
 
-dna_sequence = "XXXAAATGCCCTCGXXXTCGTGCXXXGATTGAAGAXXXACC"
+dna_sequence = "XXXAAATGXXXCCCTCGXXXTCGTGCXXXGATTGAAGAXXXACC"
 
 pattern_XXX_orf = r"(?<=ATG.*?)(XXX)(?=.*?(?:TAA|TAG|TGA))" # Must use (?:TAA|TAG|TGA) so that the output only contains 'XXX'
 
