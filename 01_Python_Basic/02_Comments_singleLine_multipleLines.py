@@ -37,3 +37,5 @@ and never exploit anyone simply as a tool for your own goals.
       
 If your action uses someone merely as a means, without respecting their dignity and autonomy, it is immoral.
 """
+
+#

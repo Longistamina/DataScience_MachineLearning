@@ -60,3 +60,5 @@ print(f'Student name (global): {student_name}') # The global variable student_na
 
 display_information_3()
 print(f'3 - Student name (Global): {first_name2} {last_name2}')  # The global variables first_name2 and last_name2 still persist
+
+#

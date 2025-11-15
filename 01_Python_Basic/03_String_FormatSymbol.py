@@ -38,3 +38,5 @@ print('-'*50)
 # Add comma "," as a thousand separator for salary, and round the salary up to 2 decimal numbers
 str3 = f'Full name: {full_name}\n Salary: {salary:,.2f} VND\n Salary coefficient: {salary_coefficient}'
 print(str3)
+
+#
