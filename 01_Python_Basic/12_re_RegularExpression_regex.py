@@ -12,23 +12,24 @@
 4. "." = Any character (except newline character)
 5. "^" = Starts with
 6. "$" = Ends with
-7. "*" = Zero or more occurrences
-8. "+" = One or more occurrences
+7. "*" = Zero or more occurrences (greedy)
+8. "+" = One or more occurrences (greedy)
 9. "?" = Zero or one occurrences
-10. "*?" = Zero or more occurences, but as few as possible
-11. "+?" = One or more occurences, but as few as possible
+10. "*?" = Zero or more occurences, but as few as possible (non-greedy)
+11. "+?" = One or more occurences, but as few as possible (non-greedy)
 12. "{}" = Exactly the specified number of occurrences
 13. "|" = Either or
 14. () = group capturing
 15. (?:) = non-group capturing
 16. (?<=Y)X and (?<!Y)X = Positive lookbehind and Negative lookbehind
 17. X(?=Y) and X(?!Y) = Positive lookahead and Negative lookahead
-18. re.match(): Determines if the RE matches at the beginning of the string
-19. re.findall(): Returns a list containing all matches
-20. re.search(): Returns a Match object if there is a match anywhere in the string
-21. re.split(): Returns a list where the string has been split at each match
-22. re.sub(): Replaces one or many matches with a string
-23. Match Object
+18. regex module: Combine non-greedy, lookbehind and lookahead
+19. re.match(): Determines if the RE matches at the beginning of the string
+20. re.findall(): Returns a list containing all matches
+21. re.search(): Returns a Match object if there is a match anywhere in the string
+22. re.split(): Returns a list where the string has been split at each match
+23. re.sub(): Replaces one or many matches with a string
+24. Match Object
 '''
 
 
@@ -93,7 +94,6 @@ print(x) # ['5', '9']
 ## \B	Returns a match where the specified characters are present, but NOT at the beginning (or at the end) of a word => r"ain\B"; r"\Bain"
 ## (the "r" in the beginning is making sure that the string is being treated as a "raw string")	
 
-
 ## \d	Returns a match where the string contains digits (numbers from 0-9)	"\d"	
 ## \D	Returns a match where the string DOES NOT contain digits	"\D"	
 
@@ -105,7 +105,6 @@ print(x) # ['5', '9']
 
 ## \Z	Returns a match if the specified characters are at the end of the string	"Spain\Z"
 '''
-
 
 
 #--------------------------------------------------------------------------------------------------------------#
@@ -154,9 +153,9 @@ else:
 #Output: Yes, the string ends with 'planet'
 
 
-#----------------------------------------------------------------------------------------------#
-#-------------------------- 7. "*" = Zero or more occurrences ---------------------------------#
-#----------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------#
+#-------------------------- 7. "*" = Zero or more occurrences (greedy) ---------------------------------#
+#-------------------------------------------------------------------------------------------------------#
 
 import re
 
@@ -175,9 +174,9 @@ print("With * (zero or more):", matches1)
 # For example, the "b" or "bb" have no 'a' characters, so it matches zero occurrences, resulting in an empty string in the output list.
 
 
-#---------------------------------------------------------------------------------------------#
-#-------------------------- 8. "+" = One or more occurrences ---------------------------------#
-#---------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------#
+#-------------------------- 8. "+" = One or more occurrences (greedy) ---------------------------------#
+#------------------------------------------------------------------------------------------------------#
 
 import re
 
@@ -215,9 +214,9 @@ print("With + (one or more):", matches3)
 # So "" means zero occurrence of 'a' (like in "b" or "bb")
 
 
-#----------------------------------------------------------------------------------------------------#
-#------------------------- 10. "*?" = Zero or more occurences, but as few as possible ---------------#
-#----------------------------------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------#
+#-------------------- 10. "*?" = Zero or more occurences, but as few as possible (non-greedy) --------------------#
+#-----------------------------------------------------------------------------------------------------------------#
 
 import re
 
@@ -244,9 +243,9 @@ Explanation:
 '''
 
 
-#----------------------------------------------------------------------------------------------------#
-#------------------- 11. "+?" = One or more occurences, but as few as possible ----------------------#
-#----------------------------------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------#
+#------------------- 11. "+?" = One or more occurences, but as few as possible (non-greedy) ----------------------#
+#-----------------------------------------------------------------------------------------------------------------#
 
 import re
 
@@ -387,8 +386,115 @@ matches3 = re.findall(pattern3, text)
 print("With non-capturing group and alternation:", matches3)  # Output: ['2025-05-25', '2025/05/25']
 
 
+#---------------------------------------------------------------------------------------------------------------#
+#---------------- 16. (?<=Y)X and (?<!Y)X = Positive lookbehind and Negative lookbehind ------------------------#
+#---------------------------------------------------------------------------------------------------------------#
+
+import re
+
+text = "Apple &_apple_& Banana &_banana_& Cherry &_cherry_&"
+
+#################################
+## Positive lookbehind (?<=Y)X ##
+#################################
+'''Matches 'X' only if preceded by 'Y'.'''
+
+pattern_pos_lookbehind = r"(?<=&_)\w+\W" # Matches worrds followed by "&_"
+
+print(re.findall(pattern_pos_lookbehind, text))
+# ['apple_&', 'banana_&', 'cherry_&']
+
+#################################
+## Negative lookbehind (?<!Y)X ##
+#################################
+'''Matches 'X' only if NOT preceded by 'Y'.'''
+
+pattern_neg_lookbehind = r"(?<!&_)\b[a-zA-Z]+\b" # Matches words NOT preceded by "&_"
+
+print(re.findall(pattern_neg_lookbehind, text))
+# ['Apple', 'Banana', 'Cherry']
+
+'''
+NOTE: Lookbehind assertions are fixed-width in Python's re module.
+
+If you need variable-width lookbehind, consider using the regex module (an alternative to re) which supports this feature.
+
+pip3 install regex
+'''
+
+#-----------------------------------------------------------------------------------------------------------#
+#-------------------- 17. X(?=Y) and X(?!Y) = Positive lookahead and Negative lookahead --------------------#
+#-----------------------------------------------------------------------------------------------------------#
+
+import re
+
+text = "Apple &_apple_& Banana &_banana_& Cherry &_cherry_&"
+
+###############################
+## Positive lookahead X(?=Y) ##
+###############################
+'''Matches 'X' only if followed by 'Y'.'''
+
+pattern_pos_lookahead = r"\W\w+(?=_&)" # Matches words followed by "_&"
+
+print(re.findall(pattern_pos_lookahead, text))
+# ['&_apple', '&_banana', '&_cherry']
+
+###############################
+## Negative lookahead X(?!Y) ##
+###############################
+'''Matches 'X' only if NOT followed by 'Y'.'''
+
+pattern_neg_lookahead = r"\b[a-zA-Z]+\b(?!_&)" # Matches words NOT followed by " _&"
+
+print(re.findall(pattern_neg_lookahead, text))
+# ['Apple', 'Banana', 'Cherry']
+
+
+#----------------------------------------------------------------------------------------------------------------------#
+#------------------------------ 18. regex: Combine non-greedy, lookbehind and lookahead -------------------------------#
+#----------------------------------------------------------------------------------------------------------------------#
+
+###########################################
+## Example 1: Open Reading Frames (ORFs) ##
+###########################################
+
+'''
+Open Reading Frames (ORFs) are sequences in DNA that have the potential to code for proteins.
+Meaning, they lie between a start codon (ATG) and a stop codon (TAA, TAG, TGA).
+
+We can combine non-greedy, lookbehind, and lookahead to extract sequences inside ORFs (ignore the outside parts).
+'''
+
+import regex # Must use regex module to allow variable-width lookbehind
+
+dna_sequence = "XXXAAATGCCCTCGXXXTCGTGCXXXGATTGAAGAXXXACC"
+
+pattern_XXX_orf = r"(?<=ATG.*?)(XXX)(?=.*?(?:TAA|TAG|TGA))" # Must use (?:TAA|TAG|TGA) so that the output only contains 'XXX'
+
+print(regex.findall(pattern_XXX_orf, dna_sequence))
+# ['XXX', 'XXX']
+
+#######################################################################
+## Example 2: Substitute " = " -> "=" but inside parentheses () only ##
+#######################################################################
+
+import regex # Must use regex module to allow variable-width lookbehind
+
+text = """
+x = func(a = 5, b = 10)
+y = another_func(c = 15, d = 20)
+"""
+
+pattern_equal_in_parentheses = r"(?<=\(.*?)\s=\s(?=.*?\))"
+
+print(regex.sub(pattern_equal_in_parentheses, "=", text))
+# x = func(a=5, b=10)
+# y = another_func(c=15, d=20)
+
+
 #----------------------------------------------------------------------------#
-#--------------------------- 18. re.match() ---------------------------------#
+#--------------------------- 19. re.match() ---------------------------------#
 #----------------------------------------------------------------------------#
 
 # The match() function checks for a match only at the BEGINNING of the string.
@@ -425,7 +531,7 @@ else:
 
 
 #----------------------------------------------------------------------------#
-#-------------------------- 19. re.findall() --------------------------------#
+#-------------------------- 20. re.findall() --------------------------------#
 #----------------------------------------------------------------------------#
 
 # The findall() function returns a list containing all matches.
@@ -441,7 +547,7 @@ print(x) # []
 
 
 #---------------------------------------------------------------------------#
-#-------------------------- 20. re.search() --------------------------------#
+#-------------------------- 21. re.search() --------------------------------#
 #---------------------------------------------------------------------------#
 
 # The search() function searches the string for a match, and returns a Match object if there is a match.
@@ -457,7 +563,7 @@ print(x) # Return None
 
 
 #--------------------------------------------------------------------------#
-#-------------------------- 21. re.split() --------------------------------#
+#-------------------------- 22. re.split() --------------------------------#
 #--------------------------------------------------------------------------#
 
 # The split() function returns a list where the string has been split at each match:
@@ -473,7 +579,7 @@ print(x) # ['The', 'rain in Spain']
 
 
 #------------------------------------------------------------------------#
-#-------------------------- 22. re.sub() --------------------------------#
+#-------------------------- 23. re.sub() --------------------------------#
 #------------------------------------------------------------------------#
 
 # The sub() function replaces the matches with the text of your choice:
@@ -489,7 +595,7 @@ print(x) # The_rain_in Spain
 
 
 #------------------------------------------------------------------------#
-#-------------------------- 23. Match Object-----------------------------#
+#-------------------------- 24. Match Object-----------------------------#
 #------------------------------------------------------------------------#
 
 # A Match Object is an object containing information about the search and the result.
