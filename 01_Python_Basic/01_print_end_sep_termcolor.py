@@ -36,6 +36,8 @@ The friend laughed and said, “Come on, that's impossible. Someone clearly desi
 Newton looked at him and said, “If you can't believe that this small model came about by chance, 
 then how can you believe that the real solar system, infinitely more complex and vast, 
 came into existence without a Creator?"
+      
+(This rhetoric skill is called "Socratic Elenchus")
 ''')
 
 

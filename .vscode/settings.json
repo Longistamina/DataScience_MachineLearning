@@ -14,7 +14,7 @@
     "plaintext": false,
     "markdown": false,
     "scminput": false,
-    "python": true,
+    "python": false,
     "r": false
   },
   "python.defaultInterpreterPath": "/home/longdpt/miniconda3/envs/data/bin/python",
