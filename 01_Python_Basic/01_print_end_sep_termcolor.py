@@ -84,8 +84,6 @@ print("Happiness", "is", "simple", sep="|")
 #--------------------------------------- termcolor module ---------------------------------------------#
 #------------------------------------------------------------------------------------------------------#
 
-# conda install -c conda-forge termcolor
-
 '''
 The termcolor module lets you add ANSI colors and text attributes (bold, underline, etc.) to console output. 
 
@@ -105,10 +103,10 @@ from termcolor import colored, cprint
 #########################################
 
 colored_text = colored(
-    text = "This text is so colorful!!!",
-    color = "light_cyan",          # color of the text
-    on_color = "on_light_red",     # color of the highlight background
-    attrs = ["bold", "underline"]  # LIST of text's attributes like "bold", "underline", ... (MUST be a LIST)
+    text="This text is so colorful!!!",
+    color="light_cyan",          # color of the text
+    on_color="on_light_red",     # color of the highlight background
+    attrs=["bold", "underline"]  # LIST of text's attributes like "bold", "underline", ... (MUST be a LIST)
 )
 
 print(colored_text)
