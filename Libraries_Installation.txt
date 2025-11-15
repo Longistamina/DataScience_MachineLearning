@@ -1,4 +1,5 @@
 termcolor
+regex
 loguru
 pytz
 numpy 
@@ -27,7 +28,7 @@ Use conda-forge for stable version
    conda activate
 
 3) Run this command to create a conda environment and install libraries: 
-   conda create -c conda-forge -n data python=3.12 termcolor loguru pytz numpy pandas datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine[all] plotly scipy statsmodels sympy cvxpy scikit-learn imbalanced-learn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima
+   conda create -c conda-forge -n data python=3.12 termcolor regex loguru pytz numpy pandas datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine[all] plotly scipy statsmodels sympy cvxpy scikit-learn imbalanced-learn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima
 
 
 ########################
@@ -48,7 +49,7 @@ Use pip3 install -U for latest versions
    conda activate data
 
 5) Install libraries:
-   pip3 install -U termcolor loguru pytz numpy pandas datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine[all] plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima
+   pip3 install -U termcolor regex loguru pytz numpy pandas datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine[all] plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima
 
 
 #---------------------------------------------------------------------------------------------#
