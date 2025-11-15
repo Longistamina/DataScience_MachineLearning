@@ -12,11 +12,11 @@
 4. "." = Any character (except newline character)
 5. "^" = Starts with
 6. "$" = Ends with
-7. "*" = Zero or more occurrences (greedy)
-8. "+" = One or more occurrences (greedy)
-9. "?" = Zero or one occurrences
-10. "*?" = Zero or more occurences, but as few as possible (non-greedy)
-11. "+?" = One or more occurences, but as few as possible (non-greedy)
+7. "*" = Zero or More occurrences (greedy)
+8. "+" = One or More occurrences (greedy)
+9. "?" = Zero or One occurrences
+10. "*?" = Zero or More occurences, but as few as possible (non-greedy)
+11. "+?" = One or More occurences, but as few as possible (non-greedy)
 12. "{}" = Exactly the specified number of occurrences
 13. "|" = Either or
 14. () = group capturing
@@ -40,7 +40,7 @@
 import re
 
 txt = "The rain in Spain"
-x = re.match("^The.*Spain$", txt)
+x = re.match(r"^The.*Spain$", txt)
 
 if x:
   print("YES! We have a match!")
@@ -56,7 +56,7 @@ import re
 
 txt = "The rain in Spain"
 
-x = re.findall("[a-m]", txt) # Find all lower case characters alphabetically between "a" and "m":
+x = re.findall(r"[a-m]", txt) # Find all lower case characters alphabetically between "a" and "m":
 print(x) # ['h', 'e', 'a', 'i', 'i', 'a', 'i']
 
 '''
@@ -79,10 +79,10 @@ import re
 
 txt = "That will be 59 dollars"
 
-x = re.findall("\d", txt) # Find all digit characters:
+x = re.findall(r"\d", txt) # Find all digit characters:
 print(x) # ['5', '9']
 
-'''
+"""
                                        SPECIAL CHARACTERS with \
 
 ## \A	Returns a match if the specified characters are at the beginning of the string =>	"\AThe"	
@@ -103,7 +103,9 @@ print(x) # ['5', '9']
 ## \W	Returns a match where the string DOES NOT contain any word characters	"\W"	
 
 ## \Z	Returns a match if the specified characters are at the end of the string	"Spain\Z"
-'''
+
+## \., \*, \+, \$, \(, \), \[, \], \{, \}, \|, \\	Use to search for special characters
+"""
 
 
 #--------------------------------------------------------------------------------------------------------------#
@@ -114,7 +116,7 @@ import re
 
 txt = "hello planet"
 
-x = re.findall("he..o", txt) # Search for a sequence that starts with "he", followed by two (any) characters, and an "o":
+x = re.findall(r"he..o", txt) # Search for a sequence that starts with "he", followed by two (any) characters, and an "o":
 print(x) # ['hello']
 
 
@@ -126,7 +128,7 @@ import re
 
 txt = "hello planet"
 
-x = re.findall("^hello", txt) # Check if the string starts with 'hello':
+x = re.findall(r"^hello", txt) # Check if the string starts with 'hello':
 if x:
   print("Yes, the string starts with 'hello'")
 else:
@@ -149,11 +151,11 @@ if x:
 else:
   print("No match")
 
-#Output: Yes, the string ends with 'planet'
+# Output: Yes, the string ends with 'planet'
 
 
 #-------------------------------------------------------------------------------------------------------#
-#-------------------------- 7. "*" = Zero or more occurrences (greedy) ---------------------------------#
+#-------------------------- 7. "*" = Zero or More occurrences (greedy) ---------------------------------#
 #-------------------------------------------------------------------------------------------------------#
 
 import re
@@ -163,9 +165,8 @@ text = "a aa aaa aaaa b bb bbb"
 # 1. Using * (zero or more)
 # Matches zero or more occurrences of 'a' characters
 
-pattern1 = r"a*"
-matches1 = re.findall(pattern1, text)
-print("With * (zero or more):", matches1)
+pattern = r"a*"
+print(re.findall(pattern, text))
 
 # Output: ['a', '', 'aa', '', 'aaa', '', 'aaaa', '', '', '', '', '', '', '', '', '', '']
 # The r"*a*" pattern matches 'a' characters of varying lengths, including zero occurrences (represented by empty strings).
@@ -174,7 +175,7 @@ print("With * (zero or more):", matches1)
 
 
 #------------------------------------------------------------------------------------------------------#
-#-------------------------- 8. "+" = One or more occurrences (greedy) ---------------------------------#
+#-------------------------- 8. "+" = One or More occurrences (greedy) ---------------------------------#
 #------------------------------------------------------------------------------------------------------#
 
 import re
@@ -184,18 +185,17 @@ text = "a aa aaa aaaa b bb bbb"
 # 2. Using + (one or more)
 # Matches one or more occurrences of 'a' characters
 
-pattern2 = r"a+"
-matches2 = re.findall(pattern2, text)
-print("With + (one or more):", matches2)  
+pattern = r"a+"
+print(re.findall(pattern, text))
 
 # Output: ['a', 'aa', 'aaa', 'aaaa']
 # The r"+a+" pattern matches 'a' characters of varying lengths, but only those with at least one occurrence.
 # So it does not match the "b" or "bb" since they have no 'a' characters.
 
 
-#---------------------------------------------------------------------------------------------#
-#-------------------------- 9. "?" = Zero or one occurrences ---------------------------------#
-#---------------------------------------------------------------------------------------------#
+#--------------------------------------------------------------------------------------------#
+#-------------------------- 9. "?" = Zero or One occurrence ---------------------------------#
+#--------------------------------------------------------------------------------------------#
 
 import re
 
@@ -204,9 +204,8 @@ text = "a aa aaa aaaa b bb bbb"
 # 3. Using ? (zero or one)
 # Matches zero or one occurrence of 'a' characters
 
-pattern3 = r"a?"
-matches3 = re.findall(pattern3, text)
-print("With + (one or more):", matches3)
+pattern = r"a?"
+print(re.findall(pattern, text))
 
 # Output: ['a', '', 'a', 'a', '', 'a', 'a', 'a', '', 'a', 'a', 'a', 'a', '', '', '', '', '', '', '', '', '', '']
 # The r"?a?" pattern matches one-length 'a' characters, including zero occurrences (represented by empty strings).
@@ -214,7 +213,7 @@ print("With + (one or more):", matches3)
 
 
 #-----------------------------------------------------------------------------------------------------------------#
-#-------------------- 10. "*?" = Zero or more occurences, but as few as possible (non-greedy) --------------------#
+#-------------------- 10. "*?" = Zero or More occurences, but as few as possible (non-greedy) --------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 
 import re
@@ -243,7 +242,7 @@ Explanation:
 
 
 #-----------------------------------------------------------------------------------------------------------------#
-#------------------- 11. "+?" = One or more occurences, but as few as possible (non-greedy) ----------------------#
+#------------------- 11. "+?" = One or More occurences, but as few as possible (non-greedy) ----------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 
 import re
@@ -253,7 +252,8 @@ text = '<foo>, <>, <bar>, <baz>, <>'
 print(re.findall(r'<.+>', text))    # Output: ['<foo>, <>, <bar>, <baz>, <>']
 print(re.findall(r'<.*?>', text))   # Output: ['<foo>', '<>', '<bar>', '<baz>', '<>']
 
-print(re.findall(r'<.+?>', text))   # Output: ['<foo>', '<bar>', '<baz>']
+print(re.findall(r'<.+?>', text))   # Output: ['<foo>', '<>, <bar>', '<baz>'] ('<>, <bar>' still contains characters between < and >, so it matches)
+print(re.findall(r'<\w+?>', text))  # Output: ['<foo>', '<bar>', '<baz>']
 
 '''
 Explanation:
@@ -281,16 +281,17 @@ import re
 
 txt = "hello helllo planet"
 
-x = re.findall("he.{2}o", txt) # Search for a sequence that starts with "he", followed excactly 2 (any) characters, and an "o":
+x = re.findall(r"he.{2}o", txt) # Search for a sequence that starts with "he", followed excactly 2 (any) characters, and an "o":
 print(x) # ['hello']
          # Not return 'helllo' cause 'helllo' has 3 characters between "he" and "o"
 
 #########
 
 text = "1234 56 7 89012"
+
 pattern = r"\d{1,3}" # {1,3} quantifier meaning at least 1 digit and at most 3 digits
-matches = re.findall(pattern, text)
-print(matches) # Output: ['123', '4', '56', '7', '890', '12']
+
+print(re.findall(pattern, text)) # Output: ['123', '4', '56', '7', '890', '12']
 
 
 #-------------------------------------------------------------------------------#
@@ -312,77 +313,83 @@ else:
 # Output: Yes, there is at least one match!
 
 
-#-----------------------------------------------------------------------------#
-#------------------------- 14. () group capturing ----------------------------#
-#-----------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------#
+#--------------------------------------- 14. () group capturing -------------------------------------------#
+#----------------------------------------------------------------------------------------------------------#
 
 import re
 
 # Sample text
 text = "cat123 dog456 bird789"
 
-##################################
-## 1. Regex without parentheses ##
-##################################
+#########################################
+## 1. Regex without capturing group () ##
+#########################################
 
 # Matches 'cat' followed by digits
-pattern1 = r"\w+\d+"
-matches1 = re.findall(pattern1, text)
-print("Without parentheses:", matches1)  # Output: ['cat123', 'dog456', 'bird789']
+pattern = r"[a-z]+\d+"
+print(re.findall(pattern, text))  # Output: ['cat123', 'dog456', 'bird789']
 
-############################################
-## 2. Regex with capturing parentheses () ##
-############################################
+######################################
+## 2. Regex with capturing group () ##
+######################################
 
 # Captures the letters and digits separately
-pattern2 = r"(\w+)(\d+)"
-matches2 = re.findall(pattern2, text)
-print("With capturing parentheses:", matches2)  # Output: [('cat', '123'), ('dog', '456'), ('bird', '789')]
+pattern = r"([a-z]+)(\d+)"
+print(re.findall(pattern, text))  # Output: [('cat', '123'), ('dog', '456'), ('bird', '789')]
 
-####################################################
-## 3. Use "()" and "| to capture different groups ##
-####################################################
+# Get the digits only
+print(re.findall(r"([a-z]+)\d+", text)) # Output: ['cat', 'dog', 'bird']
 
-# Capture pattern starts with 'c' or 'd' followed by digits
-pattern3 = r"(c\w+|d\w+)\d+"
-print(re.findall(pattern3, text))  # Output: ['cat12', 'dog45', 'd78']
+###########################################################
+## 3. Use "()" and "|" or [] to capture different groups ##
+###########################################################
 
+# Get the 'cat' and 'dog' only using []
+pattern = r"([cd][a-z]+)\d+"
+print(re.findall(pattern, text))  # Output: ['cat', 'dog']
 
-#----------------------------------------------------#
-#--------- 15. (?:) non-group capturing -------------#
-#----------------------------------------------------#
+# # Get the 'cat' and 'dog' only using |
+pattern = r"(c[a-z]+|d[a-z]+)\d+"
+print(re.findall(pattern, text))  # Output: ['cat', 'dog']
+
+#---------------------------------------------------------------------------------------------------------------#
+#---------------------------------------- 15. (?:) non-group capturing -----------------------------------------#
+#---------------------------------------------------------------------------------------------------------------#
+
+'''NOTE: non-capturing group (?:...) should be used with lookbehind or lookahead for better outcomes'''
 
 import re
 
 # Sample text
-text = "date: 2025-05-25 or 2025/05/25"
+text = "+82-1012345678, asdfsdaf, +84-526913, dfdf, +82-52105948, xzdfasdrt, +87-2352345267"
 
-############################################
-## 1. Regex with capturing parentheses () ##
-############################################
+###############################################
+## 1. Regex without non-capturing group (?:) ##
+###############################################
 
-# Captures year, month, and day separately
-pattern1 = r"(\d{4})[-/](\d{2})[-/](\d{2})"
-matches1 = re.findall(pattern1, text)
-print("With capturing parentheses:", matches1)  # Output: [('2025', '05', '25'), ('2025', '05', '25')]
+pattern = r"\+82-\d+"
+print(re.findall(pattern, text))  # Output: ['+82-1012345678', '+82-52105948']
 
-############################################
-## 2. Regex with non-capturing group (?:) ##
-############################################
+pattern = r"\+82-\d+|\+84-\d+|\+87-\d+"
+print(re.findall(pattern, text))  # Output: ['+82-1012345678', '+84-526913', '+82-52105948', '+87-2352345267']
 
-# Groups the separator (hyphen or slash) but only captures the entire date
-pattern2 = r"\d{4}(?:[-/])\d{2}(?:[-/])\d{2}"
-matches2 = re.findall(pattern2, text)
-print("With non-capturing group:", matches2)  # Output: ['2025-05-25', '2025/05/25']
+#-----
+## Apply capturing group () to get the number part only
+#-----
+
+pattern = r"(\+82-|\+84-|\+87-)(\d+)"
+print(re.findall(pattern, text))  
+# Output: [('+82-', '1012345678'), ('+84-', '526913'), ('+82-', '52105948'), ('+87-', '2352345267')]
+'''DOES NOT WORK AS EXPECTED'''
 
 ##########################################################################
 ## 3. Use non-capturing group (?:) with alternation | to match patterns ##
 ##########################################################################
 
 # Matches dates with either hyphen or slash as separators
-pattern3 = r"\d{4}(?:-|/)\d{2}(?:-|/)\d{2}"
-matches3 = re.findall(pattern3, text)
-print("With non-capturing group and alternation:", matches3)  # Output: ['2025-05-25', '2025/05/25']
+pattern = r"(?:\+82-|\+84-|\+87-)(\d+)"
+print(re.findall(pattern, text))  # Output: ['1012345678', '526913', '52105948', '2352345267']
 
 
 #---------------------------------------------------------------------------------------------------------------#
@@ -409,6 +416,7 @@ print(re.findall(pattern_pos_lookbehind, text))
 '''Matches 'X' only if NOT preceded by 'Y'.'''
 
 pattern_neg_lookbehind = r"(?<!&_)\b[a-zA-Z]+\b" # Matches words NOT preceded by "&_"
+                                                 # \b...\b ensures whole words are matched
 
 print(re.findall(pattern_neg_lookbehind, text))
 # ['Apple', 'Banana', 'Cherry']
@@ -472,7 +480,7 @@ dna_sequence = "XXXAAATGXXXCCCTCGXXXTCGTGCXXXGATTGAAGAXXXACC"
 pattern_XXX_orf = r"(?<=ATG.*?)(XXX)(?=.*?(?:TAA|TAG|TGA))" # Must use (?:TAA|TAG|TGA) so that the output only contains 'XXX'
 
 print(regex.findall(pattern_XXX_orf, dna_sequence))
-# ['XXX', 'XXX']
+# ['XXX', 'XXX', 'XXX']
 
 #######################################################################
 ## Example 2: Substitute " = " -> "=" but inside parentheses () only ##
@@ -536,9 +544,10 @@ else:
 # The findall() function returns a list containing all matches.
 
 import re
+
 txt = "The rain in Spain"
 
-x = re.findall("ai", txt) # Return a list containing every occurrence of "ai":
+x = re.findall(r"ai", txt) # Return a list containing every occurrence of "ai":
 print(x) #['ai', 'ai']
 
 x = re.findall("Portugal", txt)
@@ -552,9 +561,10 @@ print(x) # []
 # The search() function searches the string for a match, and returns a Match object if there is a match.
 
 import re
+
 txt = "The rain in Spain"
 
-x = re.search("\s", txt)
+x = re.search(r"\s", txt)
 print("The first white-space character is located in position:", x.start()) # Return 3
 
 x = re.search("Portugal", txt)
@@ -568,13 +578,17 @@ print(x) # Return None
 # The split() function returns a list where the string has been split at each match:
 
 import re
+
 txt = "The rain in Spain"
 
-x = re.split("\s", txt)
+x = re.split(r"\s", txt)
 print(x) # ['The', 'rain', 'in', 'Spain']
 
-x = re.split("\s", txt, 1) #Split the string only at the first occurrence
+x = re.split(r"\s", txt, 1) # Split atmost 1 time
 print(x) # ['The', 'rain in Spain']
+
+x = re.split(r"\s", txt, 2) # Split atmost 2 times
+print(x) # ['The', 'rain', 'in Spain']
 
 
 #------------------------------------------------------------------------#
@@ -584,12 +598,13 @@ print(x) # ['The', 'rain in Spain']
 # The sub() function replaces the matches with the text of your choice:
 
 import re
+
 txt = "The rain in Spain"
 
-x = re.sub("\s", "_", txt) # Replace all white-space characters with the "_" character:
+x = re.sub(r"\s", "_", txt) # Replace all white-space characters with the "_" character:
 print(x) # The_rain_in_Spain
 
-x = re.sub("\s", "_", txt, 2) #Replace only the first 2 occurrences:
+x = re.sub(r"\s", "_", txt, 2) # Replace only the first 2 occurrences
 print(x) # The_rain_in Spain
 
 
@@ -609,6 +624,7 @@ Note: If there is no match, the value None will be returned, instead of the Matc
 '''
 
 import re
+
 txt = "The rain in Spain"
 
 x = re.search("ai", txt)
@@ -632,6 +648,7 @@ import re
 
 pos_nucleotide_1 = "312.1C"
 pos_nucleotide_2 = "42.6del"
+pos_nucleotide_3 = "100A"
 
 pattern = r"(\d+\.?\d+)([a-zA-Z]+\b)"
 
@@ -647,3 +664,8 @@ print(x.group(1))  # Output: '42.6'
 print(x.group(2))  # Output: 'del'
 print(x.group())   # Output: '42.6del'
 
+x = re.search(pattern, pos_nucleotide_3)
+print(x.groups())  # Output: ('100', 'A')
+print(x.group(1))  # Output: '100'
+print(x.group(2))  # Output: 'A'
+print(x.group())   # Output: '100A'
