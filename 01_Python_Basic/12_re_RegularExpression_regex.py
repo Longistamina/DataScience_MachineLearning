@@ -59,7 +59,6 @@ txt = "The rain in Spain"
 x = re.findall("[a-m]", txt) # Find all lower case characters alphabetically between "a" and "m":
 print(x) # ['h', 'e', 'a', 'i', 'i', 'a', 'i']
 
-
 '''
 # [arn]	Returns a match where one of the specified characters (a, r, or n) is present	
 # [a-n]	Returns a match for any lower case character, alphabetically between a and n	
