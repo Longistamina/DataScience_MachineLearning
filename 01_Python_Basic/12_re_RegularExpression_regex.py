@@ -647,7 +647,7 @@ print(x.group()) # Returns the part of the string group where there was a match
 import re
 
 pos_nucleotide_1 = "312.1C"
-pos_nucleotide_2 = "42.6del"
+pos_nucleotide_2 = "42.6gap"
 pos_nucleotide_3 = "100A"
 
 pattern = r"(\d+\.?\d+)([a-zA-Z]+\b)"
@@ -659,10 +659,10 @@ print(x.group(2))  # Output: 'C'
 print(x.group())   # Output: '312.1C'
 
 x = re.search(pattern, pos_nucleotide_2)
-print(x.groups())  # Output: ('42.6', 'del')
+print(x.groups())  # Output: ('42.6', 'gap')
 print(x.group(1))  # Output: '42.6'
-print(x.group(2))  # Output: 'del'
-print(x.group())   # Output: '42.6del'
+print(x.group(2))  # Output: 'gap'
+print(x.group())   # Output: '42.6gap'
 
 x = re.search(pattern, pos_nucleotide_3)
 print(x.groups())  # Output: ('100', 'A')
