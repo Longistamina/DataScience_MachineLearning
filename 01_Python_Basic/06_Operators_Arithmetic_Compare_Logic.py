@@ -29,8 +29,8 @@ a <= b <= c
 '''
 
 '''
-a += b is equivalent to a = a+b
-a *= b is equivalent to a = a*b
+a += b is equivalent to a = a + b
+a *= b is equivalent to a = a * b
 '''
 
 ''' LOGIC

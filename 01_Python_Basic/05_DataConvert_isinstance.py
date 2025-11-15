@@ -5,9 +5,10 @@
 # Casting reference link: https://www.w3schools.com/python/python_casting.asp
 
 ## int() to convert into integer number
-x = int(1)   # x will be 1
-y = int(2.8) # y will be 2
-z = int("3") # z will be 3
+x = int(1)    # x will be 1
+y = int(2.8)  # y will be 2
+z = int("3")  # z will be 3
+u = int("-4") # u will be -4
 
 ## float() to convert into float number
 x = float(1)      # x will be 1.0
@@ -18,8 +19,9 @@ u = float(".2")   # u will be 0.2
 v = float("-.51") # v will be -0.51
 
 ## complex() to convert into complex number
-x = complex(1)       # x will be (1+0j)
-y = complex("3+5j")  # y will be (3+5j)
+x = complex(1)        # x will be (1+0j)
+y = complex("3+5j")   # y will be (3+5j)
+z = complex(4 + 6.8j) # z will be (4+6.8j)
 
 ## str() to convert into string
 x = str("s1") # x will be 's1'
