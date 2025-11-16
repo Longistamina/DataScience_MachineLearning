@@ -353,11 +353,10 @@ print(re.findall(pattern, text))  # Output: ['cat', 'dog']
 pattern = r"(c[a-z]+|d[a-z]+)\d+"
 print(re.findall(pattern, text))  # Output: ['cat', 'dog']
 
+
 #---------------------------------------------------------------------------------------------------------------#
 #---------------------------------------- 15. (?:) non-group capturing -----------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
-
-'''NOTE: non-capturing group (?:...) should be used with lookbehind or lookahead for better outcomes'''
 
 import re
 
