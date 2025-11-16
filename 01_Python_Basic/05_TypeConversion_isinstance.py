@@ -4,6 +4,11 @@
 # Casting is the act of converting a variable's original datatype into another one
 # Casting reference link: https://www.w3schools.com/python/python_casting.asp
 
+## type() to check class type of an object/variable
+s = "abcxyz"
+print(type(s)) # <class 'str'>
+
+
 ## int() to convert into integer number
 x = int(1)    # x will be 1
 y = int(2.8)  # y will be 2
