@@ -35,19 +35,18 @@ from datetime import datetime # from datetime: this datetime is a module, a .py 
                               # import datetime: this datetime is a class or a function inside the datetime module
 from datetime import date
 
-print()
-print(datetime.now())   #Current moment
-print(datetime.today()) #Current day
+print(datetime.now())   # Current moment
+print(datetime.today()) # Current day
 
 current_moment = datetime.now()
 
-current_day = current_moment.day        #Get the .day attribute of the current_moment object
+current_day = current_moment.day        # Get the .day attribute of the current_moment object
 print(current_day)
 
-current_month = current_moment.month    #Get the .month attribute of the current_moment object
+current_month = current_moment.month    # Get the .month attribute of the current_moment object
 print(current_month)
 
-current_year = current_moment.year      #Get the .year attribute of the current_moment object
+current_year = current_moment.year      # Get the .year attribute of the current_moment object
 print(current_year)
 
 '''
@@ -114,7 +113,6 @@ print(day3)
 
 # day1 day2 day3 will share the same value as datetime.datetime(2024, 2, 18, 0, 0)
 
-
 #############################################################
 ## datetime.strftime() convert datetime object into string ##
 #############################################################
@@ -148,7 +146,7 @@ from datetime import date, datetime, timedelta
 day1 = datetime(2018, 6, 18, 7, 30, 00)
 day2 = datetime(2019, 7, 20, 8, 32, 20)
 
-t1 = day2-day1 # return t1 as a timedelta() object
+t1 = day2 - day1 # return t1 as a timedelta() object
 print(t1)
 
 delta_days = t1.days        # Timedelta in counted in days
@@ -156,7 +154,6 @@ print(delta_days)
 
 delta_seconds = t1.seconds  # Timedelta in counted in seconds (excluding days)
 print(delta_seconds)
-
 
 ##########################
 ## timedelta() function ##
@@ -172,7 +169,6 @@ yesterday2 = date.today() - timedelta(days=1)
 print(yesterday2)
 
 # yesterday1 and yesterday2 will share the same value
-
 
 #################################
 ## Create a timedelta() object ##
@@ -267,7 +263,6 @@ for tz_name in pytz.all_timezones:
 # Asia/Kamchatka
 # Asia/Ust-Nera
 
-
 ################################
 ## Localize a datetime object ##
 ################################
@@ -329,7 +324,7 @@ Daylight Saving Time (DST) Transitions are when clocks change between Standard T
 happening twice per year:
 
 Spring Forward
-# Clocks jump ahead 1 hour (2:00 AM → 3:00 AM
+# Clocks jump ahead 1 hour (2:00 AM → 3:00 AM)
 # The 2:00 AM hour is skipped (doesn't exist)
 # Day is only 23 hours long
 
