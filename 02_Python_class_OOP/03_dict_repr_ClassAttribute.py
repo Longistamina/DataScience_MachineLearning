@@ -67,7 +67,6 @@ print(Item.__dict__)  # Show all the attributes of the class Item
 print(item1.__dict__) # Show all the attributes of the instance item1
 
 
-
 #-------------------------------------#
 #-------- __repr__() method  ---------#
 #-------------------------------------#
