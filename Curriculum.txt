@@ -35,12 +35,12 @@ github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
 + OOP principles
 + Rectangle Project
 
-3. Vector Matrix SparseMatrix NumpPyJax Scipy
-+ vector (1-D array) handling with NumPy (or JaxNumPy)
-+ matrix (2-D array) handling with NumPy (or JaxNumPy)
+3. Vector Matrix SparseMatrix NumpPy Scipy
++ vector (1-D array) handling with NumPy
++ matrix (2-D array) handling with NumPy
 + sparse matrix handling with scipy
 
-4. UnivarMath Random JaxNumPy
+4. UnivarMath Random
 
 5. DataFrame - Pandas - DataR
 + Pandas datatype
