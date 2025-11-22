@@ -25,11 +25,11 @@ print(check_leap_year_2) # False
 #########################################
 
 tuple_MR = calendar.monthrange(2019, 11)
-print(tuple_MR) # (4,30)
+print(tuple_MR) # (calendar.FRIDAY, 30)
 
 '''
-# Return a tuple (4,30)
-# 4 is the weekday index of the first day of the month, 4 ~ Friday, means 1/11/2019 is Friday
+# Return a tuple (calendar.FRIDAY, 30)
+# calendar.FRIDAY is the weekday of the first day of that month, means 1/11/2019 is Friday
 # 30 means November has 30 days
 '''
 
@@ -50,11 +50,11 @@ print(month_days_2) # 30
 #--------------
 
 index_weekday_1 = calendar.monthrange(2019, 11)[0]
-print(index_weekday_1) # 4
+print(index_weekday_1) # 4 (means Friday)
 
 tuple_MR = calendar.monthrange(2019, 11)
 index_weekday_2 = tuple_MR[0] 
-print(index_weekday_1) #4
+print(index_weekday_1) # 4 (means Friday)
 
 
 #--------------
@@ -62,7 +62,7 @@ print(index_weekday_1) #4
 #--------------
 
 index_weekday, month_days = calendar.monthrange(2020, 8)
-print(index_weekday, month_days)
+print(index_weekday, month_days) # 5 31
 
 
 #####################################################

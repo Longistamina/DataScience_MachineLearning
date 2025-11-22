@@ -90,7 +90,7 @@ for i in range(10):
 
 end = time.time()
 
-duration = start - end
+duration = end - start
 
 print(f"Total time taken: {duration} seconds")
 
