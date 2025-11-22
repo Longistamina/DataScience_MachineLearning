@@ -269,6 +269,8 @@ print(filename.endswith(('.pdf', '.docx', '.txt')))  # True (only need one to ma
 
 print(url.startswith(('http://', 'https://')))       # True (only need one to match)
 
+print(url.startswith(('http://', 'www')))            # False (no match)
+
 ##############################
 ## With start/end positions ##
 ##############################
@@ -322,11 +324,11 @@ print(demo_str.rpartition('.')) # ('', '', 'Name_Adress_Phone') # Delimiter not 
 ## Splitlines ##
 ################
 
-multiline = 'Line 1\nLine 2\rLine 3\r\nLine 4'
+multiline = 'Line 1\nLine 2\nLine 3\nLine 4'
 
 print(multiline.splitlines()) # ['Line 1', 'Line 2', 'Line 3', 'Line 4']
 
-print(multiline.splitlines(keepends=True)) # ['Line 1\n', 'Line 2\r', 'Line 3\r\n', 'Line 4']
+print(multiline.splitlines(keepends=True)) # ['Line 1\n', 'Line 2\n', 'Line 3\n', 'Line 4']
 
 #############
 ## Joining ##
