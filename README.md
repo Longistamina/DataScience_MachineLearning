@@ -7,4 +7,5 @@
 + [00_Course_Intro_part_04](https://youtu.be/ynt_IPP7dLI): environment setup (conda, vscode, git & github)
 
 ## 01_Python_Basic
-+ [01_Python_Basic_part_01](https://youtu.be/vWwdq-lOS0M): print, comments, format string, variables, type conversion, operators, git status/add/commit/push
++ [01_Python_Basic_part_01](https://youtu.be/vWwdq-lOS0M): print(), comments, format string, variables, type conversion, operators, git status/add/commit/push
++ [01_Python_Basic_part_02](https://youtu.be/ly8LUD9ly70): input(), eval(), import math random, dir(), string slicing, raw string, repr(), string methods
