@@ -6,13 +6,16 @@ for i in range(1, 20):
     if i%2 != 0: 
         print(i)
 
-#### for zip
+#### for zip() ####
 
 lst_name = ["Socrates", "Plato", "Aristotle"]
 lst_age = [80, 57, 35]
 
 for name, age in zip(lst_name, lst_age):
     print(f'{name}: {age} years old')
+# Socrates: 80 years old
+# Plato: 57 years old
+# Aristotle: 35 years old
 
 
 #-----------------------------------------------------------#
@@ -21,9 +24,9 @@ for name, age in zip(lst_name, lst_age):
 
 ## apply for Nest to create multiplication table
 
-print('-'*116)
+print('-' * 116)
 print('Multiplication table - Method 1'.center(116))
-print('-'*116)
+print('-' * 116)
 
 mult_table = ''
 

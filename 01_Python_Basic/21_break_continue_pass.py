@@ -39,3 +39,10 @@ for i in range(5):
     print(str(i).center(12))
 
 # Output: 0 1 2 Let's pass! 3 Let's pass! 4
+
+'''
+"pass" can work as a placeholder for future code.
+'''
+
+if 2 > 1:
+    pass  # Placeholder for future code
