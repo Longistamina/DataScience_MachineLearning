@@ -33,7 +33,10 @@ middle_name = name[3:6]
 
 given_name = name[7:]
 
-given_name = name[-3:] # from the third last element to the end
+name[-7:-4] # Middle name "Anh": from the -7 index to the -4 index (exclude -4)
+
+name[-3:] # Given name "Thu": from the third last element to the end
+
 
 name[-1:-4:-1] # "uhT" (exclude the -4)
                # The last -1 after the second ":" means slicing in reverse steps from right to left (with step = 1)
