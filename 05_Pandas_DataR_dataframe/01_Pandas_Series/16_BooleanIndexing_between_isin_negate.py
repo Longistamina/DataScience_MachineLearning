@@ -1,5 +1,5 @@
 '''
-Boolean Filtering or Boolean Indexing is a powerful technique in Pandas 
+Boolean Indexing Boolean Filtering is a powerful technique
 that allows you to filter data based on specific conditions. 
 
 ###############################
