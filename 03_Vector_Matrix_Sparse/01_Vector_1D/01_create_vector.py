@@ -15,8 +15,6 @@
    + np.random.seed(): for reproducibility
 
 3. Create a 1D array with dtype specified (int, float, complex, bool, etc.)
-   
-4. array.copy(): create a copy of an array (that has different memory id)
 '''
 
 import numpy as np
@@ -172,25 +170,3 @@ print(vector_float32.dtype) # float32
 vector_int64 = np.array([1.5, 2.7, 3.9, 4.1, 5.6], dtype=np.int64)
 print(vector_int64) # [1 2 3 4 5] (values are truncated to integers)
 print(vector_int64.dtype) # int64
-
-
-#-----------------------------------------------------------------------------------------------------------------#
-#-------------------------------- 4. Create a copy of an array using array.copy() --------------------------------#
-#-----------------------------------------------------------------------------------------------------------------#
-
-original_vector = np.array([1, 2, 3, 4, 5])
-print(original_vector)
-# [1 2 3 4 5]
-
-copied_vector = original_vector.copy()
-print(copied_vector)
-# [1 2 3 4 5]
-
-print(id(original_vector)) # 139748935997008
-print(id(copied_vector))   # 139748935996432
-
-'''
-By using array.copy(), we create a new array that is a copy of the original array.
-
-So when the original array is modified, the copied array remains unchanged, as they occupy different memory locations.
-'''
