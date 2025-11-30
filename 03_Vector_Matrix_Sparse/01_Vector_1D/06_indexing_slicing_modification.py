@@ -5,7 +5,13 @@
 
 3. Slicing: vector[start:stop:step]
 
-4. Modifying Elements: vector[index] = new_value
+4. Advance Indexing (using methods):
+   + arr.item(single_index)
+   + arr.take(list_of_indices)
+
+5. Modifying Elements: 
+   + vector[index] = new_value
+   + arr.put(list_of_indices, list_of_new_values)
 '''
 
 import numpy as np
@@ -120,9 +126,62 @@ print(vector[::-1])
 #  75. 76. 74. 72. 70. 66. 61. 56. 51. 50. 50. 50. 49. 49. 49. 49. 49.]
 
 
+#--------------------------------------------------------------------------------------------------------#
+#-------------------------------- 4. Advanced indexing (using methods) ----------------------------------#
+#--------------------------------------------------------------------------------------------------------#
+
+############################
+## arr.item(single_index) ##
+############################
+
+print(vector.item(0))
+# 49.0
+
+print(vector.item(15))
+# 76.0
+
+print(vector.item(-2))
+# 52.0
+
+###############################
+## arr.take(list_of_indices) ##
+###############################
+
+print(vector.take([0, 5, 10, 15, 20]))
+# [49. 50. 61. 76. 62.]
+
+print(vector.take(np.arange(10, 21, 2)))
+# [61. 70. 74. 75. 70. 64.]
+'''Take elements 10, 12, 14, 16, 18, and 20 using np.arange() to generate the list of indices'''
+
+print(vector.take(np.arange(start=vector.size - 1, stop=0, step=-1)))
+# [52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52.
+#  52. 52. 52. 53. 53. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52.
+#  52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52.
+#  52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52.
+#  52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52.
+#  52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52.
+#  52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52.
+#  52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52.
+#  51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51.
+#  51. 51. 51. 51. 51. 51. 51. 52. 52. 52. 52. 51. 51. 51. 51. 51. 51. 51.
+#  51. 50. 50. 50. 50. 51. 51. 51. 51. 51. 51. 50. 50. 50. 51. 51. 51. 51.
+#  51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 51. 50. 50. 50. 50.
+#  50. 50. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49.
+#  49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 49. 48. 48. 48. 48.
+#  48. 48. 48. 47. 47. 47. 47. 47. 47. 47. 48. 48. 48. 48. 48. 48. 48. 49.
+#  49. 49. 50. 50. 51. 52. 52. 53. 54. 56. 57. 59. 60. 62. 64. 67. 70. 73.
+#  75. 76. 74. 72. 70. 66. 61. 56. 51. 50. 50. 50. 49. 49. 49. 49.]
+'''Take all elements in reverse order using np.arange() to generate the list of indices'''
+
+
 #---------------------------------------------------------------------------------------------------------#
-#--------------------------- 4. Modifying elements: vector[index] = new_value ----------------------------#
+#--------------------------- 5. Modifying elements: vector[index] = new_value ----------------------------#
 #---------------------------------------------------------------------------------------------------------#
+
+###############################
+## vector[index] = new_value ##
+###############################
 
 vector_demo = vector.copy()  # Create a copy to avoid modifying the original vector
 
@@ -150,3 +209,19 @@ vector_demo[[-1, -2, -3]] = 25.5
 print(f"Modified last three elements: {vector_demo[-3:]}\nOriginal last three elements: {vector[-3:]}")
 # Modified last three elements: [25.5 25.5 25.5]
 # Original last three elements: [52. 52. 52.]
+
+##################################################
+## arr.put(list_of_indices, list_of_new_values) ##
+##################################################
+
+vector_demo = vector.copy()  # Create a copy to avoid modifying the original vector
+
+vector_demo.put([0, 5, 10], [111.0, 222.0, 333.0])
+print(f"Modified indices: {vector_demo[[0, 5, 10]]}\nOriginal indices: {vector[[0, 5, 10]]}")
+# Modified indices: [111. 222. 333.]
+# Original indices: [49. 50. 61.]
+
+vector_demo.put(np.arange(20, 26), 0.5)
+print(f"Modified slice: {vector_demo[20:26]}\nOriginal slice: {vector[20:26]}")
+# Modified slice: [0.5 0.5 0.5 0.5 0.5 0.5]
+# Original slice: [64. 62. 60. 59. 57. 56.]
