@@ -5,7 +5,6 @@ Tuple stores many elements, each has its own value and index
 Tuple allows HETEROGENEOUS datatype
 
 Tuple is like List, but with ONE key difference:
-
     => UNABLE to change or modify
 
 Tuple still allows duplicate values (because it has index to distinguish)
@@ -64,8 +63,14 @@ print(fruits[:4]) # or fruits[0:4]
 print(fruits[2:]) # from fruits[2] to the last element fruits[-1] (and also included)
                   # ('cherry', 'orange', 'kiwi', 'melon', 'mango')
 
+print(fruits[2:5]) # from fruits[2] to fruits[5] but excluded fruits[5]
+                   # ('cherry', 'orange', 'kiwi')
+
+print(fruits[1:6:2]) # from fruits[1] to fruits[6] but excluded fruits[6]  
+                     # ('banana', 'orange', 'melon')
+
 print(fruits[-1:-4]) # ()
-                     # empty list because it index from the last element [-1] to the right
+                     # empty tuple because it index from the last element [-1] to the right
                      # but nothing is at the right at [-1], so return empty list
 
 print(fruits[-1:-5:-1]) # ('mango', 'melon', 'kiwi', 'orange')
@@ -122,22 +127,22 @@ print(predators_tup) # ('tiger', 'lion', 'wolf', 'eagle', 'cheetah', 'batman')
 #----------------- Tuple methods ----------------------#
 #------------------------------------------------------#
 
-# Tuple has only 2 methods: .count() and .index (they work like the ones of list)
+# Tuple has only 2 methods: .count() and .index() (they work like the ones of list)
 
 float_tup = (3.72, 8.15, 0.49, 6.03, 1.27, 0.49, 0.48, 0.49)
 
 ###############
 ### .count() ##
 ###############
+'''.count() returns the number of a specified element within a tuple'''
 
-# .count() returns the number of a specified element within a tuple
 print(float_tup.count(0.49)) # 3 (value 0.49 shows up 3 times)
 
 ##############
 ## .index() ##
 ##############
-
-# .index() returns the index of the first element with the specified value
+'''.index() returns the index of the first element with the specified value'''
+ 
 print(float_tup.index(0.49)) # 2 (index of the first 0.49 is 2)
 
 
@@ -302,7 +307,7 @@ print(output_tuple)
 
 print()
 print('Calculate Lunar Year'.center(60))
-print('-'*60)
+print('-' * 60)
 
 # Thien_Can        = 'Canh', 'Tân', 'Nhâm', 'Quý', 'Giáp', 'Ất', 'Bính', 'Đinh','Mậu','Kỷ'
 tup_Heavenly_Stems = 'Geng', 'Xin', 'Ren',' Gui', 'Jia', 'Yi', 'Bing', 'Ding', 'Wu', 'Ji'

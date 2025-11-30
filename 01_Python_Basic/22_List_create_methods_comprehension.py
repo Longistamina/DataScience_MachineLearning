@@ -65,8 +65,8 @@ print(fruits[2:]) # from fruits[2] to the last element fruits[-1] (and also incl
 print(fruits[2:5]) # from fruits[2] to fruits[5] but excluded fruits[5]
                    # ['cherry', 'orange', 'kiwi']
 
-print(fruits[1:6:2]) # ['banana', 'orange', 'melon']
-                     # from fruits[1] to fruits[6] but excluded fruits[6]
+print(fruits[1:6:2]) # from fruits[1] to fruits[6] but excluded fruits[6]
+                     # ['banana', 'orange', 'melon']
 
 print(fruits[-1:-4]) # []
                      # empty list because it index from the last element [-1] to the right
@@ -293,6 +293,7 @@ print(lst_multiply) # [1, 3, 5, 1, 3, 5, 1, 3, 5]
 
 print(lst3*4) # ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C']
 
+print(lst1*2 + lst3*3) # [1, 3, 5, 1, 3, 5, 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C']
 
 #-------------------------------------------------------------------#
 #------------------ List and Loops and 2D list ---------------------#
