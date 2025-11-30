@@ -1,7 +1,9 @@
 '''
 List is a type of iteration in Python
+
 List allows storing duplicate HETEROGENEOUS data (different datatypes)
 (however, should store homogeneous data to facilitate processing steps)
+
 First element has index = 0
 Last element has index = len(list) - 1 (or -1)
 
@@ -39,6 +41,7 @@ print(list_mix)
 text_str = "What,can,I,do,for,you,?"
 list_split = text_str.split(",")
 print(list_split)
+# ['What', 'can', 'I', 'do', 'for', 'you', '?']
 
 
 #-----------------------------------------------------------------------#
@@ -58,6 +61,12 @@ print(fruits[:4]) # or fruits[0:4]
 
 print(fruits[2:]) # from fruits[2] to the last element fruits[-1] (and also included)
                   # ['cherry', 'orange', 'kiwi', 'melon', 'mango']
+
+print(fruits[2:5]) # from fruits[2] to fruits[5] but excluded fruits[5]
+                   # ['cherry', 'orange', 'kiwi']
+
+print(fruits[1:6:2]) # ['banana', 'orange', 'melon']
+                     # from fruits[1] to fruits[6] but excluded fruits[6]
 
 print(fruits[-1:-4]) # []
                      # empty list because it index from the last element [-1] to the right
@@ -122,57 +131,53 @@ print(predators) # return ['bear', 'e', 'a', 'g', 'l', 'e']
 
 programmer_life = ["waking", "eating", "debugging", "crying", "hoping", "crying"]
 
-
 ###############
 ### .count() ##
 ###############
+'''.count() returns the number of a specified element within a list'''
 
-# .count() returns the number of a specified element within a list
 print(programmer_life.count("crying")) # 2
-
 
 ##############
 ## .index() ##
 ##############
+'''.index() returns the index of the first element with the specified value'''
 
-# .index() returns the index of the first element with the specified value
 print(programmer_life.index("crying")) # 3 (index of the first "crying")
 print(programmer_life.index("eating")) # 1
-
 
 ###############
 ## .insert() ##
 ############### 
+'''.insert() to insert new element at a specified index'''
 
-# .insert() to insert new element at a specified index
 programmer_life.insert(0, "dreaming")
 print(programmer_life) 
-#['dreaming', 'waking', 'eating', 'debugging', 'crying', 'hoping', 'crying']
+# ['dreaming', 'waking', 'eating', 'debugging', 'crying', 'hoping', 'crying']
 
 '''
 NOTE: print(programmer_life.insert(0, "dreaming")) will return None
-      => because it modifies the original list directly (in-place) and doesn’t create or return a new list.
+      => because it modifies the original list directly (in-place) and doesn't create or return a new list.
 '''
 
 ###############
 ## .append() ##
 ###############
+'''.append() adds ONLY ONE element per run at the end of the list'''
 
-# .append() adds ONLY ONE element per run at the end of the list
 programmer_life.append(4)
 print(programmer_life)
-#['dreaming', 'waking', 'eating', 'debugging', 'crying', 'hoping', 'crying', 4]
+# ['dreaming', 'waking', 'eating', 'debugging', 'crying', 'hoping', 'crying', 4]
 
 animals = ["dog", "cat", "bird"]
 animals.append([4, 3])
-print(animals) #["dog", "cat", "bird", [4, 3]]
-
+print(animals) # ["dog", "cat", "bird", [4, 3]]
 
 ###############
 ## .extend() ##
 ###############
+'''.extend() acts like .append() but can add any iterable object with separate elements'''
 
-# .extend() acts like .append() but can add any iterable object with separate element
 moods = ["happy", "sad", "anxious"]
 thistuple = ("Yay!!!!", True, 142.2) # or can be a list or set
 moods.extend(thistuple)
@@ -182,30 +187,27 @@ animals = ["dog", "cat", "bird"]
 animals.extend([4, 3])
 print(animals) #["dog", "cat", "bird", 4, 3]
 
-
 ###############
 ## .remove() ##
 ###############
+'''.remove() to remove ONLY ONE element from a list per run based its VALUE'''
 
-# .remove() to remove ONLY ONE element from a list per run based its VALUE
 programmer_life.remove("debugging")
 print(programmer_life) # ['dreaming', 'waking', 'eating', 'crying', 'hoping', 'crying', 4]
-
 
 ############
 ## .pop() ##
 ############
+'''.pop() to remove ONLY ONE element from a list per run based its INDEX'''
 
-# .pop() to remove ONLY ONE element from a list per run based its INDEX
 programmer_life.pop(3)
 print(programmer_life) # ['dreaming', 'waking', 'eating', 'hoping', 'crying', 4]
-
 
 ##############
 ## .clear() ##
 ##############
-
-# .clear() will remove all the elements from a list and return an empty list []
+'''.clear() will remove all the elements from a list and return an empty list []'''
+ 
 programmer_life.clear()
 print(programmer_life) # []
 print(id(programmer_life)) # still has the id, meaning the variable still exists
@@ -215,18 +217,17 @@ del programmer_life  ## This will erases the variable entirely, no more existenc
 print(id(programmer_life)) ## raise NameError because the variable does not exist (has been deleted)
 '''
 
-
 #############
 ## .copy() ##
 #############
-
-# .copy() to copy a list (resulting an object having DIFFERENT ID)
+'''.copy() to copy a list (resulting an object having DIFFERENT ID)'''
+ 
 list_original = [1, "a", 2.0, "c", "b", False]
 print(f"list_original   : {list_original}")
 print(f"list_original id: {id(list_original)}\n")
 
 list_copy_1 = list_original.copy()
-print(f"list_copy_1 id: {list_copy_1}")
+print(f"list_copy_1   : {list_copy_1}")
 print(f"list_copy_1 id: {id(list_copy_1)}\n") # DIFFERENT id from list_original
 
 list_copy_2 = list_original
@@ -241,12 +242,11 @@ print(f"list_original: {list_original}") # [1, 'a', 2.0, 'c', 'b', False, 'Goodn
 print(f"list_copy_2: {list_copy_2}")     # [1, 'a', 2.0, 'c', 'b', False, 'Goodnight']
 print(f"list_copy_1: {list_copy_1}")     # [1, 'a', 2.0, 'c', 'b', False]
 
-
 #############
 ## .sort() ##
 #############
-
-# .sort() to sort a list in ascending or descending, A-Z or Z-A
+'''.sort() to sort a list in ascending or descending, A-Z or Z-A'''
+ 
 names = ["Kitana", "Bruce", "Zealot", "Anna", "Nina"]
 names.sort() # sort Ascending
 print(names) # ['Anna', 'Bruce', 'Kitana', 'Nina', 'Zealot']
@@ -263,43 +263,42 @@ numbers = [3.72, 8.15, 0.49, 6.03, 1.27]
 numbers.sort(reverse=True)
 print(numbers) # [8.15, 6.03, 3.72, 1.27, 0.49]
 
-
 ################
 ## .reverse() ##
 ################
+'''.reverse() to reverse the current order of a list "180 degrees"''' 
  
-# .reverse() to reverse the current order of a list "180 degrees"
 from datetime import date
 list_mix = ["Lentani", 35.5, 20, date(1885, 12, 21), False]
+
 list_mix.reverse()
 print(list_mix) # [False, datetime.date(1885, 12, 21), 20, 35.5, 'Lentani']
 
 
 #-----------------------------------------------------------------#
-#---------------- List concat and multiply -----------------------#
+#------------------- List concat and multiply --------------------#
 #-----------------------------------------------------------------#
 
-lst1 = [1,3,5]
-lst2 = [2,4,6,8]
-lst3 = ['A','B','C']
+lst1 = [1, 3, 5]
+lst2 = [2, 4, 6, 8]
+lst3 = ['A', 'B', 'C']
 
 lst_add = lst1 + lst2 
-print(lst_add) # [1,3,5,2,4,6,8]
+print(lst_add) # [1, 3, 5, 2, 4, 6, 8]
 
 print(lst1 + lst3) # [1, 3, 5, 'A', 'B', 'C']
 
-lst_multiply = lst1*3 # [1,3,5,1,3,5,1,3,5]
-print(lst_multiply)
+lst_multiply = lst1*3
+print(lst_multiply) # [1, 3, 5, 1, 3, 5, 1, 3, 5]
 
 print(lst3*4) # ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C']
 
 
 #-------------------------------------------------------------------#
-#---------------- List and Loops and 2D list -----------------------#
+#------------------ List and Loops and 2D list ---------------------#
 #-------------------------------------------------------------------#
 
 philosophes = ["Voltaire", "Rousseau", "Montesquieu", "Diderot"]
-
 
 ###############################
 ## For loop through elements ##
@@ -308,14 +307,12 @@ philosophes = ["Voltaire", "Rousseau", "Montesquieu", "Diderot"]
 for homme in philosophes:
     print(homme)
 
-
 ##############################
 ## For loop through indices ##
 ##############################
 
 for index, element in enumerate(philosophes):
     print(f"{index} - {element}")
-
 
 ################################
 ## While loop through indices ##
@@ -325,7 +322,6 @@ i = 0
 while i < len(philosophes):
     print(f"{i} - {philosophes[i]}")
     i += 1
-
 
 ##########################
 ## Loop through 2D list ##
@@ -358,7 +354,7 @@ it raises error because the number of iterators and the number of items are not 
 
 
 #-----------------------------------------------------------#
-#---------------- List comprehension -----------------------#
+#------------------- List comprehension --------------------#
 #-----------------------------------------------------------#
 
 samurais = ["Miyamoto Musashi", "Oda Nobunaga", "Sanada Yukimura", "Honda Tadakatsu"]
@@ -377,7 +373,7 @@ print(even_numbers) # [0, 'odd', 2, 'odd', 4, 'odd', 6, 'odd', 8, 'odd']
 
 
 #------------------------------------------------------------------------------------------#
-#---------------- Numeric List calculating with Aggregate Functions -----------------------#
+#------------------ Numeric List calculating with Aggregate Functions ---------------------#
 #------------------------------------------------------------------------------------------#
 
 # For numeric list, can use math aggregate functions
@@ -402,12 +398,12 @@ print(sum(["A", "b", "c"])) #=> TypeError
 
 
 #-------------------------------------------------------------------------------------------------------#
-#---------------- map() and list comprehension for list element-wise calculation -----------------------#
+#------------------ map() and list comprehension for list element-wise calculation ---------------------#
 #-------------------------------------------------------------------------------------------------------#
 
 import numpy as np
 
-# Use map() to perform list element-wise calculation
+# Use map() to perform list element-wise transformation
 # map() returns a map object; therefore must convert back into list to get the final calculated list
 # map(function, iteration) | list(map(function, iteration))
 
@@ -416,16 +412,21 @@ lst_floats = [213.0, 321.5, 56198.99, 65489.55, 213.68]
 output_lst = map(np.sqrt, lst_floats)
 print(output_lst) # <map object at 0x7fc3b19c3550>
 
-output_lst = list(map(np.sqrt, lst_floats)) #convert map object into list before printing out
+output_lst = list(map(np.sqrt, lst_floats)) # convert map object into list before printing out
 print(output_lst)
 print([float(x) for x in output_lst])
+# [14.594519519326424, 17.930421077041107, 237.06326159909298, 255.90926126265927, 14.617797371697284]
 
-output_lst = list(map(lambda x: x/100, lst_floats)) #combine map() with lambda function
+output_lst = list(map(lambda x: x/100, lst_floats)) # combine map() with lambda function
 print(output_lst)
+# [2.13, 3.215, 561.9899, 654.8955000000001, 2.1368]
 
+#----------
+## Use list comprehension to perform list element-wise transformation
+#----------
 
-# Use list comprehension to perform list element-wise calculation
 lst_complexes = [(3+2j), (4+5j), (9.5 + 10j)]
 
 output_lst = [complex**2 for complex in lst_complexes]
 print(output_lst)
+# [(5+12j), (-9+40j), (-9.75+190j)]
