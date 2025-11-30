@@ -60,7 +60,6 @@ set([2, [3, "4"]]) will raise error because list is mutable, so they cannot be e
 ===> Instead, try put them in a tuple like this: set(2, (3, "4"))
 '''
 
-
 ########################################
 ## create frozenset using frozenset() ##
 ########################################
@@ -99,66 +98,56 @@ print(6 in fset_2)  # False
 ###############
 ## set.add() ##
 ###############
-
-# set.add() adds an element to the set (like list.append()) 
+'''set.add() adds an element to the set (like list.append())'''
 
 set_1 = {1, 2, 3}
 set_1.add(4)  # add element 4 to set_1
 print(set_1)  # {1, 2, 3, 4}
 
-
 ##################
 ## set.update() ##
 ##################
-
-# .update(): adds elements from another set or iterable to the current set (like list.extend())
+'''.update(): adds elements from another set or iterable to the current set (like list.extend())'''
 
 set_1.update({25, 49})  # adds "Air" and "Space" to set_demo
 print(set_1)  # {1, 2, 3, 4, 49, 25}
 
-
 #################
 ## set.remove) ##
 #################
-
-# set.remove() will raise KeyError if element not found
+'''set.remove() will raise KeyError if element not found'''
 
 set_1.remove(2)  # remove element 2 from set_1
 print(set_1)  # {1, 3, 4, 49, 25}
 
-
 ###################
 ## set.discard() ##
 ###################
-
-# set.discard() will not raise error if element not found
+'''set.discard() will not raise error if element not found'''
 
 set_1.discard(3) # remove element 3 from set_1, no error if element not found
 print(set_1)     # {1, 4, 49, 25}
 
-
 ###############
 ## set.pop() ##
 ###############
+'''
+set.pop() removes a random element from the set (and returns it if that element exists in the set)
+NOTE: set.pop() will raise KeyError if the set is empty 
+'''
 
-# set.pop() removes a random element from the set (and returns it if that element exists in the set)
-
-'''NOTE: set.pop() will raise KeyError if the set is empty '''
 set_1 = {1, 2, 3}
 removed_element = set_1.pop()  # removes and returns a random element (could be 1, 2, or 3)
 print(removed_element)         # prints the removed element
 
-
 ##################
 ## set.aclear() ##
 ##################
-
-# set.clear() works like list.clear() to remove all elements from the set
+'''set.clear() works like list.clear() to remove all elements from the set'''
 
 set_1.clear()     # clear all elements in set_1
 print(set_1)      # set() or {}
 print(id(set_1))  # id of set_1 is still there, meaning it still exists but is now empty
-
 
 '''
 frozenset.add() and frozenset.remove() will raise error (same for other modifying methods)
