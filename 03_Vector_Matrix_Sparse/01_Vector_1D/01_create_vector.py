@@ -13,6 +13,7 @@
    + np.random.randn()
    + np.random.randint()
    + np.random.seed(): for reproducibility
+   + np.choose()
 
 3. Create a 1D array with dtype specified (int, float, complex, bool, etc.)
 '''
@@ -156,6 +157,28 @@ print(vector_seeded)
 '''
 Always produces the same output when the seed is set.
 If the seed is changed, then different random numbers will be generated.
+'''
+
+#######################
+## Using np.choose() ##
+#######################
+'''
+np.choose(a, choices)
+Constructs an array by picking elements from a list of choices based on the indices provided in array 'a'.
+'''
+
+choices = [np.array([10, 20, 30, 40, 50]), np.array([60, 70, 80, 90, 100])]
+idx = np.array([0, 1, 0, 0, 1])
+
+vector_choose = np.choose(idx, choices)
+print(vector_choose)
+# [ 10  70  30  40 100]
+'''
+10: the 1st element from choices[0]
+70: the 2nd element from choices[1]
+30: the 3rd element from choices[0]
+40: the 4th element from choices[0]
+100: the 5th element from choices[1]
 '''
 
 
