@@ -203,14 +203,12 @@ print(dict_add)  # {'name': 'Hannah', 'age': 26, 'city': 'Austin'}
 dict_add.update({'country': 'USA', 'is_student': True})
 print(dict_add)  # {'name': 'Hannah', 'age': 26, 'city': 'Austin', 'country': 'USA', 'is_student': True}
 
-
 #######################################
 ## Update an existing key-value pair ##
 #######################################
 
 dict_add['age'] = 27
 print(dict_add)  # {'name': 'Hannah', 'age': 27, 'city': 'Austin', 'country': 'USA', 'is_student': True}
-
 
 ####################################
 ## .pop() Remove a key-value pair ##
@@ -220,7 +218,6 @@ removed_value = dict_add.pop('city')
 print(removed_value)  # Austin
 print(dict_add)  # {'name': 'Hannah', 'age': 27, 'country': 'USA', 'is_student': True}
 
-
 ##################################################################
 ## .popitem(): Remove a key-value pair (the last inserted item) ##
 ##################################################################
@@ -228,7 +225,6 @@ print(dict_add)  # {'name': 'Hannah', 'age': 27, 'country': 'USA', 'is_student':
 removed_item = dict_add.popitem()
 print(removed_item)  # ('is_student', True)
 print(dict_add)  # {'name': 'Hannah', 'age': 27, 'country': 'USA'}
-
 
 #########################################
 ## .clear(): Clear all key-value pairs ##
@@ -275,14 +271,12 @@ sample_dict = {
     'country': 'USA'
 }
 
-
 ###########################
 ## .keys(): Get all keys ##
 ###########################
 
 keys = sample_dict.keys()
 print(keys)  # dict_keys(['name', 'age', 'city', 'country'])
-
 
 ###############################
 ## .values(): Get all values ##
@@ -291,14 +285,12 @@ print(keys)  # dict_keys(['name', 'age', 'city', 'country'])
 values = sample_dict.values()
 print(values)  # dict_values(['Ivy', 29, 'Denver', 'USA'])
 
-
 #################################################
 ## .items(): Get all key-value pairs as tuples ##
 #################################################
 
 items = sample_dict.items()
 print(items)  # dict_items([('name', 'Ivy'), ('age', 29), ('city', 'Denver'), ('country', 'USA')])
-
 
 ################################
 ## .get(): Get a value by key ##
@@ -321,7 +313,6 @@ print(value_country)  # None
 value_state = sample_dict.get('state', 'Not Found')
 print(value_state)  # Not Found
 
-
 ###########################################################################################################################
 ## .setdefault() returns the value of the specified key , or inserts the key with a specified value if it does not exist ##
 ###########################################################################################################################
@@ -339,7 +330,6 @@ value = sample_dict.setdefault('city', 'New York')
 print(value)  # Denver
 print(sample_dict)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'USA', 'state': 'Colorado'}
                     # The value of the key 'city' remains unchanged
-
 
 #######################################################
 ## .copy(): creates a shallow copy of the dictionary ##
@@ -387,7 +377,6 @@ for key, value in sorted_dict_key.items():
 # H: 10
 # X: 7
 
-
 ############################################################
 ## sort a dict by its VALUES using "key = lambda x: x[1]" ##
 ############################################################
@@ -434,7 +423,6 @@ for key in sample_loop_dict:
 # Key: city
 # Key: country
 
-
 #####################################
 ## Loop through keys using .keys() ##
 #####################################
@@ -445,7 +433,6 @@ for key in sample_loop_dict.keys():
 # age: 32
 # city: Seattle
 # country: USA
-
 
 #########################################
 ## Loop through values using .values() ##
@@ -458,7 +445,6 @@ for value in sample_loop_dict.values():
 # Value: Seattle
 # Value: USA
 
-
 #################################################
 ## Loop through key-value pairs using .items() ##
 #################################################
@@ -469,7 +455,6 @@ for key, value in sample_loop_dict.items():
 # age = 32
 # city = Seattle
 # country = USA
-
 
 ####################################################
 ## Loop through keys and values using enumerate() ##
