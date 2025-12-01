@@ -2,8 +2,12 @@
 1. np.concatenate((arr1, arr2, ...)): concatenate many vectors into one vector
 
 2. np.split(arr, indices_or_sections): split a vector into many vectors
+   + Splitting by "number of sections"
+   + Splitting by "indices"
 
 3. np.repeat(arr, repeats): repeat elements of an array
+   + Repeating with same count
+   + Repeating with different counts
 
 4. np.unique(arr): find the unique elements of an array
 '''
@@ -38,9 +42,9 @@ vector = np.random.randint(1, 11, size=9)
 print(vector)
 # [ 6  1  4  4  8 10  4  6  3]
 
-########################################
-## Splitting with "number of sections ##
-########################################
+######################################
+## Splitting by "number of sections ##
+######################################
 
 split_vectors = np.split(ary=vector, indices_or_sections=3)
 
@@ -56,9 +60,9 @@ for i, vec in enumerate(split_vectors):
 
 '''NOTE: If the array cannot be split evenly, a ValueError will be raised.'''
 
-##############################
-## Splitting with "indices" ##
-##############################
+############################
+## Splitting by "indices" ##
+############################
 
 split_vectors = np.split(ary=vector, indices_or_sections=[2, 5])
 
