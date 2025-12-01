@@ -12,7 +12,10 @@
    + arr.ravel(): convert back to 1D vector, returns a view whenever possible (same id, same memory location)
 
 3. arr.resize(dimension): Similar to reshape, 
-                          But if the new array is larger than the original array, 
+                          But if the new array is larger than the original array,   
+                          then the new array is filled with repeated copies of 0
+
+4. arr.squeeze(): Remove single-dimensional entries from the shape of an array
 '''
 
 import numpy as np
@@ -154,9 +157,9 @@ print(np.shares_memory(matrix, raveled)) # True (same memory location)
 #------------------------------- 3. arr.resize(dimension): similar to reshape ---------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 '''
-arr.resize(a, dimension): Similar to reshape,
+arr.resize(dimension): Similar to reshape,
 But if the new array is larger than the original array,
-then the new array is filled with repeated copies of a
+then the new array is filled with repeated copies of 0
 
 NOTE: this operation modifies the original array in-place and does not return a new array.
       (new_arr = arr.resize(...) will assign None to new_arr)
@@ -185,3 +188,76 @@ print(vector)
 vector.resize(5)
 print(vector)
 # [1.76 0.4  0.98 2.24 1.87]
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#--------------------------- 4. arr.squeeze(): remove single-dimensional entries ------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+'''
+arr.squeeze(): Remove single-dimensional entries from the shape of an array
+
+(n, 1) -->  (n,)
+(1, n) -->  (n,)
+'''
+
+########################
+## with (n, 1) vector ##
+########################
+
+np.random.seed(0)
+col_vector = np.random.randn(5,1).round(2)
+
+#---
+## Before squeeze
+#---
+
+print(col_vector)
+# [[1.76]
+#  [0.4 ]
+#  [0.98]
+#  [2.24]
+#  [1.87]]
+
+print(col_vector.shape) # (5, 1)
+print(col_vector.ndim)  # 2
+
+#---
+## After squeeze
+#---
+
+squeezed_col_vector = col_vector.squeeze()
+
+print(squeezed_col_vector)
+# [1.76 0.4  0.98 2.24 1.87]
+
+print(squeezed_col_vector.shape) # (5,)
+print(squeezed_col_vector.ndim)  # 1
+
+########################
+## with (1, n) vector ##
+########################
+
+np.random.seed(0)
+row_vector = np.random.randn(1,5).round(2)
+
+#---
+## Before squeeze
+#---
+
+print(row_vector)
+# [[1.76 0.4  0.98 2.24 1.87]]
+
+print(row_vector.shape) # (1, 5)
+print(row_vector.ndim)  # 2
+
+#---
+## After squeeze
+#---
+
+squeezed_row_vector = row_vector.squeeze()
+
+print(squeezed_row_vector)
+# [1.76 0.4  0.98 2.24 1.87]
+
+print(squeezed_row_vector.shape) # (5,)
+print(squeezed_row_vector.ndim)  # 1
