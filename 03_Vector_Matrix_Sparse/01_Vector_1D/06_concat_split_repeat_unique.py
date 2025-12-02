@@ -10,6 +10,8 @@
    + Repeating with different counts
 
 4. np.unique(arr): find the unique elements of an array
+   + np.unique()
+   + np.unique(return_counts=True)
 '''
 
 import numpy as np
@@ -127,12 +129,26 @@ print(vector_npy)
 #  52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 53. 53. 52. 52. 52. 52.
 #  52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52.]
 
-#########################
-## Get unique elements ##
-#########################
+#################
+## np.unique() ##
+#################
 
 unique_elements = np.unique(vector_npy)
 
 print(unique_elements)
 # [47. 48. 49. 50. 51. 52. 53. 54. 56. 57. 59. 60. 61. 62. 64. 66. 67. 70.
 #  72. 73. 74. 75. 76.]
+
+###################################
+## np.unique(return_counts=True) ##
+###################################
+
+unique_elements, counts = np.unique(vector_npy, return_counts=True)
+
+print(unique_elements)
+# [47. 48. 49. 50. 51. 52. 53. 54. 56. 57. 59. 60. 61. 62. 64. 66. 67. 70.
+#  72. 73. 74. 75. 76.]
+
+print(counts)
+# [  7  14  38  18  59 148   3   1   2   1   1   1   1   1   1   1   1   2
+#    1   1   1   1   1]
