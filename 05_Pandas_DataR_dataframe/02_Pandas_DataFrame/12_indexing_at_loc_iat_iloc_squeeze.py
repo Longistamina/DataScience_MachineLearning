@@ -14,6 +14,8 @@
 3. Indexing with df.iat and df.iloc:
    + df.iat: Access a single value for a row/column pair by integer position.
    + df.iloc: Access a group of rows and columns by integer position(s).
+
+4. Squeezing into Series: df.squeeze()
 '''
 
 import pandas as pd
@@ -354,3 +356,101 @@ print(df_set_id.iloc[2:5, 2]) # Single column
 # 4    2014-05-11
 # 5    2015-03-27
 # Name: start_date, dtype: object
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#------------------------------------- 4. Squeezing into Series: df.squeeze() ---------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+'''
+df.squeeze() is used to squeeze a DataFrame into a Series if it contains only one column or one row.
+This is particularly useful when you want to simplify the data structure for easier manipulation or analysis.
+
+axis: {0 or 'index', 1 or 'columns', None}, default None
+    - 0 or 'index': Squeeze rows (i.e., if the DataFrame has only one column).
+    - 1 or 'columns': Squeeze columns (i.e., if the DataFrame has only one row).
+    - None: both kinds are checked
+'''
+
+df_single_col = df_emp[["name"]] # use df[[col_name]] will return a DataFrame
+                                 # use df[col_name] will return a Series
+
+print(df_single_col)
+#        name
+# 0      Rick
+# 1       Dan
+# 2  Michelle
+# 3      Ryan
+# 4      Gary
+# 5      Nina
+# 6     Simon
+# 7      Guru
+
+print(type(df_single_col))
+# <class 'pandas.core.frame.DataFrame'>
+
+######################
+## use df.squeeze() ##
+######################
+
+s_name = df_single_col.squeeze()
+print(s_name)
+# 0        Rick
+# 1         Dan
+# 2    Michelle
+# 3        Ryan
+# 4        Gary
+# 5        Nina
+# 6       Simon
+# 7        Guru
+# Name: name, dtype: object
+
+print(type(s_name))
+# <class 'pandas.core.series.Series'>
+
+print(type(df_emp[["name"]].squeeze()))
+# <class 'pandas.core.series.Series'>
+
+########################################
+## Application with with df.reindex() ##
+########################################
+'''
+df.reindex() always returns a DataFrame even if the result has only one column or one row.
+=> use df.squeeze() to convert it to Series
+'''
+
+salary = df_emp.reindex(columns = ["salary"])
+
+print(salary)
+#    salary
+# 0  623.30
+# 1  515.20
+# 2  611.00
+# 3  729.00
+# 4  843.25
+# 5  578.00
+# 6  632.80
+# 7  722.50
+
+print(type(salary))
+# <class 'pandas.core.frame.DataFrame'>
+'''Still a DataFrame'''
+
+#---
+## Use df.squeeze()
+#---
+
+s_salary = df_emp.reindex(columns = ["salary"]).squeeze()
+
+print(s_salary)
+# 0    623.30
+# 1    515.20
+# 2    611.00
+# 3    729.00
+# 4    843.25
+# 5    578.00
+# 6    632.80
+# 7    722.50
+# Name: salary, dtype: float64
+
+print(type(s_salary))
+# <class 'pandas.core.series.Series'>
