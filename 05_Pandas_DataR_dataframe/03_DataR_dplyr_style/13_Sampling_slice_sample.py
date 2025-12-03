@@ -4,6 +4,7 @@ dr.slice_sample() allows randomly sampling rows (observations) from a DataFrame.
 ####################
 
 1. dr.slice_sample(n=..., random_state=...)
+
 2. dr.slice_sample(prop=..., random_state=...)
 '''
 

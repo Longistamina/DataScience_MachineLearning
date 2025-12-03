@@ -1,6 +1,8 @@
 '''
 1. dr.slice_head() - Return the first n rows.
+
 2. dr.slice_tail() - Return the last n rows.
+
 3. dr.glimpse() - Transpose print of tibble, showing data types and a preview of data (like df.info())
 '''
 
