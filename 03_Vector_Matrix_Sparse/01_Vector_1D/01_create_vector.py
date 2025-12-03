@@ -11,6 +11,7 @@
    + np.full()
    + np.random.rand()
    + np.random.randn()
+   + np.random.uniform()
    + np.random.randint()
    + np.random.seed(): for reproducibility
    + np.choose()
@@ -126,6 +127,19 @@ vector_randn = np.random.randn(7)
 print(vector_randn)
 # [ 1.31882829 -0.01315057  0.08711981  0.28162462  0.24418609  1.39280667
 #   0.7394099 ]
+
+###############################
+## Using np.random.uniform() ##
+###############################
+'''
+np.random.uniform(low, high, size)
+Creates an array of the given size and populates it with random samples from a uniform distribution over [low, high).
+'''
+
+vector_uniform = np.random.uniform(5.0, 15.0, 5)
+
+print(vector_uniform)
+# [ 6.46700683 12.07411923  5.75504924 14.80880126 10.86106915]
 
 ###############################
 ## Using np.random.randint() ##
