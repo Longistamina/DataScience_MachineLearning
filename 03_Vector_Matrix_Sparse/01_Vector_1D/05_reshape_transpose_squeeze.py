@@ -15,7 +15,9 @@
                           But if the new array is larger than the original array,   
                           then the new array is filled with repeated copies of 0
 
-4. arr.squeeze(): Remove single-dimensional entries from the shape of an array
+4. arr.transpose() or arr.T: Transpose the array (swap rows and columns)
+
+5. arr.squeeze(): Remove single-dimensional entries from the shape of an array
 '''
 
 import numpy as np
@@ -191,7 +193,72 @@ print(vector)
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#--------------------------- 4. arr.squeeze(): remove single-dimensional entries ------------------------------#
+#---------------------------- 4. arr.transpose() or arr.T: Transpose the array --------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+'''
+arr.transpose() or arr.T: Transpose the array (swap rows and columns)
+
+(n, 1) -->  (1, n)
+(1, n) -->  (n, 1)
+'''
+
+########################
+## with (n, 1) vector ##
+########################
+
+np.random.seed(0)
+col_vector = np.random.randn(5,1).round(2)
+
+#---
+## Before transpose
+#---
+
+print(col_vector)
+# [[1.76]
+#  [0.4 ]
+#  [0.98]
+#  [2.24]
+#  [1.87]]
+
+#---
+## After transpose
+#---
+
+print(col_vector.transpose())
+# [[1.76 0.4  0.98 2.24 1.87]]
+
+print(col_vector.T)
+# [[1.76 0.4  0.98 2.24 1.87]]
+
+########################
+## with (1, n) vector ##
+########################
+
+np.random.seed(0)
+row_vector = np.random.randn(1,5).round(2)
+
+#---
+## Before transpose
+#---
+
+print(row_vector)
+# [[1.76 0.4  0.98 2.24 1.87]]
+
+#---
+## After transpose
+#---
+
+print(row_vector.transpose())
+# [[1.76]
+#  [0.4 ]
+#  [0.98]
+#  [2.24]
+#  [1.87]]
+
+print(row_vector.T)
+
+#--------------------------------------------------------------------------------------------------------------#
+#--------------------------- 5. arr.squeeze(): remove single-dimensional entries ------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 '''
 arr.squeeze(): Remove single-dimensional entries from the shape of an array
