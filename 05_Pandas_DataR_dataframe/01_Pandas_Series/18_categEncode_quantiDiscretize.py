@@ -1,5 +1,6 @@
 '''
 1. Categorical Encoding: pd.factorize(), pd.get_dummies()
+
 2. Binning and Discretization: pd.cut(), pd.qcut()
 '''
 

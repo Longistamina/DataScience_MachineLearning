@@ -6,8 +6,7 @@ It's one of pandas' most powerful features for text processing,
 offering over 50 methods that mirror Python's built-in string methods 
 while handling missing values automatically and operating efficiently on entire Series at once.
 
-
-Flow of contents:
+######################################################
 
 0. pandas.Series.str accessor: "lazy" transform to string type
 

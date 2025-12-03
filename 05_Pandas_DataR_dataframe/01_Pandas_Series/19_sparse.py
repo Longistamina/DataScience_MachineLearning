@@ -8,8 +8,6 @@ offering substantial memory savings for such datasets.
 
 ###############################
 
-Flow of contents:
-
 0. Create a Sparse Series
 
 1. Attributes:

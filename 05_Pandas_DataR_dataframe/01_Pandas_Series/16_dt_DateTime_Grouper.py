@@ -4,7 +4,8 @@ that provides access to datetime-like properties and methods for pandas Series.
 
 Supported Types: datetime64[ns], datetime64[ns, tz], Period, timedelta[ns]
 
-Flow of contents:
+######################################################
+
 0. Creating datetime data and index:
     + Datetime data: pd.to_datetime(), astype('datetime64[ns]'), pd.date_range(), pd.bdate_range()
     + Timedelta data: pd.to_timedelta(), astype('timedelta64[ns]'), pd.timedelta_range()

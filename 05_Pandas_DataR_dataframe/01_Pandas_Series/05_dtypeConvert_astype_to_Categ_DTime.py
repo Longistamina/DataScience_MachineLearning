@@ -1,12 +1,18 @@
 '''
 Converting and casting data types is a fundamental operation in pandas data manipulation.
 
-Flow of contents:
+##########################################
+
 1. .astype(): .astype("int64"), .astype("float64"), .astype("str"), .astype("category"), .astype("bool")
+
 2. pd.to_numeric(): Safe Numeric Conversion
+
 3. pd.Categorical(): Create Categorical Data
+
 4. pd.to_datetime(): Convert to Datetime
+
 5. pd.to_timedelta(): Convert to Timedelta
+
 6. String conversion: .astype(str), .map(str), .apply(str), .apply(lambda x: str(x))
 '''
 

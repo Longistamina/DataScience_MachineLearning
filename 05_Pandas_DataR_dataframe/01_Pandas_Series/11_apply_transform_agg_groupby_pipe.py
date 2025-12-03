@@ -1,10 +1,14 @@
 '''
-Flow of contents:
 1. .apply(): Element-wise Function Application
+
 2. .map(): Dictionary Mapping
+
 3. .transform(): Preserving Shape and Multiple Functions application
+
 4. .agg(): Aggregation Functions
+
 5. .groupby(): Grouping Data
+
 6. .pipe(): Method Chaining with Custom Functions
 '''
 

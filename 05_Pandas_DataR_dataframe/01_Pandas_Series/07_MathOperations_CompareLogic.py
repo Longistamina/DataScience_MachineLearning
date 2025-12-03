@@ -2,7 +2,8 @@
 Pandas Series also support various vectorized operations similar to NumPy arrays.
 These operations can be performed on Series objects, allowing for efficient data manipulation.
 
-Flow of contents:
+##########################################
+
 1. Mathematical Operations: 
    round(), 
    + add(), - sub(), 

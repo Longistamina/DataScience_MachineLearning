@@ -4,8 +4,6 @@ that allows you to filter data based on specific conditions.
 
 ###############################
 
-Flow of contents:
-
 1. Single Condition Examples:
    + Logic Operators: >, <, >=, <=, .between(), ==, !=
    + .isin()

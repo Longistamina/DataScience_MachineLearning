@@ -7,8 +7,6 @@ Or like numpy 1D array with additional features like labels.
 
 ################################################
 
-Flow of contents:
-
 1. Creating a Series: 
    + from a list, dictionary, ndarray or scalar value; 
    + with indexing, MultiLevel Indexed Series

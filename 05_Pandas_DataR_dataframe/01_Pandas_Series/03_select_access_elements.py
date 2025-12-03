@@ -1,6 +1,8 @@
 '''
 1. Using s.iloc[]
+
 2. dictionary style s[]
+
 3. Using s.get() method
 
 '''

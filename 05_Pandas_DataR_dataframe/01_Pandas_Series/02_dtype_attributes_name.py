@@ -1,7 +1,8 @@
 '''
-Flow of contents:
 1. Series.dtype: Data type of the Series
+
 2. Some important Series attributes: .index, .values, .shape, .size, .ndim, .is_unique, .hasnans, .empty.
+
 3. 'name' attribute: setting and getting the name of the Series.
 '''
 

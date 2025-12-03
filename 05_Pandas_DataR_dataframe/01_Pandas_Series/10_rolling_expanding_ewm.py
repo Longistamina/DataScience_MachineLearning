@@ -1,7 +1,8 @@
 '''
-Flow of contents:
 1. Rolling: .rolling()
+
 2. Expanding: .expanding()
+
 3. Exponentially Weighted: .ewm()
 '''
 

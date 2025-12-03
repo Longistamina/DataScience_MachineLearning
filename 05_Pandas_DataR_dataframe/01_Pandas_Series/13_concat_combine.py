@@ -1,5 +1,4 @@
 '''
-Flow of contents:
 1. pd.concat(): Concatenation of Series
 2. pd.combine(): Element-wise Merging
 '''

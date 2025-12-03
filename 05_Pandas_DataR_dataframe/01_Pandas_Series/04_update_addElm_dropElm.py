@@ -1,7 +1,8 @@
 '''
-Flow of contents:
 1. Updating elements: s.iloc[]=, dictionary style s[]=, s.update()
+
 2. Add new elements: s[]=, pd.concat()
+
 3. Deleting elements: s.drop(), s.pop()
 '''
 

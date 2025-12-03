@@ -1,5 +1,4 @@
 '''
-Flow of contents:
 1. Statistical methods
     + Reduction methods: .count(), .sum(), .product(), .mean(), .median(), .var(), .std(),
                          .min(), .max(), .quantile(), .skew(), .kurtosis(), .sem(), .describe()

@@ -1,6 +1,6 @@
 '''
-Flow of contents:
 1. .filter(): Index-based Filtering
+
 2. .where(): Conditional Filtering and Replacement
 '''
 
