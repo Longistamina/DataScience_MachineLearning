@@ -2,13 +2,21 @@
 There are many ways to create a DataFrame in Pandas. Here are some of the most common methods:
 
 1. From a dictionary of series: {"column_name": pd.Series(data, index=index)}
+
 2. From a dictionary of lists or ndarrays: {"column_name": list_or_ndarray}
+
 3. From 2D-List or 2D-Array: [[row1], [row2], ...] or np.array([[row1], [row2], ...])
+
 4. From a structured or record array: np.array([(data1), (data2)], dtype=[("col1", type1), ("col2", type2)])
+
 5. From a list of dictionaries: [{"col1": val1, "col2": val2}, ...]
+
 6. From a dictionary of tuples: {("col1", "col2"): {("row1", "row2"): val, ...}, ...}
+
 7. From a list of namedtuples: [namedtuple1, namedtuple2, ...]
+
 8. From a list of dataclasses: [dataclass1, dataclass2, ...]
+
 9. Other constructors: .from_dict(), .from_records()
 '''
 

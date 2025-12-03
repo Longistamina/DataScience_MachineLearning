@@ -1,6 +1,4 @@
 '''
-Flow of contents:
-
 1. Shape and Size attributes:
    + df.shape: Returns a tuple (rows, columns)
    + df.size: Returns total number of elements (rows * columns)

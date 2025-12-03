@@ -3,8 +3,6 @@ Pandas offers many functions to read data from various file formats into DataFra
 
 ##################################################################
 
-Flow of contents:
-
 1. pd.read_csv() - Read CSV files
    + Basic Usage: df = pd.read_csv('path/to/file.csv')
    + Specify index_col=: df = pd.read_csv('path/to/file.csv', index_col='column_name'/column_index)

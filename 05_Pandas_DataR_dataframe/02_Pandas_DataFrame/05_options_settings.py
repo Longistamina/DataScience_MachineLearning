@@ -4,8 +4,6 @@ data behavior and more.
 
 #########################################
 
-Flow of contents:
-
 1. All available options: pd.describe_option()
 
 2. Getting, Setting and Resetting options: 

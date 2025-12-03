@@ -1,6 +1,8 @@
 '''
 1. df.to_csv('file_name.csv')  # Save DataFrame to CSV file
+
 2. df.to_excel('file_name.xlsx')  # Save DataFrame to Excel file
+
 3. df.to_json('file_name.json')  # Save DataFrame to JSON file
 '''
 
