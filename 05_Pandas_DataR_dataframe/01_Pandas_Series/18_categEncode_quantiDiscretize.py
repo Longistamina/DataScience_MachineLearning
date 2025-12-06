@@ -66,7 +66,7 @@ It is useful for one-hot encoding categorical variables.
 ## Without dropping the first category
 #-----------------
 
-s_gender_dummmies = pd.get_dummies(s_gender, prefix = "gender")
+s_gender_dummmies = pd.get_dummies(s_gender, prefix="gender")
 print(s_gender_dummmies)
 #    gender_F  gender_LGBTQ  gender_M
 # 0     False         False      True
@@ -80,7 +80,7 @@ print(s_gender_dummmies)
 # 8     False          True     False
 # 9     False         False      True
 
-s_gender_dummmies = pd.get_dummies(s_gender, prefix = "gender").astype("int64") # Convert to 0-1 binary integers
+s_gender_dummmies = pd.get_dummies(s_gender, prefix="gender").astype("int64") # Convert to 0-1 binary integers
 print(s_gender_dummmies)
 #    gender_F  gender_LGBTQ  gender_M
 # 0         0             0         1
@@ -105,7 +105,7 @@ The last n-th category can be inferred from the other n-1 columns.
 => Can drop the first category to avoid multicollinearity.
 '''
 
-s_gender_dummmies = pd.get_dummies(s_gender, drop_first = True, prefix = "gender").astype("int64")
+s_gender_dummmies = pd.get_dummies(s_gender, drop_first=True, prefix="gender").astype("int64")
 print(s_gender_dummmies)
 #    gender_LGBTQ  gender_M
 # 0             0         1
@@ -138,7 +138,7 @@ This is useful for simplifying data analysis, especially when dealing with conti
 import numpy as np
 
 np.random.seed(42)  # For reproducibility
-s_quantitative = pd.Series(np.random.normal(loc = 5, scale = 2, size = 20))  # Generate random data
+s_quantitative = pd.Series(np.random.normal(loc=5, scale=2, size=20))  # Generate random data
 
 print(s_quantitative)
 # 0     5.993428

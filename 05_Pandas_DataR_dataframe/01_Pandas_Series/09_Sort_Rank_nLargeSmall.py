@@ -48,7 +48,7 @@ How to rank the group of records that have the same value (i.e. ties):
 Default is "average", which is the most common method used for ranking.
 '''
 
-print(s_demo.rank(method = 'min'))
+print(s_demo.rank(method='min'))
 # 0    4.0
 # 1    2.0
 # 2    1.0
@@ -60,7 +60,7 @@ print(s_demo.rank(method = 'min'))
 # 8    5.0
 # 9    6.0
 
-print(s_demo.rank(method = 'max'))
+print(s_demo.rank(method='max'))
 # 0    4.0
 # 1    3.0
 # 2    1.0

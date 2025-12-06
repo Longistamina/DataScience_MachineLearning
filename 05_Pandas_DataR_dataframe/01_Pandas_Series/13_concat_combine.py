@@ -37,7 +37,7 @@ print(s_concat)
 ## Concatenation with ignore_index= ##
 ######################################
 
-s_concat = pd.concat([s1, s2], ignore_index = True)
+s_concat = pd.concat([s1, s2], ignore_index=True)
 print(s_concat)
 # 0    a
 # 1    b
@@ -50,7 +50,7 @@ print(s_concat)
 ## Concatenation with keys= ##
 ##############################
 
-s_concat = pd.concat([s1, s2], keys = ['first', 'second'])
+s_concat = pd.concat([s1, s2], keys=['first', 'second'])
 print(s_concat)
 # first   0    a
 #         1    b
@@ -80,7 +80,7 @@ s2 = pd.Series({'falcon': 345.0, 'eagle': 200.0, 'duck': 30.0})
 ## Basic combine with other= and func= ##
 #########################################
 
-s_combined = s1.combine(other = s2, func = max)
+s_combined = s1.combine(other=s2, func=max)
 print(s_combined)
 # duck        NaN
 # eagle     200.0
@@ -94,7 +94,7 @@ print(s_combined)
 ## Combine with fill_value= to handle NaN ##
 ############################################
 
-s_combined = s1.combine(other = s2, func = max, fill_value = 0)
+s_combined = s1.combine(other=s2, func=max, fill_value=0)
 print(s_combined)
 # duck       30.0
 # eagle     200.0

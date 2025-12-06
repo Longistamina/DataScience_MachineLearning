@@ -28,7 +28,7 @@ import numpy as np
 #----------------------------------- 0. Create a Sparse Series ------------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
 
-s_sparse_int = pd.Series([0, 0, 1, 0, 2, 0, 0, 3], dtype = "Sparse[int]")
+s_sparse_int = pd.Series([0, 0, 1, 0, 2, 0, 0, 3], dtype="Sparse[int]")
 print(s_sparse_int)
 # 0    0
 # 1    0
@@ -40,7 +40,7 @@ print(s_sparse_int)
 # 7    3
 # dtype: Sparse[int64, 0]
 
-s_sparse_float = pd.Series([np.nan, 0.0, 1.5, np.nan, 2.5, 0.0, 0.0, 3.5], dtype = "Sparse[float]")
+s_sparse_float = pd.Series([np.nan, 0.0, 1.5, np.nan, 2.5, 0.0, 0.0, 3.5], dtype="Sparse[float]")
 print(s_sparse_float)
 # 0    NaN
 # 1    0.0
@@ -57,9 +57,9 @@ print(s_sparse_float)
 #--------------------------------------- 1. Attributes --------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
 
-s_sparse_int = pd.Series([0, 0, 1, 0, 2, 0, 0, 3], dtype = "Sparse[int]")
-s_sparse_float = pd.Series([np.nan, 0.0, 1.5, np.nan, 2.5, 0.0, 0.0, 3.5], dtype = "Sparse[float]")
-s_sparse_nan = pd.Series([np.nan, np.nan, 1.5, np.nan, 2.5, np.nan, np.nan, 3.5], dtype = "Sparse[float]")
+s_sparse_int = pd.Series([0, 0, 1, 0, 2, 0, 0, 3], dtype="Sparse[int]")
+s_sparse_float = pd.Series([np.nan, 0.0, 1.5, np.nan, 2.5, 0.0, 0.0, 3.5], dtype="Sparse[float]")
+s_sparse_nan = pd.Series([np.nan, np.nan, 1.5, np.nan, 2.5, np.nan, np.nan, 3.5], dtype="Sparse[float]")
 
 #####################
 ## .sparse.density ##
@@ -113,8 +113,8 @@ print(s_sparse_nan.sparse.sp_values)   # [1.5 2.5 3.5]
 #---------------------------------------- 3. Methods ----------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
 
-s_sparse_int = pd.Series([0, 0, 1, 0, 2, 0, 0, 3], dtype = "Sparse[int]")
-s_sparse_float = pd.Series([np.nan, np.nan, 1.5, np.nan, 2.5, np.nan, np.nan, 3.5], dtype = "Sparse[float]")
+s_sparse_int = pd.Series([0, 0, 1, 0, 2, 0, 0, 3], dtype="Sparse[int]")
+s_sparse_float = pd.Series([np.nan, np.nan, 1.5, np.nan, 2.5, np.nan, np.nan, 3.5], dtype="Sparse[float]")
 
 ########################
 ## .sparse.from_coo() ##

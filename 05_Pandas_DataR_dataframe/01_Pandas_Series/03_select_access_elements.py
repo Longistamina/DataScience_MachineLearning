@@ -13,7 +13,7 @@ import pandas as pd
 #--------------------------------------------- 1. Using .iloc() -----------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
-s_index = pd.Series(data = [10, 20, 30, 40, 50], index = ['a', 'b', 'c', 'd', 'e'])
+s_index = pd.Series(data=[10, 20, 30, 40, 50], index=['a', 'b', 'c', 'd', 'e'])
 
 '''
 .iloc[] is used for integer-location based indexing, 
@@ -60,7 +60,7 @@ s_index.iloc[[0, 2, 4]]  # Accessing specific elements by their integer position
 #----------------------------------------- 2. Using dictionary style ------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
-s_index = pd.Series(data = [10, 20, 30, 40, 50], index = ['a', 'b', 'c', 'd', 'e'])
+s_index = pd.Series(data=[10, 20, 30, 40, 50], index=['a', 'b', 'c', 'd', 'e'])
 
 s_index['a']  # Accessing by index label
 # np.int64(10)
@@ -113,7 +113,7 @@ s_index.get(['a', 'c', 'e'])  # Accessing multiple elements using get()
 ## NOTE on default integer index Series ##
 ##########################################
 
-s_no_index = pd.Series(data = [2, 3, 5, 7, 11])
+s_no_index = pd.Series(data=[2, 3, 5, 7, 11])
 
 print(s_no_index)
 # 0     2
@@ -157,8 +157,8 @@ not positions, to maintain consistency with DataFrame behavior.
 #----------------------------------------- 3. Using .get() method ---------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
-s_index = pd.Series(data = [10, 20, 30, 40, 50], index = ['a', 'b', 'c', 'd', 'e'])
-s_no_index = pd.Series(data = [2, 3, 5, 7, 11])
+s_index = pd.Series(data=[10, 20, 30, 40, 50], index=['a', 'b', 'c', 'd', 'e'])
+s_no_index = pd.Series(data=[2, 3, 5, 7, 11])
 
 print(s_index.get('c'))  # Accessing an existing index label
 # 30

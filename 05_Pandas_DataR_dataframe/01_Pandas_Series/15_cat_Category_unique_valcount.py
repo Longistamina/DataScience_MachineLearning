@@ -36,7 +36,7 @@ import numpy as np
 ## Using pd.Series() with dtype='category' ##
 #############################################
 
-s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype = 'category')
+s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype='category')
 
 print(s_gender)
 # 0        M
@@ -115,7 +115,7 @@ NOTE: THIS WILL NOT CREATE A pd.Series OBJECT, IT CREATES A pd.Categorical OBJEC
 lst_gender = ["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"]
 
 ## With ordered = False
-s_gender_categ = pd.Series(pd.Categorical(lst_gender, ordered = False))
+s_gender_categ = pd.Series(pd.Categorical(lst_gender, ordered=False))
 print(s_gender_categ)
 # 0        M
 # 1        M
@@ -158,7 +158,7 @@ print(s_gender_categ)
 lst_price_levels = [1, 1, 3, 2, 5, 2, None, 4, 4, np.nan, 3]
 
 ## With ordered = False
-s_price_levels_categ = pd.Series(pd.Categorical(lst_price_levels, ordered = False))
+s_price_levels_categ = pd.Series(pd.Categorical(lst_price_levels, ordered=False))
 print(s_price_levels_categ)
 # 0       1
 # 1       1
@@ -202,7 +202,7 @@ print(s_price_levels_categ)
 #------------------------------------------ 1. Core attributes -------------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
 
-s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype = 'category')
+s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype='category')
 
 s_levels = pd.Series(
     pd.Categorical(
@@ -273,7 +273,7 @@ print(s_levels.cat.ordered)
 #------------------------------------- 2. Adding and Removing Categories ---------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
 
-s_fruits = pd.Series(["Apple", "Banana", "Orange", "Apple", "Banana", "Grapes"], dtype = 'category')
+s_fruits = pd.Series(["Apple", "Banana", "Orange", "Apple", "Banana", "Grapes"], dtype='category')
 s_degrees = pd.Series(
     pd.Categorical(
         values = ["Bachelor", "Master", "Bachelor", "Master", "Bachelor"],
@@ -314,7 +314,7 @@ NOTE: Adding a category does not assign it to any existing entries in the Series
 '''
 
 s_added = pd.concat(
-    objs = [s_degrees, pd.Series(["PhD"], dtype = s_degrees.dtype)], # Must use the same dtype
+    objs = [s_degrees, pd.Series(["PhD"], dtype=s_degrees.dtype)], # Must use the same dtype
     ignore_index = True
 )
 print(s_added)
@@ -423,7 +423,7 @@ print(s_degrees_set)
 #----------------------------------------- 3. Renaming Categories ----------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
 
-s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype = 'category')
+s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype='category')
 
 print(s_gender)
 # 0        M
@@ -568,7 +568,7 @@ Can use .cat.as_ordered() to convert unordered categories to ordered ones.
 (then use .cat.reorder_categories() to set a specific order if needed)
 '''
 
-s_sizes = pd.Series(["Medium", "Small", "Large", "Medium", "Small", "Large"], dtype = 'category')
+s_sizes = pd.Series(["Medium", "Small", "Large", "Medium", "Small", "Large"], dtype='category')
 
 print(s_sizes)
 # 0    Medium
@@ -658,7 +658,7 @@ print(s_sizes_ordered.sort_values())
 # dtype: category
 # Categories (3, object): ['Small' < 'Medium' < 'Large']
 
-print(s_sizes_ordered.sort_values(ascending = False))
+print(s_sizes_ordered.sort_values(ascending=False))
 # 2     Large
 # 5     Large
 # 0    Medium
@@ -740,7 +740,7 @@ you can use .as_ordered() to change the Categorical to an ordered one
 #--------------------------------------- 7. Exploring Categorical ----------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
 
-s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype = 'category')
+s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype='category')
 
 ###############
 ## .unique() ##

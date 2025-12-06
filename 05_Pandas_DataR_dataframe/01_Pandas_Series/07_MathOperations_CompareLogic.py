@@ -371,7 +371,7 @@ print(s1.between(20, 40))  # Default inclusive='both'
 # 4    False
 # 5    False
 
-print(s2.between(20, 40, inclusive = 'neither'))
+print(s2.between(20, 40, inclusive='neither'))
 # 0    False
 # 1    False
 # 2     True

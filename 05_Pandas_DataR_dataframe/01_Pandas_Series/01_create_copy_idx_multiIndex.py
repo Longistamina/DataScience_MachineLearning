@@ -29,7 +29,7 @@ import pandas as pd
 ## pandas will create a default integer index starting from 0.
 #----------------
 
-s = pd.Series(data = [1, 2, 3, 4, 5])
+s = pd.Series(data=[1, 2, 3, 4, 5])
 
 print(s)
 # 0    1
@@ -43,7 +43,7 @@ print(s)
 ## With custom index labels
 #----------------
 
-s = pd.Series(data = [1, 2, 3, 4, 5], index = ['one', 'two', 'three', 'four', 'five'])
+s = pd.Series(data=[1, 2, 3, 4, 5], index=['one', 'two', 'three', 'four', 'five'])
 
 print(s)
 # one      1
@@ -60,7 +60,7 @@ print(s)
 
 import numpy as np
 
-s = pd.Series(data = np.random.rand(5), index = ['a', 'b', 'c', 'd', 'e'])
+s = pd.Series(data=np.random.rand(5), index=['a', 'b', 'c', 'd', 'e'])
 
 print(s)
 # a    0.503145
@@ -76,7 +76,7 @@ print(s)
 #######################
 
 # The keys will be used as index labels, and the values will be the data in the Series.
-s = pd.Series(data = {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5})
+s = pd.Series(data={'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5})
 
 print(s)
 # a    1
@@ -91,7 +91,7 @@ print(s)
 ## From a scalar value ##
 #########################
 
-s = pd.Series(data = 5, index = ['a', 'b', 'c', 'd', 'e'])
+s = pd.Series(data=5, index=['a', 'b', 'c', 'd', 'e'])
 
 print(s)
 # a    5
@@ -119,7 +119,7 @@ multi_index = pd.MultiIndex(
 )
 
 # Use the multi-level indexed object to create a Series
-s_multi_index = pd.Series([45, 200, 1.2, 30, 250, 1.5, 320, 1, 0.3], index = multi_index)
+s_multi_index = pd.Series([45, 200, 1.2, 30, 250, 1.5, 320, 1, 0.3], index=multi_index)
 
 print(s_multi_index)
 # llama   speed      45.0
@@ -138,7 +138,7 @@ print(s_multi_index)
 #---------------------------------------- 2. Copying a Series ------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
-s_original = pd.Series(data = [10, 20, 30, 40, 50])
+s_original = pd.Series(data=[10, 20, 30, 40, 50])
 
 s_copy = s_original.copy()  # Creating a copy of the Series
 print(s_copy)
@@ -149,7 +149,7 @@ print(s_copy)
 # 4    50
 # dtype: int64
 
-s_copy_index = s_original.copy(deep = True)  # Creating a deep copy of the Series
+s_copy_index = s_original.copy(deep=True)  # Creating a deep copy of the Series
 print(s_copy_index)
 # 0    10
 # 1    20

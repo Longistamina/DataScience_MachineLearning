@@ -19,7 +19,7 @@ s_mixed = pd.Series(["apple", "banana", "cherry", 42, 3.14, None])
 
 np.random.seed(42)
 
-s_nums = pd.Series(np.random.normal(loc = 3, scale = 2, size = 5)).round(2)
+s_nums = pd.Series(np.random.normal(loc=3, scale=2, size=5)).round(2)
 print(s_nums)
 # 0    3.99
 # 1    2.72
@@ -143,7 +143,7 @@ print(s_transformed)
 # dtype: float64
 
 # Multiple functions transformation
-s_transformed = s_nums.transform(func = {'x+1':lambda x: x+1, 'x*2':lambda x: x*2})
+s_transformed = s_nums.transform(func={'x+1':lambda x: x+1, 'x*2':lambda x: x*2})
 print(s_transformed)
 #     x+1    x*2
 # 0  4.99   7.98
@@ -308,7 +308,7 @@ print(s_birds_flight)
 ## Groupping by using level= ##
 ###############################
 
-s_grouped = s_birds_flight.groupby(level = 0).mean()  # Grouping by the first index level (bird type)
+s_grouped = s_birds_flight.groupby(level=0).mean()  # Grouping by the first index level (bird type)
 print(s_grouped)
 # Falcon    370.0
 # Parrot     25.0
@@ -319,7 +319,7 @@ print(s_grouped)
 ## Groupping by using by= ##
 ############################
 
-s_grouped = s_birds_flight.groupby(by = ["a", "b", "a", "b"]).agg(["mean", "max"])
+s_grouped = s_birds_flight.groupby(by=["a", "b", "a", "b"]).agg(["mean", "max"])
 print(s_grouped)
 #     mean    max
 # a  210.0  390.0
@@ -355,7 +355,7 @@ import scipy as sp
 np.random.seed(42)
 
 query = (
-    pd.Series(np.random.normal(loc = 3, scale = 2, size = 30))
+    pd.Series(np.random.normal(loc=3, scale=2, size=30))
     .round(2)
     .pipe(lambda ser: ser[ser < 2.9])
     .pipe(lambda ser: sp.stats.shapiro(ser))

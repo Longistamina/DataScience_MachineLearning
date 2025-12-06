@@ -171,7 +171,7 @@ print(s1_nums[s1_nums.between(10, 15.99)]) # Returns values between 10 and 15.99
 # 6    10.58
 # dtype: float64
 
-print(s1_nums[s1_nums.between(10, 15.99, inclusive = "left")]) # Returns values between 15.99 (left inclusive)
+print(s1_nums[s1_nums.between(10, 15.99, inclusive="left")]) # Returns values between 15.99 (left inclusive)
 # 0    13.75
 # 4    11.56
 # 5    11.56
@@ -301,7 +301,7 @@ print(s_timezones[s_timezones == "Zulu"]) # Returns values that are exactly equa
 ##      DateTime Boolean       ##
 #################################
 
-s_datetime = pd.Series(pd.date_range(start = '2023-01-31', end = '2023-06-30', freq = 'ME')) # 'ME' means month end frequency
+s_datetime = pd.Series(pd.date_range(start='2023-01-31', end='2023-06-30', freq='ME')) # 'ME' means month end frequency
 first_january = pd.Series(['2023-01-01'], dtype='datetime64[ns]')
 s_datetime = pd.concat([first_january, s_datetime], ignore_index=True)
 
@@ -411,7 +411,7 @@ print(s1_nums[~((s1_nums > 12) & (s1_nums.round(0) % 2 == 0))]) # Returns the NE
 
 import pytz
 s_timezones = pd.Series(pytz.all_timezones)
-print(s_timezones[s_timezones.str.contains("Asia") & s_timezones.str.endswith(pat = ("e", "u"))])
+print(s_timezones[s_timezones.str.contains("Asia") & s_timezones.str.endswith(pat=("e", "u"))])
 # 240        Asia/Aqtau
 # 241       Asia/Aqtobe
 # 244       Asia/Atyrau
@@ -476,7 +476,7 @@ print(s1_nums[~(((s1_nums < 12) | (s1_nums > 18)) & (s1_nums.round(0) % 2 == 0))
 
 import pytz
 s_tzs = pd.Series(pytz.all_timezones)
-print(s_tzs[(s_tzs.str.contains("Asia") & s_tzs.str.endswith(pat = ("e", "u"))) | s_tzs.str.contains("Tokyo")])
+print(s_tzs[(s_tzs.str.contains("Asia") & s_tzs.str.endswith(pat=("e", "u"))) | s_tzs.str.contains("Tokyo")])
 # 240        Asia/Aqtau
 # 241       Asia/Aqtobe
 # 244       Asia/Atyrau

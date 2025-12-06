@@ -23,7 +23,7 @@ while handling missing values automatically and operating efficiently on entire 
 3. Checking methods (Boolean returns):
    - Character type checks: .isalpha(), .isdigit(), .isnumeric(), .isdecimal(), .isalnum(), .isspace()
    - Case checks: .isupper(), .islower(), .istitle()
-   - Pattern checks: .startswith(prefix), .endswith(suffix), .contains(pattern)
+   - Pattern checks: .startswith(prefix), .endswith(suffix), .contain(pattern)
 
 4. Split and Partion:
    - Spliting: .split(delimiter), .rsplit(delimiter)
@@ -138,28 +138,28 @@ s_heroes = pd.Series(
 .str.slice(start=None, stop=None, step=None)
 '''
 
-print(s_heroes.str.slice(start = 0, stop = 4, step = 1))
+print(s_heroes.str.slice(start=0, stop=4, step=1))
 # Ironman           Tony
 # CaptainAmerica    Stev
 # Hulk              Bruc
 # Quicksilver       Piet
 # dtype: object
 
-print(s_heroes.str.slice(start = 5))
+print(s_heroes.str.slice(start=5))
 # Ironman                 Stark
 # CaptainAmerica        _Rogers
 # Hulk                  _Banner
 # Quicksilver        o_Maximoff
 # dtype: object
 
-print(s_heroes.str.slice(stop = 3))
+print(s_heroes.str.slice(stop=3))
 # Ironman           Ton
 # CaptainAmerica    Ste
 # Hulk              Bru
 # Quicksilver       Pie
 # dtype: object
 
-print(s_heroes.str.slice(step = 2))
+print(s_heroes.str.slice(step=2))
 # Ironman              Tn_tr
 # CaptainAmerica      SeeRgr
 # Hulk                BueBne
@@ -175,7 +175,7 @@ print(s_heroes.str.slice(step = 2))
 .str.slice_replace(start=None, stop=None, repl=None)
 '''
 
-print(s_heroes.str.slice_replace(start = 0, stop = 4, repl = "Dr"))
+print(s_heroes.str.slice_replace(start=0, stop=4, repl="Dr"))
 # Ironman                Dr_Stark
 # CaptainAmerica       Dre_Rogers
 # Hulk                 Dre_Banner
@@ -559,7 +559,7 @@ print(s_start.str.startswith('b'))
 # 3      NaN
 # dtype: object
 
-print(s_start.str.startswith(pat = ('b', 'B'), na = False)) # Treat NaN as False
+print(s_start.str.startswith(pat=('b', 'B'), na=False)) # Treat NaN as False
 # 0     True
 # 1     True
 # 2    False
@@ -580,7 +580,7 @@ print(s_end.str.endswith('t'))
 # 3      NaN
 # dtype: object
 
-print(s_end.str.endswith(pat = ('t', 'T'), na = False)) # Treat NaN as False
+print(s_end.str.endswith(pat=('t', 'T'), na=False)) # Treat NaN as False
 # 0     True ('bat')
 # 1    False 
 # 2     True ('caT')
@@ -588,13 +588,13 @@ print(s_end.str.endswith(pat = ('t', 'T'), na = False)) # Treat NaN as False
 # dtype: bool
 
 #-----------
-## .contains(pattern)
+## .contai(pattern)
 #-----------
 # Check if strings contain the specified pattern (can be a substring or regex)
 
 s_contain = pd.Series(['Mouse', 'dog', 'house and parrot', '23', np.nan])
 
-print(s_contain.str.contains(pat = 'og', regex = False))
+print(s_contain.str.contains(pat='og', regex=False))
 # 0    False
 # 1     True ('dog')
 # 2    False
@@ -602,7 +602,7 @@ print(s_contain.str.contains(pat = 'og', regex = False))
 # 4      NaN
 # dtype: object
 
-print(s_contain.str.contains(pat = 'oG', regex = False))
+print(s_contain.str.contains(pat='oG', regex=False))
 # 0    False
 # 1    False
 # 2    False
@@ -610,7 +610,7 @@ print(s_contain.str.contains(pat = 'oG', regex = False))
 # 4      NaN
 # dtype: object
 
-print(s_contain.str.contains(pat = 'oG', case = False, regex = False, na = False)) # Case insensitive, Treat NaN as False
+print(s_contain.str.contains(pat='oG', case=False, regex=False, na=False)) # Case insensitive, Treat NaN as False
 # 0    False
 # 1     True ('dog')
 # 2    False
@@ -618,7 +618,7 @@ print(s_contain.str.contains(pat = 'oG', case = False, regex = False, na = False
 # 4    False
 # dtype: bool
 
-print(s_contain.str.contains(pat = r"\d|parrot|Mo", regex = True, na = False)) # Regex pattern, Treat NaN as False
+print(s_contain.str.contains(pat=r"\d|parrot|Mo", regex=True, na=False)) # Regex pattern, Treat NaN as False
 # 0     True ('Mouse' contains 'Mo')
 # 1    False
 # 2     True ('house and parrot' contains 'parrot')
@@ -650,14 +650,14 @@ print(s_split.str.split('_'))
 # 3                        NaN
 # dtype: object
 
-print(s_split.str.split(pat = '_', n = 2))  # Split up to 2 delimiters only (results in at most 3 parts)
+print(s_split.str.split(pat='_', n=2))  # Split up to 2 delimiters only (results in at most 3 parts)
 # 0    [apple, banana, cherry]
 # 1                 [dog, cat]
 # 2     [one, two, three_four]
 # 3                        NaN
 # dtype: object
 
-print(s_split.str.split(pat = '_', expand= True))  # Expand into separate columns
+print(s_split.str.split(pat='_', expand= True))  # Expand into separate columns
 #        0       1       2     3
 # 0  apple  banana  cherry  None
 # 1    dog     cat    None  None
@@ -677,7 +677,7 @@ print(s_split.str.rsplit('_'))
 # 3                        NaN
 # dtype: object
 
-print(s_split.str.rsplit(pat = '_', n = 2))  # Split up to 2 delimiters only from the right (results in at most 3 parts)
+print(s_split.str.rsplit(pat='_', n=2))  # Split up to 2 delimiters only from the right (results in at most 3 parts)
 # 0    [apple, banana, cherry]
 # 1                 [dog, cat]
 # 2     [one_two, three, four]
@@ -689,7 +689,7 @@ print(s_split.str.rsplit(pat = '_', n = 2))  # Split up to 2 delimiters only fro
 .str.rsplit() => [one_two, three, four]
 '''
 
-print(s_split.str.rsplit(pat = '_', n = 2, expand= True))  # Expand into separate columns
+print(s_split.str.rsplit(pat='_', n=2, expand= True))  # Expand into separate columns
 #          0       1       2
 # 0    apple  banana  cherry
 # 1      dog     cat    None
@@ -717,7 +717,7 @@ print(s_split.str.split('_')[5]) # nan
 
 '''------------------------'''
 
-print(s_split.str.split(pat = '_', expand= True))  # Expand into separate columns
+print(s_split.str.split(pat='_', expand= True))  # Expand into separate columns
 #       0        1
 # 0  day1  sample1
 # 1  day1  sample2
@@ -757,14 +757,14 @@ print(s_partition.str.partition('-'))
 # 2    one    -  two-three-four
 # 3    NaN  NaN             NaN
 
-print(s_partition.str.partition(sep = 'a'))  # Split at first 'a'
+print(s_partition.str.partition(sep='a'))  # Split at first 'a'
 #                     0    1                   2
 # 0                        a  pple-banana-cherry
 # 1               dog-c    a                   t
 # 2  one-two-three-four                         
 # 3                 NaN  NaN                 NaN
 
-print(s_partition.str.partition(sep = '-', expand = False)) # Return as tuples, not expanded DataFrame
+print(s_partition.str.partition(sep='-', expand=False)) # Return as tuples, not expanded DataFrame
 # 0    (apple, -, banana-cherry)
 # 1                (dog, -, cat)
 # 2     (one, -, two-three-four)
@@ -784,14 +784,14 @@ print(s_partition.str.rpartition('-'))
 # 2  one-two-three    -    four
 # 3            NaN  NaN     NaN
 
-print(s_partition.str.rpartition(sep = 'a'))  # Split at last 'a'
+print(s_partition.str.rpartition(sep='a'))  # Split at last 'a'
 #              0    1                   2
 # 0  apple-banan    a             -cherry
 # 1        dog-c    a                   t
 # 2                    one-two-three-four
 # 3          NaN  NaN                 NaN
 
-print(s_partition.str.rpartition(sep = '-', expand = False)) # Return as tuples, not expanded DataFrame
+print(s_partition.str.rpartition(sep='-', expand=False)) # Return as tuples, not expanded DataFrame
 # 0    (apple-banana, -, cherry)
 # 1                (dog, -, cat)
 # 2     (one-two-three, -, four)
@@ -816,7 +816,7 @@ print(s_join.str.join('-'))
 # 3                    NaN
 # dtype: object
 
-print(s_join.str.join(sep = ' || '))
+print(s_join.str.join(sep=' || '))
 # 0      apple || banana || cherry
 # 1                     dog || cat
 # 2    one || two || three || four
@@ -834,7 +834,7 @@ print(s_join.str.join(sep = ' || '))
 
 s_replace = pd.Series(['apple_banana_cherry', 'dog_cat', 'one_two_three_four', '1234', np.nan])
 
-print(s_replace.str.replace(pat = 'a', repl = 'A', regex = False))  # Replace all 'a' with 'A'
+print(s_replace.str.replace(pat='a', repl='A', regex=False))  # Replace all 'a' with 'A'
 # 0    Apple_bAnAnA_cherry
 # 1                dog_cAt
 # 2     one_two_three_four
@@ -842,7 +842,7 @@ print(s_replace.str.replace(pat = 'a', repl = 'A', regex = False))  # Replace al
 # 4                    NaN
 # dtype: object
 
-print(s_replace.str.replace("_", ' || ', regex = False))  # Replace all '_' with ' || '
+print(s_replace.str.replace("_", ' || ', regex=False))  # Replace all '_' with ' || '
 # 0      apple || banana || cherry
 # 1                     dog || cat
 # 2    one || two || three || four
@@ -850,7 +850,7 @@ print(s_replace.str.replace("_", ' || ', regex = False))  # Replace all '_' with
 # 4                            NaN
 # dtype: object
 
-print(s_replace.str.replace(pat = r'\d', repl = '#', regex = True))  # Replace all digits with '#'
+print(s_replace.str.replace(pat=r'\d', repl='#', regex=True))  # Replace all digits with '#'
 # 0    apple_banana_cherry
 # 1                dog_cat
 # 2     one_two_three_four
@@ -858,7 +858,7 @@ print(s_replace.str.replace(pat = r'\d', repl = '#', regex = True))  # Replace a
 # 4                    NaN
 # dtype: object
 
-print(s_replace.str.replace(pat = r'\d+', repl = '#', regex = True))  # Replace all digit sequences with '#'
+print(s_replace.str.replace(pat=r'\d+', repl='#', regex=True))  # Replace all digit sequences with '#'
 # 0    apple_banana_cherry
 # 1                dog_cat
 # 2     one_two_three_four
@@ -921,7 +921,7 @@ print(s_wrap.str.wrap(10))  # Wrap text to a width of 10 characters
 # 2                                                  NaN
 # dtype: object
 
-print(s_wrap.str.wrap(width = 10).get(0))
+print(s_wrap.str.wrap(width=10).get(0))
 # This is a
 # long
 # string
@@ -953,7 +953,7 @@ print(s_match.str.match(r'^[a-z]{3}'))  # Starts with exactly 3 lowercase letter
 # 4      NaN
 # dtype: object
 
-print(s_match.str.match(r'^[a-z]{3}', na = False))  # Treat NaN as False
+print(s_match.str.match(r'^[a-z]{3}', na=False))  # Treat NaN as False
 # 0     True
 # 1     True
 # 2     True
@@ -974,7 +974,7 @@ print(s_match.str.fullmatch(r'[a-z]{3}\d{3}'))  # Exactly 3 lowercase letters fo
 # 4      NaN
 # dtype: object
 
-print(s_match.str.fullmatch(r"\d{3}.*", na = False))  # Treat NaN as False, check if string starts with exactly 3 digits
+print(s_match.str.fullmatch(r"\d{3}.*", na=False))  # Treat NaN as False, check if string starts with exactly 3 digits
 # 0    False
 # 1    False
 # 2    False
@@ -987,7 +987,7 @@ print(s_match.str.fullmatch(r"\d{3}.*", na = False))  # Treat NaN as False, chec
 #-------------------
 # Check if each string contains the regex pattern
 
-print(s_match.str.contains(r'\d{3}', regex = True, na = False))  # Contains a sequence of exactly 3 digits
+print(s_match.str.contains(r'\d{3}', regex=True, na=False))  # Contains a sequence of exactly 3 digits
 # 0    True ('abc123' contains digits '123')
 # 1    True ('def456' contains digits '456')
 # 2    True ('ghi789' contains digits '789')
@@ -1048,10 +1048,10 @@ print(s_find.str.findall(r'[a-z]{2}'))  # Find all occurrences of exactly 2 lowe
 # Find the first occurrence of the substring pattern and return its LOWEST index
 # Raises ValueError if the pattern is not found (or encounters NaN)
 
-print(s_find.str.index(sub = '_'))
+print(s_find.str.index(sub='_'))
 """Raise  ValueError because s_find contains NaN and 'abcxyz' which does not contain '_' """
 
-print(s_index.str.index(sub = '_'))  # Find the first occurrence of '_' in s_index
+print(s_index.str.index(sub='_'))  # Find the first occurrence of '_' in s_index
 # 0    3 
 # 1    4
 # 2    2 ('do_v_e' has '_' at index 2 as the lowest)
@@ -1063,7 +1063,7 @@ print(s_index.str.index(sub = '_'))  # Find the first occurrence of '_' in s_ind
 # Find the last occurrence of the substring pattern and return its HIGHEST index
 # Raises ValueError if the pattern is not found (or encounters NaN)
 
-print(s_index.str.rindex(sub = '_'))  # Find the last occurrence of '_' in s_index
+print(s_index.str.rindex(sub='_'))  # Find the last occurrence of '_' in s_index
 # 0    3
 # 1    4
 # 2    4 ('do_v_e' has '_' at index 4 as the highest)
@@ -1090,7 +1090,7 @@ print(s_extract.str.extract(r'[ab](\d)')) # Returns only one group (the digit af
 # 2  NaN ('c3' does not starts with 'a' or 'b', hence no match)
 '''A pattern with one group will return a DataFrame with one column if expand=True (default).'''
 
-print(s_extract.str.extract(r'[ab](\d)', expand = False)) # Returns only one group (the digit after 'a' or 'b')
+print(s_extract.str.extract(r'[ab](\d)', expand=False)) # Returns only one group (the digit after 'a' or 'b')
 # 0      1                                                # This is a SERIES since expand=False
 # 1      2
 # 2    NaN
@@ -1185,25 +1185,25 @@ print(s1.str.cat(s2, sep='_'))
 
 s_pad = pd.Series(['cat', 'elephant', 'dog'])
 
-print(s_pad.str.pad(width = 10)) # Default side='left', fillchar=' ' (space)
+print(s_pad.str.pad(width=10)) # Default side='left', fillchar=' ' (space)
 # 0           cat
 # 1      elephant
 # 2           dog
 # dtype: object
 
-print(s_pad.str.pad(width = 10, side = 'right', fillchar = '*'))
+print(s_pad.str.pad(width=10, side='right', fillchar='*'))
 # 0    cat******* (added 7 '*' to the right to make length 10)
 # 1    elephant**
 # 2    dog*******
 # dtype: object
 
-print(s_pad.str.pad(width = 10, side = 'both', fillchar = '-'))
+print(s_pad.str.pad(width=10, side='both', fillchar='-'))
 # 0    ---cat----
 # 1    -elephant- (added 1 '-' to the left and 1 '-' to the right to make length 10)
 # 2    ---dog----
 # dtype: object
 
-print(s_pad.str.pad(width = 5, side = 'left', fillchar = '_'))
+print(s_pad.str.pad(width=5, side='left', fillchar='_'))
 # 0       __cat  (added 2 '_' to the left to make length 5)
 # 1    elephant (no padding needed)
 # 2       __dog
@@ -1221,7 +1221,7 @@ s_align = pd.Series(['dog', 'bird', 'mouse'])
 #-----------
 # Left-align strings, padding on the right
 
-print(s_align.str.ljust(width = 8, fillchar = '.')) # Default fillchar=' ' (space)
+print(s_align.str.ljust(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 0    dog.....
 # 1    bird....
 # 2    mouse...
@@ -1232,7 +1232,7 @@ print(s_align.str.ljust(width = 8, fillchar = '.')) # Default fillchar=' ' (spac
 #-----------
 # Right-align strings, padding on the left
 
-print(s_align.str.rjust(width = 8, fillchar = '.')) # Default fillchar=' ' (space)
+print(s_align.str.rjust(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 0    .....dog
 # 1    ....bird
 # 2    ...mouse
@@ -1243,7 +1243,7 @@ print(s_align.str.rjust(width = 8, fillchar = '.')) # Default fillchar=' ' (spac
 #-----------
 # Center-align strings, padding on both sides
 
-print(s_align.str.center(width = 8, fillchar = '.')) # Default fillchar=' ' (space)
+print(s_align.str.center(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 0    ..dog...
 # 1    ..bird..
 # 2    .mouse..
@@ -1309,7 +1309,7 @@ It is useful for one-hot encoding categorical variables.
 ## Without dropping the first category
 #-----------------
 
-s_gender_dummmies = pd.get_dummies(s_gender, prefix = "gender")
+s_gender_dummmies = pd.get_dummies(s_gender, prefix="gender")
 print(s_gender_dummmies)
 #    gender_F  gender_LGBTQ  gender_M
 # 0     False         False      True
@@ -1323,7 +1323,7 @@ print(s_gender_dummmies)
 # 8     False          True     False
 # 9     False         False      True
 
-s_gender_dummmies = pd.get_dummies(s_gender, prefix = "gender").astype("int64") # Convert to 0-1 binary integers
+s_gender_dummmies = pd.get_dummies(s_gender, prefix="gender").astype("int64") # Convert to 0-1 binary integers
 print(s_gender_dummmies)
 #    gender_F  gender_LGBTQ  gender_M
 # 0         0             0         1
@@ -1348,7 +1348,7 @@ The last n-th category can be inferred from the other n-1 columns.
 => Can drop the first category to avoid multicollinearity.
 '''
 
-s_gender_dummmies = pd.get_dummies(s_gender, drop_first = True, prefix = "gender").astype("int64")
+s_gender_dummmies = pd.get_dummies(s_gender, drop_first=True, prefix="gender").astype("int64")
 print(s_gender_dummmies)
 #    gender_LGBTQ  gender_M
 # 0             0         1
@@ -1382,7 +1382,7 @@ s_raw = pd.Series(['café', 'naïve', 'résumé', 'coöperate', np.nan])
 # Common forms are 'NFC' (Normalization Form C) and 'NFD' (Normalization Form D).
 # All the forms: {‘NFC’, ‘NFKC’, ‘NFD’, ‘NFKD’}
 
-s_normalized = s_raw.str.normalize(form = 'NFC')  # Default form='NFC'
+s_normalized = s_raw.str.normalize(form='NFC')  # Default form='NFC'
 print(s_normalized)
 # 0         café
 # 1        naïve
@@ -1391,7 +1391,7 @@ print(s_normalized)
 # 4          NaN
 # dtype: object
 
-s_normalized = s_raw.str.normalize(form = 'NFD')  # Decomposed form
+s_normalized = s_raw.str.normalize(form='NFD')  # Decomposed form
 print(s_normalized)
 # 0         café
 # 1        naïve
@@ -1408,7 +1408,7 @@ print(s_normalized)
 # Common encodings include 'utf-8', 'latin1', 'ascii', etc.
 # The errors parameter specifies how to handle encoding errors: 'strict', 'ignore', 'replace', etc.
 
-s_encoded = s_raw.str.encode(encoding = 'utf-8', errors = 'strict')  # Default errors='strict'
+s_encoded = s_raw.str.encode(encoding='utf-8', errors='strict')  # Default errors='strict'
 print(s_encoded)
 # 0             b'caf\xc3\xa9'
 # 1            b'na\xc3\xafve'
@@ -1417,7 +1417,7 @@ print(s_encoded)
 # 4                        NaN
 # dtype: object
 
-s_encoded = s_raw.str.encode(encoding = 'ascii', errors = 'ignore')  # Ignore non-ASCII characters
+s_encoded = s_raw.str.encode(encoding='ascii', errors='ignore')  # Ignore non-ASCII characters
 print(s_encoded)
 # 0         b'caf'
 # 1        b'nave'
@@ -1436,7 +1436,7 @@ print(s_encoded)
 
 s_coded = pd.Series([b'cow', b'123', b'()'])
 
-s_decoded = s_coded.str.decode(encoding = 'ascii', errors = 'strict')  # Default errors='strict'
+s_decoded = s_coded.str.decode(encoding='ascii', errors='strict')  # Default errors='strict'
 print(s_decoded)
 # 0    cow
 # 1    123

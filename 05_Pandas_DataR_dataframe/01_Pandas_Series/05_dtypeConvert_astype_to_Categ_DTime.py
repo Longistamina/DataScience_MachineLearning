@@ -202,7 +202,7 @@ s_convert = pd.to_numeric(s_mixed)
 ## Try with mixed data, but coerce errors to NaN
 #------------------
 
-s_convert = pd.to_numeric(s_mixed, errors = 'coerce')
+s_convert = pd.to_numeric(s_mixed, errors='coerce')
 print(s_convert)
 # 0    1.0
 # 1    NaN
@@ -247,7 +247,7 @@ lst_gender = ["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"]
 ## With ordered = False
 #---------------
 
-s_gender_categ = pd.Series(pd.Categorical(lst_gender, ordered = False))
+s_gender_categ = pd.Series(pd.Categorical(lst_gender, ordered=False))
 print(s_gender_categ)
 # 0        M
 # 1        M
@@ -297,7 +297,7 @@ lst_price_levels = [1, 1, 3, 2, 5, 2, None, 4, 4, np.nan, 3]
 ## With ordered = False
 #---------------
 
-s_price_levels_categ = pd.Series(pd.Categorical(lst_price_levels, ordered = False))
+s_price_levels_categ = pd.Series(pd.Categorical(lst_price_levels, ordered=False))
 print(s_price_levels_categ)
 # 0       1
 # 1       1

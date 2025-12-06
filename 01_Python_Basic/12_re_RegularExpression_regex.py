@@ -9,7 +9,7 @@
 1. Example
 2. "[]" = A set of characters
 3. "\" = Signals a special sequence, or escapes special character
-4. "." = Any character (except newline character)
+4. "." = Any character (except newline character "\n")
 5. "^" = Starts with
 6. "$" = Ends with
 7. "*" = Zero or More occurrences (greedy)
@@ -108,9 +108,9 @@ print(x) # ['5', '9']
 """
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------- 4. "." = Any character (except newline character) ---------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+#-------------------------- 4. "." = Any character (except newline character "\n") ---------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
 
 import re
 
@@ -131,10 +131,12 @@ txt = "hello planet"
 x = re.findall(r"^hello", txt) # Check if the string starts with 'hello':
 if x:
   print("Yes, the string starts with 'hello'")
+  print(x)
 else:
   print("No match")
 
-# Output: Yes, the string starts with 'hello'
+# Yes, the string starts with 'hello'
+# ['hello']
 
 
 #------------------------------------------------------------------------------------------------#
@@ -145,13 +147,15 @@ import re
 
 txt = "hello planet"
 
-x = re.findall("planet$", txt) #Check if the string ends with 'planet':
+x = re.findall(r"planet$", txt) #Check if the string ends with 'planet':
 if x:
   print("Yes, the string ends with 'planet'")
+  print(x)
 else:
   print("No match")
 
-# Output: Yes, the string ends with 'planet'
+# Yes, the string ends with 'planet'
+# ['planet']
 
 
 #-------------------------------------------------------------------------------------------------------#
@@ -194,7 +198,7 @@ print(re.findall(pattern, text))
 
 
 #--------------------------------------------------------------------------------------------#
-#-------------------------- 9. "?" = Zero or One occurrence ---------------------------------#
+#--------------------------- 9. "?" = Zero or One occurrence --------------------------------#
 #--------------------------------------------------------------------------------------------#
 
 import re
@@ -302,8 +306,8 @@ import re
 
 txt = "The rain in Spain falls mainly in the plain!"
 
-x = re.findall("falls|stays", txt) # Check if the string contains either "falls" or "stays":
-print(x) # ['falls']
+x = re.findall("falls|stays|mainly", txt) # Check if the string contains either "falls" or "stays" or "mainly":
+print(x) # ['falls', 'mainly']
 
 if x:
   print("Yes, there is at least one match!")
@@ -380,6 +384,11 @@ print(re.findall(pattern, text))  # Output: ['+82-1012345678', '+84-526913', '+8
 pattern = r"(\+82-|\+84-|\+87-)(\d+)"
 print(re.findall(pattern, text))  
 # Output: [('+82-', '1012345678'), ('+84-', '526913'), ('+82-', '52105948'), ('+87-', '2352345267')]
+'''DOES NOT WORK AS EXPECTED'''
+
+pattern = r"\+82-|\+84-|\+87-(\d+)"
+print(re.findall(pattern, text))
+# ['', '', '', '2352345267']
 '''DOES NOT WORK AS EXPECTED'''
 
 ##########################################################################
@@ -527,7 +536,9 @@ else:
 
 # This returns None because "regex" is not at the beginning
 text = "We are learning regex with geeksforgeeks"
+
 result = re.match(r"regex", text)
+
 print(result)  # None
 
 if result:
@@ -547,7 +558,7 @@ import re
 txt = "The rain in Spain"
 
 x = re.findall(r"ai", txt) # Return a list containing every occurrence of "ai":
-print(x) #['ai', 'ai']
+print(x) # ['ai', 'ai']
 
 x = re.findall("Portugal", txt)
 print(x) # []
@@ -603,7 +614,7 @@ txt = "The rain in Spain"
 x = re.sub(r"\s", "_", txt) # Replace all white-space characters with the "_" character:
 print(x) # The_rain_in_Spain
 
-x = re.sub(r"\s", "_", txt, 2) # Replace only the first 2 occurrences
+x = re.sub(r"\s", "_", txt, 2) # Replace maximum of 2 occurrences
 print(x) # The_rain_in Spain
 
 
@@ -641,8 +652,10 @@ print(x.string) # Returns the original string passed into the function
 print(x.group()) # Returns the part of the string group where there was a match
                  # Here return "Spain"
 
+#------------
+## .groups() returns a tuple containing all the subgroups of the match
+#------------
 
-# .groups() returns a tuple containing all the subgroups of the match
 import re
 
 pos_nucleotide_1 = "312.1C"

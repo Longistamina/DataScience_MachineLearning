@@ -29,7 +29,7 @@ s_birds_flight = pd.Series(
 ## Filter using items= ##
 #########################
 
-s_filtered = s_birds_flight.filter(items = ['Bird_1', 'Bird_2'])  # Filtering by index labels
+s_filtered = s_birds_flight.filter(items=['Bird_1', 'Bird_2'])  # Filtering by index labels
 print(s_filtered)
 # Bird_1    390.0
 # Bird_2    350.0
@@ -40,7 +40,7 @@ print(s_filtered)
 ## Filter using regex= ##
 #########################
 
-s_filtered = s_birds_flight.filter(regex = '[24]$')  # Filtering by index labels ending with '2' or '4'
+s_filtered = s_birds_flight.filter(regex='[24]$')  # Filtering by index labels ending with '2' or '4'
 print(s_filtered)
 # Bird_2    350.0
 # Bird_4     20.0
@@ -51,7 +51,7 @@ print(s_filtered)
 ## Filter using like= ##
 ########################
 
-s_filtered = s_birds_flight.filter(like = 'rd_')  # Filtering by index labels containing 'Bird'
+s_filtered = s_birds_flight.filter(like='rd_')  # Filtering by index labels containing 'Bird'
 print(s_filtered)
 # Bird_1    390.0
 # Bird_2    350.0
@@ -75,7 +75,7 @@ Key Features:
 
 np.random.seed(42)
 
-s_nums = pd.Series(np.random.normal(loc = 3, scale = 2, size = 5)).round(2)
+s_nums = pd.Series(np.random.normal(loc=3, scale=2, size=5)).round(2)
 print(s_nums)
 # 0    3.99
 # 1    2.72
@@ -103,7 +103,7 @@ print(s_where)
 # 4    2.53
 # dtype: float64
 
-s_where = s_nums.where(s_nums <= 3).dropna(ignore_index = True)
+s_where = s_nums.where(s_nums <= 3).dropna(ignore_index=True)
 print(s_where)
 # 0    2.72
 # 1    2.53
@@ -114,7 +114,7 @@ print(s_where)
 ## Using where() to replace False-condition values ##
 #####################################################
 
-s_where = s_nums.where(s_nums <= 3, other = 0)  # Replacing values greater than 3 with 0
+s_where = s_nums.where(s_nums <= 3, other=0)  # Replacing values greater than 3 with 0
 print(s_where)
 # 0    0.00
 # 1    2.72
@@ -129,7 +129,7 @@ s_mixed = pd.Series(["apple", "banana", "cherry", 42, 3.14, None])
 
 is_string = is_string = s_mixed.apply(lambda x: isinstance(x, str))
 
-s_where = s_mixed.where(is_string, other = "Unknown")
+s_where = s_mixed.where(is_string, other="Unknown")
 print(s_where)
 # 0      apple
 # 1     banana

@@ -12,8 +12,8 @@ import pandas as pd
 #---------------------------------------- 1. Updating elements -----------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
-s_old = pd.Series(data = [10, 20, 30, 40, 50])
-s_old_index = pd.Series(data = [10, 20, 30, 40, 50], index = ['a', 'b', 'c', 'd', 'e'])
+s_old = pd.Series(data=[10, 20, 30, 40, 50])
+s_old_index = pd.Series(data=[10, 20, 30, 40, 50], index=['a', 'b', 'c', 'd', 'e'])
 
 
 #########################################
@@ -85,7 +85,7 @@ print(s_new_index)
 
 s_update = s_old.copy()
 
-s_update.update(pd.Series(data = [100, 200]))
+s_update.update(pd.Series(data=[100, 200]))
 print(s_update)
 # 0    100
 # 1    200
@@ -95,7 +95,7 @@ print(s_update)
 # dtype: int64
 '''Here, 100 takes the place of 10 (index 0), and 200 takes the place of 20 (index 1).'''
 
-s_update.update(pd.Series(data = [300, 500], index = [2, 4]))
+s_update.update(pd.Series(data=[300, 500], index=[2, 4]))
 print(s_update)
 # 0    100
 # 1    200
@@ -111,7 +111,7 @@ print(s_update)
 
 s_update_index = s_old_index.copy()
 
-s_update_index.update(pd.Series(data = [200, 500], index = ['b', 'e']))
+s_update_index.update(pd.Series(data=[200, 500], index=['b', 'e']))
 print(s_update_index)
 # a     10
 # b    200
@@ -126,8 +126,8 @@ print(s_update_index)
 #---------------------------------------- 2. Add new elements ------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
-s_old = pd.Series(data = [10, 20, 30, 40, 50])
-s_old_index = pd.Series(data = [10, 20, 30, 40, 50], index = ['a', 'b', 'c', 'd', 'e'])
+s_old = pd.Series(data=[10, 20, 30, 40, 50])
+s_old_index = pd.Series(data=[10, 20, 30, 40, 50], index=['a', 'b', 'c', 'd', 'e'])
 
 #####################################
 ##            Using s[]            ##
@@ -205,7 +205,7 @@ Raise ERROR
 #---------------
 
 s_new = pd.concat(
-    objs = [s_old, pd.Series(data = [600, 700, 800], dtype = s_old.dtype)], # Ensure the same dtype
+    objs = [s_old, pd.Series(data=[600, 700, 800], dtype=s_old.dtype)], # Ensure the same dtype
     ignore_index = True  # Reindex the resulting Series
 )
 
@@ -225,7 +225,7 @@ print(s_new)
 #----------------
 
 s_new_index = pd.concat(
-    objs = [s_old_index, pd.Series(data = [600, 700, 800], index = ['x', 'y', 'z'], dtype = s_old_index.dtype)], # Ensure the same dtype
+    objs = [s_old_index, pd.Series(data=[600, 700, 800], index=['x', 'y', 'z'], dtype=s_old_index.dtype)], # Ensure the same dtype
     ignore_index = False  # Keep the original index labels
 )
 
@@ -249,9 +249,9 @@ NOTE: must use pd.concat() with TWO SERIES or TWO DATAFRAMES
 #---------------------------------------- 3. Deleting elements -----------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
-s_old = pd.Series(data = [10, 20, 30, 40, 50])
+s_old = pd.Series(data=[10, 20, 30, 40, 50])
 
-s_old_index = pd.Series(data = [10, 20, 30, 40, 50], index = ['a', 'b', 'c', 'd', 'e'])
+s_old_index = pd.Series(data=[10, 20, 30, 40, 50], index=['a', 'b', 'c', 'd', 'e'])
 
 # Create a multi-level indexed Series
 multi_index = pd.MultiIndex(
@@ -265,7 +265,7 @@ multi_index = pd.MultiIndex(
     ]
 )
 
-s_old_multi_index = pd.Series([45, 200, 1.2, 30, 250, 1.5, 320, 1, 0.3], index = multi_index)
+s_old_multi_index = pd.Series([45, 200, 1.2, 30, 250, 1.5, 320, 1, 0.3], index=multi_index)
 
 
 ######################################
@@ -277,7 +277,7 @@ s_old_multi_index = pd.Series([45, 200, 1.2, 30, 250, 1.5, 320, 1, 0.3], index =
 #---------------
 '''Use default integer index'''
 
-s_new = s_old.drop(index = 0)  # Deleting the element at index 0
+s_new = s_old.drop(index=0)  # Deleting the element at index 0
 print(s_new)
 # 1    20
 # 2    30
@@ -285,7 +285,7 @@ print(s_new)
 # 4    50
 # dtype: int64
 
-s_new = s_old.drop(index = [1, 3])  # Deleting elements at index 1 and 3
+s_new = s_old.drop(index=[1, 3])  # Deleting elements at index 1 and 3
 print(s_new)
 # 0    10
 # 2    30
@@ -296,7 +296,7 @@ print(s_new)
 ## With indexed Series (labels=)
 #---------------
 
-s_new_index = s_old_index.drop(labels = 'a')  # Deleting the element with index label 'a'
+s_new_index = s_old_index.drop(labels='a')  # Deleting the element with index label 'a'
 print(s_new_index)
 # b    20
 # c    30
@@ -304,7 +304,7 @@ print(s_new_index)
 # e    50
 # dtype: int64
 
-s_new_index = s_old_index.drop(labels = ['b', 'd'])  # Deleting elements with index labels 'b' and 'd'
+s_new_index = s_old_index.drop(labels=['b', 'd'])  # Deleting elements with index labels 'b' and 'd'
 print(s_new_index)
 # a    10
 # c    30
@@ -327,7 +327,7 @@ print(s_old_multi_index)
 #         length      0.3
 # dtype: float64
 
-s_new_multi_index = s_old_multi_index.drop(labels = 'llama', level = 0)  # Deleting all elements under the 'llama' category
+s_new_multi_index = s_old_multi_index.drop(labels='llama', level=0)  # Deleting all elements under the 'llama' category
 print(s_new_multi_index)
 # cow     speed      30.0
 #         weight    250.0
@@ -337,7 +337,7 @@ print(s_new_multi_index)
 #         length      0.3
 # dtype: float64
 
-s_new_multi_index = s_old_multi_index.drop(labels = ['weight', 'length'], level = 1)  # Deleting all 'weight' and 'length' elements across all categories
+s_new_multi_index = s_old_multi_index.drop(labels=['weight', 'length'], level=1)  # Deleting all 'weight' and 'length' elements across all categories
 print(s_new_multi_index)
 # llama   speed     45.0
 # cow     speed     30.0

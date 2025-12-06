@@ -11,7 +11,7 @@ import numpy as np
 
 np.random.seed(42)
 
-s_nums = pd.Series(np.random.normal(loc = 3, scale = 2, size = 5)).round(2)
+s_nums = pd.Series(np.random.normal(loc=3, scale=2, size=5)).round(2)
 print(s_nums)
 # 0    3.99
 # 1    2.72
@@ -48,7 +48,7 @@ print(s_nums)
 # 4    2.53
 # dtype: float64
 
-s_rolling = s_nums.rolling(window = 2).mean()  # Calculate rolling mean with a window of 2
+s_rolling = s_nums.rolling(window=2).mean()  # Calculate rolling mean with a window of 2
 print(s_rolling)
 # 0      NaN (mean of [NaN, 0-indexed])
 # 1    3.355 (mean of [0-indexed, 1-indexed])
@@ -57,7 +57,7 @@ print(s_rolling)
 # 4    4.290
 # dtype: float64
 
-s_rolling = s_nums.rolling(window = 3).mean()  # Calculate rolling mean with a window of 3
+s_rolling = s_nums.rolling(window=3).mean()  # Calculate rolling mean with a window of 3
 print(s_rolling)
 # 0         NaN (mean of [NaN, NaN, 1-indexed])
 # 1         NaN (mean of [NaN, 0-indexed, 1-indexed])
@@ -80,7 +80,7 @@ s_nums_time = pd.Series(
              pd.Timestamp('20130101 09:00:06')]
 )
 
-s_rolling = s_nums_time.rolling(window = '2s').mean()  # Calculate rolling mean with a 2-second window
+s_rolling = s_nums_time.rolling(window='2s').mean()  # Calculate rolling mean with a 2-second window
 # for each timestamp t, 
 # take all observations whose timestamps fall in the interval (t − 2 seconds, t], 
 # then compute the mean.
@@ -161,7 +161,7 @@ print(s_expanding)
 ## Using with min_periods= ##
 #############################
 
-s_expanding = s_nums.expanding(min_periods = 3).mean()  # Calculate expanding mean with minimum 3 observations
+s_expanding = s_nums.expanding(min_periods=3).mean()  # Calculate expanding mean with minimum 3 observations
 print(s_expanding)
 # 0      NaN (not enough 3 observations)
 # 1      NaN (not enough 3 observations)
@@ -192,7 +192,7 @@ Additional Parameters:
 + min_periods: Minimum observations needed
 '''
 
-s_ewm = s_nums.ewm(span = 2).mean()  # Calculate exponentially weighted moving average with span of 2
+s_ewm = s_nums.ewm(span=2).mean()  # Calculate exponentially weighted moving average with span of 2
 print(s_ewm)
 # 0    3.990000
 # 1    3.037500

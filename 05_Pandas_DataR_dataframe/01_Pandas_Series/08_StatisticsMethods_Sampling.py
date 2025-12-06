@@ -110,10 +110,10 @@ print(s_demo.max())
 #################
 # .quantile(q) returns the q-th quantile of the values in the Series, excluding NA/null values.
 
-print(s_demo.quantile(q = 0.25))  # Q1 (25th percentile)
+print(s_demo.quantile(q=0.25))  # Q1 (25th percentile)
 # 5.5
 
-print(s_demo.quantile(q = [0.25, 0.5, 0.75]))   # Q1 - Q2 - Q3 (25th, 50th, and 75th percentiles)
+print(s_demo.quantile(q=[0.25, 0.5, 0.75]))   # Q1 - Q2 - Q3 (25th, 50th, and 75th percentiles)
 # 0.25     5.5
 # 0.50     9.9
 # 0.75    16.8
@@ -142,7 +142,7 @@ For example, assumes Q1 is between 5.8 and 4.6, then:
 # By default, the interpolation method is 'linear', which is the most common method used for quantile calculations.
 
 # Run with lower interpolation method
-print(s_demo.quantile(q = [0.25, 0.5, 0.75], interpolation='lower'))
+print(s_demo.quantile(q=[0.25, 0.5, 0.75], interpolation='lower'))
 # 0.25     4.6
 # 0.50     9.3
 # 0.75    14.0
@@ -309,10 +309,10 @@ print(s1.cov(s3))
 # .corr() returns the correlation between two Series.
 # Methods: 'pearson' (default), 'kendall', 'spearman'
 
-print(s1.corr(s2, method = 'pearson'))  # Pearson correlation (default)
+print(s1.corr(s2, method='pearson'))  # Pearson correlation (default)
 # 0.9364554314304976
 
-print(s1.corr(s3, method = 'kendall'))  # Kendall correlation
+print(s1.corr(s3, method='kendall'))  # Kendall correlation
 # -0.9999999999999999
 
 
@@ -327,7 +327,7 @@ s_demo = pd.Series([5.8, 4.6, 2, np.nan, 14, 4.6, 25.2, np.nan, 9.3, 10.5])
 #################
 # .sample(n) returns a random sample of n items from the Series.
 
-s_sampled_n = s_demo.sample(n = 3, random_state = 1)  # random_state for reproducibility
+s_sampled_n = s_demo.sample(n=3, random_state=1)  # random_state for reproducibility
 print(s_sampled_n)
 # 2     2.0
 # 9    10.5
@@ -340,7 +340,7 @@ print(s_sampled_n)
 ####################
 # .sample(frac) returns a random sample of items from the Series, where frac is the fraction of items to return.
 
-s_sampled_frac = s_demo.sample(frac = 0.5, random_state = 1, ignore_index = True)  # Targeting 50% of the data
+s_sampled_frac = s_demo.sample(frac=0.5, random_state=1, ignore_index=True)  # Targeting 50% of the data
 print(s_sampled_frac)                                                              # ignore_index to reset the index
 # 0     2.0
 # 1    10.5

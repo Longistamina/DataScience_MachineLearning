@@ -24,7 +24,7 @@ s_indexed = pd.Series([0, 3.2, 'three', np.nan, False], index=['a', 'b', 'c', 'd
 
 # Create a numeric Series
 np.random.seed(42)  # For reproducibility
-s_numeric = pd.Series(np.random.normal(loc = 2, scale = 1, size = 10)).round(2)
+s_numeric = pd.Series(np.random.normal(loc=2, scale=1, size=10)).round(2)
 print(s_numeric)
 # 0    2.50
 # 1    1.86
@@ -43,13 +43,13 @@ print(s_numeric)
 #----------------------------------- 1. .to_numpy() ---------------------------------------#
 #------------------------------------------------------------------------------------------#
 
-np_mixed = s_mixed.to_numpy(copy = True) # set copy to True to create a copy version
+np_mixed = s_mixed.to_numpy(copy=True) # set copy to True to create a copy version
 print(np_mixed) # [1 2.5 'three' nan True]
 print(type(np_mixed))  # <class 'numpy.ndarray'>
 
 ##########################################
 
-np_numeric = s_numeric.to_numpy(copy = True)
+np_numeric = s_numeric.to_numpy(copy=True)
 print(np_numeric)  # [2.5  1.86 2.65 3.52 1.77 1.77 3.58 2.77 1.53 2.54]
 print(type(np_numeric))  # <class 'numpy.ndarray'>
 
@@ -101,7 +101,7 @@ and the values are the corresponding elements of the Series.
 #----------------------------------- 4. .to_string() --------------------------------------#
 # -----------------------------------------------------------------------------------------#
 
-string_mixed = s_mixed.to_string(index = False) # set index to False to not show the index
+string_mixed = s_mixed.to_string(index=False) # set index to False to not show the index
 print(string_mixed)
 #     1
 #   2.5
@@ -119,7 +119,7 @@ print(type(string_mixed))  # <class 'str'>
 
 ############################################
 
-string_numeric = s_numeric.to_string(index = False)
+string_numeric = s_numeric.to_string(index=False)
 print(string_numeric)
 # 2.50
 # 1.86
