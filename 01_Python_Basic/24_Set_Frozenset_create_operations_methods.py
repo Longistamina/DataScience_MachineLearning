@@ -57,7 +57,7 @@ set(1.2, 3.4, "Text") will raise error because set expected at most 1 argument (
 ===> must put it in a list or tupe first: set([1.2, 3.4, "Text"]) or set((1.2, 3.4, "Text"))
 
 set([2, [3, "4"]]) will raise error because list is mutable, so they cannot be elements of a set.
-===> Instead, try put them in a tuple like this: set(2, (3, "4"))
+===> Instead, try put them in a tuple like this: set([2, (3, "4")])
 '''
 
 ########################################
@@ -140,9 +140,11 @@ set_1 = {1, 2, 3}
 removed_element = set_1.pop()  # removes and returns a random element (could be 1, 2, or 3)
 print(removed_element)         # prints the removed element
 
-##################
-## set.aclear() ##
-##################
+print(set_1)                   # prints the set after removal (will have 2 elements left)
+
+#################
+## set.clear() ##
+#################
 '''set.clear() works like list.clear() to remove all elements from the set'''
 
 set_1.clear()     # clear all elements in set_1
@@ -182,6 +184,9 @@ NOTE: cannot use enumerate() with set or frozenset directly because they are uno
  
 set_a = {1, 2, 3, 4}
 set_b = {3, 4, 5, 6}
+
+set_c = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+set_d = {3, 4}
 
 ################################################################
 ## .union(): combines elements from both sets (set_a | set_b) ##
@@ -223,6 +228,10 @@ print(set_a.issubset(set_b))  # False
 print(set_a <= set_b)         # False
 print(set_a < set_b)          # False
 
+print(set_a.issubset(set_c))  # True
+print(set_a <= set_c)         # True
+print(set_b < set_c)          # True
+
 ###############################################################################################
 ## .issuperset(): checks if set_a is a superset of set_b (set_a >= set_b) or (set_a > set_b) ##
 ###############################################################################################
@@ -230,6 +239,10 @@ print(set_a < set_b)          # False
 print(set_a.issuperset(set_b))  # False
 print(set_a >= set_b)           # False
 print(set_a > set_b)            # False
+
+print(set_a.issuperset(set_d))  # True
+print(set_a >= set_d)           # True
+print(set_b > set_d)            # True
 
 #########################################################################
 ## .isdisjoint(): checks if set_a and set_b have no elements in common ##

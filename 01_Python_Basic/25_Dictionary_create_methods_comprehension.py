@@ -22,7 +22,10 @@ Table of contents:
 #----------------- Create dictionary ----------------#
 #----------------------------------------------------#
 
-# Create an empty dictionary
+################################
+## Create an empty dictionary ##
+################################
+
 empty_dict_1 = {}      # {}
 empty_dict_2 = dict()  # {}
 
@@ -30,7 +33,10 @@ print(type(empty_dict_1))  # <class 'dict'>
 print(type(empty_dict_2))  # <class 'dict'>
 
 
-# Create a dictionary with key-value pairs
+##############################################
+## Create a dictionary with key-value pairs ##
+##############################################
+
 dict_1 = {
     'name': 'Alice',
     'age': 30,
@@ -38,18 +44,24 @@ dict_1 = {
 }
 print(dict_1)  # {'name': 'Alice', 'age': 30, 'city': 'New York'}
 
+######################################################
+## Create a dictionary using the dict() constructor ##
+######################################################
 
-# Create a dictionary using the dict() constructor
 dict_2 = dict(name='Bob', age=25, city='Los Angeles')
 print(dict_2)  # {'name': 'Bob', 'age': 25, 'city': 'Los Angeles'}
 
+###############################################
+## Create a dictionary from a list of tuples ##
+###############################################
 
-# Create a dictionary from a list of tuples
 dict_3 = dict([('name', 'Charlie'), ('age', 35), ('city', 'Chicago')])
 print(dict_3)  # {'name': 'Charlie', 'age': 35, 'city': 'Chicago'}
 
+###############################################
+## Create a dictionanry with iterable values ##
+###############################################
 
-# Create a dictionanry with iterable values
 dict_4 = {
     "ID": [1, 2, 3],
     "Name": ["Alice", "Bob", "Charlie"],
@@ -65,7 +77,10 @@ dict_5 = dict(
 print(dict_5) # {'ID': (4, 5, 6), 'Name': ('Alien', 'Anna', 'Chalker-chalk'), 'Age': (32, 52, 55)}
 
 
-# Create a dictionary with mixed data types
+###############################################
+## Create a dictionary with mixed data types ##
+###############################################
+
 dict_6 = {
     'name': 'David',
     'age': 40,
@@ -73,7 +88,7 @@ dict_6 = {
     'grades': [90, 85, 88],
     'address': {'city': 'Miami', 'state': 'FL'}
 }
-print(dict_5)  
+print(dict_6)  
 # {'name': 'David', 'age': 40, 'is_student': False, 'grades': [90, 85, 88], 'address': {'city': 'Miami', 'state': 'FL'}}
 
 
@@ -108,12 +123,16 @@ print(nested_dict)
 #----------------- Access values by key -------------#
 #----------------------------------------------------#
 
-# Access values by key
+##########################
+## Access values by key ##
+##########################
+
 dict_acces = {
     'name': 'Eve',
     'age': 28,
     'city': 'San Francisco'
 }
+
 print(dict_acces['name'])  # Eve
 print(dict_acces['age'])   # 28
 print(dict_acces['city'])  # San Francisco
@@ -124,24 +143,32 @@ Accessing a key that does not exist raises a KeyError
 print(dict_acces['country'])  # KeyError: 'country'
 '''
 
+#############################################
+## Use the .get() method to avoid KeyError ##
+#############################################
 
-# Use the .get() method to avoid KeyError
-# Accessing a key that does not exist using get() method
 print(dict_acces.get('country'))  # None
 print(dict_acces.get('name'))     # Eve
 
+###################################################
+## Access values within a list from a dictionary ##
+###################################################
 
-# Access values within a list from a dictionary
 dict_list_access = {
     'ID': [0, 2, 3],
     'Name': ['Alice', 'Bob', 'Charlie'],
     'Age': [30, 25, 35]
 }
+
 print(dict_list_access['Name'][0])  # Alice
 print(dict_list_access['Age'][2])   # 35
 
+print(dict_list_access.get('ID')[1:])  # [2, 3]
 
-# Access values within a nested dictionary
+##############################################
+## Access values within a nested dictionary ##
+##############################################
+
 dict_nested_access = {
     'person': {
         'name': 'Frank',
@@ -152,30 +179,42 @@ dict_nested_access = {
         }
     }
 }
+
 print(dict_nested_access['person']['name'])  # Frank
 print(dict_nested_access['person']['address']['city'])  # Seattle
+
+print(dict_nested_access.get('person').get('age'))  # 45
+print(dict_nested_access.get('person').get('address').get('state'))  # WA
 
 
 #----------------------------------------------------#
 #----------------- Check if key exists --------------#
 #----------------------------------------------------#
 
-# Check if a key exists in the dictionary
 dict_check = {
     'name': 'Grace',
     'age': 22,
     'city': 'Boston'
 }
 
-# Using 'in' operator
+#########################
+## Using 'in' operator ##
+#########################
+
 print('name' in dict_check)  # True
 print('country' in dict_check)  # False
 
-# Using the get() method
+############################
+## Using the get() method ##
+############################
+
 print(dict_check.get('age') is not None)  # True
 print(dict_check.get('country') is not None)  # False
 
-# Using the keys() method
+#############################
+## Using the keys() method ##
+#############################
+
 print('city' in dict_check.keys())  # True
 print('country' in dict_check.keys())  # False
 
@@ -192,9 +231,10 @@ dict_add = {
     'name': 'Hannah',
     'age': 26
 }
-dict_add['city'] = 'Austin'
-print(dict_add)  # {'name': 'Hannah', 'age': 26, 'city': 'Austin'}
 
+dict_add['city'] = 'Austin'
+
+print(dict_add)  # {'name': 'Hannah', 'age': 26, 'city': 'Austin'}
 
 #############################################
 ## .update(): Add multiple key-value pairs ##
@@ -202,6 +242,33 @@ print(dict_add)  # {'name': 'Hannah', 'age': 26, 'city': 'Austin'}
 
 dict_add.update({'country': 'USA', 'is_student': True})
 print(dict_add)  # {'name': 'Hannah', 'age': 26, 'city': 'Austin', 'country': 'USA', 'is_student': True}
+
+'''
+NOTE .update(): if you have a list of dictionary like below, must use for loop to update one by one
+'''
+dict_gotham_villain = dict()
+
+list_of_dicts = [
+    {"Harley": {"Gender": "F", "Age": 23}},
+    {"Joker": {"Gender": "M", "Age": 535}},
+    {"Scarface": {"Gender": "Unknown", "Age": "Unknown"}}
+]
+
+dict_gotham_villain.update(list_of_dicts)
+'''ValueError: dictionary update sequence element #0 has length 1; 2 is required'''
+
+for small_dict in list_of_dicts:
+    dict_gotham_villain.update(small_dict)
+# THIS IS THE CORRECT WAY TO UPDATE
+
+for villain, info in dict_gotham_villain.items():
+    print(f"{villain}: {info}")
+# Harley: {'Gender': 'F', 'Age': 23}
+# Joker: {'Gender': 'M', 'Age': 535}
+# Scarface: {'Gender': 'Unknown', 'Age': 'Unknown'}
+'''
+END NOTE
+'''
 
 #######################################
 ## Update an existing key-value pair ##
@@ -234,30 +301,6 @@ dict_add.clear()
 print(dict_add)  # {}
                  # The dictionary is now empty, but still exists and has id(dict_add) = .....
 
-
-'''
-NOTE .update(): if you have a list of dictionary like below, must use for loop to update one by one
-'''
-dict_gotham_villain = dict()
-
-list_of_dict = [
-    {"Harley": {"Gender": "F", "Age": 23}},
-    {"Joker": {"Gender": "M", "Age": 535}},
-    {"Scarface": {"Gender": "Unknown", "Age": "Unknown"}}
-]
-
-for small_dict in list_of_dict:
-    dict_gotham_villain.update(small_dict)
-
-for villain, info in dict_gotham_villain.items():
-    print(f"{villain}: {info}")
-
-# Harley: {'Gender': 'F', 'Age': 23}
-# Joker: {'Gender': 'M', 'Age': 535}
-# Scarface: {'Gender': 'Unknown', 'Age': 'Unknown'}
-'''
-END NOTE
-'''
 
 #--------------------------------------------------------------------------------------------------------------------------#
 #---------------------------------------------------- Dictionary Methods --------------------------------------------------#
@@ -307,7 +350,6 @@ if using: dictionary[key], it will raise KeyError if the key does not exist
 # Get a value by key that does not exist using .get() without default value
 value_country = sample_dict.get('state')
 print(value_country)  # None
-
 
 # Get a value by key that does not exist using .get() with default value
 value_state = sample_dict.get('state', 'Not Found')
