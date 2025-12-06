@@ -9,3 +9,4 @@
 ## 01_Python_Basic
 + [01_Python_Basic_part_01](https://youtu.be/vWwdq-lOS0M): print(), comments, format string, variables, type conversion, operators, git status/add/commit/push
 + [01_Python_Basic_part_02](https://youtu.be/ly8LUD9ly70): input(), eval(), import math random, dir(), string slicing, raw string, repr(), string methods
++ [01_Python_Basic_part_03](https://youtu.be/gXvD_N22CRM): chr(), ord(), Regular Expression (re, regex)
