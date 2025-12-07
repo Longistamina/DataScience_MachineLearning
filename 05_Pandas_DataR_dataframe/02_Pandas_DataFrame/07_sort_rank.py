@@ -4,13 +4,13 @@
    + df.sort_index(axis=..., ascending=..., inplace=...)
 
 2. Rank:
-   + df.rank(method = "average", ascending = True, axis = 0)
-   + df.rank(method = "max", ascending = True, axis = 0)
-   + df.rank(method = "min", ascending = True, axis = 0)
-   + df.rank(method = "dense", ascending = True, axis = 0)
-   + df.rank(method = "first", ascending = True, axis = 0)
+   + df.rank(method="average", ascending=True, axis=0)
+   + df.rank(method="max", ascending=True, axis=0)
+   + df.rank(method="min", ascending=True, axis=0)
+   + df.rank(method="dense", ascending=True, axis=0)
+   + df.rank(method="first", ascending=True, axis=0)
    + rank UNIQUE values
-   + df.rank(pct = True)
+   + df.rank(pct=True)
 '''
 
 import pandas as pd
@@ -357,7 +357,7 @@ print(df_ranked)
 
 df_ranked = (
     df_raw_unique.copy()
-    .assign(rank_pct = lambda df: df["score"].rank(method="average", ascending=True, axis=0, pct=True))
+    .assign(rank_pct=lambda df: df["score"].rank(method="average", ascending=True, axis=0, pct=True))
 )
 
 print(df_ranked)

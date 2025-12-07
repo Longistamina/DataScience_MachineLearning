@@ -31,7 +31,7 @@ import pandas as pd
 
 df_pokemon = (
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
         dtype = {
             "Type 1": "category",
             "Type 2": "category",
@@ -39,8 +39,8 @@ df_pokemon = (
             "Legendary": "bool"
         }
     )
-    .drop(columns = ["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .drop(columns=["#"])
+    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
     .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
 )
 
@@ -418,7 +418,7 @@ print(
 print(
     df_pokemon
     .query('(Sp_Atk > Attack*2) & (Type_1 == "Psychic")')
-    .reindex(columns = ["Name", "Type_1", "Sp_Atk", "Attack", "Generation", "Legendary"])
+    .reindex(columns=["Name", "Type_1", "Sp_Atk", "Attack", "Generation", "Legendary"])
     .tail(5)
 )
 #           Name   Type_1  Sp_Atk  Attack Generation  Legendary
@@ -431,7 +431,7 @@ print(
 print(
     df_pokemon
     .query('(Speed < 15) | (Speed > 150)')
-    .reindex(columns = ['Name', 'Type_1', 'Type_2', 'Speed', 'Generation', 'Legendary'])
+    .reindex(columns=['Name', 'Type_1', 'Type_2', 'Speed', 'Generation', 'Legendary'])
 )
 #                   Name   Type_1  Type_2  Speed Generation  Legendary
 # 230            Shuckle      Bug    Rock      5          2      False
@@ -450,8 +450,8 @@ print(
 print(
     df_pokemon
     .query('Name.str.contains("Mega")')
-    .reindex(columns = ["Name", "Type_1", "Type_2", "Total", "Generation", "Legendary"])
-    .sample(n = 5, random_state = 1)
+    .reindex(columns=["Name", "Type_1", "Type_2", "Total", "Generation", "Legendary"])
+    .sample(n=5, random_state=1)
 )
 #                           Name  Type_1   Type_2  Total Generation  Legendary
 # 329          MawileMega Mawile   Steel    Fairy    480          3      False
@@ -467,8 +467,8 @@ print(
 print(
     df_pokemon
     .query('~(`Type_2` == "Flying")')
-    .reindex(columns = ["Name", "Type_1", "Type_2", "Total", "Generation", "Legendary"])
-    .sample(n = 5, random_state = 2)
+    .reindex(columns=["Name", "Type_1", "Type_2", "Total", "Generation", "Legendary"])
+    .sample(n=5, random_state=2)
 )
 #            Name    Type_1   Type_2  Total Generation  Legendary
 # 647    Sawsbuck    Normal    Grass    475          5      False
@@ -510,7 +510,7 @@ atk_threshold = 180
 print(
     df_pokemon
     .query('Attack >= @atk_threshold')
-    .reindex(columns = ['Name', 'Attack', 'Legendary'])
+    .reindex(columns=['Name', 'Attack', 'Legendary'])
 )
 #                         Name  Attack  Legendary
 # #                                              

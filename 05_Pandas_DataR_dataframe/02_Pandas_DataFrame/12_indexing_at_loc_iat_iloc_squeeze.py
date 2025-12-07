@@ -34,7 +34,7 @@ print(df_emp)
 
 ########################################################
 
-df_set_id = df_emp.set_index("id", drop = True, inplace = False)
+df_set_id = df_emp.set_index("id", drop=True, inplace=False)
 print(df_set_id)
 #         name  salary  start_date        dept
 # id                                          
@@ -418,7 +418,7 @@ df.reindex() always returns a DataFrame even if the result has only one column o
 => use df.squeeze() to convert it to Series
 '''
 
-salary = df_emp.reindex(columns = ["salary"])
+salary = df_emp.reindex(columns=["salary"])
 
 print(salary)
 #    salary
@@ -439,7 +439,7 @@ print(type(salary))
 ## Use df.squeeze()
 #---
 
-s_salary = df_emp.reindex(columns = ["salary"]).squeeze()
+s_salary = df_emp.reindex(columns=["salary"]).squeeze()
 
 print(s_salary)
 # 0    623.30

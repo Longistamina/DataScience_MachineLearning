@@ -18,9 +18,9 @@ import pandas as pd
 import numpy as np
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer = "05_Pandas_DataR_dataframe/data/baseball.csv",
-    usecols = ["Name", "Team", "Height", "Weight"],
-    dtype = {"Team": "category"}
+    filepath_or_buffer="05_Pandas_DataR_dataframe/data/baseball.csv",
+    usecols=["Name", "Team", "Height", "Weight"],
+    dtype={"Team": "category"}
 ).copy().assign(
     Height = lambda df: df["Height"] * 2.54,
     Weight = lambda df: df["Weight"] * 0.453592,

@@ -16,16 +16,16 @@ warnings.filterwarnings("ignore")
 
 df_pokemon = (
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        dtype = {
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        dtype={
             "Type 1": "category",
             "Type 2": "category",
             "Generation": "category",
             "Legendary": "bool"
         }
     )
-    .drop(columns = ["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .drop(columns=["#"])
+    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
     .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
 )
 
@@ -60,7 +60,7 @@ print(df_pokemon.info())
 
 print(
     df_pokemon
-    .groupby(by = 'Type_1', observed=False) # observed=False to include all categories in the group keys
+    .groupby(by='Type_1', observed=False) # observed=False to include all categories in the group keys
     .agg(
         count = ('HP', 'size'),  # Count the number of entries in each group
         avg_HP = ('HP', 'mean')  # Calculate the mean of the 'HP' column for each group
@@ -90,7 +90,7 @@ print(
 
 print(
     df_pokemon
-    .groupby(by = 'Type_1', observed=False) # observed=False to include all categories in the group keys
+    .groupby(by='Type_1', observed=False) # observed=False to include all categories in the group keys
     .agg(
         count = ('HP', 'size'),  # Count the number of entries in each group
         avg_HP = ('HP', 'mean')  # Calculate the mean of the 'HP' column for each group
@@ -126,7 +126,7 @@ print(
 
 print(
     df_pokemon
-    .groupby(by = 'Type_1', sort = False, observed=False) # observed=False to include all categories in the group keys
+    .groupby(by='Type_1', sort=False, observed=False) # observed=False to include all categories in the group keys
     .agg(
         min_HP = ('HP', 'min'),
         max_HP = ('HP', 'max'),
@@ -158,7 +158,7 @@ print(
 
 print(
     df_pokemon
-    .groupby(by = ['Type_1', 'Type_2'], sort = True, observed=False) # observed=False to include all categories in the group keys
+    .groupby(by=['Type_1', 'Type_2'], sort=True, observed=False) # observed=False to include all categories in the group keys
     .agg(
         min_HP = ('HP', 'min'),
         max_HP = ('HP', 'max'),
@@ -185,7 +185,7 @@ print(
 
 print(
     df_pokemon
-    .groupby(by = ['Type_1', 'Type_2'], dropna = True, observed=False)
+    .groupby(by=['Type_1', 'Type_2'], dropna=True, observed=False)
     .agg(
         min_HP = ('HP', 'min'),
         max_HP = ('HP', 'max'),
@@ -221,8 +221,8 @@ def atk_stats(group):
 
 print(
     df_pokemon
-    .groupby(by = 'Type_1', observed=False) # observed=False to include all categories in the group keys
-    .apply(atk_stats, include_groups = False) # include_groups=False to exclude group keys in the result index
+    .groupby(by='Type_1', observed=False) # observed=False to include all categories in the group keys
+    .apply(atk_stats, include_groups=False) # include_groups=False to exclude group keys in the result index
     .reset_index() # Reset index to turn the group keys into a column
 )
 #       Type_1  min_ATK  max_ATK    mean_ATK

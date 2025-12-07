@@ -17,7 +17,7 @@ import numpy as np
 
 df_boston = (
     pd.read_csv("05_Pandas_DataR_dataframe/data/BostonHousing.csv")
-    .drop(columns=["CHAS", "RAD", "CAT. MEDV"], axis = 1)
+    .drop(columns=["CHAS", "RAD", "CAT. MEDV"], axis=1)
     .pipe(lambda df: df.set_axis(df.columns.str.lower(), axis=1))
 )
 

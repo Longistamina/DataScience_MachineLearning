@@ -5,19 +5,19 @@ but they serve different purposes and operate in different ways.
 #########################################################
 
 1. Concatenation:
-   + pd.concat(axis = 0): used to stack DataFrames vertically (row-wise).
-   + pd.concat(axis = 1): used to stack DataFrames horizontally (column-wise).
+   + pd.concat(axis=0): used to stack DataFrames vertically (row-wise).
+   + pd.concat(axis=1): used to stack DataFrames horizontally (column-wise).
 
 2. Merging:
-   + pd.merge(on = 'key'): merges DataFrames based on a common column (key).
-   + pd.merge(suffixes = ('_left', '_right')): adds suffixes to overlapping column names to differentiate them.
-   + pd.merge(how = 'inner'): only keeps rows whose keys are present in both DataFrames.
-   + pd.merge(how = 'outer'): keeps all rows from both DataFrames, filling in NaNs for missing matches.
-   + pd.merge(how = 'left'): keeps all rows from the left DataFrame and matches from the right DataFrame.
-   + pd.merge(how = 'right'): keeps all rows from the right DataFrame and matches from the left DataFrame.
-   + pd.merge(left_on = 'key1', right_on = 'key2'): merges DataFrames based on different columns from each DataFrame.
-   + pd.merge(left_index = True, right_index = True): merges DataFrames based on their index.
-   + pd.merge(how = 'cross'): creates the Cartesian product of both DataFrames.
+   + pd.merge(on='key'): merges DataFrames based on a common column (key).
+   + pd.merge(suffixes=('_left', '_right')): adds suffixes to overlapping column names to differentiate them.
+   + pd.merge(how='inner'): only keeps rows whose keys are present in both DataFrames.
+   + pd.merge(how='outer'): keeps all rows from both DataFrames, filling in NaNs for missing matches.
+   + pd.merge(how='left'): keeps all rows from the left DataFrame and matches from the right DataFrame.
+   + pd.merge(how='right'): keeps all rows from the right DataFrame and matches from the left DataFrame.
+   + pd.merge(left_on='key1', right_on='key2'): merges DataFrames based on different columns from each DataFrame.
+   + pd.merge(left_index=True, right_index=True): merges DataFrames based on their index.
+   + pd.merge(how='cross'): creates the Cartesian product of both DataFrames.
    + df.merge(): instance method to merge DataFrames.
 
 3. Combining: Combines a DataFrame with other DataFrame using func to element-wise combine columns.
@@ -62,9 +62,9 @@ df_hor_2 = pd.DataFrame({
     'I': ['I0', 'I1', 'I2', 'I3']
 })
 
-###############################
-##    pd.concat(axis = 0)    ##
-###############################
+#############################
+##    pd.concat(axis=0)    ##
+#############################
 ''' Concatenate DataFrames vertically (row-wise) '''
 
 # Original DataFrame
@@ -77,9 +77,9 @@ print(df_origin)
 
 # Concatenate df_origin and df_ver_1 vertically
 df_stack_ver = pd.concat(
-    objs = [df_origin, df_ver_1],
-    axis = 0,
-    ignore_index = True # Reset index in the concatenated DataFrame
+    objs=[df_origin, df_ver_1],
+    axis=0,
+    ignore_index=True # Reset index in the concatenated DataFrame
 )
 print(df_stack_ver)
 #     A   B   C
@@ -94,9 +94,9 @@ print(df_stack_ver)
 
 # Concatenate df_ver_1, df_origin, and df_ver_2 vertically
 df_stack_ver = pd.concat(
-    objs = [df_ver_1, df_origin, df_ver_2],
-    axis = 0,
-    ignore_index = True # Reset index in the concatenated DataFrame
+    objs=[df_ver_1, df_origin, df_ver_2],
+    axis=0,
+    ignore_index=True # Reset index in the concatenated DataFrame
 )
 print(df_stack_ver)
 #       A    B    C
@@ -113,9 +113,9 @@ print(df_stack_ver)
 # 10  A10  B10  C10
 # 11  A11  B11  C11
 
-###############################
-##    pd.concat(axis = 1)    ##
-###############################
+#############################
+##    pd.concat(axis=1)    ##
+#############################
 ''' Concatenate DataFrames horizontally (column-wise) '''
 
 # Original DataFrame
@@ -128,8 +128,8 @@ print(df_origin)
 
 # Concatenate df_origin and df_hor_1 horizontally
 df_stack_hor = pd.concat(
-    objs = [df_origin, df_hor_1],
-    axis = 1
+    objs=[df_origin, df_hor_1],
+    axis=1
 )
 print(df_stack_hor)
 #     A   B   C   D   E   F
@@ -140,8 +140,8 @@ print(df_stack_hor)
 
 # Concatenate df_hor_1, df_origin, and df_hor_2 horizontally
 df_stack_hor = pd.concat(
-    objs = [df_hor_1, df_origin, df_hor_2],
-    axis = 1
+    objs=[df_hor_1, df_origin, df_hor_2],
+    axis=1
 )
 print(df_stack_hor)
 #     D   E   F   A   B   C   G   H   I
@@ -173,18 +173,18 @@ orders = pd.DataFrame(
     }
 )
 
-################################
-##    pd.merge(on = 'key')    ##
-################################
+##############################
+##    pd.merge(on='key')    ##
+##############################
 '''
 Merge DataFrames based on a common column (key)
 '''
 
 # Merge customers and orders on 'customer_id'
 df_merged_on = pd.merge(
-    left = customers,
-    right = orders,
-    on = 'customer_id' # Common column to merge on
+    left=customers,
+    right=orders,
+    on='customer_id' # Common column to merge on
 )
 
 print(df_merged_on)
@@ -206,10 +206,10 @@ Add suffixes to overlapping column names to differentiate them
 '''
 
 df_merged_on = pd.merge(
-    left = customers,
-    right = orders,
-    on = 'customer_id',
-    suffixes = ('_cst', '_odr') # Custom suffixes for overlapping columns
+    left=customers,
+    right=orders,
+    on='customer_id',
+    suffixes=('_cst', '_odr') # Custom suffixes for overlapping columns
 )
 
 print(df_merged_on)
@@ -227,11 +227,11 @@ By default, pd.merge() uses how='inner' if not specified.
 '''
 
 df_merged_inner = pd.merge(
-    left = customers,
-    right = orders,
-    on = 'customer_id',
-    how = 'inner', # Only keep rows with matching keys in both DataFrames
-    suffixes = ('_cst', '_odr')
+    left=customers,
+    right=orders,
+    on='customer_id',
+    how='inner', # Only keep rows with matching keys in both DataFrames
+    suffixes=('_cst', '_odr')
 )
 
 print(df_merged_inner)
@@ -247,11 +247,11 @@ print(df_merged_inner)
 '''how='outer': keeps all rows from both DataFrames, filling in NaNs for missing matches'''
 
 df_merged_outer = pd.merge(
-    left = customers,
-    right = orders,
-    on = 'customer_id',
-    how = 'outer', # Keep all rows from both DataFrames
-    suffixes = ('_cst', '_odr')
+    left=customers,
+    right=orders,
+    on='customer_id',
+    how='outer', # Keep all rows from both DataFrames
+    suffixes=('_cst', '_odr')
 )
 
 print(df_merged_outer)
@@ -270,11 +270,11 @@ print(df_merged_outer)
 '''how='left': keeps all rows from the left DataFrame and matches from the right DataFrame'''
 
 df_merged_left = pd.merge(
-    left = customers,
-    right = orders,
-    on = 'customer_id',
-    how = 'left', # Keep all rows from the left DataFrame
-    suffixes = ('_cst', '_odr')
+    left=customers,
+    right=orders,
+    on='customer_id',
+    how='left', # Keep all rows from the left DataFrame
+    suffixes=('_cst', '_odr')
 )
 
 print(df_merged_left)
@@ -291,11 +291,11 @@ print(df_merged_left)
 '''how='right': keeps all rows from the right DataFrame and matches from the left DataFrame'''
 
 df_merged_right = pd.merge(
-    left = customers,
-    right = orders,
-    on = 'customer_id',
-    how = 'right', # Keep all rows from the right DataFrame
-    suffixes = ('_cst', '_odr')
+    left=customers,
+    right=orders,
+    on='customer_id',
+    how='right', # Keep all rows from the right DataFrame
+    suffixes=('_cst', '_odr')
 )
 
 print(df_merged_right)
@@ -330,12 +330,12 @@ orders_key = pd.DataFrame(
 
 # Merge customers and orders where 'customer_id' in customers matches 'cst_id' in orders
 df_merged_diff_keys = pd.merge(
-    left = customers_key,
-    right = orders_key,
-    left_on = 'customer_id',  # Key column from the left DataFrame
-    right_on = 'cst_id',      # Key column from the right DataFrame
-    how = 'inner',            # Only keep rows with matching keys in both DataFrames
-    suffixes = ('_cst', '_odr')
+    left=customers_key,
+    right=orders_key,
+    left_on='customer_id',  # Key column from the left DataFrame
+    right_on='cst_id',      # Key column from the right DataFrame
+    how='inner',            # Only keep rows with matching keys in both DataFrames
+    suffixes=('_cst', '_odr')
 )
 
 print(df_merged_diff_keys)
@@ -355,7 +355,7 @@ customers_idx = pd.DataFrame(
         "name"       : ["Alice", "Bob", "Charlie", "Diana"],
         "city"       : ["New York", "Boston", "Chicago", "Miami"]
     },
-    index = [1, 2, 3, 4] # Set custom index
+    index=[1, 2, 3, 4] # Set custom index
 )
 
 orders_idx = pd.DataFrame(
@@ -364,17 +364,17 @@ orders_idx = pd.DataFrame(
         "amount"  : [250, 180, 320, 150],
         "city"    : ["NYC", "BOS", "NYC", "MIA"]
     },
-    index = [1, 2, 1, 5] # Set custom index
+    index=[1, 2, 1, 5] # Set custom index
 )
 
 # Merge customers and orders based on their index
 df_merged_index = pd.merge(
-    left = customers_idx,
-    right = orders_idx,
-    left_index = True,   # Use index from the left DataFrame
-    right_index = True,  # Use index from the right DataFrame
-    how = 'inner',       # Only keep rows with matching indices in both DataFrames
-    suffixes = ('_cst', '_odr')
+    left=customers_idx,
+    right=orders_idx,
+    left_index=True,   # Use index from the left DataFrame
+    right_index=True,  # Use index from the right DataFrame
+    how='inner',       # Only keep rows with matching indices in both DataFrames
+    suffixes=('_cst', '_odr')
 )
 
 print(df_merged_index)
@@ -406,9 +406,9 @@ print(df_right)
 
 # Merge df_left and df_right to create Cartesian product
 df_merged_cross = pd.merge(
-    left = df_left,
-    right = df_right,
-    how = 'cross' # Create Cartesian product of both DataFrames
+    left=df_left,
+    right=df_right,
+    how='cross' # Create Cartesian product of both DataFrames
 )
 
 print(df_merged_cross)
@@ -454,8 +454,8 @@ print(df2)
 
 # Combine df1 and df2 by taking the maximum value for each element
 df_combined = df1.combine(
-    other = df2,
-    func = np.maximum # Function to apply element-wise
+    other=df2,
+    func=np.maximum # Function to apply element-wise
 )
 print(df_combined)
 #    A  B
@@ -464,8 +464,8 @@ print(df_combined)
 
 # Combine df1 and df2 by taking the mean value for each element
 df_combined = df1.combine(
-    other = df2,
-    func = lambda s1, s2: (s1 + s2) / 2 # Custom function to compute mean
+    other=df2,
+    func=lambda s1, s2: (s1 + s2) / 2 # Custom function to compute mean
 )
 print(df_combined)
 #      A    B

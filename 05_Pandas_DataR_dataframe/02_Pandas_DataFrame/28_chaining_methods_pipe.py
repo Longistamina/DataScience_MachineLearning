@@ -41,7 +41,7 @@ s_aq = (
     df_aq.copy()
     .query("(country == 'FR') & (city == 'Paris')")
     .set_index("date")
-    .reindex(columns = ["value"])
+    .reindex(columns=["value"])
     .squeeze() # Convert Single-Column DataFrame to Series
 )
 
@@ -53,16 +53,16 @@ s_aq = (
 # Example with Pokemon dataset
 df_pokemon = (
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        dtype = {
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        dtype={
             "Type 1": "category",
             "Type 2": "category",
             "Generation": "category",
             "Legendary": "bool"
         }
     )
-    .drop(columns = ["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .drop(columns=["#"])
+    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
     .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
 )
 
@@ -72,7 +72,7 @@ from scipy import stats
 df_boston_stats = (
     pd.read_csv("05_Pandas_DataR_dataframe/data/BostonHousing.csv")
     .pipe(lambda df: df.set_axis(df.columns.str.lower(), axis=1))
-    .reindex(columns = ["rm", "lstat", "medv"]) # select specific columns
+    .reindex(columns=["rm", "lstat", "medv"]) # select specific columns
     .pipe(
         lambda df: pd.DataFrame(
             {
@@ -99,7 +99,7 @@ print(df_boston_stats)
 
 print(
     df_pokemon
-    .groupby(by = ['Type_1', 'Type_2'], dropna = True, observed=False)
+    .groupby(by=['Type_1', 'Type_2'], dropna=True, observed=False)
     .agg(
         min_HP = ('HP', 'min'),
         max_HP = ('HP', 'max'),
@@ -115,28 +115,28 @@ print(
 
 # Using .plot()
 df_pokemon.plot(
-    kind = "box",
-    column = "Attack",            # Dependent variable
-    by = "Generation",            # Group by "Generation" column
-    notch = True,
-    color = "purple",             # Color of the box
-    title = "Box Plot of Pokemon Attack by Generation",  # Title of the plot
-    ylabel = "Attack",             # Label for the y-axis
-    xlabel = "Generation",         # Label for the x-axis
-    figsize = (10, 6)              # Size of the figure
+    kind="box",
+    column="Attack",            # Dependent variable
+    by="Generation",            # Group by "Generation" column
+    notch=True,
+    color="purple",             # Color of the box
+    title="Box Plot of Pokemon Attack by Generation",  # Title of the plot
+    ylabel="Attack",             # Label for the y-axis
+    xlabel="Generation",         # Label for the x-axis
+    figsize=(10, 6)              # Size of the figure
 )
 plt.show() # Display the plot
 
 # Using .plot.method()
 df_pokemon.plot.box(
-    column = "Attack",            # Dependent variable
-    by = "Generation",            # Group by "Generation" column
-    notch = True,
-    color = "green",             # Color of the box
-    title = "Box Plot of Pokemon Attack by Generation",  # Title of the plot
-    ylabel = "Attack",             # Label for the y-axis
-    xlabel = "Generation",         # Label for the x-axis
-    figsize = (10, 6)              # Size of the figure
+    column="Attack",            # Dependent variable
+    by="Generation",            # Group by "Generation" column
+    notch=True,
+    color="green",             # Color of the box
+    title="Box Plot of Pokemon Attack by Generation",  # Title of the plot
+    ylabel="Attack",             # Label for the y-axis
+    xlabel="Generation",         # Label for the x-axis
+    figsize=(10, 6)              # Size of the figure
 )
 plt.show() # Display the plot
 
@@ -174,7 +174,7 @@ def rename_subjects(subjects_str):
 
 df_bac = (
     pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx")
-    .rename(columns = { # Change column names to English
+    .rename(columns={ # Change column names to English
         "SOBAODANH": "ID",
         "HO_TEN": "FULL_NAME",
         "NGAY_SINH": "BIRTHDAY",
@@ -183,7 +183,7 @@ df_bac = (
         "DIEM_THI": "SCORE",
     })
     .assign(SCORE = lambda df: df['SCORE'].apply(rename_subjects)) # Change subject names into English
-    .replace(to_replace = dict_translate) # Translate other values into English
+    .replace(to_replace=dict_translate) # Translate other values into English
     .assign(
         BIRTHDAY = lambda df: pd.to_datetime(df['BIRTHDAY'], format='%d/%m/%Y', errors='coerce'), # Convert BIRTHDAY to datetime
         EXAM_LOCATION = lambda df: df['EXAM_LOCATION'].astype('category'), # Convert EXAM_LOCATION to category

@@ -22,7 +22,7 @@ import pandas as pd
 
 df_boston = (
     pd.read_csv("05_Pandas_DataR_dataframe/data/BostonHousing.csv")
-    .drop(columns=["CHAS", "RAD", "CAT. MEDV"], axis = 1)
+    .drop(columns=["CHAS", "RAD", "CAT. MEDV"], axis=1)
     .pipe(lambda df: df.set_axis(df.columns.str.lower(), axis=1))
 )
 
@@ -65,7 +65,7 @@ print(df_boston_scaled.head())
 
 df_boston = (
     pd.read_csv("05_Pandas_DataR_dataframe/data/BostonHousing.csv")
-    .drop(columns=["CHAS", "RAD", "CAT. MEDV"], axis = 1)
+    .drop(columns=["CHAS", "RAD", "CAT. MEDV"], axis=1)
     .pipe(lambda df: df.set_axis(df.columns.str.lower(), axis=1))
 )
 
@@ -84,7 +84,7 @@ print(df_boston.head())
 import numpy as np
 
 print(
-    df_boston.apply(np.mean, axis = 0) # Mean of all columns, axis=0 means apply function across rows for each column
+    df_boston.apply(np.mean, axis=0) # Mean of all columns, axis=0 means apply function across rows for each column
 )
 # crim         3.613524
 # zn          11.363636
@@ -100,7 +100,7 @@ print(
 # dtype: float64
 
 print(
-    df_boston.apply(np.std, axis = 0) # std of all columns, axis=0 means apply function across rows for each column
+    df_boston.apply(np.std, axis=0) # std of all columns, axis=0 means apply function across rows for each column
 )
 # crim         8.593041
 # zn          23.299396

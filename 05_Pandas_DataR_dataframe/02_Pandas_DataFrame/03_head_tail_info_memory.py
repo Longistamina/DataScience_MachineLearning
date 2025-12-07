@@ -1,11 +1,11 @@
 '''
-1. df.head(n = 5): Returns the first n rows of the DataFrame (default is 5) 
+1. df.head(n=5): Returns the first n rows of the DataFrame (default is 5) 
 
-2. df.tail(n = 5): Returns the last n rows of the DataFrame (default is 5)
+2. df.tail(n=5): Returns the last n rows of the DataFrame (default is 5)
 
 3. Memory and Performance attributes:
-   + df.info(memory_usage = 'deep'): Provides a concise summary of the DataFrame
-   + df.memory_usage(deep = True): Returns memory usage of each column
+   + df.info(memory_usage='deep'): Provides a concise summary of the DataFrame
+   + df.memory_usage(deep=True): Returns memory usage of each column
 '''
 
 import pandas as pd
@@ -20,7 +20,7 @@ df_medals = pd.read_csv(
 #-------------------------------------------- 1. df.head() ---------------------------------------------#
 #-------------------------------------------------------------------------------------------------------#
 
-'''df.head(n = 5): Returns the first n rows of the DataFrame (default is 5)'''
+'''df.head(n=5): Returns the first n rows of the DataFrame (default is 5)'''
 
 df_medals.head()
 #    Year      City       Sport      Discipline  NOC       Event Event gender   Medal
@@ -41,7 +41,7 @@ df_medals.head(3)
 #-------------------------------------------- 2. df.tail() ---------------------------------------------#
 #-------------------------------------------------------------------------------------------------------#
 
-'''df.tail(n = 5): Returns the last n rows of the DataFrame (default is 5)'''
+'''df.tail(n=5): Returns the last n rows of the DataFrame (default is 5)'''
 
 df_medals.tail()
 #       Year   City   Sport Discipline  NOC            Event Event gender   Medal
@@ -65,7 +65,7 @@ df_medals.tail(3)
 ###############
 ## df.info() ##
 ###############
-'''df.info(memory_usage = 'deep'): Provides a concise summary of the DataFrame'''
+'''df.info(memory_usage='deep'): Provides a concise summary of the DataFrame'''
 
 df_medals.info()
 # <class 'pandas.core.frame.DataFrame'>
@@ -84,7 +84,7 @@ df_medals.info()
 # dtypes: int64(1), object(7)
 # memory usage: 144.6+ KB
 
-df_medals.info(memory_usage = 'deep')
+df_medals.info(memory_usage='deep')
 # <class 'pandas.core.frame.DataFrame'>
 # RangeIndex: 2311 entries, 0 to 2310
 # Data columns (total 8 columns):
@@ -108,7 +108,7 @@ a real memory usage calculation is performed at the cost of computational resour
 #######################
 ## df.memory_usage() ##
 #######################
-'''df.memory_usage(deep = True): Returns memory usage of each column'''
+'''df.memory_usage(deep=True): Returns memory usage of each column'''
 
 df_medals.memory_usage()
 # Index             132
@@ -122,7 +122,7 @@ df_medals.memory_usage()
 # Medal           18488
 # dtype: int64
 
-df_medals.memory_usage(deep = True)
+df_medals.memory_usage(deep=True)
 # Index              132
 # Year             18488
 # City            135105

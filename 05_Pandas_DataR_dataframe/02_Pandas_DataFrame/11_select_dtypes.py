@@ -27,9 +27,9 @@ import pandas as pd
 
 df_emp = (
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/emp.csv",
-        parse_dates = ["start_date"],
-        dtype = {"dept": "category"}
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/emp.csv",
+        parse_dates=["start_date"],
+        dtype={"dept": "category"}
     )
     .assign(
         **{

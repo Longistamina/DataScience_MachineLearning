@@ -10,8 +10,8 @@ df.sample() allows randomly sampling rows (observations) from a DataFrame.
 import pandas as pd
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer = "05_Pandas_DataR_dataframe/data/baseball.csv",
-    dtype = {
+    filepath_or_buffer="05_Pandas_DataR_dataframe/data/baseball.csv",
+    dtype={
         "Team": "category",
         "Position": "category",
         "PosCategory": "category"

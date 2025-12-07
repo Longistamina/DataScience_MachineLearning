@@ -25,10 +25,10 @@
 
 6. Interpolate missing values:
   + df.interpolate(axis=0, limit_direction='both'): linear interpolation
-  + df.interpolate(method = "polynomial", order = n): polynomial interpolation of order n
-  + df.interpolate(method = "spline", order = n): spline interpolation of order n
-  + df.interpolate(method = "time"): time-based interpolation (requires a datetime index)
-  + df.interpolate(method = "nearest"): nearest neighbor interpolation
+  + df.interpolate(method="polynomial", order=n): polynomial interpolation of order n
+  + df.interpolate(method="spline", order=n): spline interpolation of order n
+  + df.interpolate(method="time"): time-based interpolation (requires a datetime index)
+  + df.interpolate(method="nearest"): nearest neighbor interpolation
 
 7. Conditional filling: df['C'] = np.where(df['C'].isna(), df['A'] + df['B'], df['C'])
 
@@ -41,12 +41,12 @@ import numpy as np
 
 df_mkt = (
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/marketing_data.csv",
-        dtype = {"week": "category", "Year": "category"}
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/marketing_data.csv",
+        dtype={"week": "category", "Year": "category"}
     )
     .pipe(
         lambda df: df.set_axis(
-            df.columns.str.lower().str.strip().str.replace(r"[^a-zA-Z]", "_", regex = True), 
+            df.columns.str.lower().str.strip().str.replace(r"[^a-zA-Z]", "_", regex=True), 
             axis = 1
         )
     )
@@ -320,7 +320,7 @@ print(df_mkt.notnull().sum())
 
 print(
     df_mkt
-    .dropna(axis = 1, how = 'all')
+    .dropna(axis=1, how='all')
     .head()
 )
 #   week  year  market_share  av_price_per_kg  non_promo_price_per_kg  promo_vol_share  ...  grp_tv  reach_tv  reach_cinema  grp_outdoor  grp_print  share_of_spend
@@ -339,7 +339,7 @@ print(
 
 print(
     df_mkt
-    .dropna(axis = 1, how = 'any')
+    .dropna(axis=1, how='any')
     .head()
 )
 #   week  year  market_share  av_price_per_kg  ...  non_promo_price_vs_plb  promo_vol_sh_index_vs_plb  total_cm_shelf  shelf_share
@@ -358,7 +358,7 @@ print(
 
 print(
     df_mkt
-    .dropna(axis = 1, thresh = 2/3 * df_mkt.shape[0]) # Keep columns with at least 2/3 non-missing values
+    .dropna(axis=1, thresh=2/3 * df_mkt.shape[0]) # Keep columns with at least 2/3 non-missing values
     .head()
 )
 #   week  year  market_share  av_price_per_kg  non_promo_price_per_kg  ...  spontaneous  aided  penetration  competitor  share_of_spend
@@ -375,7 +375,7 @@ print(
 #--------------------------------- 4. Drop missing values along rows ------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
-df_mkt2 = df_mkt.dropna(axis = 1, thresh = 2/3 * df_mkt.shape[0]) # Keep columns with at least 2/3 non-missing values
+df_mkt2 = df_mkt.dropna(axis=1, thresh=2/3 * df_mkt.shape[0]) # Keep columns with at least 2/3 non-missing values
 
 print(df_mkt2.shape) # (156, 19)
 
@@ -400,7 +400,7 @@ print(df_mkt2.isna().sum().pipe(lambda x: x[x > 0])) # Count missing values, ret
 
 print(
     df_mkt2
-    .dropna(axis = 0, how = 'any')
+    .dropna(axis=0, how='any')
 )
 #     week  year  market_share  av_price_per_kg  non_promo_price_per_kg  ...  spontaneous  aided  penetration  competitor  share_of_spend
 # 45    12  2011         39.05             7.34                    7.69  ...         68.6   95.7         70.0         0.0       63.886185
@@ -424,7 +424,7 @@ print(
 
 print(
     df_mkt2
-    .dropna(axis = 0, how = 'all')
+    .dropna(axis=0, how='all')
 )
 #     week  year  market_share  av_price_per_kg  non_promo_price_per_kg  ...  spontaneous  aided  penetration  competitor  share_of_spend
 # 0     19  2010         38.40             7.61                    7.77  ...          NaN    NaN          NaN         NaN             NaN
@@ -449,7 +449,7 @@ print(
 
 print(
     df_mkt2
-    .dropna(axis = 0, subset = ['top_of_mind', 'spontaneous']) # Drop rows with missing values in the 'top_of_mind' or 'spontaneous' columns
+    .dropna(axis=0, subset=['top_of_mind', 'spontaneous']) # Drop rows with missing values in the 'top_of_mind' or 'spontaneous' columns
     .isna().sum()
     .pipe(lambda x: x[x > 0])
 )
@@ -459,7 +459,7 @@ print(
 
 print(
     df_mkt2
-    .dropna(axis = 0, subset = ['top_of_mind', 'spontaneous'])
+    .dropna(axis=0, subset=['top_of_mind', 'spontaneous'])
     .shape
 )
 # (123, 19)
@@ -471,7 +471,7 @@ print(
 #--------------------------------------------------------------------------------------------------------------#
 
 # Drop "category" columns before filling NA with 0, avoid error
-df_missing = df_mkt.drop(["week", "year"], axis = 1)
+df_missing = df_mkt.drop(["week", "year"], axis=1)
 
 #################
 ## df.fillna() ##
@@ -480,7 +480,7 @@ df_missing = df_mkt.drop(["week", "year"], axis = 1)
 
 print(
     df_missing
-    .fillna(0, inplace = False)
+    .fillna(0, inplace=False)
     .head()
 )
 #    market_share  av_price_per_kg  non_promo_price_per_kg  ...  grp_outdoor  grp_print  share_of_spend
@@ -506,7 +506,7 @@ print(
         },
         inplace = False
     )
-    .reindex(columns = ['top_of_mind', 'spontaneous', 'aided', 'penetration'])
+    .reindex(columns=['top_of_mind', 'spontaneous', 'aided', 'penetration'])
 )
 #      top_of_mind  spontaneous  aided  penetration
 # 0      50.465041         78.2   95.7         76.8
@@ -528,7 +528,7 @@ print(
 
 print(
     df_missing
-    .fillna(df_missing.mean(), inplace = False)
+    .fillna(df_missing.mean(), inplace=False)
     .head()
 )
 #    market_share  av_price_per_kg  non_promo_price_per_kg  ...  grp_outdoor  grp_print  share_of_spend
@@ -578,7 +578,7 @@ print(s_misisng.bfill())
 #--------------------------------------------------------------------------------------------------------------#
 
 # Drop "category" columns before interpolation, avoid error
-df_missing = df_mkt.drop(["week", "year"], axis = 1)
+df_missing = df_mkt.drop(["week", "year"], axis=1)
 
 print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
 # top_of_mind                   33
@@ -600,15 +600,15 @@ print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
 ####################################################
 '''linear interpolation'''
 
-df_interpolated = df_missing.interpolate(axis=0, inplace = False, limit_direction='both')
+df_interpolated = df_missing.interpolate(axis=0, inplace=False, limit_direction='both')
 
 print(df_interpolated.isna().sum().pipe(lambda x: x[x > 0]))
 # Series([], dtype: int64)
 '''All missing values are filled'''
 
-######################################################
-## df.interpolate(method = "polynomial", order = n) ##
-######################################################
+##################################################
+## df.interpolate(method="polynomial", order=n) ##
+##################################################
 '''
 polynomial interpolation of order n (the number of non-missing values must be greater than n)
 
@@ -617,8 +617,8 @@ It only fills missing values between two non-missing values, ignore the boundary
 
 df_interpolated_poly = (
     df_missing
-    .drop("grp_outdoor", axis = 1) # Drop "grp_outdoor" column because it has only one non-missing value
-    .interpolate(method = "polynomial", order = 2, inplace = False, axis = 0, limit_direction='both')
+    .drop("grp_outdoor", axis=1) # Drop "grp_outdoor" column because it has only one non-missing value
+    .interpolate(method="polynomial", order=2, inplace=False, axis=0, limit_direction='both')
 )
 
 print(df_interpolated_poly.isna().sum().pipe(lambda x: x[x > 0]))
@@ -637,49 +637,49 @@ print(df_interpolated_poly.isna().sum().pipe(lambda x: x[x > 0]))
 # dtype: int64
 '''Only fills missing values between two non-missing values, ignore the boundary missing values'''
 
-##################################################
-## df.interpolate(method = "spline", order = n) ##
-##################################################
+##############################################
+## df.interpolate(method="spline", order=n) ##
+##############################################
 '''spline interpolation of order n'''
 
 df_interpolated_spline = (
     df_missing
-    .drop("grp_outdoor", axis = 1) # Drop "grp_outdoor" column because it has only one non-missing value
-    .interpolate(method = "spline", order = 2, inplace = False, axis = 0, limit_direction='both')
+    .drop("grp_outdoor", axis=1) # Drop "grp_outdoor" column because it has only one non-missing value
+    .interpolate(method="spline", order=2, inplace=False, axis=0, limit_direction='both')
 )
 
 print(df_interpolated_spline.isna().sum().pipe(lambda x: x[x > 0]))
 # Series([], dtype: int64)
 '''All missing values are filled'''
 
-#####################################
-## df.interpolate(method = "time") ##
-#####################################
+###################################
+## df.interpolate(method="time") ##
+###################################
 '''time-based interpolation (requires a datetime index)'''
 
 df_missing_time = (
     df_mkt
-    .drop(["week", "year"], axis = 1) # Drop "category" columns before interpolation, avoid error
-    .assign(date = pd.date_range(start = "2023-01-01", periods = df_mkt.shape[0], freq = 'W'))
+    .drop(["week", "year"], axis=1) # Drop "category" columns before interpolation, avoid error
+    .assign(date=pd.date_range(start="2023-01-01", periods=df_mkt.shape[0], freq='W'))
     .set_index('date')
 )
 
-df_interpolated_time = df_missing_time.interpolate(method = "time", inplace = False, axis = 0, limit_direction='both')
+df_interpolated_time = df_missing_time.interpolate(method="time", inplace=False, axis=0, limit_direction='both')
 
 print(df_interpolated_time.isna().sum().pipe(lambda x: x[x > 0]))
 # Series([], dtype: int64)
 '''All missing values are filled'''
 
-########################################
-## df.interpolate(method = "nearest") ##
-########################################
+######################################
+## df.interpolate(method="nearest") ##
+######################################
 '''
 nearest neighbor interpolation
 
 Only fills missing values between two non-missing values, ignore the boundary missing values
 '''
 
-df_interpolated_nearest = df_missing.interpolate(method = "nearest", inplace = False, axis = 0, limit_direction='both')
+df_interpolated_nearest = df_missing.interpolate(method="nearest", inplace=False, axis=0, limit_direction='both')
 
 print(df_interpolated_nearest.isna().sum().pipe(lambda x: x[x > 0]))
 # top_of_mind        33
@@ -704,9 +704,9 @@ print(df_interpolated_nearest.isna().sum().pipe(lambda x: x[x > 0]))
 #--------------------------------------------------------------------------------------------------------------------#
 
 # Drop "category" columns before filling NA with mean, avoid error
-df_missing = df_mkt.drop(["week", "year"], axis = 1)
+df_missing = df_mkt.drop(["week", "year"], axis=1)
 
-df_filled = pd.DataFrame(np.where(df_missing.isna(), df_missing.mean(), df_missing), columns = df_missing.columns)
+df_filled = pd.DataFrame(np.where(df_missing.isna(), df_missing.mean(), df_missing), columns=df_missing.columns)
 
 print(df_filled.isna().sum())
 # market_share                 0
@@ -741,7 +741,7 @@ print(df_filled.isna().sum())
 #-------------------------------------- 8. Group-based filling, transform -----------------------------------------#
 #------------------------------------------------------------------------------------------------------------------#
 
-df_missing = df_mkt.drop("year", axis = 1)
+df_missing = df_mkt.drop("year", axis=1)
 print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
 # top_of_mind        33
 # spontaneous        33

@@ -197,7 +197,7 @@ print(record)
 # [(1, 2., b'Hello') (2, 3., b'World')]
 
 # Create DataFrame from the structured record
-df = pd.DataFrame(record, index = ["first", "second"])
+df = pd.DataFrame(record, index=["first", "second"])
 print(df)
 #         A    B         C
 # first   1  2.0  b'Hello'
@@ -217,7 +217,7 @@ list_of_dicts = [
     {"a": 5, "b": 10, "c": 20}
 ]
 
-df = pd.DataFrame(list_of_dicts, index = ["row_1", "row_2"])
+df = pd.DataFrame(list_of_dicts, index=["row_1", "row_2"])
 print(df)
 #        a   b     c
 # row_1  1   2   NaN
@@ -370,7 +370,7 @@ record[:] = [(1, 2.0, "Hello"), (2, 3.0, "World")]
 
 
 # Use .from_records() to create DataFrame
-df = pd.DataFrame.from_records(data = record)
+df = pd.DataFrame.from_records(data=record)
 print(df)
 #    A    B         C
 # 0  1  2.0  b'Hello'

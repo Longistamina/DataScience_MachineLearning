@@ -32,16 +32,16 @@ import matplotlib.pyplot as plt
 # General DataFrame
 df_pokemon = (
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        dtype = {
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        dtype={
             "Type 1": "category",
             "Type 2": "category",
             "Generation": "category",
             "Legendary": "bool"
         }
     )
-    .drop(columns = ["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .drop(columns=["#"])
+    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
     .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
 )
 
@@ -57,7 +57,7 @@ s_aq = (
     df_aq.copy()
     .query("(country == 'FR') & (city == 'Paris')")
     .set_index("date")
-    .reindex(columns = ["value"])
+    .reindex(columns=["value"])
     .squeeze()
 )
 
@@ -91,37 +91,37 @@ When to Use:
 # Comparing multiple numeric variables simultaneously
 '''
 
-#######################
-## diagonal = "hist" ##
-#######################
+#####################
+## diagonal="hist" ##
+#####################
 
 pd.plotting.scatter_matrix(
-    frame = df_pokemon.select_dtypes(include="number").drop(columns="Total"),
-    alpha = 0.5,
-    figsize = (10, 10),
-    diagonal = "hist",
-    marker = "x",
-    grid = True,
-    hist_kwds = {"bins": 20, "color": "gray"},
-    range_padding = 0.1
+    frame=df_pokemon.select_dtypes(include="number").drop(columns="Total"),
+    alpha=0.5,
+    figsize=(10, 10),
+    diagonal="hist",
+    marker="x",
+    grid=True,
+    hist_kwds={"bins": 20, "color": "gray"},
+    range_padding=0.1
 )
 plt.title("Scatter Matrix with Histograms on Diagonal")
 plt.show()
 
-######################
-## diagonal = "kde" ##
-######################
+####################
+## diagonal="kde" ##
+####################
 
 pd.plotting.scatter_matrix(
-    frame = df_pokemon.select_dtypes(include="number").drop(columns="Total"),
-    alpha = 0.5,
-    figsize = (10, 10),
-    diagonal = "kde",
-    marker = "o",
-    grid = True,
-    hist_kwds = {"bins": 20, "color": "gray"},
-    density_kwds = {"color": "gray"},
-    range_padding = 0.1
+    frame=df_pokemon.select_dtypes(include="number").drop(columns="Total"),
+    alpha=0.5,
+    figsize=(10, 10),
+    diagonal="kde",
+    marker="o",
+    grid=True,
+    hist_kwds={"bins": 20, "color": "gray"},
+    density_kwds={"color": "gray"},
+    range_padding=0.1
 )
 plt.title("Scatter Matrix with KDE on Diagonal")
 plt.show()
@@ -148,12 +148,12 @@ When to Use:
 '''
 
 pd.plotting.andrews_curves(
-    frame = df_pokemon[["Attack", "Defense", "Type_1"]],
-    class_column = "Type_1",
-    samples = 200,
-    colormap = "tab20",
-    alpha = 0.5,
-    linewidth = 1
+    frame=df_pokemon[["Attack", "Defense", "Type_1"]],
+    class_column="Type_1",
+    samples=200,
+    colormap="tab20",
+    alpha=0.5,
+    linewidth=1
 )
 plt.title("Andrews Curves of Pokémon by Type 1")
 plt.show()
@@ -184,13 +184,13 @@ When to Use:
 '''
 
 pd.plotting.parallel_coordinates(
-    frame = df_pokemon[["Attack", "Defense", "Legendary"]],
-    class_column = "Legendary",
-    colormap = "tab10",
-    axvlines = True,
-    sort_labels = True,
-    alpha = 0.5,
-    linewidth = 1
+    frame=df_pokemon[["Attack", "Defense", "Legendary"]],
+    class_column="Legendary",
+    colormap="tab10",
+    axvlines=True,
+    sort_labels=True,
+    alpha=0.5,
+    linewidth=1
 )
 plt.title("Parallel Coordinates Plot of Pokémon by Type 1")
 plt.show()
@@ -217,11 +217,11 @@ When to Use:
 '''
 
 pd.plotting.radviz(
-    frame = df_pokemon[["Attack", "Defense", "Speed", "Type_1"]],
-    class_column = "Type_1",
-    colormap = "tab20",
-    alpha = 0.5,
-    linewidth = 1
+    frame=df_pokemon[["Attack", "Defense", "Speed", "Type_1"]],
+    class_column="Type_1",
+    colormap="tab20",
+    alpha=0.5,
+    linewidth=1
 )
 plt.title("Radviz Plot of Pokémon by Type 1")
 plt.show()
@@ -247,11 +247,11 @@ When to Use:
 '''
 
 pd.plotting.lag_plot(
-    series = s_aq,
-    lag = 1,
-    alpha = 0.5,
-    c = "blue",
-    marker = "o"
+    series=s_aq,
+    lag=1,
+    alpha=0.5,
+    c="blue",
+    marker="o"
 )
 plt.title("Lag Plot of NO2 Levels in Paris (Lag=1)")
 plt.xlabel("NO2 Level at time t")
@@ -277,10 +277,10 @@ When to Use:
 '''
 
 pd.plotting.autocorrelation_plot(
-    series = s_aq,
-    alpha = 0.5,
-    color = "blue",
-    marker = "o"
+    series=s_aq,
+    alpha=0.5,
+    color="blue",
+    marker="o"
 )
 plt.title("Autocorrelation Plot of NO2 Levels in Paris")
 plt.show()
@@ -307,12 +307,12 @@ When to Use:
 '''
 
 pd.plotting.bootstrap_plot(
-    series = s_aq,
-    size = 100,
-    samples = 200,
-    color = "darkgreen",
-    alpha = 0.1,
-    linewidth = 0.5
+    series=s_aq,
+    size=100,
+    samples=200,
+    color="darkgreen",
+    alpha=0.1,
+    linewidth=0.5
 )
 plt.title("Bootstrap Plot of NO2 Levels in Paris")
 plt.show()
@@ -343,15 +343,15 @@ When to Use:
 
 # Attack ~ Legendary
 pd.plotting.boxplot(
-    data = df_pokemon,
-    column = "Attack",
-    by = "Legendary",
-    notch = True,
-    fontsize = 8,
-    rot = 45,
-    grid = True,
-    figsize = (10, 6),
-    return_type = "axes"
+    data=df_pokemon,
+    column="Attack",
+    by="Legendary",
+    notch=True,
+    fontsize=8,
+    rot=45,
+    grid=True,
+    figsize=(10, 6),
+    return_type="axes"
 )
 plt.title("Boxplot of Pokémon Attack by Legendary Status")
 plt.suptitle("")  # Suppress the automatic 'Boxplot grouped by ...' title
@@ -359,15 +359,15 @@ plt.show()
 
 # Attack ~ Type_1 + Legendary
 pd.plotting.boxplot(
-    data = df_pokemon,
-    column = "Attack",
-    by = ["Type_1", "Legendary"],
-    notch = True,
-    fontsize = 8,
-    rot = 45,
-    grid = True,
-    figsize = (10, 6),
-    return_type = "axes"
+    data=df_pokemon,
+    column="Attack",
+    by=["Type_1", "Legendary"],
+    notch=True,
+    fontsize=8,
+    rot=45,
+    grid=True,
+    figsize=(10, 6),
+    return_type="axes"
 )
 plt.title("Boxplot of Pokémon Attack by Type 1 and Legendary Status")
 plt.suptitle("")  # Suppress the automatic 'Boxplot grouped by ...' title
@@ -394,13 +394,13 @@ When to Use:
 fig, ax = plt.subplots(figsize=(8, 4))
 
 pd.plotting.table(
-    ax = ax,
-    data = df_aq.query("(country == 'FR') & (city == 'Paris')").head(5).set_index("date"),
-    loc = "upper right",
-    colWidths = [0.2] * len(df_aq.columns),
-    cellLoc = "center",
-    rowLoc = "center",
-    fontsize = 8
+    ax=ax,
+    data=df_aq.query("(country == 'FR') & (city == 'Paris')").head(5).set_index("date"),
+    loc="upper right",
+    colWidths=[0.2] * len(df_aq.columns),
+    cellLoc="center",
+    rowLoc="center",
+    fontsize=8
 )
 ax.set_title("NO2 Levels in Paris with Data Table")
 ax.axis("off") # Hide the axes for table only

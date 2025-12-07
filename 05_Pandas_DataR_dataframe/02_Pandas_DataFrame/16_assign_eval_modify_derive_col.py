@@ -4,8 +4,8 @@
    + Add new columns: df["new_col"] = ...
 
 2. Using df.assign()
-   + Modify existing columns: df = df.assign(existing_col = lambda df: ...)
-   + Add new columns: df = df.assign(new_col = ...) OR df.assign(new_col = lambda df: ...)
+   + Modify existing columns: df = df.assign(existing_col=lambda df: ...)
+   + Add new columns: df = df.assign(new_col=...) OR df.assign(new_col=lambda df: ...)
    + Using df.assign(**kwargs) to avoid overlap with python keywords
 
 3. Using df.eval()
@@ -130,7 +130,7 @@ print(df_demo.head(3))
 
 # Add Raise column with random True/False values
 np.random.seed(0)
-df_demo = df_baseball.copy().assign(Raise = np.random.choice([True, False], size = len(df_baseball)))
+df_demo = df_baseball.copy().assign(Raise = np.random.choice([True, False], size=len(df_baseball)))
 print(df_demo.head(3))
 #               Name Team  Height  Weight  Raise
 # 0    Adam_Donachie  BAL      74     180   True
@@ -172,7 +172,7 @@ print(df_demo.head(3))
 #--------------------
 
 np.random.seed(0)
-df_demo = df_baseball.copy().assign(**{"raise": np.random.choice([True, False], size = len(df_baseball))})
+df_demo = df_baseball.copy().assign(**{"raise": np.random.choice([True, False], size=len(df_baseball))})
 
 print(df_demo.head(3))
 #               Name Team  Height  Weight  raise
@@ -237,13 +237,13 @@ lbs_to_kg = 0.453592
 #####################################
 ##     Modify existing columns     ##
 #####################################
-'''df.eval("existing_col = ...", inplace = True/False)'''
+'''df.eval("existing_col = ...", inplace=True/False)'''
 
 #-----------------
 ## Modify a single column: Weight from lbs to kg
 #-----------------
 
-df_demo = df_baseball.copy().eval("Weight = Weight * @lbs_to_kg", inplace = False)
+df_demo = df_baseball.copy().eval("Weight = Weight * @lbs_to_kg", inplace=False)
 print(df_demo.head(3))
 #               Name Team  Height    Weight
 # 0    Adam_Donachie  BAL      74  81.64656

@@ -1,7 +1,7 @@
 '''
 1. Create group-by object:
    + Using df.groupby("key") or df.groupby(["key1", "key2"])
-   + Using df.groupby(by = df["key"]) or df.groupby(by = [df["key1"], df["key2"]])
+   + Using df.groupby(by=df["key"]) or df.groupby(by=[df["key1"], df["key2"]])
 
 2. df.groupby() object attritubes
    + group_obj.groups
@@ -22,16 +22,16 @@ warnings.filterwarnings("ignore")
 
 df_pokemon = (
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        dtype = {
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        dtype={
             "Type 1": "category",
             "Type 2": "category",
             "Generation": "category",
             "Legendary": "bool"
         }
     )
-    .drop(columns = ["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .drop(columns=["#"])
+    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
     .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
 )
 
@@ -72,15 +72,15 @@ grouped_multi_keys = df_pokemon.groupby(["Type_1", "Type_2"])
 print(grouped_multi_keys)
 # <pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f4481bd3c50>
 
-###################################################################################
-## Using df.groupby(by = df["key"]) or df.groupby(by = [df["key1"], df["key2"]]) ##
-###################################################################################
+###############################################################################
+## Using df.groupby(by=df["key"]) or df.groupby(by=[df["key1"], df["key2"]]) ##
+###############################################################################
 
-grouped_single_key = df_pokemon.groupby(by = df_pokemon["Type_1"])
+grouped_single_key = df_pokemon.groupby(by=df_pokemon["Type_1"])
 print(grouped_single_key)
 # <pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f4481be8f50>
 
-grouped_multi_keys = df_pokemon.groupby(by = [df_pokemon["Type_1"], df_pokemon["Type_2"]])
+grouped_multi_keys = df_pokemon.groupby(by=[df_pokemon["Type_1"], df_pokemon["Type_2"]])
 print(grouped_multi_keys)
 # <pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f4481bea060>
 

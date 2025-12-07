@@ -88,8 +88,8 @@ print(df)
 ########################
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
-    index_col = 'id'
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp.csv', 
+    index_col='id'
 )
 
 print(df)
@@ -110,8 +110,8 @@ print(df)
 ######################
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
-    usecols = ['name', 'salary', 'dept']
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp.csv', 
+    usecols=['name', 'salary', 'dept']
 )
 
 print(df)
@@ -128,8 +128,8 @@ print(df)
 #-------
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
-    usecols = [1, 2, 4]
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp.csv', 
+    usecols=[1, 2, 4]
 )
 
 print(df)
@@ -148,9 +148,9 @@ print(df)
 ####################
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp.csv', 
     usecols=['name', 'salary', 'dept', 'start_date'],
-    dtype = {
+    dtype={
         'name': 'str', # If set as 'string', it will be "string[python]", not "object"
         'salary': 'float64',
         'dept': 'category'
@@ -173,8 +173,8 @@ print(df.dtypes)
 #-----------
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
-    dtype = {
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp.csv', 
+    dtype={
         'name': 'str', # If set as 'string', it will be "string[python]", not "object"
         'salary': 'float64',
         'dept': 'category'
@@ -195,8 +195,8 @@ print(df.dtypes)
 #-----------
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
-    dtype = {
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp.csv', 
+    dtype={
         'name': 'str', # If set as 'string', it will be "string[python]", not "object"
         'salary': 'float64',
         'dept': 'category'
@@ -229,9 +229,9 @@ If the original CSV does not have a header row, set "header=None".
 '''
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.csv', 
-    header = 0, # The first row (0-indexed) is the header
-    names = ["ID", "NAME", "SALARY", "START_DATE", "DEPT"] # Custom column names
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp.csv', 
+    header=0, # The first row (0-indexed) is the header
+    names=["ID", "NAME", "SALARY", "START_DATE", "DEPT"] # Custom column names
 )
 
 print(df)
@@ -250,8 +250,8 @@ print(df)
 #################################
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.tsv', 
-    sep = '\t' # Tab-separated values
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp.tsv', 
+    sep='\t' # Tab-separated values
 )
 
 print(df)
@@ -268,9 +268,9 @@ print(df)
 #-------
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.tsv', 
-    sep = '\t', # Tab-separated values
-    index_col = 0 # Set the first column as index
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp.tsv', 
+    sep='\t', # Tab-separated values
+    index_col=0 # Set the first column as index
 )
 
 print(df)
@@ -296,10 +296,10 @@ By default the following values are interpreted as NaN:
 '''
 
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp.tsv', 
-    sep = '\t', # Tab-separated values
-    na_values = ['?'], # Additional strings to recognize as NA/NaN
-    index_col = 0 # Set the first column as index
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp.tsv', 
+    sep='\t', # Tab-separated values
+    na_values=['?'], # Additional strings to recognize as NA/NaN
+    index_col=0 # Set the first column as index
 )
 
 print(df)
@@ -320,8 +320,8 @@ print(df)
 
 # No skip the rows
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp_skiprows.tsv',
-    sep = '\t', # Tab-separated values
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp_skiprows.tsv',
+    sep='\t', # Tab-separated values
 )
 '''pandas.errors.ParserError: Error tokenizing data. C error: Expected 1 fields in line 3, saw 5'''
 
@@ -329,9 +329,9 @@ df = pd.read_csv(
 
 # Skip the first 2 corrupted rows
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp_skiprows.tsv',
-    sep = '\t', # Tab-separated values
-    skiprows = 2 # Skip the first 2 rows
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp_skiprows.tsv',
+    sep='\t', # Tab-separated values
+    skiprows=2 # Skip the first 2 rows
 )
 
 print(df)
@@ -349,11 +349,11 @@ print(df)
 
 # skiprows= and nrows=
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp_skiprows.tsv',
-    sep = '\t', # Tab-separated values
-    skiprows = 2, # Skip the first 2 rows
-    nrows = 4, # Read only 4 rows
-    index_col = 0 # Set the first column as index
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp_skiprows.tsv',
+    sep='\t', # Tab-separated values
+    skiprows=2, # Skip the first 2 rows
+    nrows=4, # Read only 4 rows
+    index_col=0 # Set the first column as index
 )
 
 print(df)
@@ -389,11 +389,11 @@ print(df)
 
 # Skip the last 2 footer rows
 df = pd.read_csv(
-    filepath_or_buffer = '05_Pandas_DataR_dataframe/data/emp_skipfooter.csv',
-    skipfooter = 2, # Skip the last 2 rows
-    engine = 'python', # 'python' engine is required when using skipfooter
-    na_values = [" "],
-    index_col = 0 # Set the first column as index
+    filepath_or_buffer='05_Pandas_DataR_dataframe/data/emp_skipfooter.csv',
+    skipfooter=2, # Skip the last 2 rows
+    engine='python', # 'python' engine is required when using skipfooter
+    na_values=[" "],
+    index_col=0 # Set the first column as index
 )
 
 print(df)
@@ -460,8 +460,8 @@ print(df)
 #########################
 
 df = pd.read_excel(
-    io = "05_Pandas_DataR_dataframe/data/emp_sheetname.xlsx", 
-    sheet_name = 'city' # Specify the sheet name
+    io="05_Pandas_DataR_dataframe/data/emp_sheetname.xlsx", 
+    sheet_name='city' # Specify the sheet name
 )
 
 print(df)
@@ -478,8 +478,8 @@ print(df)
 #-------
 
 df = pd.read_excel(
-    io = "05_Pandas_DataR_dataframe/data/emp_sheetname.xlsx", 
-    sheet_name = 1 # Specify the sheet index (1 means the second sheet)
+    io="05_Pandas_DataR_dataframe/data/emp_sheetname.xlsx", 
+    sheet_name=1 # Specify the sheet index (1 means the second sheet)
 )
 
 print(df)
@@ -546,7 +546,7 @@ print(df)
 #####################################
 
 df_corrupted = pd.read_json(
-    path_or_buf = "05_Pandas_DataR_dataframe/data/books.json",
+    path_or_buf="05_Pandas_DataR_dataframe/data/books.json",
 )
 
 print(df_corrupted)

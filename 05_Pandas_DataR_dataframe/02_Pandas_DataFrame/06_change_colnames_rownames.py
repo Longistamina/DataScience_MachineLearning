@@ -164,7 +164,7 @@ print(df_new_cols.head(3))
 df_new_cols = df_lifexp.copy() 
 
 # Change column names
-df_new_cols.columns = df_new_cols.columns.str.strip().str.replace(r"\s+", "_", regex = True)
+df_new_cols.columns = df_new_cols.columns.str.strip().str.replace(r"\s+", "_", regex=True)
 
 print(df_new_cols.dtypes)
 # BMI                                float64
@@ -433,7 +433,7 @@ print(df_new_idx.head())
 # 3       4      Ryan  729.00  2014-05-11          HR
 # 4       5      Gary  843.25  2015-03-27     Finance
 
-df_new_idx.rename(index = {row: f"row_{idx + 1}" for idx, row in enumerate(df_new_idx.index)}, inplace=True)
+df_new_idx.rename(index={row: f"row_{idx + 1}" for idx, row in enumerate(df_new_idx.index)}, inplace=True)
 print(df_new_idx.head())
 #        id      name  salary  start_date        dept
 # row_1   1      Rick  623.30  2012-01-01          IT

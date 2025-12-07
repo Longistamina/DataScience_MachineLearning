@@ -1,8 +1,8 @@
 '''
 df.describe(): Get summary statistics of DataFrame columns.
    + Default usage
-   + df.describe(include = [object, category, "all"]): Include specific data types.
-   + df.describe(exclude = [category, bool]): Exclude specific data types.
+   + df.describe(include=[object, category, "all"]): Include specific data types.
+   + df.describe(exclude=[category, bool]): Exclude specific data types.
 '''
 
 import pandas as pd
@@ -12,16 +12,16 @@ warnings.filterwarnings("ignore")
 
 df_pokemon = (
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        dtype = {
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        dtype={
             "Type 1": "category",
             "Type 2": "category",
             "Generation": "category",
             "Legendary": "bool"
         }
     )
-    .drop(columns = ["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
+    .drop(columns=["#"])
+    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
     .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
 )
 
@@ -69,14 +69,14 @@ print(df_pokemon.describe())
 ## df.describe(include=[object, category, "all"]) ##
 ####################################################
 
-print(df_pokemon.describe(include = ['object', 'category']))
+print(df_pokemon.describe(include=['object', 'category']))
 #           Name Type_1  Type_2 Generation
 # count      800    800     414        800
 # unique     800     18      18          6
 # top     Skrelp  Water  Flying          1
 # freq         1    112      97        166
 
-print(df_pokemon.describe(include = 'all'))
+print(df_pokemon.describe(include='all'))
 #           Name Type_1  Type_2      Total          HP  ...      Sp_Atk      Sp_Def       Speed  Generation  Legendary
 # count      800    800     414  800.00000  800.000000  ...  800.000000  800.000000  800.000000         800        800
 # unique     800     18      18        NaN         NaN  ...         NaN         NaN         NaN           6          2
@@ -94,7 +94,7 @@ print(df_pokemon.describe(include = 'all'))
 ## df.describe(exclude=[category, bool]) ##
 ###########################################
 
-print(df_pokemon.describe(exclude = ['category', 'bool']))
+print(df_pokemon.describe(exclude=['category', 'bool']))
 #           Name      Total          HP      Attack     Defense      Sp_Atk      Sp_Def       Speed
 # count      800  800.00000  800.000000  800.000000  800.000000  800.000000  800.000000  800.000000
 # unique     800        NaN         NaN         NaN         NaN         NaN         NaN         NaN

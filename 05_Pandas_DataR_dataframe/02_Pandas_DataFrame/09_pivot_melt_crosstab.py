@@ -60,10 +60,10 @@ df_sales.head()
 #--------
 
 df_pivoted = pd.pivot(
-    data = df_sales,
-    index = "ID", # The column to be kept intact, becomes the new index
-    columns = "region", # The column whose unique values will become new columns
-    values = "sales" # The column whose values will fill the new DataFrame
+    data=df_sales,
+    index="ID", # The column to be kept intact, becomes the new index
+    columns="region", # The column whose unique values will become new columns
+    values="sales" # The column whose values will fill the new DataFrame
 )
 
 print(df_pivoted.head())
@@ -80,10 +80,10 @@ print(df_pivoted.head())
 #--------
 
 df_pivoted_multi = pd.pivot(
-    data = df_sales,
-    index = "ID",
-    columns = ["region", "product"], # Multiple columns for new columns
-    values = "sales"
+    data=df_sales,
+    index="ID",
+    columns=["region", "product"], # Multiple columns for new columns
+    values="sales"
 )
 
 print(df_pivoted_multi.head())
@@ -101,10 +101,10 @@ print(df_pivoted_multi.head())
 #--------
 
 df_pivoted_multi = pd.pivot(
-    data = df_sales,
-    index = "ID",
-    columns = "region",
-    values = ["sales", "date"] # Multiple columns for values
+    data=df_sales,
+    index="ID",
+    columns="region",
+    values=["sales", "date"] # Multiple columns for values
 )
 
 print(df_pivoted_multi.head())
@@ -122,10 +122,10 @@ print(df_pivoted_multi.head())
 #---------
 
 df_pivoted_multi = pd.pivot(
-    data = df_sales,
-    index = "ID",
-    columns = "region",
-    values = ["sales", "date"] # Multiple columns for values
+    data=df_sales,
+    index="ID",
+    columns="region",
+    values=["sales", "date"] # Multiple columns for values
 )
 
 print(df_pivoted_multi.columns)
@@ -154,9 +154,9 @@ print(df_pivoted_multi.head())
 #--------
 
 df_pivoted = df_sales.pivot(
-    index = "ID",
-    columns = "region",
-    values = "sales"
+    index="ID",
+    columns="region",
+    values="sales"
 )
 
 print(df_pivoted.head())
@@ -198,7 +198,7 @@ print(df_duplicates)
 # 7  two   bar  small       6             9
 # 8  two   bar  large       7             9
 
-df_duplicates.pivot(index = "ID", columns = "class", values = "scores")
+df_duplicates.pivot(index="ID", columns="class", values="scores")
 '''ValueError: Index contains duplicate entries, cannot reshap'''
 
 #-------------
@@ -206,11 +206,11 @@ df_duplicates.pivot(index = "ID", columns = "class", values = "scores")
 #-------------
 
 df_pivoted_tbl = pd.pivot_table(
-    data = df_duplicates,
-    index = "ID",
-    columns = "class",
-    values = "scores",
-    aggfunc = "mean", # aggfunc to handle duplicates (default is 'mean')
+    data=df_duplicates,
+    index="ID",
+    columns="class",
+    values="scores",
+    aggfunc="mean", # aggfunc to handle duplicates (default is 'mean')
 )
 
 print(df_pivoted_tbl)
@@ -224,11 +224,11 @@ print(df_pivoted_tbl)
 #-------------
 
 df_pivoted_tbl = pd.pivot_table(
-    data = df_duplicates,
-    index = "ID",
-    columns = "size",
-    values = "measurements",
-    aggfunc = ["mean", "sum"] # Multiple aggfunc
+    data=df_duplicates,
+    index="ID",
+    columns="size",
+    values="measurements",
+    aggfunc=["mean", "sum"] # Multiple aggfunc
 )
 
 print(df_pivoted_tbl)
@@ -243,11 +243,11 @@ print(df_pivoted_tbl)
 #-------------
 
 df_pivoted_tbl = pd.pivot_table(
-    data = df_duplicates,
-    index = "ID",
-    columns = "size",
-    values = ["scores", "measurements"], # Multiple values
-    aggfunc = "mean"
+    data=df_duplicates,
+    index="ID",
+    columns="size",
+    values=["scores", "measurements"], # Multiple values
+    aggfunc="mean"
 )
 
 print(df_pivoted_tbl)
@@ -262,12 +262,12 @@ print(df_pivoted_tbl)
 #-------------
 
 df_pivoted_tbl = pd.pivot_table(
-    data = df_duplicates,
-    index = "ID", # Multiple grouping columns
-    columns = ["size", "class"],
-    values = "scores",
-    aggfunc = np.std, # Standard deviation as aggfunc
-    dropna = False # Keep NaN columns
+    data=df_duplicates,
+    index="ID", # Multiple grouping columns
+    columns=["size", "class"],
+    values="scores",
+    aggfunc=np.std, # Standard deviation as aggfunc
+    dropna=False # Keep NaN columns
 )
 
 print(df_pivoted_tbl)
@@ -282,10 +282,10 @@ print(df_pivoted_tbl)
 #-------------
 
 df_pivoted_tbl = df_duplicates.pivot_table(
-    index = "ID",
-    columns = "class",
-    values = "scores",
-    aggfunc = "mean"
+    index="ID",
+    columns="class",
+    values="scores",
+    aggfunc="mean"
 )
 
 print(df_pivoted_tbl)
@@ -339,11 +339,11 @@ print(df_measurements)
 #--------
 
 df_melted = pd.melt(
-    frame = df_measurements,
-    id_vars = ['patient_id', 'age'], # Columns to keep intact
-    value_vars = [col for col in df_measurements.columns if col.startswith(('BP_', 'HR_'))], # Columns to melt
-    var_name = 'measurement_day', # Name for the new variable column
-    value_name = 'mearsured_value' # Name for the new value column
+    frame=df_measurements,
+    id_vars=['patient_id', 'age'], # Columns to keep intact
+    value_vars=[col for col in df_measurements.columns if col.startswith(('BP_', 'HR_'))], # Columns to melt
+    var_name='measurement_day', # Name for the new variable column
+    value_name='mearsured_value' # Name for the new value column
 )
 
 print(df_melted.head())
@@ -359,10 +359,10 @@ print(df_melted.head())
 #--------
 
 df_melted = df_measurements.melt(
-    id_vars = ['patient_id', 'age'],
-    value_vars = [col for col in df_measurements.columns if col.startswith(('BP_', 'HR_'))],
-    var_name = 'measurement_day',
-    value_name = 'mearsured_value'
+    id_vars=['patient_id', 'age'],
+    value_vars=[col for col in df_measurements.columns if col.startswith(('BP_', 'HR_'))],
+    var_name='measurement_day',
+    value_name='mearsured_value'
 )
 
 print(df_melted.head())
@@ -382,12 +382,12 @@ print(df_melted.head())
 #----------
 
 df_wtl = pd.wide_to_long(
-    df = df_measurements,
-    stubnames = ['BP', 'HR'], # The prefixes of the columns to be melted
-    i = ['patient_id', 'age'], # Columns to keep intact (as index)
-    j = 'day', # The suffix that will become the new variable column
-    sep = '_', # Separator between stubname and suffix (ONE CHARACTER ONLY)
-    suffix = r"\w+" # Suffix pattern (r"\w+" means any word characters, including "day" and digits "1", "2", "3")
+    df=df_measurements,
+    stubnames=['BP', 'HR'], # The prefixes of the columns to be melted
+    i=['patient_id', 'age'], # Columns to keep intact (as index)
+    j='day', # The suffix that will become the new variable column
+    sep='_', # Separator between stubname and suffix (ONE CHARACTER ONLY)
+    suffix=r"\w+" # Suffix pattern (r"\w+" means any word characters, including "day" and digits "1", "2", "3")
 )
 # BP_day1: 
 # + sep is "_" 
@@ -409,12 +409,12 @@ print(df_wtl.head())
 #-----------
 
 df_wtl = pd.wide_to_long(
-    df = df_measurements,
-    stubnames = ['BP', 'HR'], 
-    i = ['patient_id', 'age'], 
-    j = 'day', 
-    sep = '_', 
-    suffix = r"\w+"
+    df=df_measurements,
+    stubnames=['BP', 'HR'], 
+    i=['patient_id', 'age'], 
+    j='day', 
+    sep='_', 
+    suffix=r"\w+"
 ).reset_index()
 
 print(df_wtl.head())
@@ -431,12 +431,12 @@ print(df_wtl.head())
 
 df_wtl = (
     pd.wide_to_long(
-        df = df_measurements,
-        stubnames = ['BP', 'HR'], 
-        i = ['patient_id', 'age'], 
-        j = 'day', 
-        sep = '_', 
-        suffix = r"\w+"
+        df=df_measurements,
+        stubnames=['BP', 'HR'], 
+        i=['patient_id', 'age'], 
+        j='day', 
+        sep='_', 
+        suffix=r"\w+"
     )
     .reset_index()
     .assign(day = lambda df: df['day'].str.replace('day', '').astype(int)) # Convert 'day' column to integer
@@ -502,9 +502,9 @@ df_survey.head()
 #----------
 
 contigency_table = pd.crosstab(
-    index = df_survey['gender'], # Values to group by in the rows.
-    columns = df_survey['favorite_color'], # Values to group by in the columns.
-    dropna = False # Keep NaN columns
+    index=df_survey['gender'], # Values to group by in the rows.
+    columns=df_survey['favorite_color'], # Values to group by in the columns.
+    dropna=False # Keep NaN columns
 )
 
 print(contigency_table)
@@ -519,10 +519,10 @@ print(contigency_table)
 #----------
 
 contigency_table = pd.crosstab(
-    index = df_survey['gender'], 
-    columns = df_survey['favorite_color'], 
-    margins = True, # Add row and column totals (named "All")
-    dropna = False 
+    index=df_survey['gender'], 
+    columns=df_survey['favorite_color'], 
+    margins=True, # Add row and column totals (named "All")
+    dropna=False 
 )
 
 print(contigency_table)
@@ -538,10 +538,10 @@ print(contigency_table)
 #----------
 
 contigency_table = pd.crosstab(
-    index = df_survey["gender"], 
-    columns = df_survey["purchase_intent"],
-    normalize = 'index', # Normalize by row (index)
-    dropna = False
+    index=df_survey["gender"], 
+    columns=df_survey["purchase_intent"],
+    normalize='index', # Normalize by row (index)
+    dropna=False
 )
 
 print(contigency_table)
@@ -557,10 +557,10 @@ print(contigency_table)
 #----------
 
 contigency_table = pd.crosstab(
-    index = df_survey["gender"], 
-    columns = df_survey["purchase_intent"],
-    normalize = 'columns', # Normalize by columns
-    dropna = False
+    index=df_survey["gender"], 
+    columns=df_survey["purchase_intent"],
+    normalize='columns', # Normalize by columns
+    dropna=False
 )
 
 print(contigency_table)
@@ -576,10 +576,10 @@ print(contigency_table)
 #----------
 
 contigency_table = pd.crosstab(
-    index = df_survey["gender"], 
-    columns = df_survey["purchase_intent"],
-    normalize = 'all', # Normalize by all values
-    dropna = False
+    index=df_survey["gender"], 
+    columns=df_survey["purchase_intent"],
+    normalize='all', # Normalize by all values
+    dropna=False
 )
 
 print(contigency_table)
@@ -595,9 +595,9 @@ print(contigency_table)
 #----------
 
 contigency_table = pd.crosstab(
-    index = df_survey["gender"], 
-    columns = [df_survey["favorite_color"], df_survey["purchase_intent"]],
-    dropna = False
+    index=df_survey["gender"], 
+    columns=[df_survey["favorite_color"], df_survey["purchase_intent"]],
+    dropna=False
 )
 
 print(contigency_table)
@@ -612,9 +612,9 @@ print(contigency_table)
 
 contigency_table = (
     pd.crosstab(
-        index   = df_survey["gender"],
-        columns = [df_survey["favorite_color"], df_survey["purchase_intent"]],
-        dropna  = False
+        index=df_survey["gender"],
+        columns=[df_survey["favorite_color"], df_survey["purchase_intent"]],
+        dropna=False
     )
     .pipe(
         lambda df: df.set_axis(

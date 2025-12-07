@@ -10,7 +10,7 @@ import pandas as pd
 
 df_bac = (
     pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx")
-    .rename(columns = { # Change column names to English
+    .rename(columns={ # Change column names to English
         "SOBAODANH": "ID",
         "HO_TEN": "FULL_NAME",
         "NGAY_SINH": "BIRTHDAY",
@@ -82,7 +82,7 @@ dict_translate = {
 }
 
 df_bac = (
-    df_bac.replace(to_replace = dict_translate) # Translate values into English
+    df_bac.replace(to_replace=dict_translate) # Translate values into English
     .assign(
         BIRTHDAY = lambda df: pd.to_datetime(df['BIRTHDAY'], format='%d/%m/%Y', errors='coerce'), # Convert BIRTHDAY to datetime
         EXAM_LOCATION = lambda df: df['EXAM_LOCATION'].astype('category'), # Convert EXAM_LOCATION to category
@@ -118,7 +118,7 @@ print(df_bac.info())
 
 s_birthday = (
     pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx", usecols=['NGAY_SINH'])
-    .rename(columns = {"NGAY_SINH": "BIRTHDAY"})
+    .rename(columns={"NGAY_SINH": "BIRTHDAY"})
     .squeeze() # Convert single-column DataFrame to Series
 )
 
@@ -256,8 +256,8 @@ df_bac = (
         "GIOI_TINH": "GENDER",
         "DIEM_THI": "SCORE",
     })
-    .assign(SCORE = lambda df: df['SCORE'].apply(rename_subjects)) # Change subject names into English
-    .replace(to_replace = dict_translate) # Translate other values into English
+    .assign(SCORE=lambda df: df['SCORE'].apply(rename_subjects)) # Change subject names into English
+    .replace(to_replace=dict_translate) # Translate other values into English
     .assign(
         BIRTHDAY = lambda df: pd.to_datetime(df['BIRTHDAY'], format='%d/%m/%Y', errors='coerce'), # Convert BIRTHDAY to datetime
         EXAM_LOCATION = lambda df: df['EXAM_LOCATION'].astype('category'), # Convert EXAM_LOCATION to category
