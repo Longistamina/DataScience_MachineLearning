@@ -60,8 +60,8 @@ from datar import f
 import pandas as pd
 
 from pipda import register_verb
-dr.filter = register_verb(func = dr.filter_)
-dr.slice = register_verb(func = dr.slice_)
+dr.filter = register_verb(func=dr.filter_)
+dr.slice = register_verb(func=dr.slice_)
 
 ########################
 
@@ -298,7 +298,7 @@ dr.grep(pattern, x)
 ## Demo
 #-----
 
-print(dr.grep(pattern = "Mega", x = tb_pokemon.Name))
+print(dr.grep(pattern="Mega", x=tb_pokemon.Name))
 # [  3   7   8  12  19  23  71  87 102 124 137 141 154 163 164 168 196 224
 #  229 232 248 268 275 279 283 306 327 329 333 336 339 349 354 366 387 393
 #  397 409 413 418 420 426 476 494 498 511 527 591 796]
@@ -557,7 +557,7 @@ dr.paste(..., sep=" ")
 print(dr.paste(firts, lasts))
 # ['John Smith' 'Jane Doe' 'Alice Johnson']
 
-print(dr.paste(firts, lasts, sep = "_"))
+print(dr.paste(firts, lasts, sep="_"))
 # ['John_Smith' 'Jane_Doe' 'Alice_Johnson']
 
 #################
@@ -587,17 +587,17 @@ texts = ["   Hello World   ", "   DataR is great!   ", "   Pandas and DataR   "]
 print(dr.trimws(texts))
 # ['Hello World' 'DataR is great!' 'Pandas and DataR']
 
-###############################
-## dr.trimws(which = 'left') ##
-###############################
+#############################
+## dr.trimws(which='left') ##
+#############################
 '''Trim whitespace from left side'''
 
 print(dr.trimws(texts, which="left"))
 # ['Hello World   ' 'DataR is great!   ' 'Pandas and DataR   ']
 
-################################
-## dr.trimws(which = 'right') ##
-################################
+##############################
+## dr.trimws(which='right') ##
+##############################
 '''Trim whitespace from right side'''
 
 print(dr.trimws(texts, which="right"))
@@ -682,7 +682,7 @@ print(df_separate)
 
 print(
     df_separate
-    >> dr.separate(f.name_age, into = ['name', 'age'], sep = '_')
+    >> dr.separate(f.name_age, into=['name', 'age'], sep='_')
 )
 #       name      age
 #   <object> <object>
@@ -696,7 +696,7 @@ print(
 
 print(
     df_separate
-    >> dr.separate(f.name_age, into = ['name', 'age'], sep = '_', remove=False)
+    >> dr.separate(f.name_age, into=['name', 'age'], sep='_', remove=False)
 )
 #   name_age     name      age
 #   <object> <object> <object>
@@ -730,7 +730,7 @@ print(df_sep_rows)
 
 print(
     df_sep_rows
-    >> dr.separate_rows(f.values, sep = ',')
+    >> dr.separate_rows(f.values, sep=',')
 )
 #        id   values
 #   <int64> <object>
@@ -767,7 +767,7 @@ print(df_unite)
 
 print(
     df_unite
-    >> dr.unite('full_name', ['first', 'last'], sep = ' ')
+    >> dr.unite('full_name', ['first', 'last'], sep=' ')
 )
 #     full_name
 #      <object>
@@ -780,7 +780,7 @@ print(
 
 print(
     df_unite
-    >> dr.unite('full_name', ['first', 'last'], sep = '_', remove=False)
+    >> dr.unite('full_name', ['first', 'last'], sep='_', remove=False)
 )
 #     full_name    first     last
 #      <object> <object> <object>
@@ -859,7 +859,7 @@ pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
 print(
     dr.tibble(email = emails) # Convert to datar tibble for filter()
     >> dr.filter(dr.grepl(pattern, emails) == True)
-    >> dr.separate(col = f, into = ['username', 'domain'], sep = '@', remove = False)
+    >> dr.separate(col=f, into=['username', 'domain'], sep='@', remove=False)
 )
 #               email username       domain
 #            <object> <object>     <object>
@@ -932,9 +932,9 @@ tb_bac_2016_clean = (
         SCORE = f.DIEM_THI
     )
     >> dr.mutate(SCORE = f.SCORE.apply(rename_subjects)) # Rename subjects from Vietnamese to English
-    >> dr.pipe(lambda f: f.replace(to_replace = dict_translate)) # Translate other values into English
+    >> dr.pipe(lambda f: f.replace(to_replace=dict_translate)) # Translate other values into English
     >> dr.mutate(
-        BIRTHDAY = dr.as_date(f.BIRTHDAY, format = "%d/%m/%Y", optional = True), # Convert to date type (optional=True like coerce in pandas)
+        BIRTHDAY = dr.as_date(f.BIRTHDAY, format="%d/%m/%Y", optional=True), # Convert to date type (optional=True like coerce in pandas)
         EXAM_LOCATION = dr.as_factor(f.EXAM_LOCATION), # Convert to category type
         GENDER = dr.as_factor(f.GENDER)  # Convert to category type
     )

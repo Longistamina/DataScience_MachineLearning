@@ -136,7 +136,7 @@ tb_emp_AddRow_before = (
         salary = 680.00,
         start_date = "2015-08-01",
         dept = "HR",
-        _before = 3  # Insert before the 3rd index (4th row)
+        _before=3  # Insert before the 3rd index (4th row)
     )
 )
 

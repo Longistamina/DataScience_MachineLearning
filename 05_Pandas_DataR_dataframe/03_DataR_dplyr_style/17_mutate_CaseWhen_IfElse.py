@@ -19,9 +19,9 @@ import numpy as np
 ########################
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer = "05_Pandas_DataR_dataframe/data/baseball.csv",
-    usecols = ["Name", "Team", "Height", "Weight"],
-    dtype = {"Team": "category"}
+    filepath_or_buffer="05_Pandas_DataR_dataframe/data/baseball.csv",
+    usecols=["Name", "Team", "Height", "Weight"],
+    dtype={"Team": "category"}
 )
 
 print(df_baseball >> dr.slice_head(4))
@@ -163,7 +163,7 @@ print(
 
 print(
     df_baseball
-    >> dr.mutate(**{"raise": np.random.choice([True, False], size = len(df_baseball))})
+    >> dr.mutate(**{"raise": np.random.choice([True, False], size=len(df_baseball))})
     >> dr.slice_head(4)
 )
 #               Name       Team  Height  Weight  raise

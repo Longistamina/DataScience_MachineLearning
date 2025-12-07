@@ -13,8 +13,8 @@ from datar import f
 import pandas as pd
 
 from pipda import register_verb
-dr.filter = register_verb(func = dr.filter_)
-dr.slice = register_verb(func = dr.slice_)
+dr.filter = register_verb(func=dr.filter_)
+dr.slice = register_verb(func=dr.slice_)
 
 #####################
 

@@ -13,8 +13,8 @@
 
 dr.across(
    cols,
-   func = lambda col: ...,
-    _names = "{_col}_new" # _col is a placeholder for the original
+   func=lambda col: ...,
+    _names="{_col}_new" # _col is a placeholder for the original
 )
 '''
 
@@ -266,7 +266,7 @@ print(
         dr.across(
             f.HP | f.Attack | f.Defense | f.Sp_Atk | f.Sp_Def | f.Speed,
             dr.mean,
-            _names = "avg_{_col}" # _col is a placeholder for the original column name
+            _names="avg_{_col}" # _col is a placeholder for the original column name
         )
     )
 )
@@ -284,7 +284,7 @@ print(
         dr.across(
             dr.where(dr.is_numeric) & (~f.Legendary), # All numeric columns except 'Legendary'
             lambda col: np.quantile(col, [0.25, 0.5, 0.75]),
-            _names = "quantile_{_col}" # _col is a placeholder for the original column name
+            _names="quantile_{_col}" # _col is a placeholder for the original column name
         )
     )
     >> dr.mutate(id = ["Q1", "Median", "Q3"]) # Add an id column for the quantiles
@@ -344,15 +344,15 @@ from scipy import stats
 
 tb_pokemon = dr.tibble(
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/pokemon.csv",
-        dtype = {
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        dtype={
             "Type 1": "category",
             "Type 2": "category",
             "Generation": "category"
         }
     )
-    .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex = True).str.replace(".", ""), axis=1))
-    .drop(columns = ["Total", "#", "Sp_Atk", "Sp_Def", "Legendary"])
+    .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
+    .drop(columns=["Total", "#", "Sp_Atk", "Sp_Def", "Legendary"])
     .assign(Generation = lambda f: f['Generation'].cat.as_ordered())
 )
 
@@ -366,7 +366,7 @@ print(
         dr.across(
             f.Defense | f.Speed | f.Attack, # specify multiple columns with | (bitwise or)
             lambda col: stats.shapiro(col),
-            _names = "{_col}_normality" # _col is a placeholder for the original column name
+            _names="{_col}_normality" # _col is a placeholder for the original column name
         )
     )
     >> dr.pipe(lambda f: f.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
@@ -386,7 +386,7 @@ print(
         dr.across(
             dr.where(dr.is_numeric),
             lambda col: np.quantile(col, q=[0.25, 0.5, 0.75, 1]),
-            _names = "{_col}_quantiles"
+            _names="{_col}_quantiles"
         )
     )
     >> dr.pipe(lambda f: f.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index

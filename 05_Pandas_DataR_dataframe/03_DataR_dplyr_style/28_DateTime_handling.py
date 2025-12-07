@@ -46,7 +46,7 @@ Arguments:
 
 print(
     tb_aq
-    >> dr.mutate(date = dr.as_date(f.date, format = "%Y-%m-%d %H:%M:%S%z", optional = True))
+    >> dr.mutate(date=dr.as_date(f.date, format="%Y-%m-%d %H:%M:%S%z", optional=True))
     >> dr.slice_head(5)
 )
 #       city  country             date location parameter     value     unit
@@ -87,7 +87,7 @@ print(
 
 print(
     tb_aq
-    >> dr.mutate(date = dr.pipe(lambda f: pd.to_datetime(f.date, format = "%Y-%m-%d %H:%M:%S%z", errors = 'coerce')))
+    >> dr.mutate(date = dr.pipe(lambda f: pd.to_datetime(f.date, format="%Y-%m-%d %H:%M:%S%z", errors='coerce')))
     >> dr.slice_head(5)
 )
 #       city  country                      date location parameter     value     unit

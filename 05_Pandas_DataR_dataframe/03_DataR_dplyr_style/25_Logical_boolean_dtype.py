@@ -17,7 +17,7 @@ from datar import f
 import pandas as pd
 
 from pipda import register_verb
-dr.filter = register_verb(func = dr.filter_)
+dr.filter = register_verb(func=dr.filter_)
 
 ########################
 

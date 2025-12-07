@@ -11,7 +11,7 @@
    + Apply user-defined functions directly in the pipe chain
    + Apply sicpy.stats functions without registering
 
-4. Set __ast_fallback = "normal" to avoid PipeableCallCheckWarning
+4. Set __ast_fallback="normal" to avoid PipeableCallCheckWarning
 '''
 
 import datar.all as dr
@@ -26,9 +26,9 @@ from pipda import register_verb, register_func
 #######################
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer = "05_Pandas_DataR_dataframe/data/baseball.csv",
-    usecols = ["Name", "Team", "Height", "Weight"],
-    dtype = {"Team": "category"}
+    filepath_or_buffer="05_Pandas_DataR_dataframe/data/baseball.csv",
+    usecols=["Name", "Team", "Height", "Weight"],
+    dtype={"Team": "category"}
 )
 
 print(df_baseball >> dr.slice_head(4))
@@ -48,7 +48,7 @@ print(df_baseball >> dr.slice_head(4))
 ## register_verb() to change some conflict names ##
 ###################################################
 
-dr.filter = register_verb(func = dr.filter_)
+dr.filter = register_verb(func=dr.filter_)
 
 '''
 dr.filter_() to avoid conflict with Python built-in function filter()
@@ -79,7 +79,7 @@ print(
 from scipy import stats
 
 # Register scipy.stats.shapiro as dr.shapiro
-dr.shapiro = register_func(func = stats.shapiro)
+dr.shapiro = register_func(func=stats.shapiro)
 
 '''MUST USE register_func()'''
 
@@ -160,7 +160,7 @@ print(
 print(
     df_baseball 
     >> dr.filter((f.Height > 75) & (f.Weight <= 200))
-    >> dr.pipe(lambda f: f.set_axis(f.columns.str.upper(), axis = 1)) # rename the columns to uppercase (use pandas method)
+    >> dr.pipe(lambda f: f.set_axis(f.columns.str.upper(), axis=1)) # rename the columns to uppercase (use pandas method)
     >> dr.slice_head(4)
 )
 #               NAME       TEAM  HEIGHT  WEIGHT
@@ -232,13 +232,13 @@ print(
 # ppf_100th          inf           inf
 
 
-#---------------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 4. Set __ast_fallback = "normal" --------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+#--------------------------------------- 4. Set __ast_fallback="normal" --------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
 '''
 While using Pipe Operator ">>", you might encounter PipeableCallCheckWarning for some complex expressions.
 
-To avoid this warning, you can set the argument __ast_fallback = "normal" in the function called.
+To avoid this warning, you can set the argument __ast_fallback="normal" in the function called.
 '''
 
 ####################################

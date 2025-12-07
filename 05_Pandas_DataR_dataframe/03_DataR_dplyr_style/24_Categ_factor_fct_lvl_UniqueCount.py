@@ -70,8 +70,8 @@ import numpy as np
 '''Create a factor (categorical variable) from a list-like object.'''
 
 fct_gender = dr.factor(
-    x = ["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"],
-    ordered = False # non-ordered factor
+    x=["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"],
+    ordered=False # non-ordered factor
 )
 
 print(fct_gender)
@@ -88,8 +88,8 @@ print(fct_gender)
 #----
 
 ord_degree = dr.ordered(
-      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AssociateProf"],
-      levels = ["Bachelors", "Masters", "PhD", "AssociateProf"]  # specify the order of levels
+      x=["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AssociateProf"],
+      levels=["Bachelors", "Masters", "PhD", "AssociateProf"]  # specify the order of levels
 )
 
 print(ord_degree)
@@ -101,8 +101,8 @@ print(ord_degree)
 #----
 
 ord_size = dr.ordered(
-    x = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40],
-    levels = [36, 37, 38, 39, 40, 41, 42]  # specify the order of levels
+    x=[39, 42, 36, 40, 38, 41, 39, 37, 42, 40],
+    levels=[36, 37, 38, 39, 40, 41, 42]  # specify the order of levels
 )
 
 print(ord_size)
@@ -166,13 +166,13 @@ print(ord_size2)
 #-------------------------- 3. Inspect core properties of factor variable -----------------------------------#
 #------------------------------------------------------------------------------------------------------------#
 
-fct_gender = dr.factor(x = ["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"])
+fct_gender = dr.factor(x=["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"])
 
-ord_size = dr.ordered(x = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
+ord_size = dr.ordered(x=[39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
 
 ord_degree = dr.ordered(
-      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
-      levels = ["Bachelors", "Masters", "PhD", "AscProf"]
+      x=["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
+      levels=["Bachelors", "Masters", "PhD", "AscProf"]
 )
 
 ##################
@@ -264,13 +264,13 @@ print(dr.fct_count(ord_degree))
 #----------------------------------------- 4. Add and Remove levels -----------------------------------------#
 #------------------------------------------------------------------------------------------------------------#
 
-fct_gender = dr.factor(x = ["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"])
+fct_gender = dr.factor(x=["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"])
 
-ord_size = dr.ordered(x = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
+ord_size = dr.ordered(x=[39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
 
 ord_degree = dr.ordered(
-      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
-      levels = ["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
+      x=["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
+      levels=["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
 )
 
 #####################
@@ -296,7 +296,7 @@ dropped_degree = dr.fct_drop(ord_degree)
 print(dr.levels(dropped_degree)) # ['Bachelors' 'Masters' 'PhD' 'AscProf']
                                  # "PostDoc" level is removed since it is unused.
 
-dropped_degree = dr.fct_drop(ord_degree[ord_degree != "AscProf"], only = ["AscProf"]) # Remove "AscProf" level, still keep "PostDoc"
+dropped_degree = dr.fct_drop(ord_degree[ord_degree != "AscProf"], only=["AscProf"]) # Remove "AscProf" level, still keep "PostDoc"
 print(dr.levels(dropped_degree)) # ['Bachelors' 'Masters' 'PhD' 'PostDoc']
 
 
@@ -319,13 +319,13 @@ print(dr.levels(dropped_gender)) # ['F' 'M']
 #-------------------------------- 5. Reorder levels of factor variable --------------------------------------#
 #------------------------------------------------------------------------------------------------------------#
 
-fct_gender = dr.factor(x = ["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"])
+fct_gender = dr.factor(x=["M", "F", "F", "M", "Others", "F", "M", "M", "F", "Others"])
 
-ord_size = dr.ordered(x = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
+ord_size = dr.ordered(x=[39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
 
 ord_degree = dr.ordered(
-      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
-      levels = ["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
+      x=["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
+      levels=["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
 )
 
 ############################
@@ -354,7 +354,7 @@ print(dr.levels(relevel_size)) # [42 41 40 36 37 38 39]
 relevel_degree = dr.fct_relevel(ord_degree, "PostDoc") # Move "PostDoc" level to the front
 print(dr.levels(relevel_degree)) # ['PostDoc' 'Bachelors' 'Masters 'PhD' 'AscProf']
 
-relevel_degree_after = dr.fct_relevel(ord_degree, "PostDoc", after = 2) # Move "PostDoc" level after the 2-indexed position
+relevel_degree_after = dr.fct_relevel(ord_degree, "PostDoc", after=2) # Move "PostDoc" level after the 2-indexed position
 print(dr.levels(relevel_degree_after)) # ['Bachelors' 'Masters' 'PhD' 'PostDoc' 'AscProf']
 
 ############################
@@ -429,8 +429,8 @@ NOTE: only works for NUMERIC factor variables.
 #------
 
 generation = dr.ordered(
-    x = [3, 1, 4, 2, 5, 1, 2, 3, 4, 5],
-    levels = [5, 2, 4, 1 , 3] # original unordered levels
+    x=[3, 1, 4, 2, 5, 1, 2, 3, 4, 5],
+    levels=[5, 2, 4, 1 , 3] # original unordered levels
 )
 
 print(generation)
@@ -464,8 +464,8 @@ df_color = dr.tribble(
 color_by_a = dr.fct_reorder(
     df_color['color'],
     df_color['a'],
-    _fun = dr.median,
-    _desc = False # ascending order
+    _fun=dr.median,
+    _desc=False # ascending order
 )
 
 print(color_by_a)
@@ -482,7 +482,7 @@ color_by_a_b = dr.fct_reorder2(
     df_color['color'],
     df_color['a'],
     df_color['b'],
-    _desc = True # descending order
+    _desc=True # descending order
 )
 
 print(color_by_a_b)
@@ -545,11 +545,11 @@ print(dr.levels(ord_size))   # [36 37 38 39 40 41 42]
 ## dr.fct_shift()
 #------
 
-shifted_size = dr.fct_shift(ord_size, n = 1) # Shift right by 1
+shifted_size = dr.fct_shift(ord_size, n=1) # Shift right by 1
 print(dr.levels(shifted_size))   # [37 38 39 40 41 42 36]
                                  # "36" is wrapped around to the end.
 
-shifted_size_left = dr.fct_shift(ord_size, n = -2) # Shift left by 2
+shifted_size_left = dr.fct_shift(ord_size, n=-2) # Shift left by 2
 print(dr.levels(shifted_size_left))   # [41 42 36 37 38 39 40]
                                  
 
@@ -562,11 +562,11 @@ fct_product = dr.factor([
     "OnePlus", "Apple", "Oppo", "Vivo", "Apple", "Samsung", "Realme"
 ])
 
-ord_size = dr.ordered(x = [39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
+ord_size = dr.ordered(x=[39, 42, 36, 40, 38, 41, 39, 37, 42, 40])
 
 ord_degree = dr.ordered(
-      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
-      levels = ["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
+      x=["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
+      levels=["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
 )
 
 #############################
@@ -580,13 +580,13 @@ NOTE: automatically drops unused levels.
 #------
 ## Basic renaming
 #------
-# new_name = "old_name"
+# new_name="old_name"
 
 renamed_gender = dr.fct_recode(
     fct_gender,
-    Male = "M",
-    Female = "F",
-    LGBTQ = "Others"
+    Male="M",
+    Female="F",
+    LGBTQ="Others"
 )
 
 print(renamed_gender)
@@ -596,7 +596,7 @@ print(renamed_gender)
 #------
 ## Combine levels
 #------
-# new_name = ["old_name1", "old_name2", ...]
+# new_name=["old_name1", "old_name2", ...]
 
 renamed_degree = dr.fct_recode(
     ord_degree,
@@ -614,9 +614,9 @@ print(renamed_degree)
 
 collapsed_size = dr.fct_collapse(
     ord_size,
-    Small = [36, 37, 38],
-    Medium = [39, 40],
-    Large = [41, 42]
+    Small=[36, 37, 38],
+    Medium=[39, 40],
+    Large=[41, 42]
 )
 
 print(collapsed_size)
@@ -630,8 +630,8 @@ print(collapsed_size)
 
 lumped_product = dr.fct_lump_min(
     fct_product,
-    min = 3,               # levels appearing less than 3 times will be lumped
-    other_level = "Rare"   # rename the rests to "Rare" (default is "Other")
+    min=3,               # levels appearing less than 3 times will be lumped
+    other_level="Rare"   # rename the rests to "Rare" (default is "Other")
 )
 
 print(lumped_product)
@@ -647,8 +647,8 @@ print(lumped_product)
 
 lumped_product_n = dr.fct_lump_n(
     fct_product,
-    n = 1,                  # keep only top 1 most frequent level
-    other_level = "Others", # rename the rests to "Others" (default is "Other")
+    n=1,                  # keep only top 1 most frequent level
+    other_level="Others", # rename the rests to "Others" (default is "Other")
 )
 
 print(lumped_product_n)
@@ -663,8 +663,8 @@ print(lumped_product_n)
 
 lumped_product_prop = dr.fct_lump_prop(
     fct_product,
-    prop = 0.2,              # levels appearing in less than 20% of data will be lumped
-    other_level = "Misc"     # rename the rests to "Misc" (default is "Other")
+    prop=0.2,              # levels appearing in less than 20% of data will be lumped
+    other_level="Misc"     # rename the rests to "Misc" (default is "Other")
 )
 
 print(lumped_product_prop)
@@ -679,7 +679,7 @@ print(lumped_product_prop)
 
 lumped_degree_lowfreq = dr.fct_lump_lowfreq(
     ord_degree,
-    other_level = "OtherDegrees"  # rename the rests to "OtherDegrees" (default is "Other")
+    other_level="OtherDegrees"  # rename the rests to "OtherDegrees" (default is "Other")
 )
 
 print(lumped_degree_lowfreq)
@@ -697,8 +697,8 @@ print(lumped_degree_lowfreq)
 
 product_keep = dr.fct_other(
     fct_product,
-    keep = ["Apple", "Xiaomi"],  # keep only these levels
-    other_level = "OtherBrands" # rename the rests to "OtherBrands" (default is "Other")
+    keep=["Apple", "Xiaomi"],  # keep only these levels
+    other_level="OtherBrands" # rename the rests to "OtherBrands" (default is "Other")
 )
 
 print(product_keep)
@@ -712,8 +712,8 @@ print(product_keep)
 
 product_drop = dr.fct_other(
     fct_product,
-    drop = ["Samsung", "Huawei", "Apple"], # drop these levels into "Other"
-    other_level = "OtherBrands"   # rename the rests to "OtherBrands" (default is "Other")
+    drop=["Samsung", "Huawei", "Apple"], # drop these levels into "Other"
+    other_level="OtherBrands"   # rename the rests to "OtherBrands" (default is "Other")
 )
 
 print(product_drop)
@@ -763,7 +763,7 @@ print(combined_survey)
 fct_A = dr.factor(["A1", "A2", "A1", "A3"])
 fct_B = dr.factor(["B1", "B1", "B2", "B2"])
 
-crossed_factors = dr.fct_cross(fct_A, fct_B, sep = "-")
+crossed_factors = dr.fct_cross(fct_A, fct_B, sep="-")
 
 print(crossed_factors)
 # ['A1-B1', 'A2-B1', 'A1-B2', 'A3-B2']
@@ -786,7 +786,7 @@ print(unified_factors)
 # Categories (3, object): ['a', 'b', 'c'], ['a', 'b', 'c', 'a']
 # Categories (3, object): ['a', 'b', 'c']]
 
-for i, f in enumerate(unified_factors, start = 1):
+for i, f in enumerate(unified_factors, start=1):
     print(f"Factor: {dr.unique(f)} ___ Levels: {dr.levels(f)}")
 # Factor: ['a' 'b'] ___ Levels: ['a' 'b' 'c']
 # Factor: ['b' 'c'] ___ Levels: ['a' 'b' 'c']
@@ -835,7 +835,7 @@ print(dr.table(survey_response))
 ## After
 #------
 
-explicit_na_response = dr.fct_explicit_na(survey_response, na_level = "No Response")
+explicit_na_response = dr.fct_explicit_na(survey_response, na_level="No Response")
 
 print(explicit_na_response)
 # ['Satisfied', 'Very Satisfied', 'No Response', 'Satisfied', 'Dissatisfied', ..., 'Very Satisfied', 'No Response', 'Satisfied', 'No Response', 'Very Satisfied']
@@ -861,7 +861,7 @@ patient_nationality = dr.factor([
     "USA", "Mexico", "Canada", "USA", "Mexico"
 ])
 
-anon_nationality = dr.fct_anon(patient_nationality, prefix = "Nat_")
+anon_nationality = dr.fct_anon(patient_nationality, prefix="Nat_")
 
 print(anon_nationality)
 # ['Nat_1', 'Nat_0', 'Nat_2', 'Nat_1', 'Nat_0', 'Nat_1', 'Nat_2', 'Nat_0', 'Nat_1', 'Nat_2']
@@ -873,8 +873,8 @@ print(anon_nationality)
 #------------------------------------------------------------------------------------------------------------#
 
 ord_degree = dr.ordered(
-      x = ["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
-      levels = ["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
+      x=["Bachelors", "Masters", "PhD", "Bachelors", "PhD", "Masters", "Bachelors", "AscProf"],
+      levels=["Bachelors", "Masters", "PhD", "AscProf", "PostDoc"]  # "PostDoc" level is unused
 )
 
 ###########################
@@ -899,7 +899,7 @@ print(ord_degree)
 
 reordered_degree = dr.lvls_reorder(
     ord_degree,
-    idx = [4, 0, 2, 1, 3]  # New order of levels by their original indices
+    idx=[4, 0, 2, 1, 3]  # New order of levels by their original indices
 )
 
 print(reordered_degree)
@@ -958,7 +958,7 @@ print(ord_degree)
 
 expanded_degree = dr.lvls_expand(
     ord_degree,
-    new_levels = ["Bachelors", "Masters", "PhD", "AscProf", "PostDoc", "Professor"]
+    new_levels=["Bachelors", "Masters", "PhD", "AscProf", "PostDoc", "Professor"]
 )
 
 print(expanded_degree)

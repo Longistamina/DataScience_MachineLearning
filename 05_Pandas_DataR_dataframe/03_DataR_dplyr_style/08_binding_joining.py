@@ -161,7 +161,7 @@ suffix= suffix to append to overlapping column names in x and y.
 
 print(
     customers 
-    >> dr.inner_join(orders, by = "customer_id")
+    >> dr.inner_join(orders, by="customer_id")
 )
 #    customer_id     name    city_x  order_id  amount   city_y
 #        <int64> <object>  <object>   <int64> <int64> <object>
@@ -171,7 +171,7 @@ print(
 
 print(
     customers 
-    >> dr.inner_join(orders, by = "customer_id", suffix = ["_cst", "_ord"])
+    >> dr.inner_join(orders, by="customer_id", suffix=["_cst", "_ord"])
 )
 #    customer_id     name  city_cst  order_id  amount city_ord
 #        <int64> <object>  <object>   <int64> <int64> <object>
@@ -186,7 +186,7 @@ print(
 
 print(
     customers 
-    >> dr.left_join(orders, by = "customer_id", suffix = ["_cst", "_ord"])
+    >> dr.left_join(orders, by="customer_id", suffix=["_cst", "_ord"])
 )
 #    customer_id     name  city_cst  order_id    amount city_ord
 #        <int64> <object>  <object> <float64> <float64> <object>
@@ -203,7 +203,7 @@ print(
 
 print(
     customers 
-    >> dr.right_join(orders, by = "customer_id", suffix = ["_cst", "_ord"])
+    >> dr.right_join(orders, by="customer_id", suffix=["_cst", "_ord"])
 )
 #    customer_id     name  city_cst  order_id  amount city_ord
 #        <int64> <object>  <object>   <int64> <int64> <object>
@@ -219,7 +219,7 @@ print(
 
 print(
     customers 
-    >> dr.full_join(orders, by = "customer_id", suffix = ["_cst", "_ord"])
+    >> dr.full_join(orders, by="customer_id", suffix=["_cst", "_ord"])
 )
 #    customer_id     name  city_cst  order_id    amount city_ord
 #        <int64> <object>  <object> <float64> <float64> <object>
@@ -240,7 +240,7 @@ print(
 
 print(
     customers 
-    >> dr.semi_join(orders, by = "customer_id")
+    >> dr.semi_join(orders, by="customer_id")
 )
 #    customer_id     name      city
 #        <int64> <object>  <object>
@@ -257,7 +257,7 @@ print(
 
 print(
     customers 
-    >> dr.anti_join(orders, by = "customer_id")
+    >> dr.anti_join(orders, by="customer_id")
 )
 #    customer_id     name     city
 #        <int64> <object> <object>
@@ -271,7 +271,7 @@ print(
 
 print(
     customers 
-    >> dr.cross_join(orders, suffix = ["_cst", "_ord"])
+    >> dr.cross_join(orders, suffix=["_cst", "_ord"])
 )
 #     customer_id_cst     name  city_cst  order_id  customer_id_ord  amount city_ord
 #             <int64> <object>  <object>   <int64>          <int64> <int64> <object>
@@ -302,7 +302,7 @@ print(
 
 print(
     customers 
-    >> dr.nest_join(orders, by = "customer_id", name = "orders_data")
+    >> dr.nest_join(orders, by="customer_id", name="orders_data")
 )
 #    customer_id     name      city orders_data
 #        <int64> <object>  <object>    <object>

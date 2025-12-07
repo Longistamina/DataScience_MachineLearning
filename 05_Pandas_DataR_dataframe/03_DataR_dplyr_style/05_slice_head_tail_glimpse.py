@@ -34,7 +34,7 @@ tb_pokemon = dr.tibble(
 ############################
 
 print(
-    tb_pokemon >> dr.slice_head(n = 3)
+    tb_pokemon >> dr.slice_head(n=3)
 )
 #         Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
 #     <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
@@ -64,7 +64,7 @@ print(
 ##########################
 
 print(
-    tb_pokemon >> dr.slice_tail(n = 3)
+    tb_pokemon >> dr.slice_tail(n=3)
 )
 #                     Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
 #                 <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>

@@ -89,7 +89,7 @@ print(
         dr.across(
             f.HP | f.Attack | f.Defense | f.Sp_Atk | f.Sp_Def | f.Speed,
             dr.mean,
-            _names = "avg_{_col}" # _col is a placeholder for the original column name
+            _names="avg_{_col}" # _col is a placeholder for the original column name
         )
     )
 )
@@ -107,10 +107,10 @@ print(
         dr.across(
             dr.where(dr.is_numeric) & ~f.Legendary, # All numeric columns except 'Legendary'
             lambda col: np.quantile(col, [0.25, 0.5, 0.75]),
-            _names = "quantile_{_col}" # _col is a placeholder for the original column name
+            _names="quantile_{_col}" # _col is a placeholder for the original column name
         )
     )
-    >> dr.pipe(lambda f: f.set_axis(["Q1", "Median", "Q3"], axis = 0))
+    >> dr.pipe(lambda f: f.set_axis(["Q1", "Median", "Q3"], axis=0))
 )
 #         quantile_Total  quantile_HP  quantile_Attack  quantile_Defense  quantile_Sp_Atk  quantile_Sp_Def  quantile_Speed
 #              <float64>    <float64>        <float64>         <float64>        <float64>        <float64>       <float64>

@@ -21,7 +21,7 @@ from datar import f
 import pandas as pd
 
 from pipda import register_verb
-dr.filter = register_verb(func = dr.filter_)
+dr.filter = register_verb(func=dr.filter_)
 
 ###################################################
 
@@ -182,9 +182,9 @@ Parameters:
         'all': Drop row only if ALL specified columns have NA
 '''
 
-#######################################
-##     dr.drop_na(how_ = 'any')      ##
-#######################################
+#####################################
+##     dr.drop_na(how_='any')      ##
+#####################################
 
 #---
 ## All columns
@@ -192,7 +192,7 @@ Parameters:
 
 print(
     tb_mkt_dropped
-    >> dr.drop_na(how_ = 'any')
+    >> dr.drop_na(how_='any')
 )
 #        week    year  market_share  av_price_per_kg  non-promo_price_per_kg       spontaneous     aided  penetration  competitor  share_of_spend
 #     <int64> <int64>     <float64>        <float64>               <float64>  ...    <float64> <float64>    <float64>   <float64>       <float64>
@@ -216,7 +216,7 @@ print(
 
 print(
     tb_mkt_dropped
-    >> dr.drop_na(f.competitor, f.share_of_spend, how_ = 'any')
+    >> dr.drop_na(f.competitor, f.share_of_spend, how_='any')
 )
 #        week    year  market_share  av_price_per_kg  non-promo_price_per_kg       spontaneous     aided  penetration  competitor  share_of_spend
 #     <int64> <int64>     <float64>        <float64>               <float64>  ...    <float64> <float64>    <float64>   <float64>       <float64>
@@ -234,9 +234,9 @@ print(
 
 # [105 rows x 19 columns]
 
-#######################################
-##     dr.drop_na(how_ = 'all')      ##
-#######################################
+#####################################
+##     dr.drop_na(how_='all')      ##
+#####################################
 
 #---
 ## All columns
@@ -244,7 +244,7 @@ print(
 
 print(
     tb_mkt_dropped
-    >> dr.drop_na(how_ = 'all')
+    >> dr.drop_na(how_='all')
 )
 # [156 rows x 19 columns]
 '''No rows are dropped as there is no row with all NAs.'''
@@ -255,7 +255,7 @@ print(
 
 print(
     tb_mkt_dropped
-    >> dr.drop_na(f.competitor, f.share_of_spend, how_ = 'all')
+    >> dr.drop_na(f.competitor, f.share_of_spend, how_='all')
 )
 #        week    year  market_share  av_price_per_kg  non-promo_price_per_kg       spontaneous     aided  penetration  competitor  share_of_spend
 #     <int64> <int64>     <float64>        <float64>               <float64>  ...    <float64> <float64>    <float64>   <float64>       <float64>
@@ -318,7 +318,7 @@ print(
 
 print(
     tb_empty
-    >> dr.mutate(x = dr.replace_na(f.x, replace = 'empty')) # Single column replacement
+    >> dr.mutate(x = dr.replace_na(f.x, replace='empty')) # Single column replacement
 )
 #          x        y
 #   <object> <object>
@@ -353,13 +353,13 @@ print(tb_fill)
 # 3        B       4
 # 4     None       5
 
-#############################################
-##       dr.fill(_direction = 'down')      ##
-#############################################
+###########################################
+##       dr.fill(_direction='down')      ##
+###########################################
 
 print(
     tb_fill
-    >> dr.fill(f.group, _direction = 'down')
+    >> dr.fill(f.group, _direction='down')
 )
 #      group   value
 #   <object> <int64>
@@ -369,13 +369,13 @@ print(
 # 3        B       4
 # 4        B       5
 
-#############################################
-##        dr.fill(_direction = 'up')       ##
-#############################################
+###########################################
+##        dr.fill(_direction='up')       ##
+###########################################
 
 print(
     tb_fill
-    >> dr.fill(f.group, _direction = 'up')
+    >> dr.fill(f.group, _direction='up')
 )
 #      group   value
 #   <object> <int64>
@@ -385,13 +385,13 @@ print(
 # 3        B       4
 # 4     None       5
 
-############################################
-##     dr.fill(_direction = 'downup')     ##
-############################################
+##########################################
+##     dr.fill(_direction='downup')     ##
+##########################################
 
 print(
     tb_fill
-    >> dr.fill(f.group, _direction = 'downup')
+    >> dr.fill(f.group, _direction='downup')
 )
 #      group   value
 #   <object> <int64>
@@ -403,13 +403,13 @@ print(
 
 '''First fills downwards, then upwards.'''
 
-#############################################
-##      dr.fill(_direction = 'updown')     ##
-#############################################
+###########################################
+##      dr.fill(_direction='updown')     ##
+###########################################
 
 print(
     tb_fill
-    >> dr.fill(f.group, _direction = 'updown')
+    >> dr.fill(f.group, _direction='updown')
 )
 #      group   value
 #   <object> <int64>

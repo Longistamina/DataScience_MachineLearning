@@ -109,7 +109,7 @@ print(
         dr.across(
             dr.where(dr.is_numeric),
             lambda col: np.quantile(col, q=[0.25, 0.5, 0.75, 1]),
-            _names = "{_col}_quantiles"
+            _names="{_col}_quantiles"
         )
     )
     >> dr.pipe(lambda f: f.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
@@ -131,7 +131,7 @@ print(
         dr.across(
             f.Defense | f.Speed | f.Attack, # specify multiple columns with | (bitwise or)
             lambda col: stats.shapiro(col),
-            _names = "{_col}_normality" # _col is a placeholder for the original column name
+            _names="{_col}_normality" # _col is a placeholder for the original column name
         )
     )
     >> dr.pipe(lambda f: f.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index

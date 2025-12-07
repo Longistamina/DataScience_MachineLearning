@@ -28,7 +28,7 @@ import pandas as pd
         Weight = f.Weight * 0.453592,  # convert to kg
         BMI = f.Weight / (f.Height ** 2)
     )
-    >> dr.pipe(lambda df: df.to_csv("05_Pandas_DataR_dataframe/save/tb_to.csv", index = False)) # Save to CSV
+    >> dr.pipe(lambda df: df.to_csv("05_Pandas_DataR_dataframe/save/tb_to.csv", index=False)) # Save to CSV
 )
 
 
@@ -80,9 +80,9 @@ def rename_subjects(subjects_str):
         SCORE = f.DIEM_THI
     )
     >> dr.mutate(SCORE = f.SCORE.apply(rename_subjects))
-    >> dr.pipe(lambda f: f.replace(to_replace = dict_translate))
+    >> dr.pipe(lambda f: f.replace(to_replace=dict_translate))
     >> dr.mutate(
-        BIRTHDAY = dr.as_date(f.BIRTHDAY, format = "%d/%m/%Y", optional = True),
+        BIRTHDAY = dr.as_date(f.BIRTHDAY, format="%d/%m/%Y", optional=True),
         EXAM_LOCATION = dr.as_factor(f.EXAM_LOCATION),
         GENDER = dr.as_factor(f.GENDER)
     )

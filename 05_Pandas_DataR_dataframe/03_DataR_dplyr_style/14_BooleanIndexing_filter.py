@@ -20,7 +20,7 @@ from datar import f
 import pandas as pd
 
 from pipda import register_verb
-dr.filter = register_verb(func = dr.filter_)
+dr.filter = register_verb(func=dr.filter_)
 
 ########################
 
@@ -126,18 +126,18 @@ THE SAME FOR ">=" (greater or equal) and "<=" (less or equal)
 '''
 
 #-------------
-## .between(left, right, inclusive = 'both')
+## .between(left, right, inclusive='both')
 #-------------
 '''
-inclusive = "both" (default): [left, right] or left <= x <= right
-inclusive = "neither": (left, right) or left < x < right
-inclusive = "left": [left, right) or left <= x < right
-inclusive = "right": (left, right] or left < x <= right
+inclusive="both" (default): [left, right] or left <= x <= right
+inclusive="neither": (left, right) or left < x < right
+inclusive="left": [left, right) or left <= x < right
+inclusive="right": (left, right] or left < x <= right
 '''
 
 print(
     tb_pokemon
-    >> dr.filter(f.Defense.between(100, 150, inclusive = "both"))
+    >> dr.filter(f.Defense.between(100, 150, inclusive="both"))
     >> dr.select(f.Name, f.Type_1, f.Type_2, f.Defense, f.Legendary)
     >> dr.slice_head(n=5)
 )
@@ -274,8 +274,8 @@ print(
 
 tb_emp = dr.tibble(
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/emp.csv",
-        parse_dates = ["start_date"]
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/emp.csv",
+        parse_dates=["start_date"]
     )
 )
 
@@ -427,7 +427,7 @@ print(
 
 tb_lifexp = dr.tibble(
     pd.read_csv(
-        filepath_or_buffer = "05_Pandas_DataR_dataframe/data/life_expectancy.csv"
+        filepath_or_buffer="05_Pandas_DataR_dataframe/data/life_expectancy.csv"
     )
 )
 

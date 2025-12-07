@@ -43,7 +43,7 @@ print(tb_emp)
 
 tb_renamed = (
     tb_emp 
-    >> dr.rename(emp_id=f.id, emp_name=f.name)
+    >> dr.rename(emp_id = f.id, emp_name = f.name)
 )
 
 print(tb_renamed.head())
@@ -100,7 +100,7 @@ print(tb_pokemon.head())
 ###################
 
 from pipda import register_verb
-dr.filter = register_verb(func = dr.filter_)
+dr.filter = register_verb(func=dr.filter_)
 
 tb_renamed3 = (
     tb_emp 

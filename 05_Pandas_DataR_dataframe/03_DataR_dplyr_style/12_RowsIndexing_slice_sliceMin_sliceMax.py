@@ -16,8 +16,8 @@ import pandas as pd
 ########################
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer = "05_Pandas_DataR_dataframe/data/baseball.csv",
-    dtype = {
+    filepath_or_buffer="05_Pandas_DataR_dataframe/data/baseball.csv",
+    dtype={
         "Team": "category",
         "Position": "category",
         "PosCategory": "category"
@@ -40,7 +40,7 @@ print(df_baseball.head())
 
 from pipda import register_verb
 
-dr.slice = register_verb(func = dr.slice_)
+dr.slice = register_verb(func=dr.slice_)
 
 '''
 dr.slice_() to avoid conflict with Python built-in function slice()

@@ -1,17 +1,17 @@
 '''
 1. pivot_wider: dr.pivot_wider()
    + basig usage
-   + dr.pivot_wider(values_fill = 0)
-   + dr.pivot_wider(values_from = [many_cols], names_sep = "_")
-   + dr.pivot_wider(values_fn = ...)
+   + dr.pivot_wider(values_fill=0)
+   + dr.pivot_wider(values_from=[many_cols], names_sep="_")
+   + dr.pivot_wider(values_fn=...)
    
 2. pivot_longer: dr.pivot_longer()
    + basig usage
-   + dr.pivot_longer(cols = dr.starts_with())
+   + dr.pivot_longer(cols=dr.starts_with())
    + dr.pivot_longer(names_sep=)
    + dr.pivot_longer(names_pattern=)
    + Combine dr.pivot_longer() with dr.pivot_wider()
-   + Apply dr.pipe(lambda f: pd.wide_to_long(df = f))
+   + Apply dr.pipe(lambda f: pd.wide_to_long(df=f))
 
 3. crosstab, contigency/frequency table: dr.table()
 '''
@@ -67,10 +67,10 @@ df_sales.head()
 print(
     df_sales 
     >> dr.pivot_wider(
-        names_from = f.region, 
-        values_from = f.sales
+        names_from=f.region, 
+        values_from=f.sales
         )
-    >> dr.slice_head(n = 5)
+    >> dr.slice_head(n=5)
 )
 #        ID             date    product  quantity  unit_price      East     North     South      West
 #   <int64> <datetime64[ns]>   <object>   <int64>   <float64> <float64> <float64> <float64> <float64>
@@ -80,18 +80,18 @@ print(
 # 3       4       2024-01-15     Widget         4       49.43    197.72       NaN       NaN       NaN
 # 4       5       2024-01-11     Widget         2       11.77       NaN     23.54       NaN       NaN
 
-#####################################
-## dr.pivot_wider(values_fill = 0) ##
-#####################################
+###################################
+## dr.pivot_wider(values_fill=0) ##
+###################################
 
 print(
     df_sales  
     >> dr.pivot_wider(
-            names_from = f.region, 
-            values_from = f.sales,
-            values_fill = 0 # Fill NaN with 0
+            names_from=f.region, 
+            values_from=f.sales,
+            values_fill=0 # Fill NaN with 0
         )
-    >> dr.slice_head(n = 5)
+    >> dr.slice_head(n=5)
 )
 #        ID             date    product  quantity  unit_price      East     North     South      West
 #   <int64> <datetime64[ns]>   <object>   <int64>   <float64> <float64> <float64> <float64> <float64>
@@ -101,19 +101,19 @@ print(
 # 3       4       2024-01-15     Widget         4       49.43    197.72      0.00       0.0       0.0
 # 4       5       2024-01-11     Widget         2       11.77      0.00     23.54       0.0       0.0
 
-################################################################
-## dr.pivot_wider(values_from = [many_cols], names_sep = "_") ##
-################################################################
+############################################################
+## dr.pivot_wider(values_from=[many_cols], names_sep="_") ##
+############################################################
 
 print(
     df_sales  
     >> dr.pivot_wider(
-            names_from = f.region, 
-            values_from = [f.sales, f.quantity], # Pivot multiple columns
-            names_sep = "_", # Separator between the new column names
-            values_fill = 0 # Fill NaN with 0
+            names_from=f.region, 
+            values_from=[f.sales, f.quantity], # Pivot multiple columns
+            names_sep="_", # Separator between the new column names
+            values_fill=0 # Fill NaN with 0
         )
-    >> dr.slice_head(n = 5)
+    >> dr.slice_head(n=5)
 )
 #        ID             date    product  unit_price       sales_East  sales_North  sales_South  sales_West
 #   <int64> <datetime64[ns]>   <object>   <float64>  ...   <float64>    <float64>    <float64>   <float64>
@@ -123,9 +123,9 @@ print(
 # 3       4       2024-01-15     Widget       49.43  ...      197.72         0.00          0.0         0.0
 # 4       5       2024-01-11     Widget       11.77  ...        0.00        23.54          0.0         0.0
 
-#####################################
-## dr.pivot_wider(values_fn = ...) ##
-#####################################
+###################################
+## dr.pivot_wider(values_fn=...) ##
+###################################
 '''
 values_fn: function to aggregate values 
            if there are multiple entries for the same index/column combination.
@@ -136,10 +136,10 @@ print(
     df_sales
     >> dr.select(f.product, f.region, f.sales) # Select only relevant columns
     >> dr.pivot_wider(
-            names_from = f.product, 
-            values_from = f.sales,
-            values_fill = 0, # Fill NaN with 0
-            values_fn = np.mean # Aggregate by sum if there are duplicates
+            names_from=f.product, 
+            values_from=f.sales,
+            values_fill=0, # Fill NaN with 0
+            values_fn=np.mean # Aggregate by sum if there are duplicates
         )
 )
 #     region   Doohickey      Gadget      Widget
@@ -188,11 +188,11 @@ print(df_measurements)
 print(
     df_measurements 
     >> dr.pivot_longer(
-        cols = f[f.BP_day1 : f.HR_day3], # Specify columns to pivot
-        names_to = 'measurement_day', # New column names
-        values_to = 'value' # Name of the new value column
+        cols=f[f.BP_day1 : f.HR_day3], # Specify columns to pivot
+        names_to='measurement_day', # New column names
+        values_to='value' # Name of the new value column
         )
-    >> dr.slice_head(n = 10)
+    >> dr.slice_head(n=10)
 )
 #    HR_day3     age patient_id measurement_day   value
 #    <int64> <int64>   <object>        <object> <int64>
@@ -207,18 +207,18 @@ print(
 # 8       67      58       P001         HR_day1      62
 # 9       94      71       P002         HR_day1      81
 
-##############################################
-## dr.pivot_longer(cols = dr.starts_with()) ##
-##############################################
+############################################
+## dr.pivot_longer(cols=dr.starts_with()) ##
+############################################
 
 print(
     df_measurements 
     >> dr.pivot_longer(
-        cols = dr.starts_with(match = ["BP", "HR"]), # Specify columns to pivot
-        names_to = 'measurement_day', # New column names
-        values_to = 'value' # Name of the new value column
+        cols=dr.starts_with(match=["BP", "HR"]), # Specify columns to pivot
+        names_to='measurement_day', # New column names
+        values_to='value' # Name of the new value column
         )
-    >> dr.slice_head(n = 10)
+    >> dr.slice_head(n=10)
 )
 #       age patient_id measurement_day   value
 #   <int64>   <object>        <object> <int64>
@@ -240,12 +240,12 @@ print(
 print(
     df_measurements 
     >> dr.pivot_longer(
-        cols = dr.starts_with(match = ["BP", "HR"]), # Specify columns to pivot
-        names_sep = "_", # Separator between the new column names
-        names_to = ['measurement', 'day'], # New column names
-        values_to = 'value' # Name of the new value column
+        cols=dr.starts_with(match=["BP", "HR"]), # Specify columns to pivot
+        names_sep="_", # Separator between the new column names
+        names_to=['measurement', 'day'], # New column names
+        values_to='value' # Name of the new value column
         )
-    >> dr.slice_head(n = 10)
+    >> dr.slice_head(n=10)
 )
 #    HR_day3     age patient_id measurement      day   value
 #    <int64> <int64>   <object>    <object> <object> <int64>
@@ -267,12 +267,12 @@ print(
 print(
     df_measurements 
     >> dr.pivot_longer(
-        cols = dr.starts_with(match = ["BP", "HR"]), # Specify columns to pivot
-        names_to = ['measurement', 'day'], # New column names
-        names_pattern = r"([A-Z]+)_(day\d+)", # Regex pattern to extract new column names
-        values_to = 'value' # Name of the new value column
+        cols=dr.starts_with(match=["BP", "HR"]), # Specify columns to pivot
+        names_to=['measurement', 'day'], # New column names
+        names_pattern=r"([A-Z]+)_(day\d+)", # Regex pattern to extract new column names
+        values_to='value' # Name of the new value column
         )
-    >> dr.slice_head(n = 10)
+    >> dr.slice_head(n=10)
 )
 #       age patient_id measurement      day   value
 #   <int64>   <object>    <object> <object> <int64>
@@ -290,12 +290,12 @@ print(
 print(
     df_measurements 
     >> dr.pivot_longer(
-        cols = dr.starts_with(match = ["BP", "HR"]), # Specify columns to pivot
-        names_to = ['measurement', 'day'], # New column names
-        names_pattern = r"([A-Z]+)_day(\d+)", # Take the integer part of the day only
-        values_to = 'value' # Name of the new value column
+        cols=dr.starts_with(match=["BP", "HR"]), # Specify columns to pivot
+        names_to=['measurement', 'day'], # New column names
+        names_pattern=r"([A-Z]+)_day(\d+)", # Take the integer part of the day only
+        values_to='value' # Name of the new value column
         )
-    >> dr.slice_head(n = 10)
+    >> dr.slice_head(n=10)
 )
 #       age patient_id measurement      day   value
 #   <int64>   <object>    <object> <object> <int64>
@@ -317,16 +317,16 @@ print(
 print(
     df_measurements 
     >> dr.pivot_longer(
-        cols = dr.starts_with(match = ["BP", "HR"]), # Specify columns to pivot
-        names_to = ['measurement', 'day'], # New column names
-        names_pattern = r"([A-Z]+)_day(\d+)", # Take the integer part of the day only
-        values_to = 'value' # Name of the new value column
+        cols=dr.starts_with(match=["BP", "HR"]), # Specify columns to pivot
+        names_to=['measurement', 'day'], # New column names
+        names_pattern=r"([A-Z]+)_day(\d+)", # Take the integer part of the day only
+        values_to='value' # Name of the new value column
         )
     >> dr.pivot_wider(
-        names_from = f.measurement,
-        values_from = f.value
+        names_from=f.measurement,
+        values_from=f.value
         )
-    >> dr.slice_head(n = 10)
+    >> dr.slice_head(n=10)
 )
 #       age      day patient_id      BP      HR
 #   <int64> <object>   <object> <int64> <int64>
@@ -342,25 +342,25 @@ print(
 # 9      48        1       P003     120      61
 
 
-######################################################
-## Apply dr.pipe(lambda f: pd.wide_to_long(df = f)) ##
-######################################################
+####################################################
+## Apply dr.pipe(lambda f: pd.wide_to_long(df=f)) ##
+####################################################
 
 print(
     df_measurements 
     >> dr.pipe(
         lambda f: pd.wide_to_long(
-            df = f,
-            stubnames = ['BP', 'HR'], 
-            i = ['patient_id', 'age'], 
-            j = 'day', 
-            sep = '_', 
-            suffix = r"\w+"
+            df=f,
+            stubnames=['BP', 'HR'], 
+            i=['patient_id', 'age'], 
+            j='day', 
+            sep='_', 
+            suffix=r"\w+"
         )
     )
     >> dr.pipe(lambda f: f.reset_index()) # Reset index to turn MultiIndex into columns
     >> dr.mutate(day = f.day.str.replace("day", "").astype(int)) # Remove "day" prefix and convert to int
-    >> dr.slice_head(n = 10)
+    >> dr.slice_head(n=10)
 )
 #   patient_id     age     day      BP      HR
 #     <object> <int64> <int64> <int64> <int64>

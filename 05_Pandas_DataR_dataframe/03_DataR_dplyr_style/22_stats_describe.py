@@ -1,8 +1,8 @@
 '''
 f.describe(): Get summary statistics of DataFrame columns.
    + Default usage
-   + f.describe(include = [object, category, "all"]): Include specific data types.
-   + f.describe(exclude = [category, bool]): Exclude specific data types.
+   + f.describe(include=[object, category, "all"]): Include specific data types.
+   + f.describe(exclude=[category, bool]): Exclude specific data types.
 '''
 
 import datar.all as dr
@@ -10,7 +10,7 @@ from datar import f
 import pandas as pd
 
 from pipda import register_verb
-dr.filter = register_verb(func = dr.filter_)
+dr.filter = register_verb(func=dr.filter_)
 
 ########################
 
@@ -68,7 +68,7 @@ print(
 
 print(
     tb_pokemon
-    >> dr.pipe(lambda f: f.describe(include = [object, "category"]))
+    >> dr.pipe(lambda f: f.describe(include=[object, "category"]))
 )
 #            Name   Type_1   Type_2  Generation
 #        <object> <object> <object>     <int64>
@@ -79,7 +79,7 @@ print(
 
 print(
     tb_pokemon
-    >> dr.pipe(lambda f: f.describe(include = "all"))
+    >> dr.pipe(lambda f: f.describe(include="all"))
 )
 #            Name   Type_1   Type_2      Total          HP      Attack     Defense      Sp_Atk      Sp_Def       Speed  Generation Legendary
 #        <object> <object> <object>  <float64>   <float64>   <float64>   <float64>   <float64>   <float64>   <float64>   <float64>  <object>
@@ -101,7 +101,7 @@ print(
 
 print(
     tb_pokemon
-    >> dr.pipe(lambda f: f.describe(exclude = ["category", bool]))
+    >> dr.pipe(lambda f: f.describe(exclude=["category", bool]))
 )
 #            Name      Total          HP      Attack     Defense      Sp_Atk      Sp_Def       Speed
 #        <object>  <float64>   <float64>   <float64>   <float64>   <float64>   <float64>   <float64>
