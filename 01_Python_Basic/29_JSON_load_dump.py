@@ -11,6 +11,13 @@ JSON data is represented as key-value pairs, similar to Python dictionaries.
 
 In Python, the `json` module provides methods to work with JSON data.
 The `json` module can be used to convert Python objects into JSON strings and vice versa.
+
+#################################
+
+Table of Contents:
+1. json.loads() and json.load()
+2. json.dumps() and json.dump()
+3. Data Conversion between JSON and Python
 '''
 
 import json
@@ -25,9 +32,10 @@ parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Py
 ##################
 ## json.loads() ##
 ##################
-
-# json.loads() is used to parse a JSON string and convert it into a Python dictionary.
-# The 's' in 'loads' stands for 'string'.
+'''
+json.loads() is used to parse a JSON string and convert it into a Python dictionary.
+The 's' in 'loads' stands for 'string'.
+'''
 
 json_string = '''
 {
@@ -59,20 +67,25 @@ print(python_dict)
 # {'People': [{'Name': 'John', 'Age': 30, 'City': 'New York'}, 
 #             {'Name': 'Anna', 'Age': 22, 'City': 'London'}, 
 #              {'Name': 'Mike', 'Age': 32, 'City': 'Chicago'}]}
+
 print(type(python_dict))  # <class 'dict'>
 
 print(python_dict['People'][0]['Age']) # 30
-print(type(python_dict['People'][0]['Age'])) # <class 'int'>
-# Though the JSON string represents numbers as strings, json.loads() converts them to Python integers.
-# Check the data conversion table below for more details.
 
+print(type(python_dict['People'][0]['Age'])) # <class 'int'>
+
+'''
+Though the JSON string represents numbers as strings, json.loads() converts them to Python integers.
+Check the data conversion table below for more details.
+'''
 
 #################
 ## json.load() ##
 #################
-
-# json.load() is used to read a JSON file and convert it into a Python dictionary.
-# The 'load' in 'json.load()' stands for 'load from file'.
+'''
+json.load() is used to read a JSON file and convert it into a Python dictionary.
+The 'load' in 'json.load()' stands for 'load from file'.
+'''
 
 with open (f"{parent_dir}/emps.json", "r") as file: # Open the JSON file in read mode
     python_dict_from_file = json.load(file) # Convert the JSON file into a Python dictionary
@@ -109,6 +122,10 @@ print(json_string_converted)
 #     "City": "Los Angeles"
 # }
 
+# Without indentation
+json_string_converted = json.dumps(python_dict_to_convert)
+print(json_string_converted)  # {"Name": "Alice", "Age": 28, "City": "Los Angeles"}
+
 # Custom separators
 json_string_converted = json.dumps(python_dict_to_convert, indent=4, separators=(';', '__')) 
 print(json_string_converted)
@@ -117,11 +134,6 @@ print(json_string_converted)
 #     "Age"__28;
 #     "City"__"Los Angeles"
 # }
-
-# Without indentation
-json_string_converted = json.dumps(python_dict_to_convert)
-print(json_string_converted)  # {"Name": "Alice", "Age": 28, "City": "Los Angeles"}
-
 
 #################
 ## json.dump() ##
@@ -137,7 +149,6 @@ dictionary_to_write = {
 # Open the JSON file in write mode
 with open(f"{parent_dir}/new_written_jsondump.json", "w") as json_pointer:
     json.dump(dictionary_to_write, json_pointer, indent=4)
-
 
 
 #---------------------------------------------#
