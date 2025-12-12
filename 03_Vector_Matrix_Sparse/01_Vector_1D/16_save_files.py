@@ -7,7 +7,7 @@
 
 2. Using methods:
    + arr.dump(): save a Numpy array to a binary file using pickle serialization.
-   + arr.tofile(): save a Numpy array to a binary file without any metadata.
+   + arr.tofile(): save a Numpy array to a text file with specified separator.'
 '''
 
 import numpy as np
@@ -84,3 +84,25 @@ np.savetxt(fname=save_path/'vector_1.txt', X=vector_1, fmt='%d', delimiter=', ')
 
 np.savetxt(save_path/'vector_2.txt', vector_2, fmt='%.1f', delimiter=', ') # Shortcut syntax
 
+
+#-----------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------------- 2. Using methods ---------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------------#
+
+################
+## arr.dump() ##
+################
+'''Save a Numpy array to a binary file using pickle serialization.'''
+
+vector_1.dump(file=save_path/'vector_1_dump.pkl') # Full syntax
+
+vector_2.dump(save_path/'vector_2_dump.pkl') # Shortcut syntax
+
+##################
+## arr.tofile() ##
+##################
+'''Save a Numpy array to a text file with specified separator.'''
+
+vector_1.tofile(file=save_path/'vector_1_tofile.txt', sep=', ') # Full syntax
+
+vector_2.tofile(save_path/'vector_2_tofile.txt', sep=', ') # Shortcut syntax
