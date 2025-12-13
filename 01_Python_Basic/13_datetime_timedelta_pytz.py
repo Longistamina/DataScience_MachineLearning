@@ -26,14 +26,13 @@
 # 5: Saturday
 # 6: Sunday
 
+from datetime import datetime # from datetime: this datetime is a module, a .py file
+                              # import datetime: this datetime is a class or a function inside the datetime module
+from datetime import date
 
 #---------------------------------------------------------------------------------------------------------------#
 #------------------------------------ 1. datetime object's attributes ------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
-
-from datetime import datetime # from datetime: this datetime is a module, a .py file
-                              # import datetime: this datetime is a class or a function inside the datetime module
-from datetime import date
 
 print(datetime.now())   # Current moment
 print(datetime.today()) # Current day
@@ -49,6 +48,10 @@ print(current_month)
 current_year = current_moment.year      # Get the .year attribute of the current_moment object
 print(current_year)
 
+# Create a datetime object
+dt = datetime(2024, 6, 18, 14, 30, 45, 123456) # year, month, day, hour, minute, second, microsecond
+print(dt) # 2024-06-18 14:30:45.123456
+
 '''
 max: datetime.datetime(9999, 12, 31, 23, 59, 59, 999999) the maximum datetime value in python.
 It means year 9999, December, day 31st, at 23h 59m 59s 999999ms
@@ -63,7 +66,7 @@ It means year 1, January, day 1st, at 0h 0m
 #----------------------------------------------------------------------------------------------------------------#
 
 # date() is a class inside the datetime module, used to create date objects
-birthday1 = date(1890, 5, 19)             # Generate a datetime object, year 1890, May, day 29th
+birthday1 = date(1890, 5, 19) # Generate a datetime object, year 1890, May, day 29th
 print(birthday1)
 
 # datetime() is a class inside the datetime module, used to create datetime objects
@@ -159,7 +162,7 @@ print(delta_seconds)
 ## timedelta() function ##
 ##########################
 
-tomorrow = date.today() + timedelta(days=1)
+tomorrow = date.today() + timedelta(days=1, seconds=0, microseconds=0)
 print(tomorrow)
 
 yesterday1 = date.today() + timedelta(days=-1)
@@ -268,7 +271,7 @@ for tz_name in pytz.all_timezones:
 ################################
 '''Use timezone_object.localize(datetime_object) to localize a datetime object to a specific timezone.'''
 
-# Create a datetime object without timezone info
+# Create a datetime object without timezone info (naive datetime)
 dt_obj = datetime.datetime(2024, 6, 18, 12, 0, 0)
 print(dt_obj) # 2024-06-18 12:00:00
 
@@ -298,7 +301,10 @@ At UTC, it will be 03:00 AM (9 hours behind).
 ##################################################
 ## Convert between timezones of datetime object ##
 ##################################################
-'''Use datetime_object.astimezone(timezone_object) to convert a datetime object to another timezone.'''
+'''
+Use datetime_object.astimezone(timezone_object) to convert a datetime object to another timezone.
+NOTE: the datetime object must be timezone-aware (i.e., it has timezone info).
+'''
 
 # Create a datetime object in UTC timezone
 dt_UTC = pytz.timezone('UTC').localize(datetime.datetime(2024, 6, 18, 8, 35, 12))
