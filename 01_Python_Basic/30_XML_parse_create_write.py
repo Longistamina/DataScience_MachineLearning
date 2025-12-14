@@ -13,7 +13,7 @@ XML is structured as a tree, with elements represented by tags.
 Python provides several libraries to work with XML, including `xml.etree.ElementTree`, `lxml`, and `minidom`.
 
 The `xml.etree.ElementTree` module is part of the Python standard library 
-and provides asimple and efficient way to parse and create XML documents.
+and provides a simple and efficient way to parse and create XML documents.
 
 ###################################
 
