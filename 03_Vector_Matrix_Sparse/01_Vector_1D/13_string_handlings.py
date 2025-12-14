@@ -160,3 +160,57 @@ print(np.strings.slice(vector_tz, None, None, -1)) # Reverse each string
 #-------------------------------------------------------------------------------------------------------------------#
 #-------------------------------------------- 2. Case conversions --------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------------#
+
+print(vector_tz)
+# ['Asia/Kuala_Lumpur' 'Asia/Sakhalin' 'Antarctica/Vostok' 'Europe/Istanbul'
+#  'Europe/Madrid' 'Asia/Kuching' 'Africa/Kampala' 'Africa/El_Aaiun'
+#  'Europe/Samara' 'Europe/Copenhagen' 'Europe/Zaporozhye'
+#  'America/Eirunepe' 'Africa/Ndjamena' 'America/Havana' 'Brazil/DeNoronha']
+
+#############################
+## np.strings.capitalize() ##
+#############################
+
+print(np.strings.capitalize(vector_tz))
+# ['Asia/kuala_lumpur' 'Asia/sakhalin' 'Antarctica/vostok' 'Europe/istanbul'
+#  'Europe/madrid' 'Asia/kuching' 'Africa/kampala' 'Africa/el_aaiun'
+#  'Europe/samara' 'Europe/copenhagen' 'Europe/zaporozhye'
+#  'America/eirunepe' 'Africa/ndjamena' 'America/havana' 'Brazil/denoronha']
+
+########################
+## np.strings.upper() ##
+########################
+
+print(np.strings.upper(vector_tz))
+# ['ASIA/KUALA_LUMPUR' 'ASIA/SAKHALIN' 'ANTARCTICA/VOSTOK' 'EUROPE/ISTANBUL'
+#  'EUROPE/MADRID' 'ASIA/KUCHING' 'AFRICA/KAMPALA' 'AFRICA/EL_AAIUN'
+#  'EUROPE/SAMARA' 'EUROPE/COPENHAGEN' 'EUROPE/ZAPOROZHYE'
+#  'AMERICA/EIRUNEPE' 'AFRICA/NDJAMENA' 'AMERICA/HAVANA' 'BRAZIL/DENORONHA']
+
+########################
+## np.strings.lower() ##
+########################
+
+print(np.strings.lower(vector_tz))
+# ['asia/kuala_lumpur' 'asia/sakhalin' 'antarctica/vostok' 'europe/istanbul'
+#  'europe/madrid' 'asia/kuching' 'africa/kampala' 'africa/el_aaiun'
+#  'europe/samara' 'europe/copenhagen' 'europe/zaporozhye'
+#  'america/eirunepe' 'africa/ndjamena' 'america/havana' 'brazil/denoronha']
+
+########################
+## np.strings.title() ##
+########################
+
+tilte_vector = np.array(['hello world', 'numpy is great', 'string handling in python'])
+print(np.strings.title(tilte_vector))
+# ['Hello World' 'Numpy Is Great' 'String Handling In Python']
+
+###########################
+## np.strings.swapcase() ##
+###########################
+
+print(np.strings.swapcase(vector_tz))
+# ['aSIA/kUALA_lUMPUR' 'aSIA/sAKHALIN' 'aNTARCTICA/vOSTOK' 'eUROPE/iSTANBUL'
+#  'eUROPE/mADRID' 'aSIA/kUCHING' 'aFRICA/kAMPALA' 'aFRICA/eL_aAIUN'
+#  'eUROPE/sAMARA' 'eUROPE/cOPENHAGEN' 'eUROPE/zAPOROZHYE'
+#  'aMERICA/eIRUNEPE' 'aFRICA/nDJAMENA' 'aMERICA/hAVANA' 'bRAZIL/dEnORONHA']
