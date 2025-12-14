@@ -14,6 +14,18 @@ Python provides several libraries to work with XML, including `xml.etree.Element
 
 The `xml.etree.ElementTree` module is part of the Python standard library 
 and provides asimple and efficient way to parse and create XML documents.
+
+###################################
+
+Flow of contents:
+
+1. XML file structure
+2. Read and Parse XML file
+3. Summarize XML structure
+4. Navigate XML tree
+5. Loop through XML tree elements
+6. Create XML object from scratch
+7. Write a XML tree object into XML file
 '''
 
 import xml.etree.ElementTree as ET
@@ -21,9 +33,9 @@ import xml.etree.ElementTree as ET
 parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files"
 
 
-#------------------------------------------------#
-#-------------- XML file structure --------------#
-#------------------------------------------------#
+#---------------------------------------------------#
+#-------------- 1. XML file structure --------------#
+#---------------------------------------------------#
 '''
 <?xml version="1.0" encoding="UTF-8"?>    (This line tells the computer that we are using XML, the content version is 1.0, with UTF-8 encoding)
 
@@ -63,9 +75,9 @@ parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Py
 #        <Child_Element_Level_3>
 
 
-#-----------------------------------------------------#
-#-------------- Read and Parse XML file --------------#
-#-----------------------------------------------------#
+#--------------------------------------------------------#
+#-------------- 2. Read and Parse XML file --------------#
+#--------------------------------------------------------#
 
 ##################################################
 ## Parse an XML file into an ElementTree object ##
@@ -108,15 +120,16 @@ xml_string = '''<?xml version="1.0"?>
     <name>Alice Johnson</name>
     <age>20</age>
     <major>Computer Science</major>
-</student>'''
+</student>
+'''
 
 root_string = ET.fromstring(xml_string)
 print(f"Student name: {root_string.find('name').text}") # Alice Johnson
 
 
-#-----------------------------------------------------------------------#
-#------------ A custom function to summarize XML structure -------------#
-#-----------------------------------------------------------------------#
+#--------------------------------------------------------------------------#
+#------------ 3. A custom function to summarize XML structure -------------#
+#--------------------------------------------------------------------------#
 
 def summarize_xml_structure(element, level=0):
     indent = "  " * level
@@ -128,9 +141,9 @@ def summarize_xml_structure(element, level=0):
 summarize_xml_structure(root_food)
 
 
-#-----------------------------------------------#
-#-------------- Navigate XML tree --------------#
-#-----------------------------------------------#
+#--------------------------------------------------#
+#-------------- 4. Navigate XML tree --------------#
+#--------------------------------------------------#
 
 # <breakfast_menu>
 #   <food>
@@ -148,6 +161,7 @@ root_food = tree_food.getroot()
 
 # Find single element (fist occurrence)
 print(root_food.find("food")) # <Element 'food' at 0x7f4f7e87bab0> (first occurrence of <food> under <breakfast_menu>)
+print(root_food.find("food/name"))  # <Element 'name' at 0x7f9318b804a0> (first occurrence of <name> under <food>)
 
 print(root_food.find("food/name").text) # Belgian Waffles (first occurrence of <name> under <food>)
 
@@ -157,10 +171,15 @@ food_items = root_food.findall("food")
 print(food_items)
 # [<Element 'food' at 0x7f4f7e87bab0>, <Element 'food' at 0x7f4f7e87bc40>, <Element 'food' at 0x7f4f7e87be20>, <Element 'food' at 0x7f4f7e88c040>, <Element 'food' at 0x7f4f7e88c1d0>]
 
+# Find all elements with the tag "food/calories"
+calorie_items = root_food.findall("food/calories")
+print(calorie_items)
+#[<Element 'calories' at 0x7f9318b806d0>, <Element 'calories' at 0x7f9318b808b0>, <Element 'calories' at 0x7f9318b80a90>, <Element 'calories' at 0x7f9318b80c20>, <Element 'calories' at 0x7f9318b80db0>]
 
-#------------------------------------------------------------#
-#-------------- Loop through XML tree elements --------------#
-#------------------------------------------------------------#
+
+#---------------------------------------------------------------#
+#-------------- 5. Loop through XML tree elements --------------#
+#---------------------------------------------------------------#
 
 tree_food = ET.parse(f'{parent_dir}/food.xml')
 root_food = tree_food.getroot()
@@ -174,12 +193,11 @@ for food in food_items:
     name = food.find("name").text
     price = food.find("price").text
     print(f"Food Name: {name} _____ Price: {price}")
-# Food Name: Belgian Waffles
-# Food Name: Strawberry Belgian Waffles
-# Food Name: Berry-Berry Belgian Waffles
-# Food Name: French Toast
-# Food Name: Homestyle Breakfast
-
+# Food Name: Belgian Waffles _____ Price: $5.95
+# Food Name: Strawberry Belgian Waffles _____ Price: $7.95
+# Food Name: Berry-Berry Belgian Waffles _____ Price: $8.95
+# Food Name: French Toast _____ Price: $4.50
+# Food Name: Homestyle Breakfast _____ Price: $6.95
 
 ################################################
 ## Iterate using element.tag and element.text ##
@@ -191,17 +209,17 @@ for food_element in root_food:
       if food_subelement.tag == "description": # Ignore an unwanted subelement
           continue
       string_out += f"{food_subelement.tag}: {food_subelement.text} ||| "
-    print(string_out.rstrip(" "))   
-# name: Belgian Waffles ____ price: $5.95 ____ calories: 650
-# name: Strawberry Belgian Waffles ____ price: $7.95 ____ calories: 900
-# name: Berry-Berry Belgian Waffles ____ price: $8.95 ____ calories: 900
-# name: French Toast ____ price: $4.50 ____ calories: 600
-# name: Homestyle Breakfast ____ price: $6.95 ____ calories: 950
+    print(string_out.rstrip(" |||"))   
+# name: Belgian Waffles ||| price: $5.95 ||| calories: 650
+# name: Strawberry Belgian Waffles ||| price: $7.95 ||| calories: 900
+# name: Berry-Berry Belgian Waffles ||| price: $8.95 ||| calories: 900
+# name: French Toast ||| price: $4.50 ||| calories: 600
+# name: Homestyle Breakfast ||| price: $6.95 ||| calories: 950
 
 
-#------------------------------------------------------------#
-#-------------- Create XML object from scratch --------------#
-#------------------------------------------------------------#
+#---------------------------------------------------------------#
+#-------------- 6. Create XML object from scratch --------------#
+#---------------------------------------------------------------#
 
 ######################################
 ## Create new XML tree from scratch ##
@@ -248,12 +266,14 @@ for character_element in root_starwars:
     string_out = ""
     for character_subelement in character_element:
         string_out += f"{character_subelement.tag}: {character_subelement.text} ||| "
-    print(string_out.rstrip(" "))
+    print(string_out.rstrip(" |||"))
+# Name: Padmé Amidala ||| Gender: F ||| Age: 27 ||| Job: Queen of Naboo ||| Income: 45000
+# Name: Anakin Skywalker ||| Gender: M ||| Age: 22 ||| Job: Jedi ||| Income: 23450
 
 
-#-------------------------------------------------------------------#
-#-------------- Write a XML tree object into XML file --------------#
-#-------------------------------------------------------------------#
+#----------------------------------------------------------------------#
+#-------------- 7. Write a XML tree object into XML file --------------#
+#----------------------------------------------------------------------#
 
 # Add indentation before writing
 ET.indent(tree_starwars, space="  ", level=0)
@@ -261,6 +281,6 @@ ET.indent(tree_starwars, space="  ", level=0)
 # tree.write() to save a xml tree to a .xml file
 tree_starwars.write(
     f"{parent_dir}/new_written_starwars.xml", 
-    encoding = 'utf-8', 
-    xml_declaration = True,
+    encoding='utf-8', 
+    xml_declaration=True,
 )
