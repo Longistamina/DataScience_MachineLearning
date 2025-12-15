@@ -142,6 +142,21 @@ test_strings = [
 ######################
 '''Checks if all characters are alphabetic.'''
 
+for s in test_strings:
+    print(f"{repr(s)}.isalpha(): {s.isalpha()}")
+# 'Hello'.isalpha(): True
+# 'WORLD'.isalpha(): True
+# 'Hello123'.isalpha(): False
+# '123'.isalpha(): False
+# '⅕'.isalpha(): False
+# '³'.isalpha(): False
+# '456.78'.isalpha(): False
+# ' '.isalpha(): False
+# ''.isalpha(): False
+# 'café'.isalpha(): True
+# '\t\n'.isalpha(): False
+# 'MyVar'.isalpha(): True
+
 print(list(filter(lambda s: s.isalpha(), test_strings)))
 # ['Hello', 'WORLD', 'café', 'MyVar']
 
@@ -149,6 +164,21 @@ print(list(filter(lambda s: s.isalpha(), test_strings)))
 ## isdecimal() method ##
 ########################
 '''Checks if all characters are decimal characters (0-9).'''
+
+for s in test_strings:
+    print(f"{repr(s)}.isdecimal(): {s.isdecimal()}")
+# 'Hello'.isdecimal(): False
+# 'WORLD'.isdecimal(): False
+# 'Hello123'.isdecimal(): False
+# '123'.isdecimal(): True
+# '⅕'.isdecimal(): False
+# '³'.isdecimal(): False
+# '456.78'.isdecimal(): False
+# ' '.isdecimal(): False
+# ''.isdecimal(): False
+# 'café'.isdecimal(): False
+# '\t\n'.isdecimal(): False
+# 'MyVar'.isdecimal(): False
 
 print(list(filter(lambda s: s.isdecimal(), test_strings)))
 # ['123']
@@ -158,6 +188,21 @@ print(list(filter(lambda s: s.isdecimal(), test_strings)))
 ######################
 '''Checks if all characters are digits (includes decimals, superscripts, subscripts).'''
 
+for s in test_strings:
+    print(f"{repr(s)}.isdigit(): {s.isdigit()}")
+# 'Hello'.isdigit(): False
+# 'WORLD'.isdigit(): False
+# 'Hello123'.isdigit(): False
+# '123'.isdigit(): True
+# '⅕'.isdigit(): False
+# '³'.isdigit(): True
+# '456.78'.isdigit(): False
+# ' '.isdigit(): False
+# ''.isdigit(): False
+# 'café'.isdigit(): False
+# '\t\n'.isdigit(): False
+# 'MyVar'.isdigit(): False
+
 print(list(filter(lambda s: s.isdigit(), test_strings)))
 # ['123', '³']
 
@@ -165,6 +210,21 @@ print(list(filter(lambda s: s.isdigit(), test_strings)))
 ## isnumeric() method ##
 ########################
 '''Checks if all characters are numeric (includes fractions, Roman numerals).'''
+
+for s in test_strings:
+    print(f"{repr(s)}.isnumeric(): {s.isnumeric()}")
+# 'Hello'.isnumeric(): False
+# 'WORLD'.isnumeric(): False
+# 'Hello123'.isnumeric(): False
+# '123'.isnumeric(): True
+# '⅕'.isnumeric(): True
+# '³'.isnumeric(): True
+# '456.78'.isnumeric(): False
+# ' '.isnumeric(): False
+# ''.isnumeric(): False
+# 'café'.isnumeric(): False
+# '\t\n'.isnumeric(): False
+# 'MyVar'.isnumeric(): False
 
 print(list(filter(lambda s: s.isnumeric(), test_strings)))
 # ['123', '⅕', '³']
@@ -174,6 +234,21 @@ print(list(filter(lambda s: s.isnumeric(), test_strings)))
 ######################
 '''Checks if all characters are alphanumeric (letters and numbers).'''
 
+for s in test_strings:
+    print(f"{repr(s)}.isalnum(): {s.isalnum()}")
+# 'Hello'.isalnum(): True
+# 'WORLD'.isalnum(): True
+# 'Hello123'.isalnum(): True
+# '123'.isalnum(): True
+# '⅕'.isalnum(): True
+# '³'.isalnum(): True
+# '456.78'.isalnum(): False
+# ' '.isalnum(): False
+# ''.isalnum(): False
+# 'café'.isalnum(): True
+# '\t\n'.isalnum(): False
+# 'MyVar'.isalnum(): True
+
 print(list(filter(lambda s: s.isalnum(), test_strings)))
 # ['Hello', 'WORLD', 'Hello123', '123', '⅕', '³', 'café', 'MyVar']
 
@@ -181,6 +256,21 @@ print(list(filter(lambda s: s.isalnum(), test_strings)))
 ## isspace() method ##
 ######################
 '''Checks if all characters are whitespace.'''
+
+for s in test_strings:
+    print(f"{repr(s)}.isspace(): {s.isspace()}")
+# 'Hello'.isspace(): False
+# 'WORLD'.isspace(): False
+# 'Hello123'.isspace(): False
+# '123'.isspace(): False
+# '⅕'.isspace(): False
+# '³'.isspace(): False
+# '456.78'.isspace(): False
+# ' '.isspace(): True
+# ''.isspace(): False
+# 'café'.isspace(): False
+# '\t\n'.isspace(): True
+# 'MyVar'.isspace(): False
 
 print(list(filter(lambda s: s.isspace(), test_strings)))
 # [' ', '\t\n']
@@ -190,6 +280,21 @@ print(list(filter(lambda s: s.isspace(), test_strings)))
 ######################
 '''Checks if all alphabetic characters are uppercase.'''
 
+for s in test_strings:
+    print(f"{repr(s)}.isupper(): {s.isupper()}")
+# 'Hello'.isupper(): False
+# 'WORLD'.isupper(): True
+# 'Hello123'.isupper(): False
+# '123'.isupper(): False
+# '⅕'.isupper(): False
+# '³'.isupper(): False
+# '456.78'.isupper(): False
+# ' '.isupper(): False
+# ''.isupper(): False
+# 'café'.isupper(): False
+# '\t\n'.isupper(): False
+# 'MyVar'.isupper(): False
+
 print(list(filter(lambda s: s.isupper(), test_strings)))
 # ['WORLD']
 
@@ -197,6 +302,21 @@ print(list(filter(lambda s: s.isupper(), test_strings)))
 ## islower() method ##
 ######################
 '''Checks if all alphabetic characters are lowercase.'''
+
+for s in test_strings:
+    print(f"{repr(s)}.islower(): {s.islower()}")
+# 'Hello'.islower(): False
+# 'WORLD'.islower(): False
+# 'Hello123'.islower(): False
+# '123'.islower(): False
+# '⅕'.islower(): False
+# '³'.islower(): False
+# '456.78'.islower(): False
+# ' '.islower(): False
+# ''.islower(): False
+# 'café'.islower(): True
+# '\t\n'.islower(): False
+# 'MyVar'.islower(): False
 
 print(list(filter(lambda s: s.islower(), test_strings)))
 # ['café']
@@ -206,6 +326,21 @@ print(list(filter(lambda s: s.islower(), test_strings)))
 ######################
 '''Checks if the string is in title case.'''
 
+for s in test_strings:
+    print(f"{repr(s)}.istitle(): {s.istitle()}")
+# 'Hello'.istitle(): True
+# 'WORLD'.istitle(): False
+# 'Hello123'.istitle(): True
+# '123'.istitle(): False
+# '⅕'.istitle(): False
+# '³'.istitle(): False
+# '456.78'.istitle(): False
+# ' '.istitle(): False
+# ''.istitle(): False
+# 'café'.istitle(): False
+# '\t\n'.istitle(): False
+# 'MyVar'.istitle(): False
+
 print(list(filter(lambda s: s.istitle(), test_strings)))
 # ['Hello', 'Hello123']
 
@@ -213,6 +348,21 @@ print(list(filter(lambda s: s.istitle(), test_strings)))
 ## isascii() method ##
 ######################
 '''Checks if all characters are ASCII characters.'''
+
+for s in test_strings:
+    print(f"{repr(s)}.isascii(): {s.isascii()}")
+# 'Hello'.isascii(): True
+# 'WORLD'.isascii(): True
+# 'Hello123'.isascii(): True
+# '123'.isascii(): True
+# '⅕'.isascii(): False
+# '³'.isascii(): False
+# '456.78'.isascii(): True
+# ' '.isascii(): True
+# ''.isascii(): True
+# 'café'.isascii(): False
+# '\t\n'.isascii(): True
+# 'MyVar'.isascii(): True
 
 print(list(filter(lambda s: s.isascii(), test_strings)))
 # ['Hello', 'WORLD', 'Hello123', '123', '456.78', ' ', '', '\t\n', 'MyVar']
@@ -222,6 +372,21 @@ print(list(filter(lambda s: s.isascii(), test_strings)))
 ##########################
 '''Checks if all characters are printable (no control characters).'''
 
+for s in test_strings:
+    print(f"{repr(s)}.isprintable(): {s.isprintable()}")
+# 'Hello'.isprintable(): True
+# 'WORLD'.isprintable(): True
+# 'Hello123'.isprintable(): True
+# '123'.isprintable(): True
+# '⅕'.isprintable(): True
+# '³'.isprintable(): True
+# '456.78'.isprintable(): True
+# ' '.isprintable(): True
+# ''.isprintable(): True
+# 'café'.isprintable(): True
+# '\t\n'.isprintable(): False
+# 'MyVar'.isprintable(): True
+
 print(list(filter(lambda s: s.isprintable(), test_strings)))
 # ['Hello', 'WORLD', 'Hello123', '123', '⅕', '³', '456.78', ' ', '', 'café', 'MyVar']
 
@@ -229,6 +394,21 @@ print(list(filter(lambda s: s.isprintable(), test_strings)))
 ## isidentifier() method ##
 ###########################
 '''Checks if the string is a valid Python identifier.'''
+
+for s in test_strings:
+   print(f"{repr(s)}.isidentifier(): {s.isidentifier()}")
+# 'Hello'.isidentifier(): True
+# 'WORLD'.isidentifier(): True
+# 'Hello123'.isidentifier(): True
+# '123'.isidentifier(): False
+# '⅕'.isidentifier(): False
+# '³'.isidentifier(): False
+# '456.78'.isidentifier(): False
+# ' '.isidentifier(): False
+# ''.isidentifier(): False
+# 'café'.isidentifier(): True
+# '\t\n'.isidentifier(): False
+# 'MyVar'.isidentifier(): True
 
 print(list(filter(lambda s: s.isidentifier(), test_strings)))
 # ['Hello', 'WORLD', 'Hello123', 'café', 'MyVar']
