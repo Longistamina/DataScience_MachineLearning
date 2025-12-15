@@ -156,7 +156,7 @@ print(list(filter(lambda s: s.isdecimal(), test_strings)))
 ######################
 ## isdigit() method ##
 ######################
-'''Checks if all characters are digits (includes superscripts, subscripts).'''
+'''Checks if all characters are digits (includes decimals, superscripts, subscripts).'''
 
 print(list(filter(lambda s: s.isdigit(), test_strings)))
 # ['123', '³']
