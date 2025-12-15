@@ -14,6 +14,7 @@
    + np.random.uniform()
    + np.random.randint()
    + np.random.seed(): for reproducibility
+   + np.random.choice()
    + np.choose()
 
 3. Create a 1D array with dtype specified (int, float, complex, bool, etc.)
@@ -172,6 +173,28 @@ print(vector_seeded)
 Always produces the same output when the seed is set.
 If the seed is changed, then different random numbers will be generated.
 '''
+
+##############################
+## Using np.random.choice() ##
+##############################
+'''
+np.random.choice(a, size, replace=True, p=None)
+Generates a random sample from a given 1D array 'a'.
+- 'size': number of samples to draw.
+- 'replace': whether the sample is with or without replacement.
+- 'p': probabilities associated with each entry in 'a'.
+'''
+
+import pytz
+
+np.random.seed(33)
+vector_choice = np.random.choice(pytz.all_timezones, size=15, replace=False) # Randomly select 15 timezones
+
+print(vector_choice)
+# ['Asia/Kuala_Lumpur' 'Asia/Sakhalin' 'Antarctica/Vostok' 'Europe/Istanbul'
+#  'Europe/Madrid' 'Asia/Kuching' 'Africa/Kampala' 'Africa/El_Aaiun'
+#  'Europe/Samara' 'Europe/Copenhagen' 'Europe/Zaporozhye'
+#  'America/Eirunepe' 'Africa/Ndjamena' 'America/Havana' 'Brazil/DeNoronha']
 
 #######################
 ## Using np.choose() ##
