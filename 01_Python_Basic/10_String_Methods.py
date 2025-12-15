@@ -10,7 +10,7 @@ Flow of contents:
    - Finding positions: .find(), .rfind(), .index(), .rindex()
 
 3. Boolean Checks:
-   - Character type checks: .isalpha(), .isdigit(), .isnumeric(), .isdecimal(), .isalnum(), .isspace()
+   - Character type checks: .isalpha(), .isdecimal(), .isdigit(), .isnumeric(), .isalnum(), .isspace()
    - Case checks: .isupper(), .islower(), .istitle()
    - ASCII and printable checks: .isascii(), .isprintable(), .isidentifier()
 
@@ -137,110 +137,101 @@ test_strings = [
     '\t\n', 'MyVar'
 ]
 
-for test_str in test_strings:
-    print(f"\nTesting: '{test_str}'")
+######################
+## isalpha() method ##
+######################
+'''Checks if all characters are alphabetic.'''
 
-    # Define checks separately with standard comments
-    checks = {
-        "isalpha": test_str.isalpha,       # All alphabetic
-        "isdigit": test_str.isdigit,       # All digits
-        "isnumeric": test_str.isnumeric,   # All numeric (includes digits, fractions, superscripts)
-        "isdecimal": test_str.isdecimal,   # All decimal digits (0-9 only)
-        "isalnum": test_str.isalnum,       # All alphanumeric
-        "isspace": test_str.isspace,       # All whitespace
-        "isupper": test_str.isupper,       # All uppercase
-        "islower": test_str.islower,       # All lowercase
-        "istitle": test_str.istitle,       # Title case
-        "isascii": test_str.isascii,       # All ASCII characters
-        "isprintable": test_str.isprintable,  # All printable
-        "isidentifier": test_str.isidentifier, # Valid Python identifier
-    }
+print(list(filter(lambda s: s.isalpha(), test_strings)))
+# ['Hello', 'WORLD', 'café', 'MyVar']
 
-    any_true = False
-    for name, func in checks.items():
-        if func():
-            print(f"  {name}() = True")  # comment already placed above
-            any_true = True
+########################
+## isdecimal() method ##
+########################
+'''Checks if all characters are decimal characters (0-9).'''
 
-    if not any_true:
-        print("  (no properties are True)")
+print(list(filter(lambda s: s.isdecimal(), test_strings)))
+# ['123']
 
+######################
+## isdigit() method ##
+######################
+'''Checks if all characters are digits (includes superscripts, subscripts).'''
 
-'''
-Testing: 'Hello'
-  isalpha() = True
-  isalnum() = True
-  istitle() = True
-  isascii() = True
-  isprintable() = True
-  isidentifier() = True
+print(list(filter(lambda s: s.isdigit(), test_strings)))
+# ['123', '³']
 
-Testing: 'WORLD'
-  isalpha() = True
-  isalnum() = True
-  isupper() = True
-  isascii() = True
-  isprintable() = True
-  isidentifier() = True
+########################
+## isnumeric() method ##
+########################
+'''Checks if all characters are numeric (includes fractions, Roman numerals).'''
 
-Testing: 'Hello123'
-  isalnum() = True
-  istitle() = True
-  isascii() = True
-  isprintable() = True
-  isidentifier() = True
+print(list(filter(lambda s: s.isnumeric(), test_strings)))
+# ['123', '⅕', '³']
 
-Testing: '123'
-  isdigit() = True
-  isnumeric() = True
-  isdecimal() = True
-  isalnum() = True
-  isascii() = True
-  isprintable() = True
+######################
+## isalnum() method ##
+######################
+'''Checks if all characters are alphanumeric (letters and numbers).'''
 
-Testing: '⅕'
-  isnumeric() = True
-  isalnum() = True
-  isprintable() = True
+print(list(filter(lambda s: s.isalnum(), test_strings)))
+# ['Hello', 'WORLD', 'Hello123', '123', '⅕', '³', 'café', 'MyVar']
 
-Testing: '³'
-  isdigit() = True
-  isnumeric() = True
-  isalnum() = True
-  isprintable() = True
+######################
+## isspace() method ##
+######################
+'''Checks if all characters are whitespace.'''
 
-Testing: '456.78'
-  isascii() = True
-  isprintable() = True
+print(list(filter(lambda s: s.isspace(), test_strings)))
+# [' ', '\t\n']
 
-Testing: ' '
-  isspace() = True
-  isascii() = True
-  isprintable() = True
+######################
+## isupper() method ##
+######################
+'''Checks if all alphabetic characters are uppercase.'''
 
-Testing: ''
-  isascii() = True
-  isprintable() = True
+print(list(filter(lambda s: s.isupper(), test_strings)))
+# ['WORLD']
 
-Testing: 'café'
-  isalpha() = True
-  isalnum() = True
-  islower() = True
-  isprintable() = True
-  isidentifier() = True
+######################
+## islower() method ##
+######################
+'''Checks if all alphabetic characters are lowercase.'''
 
-Testing (\t\n): '
-'
-  isspace() = True
-  isascii() = True
+print(list(filter(lambda s: s.islower(), test_strings)))
+# ['café']
 
-Testing: 'MyVar'
-  isalpha() = True
-  isalnum() = True
-  isascii() = True
-  isprintable() = True
-  isidentifier() = True
-'''
+######################
+## istitle() method ##
+######################
+'''Checks if the string is in title case.'''
+
+print(list(filter(lambda s: s.istitle(), test_strings)))
+# ['Hello', 'Hello123']
+
+######################
+## isascii() method ##
+######################
+'''Checks if all characters are ASCII characters.'''
+
+print(list(filter(lambda s: s.isascii(), test_strings)))
+# ['Hello', 'WORLD', 'Hello123', '123', '456.78', ' ', '', '\t\n', 'MyVar']
+
+##########################
+## isprintable() method ##
+##########################
+'''Checks if all characters are printable (no control characters).'''
+
+print(list(filter(lambda s: s.isprintable(), test_strings)))
+# ['Hello', 'WORLD', 'Hello123', '123', '⅕', '³', '456.78', ' ', '', 'café', 'MyVar']
+
+###########################
+## isidentifier() method ##
+###########################
+'''Checks if the string is a valid Python identifier.'''
+
+print(list(filter(lambda s: s.isidentifier(), test_strings)))
+# ['Hello', 'WORLD', 'Hello123', 'café', 'MyVar']
 
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -433,6 +424,7 @@ print(f"expandtabs(4): '{tabbed_text.expandtabs(10)}'")  # 'Hello     World     
 ##############################
 
 translation_table = str.maketrans('eaiou', '12345')
+#                   str.maketrans({'e':'1', 'a':'2', 'i':'3', 'o':'4', 'u':'5'})
 
 text = 'Hello World'
 translated = text.translate(translation_table)

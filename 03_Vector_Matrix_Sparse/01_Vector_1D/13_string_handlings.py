@@ -47,7 +47,7 @@
     + np.strings.add()
     + np.strings.multiply()
 
-11. Formating: np.strings.mod()
+11. Formatting: np.strings.mod()
 
 12. Translation: np.strings.translate()
 
@@ -57,9 +57,9 @@
 
 14. Boolean checks:
    + np.strings.isalpha()
+   + np.strings.isdecimal()
    + np.strings.isdigit()
    + np.strings.isnumeric()
-   + np.strings.isdecimal()
    + np.strings.isalnum()
    + np.strings.isspace()
    + np.strings.islower()
@@ -495,3 +495,174 @@ print(np.strings.multiply(vector1, 3))
 multiplicands = np.array([1, 2, 3])
 print(np.strings.multiply(vector1, multiplicands))
 # ['Hello' 'NumPyNumPy' 'StringStringString']
+
+
+#-------------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------- 11. Formatting -----------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+
+original = np.array(['%d bytes', '%d bits', '%d KB'])
+values = np.array([8, 64, 1024])
+
+formatted = np.strings.mod(original, values)
+print(formatted)
+# ['8 bytes' '64 bits' '1024 KB']
+
+
+#-------------------------------------------------------------------------------------------------------------------#
+#--------------------------------------------- 12. Translation -----------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+
+print(vector_tz)
+# ['Asia/Kuala_Lumpur' 'Asia/Sakhalin' 'Antarctica/Vostok' 'Europe/Istanbul'
+#  'Europe/Madrid' 'Asia/Kuching' 'Africa/Kampala' 'Africa/El_Aaiun'
+#  'Europe/Samara' 'Europe/Copenhagen' 'Europe/Zaporozhye'
+#  'America/Eirunepe' 'Africa/Ndjamena' 'America/Havana' 'Brazil/DeNoronha']
+
+translation_table = str.maketrans({'a': '@', 'e': '3', 'i': '1', 'o': '0'})
+
+translated_vector = np.strings.translate(vector_tz, translation_table)
+# print(translated_vector)
+# ['As1@/Ku@l@_Lumpur' 'As1@/S@kh@l1n' 'Ant@rct1c@/V0st0k' 'Eur0p3/Ist@nbul'
+#  'Eur0p3/M@dr1d' 'As1@/Kuch1ng' 'Afr1c@/K@mp@l@' 'Afr1c@/El_A@1un'
+#  'Eur0p3/S@m@r@' 'Eur0p3/C0p3nh@g3n' 'Eur0p3/Z@p0r0zhy3'
+#  'Am3r1c@/E1run3p3' 'Afr1c@/Ndj@m3n@' 'Am3r1c@/H@v@n@' 'Br@z1l/D3N0r0nh@']
+
+
+#-------------------------------------------------------------------------------------------------------------------#
+#----------------------------------------- 13. Encoding and Decoding -----------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+
+#########################
+## np.strings.encode() ##
+#########################
+
+original_vector = np.array(['Hello World', 'NumPy is great', 'String handling in Python'])
+encoded_vector = np.strings.encode(original_vector, encoding='utf-8', errors='strict')
+
+print(encoded_vector)
+# [b'Hello World' b'NumPy is great' b'String handling in Python']
+
+#########################
+## np.strings.decode() ##
+#########################
+
+original_encoded_vector = np.array([b'Hello World', b'NumPy is great', b'String handling in Python'])
+
+decoded_vector = np.strings.decode(original_encoded_vector, encoding='utf-8', errors='strict')
+print(decoded_vector)
+# ['Hello World' 'NumPy is great' 'String handling in Python']
+
+
+#-------------------------------------------------------------------------------------------------------------------#
+#-------------------------------------------- 14. Boolean checks ---------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+
+test_vector = np.array(
+    [
+      'Hello', 'WORLD', 'Hello123', 
+      '123', '⅕', '³', '456.78', 
+      ' ', '', 'café', 
+      '\t\n', 'MyVar'
+   ]
+)
+
+##########################
+## np.strings.isalpha() ##
+##########################
+'''Checks if all characters in each string are alphabetic.'''
+
+print(np.strings.isalpha(test_vector))
+# [ True  True False False False False False False False  True False  True]
+
+print(test_vector[np.strings.isalpha(test_vector)])
+# ['Hello' 'WORLD' 'café' 'MyVar']
+
+############################
+## np.strings.isdecimal() ##
+############################
+'''Checks if all characters in each string are decimal digits (0-9 only).'''
+
+print(np.strings.isdecimal(test_vector))
+# [False False False  True False False False False False False False False]
+
+print(test_vector[np.strings.isdecimal(test_vector)])
+# ['123']
+
+##########################
+## np.strings.isdigit() ##
+##########################
+'''Checks if all characters in each string are digits (includes digits and superscripts).'''
+
+print(np.strings.isdigit(test_vector))
+# [False False False  True False  True False False False False False False]
+
+print(test_vector[np.strings.isdigit(test_vector)])
+# ['123' '³']
+
+############################
+## np.strings.isnumeric() ##
+############################
+'''Checks if all characters in each string are numeric (includes digits, fractions, superscripts).'''
+
+print(np.strings.isnumeric(test_vector))
+# [False False False  True  True  True False False False False False False]
+
+print(test_vector[np.strings.isnumeric(test_vector)])
+# ['123' '⅕' '³']
+
+##########################
+## np.strings.isalnum() ##
+##########################
+'''Checks if all characters in each string are alphanumeric.'''
+
+print(np.strings.isalnum(test_vector))
+# [ True  True  True  True  True  True False False False  True False  True]
+
+print(test_vector[np.strings.isalnum(test_vector)])
+# ['Hello' 'WORLD' 'Hello123' '123' '⅕' '³' 'café' 'MyVar']
+
+##########################
+## np.strings.isspace() ##
+##########################
+'''Checks if all characters in each string are whitespace.'''
+
+print(np.strings.isspace(test_vector))
+# [False False False False False False False  True False  True False False]
+
+print(test_vector[np.strings.isspace(test_vector)])
+# [' ' '\t\n']
+
+##########################
+## np.strings.islower() ##
+##########################
+'''Checks if all characters in each string are lowercase.'''
+
+print(np.strings.islower(test_vector))
+# [False False False False False False False False False  True False False]
+
+print(test_vector[np.strings.islower(test_vector)])
+# ['café']
+
+##########################
+## np.strings.isupper() ##
+##########################
+'''Checks if all characters in each string are uppercase.'''
+
+print(np.strings.isupper(test_vector))
+# [False  True False False False False False False False False False False]
+
+print(test_vector[np.strings.isupper(test_vector)])
+# ['WORLD']
+
+##########################
+## np.strings.istitle() ##
+##########################
+'''Checks if each string is in title case (first letter uppercase, rest lowercase).'''
+
+print(np.strings.istitle(test_vector))
+# [ True False  True False False False False False False False False False]
+
+print(test_vector[np.strings.istitle(test_vector)])
+# ['Hello' 'Hello123']
+
