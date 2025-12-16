@@ -561,11 +561,13 @@ print(decoded_vector)
 test_vector = np.array(
     [
       'Hello', 'WORLD', 'Hello123', 
-      '123', '⅕', '³', '456.78', 
+      '123', '⅕', '³', '₂', '456.78', 
       ' ', '', 'café', 
       '\t\n', 'MyVar'
    ]
 )
+
+np.set_printoptions(linewidth=np.inf) # To display the entire array in one line
 
 ##########################
 ## np.strings.isalpha() ##
@@ -573,7 +575,7 @@ test_vector = np.array(
 '''Checks if all characters in each string are alphabetic.'''
 
 print(np.strings.isalpha(test_vector))
-# [ True  True False False False False False False False  True False  True]
+# [ True  True False False False False False False False False  True False  True]
 
 print(test_vector[np.strings.isalpha(test_vector)])
 # ['Hello' 'WORLD' 'café' 'MyVar']
@@ -584,7 +586,7 @@ print(test_vector[np.strings.isalpha(test_vector)])
 '''Checks if all characters in each string are decimal digits (0-9 only).'''
 
 print(np.strings.isdecimal(test_vector))
-# [False False False  True False False False False False False False False]
+# [False False False  True False False False False False False False False False]
 
 print(test_vector[np.strings.isdecimal(test_vector)])
 # ['123']
@@ -595,10 +597,10 @@ print(test_vector[np.strings.isdecimal(test_vector)])
 '''Checks if all characters in each string are digits (includes digits and superscripts).'''
 
 print(np.strings.isdigit(test_vector))
-# [False False False  True False  True False False False False False False]
+# [False False False  True False  True  True False False False False False False]
 
 print(test_vector[np.strings.isdigit(test_vector)])
-# ['123' '³']
+# ['123' '³' '₂']
 
 ############################
 ## np.strings.isnumeric() ##
@@ -606,10 +608,10 @@ print(test_vector[np.strings.isdigit(test_vector)])
 '''Checks if all characters in each string are numeric (includes digits, fractions, superscripts).'''
 
 print(np.strings.isnumeric(test_vector))
-# [False False False  True  True  True False False False False False False]
+# [False False False  True  True  True  True False False False False False False]
 
 print(test_vector[np.strings.isnumeric(test_vector)])
-# ['123' '⅕' '³']
+# ['123' '⅕' '³' '₂']
 
 ##########################
 ## np.strings.isalnum() ##
@@ -617,10 +619,10 @@ print(test_vector[np.strings.isnumeric(test_vector)])
 '''Checks if all characters in each string are alphanumeric.'''
 
 print(np.strings.isalnum(test_vector))
-# [ True  True  True  True  True  True False False False  True False  True]
+# [ True  True  True  True  True  True  True False False False  True False  True]
 
 print(test_vector[np.strings.isalnum(test_vector)])
-# ['Hello' 'WORLD' 'Hello123' '123' '⅕' '³' 'café' 'MyVar']
+# ['Hello' 'WORLD' 'Hello123' '123' '⅕' '³' '₂' 'café' 'MyVar']
 
 ##########################
 ## np.strings.isspace() ##
@@ -628,7 +630,7 @@ print(test_vector[np.strings.isalnum(test_vector)])
 '''Checks if all characters in each string are whitespace.'''
 
 print(np.strings.isspace(test_vector))
-# [False False False False False False False  True False  True False False]
+# [False False False False False False False False  True False False  True False]
 
 print(test_vector[np.strings.isspace(test_vector)])
 # [' ' '\t\n']
@@ -639,7 +641,7 @@ print(test_vector[np.strings.isspace(test_vector)])
 '''Checks if all characters in each string are lowercase.'''
 
 print(np.strings.islower(test_vector))
-# [False False False False False False False False False  True False False]
+# [False False False False False False False False False False  True False False]
 
 print(test_vector[np.strings.islower(test_vector)])
 # ['café']
@@ -650,7 +652,7 @@ print(test_vector[np.strings.islower(test_vector)])
 '''Checks if all characters in each string are uppercase.'''
 
 print(np.strings.isupper(test_vector))
-# [False  True False False False False False False False False False False]
+# [False  True False False False False False False False False False False False]
 
 print(test_vector[np.strings.isupper(test_vector)])
 # ['WORLD']
@@ -661,7 +663,7 @@ print(test_vector[np.strings.isupper(test_vector)])
 '''Checks if each string is in title case (first letter uppercase, rest lowercase).'''
 
 print(np.strings.istitle(test_vector))
-# [ True False  True False False False False False False False False False]
+# [ True False  True False False False False False False False False False False]
 
 print(test_vector[np.strings.istitle(test_vector)])
 # ['Hello' 'Hello123']
