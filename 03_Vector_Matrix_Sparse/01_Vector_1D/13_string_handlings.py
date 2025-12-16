@@ -56,29 +56,28 @@
     + np.strings.decode()
 
 14. Boolean checks:
-   + np.strings.isalpha()
-   + np.strings.isdecimal()
-   + np.strings.isdigit()
-   + np.strings.isnumeric()
-   + np.strings.isalnum()
-   + np.strings.isspace()
-   + np.strings.islower()
-   + np.strings.isupper()
-   + np.strings.istitle()
+    + np.strings.isalpha()
+    + np.strings.isdecimal()
+    + np.strings.isdigit()
+    + np.strings.isnumeric()
+    + np.strings.isalnum()
+    + np.strings.isspace()
+    + np.strings.islower()
+    + np.strings.isupper()
+    + np.strings.istitle()
 
 15. Prefix and Suffix checks:
-   + np.strings.startswith()
-   + np.strings.endswith()
+    + np.strings.startswith()
+    + np.strings.endswith()
 
 16. Comparison:
+    + Lexicographical comparisons
     + np.strings.equal()
     + np.strings.not_equal()
     + np.strings.less()
     + np.strings.less_equal()
     + np.strings.greater()
     + np.strings.greater_equal()
-
-17. Boolean Indexing: vector[np.strings.function(vector, args)]
 '''
 
 import numpy as np
@@ -559,7 +558,7 @@ print(decoded_vector)
 #-------------------------------------------------------------------------------------------------------------------#
 
 test_vector = np.array(
-    [
+   [
       'Hello', 'WORLD', 'Hello123', 
       '123', '⅕', '³', '₂', '456.78', 
       ' ', '', 'café', 
@@ -667,4 +666,163 @@ print(np.strings.istitle(test_vector))
 
 print(test_vector[np.strings.istitle(test_vector)])
 # ['Hello' 'Hello123']
+
+
+#-------------------------------------------------------------------------------------------------------------------#
+#------------------------------------------ 15. Prefix and Suffix checks -------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+
+#############################
+## np.strings.startswith() ##
+#############################
+
+print(np.strings.startswith(vector_tz, 'Asia'))
+# [ True  True False False False  True False False False False False False False False False]
+
+print(vector_tz[np.strings.startswith(vector_tz, 'Asia')])
+# ['Asia/Kuala_Lumpur' 'Asia/Sakhalin' 'Asia/Kuching']
+
+###########################
+## np.strings.endswith() ##
+###########################
+
+print(np.strings.endswith(vector_tz, 'e'))
+# [False False False False False False False False False False  True  True False False False]
+
+print(vector_tz[np.strings.endswith(vector_tz, 'e')])
+# ['Europe/Zaporozhye' 'America/Eirunepe']
+
+
+#-------------------------------------------------------------------------------------------------------------------#
+#--------------------------------------------- 16. Comparison ------------------------------------------------------#
+#-------------------------------------------------------------------------------------------------------------------#
+
+#################################
+## Lexicographical comparisons ##
+#################################
+'''
+Lexicographic comparison means comparing strings in dictionary order
+(exactly how words are arranged in a dictionary or phone book).
+
+The comparison process follows these steps:
+1. Compare character by character from left to right
+2. Compare each character based on its Unicode code point (numeric value)
+3. The first difference determines which string is "smaller" or "greater"
+4. If all characters match but one string is shorter, the shorter string is considered "smaller"
+
+# Example 1: Different first characters
+'apple' < 'banana'  # True
+# Because 'a' (code 97) < 'b' (code 98)
+
+# Example 2: Same prefix, compare next character
+'app' < 'apple'  # True
+# Shorter string is less when it's a prefix
+
+# Example 3: Case sensitivity matters
+'Apple' < 'apple'  # True
+# Uppercase 'A' (code 65) < lowercase 'a' (code 97)
+
+# Example 4: Numbers as strings
+'10' < '9'  # True (!)
+# Because '1' (code 49) < '9' (code 57)
+# NOT comparing numeric values 10 and 9
+'''
+
+########################
+## np.strings.equal() ##
+########################
+'''Checks element-wise equality between string arrays'''
+
+# Single string comparison
+print(np.strings.equal('hello', 'hello'))
+# True
+
+# Array comparisons
+arr1 = np.array(['apple', 'banana', 'cherry'])
+arr2 = np.array(['apple', 'orange', 'cherry'])
+print(np.strings.equal(arr1, arr2))
+# [ True False  True]
+
+# Broadcasting with scalar
+names = np.array(['Tom', 'Kate', 'Tom', 'Amy'])
+print(np.strings.equal(names, 'Tom'))
+# [ True False  True False]
+
+############################
+## np.strings.not_equal() ##
+############################
+'''Checks element-wise inequality between string arrays'''
+
+# Simple inequality
+print(np.strings.not_equal('cat', 'dog'))
+# True
+
+# Array comparisons
+arr1 = np.array(['cat', 'dog', 'bird'])
+arr2 = np.array(['cat', 'fish', 'bird'])
+print(np.strings.not_equal(arr1, arr2))
+# [False  True False]
+
+# Filtering with inequality
+data = np.array(['pass', 'fail', 'pass', 'fail'])
+print(np.strings.not_equal(data, 'pass'))
+# [False  True False  True]
+
+########################
+## np.strings.less()  ##
+########################
+'''
+Checks if each element in the first array is lexicographically less than the corresponding element in the second
+
+'''
+
+# Single comparison
+print(np.strings.less('apple', 'banana'))
+# True
+
+# Array comparison
+arr1 = np.array(['a', 'abc', 'z'])
+arr2 = np.array(['b', 'ab', 'za'])
+print(np.strings.less(arr1, arr2))
+# [ True False  True]
+
+# Case-sensitive comparison
+print(np.strings.less('Apple', 'apple'))
+# True  # 'A' comes before 'a' in Unicode
+
+############################
+## np.strings.less_equal() ##
+############################
+'''Checks if each element in the first array is lexicographically less than or equal to the corresponding element in the second'''
+
+# Simple example
+arr1 = np.array(['cat', 'dog', 'bird'])
+arr2 = np.array(['dog', 'dog', 'ant'])
+print(np.strings.less_equal(arr1, arr2))
+# [ True  True False]
+
+# Check if an array is sorted (non-decreasing)
+words = np.array(['alpha', 'beta', 'gamma', 'gamma'])
+print(np.all(np.strings.less_equal(words[:-1], words[1:])))
+# True
+
+###########################
+## np.strings.greater()  ##
+###########################
+'''Checks if each element in the first array is lexicographically greater than the corresponding element in the second'''
+
+# Single comparison
+print(np.strings.greater('banana', 'apple'))
+# True
+
+# Array comparison
+arr1 = np.array(['xyz', 'abc', 'mno'])
+arr2 = np.array(['abc', 'xyz', 'mno'])
+print(np.strings.greater(arr1, arr2))
+# [ True False False]
+
+# Note: numerical strings compared as strings, not numbers
+print(np.strings.greater('9', '10'))
+# True
+
 
