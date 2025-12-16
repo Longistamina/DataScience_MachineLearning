@@ -132,7 +132,7 @@ print(f"rindex(' '): {full_name.rindex(' ')}")       # 12 (Like rfind but raises
 
 test_strings = [
     'Hello', 'WORLD', 'Hello123', 
-    '123', '⅕', '³', '456.78', 
+    '123', '⅕', '³', '₂', '456.78', 
     ' ', '', 'café', 
     '\t\n', 'MyVar'
 ]
@@ -150,6 +150,7 @@ for s in test_strings:
 # '123'.isalpha(): False
 # '⅕'.isalpha(): False
 # '³'.isalpha(): False
+# '₂'.isalpha(): False
 # '456.78'.isalpha(): False
 # ' '.isalpha(): False
 # ''.isalpha(): False
@@ -173,6 +174,7 @@ for s in test_strings:
 # '123'.isdecimal(): True
 # '⅕'.isdecimal(): False
 # '³'.isdecimal(): False
+# '₂'.isdecimal(): False
 # '456.78'.isdecimal(): False
 # ' '.isdecimal(): False
 # ''.isdecimal(): False
@@ -196,6 +198,7 @@ for s in test_strings:
 # '123'.isdigit(): True
 # '⅕'.isdigit(): False
 # '³'.isdigit(): True
+# '₂'.isdigit(): True
 # '456.78'.isdigit(): False
 # ' '.isdigit(): False
 # ''.isdigit(): False
@@ -204,7 +207,7 @@ for s in test_strings:
 # 'MyVar'.isdigit(): False
 
 print(list(filter(lambda s: s.isdigit(), test_strings)))
-# ['123', '³']
+# ['123', '³', '₂']
 
 ########################
 ## isnumeric() method ##
@@ -219,6 +222,7 @@ for s in test_strings:
 # '123'.isnumeric(): True
 # '⅕'.isnumeric(): True
 # '³'.isnumeric(): True
+# '₂'.isnumeric(): True
 # '456.78'.isnumeric(): False
 # ' '.isnumeric(): False
 # ''.isnumeric(): False
@@ -227,7 +231,7 @@ for s in test_strings:
 # 'MyVar'.isnumeric(): False
 
 print(list(filter(lambda s: s.isnumeric(), test_strings)))
-# ['123', '⅕', '³']
+# ['123', '⅕', '³', '₂']
 
 ######################
 ## isalnum() method ##
@@ -242,6 +246,7 @@ for s in test_strings:
 # '123'.isalnum(): True
 # '⅕'.isalnum(): True
 # '³'.isalnum(): True
+# '₂'.isnumeric(): True
 # '456.78'.isalnum(): False
 # ' '.isalnum(): False
 # ''.isalnum(): False
@@ -250,7 +255,7 @@ for s in test_strings:
 # 'MyVar'.isalnum(): True
 
 print(list(filter(lambda s: s.isalnum(), test_strings)))
-# ['Hello', 'WORLD', 'Hello123', '123', '⅕', '³', 'café', 'MyVar']
+# ['Hello', 'WORLD', 'Hello123', '123', '⅕', '³', '₂', 'café', 'MyVar']
 
 ######################
 ## isspace() method ##
@@ -265,6 +270,7 @@ for s in test_strings:
 # '123'.isspace(): False
 # '⅕'.isspace(): False
 # '³'.isspace(): False
+# '₂'.isspace(): False
 # '456.78'.isspace(): False
 # ' '.isspace(): True
 # ''.isspace(): False
@@ -288,6 +294,7 @@ for s in test_strings:
 # '123'.isupper(): False
 # '⅕'.isupper(): False
 # '³'.isupper(): False
+# '₂'.isupper(): False
 # '456.78'.isupper(): False
 # ' '.isupper(): False
 # ''.isupper(): False
@@ -311,6 +318,7 @@ for s in test_strings:
 # '123'.islower(): False
 # '⅕'.islower(): False
 # '³'.islower(): False
+# '₂'.islower(): False
 # '456.78'.islower(): False
 # ' '.islower(): False
 # ''.islower(): False
@@ -334,6 +342,7 @@ for s in test_strings:
 # '123'.istitle(): False
 # '⅕'.istitle(): False
 # '³'.istitle(): False
+# '₂'.istitle(): False
 # '456.78'.istitle(): False
 # ' '.istitle(): False
 # ''.istitle(): False
@@ -357,6 +366,7 @@ for s in test_strings:
 # '123'.isascii(): True
 # '⅕'.isascii(): False
 # '³'.isascii(): False
+# '₂'.isascii(): False
 # '456.78'.isascii(): True
 # ' '.isascii(): True
 # ''.isascii(): True
@@ -380,6 +390,7 @@ for s in test_strings:
 # '123'.isprintable(): True
 # '⅕'.isprintable(): True
 # '³'.isprintable(): True
+# '₂'.isprintable(): True
 # '456.78'.isprintable(): True
 # ' '.isprintable(): True
 # ''.isprintable(): True
@@ -403,6 +414,7 @@ for s in test_strings:
 # '123'.isidentifier(): False
 # '⅕'.isidentifier(): False
 # '³'.isidentifier(): False
+# '₂'.isidentifier(): False
 # '456.78'.isidentifier(): False
 # ' '.isidentifier(): False
 # ''.isidentifier(): False
