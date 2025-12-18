@@ -53,46 +53,23 @@ Use pip3 install -U for latest versions
 
 
 #---------------------------------------------------------------------------------------------#
-#-------------------------- Pytorch for AMD ROCm (fedora command) ----------------------------#
+#-------------------------- Pytorch for AMD ROCm (ubuntu command) ----------------------------#
 #---------------------------------------------------------------------------------------------#
 
-# Remove malformed AMD repo files causing DNF errors:
-sudo rm /etc/yum.repos.d/amdgpu-install.repo
-sudo dnf clean all
-sudo dnf makecache
+conda activate data
 
-# Use Fedora’s native ROCm packages for compatibility:
-sudo dnf install rocm-dkms rocm-dev rocm-utils rocm-opencl rocm-libs hipsparselt
+# Add the current user to the render and video groups (Must reboot to apply changes)
+sudo usermod -a -G render,video $LOGNAME
 
-# If hipsparselt is missing, build from source:
-git clone https://github.com/ROCm/hipSPARSELt.git
-cd hipSPARSELt
-./install.sh -idc
+# Install ROCM 7.9.0 (or more): https://rocm.docs.amd.com/en/7.9.0-preview/install/rocm.html
+pip3 install --index-url https://repo.amd.com/rocm/whl/gfx1151/ "rocm[libraries,devel]"
 
-# Add ROCm libs to LD_LIBRARY_PATH and set ROCM_PATH:
-export ROCM_PATH=/opt/rocm-6.3.4
-export PATH=$ROCM_PATH/bin:$PATH
-export LD_LIBRARY_PATH=$ROCM_PATH/lib:$ROCM_PATH/hipsparselt/lib:$LD_LIBRARY_PATH
-# put in ~/.bashrc to make it permanently
-
-# check
+# Verify ROCM installation
 rocminfo
-clinfo
+amd-smi
 
-# download pytorch
-pip3 install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/rocm6.3.4/
-
-# Export PATH
-nano ~/.bashrc
-
-# Add these to the .bashrc
-export HSA_OVERRIDE_GFX_VERSION=11.0.0 # Tells ROCm to treat your gfx1151 GPU as gfx1100 (standard RDNA 3), which has mature kernel support
-export AMD_SERIALIZE_KERNEL=3 # Forces kernel serialization for debugging and stability
-export HIP_VISIBLE_DEVICES=0 # Explicitly makes your GPU visible to HIP runtime
-export ROC_ENABLE_PRE_VEGA=1 #  Enables broader compatibility mode
-
-# Run this to enable above settings
-source ~/.bashrc
+# Install Pytorch
+pip3 install --index-url https://repo.amd.com/rocm/whl/gfx950-dcgpu/ torch torchvision torchaudio
 
 # test torch GPU detection
 python3
