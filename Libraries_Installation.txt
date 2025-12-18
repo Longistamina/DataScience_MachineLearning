@@ -56,20 +56,85 @@ Use pip3 install -U for latest versions
 #-------------------------- Pytorch for AMD ROCm (ubuntu command) ----------------------------#
 #---------------------------------------------------------------------------------------------#
 
-conda activate data
+############################
+## Install Ryzen software ##
+############################
+https://rocm.docs.amd.com/projects/radeon-ryzen/en/latest/docs/install/installryz/native_linux/install-ryzen.html
 
-# Add the current user to the render and video groups (Must reboot to apply changes)
+# Insatll OEM
+sudo apt update && sudo apt install linux-image-6.14.0-1017-oem
+
+# Add the current user to the render and video groups
 sudo usermod -a -G render,video $LOGNAME
 
-# Install ROCM 7.9.0 (or more): https://rocm.docs.amd.com/en/7.9.0-preview/install/rocm.html
-pip3 install --index-url https://repo.amd.com/rocm/whl/gfx1151/ "rocm[libraries,devel]"
+# Install amdgpu-install (7.1.1)
+sudo apt update
+wget https://repo.radeon.com/amdgpu-install/7.1.1/ubuntu/noble/amdgpu-install_7.1.1.70101-1_all.deb
+sudo apt install ./amdgpu-install_7.1.1.70101-1_all.deb
+
+# Insatll driver
+amdgpu-install -y --usecase=rocm --no-dkms
+
+# Reboot to apply changes
+sudo reboot
 
 # Verify ROCM installation
 rocminfo
 amd-smi
 
-# Install Pytorch
-pip3 install --index-url https://repo.amd.com/rocm/whl/gfx950-dcgpu/ torch torchvision torchaudio
+#################################
+## Install amd package manager ##
+#################################
+
+# Make the directory if it doesn't exist yet.
+# This location is recommended by the distribution maintainers.
+sudo mkdir --parents --mode=0755 /etc/apt/keyrings
+# Download the key, convert the signing-key to a full
+# keyring required by apt and store in the keyring directory
+wget https://repo.radeon.com/rocm/rocm.gpg.key -O - | \
+    gpg --dearmor | sudo tee /etc/apt/keyrings/rocm.gpg > /dev/null
+
+# Register package
+sudo tee /etc/apt/sources.list.d/rocm.list << EOF
+deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/7.1/ noble main
+EOF
+sudo tee /etc/apt/preferences.d/rocm-pin-600 << EOF
+Package: *
+Pin: release o=repo.radeon.com
+Pin-Priority: 600
+EOF
+sudo apt update
+
+# Upgrade
+sudo apt upgrade -y
+
+# Install rocm
+sudo apt install rocm
+
+#####################
+## Install Pytorch ##
+#####################
+
+# Activate conda
+conda activate data
+
+# to Downloads
+cd ~/Downloads
+
+# Upgrade pip3
+pip3 install --upgrade pip wheel
+
+# Download wheel
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torch-2.9.1%2Brocm7.1.1.lw.git351ff442-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torchvision-0.24.0%2Brocm7.1.1.gitb919bd0c-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/triton-3.5.1%2Brocm7.1.1.gita272dfa8-cp312-cp312-linux_x86_64.whl
+wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torchaudio-2.9.0%2Brocm7.1.1.gite3c6ee2b-cp312-cp312-linux_x86_64.whl
+
+# Uninstall old things
+pip3 uninstall torch torchvision triton torchaudio
+
+# Install new ones
+pip3 install torch-2.9.1+rocm7.1.1.lw.git351ff442-cp312-cp312-linux_x86_64.whl torchvision-0.24.0+rocm7.1.1.gitb919bd0c-cp312-cp312-linux_x86_64.whl triton-3.5.1+rocm7.1.1.gita272dfa8-cp312-cp312-linux_x86_64.whl torchaudio-2.9.0+rocm7.1.1.gite3c6ee2b-cp312-cp312-linux_x86_64.whl
 
 # test torch GPU detection
 python3
