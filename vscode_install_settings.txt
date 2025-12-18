@@ -30,6 +30,8 @@ Go to the Extension menu (Ctrl + Shift + X) and install these extensions:
     # Excel Viewer (MESCIUS): for .xlsx files and .csv files
     # Rainbow CSV (for easier to read .csv file)
     # Live Preview (Microsoft tick): for preview .html file
+    # Python Indent (Kevin Rose)
+    # indent-rainbow (oderwat)
 
 
 Set clear terminal shortcut:
