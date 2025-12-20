@@ -85,8 +85,8 @@ print("Awake!")
 start = time.time()
 
 for i in range(10):
-    print(i)
-    time.sleep(0.3)  # Sleep for 0.3 second between prints
+   print(i)
+   time.sleep(0.3)  # Sleep for 0.3 second between prints
 
 end = time.time()
 
@@ -145,7 +145,6 @@ print(str_time_obj.tm_yday)   # 1
 print(str_time_obj.tm_isdst)  # 0 (Not in Daylight Saving Time)
 
 '''Friday January 1, 2021 09:05:00 AM'''
-
 
 ###################
 ## time.gmtime() ##
