@@ -2,6 +2,9 @@
 #------------------------ for loop -------------------------#
 #-----------------------------------------------------------#
 
+for _ in range(5):
+    print("Hello, World!")
+
 for i in range(1, 20):
     if i%2 != 0: 
         print(i)
@@ -76,3 +79,20 @@ for index, fruit in enumerate(lst_fruits, start=1):
 # Index: 1, Fruit: apple
 # Index: 2, Fruit: banana
 # Index: 3, Fruit: cherry
+
+
+# Use enumerate with _, vals to ignore the index
+for _, fruit in enumerate(lst_fruits):
+    print(f'Fruit: {fruit}')
+# Output:
+# Fruit: apple
+# Fruit: banana
+# Fruit: cherry
+
+# Use enumerate with _, _ to ignore both index and value
+for _, _ in enumerate(lst_fruits):
+    print('This is a fruit.')
+# Output:
+# This is a fruit.
+# This is a fruit.
+# This is a fruit.
