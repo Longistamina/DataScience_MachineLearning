@@ -236,7 +236,7 @@ print(list(filter(lambda s: s.isnumeric(), test_strings)))
 ######################
 ## isalnum() method ##
 ######################
-'''Checks if all characters are alphanumeric (letters and numbers).'''
+'''Checks if all characters are alphanumeric (letters or numbers or both).'''
 
 for s in test_strings:
     print(f"{repr(s)}.isalnum(): {s.isalnum()}")
