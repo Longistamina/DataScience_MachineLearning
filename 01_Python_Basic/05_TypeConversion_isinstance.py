@@ -22,6 +22,9 @@ z = float("3")    # z will be 3.0
 w = float("4.2")  # w will be 4.2
 u = float(".2")   # u will be 0.2
 v = float("-.51") # v will be -0.51
+o = float("5e2")  # o will be 500.0
+p = float(2.5e-8) # p will be 2.5e-08
+q = float("1.7E+3") # q will be 1700.0
 
 ## complex() to convert into complex number
 x = complex(1)        # x will be (1+0j)
