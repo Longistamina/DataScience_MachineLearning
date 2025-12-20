@@ -3,6 +3,8 @@ The os.path module is an essential tool for data scientists working with file sy
 It provides platform-independent functions for manipulating file and directory paths, 
 making your code portable across different operating systems. 
 
+####################################################################
+
 Flow of contents:
 1. Checking if a path exists using `os.path.exists()`
 2. Check if a path is an abosolute path using `os.path.isabs()`
@@ -40,7 +42,7 @@ os.path.exists('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_
 
 
 # Check a file path
-os.path.exists('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_termcolor.py')
+os.path.exists('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_end_sep_termcolor.py')
 # True
 
 
@@ -82,7 +84,7 @@ os.path.isdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_P
 #-------------------------------------------------------------------------------#
 
 # Check if a path is a file
-os.path.isfile('/home/longdpt/Documents/Academic/DataScience_MachineLearning/Python_Important_packages.txt')
+os.path.isfile('/home/longdpt/Documents/Academic/DataScience_MachineLearning/Libraries_Installation.txt')
 # True
 
 
@@ -91,11 +93,15 @@ os.path.isfile('/home/longdpt/Documents/Academic/DataScience_MachineLearning')
 # False
 
 
+# Check a non-existing path
+os.path.isfile('non_existing_file.txt')
+# False
+
+
 #-------------------------------------------------------------------------------#
 #------------------- 5. Joining paths using os.path.join -----------------------#
 #-------------------------------------------------------------------------------#
-
-# os.path.join() is used to join one or more path components intelligently.
+'''os.path.join() is used to join one or more path components intelligently.'''
 
 # Join components without leading or trailing slashes
 joined_path = os.path.join('dir_1', 'dir_2', 'file.txt')
@@ -112,16 +118,25 @@ NOTE: os.path.join() automatically handles the path separators based on the oper
 '''
 
 
-
 #-------------------------------------------------------------------------------#
 #------------------- 6. Getting the base name of a path ------------------------#
 #-------------------------------------------------------------------------------#
 
-demo_path = 'dir_1/dir_2/file.txt'
+demo_file_path = 'dir_1/dir_2/file.txt'
+demo_dir_path = 'dir_1/dir_2/dir_3'
 
-# Get the base name of the path
-base_name = os.path.basename(demo_path)
-print(base_name) # file.txt
+
+# Get the base name of the file path
+base_name_file = os.path.basename(demo_file_path)
+print(base_name_file) # file.txt
+
+# Get the base name of the directory path
+base_name_dir = os.path.basename(demo_dir_path)
+print(base_name_dir) # dir_3
+
+# Get the base name of a path with trailing slash
+print(os.path.basename('/home/longdpt/Documents/')) # (an empty string)
+'''NOTE: returns an empty string if the path ends with a trailing slash.'''
 
 
 #-------------------------------------------------------------------------------#
@@ -144,30 +159,26 @@ demo_path = 'dir_1/dir_2/file.txt'
 #####################
 ## os.path.split() ##
 #####################
-
-# os.path.split() splits the path into a tuple containing the directory and the base name.
+'''os.path.split() splits the path into a tuple containing the directory and the base name.'''
 
 split_path = os.path.split(demo_path)
 print(split_path)  # ('dir_1/dir_2', 'file.txt')
 
-
 ##########################
 ## os.path.splitdrive() ##
 ##########################
-
-# os.path.splitdrive() splits the path into a tuple containing the drive and the rest of the path.
+'''os.path.splitdrive() splits the path into a tuple containing the drive and the rest of the path.'''
 
 split_drive = os.path.splitdrive('/home/longdpt/')
 print(split_drive)  # ('', 'home/longdpt/')
 
 ## It returns an empty string for the drive on non-Windows systems, as they do not have drive letters (like C:, D:, etc.).
 
-
 ########################
 ## os.path.splitext() ##
 ########################
+'''os.path.splitext() splits the path into a tuple containing the base name and the file extension.'''
 
-# os.path.splitext() splits the path into a tuple containing the base name and the file extension.
 split_ext = os.path.splitext(demo_path)
 print(split_ext)  # ('dir_1/dir_2/file', '.txt')
 
@@ -177,8 +188,8 @@ print(os.path.splitext('json_file.json'))  # ('json_file', '.json')
 #--------------------------------------------------------------------------------#
 #------------------- 9. Using os.path.normpath() to normalize paths -------------#
 #--------------------------------------------------------------------------------#
+'''os.path.normpath() normalizes the path by collapsing redundant separators and up-level references.'''
 
-# os.path.normpath() normalizes the path by collapsing redundant separators and up-level references.
 normalized_path = os.path.normpath('dir_1//dir_2/../file.txt')
 print(normalized_path)  # dir_1/file.txt
 
@@ -186,12 +197,14 @@ print(normalized_path)  # dir_1/file.txt
 #----------------------------------------------------------------------------------#
 #------------------- 10. Using os.path.abspath() to get the absolute path ---------#
 #----------------------------------------------------------------------------------#
-
-# os.path.abspath() returns the absolute path of a given path.
-# It does so by appending the current working directory to the given path if it is not absolute.
+'''
+os.path.abspath() returns the absolute path of a given path.
+NOTE: It does so by appending the current working directory to the given path if it is not absolute.
+'''
 
 absolute_path = os.path.abspath('dir_1/dir_2/file.txt')
-print(absolute_path)  # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/dir_1/dir_2/file.txt
+print(absolute_path)  
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/dir_1/dir_2/file.txt
 
 
 #-----------------------------------------------------------------------------------------#
@@ -202,14 +215,15 @@ print(absolute_path)  # /home/longdpt/Documents/Academic/DataScience_MachineLear
 relative_path = os.path.relpath('dir_1/dir_2/dir_3/file.txt',
                                  start='dir_1/dir_2')
 
-print(relative_path)  # dir_3/file.txt
+print(relative_path)  
+# dir_3/file.txt
 
 
 #------------------------------------------------------------------------------------------#
 #------------------- 12. Using os.path.commonpath() to find the common path prefix --------#
 #------------------------------------------------------------------------------------------#
+'''os.path.commonpath() returns the common path prefix of a list of paths.'''
 
-# os.path.commonpath() returns the common path prefix of a list of paths.
 common_path = os.path.commonpath(['dir_1/dir_2/file.txt', 'dir_1/dir_2/dir_3/file.txt'])
 print(common_path)  # dir_1/dir_2
 
@@ -217,8 +231,8 @@ print(common_path)  # dir_1/dir_2
 #---------------------------------------------------------------------------------------------------------#
 #------------------- 13. Using os.path.commonprefix() to find the common prefix of paths -----------------#
 #---------------------------------------------------------------------------------------------------------#
+'''os.path.commonprefix() returns the common prefix of a list of paths.'''
 
-# os.path.commonprefix() returns the common prefix of a list of paths.
 common_prefix = os.path.commonprefix(['dir_1/dir_2/file.txt', 'dir_1/dir_2/dir_3/file.txt'])
 print(common_prefix)  # dir_1/dir_2/
 
@@ -230,16 +244,15 @@ print(common_prefix)  # dir_1/dir_2/
 #################
 ## os.path.sep ##
 #################
+'''os.path.sep is the separator used by the operating system for paths.'''
 
-# os.path.sep is the separator used by the operating system for paths.
 print(os.path.sep)  # / on Unix-like systems, \ on Windows
-
 
 ####################
 ## os.path.altsep ##
 ####################
+'''os.path.altsep is an alternative separator used by the operating system for paths.'''
 
-# os.path.altsep is an alternative separator used by the operating system for paths.
 print(os.path.altsep)  # None on Unix-like systems, / on Windows
 
 
@@ -250,15 +263,15 @@ print(os.path.altsep)  # None on Unix-like systems, / on Windows
 ####################
 ## os.path.curdir ##
 ####################
+'''The symbolic name for the current directory.'''
 
-# os.path.curdir is the current directory (usually '.').
 print(os.path.curdir)  # .
 
 ####################
 ## os.path.pardir ##
 ####################
+'''The symbolic name for the parent directory.'''
 
-# os.path.pardir is the parent directory (usually '..').
 print(os.path.pardir)  # ..
 
 
@@ -270,18 +283,23 @@ print(os.path.pardir)  # ..
 is_link = os.path.islink('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_termcolor.py')
 print(is_link)  # False (if the file is not a symbolic link)
 
+# Create a symbolic link for demonstration (uncomment the line below to create the link)
+os.symlink(src="./Curriculum.txt", dst="symlink_to_curriculum.txt")
 
 # Check a TRUE symbolic link
-is_link = os.path.islink('/home/longdpt/lmstudio/lmstudio_exe')
-print(is_link)  # True (if /home/longdpt/lmstudio/lmstudio_exe is a symbolic link)
+is_link = os.path.islink('./symlink_to_curriculum.txt')
+print(is_link)  # True
 
 
 #----------------------------------------------------------------------------------------------------#
-#------------------- 17. Using os.walk() to traverse directories -------------------------------#  
+#------------------------ 17. Using os.walk() to traverse directories -------------------------------#  
 #----------------------------------------------------------------------------------------------------#
+'''
+os.path.walk() is used to traverse directories. However, it is deprecated in Python 3.x.
 
-# os.path.walk() is used to traverse directories. However, it is deprecated in Python 3.x.
-# Instead, you can use os.walk() which is a generator that yields a tuple of (dirpath, dirnames, filenames) for each directory in the tree rooted at the specified directory.
+Instead, you can use os.walk() which is a generator that yields a tuple of (dirpath, dirnames, filenames) 
+for each directory in the tree rooted at the specified directory.
+'''
 
 print(os.walk('/home/longdpt/Academic/DataScience_MachineLearning/01_Python_Basic'))
 # <generator object walk at 0x7f1a1fd5b290>
@@ -318,25 +336,25 @@ for dirpath, dirnames, filenames in os.walk(path_to_traverse):
 #----------------------------------------------------------------------------------------------------#
 #------------------- 18. Using os.path.getsize() to get the size of a file --------------------------#
 #----------------------------------------------------------------------------------------------------#
+'''os.path.getsize() returns the size of a file in bytes.'''
 
-# os.path.getsize() returns the size of a file in bytes.
-file_size = os.path.getsize('./01_Python_Basic/01_print_termcolor.py')
-print(file_size) # 2857 (bytes)
+file_size = os.path.getsize('./01_Python_Basic/01_print_end_sep_termcolor.py')
+print(file_size) # 5158 (bytes)
 
 
 #------------------------------------------------------------------------------------------------------#
 #------------------- 19. Using os.path.getmtime() to get the last modification time of a file ---------#
 #------------------------------------------------------------------------------------------------------#
 
-# os.path.getmtime() returns the last modification time of a file as a timestamp.
-last_mod_time = os.path.getmtime('./01_Python_Basic/01_print_termcolor.py')
-print(last_mod_time)  # 1752072688.809893 (timestamp)
+'''os.path.getmtime() returns the last modification time of a file as a timestamp.'''
+last_mod_time = os.path.getmtime('./01_Python_Basic/01_print_end_sep_termcolor.py')
+print(last_mod_time)  # 1766041388.2355113 (timestamp)
 
 
 # Convert the timestamp to a human-readable format
 import datetime
 last_mod_time_human = datetime.datetime.fromtimestamp(last_mod_time)
-print(last_mod_time_human)  # 2023-10-05 12:34:48.809893
+print(last_mod_time_human)  # 2025-12-18 16:03:08.235511
 
 
 #--------------------------------------------------------------------------------------------------------#
@@ -344,8 +362,8 @@ print(last_mod_time_human)  # 2023-10-05 12:34:48.809893
 #--------------------------------------------------------------------------------------------------------#
 
 # os.path.getatime() returns the last access time of a file as a timestamp.
-last_access_time = os.path.getatime('./01_Python_Basic/01_print_termcolor.py')
-print(last_access_time)  # 1752765483.9826865 (timestamp)
+last_access_time = os.path.getatime('./01_Python_Basic/01_print_end_sep_termcolor.py')
+print(last_access_time)  # 1766140589.234306 (timestamp)
 
 
 # Convert the timestamp to a human-readable format
@@ -358,13 +376,13 @@ print(last_access_time_human)  # 2023-10-15 12:34:43.9826865
 #---------------------------------------------------------------------------------------------------------#
 
 # os.path.getctime() returns the creation time of a file as a timestamp.
-creation_time = os.path.getctime('./01_Python_Basic/01_print_termcolor.py')
-print(creation_time)  # 1752072688.809893 (timestamp)
+creation_time = os.path.getctime('./01_Python_Basic/01_print_end_sep_termcolor.py')
+print(creation_time)  # 1766041388.2355113 (timestamp)
 
 
 # Convert the timestamp to a human-readable format
 creation_time_human = datetime.datetime.fromtimestamp(creation_time)
-print(creation_time_human)  # 2023-10-05 12:34:48.809893
+print(creation_time_human)  # 2025-12-18 16:03:08.235511
 
 
 #-----------------------------------------------------------------------------------------------------------#
@@ -372,13 +390,13 @@ print(creation_time_human)  # 2023-10-05 12:34:48.809893
 #-----------------------------------------------------------------------------------------------------------#
 
 # os.path.samefile() checks if two paths point to the same file.
-same_file = os.path.samefile('./01_Python_Basic/01_print_termcolor.py',
-                             '/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_termcolor.py')
+same_file = os.path.samefile('./01_Python_Basic/01_print_end_sep_termcolor.py',
+                             '/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_end_sep_termcolor.py')
 print(same_file)  
 # True (if both paths point to the same file)
 
 
-print(os.path.samefile('./vscode_install_settings.txt', 'Python_Important_packages.txt'))
+print(os.path.samefile('./vscode_install_settings.txt', 'Libraries_Installation.txt'))
 # False (if the files are different or do not exist)
 
 ''' NOTE: This function raises an OSError if either of the paths does not exist '''
