@@ -4,6 +4,8 @@ The `glob` method in the `pathlib` module allows you to search for files and dir
 
 Unlike the traditional `os` module, `pathlib` provides a more intuitive and readable way to work with paths.
 
+#######################################################
+
 Flow of contents:
 1. Create Path object: PurePath, Concrete Path, Join Path slash /
 2. Get current working directory and home directory: Path.cwd(), Path.home()
@@ -31,15 +33,17 @@ from loguru import logger
 ################################################
 ## PurePath - PurePosixPath - PureWindowsPath ##
 ################################################
-
-# PurePath classes represent a filesystem path without any actual file system operations.
-# They are designed for purely computational operations on path strings, such as joining segments, extracting names, or changing extensions.
-# They do not allow for any file system operations like reading or writing files, and other methods like .exists() or .is_file()
+'''
+PurePath classes represent a filesystem path without any actual file system operations.
+They are designed for purely computational operations on path strings, such as joining segments, extracting names, or changing extensions.
+They do not allow for any file system operations like reading or writing files, and other methods like .exists() or .is_file()
+'''
 
 from pathlib import PurePath, PurePosixPath, PureWindowsPath
 
 
-# Create a PurePath object using PurePath. It will automatically handle the path separator based on the operating system.
+# Create a PurePath object using PurePath. 
+# It will automatically handle the path separator based on the operating system.
 pure_path = PurePath('parent_dir', 'child_dir', 'example.txt') # Works like os.path.join()
 print(pure_path) # parent_dir/child_dir/example.txt
 
@@ -63,14 +67,14 @@ except Exception as e:
 else:
     print(pure_path.exists())
 
-
 ##################################
 ## Path - PosixPath WindowsPath ##
 ##################################
-
-# Concrete Path classes represent actual filesystem paths and allow for file system operations.
-# They inherit from PurePath and provide methods to interact with the file system, 
-# such as reading and writing files, checking existence, and more.
+'''
+Concrete Path classes represent actual filesystem paths and allow for file system operations.
+They inherit from PurePath and provide methods to interact with the file system, 
+such as reading and writing files, checking existence, and more.
+'''
 
 from pathlib import Path, PosixPath, WindowsPath
 
@@ -103,7 +107,7 @@ print(posix_path.exists()) # False
 pathlib.Path("") will return current working directory "."
 '''
 Path("")
-#PosixPath('.')
+# PosixPath('.')
 
 print(Path(""))
 # .
@@ -122,7 +126,6 @@ for entry in Path("").glob("*"):
 # .gitignore
 # .vscode
 
-
 #####################################
 ## Using .joinpath() to join paths ##
 #####################################
@@ -133,7 +136,6 @@ demo_path = Path('dir_1')
 new_path = demo_path.joinpath('dir_2', 'dir_3', 'example.txt') # This does not modifiy the original path object (demo_path)
 
 print(new_path)  # dir_1/dir_2/dir_3/example.txt
-
 
 ################################################
 ## Using the slash operator (/) to join paths ##
@@ -161,7 +163,6 @@ from pathlib import Path
 current_working_directory = Path.cwd()
 print(current_working_directory) # /home/longdpt/Documents/Academic/DataScience_MachineLearning
 
-
 #################
 ## Path.home() ##
 #################
@@ -180,12 +181,13 @@ from pathlib import Path
 demo_file_path = Path('parent_dir/child_dir/example.txt')
 demo_dir_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP")
 
-
 ######################
 ## path_object.name ##
 ######################
-
-# The path_object.name property returns the final component of the path, which is the file or directory name.
+'''
+The path_object.name property returns the final component of the path,
+which is the file or directory name.
+'''
 
 file_name = demo_file_path.name
 print(file_name)  # example.txt
@@ -193,12 +195,11 @@ print(file_name)  # example.txt
 dir_name = demo_dir_path.name
 print(dir_name)  # 02_Python_class_OOP
 
-
 ######################
 ## path_object.stem ##
 ######################
+'''The path_object.stem property returns the name of the file or directory without its suffix (extension).'''
 
-# The path_object.stem property returns the name of the file or directory without its suffix (extension).
 
 file_stem = demo_file_path.stem
 print(file_stem)  # example
@@ -206,12 +207,10 @@ print(file_stem)  # example
 dir_stem = demo_dir_path.stem
 print(dir_stem)  # 02_Python_class_OOP
 
-
 ########################
 ## path_object.suffix ##
 ########################
-
-# The path_object.suffix property returns the file extension (suffix) of the file or directory.
+'''The path_object.suffix property returns the file extension (suffix) of the file or directory.'''
 
 file_suffix = demo_file_path.suffix
 print(file_suffix)  # .txt
@@ -219,12 +218,10 @@ print(file_suffix)  # .txt
 dir_suffix = demo_dir_path.suffix
 print(dir_suffix)  # (empty string, since directories don't have a suffix)
 
-
 ##########################
 ## path_object.suffixes ##
 ##########################
-
-# The path_object.suffixes property returns a list of all suffixes (extensions) of the file or directory.
+'''The path_object.suffixes property returns a list of all suffixes (extensions) of the file or directory.'''
 
 file_suffixes = demo_file_path.suffixes
 print(file_suffixes)  # ['.txt']
@@ -235,12 +232,10 @@ print(file_suffixes)  # ['.tar', '.gz'] (multiple suffixes)
 dir_suffixes = demo_dir_path.suffixes
 print(dir_suffixes)  # [] (empty list, since directories don't have suffixes)
 
-
 ########################
 ## path_object.parent ##
 ########################
-
-# The path_object.parent property returns the parent directory of the file or directory.
+'''The path_object.parent property returns the parent directory of the file or directory.'''
 
 file_parent = demo_file_path.parent
 print(file_parent)  # parent_dir/child_dir
@@ -250,14 +245,12 @@ dir_parent = demo_dir_path.parent
 print(dir_parent)  # /home/longdpt/Documents/Academic/DataScience_MachineLearning
 print(dir_parent.parent)  # /home/longdpt/Documents/Academic/
 
-
 '''
                BE CAREFUL parent_1
 The pathlib.Path().parent DOES NOT return a string !!!!!!
 '''
 print(type(demo_file_path.parent)) # <class 'pathlib.PosixPath'>
 print(type(file_parent.parent)) # <class 'pathlib.PosixPath'>
-
 
 '''
              BE CAREFUL parent_2
@@ -286,12 +279,10 @@ for entry in no_parent_file.parent.glob("*"):
 # .gitignore
 # .vscode
 
-
 #########################
 ## path_object.parents ##
 #########################
-
-# The path_object.parents property returns a sequence of all parent directories of the file or directory.
+'''The path_object.parents property returns a sequence of all parent directories of the file or directory.'''
 
 file_parents = demo_file_path.parents
 print(file_parents)  # <PosixPath.parents>
@@ -301,12 +292,10 @@ dir_parents = demo_dir_path.parents
 print(dir_parents)  # <PosixPath.parents>
 print(list(dir_parents))  # [PosixPath('/home/longdpt/Documents/Academic/DataScience_MachineLearning'), PosixPath('/home/longdpt/Documents/Academic'), PosixPath('/home/longdpt/Documents'), PosixPath('/home/longdpt'), PosixPath('/home'), PosixPath('/')]
 
-
 #######################
 ## path_object.parts ##
 #######################
-
-# The path_object.parts property returns a tuple of all components (parts) of the path.
+'''The path_object.parts property returns a tuple of all components (parts) of the path.'''
 
 file_parts = demo_file_path.parts
 print(file_parts)  # ('parent_dir', 'child_dir', 'example.txt')
@@ -314,12 +303,13 @@ print(file_parts)  # ('parent_dir', 'child_dir', 'example.txt')
 dir_parts = demo_dir_path.parts
 print(dir_parts)  # ('/', 'home', 'longdpt', 'Documents', 'Academic', 'DataScience_MachineLearning', '02_Python_class_OOP')
 
-
 ######################
 ## path_object.root ##
 ######################
-
-# The path_object.root property returns the root of the path, which is the top-level directory in the file system.
+'''
+The path_object.root property returns the root of the path, 
+which is the top-level directory in the file system.
+'''
 
 file_root = demo_file_path.root
 print(file_root)  # (empty string, since the file path is relative)
@@ -335,28 +325,24 @@ print(dir_root)  # / (the root directory of the file system)
 from pathlib import Path
 
 demo_file_path = Path('parent_dir/child_dir/example.txt')
-exist_file_path = Path('Python_Important_packages.txt')
+exist_file_path = Path('Libraries_Installation.txt')
 
 demo_dir_path = Path("parent_dir/child_dir/subchild_dir")
 exist_dir_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP")
 
-
 ##########################
 ## path_object.exists() ##
 ##########################
-
-# The path_object.exists() method checks if the file or directory exists in the file system.
+'''The path_object.exists() method checks if the file or directory exists in the file system.'''
 
 print(demo_file_path.exists())  # False
 
 print(exist_dir_path.exists())  # True
 
-
 ###########################
 ## path_object.is_file() ##
 ###########################
-
-# The path_object.is_file() method checks if the path points to a file (not a directory).
+'''The path_object.is_file() method checks if the path points to a file (not a directory).'''
 
 print(demo_file_path.is_file())  # False (since the file does not exist)
 
@@ -364,12 +350,10 @@ print(exist_file_path.is_file())  # True
 
 print(exist_dir_path.is_file())  # False (since it's a directory)
 
-
 ##########################
 ## path_object.is_dir() ##
 ##########################
-
-# The path_object.is_dir() method checks if the path points to a directory (not a file).
+'''The path_object.is_dir() method checks if the path points to a directory (not a file).'''
 
 print(demo_dir_path.is_dir())  # False (since the directory does not exist)
 
@@ -377,16 +361,20 @@ print(exist_dir_path.is_dir())  # True
 
 print(exist_file_path.is_dir())  # False (since it's a file)
 
-
 ##############################
 ## path_object.is_symlink() ##
 ##############################
 
 demo_symlink_path = Path('parent_dir/child_dir/symlink_fake')
-exist_symlink_path = Path('/home/longdpt/lmstudio/lmstudio_exe')
 
-# The path_object.is_symlink() method checks if the path is a symbolic link.
-# Note: This will return False if the path does not exist.
+import os
+os.symlink(src="./Curriculum.txt", dst="symlink_to_curriculum.txt")
+exist_symlink_path = Path("symlink_to_curriculum.txt")
+
+'''
+The path_object.is_symlink() method checks if the path is a symbolic link.
+Note: This will return False if the path does not exist.
+'''
 
 print(demo_symlink_path.is_symlink())  # False (since the symlink does not exist)
 
@@ -394,23 +382,22 @@ print(exist_symlink_path.is_symlink())  # True
 
 print(exist_file_path.is_symlink())  # False (since it's a file)
 
-
 ###############################
 ## path_object.is_absolute() ##
 ###############################
-
-# The path_object.is_absolute() method checks if the path is an absolute path (starts from the root directory).
+'''
+The path_object.is_absolute() method checks if the path is an absolute path 
+(starts from the root directory).
+'''
 
 print(exist_file_path.is_absolute())  # False (since it's a relative path)
 
 print(exist_dir_path.is_absolute())  # True (since it's an absolute path)
 
-
 ##################################
 ## path_object.is_relative_to() ##
 ##################################
-
-# The path_object.is_relative_to() method checks if the path is relative to another path.
+'''The path_object.is_relative_to() method checks if the path is relative to another path.'''
 
 print(demo_file_path.is_relative_to('parent_dir'))  # True (since it's relative to 'parent_dir')
 
@@ -428,17 +415,16 @@ from pathlib import Path
 demo_relative_path_1 = Path("02_Python_class_OOP")
 demo_relative_path_2 = Path("DataScience_MachineLearning/02_Python_class_OOP")
 
-symlink_path = Path('/home/longdpt/lmstudio/lmstudio_exe')
-
+symlink_path = Path("symlink_to_curriculum.txt")
 
 ###########################
 ## path_object.resolve() ##
 ###########################
-
-# The path_object.resolve() method returns the absolute path of the file or directory, 
-# It also resolves any symbolic links and relative paths.
-''' Note: If the path does not exist, it will raise a FileNotFoundError.'''
-
+'''
+The path_object.resolve() method returns the absolute path of the file or directory, 
+It also resolves any symbolic links and relative paths.
+NOTE: If the path does not exist, it will raise a FileNotFoundError.
+'''
 
 absolute_path = demo_relative_path_1.resolve()
 print(absolute_path)  
@@ -448,22 +434,22 @@ absolute_path_alternative = demo_relative_path_2.resolve()
 print(absolute_path_alternative)
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/DataScience_MachineLearning/02_Python_class_OOP
 ''' 
->> Note: there is a duplication of the path => this is because the path is relative to the current working directory,
+>> NOTE: there is a duplication of the path => this is because the path is relative to the current working directory,
 >> and the current working directory is already inside the 'DataScience_MachineLearning' directory.
 '''
 
 absolute_symlink_path = symlink_path.resolve()
 print(absolute_symlink_path)
-# /home/longdpt/lmstudio/LM-Studio-0.3.17-11-x64.AppImage
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/Curriculum.txt
 # (The actual path of the symlink target is resolved)
-
 
 ############################
 ## path_object.absolute() ##
 ############################
-
-# The path_object.absolute() method returns the absolute path of the file or directory,
-# but it does not resolve symbolic links or relative paths.
+'''
+The path_object.absolute() method returns the absolute path of the file or directory,
+but it does not resolve symbolic links or relative paths.
+'''
 
 absolute_path_alternative = demo_relative_path_1.absolute()
 print(absolute_path_alternative)
@@ -471,7 +457,7 @@ print(absolute_path_alternative)
 
 absolute_symlink_path = symlink_path.absolute()
 print(absolute_symlink_path)
-# /home/longdpt/lmstudio/lmstudio_exe
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/symlink_to_curriculum.txt
 
 '''
 ############################################################################################################
@@ -489,6 +475,7 @@ print(relative_symlink_path.absolute())  # /home/longdpt/Documents/Academic/Data
 >> but rather the absolute path from the current working directory to the symlink itself.
 '''
 
+
 #------------------------------------------------------------------------------------------------------------------------#
 #---------------------------------------- 6. Directory and File operations ----------------------------------------------#
 #------------------------------------------------------------------------------------------------------------------------#
@@ -502,7 +489,7 @@ from pathlib import Path
 # mkdir() basic use
 data_dir = Path('./data')
 data_dir.mkdir(exist_ok=True)  # Create 'data' directory (at existed parent dir) like os.mkdir()
-                                 # Don't fail if exists
+                               # Don't fail if exists
 
 
 # mkdir() with joinpath()
@@ -537,12 +524,16 @@ for path_str in project_structure:
 WRONG USAGE: 
    Path.cwd().mkdir('new_dir')
    >>> Create nothing
+   
+TRUE USAGE:
+   Path.cwd().joinpath('new_dir').mkdir()
+   >>> Create 'new_dir' in the current working directory
 '''
-
 
 #########################################
 ## rmdir() - Remove an empty directory ##
 #########################################
+'''NOTE: rmdir() can only remove empty directories.'''
 
 project_path = Path('./project')
 
@@ -552,18 +543,15 @@ Path(project_path / 'data').joinpath('raw').rmdir()
 # Remove an empty directory (./project/data/raw) [NOT RECOMMENDED]
 Path(project_path / 'data' / 'raw').rmdir()
 
-project_path.rmdir() # Raise error
-
+project_path.rmdir() # Raise error (OSError) since the directory is not empty
 
 ############################################
 ## shutil.rmtree() - Remove non-empty dir ##
 ############################################
-
-# To remove a non-empty dir with all its contents, use shutil.rmtree()
+'''To remove a non-empty dir with all its contents, use shutil.rmtree()'''
 
 import shutil
 shutil.rmtree(project_path)
-
 
 #######################################################
 ## touch() - Create new file in a specific directory ##
@@ -585,9 +573,7 @@ WRONG USAGE:
 #####################################################
 ## symlink_to() - Create a symbolic link to a file ##
 #####################################################
-
-# symlink_to() creates a symbolic link to a file or directory.
-
+'''symlink_to() creates a symbolic link to a file or directory.'''
 
 # Create a symbolic link to the demo_file.txt
 symlink_target = Path('demo_file.txt')
@@ -604,19 +590,15 @@ dir_symlink_path = Path('data_raw_symlink')
 dir_symlink_path.symlink_to(dir_symlink_target, target_is_directory=True)  # Create a symlink to the directory
 print(dir_symlink_path.is_symlink())  # True
 
-
 '''
 NOTE: even if the target file or directory does not exist,
 the symlink will still be created, but it will be broken (pointing to a non-existent target).
 '''
 
-
 #######################################
 ## unlink() - REMOVE FILE or SYMLINK ##
 #######################################
-
-# unlink() removes a file or a symbolic link. (like os.remove())
-
+'''unlink() removes a file or a symbolic link. (like os.remove())'''
 
 # Remove a file
 Path.cwd().joinpath('demo_file.txt').unlink(missing_ok=True)  # Remove the file if it exists
@@ -633,7 +615,6 @@ symlink_path.unlink(missing_ok=True)  # Remove the symlink if it exists
 dir_symlink_path = Path('./data_raw_symlink')
 dir_symlink_path.unlink(missing_ok=True)  # Remove the symlink if it exists
                                           # Don't raise an error if the symlink does not exist
-
 
 #####################################################
 ## replace() - MOVE and RENAME a file or directory ##
@@ -654,7 +635,6 @@ Path.cwd().joinpath('demo_file.txt').replace('renamed_file.txt')  # Rename the f
 Path('./demo_dir').replace('renamed_dir')  # Rename the directory to 'renamed_dir'
 Path.cwd().joinpath('demo_dir').replace('renamed_dir')  # Rename the directory to 'renamed_dir' using joinpath()
 
-
 #--------------------------
 ## MOVE with replace()
 #--------------------------
@@ -671,7 +651,6 @@ Path.cwd().joinpath('demo_file.txt').replace('./destination_dir/demo_file.txt') 
 Path('./demo_dir').replace('./destination_dir/demo_dir')  # Move the directory
 Path.cwd().joinpath('demo_dir').replace('./destination_dir/demo_dir')  # Move the directory using joinpath()
 
-
 #--------------------------
 ## MOVE and RENAME with replace()
 #--------------------------
@@ -681,7 +660,6 @@ Path('./destination_dir').joinpath('demo_file.txt').replace(Path.cwd() / 'rename
 
 # Move and rename the directory
 Path('./destination_dir').joinpath('demo_dir').replace(Path.cwd() / 'renamed_dir')  
-
 
 ##############################################################
 ## shuti.copy() and shutil.copy2() - Copy file or directory ##
@@ -696,8 +674,7 @@ Path('./destination_dir').joinpath('demo_dir').replace(Path.cwd() / 'renamed_dir
 
 from pathlib import Path
 
-file_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearning/merge_mp4.sh")
-
+file_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearning/README.md")
 
 #################################
 ## .stat() - Get file metadata ##
@@ -706,14 +683,12 @@ file_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearning/m
 print(file_path.stat())
 # os.stat_result(st_mode=33279, st_ino=14945, st_dev=44, st_nlink=1, st_uid=1000, st_gid=1000, st_size=624, st_atime=1753340542, st_mtime=1747632919, st_ctime=1748964340)
 
-
 ##########################################
 ## .stat().st_size - File size in bytes ##
 ##########################################
 
 file_size = file_path.stat().st_size
 print(f"File size: {file_size} bytes")  # File size: 624
-
 
 ###############################################
 ## .stat().st_mtime - Last modification time ##
@@ -722,11 +697,13 @@ print(f"File size: {file_size} bytes")  # File size: 624
 file_mtime = file_path.stat().st_mtime
 print(f"Last modification time: {file_mtime}")  # Last modification time: 1747632919.0
 # This is a timestamp in seconds since the epoch (January 1, 1970). 
-# You can convert it to a human-readable format using datetime
+# You can convert it to a human-readable format using datetime or time module
 
 from datetime import datetime
 print(f"Last modification time: {datetime.fromtimestamp(file_mtime)}")  # Last modification time: 2025-05-19 12:35:19
 
+import time
+print(f"Last modification time: {time.ctime(file_mtime)}")  # 'Mon May 19 14:35:19 2025'
 
 ################################################################
 ## .stat().st_ctime - Creation time (or metadata change time) ##
@@ -740,6 +717,8 @@ print(f"Creation time: {file_ctime}")  # Creation time: 1748964340.0572999
 from datetime import datetime
 print(f"Creation time: {datetime.fromtimestamp(file_ctime)}")  # Creation time: 2025-06-03 22:25:40.057300
 
+import time
+print(f"Last modification time: {time.ctime(file_ctime)}") # Wed Jun  4 00:25:40 2025
 
 #########################################
 ## .stat().st_atime - Last access time ##
@@ -753,6 +732,8 @@ print(f"Last access time: {file_atime}")  # Last access time: 1753340542.8413243
 from datetime import datetime
 print(f"Last access time: {datetime.fromtimestamp(file_atime)}")  # Last access time: 2025-07-24 14:02:22.841324
 
+import time
+print(f"Last access time: {time.ctime(file_atime)}")  # Thu Jul 24 16:02:22 2025
 
 ###############################################
 ## .stat().st_mode - File mode (permissions) ##
@@ -766,7 +747,6 @@ print(f"File mode: {file_mode}")  # File mode: 33279
 import stat
 file_mode_human_readable = stat.filemode(file_mode)
 print(f"File mode (human-readable): {file_mode_human_readable}")  # -rwxrwxrwx
-
 
 ###############################################
 ## Store .stat() in a variable for later use ##
@@ -802,11 +782,11 @@ from pathlib import Path
 cwd_path = Path.cwd()
 
 # Add execute permission to a file
-cwd_path.joinpath("download_youtube_commandline.sh").chmod(0o755)
+cwd_path.joinpath("README.md").chmod(0o755)
 
 
 # Remove execute permission, retain read and write permissions only
-cwd_path.joinpath("download_youtube_commandline.sh").chmod(0o644)
+cwd_path.joinpath("README.md").chmod(0o644)
 
 
 '''

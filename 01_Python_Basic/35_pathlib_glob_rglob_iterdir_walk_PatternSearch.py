@@ -4,6 +4,8 @@ Pathlib provides iterdir, glob, rglob, and walk methods for file system operatio
 These methods allow you to iterate over directory contents, 
 search for files matching patterns, and traverse directories recursively.
 
+#################################################################
+
 Flow of contents:
 1. path_object.iterdir() - Iterate over directory contents. (like os.scandir())
 2. path_object.glob(pattern) - Search for files matching a pattern in the directory. (like glob.glob())
