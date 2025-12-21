@@ -184,71 +184,8 @@ sudo dnf install eigen3-devel
 mkdir -p ~/rocm_deps
 cd ~/rocm_deps
 
-#################################
-## Step 2: Build rocMLIR       ##
-#################################
-
-# Clone rocMLIR
-git clone https://github.com/ROCm/rocMLIR.git
-cd rocMLIR
-
-# Checkout compatible version for ROCm 7.1.1
-git fetch --all --tags
-git checkout rocm-7.1.1
-
-# Build
-mkdir build && cd build
-cmake -DCMAKE_PREFIX_PATH=/opt/rocm \
-      -DCMAKE_INSTALL_PREFIX=/opt/rocm \
-      -DCMAKE_BUILD_TYPE=Release \
-      ..
-cmake --build . --config Release -j$(nproc)
-sudo cmake --build . --config Release --target install
-
-echo "✓ rocMLIR installed"
-
 ########################################
-## Step 3: Build FunctionalPlus       ##
-########################################
-
-cd ~/rocm_deps
-
-# Clone FunctionalPlus
-git clone https://github.com/Dobiasd/FunctionalPlus.git
-cd FunctionalPlus
-
-# Build
-mkdir build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr/local \
-      -DCMAKE_BUILD_TYPE=Release \
-      ..
-cmake --build . --config Release -j$(nproc)
-sudo cmake --build . --config Release --target install
-
-echo "✓ FunctionalPlus installed"
-
-########################################
-## Step 4: Build frugally-deep        ##
-########################################
-
-cd ~/rocm_deps
-
-# Clone frugally-deep
-git clone https://github.com/Dobiasd/frugally-deep.git
-cd frugally-deep
-
-# Build (header-only library, but installs cmake config)
-mkdir build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr/local \
-      -DCMAKE_BUILD_TYPE=Release \
-      ..
-cmake --build . --config Release -j$(nproc)
-sudo cmake --build . --config Release --target install
-
-echo "✓ frugally-deep installed"
-
-########################################
-## Step 5: Build MIOpen from Source   ##
+## Step 2: Build MIOpen from Source   ##
 ########################################
 
 cd ~/rocm_deps
@@ -260,16 +197,19 @@ cd MIOpen
 # Checkout develop branch (has latest gfx1151 fixes)
 git checkout develop
 
+# Install MIOpen Dependencies
+cmake -P install_deps.cmake --prefix ~/rocm_deps/MIOpen/deps
+
 # Configure build
 mkdir build && cd build
 export CXX=/opt/rocm/llvm/bin/clang++
 
 cmake -DMIOPEN_BACKEND=HIP \
-      -DCMAKE_PREFIX_PATH="/opt/rocm;/opt/rocm/hip" \
+      -DCMAKE_PREFIX_PATH="~/rocm_deps/MIOpen/deps" \
       -DCMAKE_INSTALL_PREFIX=/opt/rocm \
       -DCMAKE_BUILD_TYPE=Release \
-      -DBUILD_TESTS=OFF \
-      -DMIOPEN_BUILD_DRIVER=OFF \
+      #-DBUILD_TESTS=OFF \
+      #-DMIOPEN_BUILD_DRIVER=OFF \
       ..
 
 # Note: DMIOPEN_BUILD_DRIVER=OFF skips driver build (has compilation issues on develop)
@@ -284,7 +224,7 @@ sudo cmake --build . --config Release --target install
 echo "✓ MIOpen built and installed to /opt/rocm"
 
 ####################################################
-## Step 6: Install Custom MIOpen to Conda Env    ##
+## Step 3: Install Custom MIOpen to Conda Env    ##
 ####################################################
 
 # Set your conda environment name (change 'data' to your env name)
@@ -305,7 +245,7 @@ ln -sf libMIOpen.so.1 libMIOpen.so
 echo "✓ Custom MIOpen installed to conda environment"
 
 ####################################################
-## Step 7: Clear MIOpen Kernel Cache             ##
+## Step 4: Clear MIOpen Kernel Cache             ##
 ####################################################
 
 # Remove old cached kernels (forces recompilation for gfx1151)
@@ -315,7 +255,7 @@ rm -rf ~/.config/miopen/*
 echo "✓ Kernel cache cleared"
 
 ####################################################
-## Step 8: Configure PyTorch for gfx1151         ##
+## Step 5: Configure PyTorch for gfx1151         ##
 ####################################################
 
 # Create test script
@@ -341,7 +281,7 @@ EOF
 python ~/test_gfx1151_batchnorm.py
 
 ####################################################
-## Step 9: Use in Your Training Scripts          ##
+## Step 6: Use in Your Training Scripts          ##
 ####################################################
 
 cat > ~/training_template.py << 'EOF'
