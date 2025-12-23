@@ -124,17 +124,14 @@ cd ~/Downloads
 # Upgrade pip3
 pip3 install --upgrade pip wheel
 
-# Download wheel
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torch-2.9.1%2Brocm7.1.1.lw.git351ff442-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torchvision-0.24.0%2Brocm7.1.1.gitb919bd0c-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/triton-3.5.1%2Brocm7.1.1.gita272dfa8-cp312-cp312-linux_x86_64.whl
-wget https://repo.radeon.com/rocm/manylinux/rocm-rel-7.1.1/torchaudio-2.9.0%2Brocm7.1.1.gite3c6ee2b-cp312-cp312-linux_x86_64.whl
-
 # Uninstall old things
 pip3 uninstall torch torchvision triton torchaudio
 
 # Install new ones
-pip3 install torch-2.9.1+rocm7.1.1.lw.git351ff442-cp312-cp312-linux_x86_64.whl torchvision-0.24.0+rocm7.1.1.gitb919bd0c-cp312-cp312-linux_x86_64.whl triton-3.5.1+rocm7.1.1.gita272dfa8-cp312-cp312-linux_x86_64.whl torchaudio-2.9.0+rocm7.1.1.gite3c6ee2b-cp312-cp312-linux_x86_64.whl
+pip install --index-url=https://rocm.nightlies.amd.com/v2-staging/gfx1151/ \
+    torch==2.11.0a0+rocm7.11.0a20251217 \
+    torchvision \
+    torchaudio
 
 # test torch GPU detection
 python3
@@ -150,80 +147,6 @@ try:
     logger.debug(f"Current GPU device: {torch.cuda.current_device()}")
 except Exception as e:
     logger.error(f"GPU tensor test failed: {e}")
-
-##################################################################
-## Building MIOpen from Source for AMD gfx1151 (Radeon 8060S) ##
-##################################################################
-
-# System: ROCm 7.1.1 on Ubuntu/Fedora
-# Target: Fix BatchNorm issues for PyTorch on gfx1151
-# Author: Based on your successful setup
-# Date: December 2025
-
-########################################
-## Step 1: Install System Dependencies ##
-########################################
-
-# On Ubuntu:
-sudo apt-get update
-sudo apt-get install libboost-dev libboost-system-dev libboost-filesystem-dev
-sudo apt-get install cmake git build-essential
-sudo apt-get install libsqlite3-dev libbz2-dev
-sudo apt-get install nlohmann-json3-dev
-sudo apt-get install libgtest-dev  # Required for MIOpen tests
-sudo apt-get install libeigen3-dev  # Required for frugally-deep
-
-# Set working directory
-mkdir -p ~/rocm_deps
-cd ~/rocm_deps
-
-########################################
-## Step 2: Build MIOpen from Source   ##
-########################################
-
-cd ~/rocm_deps
-
-# Clone MIOpen
-git clone https://github.com/ROCm/MIOpen.git
-cd MIOpen
-
-# Checkout develop branch (has latest gfx1151 fixes)
-git checkout develop
-
-# Install MIOpen Dependencies
-cmake -P install_deps.cmake --minimum --prefix ~/rocm_deps/MIOpen/deps
-
-# Configure build
-mkdir build && cd build
-export CXX=/opt/rocm/llvm/bin/clang++
-
-cd ~/rocm_deps/MIOpen
-mkdir build && cd build
-export CXX=/opt/rocm/llvm/bin/clang++
-cmake -DMIOPEN_BACKEND=HIP \
-      -DCMAKE_PREFIX_PATH="/opt/rocm;/opt/rocm/hip;~/rocm_deps/MIOpen/deps" \
-      -DBUILD_DEV=Off \
-      -DMIOPEN_BUILD_DRIVER=Off \
-      ..
-
-# Note: DMIOPEN_BUILD_DRIVER=OFF skips driver build (has compilation issues on develop)
-# Note: DBUILD_TESTS=OFF skips test suite (not needed for PyTorch usage)
-
-# Build (this takes 15-30 minutes depending on your CPU)
-cmake --build . --config Release -j$(nproc)
-
-# Install to system
-sudo cmake --build . --config Release --target install
-
-
-#########################################
-## Step 3: permanent environment setup ##
-#########################################
-
-echo 'export ROCM_PATH=/opt/rocm' >> ~/.bashrc
-echo 'export LD_LIBRARY_PATH=/opt/rocm/lib:$LD_LIBRARY_PATH' >> ~/.bashrc
-echo 'export HSA_OVERRIDE_GFX_VERSION=11.0.1' >> ~/.bashrc  # gfx1151 fix
-source ~/.bashrc
 
 ##########################
 ## Step 4: Verification ##
