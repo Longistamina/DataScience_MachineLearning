@@ -3,8 +3,8 @@
 
 2. register_func(): for chainability
    + Register a single function for another package (like scipy.stats.shapiro)
-   + Register all public functions from another package (like scipy.stats)
    + NumPy functions: no need to be registered, they are automatically available in DataR
+   + Use np.apply_along_axis() for functions like scipy.stats.shapiro
 
 3. dr.pipe()
    + Apply custom lambda functions (usefull for pandas methods)
@@ -96,38 +96,6 @@ print(
 # W-statistic    9.805285e-01    9.887039e-01
 # p_value        2.075369e-10    4.815328e-07
 
-#######################################################
-## Register all public functions from other packages ##
-#######################################################
-
-from scipy import stats
-from argparse import Namespace
-
-# Register all public objects from scipy.stats
-stats_rgs = Namespace()
-for key in dir(stats):
-    if not key.startswith("_"): # Ignore private functions
-        setattr(stats_rgs, key, register_func(getattr(stats, key)))
-
-'''
-Now all public functions from scipy.stats are retistered in stats_rgs.<function_name>
-Can be used in dr.reframe(), dr.mutate(), etc.
-'''
-
-print(
-    df_baseball
-    >> dr.reframe(
-        height_shapiro = stats_rgs.shapiro(f.Height),
-        weight_normaltest = stats_rgs.normaltest(f.Weight)
-    )
-    >> dr.pipe(lambda f: f.set_index(pd.Index(["statistic", "p_value"]))) # rename the index
-)
-#            height_shapiro  weight_normaltest
-#                 <float64>          <float64>
-# statistic    9.805285e-01          20.425982
-# p_value      2.075369e-10           0.000037
-
-
 ##############################################
 ## NumPy functions NO NEED TO BE REGISTERED ##
 ##############################################
@@ -147,6 +115,26 @@ print(
 # Q1              72.0             186.0
 # Q2              74.0             200.0
 # Q3              75.0             215.0
+
+##############################################
+## Use np.apply_along_axis() for functions like scipy.stats.shapiro  ##
+##############################################
+
+import numpy as np
+from scipy import stats
+
+print(
+    df_baseball
+    >> dr.reframe(
+        height_shapiro = np.apply_along_axis(stats.shapiro, 0, f.Height),
+        weight_shapiro = np.apply_along_axis(stats.shapiro, 0, f.Height)
+    )
+    >> dr.pipe(lambda f: f.set_index(pd.Index(["W-statistic", "p_value"])))
+)
+#              height_shapiro  weight_shapiro
+#                   <float64>       <float64>
+# W-statistic    9.805285e-01    9.805285e-01
+# p_value        2.075369e-10    2.075369e-10
 
 
 #---------------------------------------------------------------------------------------------------------------#

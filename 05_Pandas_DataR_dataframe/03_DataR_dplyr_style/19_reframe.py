@@ -27,10 +27,10 @@ tb_pokemon = dr.tibble(
     >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
     >> dr.select(~f["#"]) # Drop the "#" column
     >> dr.mutate(
-        Type_1 = f.Type_1.astype("category"),      # convert to category (pandas style)
-        Type_2 = dr.as_factor(f.Type_2),           # convert to category (datar style)
-        Generation = dr.as_ordered(f.Generation),  # convert to ordered category (datar style)
-        Legendary = dr.as_logical(f.Legendary)     # convert to boolean (datar style)
+        Type_1 = f.Type_1.astype("category"),                               # convert to category (pandas style)
+        Type_2 = dr.as_factor(f.Type_2, __ast_fallback="normal"),           # convert to category (datar style)
+        Generation = dr.as_ordered(f.Generation, __ast_fallback="normal"),  # convert to ordered category (datar style)
+        Legendary = dr.as_logical(f.Legendary, __ast_fallback="normal")     # convert to boolean (datar style)
     )
 )
 
@@ -75,16 +75,13 @@ print(
 ## Example 1: calculate the Shapiro-Wilk test for some columns ##
 #################################################################
 
-from pipda import register_func
-dr.shapiro = register_func(stats.shapiro)
-
 print(
     tb_pokemon
     >> dr.reframe(
-        HP_normality = dr.shapiro(f.HP),            
-        Attack_normality = dr.shapiro(f['Attack']),    
-        Defense_normality = dr.shapiro(f['Defense']),  
-        Speed_normality = dr.shapiro(f.Speed)       
+        HP_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f.HP),            
+        Attack_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f.Attack),    
+        Defense_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f['Defense']),  
+        Speed_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f['Speed'])       
     )
     >> dr.pipe(lambda f: f.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
 )
