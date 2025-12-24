@@ -22,10 +22,11 @@ demo_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearning/0
 #----------------------------------------------------------------------------------------------------------------#
 #------------------------------------- 1. path_object.iterdir() -------------------------------------------------#
 #----------------------------------------------------------------------------------------------------------------#
-
-# .iterdir() returns an iterator of Path objects for the entries in the directory.
-# To access the entries, you can use a for loop or convert it to a list.
-# (works like os.scandir())
+'''
+.iterdir() returns an iterator of Path objects for the entries in the directory.
+To access the entries, you can use a for loop or convert it to a list.
+(works like os.scandir())
+'''
 
 ###############
 ## Basic use ##
@@ -37,7 +38,6 @@ for entry in demo_path.iterdir():
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/txt_files
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files
-
 
 ######################
 # Filtering entries ##
@@ -55,7 +55,6 @@ for entry in demo_path.iterdir():
 # Directory: json_files
 # Directory: xml_files
 
-
 ###################################
 ## iter through its subdirectory ##
 ###################################
@@ -66,7 +65,6 @@ for entry in demo_path.joinpath("xml_files").iterdir():
 # plant_catalog.xml
 # music_cd.xml
 # new_written_starwars.xml
-
 
 #####################################################
 ## combine with regular expression to filter files ##
@@ -93,12 +91,16 @@ for entry in demo_path.iterdir():
 #------------------------------------- 2. path_object.glob() -------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
+'''
 # .glob(pattern) returns an iterator of Path objects matching the specified pattern in the directory.
 # It works like glob.glob() but returns Path objects instead of strings.
 
-''' glob DOES NOT allow regular expressions '''
+################
 
-'''
+NOTE: glob DOES NOT allow regular expressions
+
+################
+
 glob patterns:
 - '*' matches everything
 - '?' matches any single character
@@ -109,55 +111,53 @@ glob patterns:
 - [a-z] matches any single character in the range a-z
 - [0-9] matches any single digit from 0 to 9
 - [1-9][0-9] matches any two-digit number from 10 to 99
-- [a-e|t-z] matches any character between a-c or between t-z
-- [!a-z] matches any single character not in the range a-z
-- *[!.py|!.txt] matches any files whose extension is not ".py" or ".txt"
+- [a-c|t-z] matches any character between a-c or between t-z
+- [!a-z] matches any single character NOT in the range a-z
+- *[!.py|!.txt] matches any files whose extension is NOT ".py" or ".txt"
 '''
 ###############
 ## Basic use ##
 ###############
 
-# search for all .sh files in the current directory
-for entry in Path.cwd().glob("*.sh"): 
+# search for all .md files in the current directory
+for entry in Path.cwd().glob("*.md"): 
     print(entry.name)
-# merge_mp4.sh
-# download_youtube_commandline.sh
+# README.md
 
 
 # search for all .txt files in the current directory
 for entry in Path.cwd().glob("*.txt"):
     print(entry.name)
-# Unrar_file.txt
-# Python_Important_packages.txt
 # vscode_install_settings.txt
-
+# Libraries_Installation.txt
+# Curriculum.txt
 
 ########################
 ## Apply more pattern ##
 ########################
 
-for entry in Path.cwd().joinpath("01_Python_Basic").glob("[1-2][0-9]_*.py"):  # '**' for recursive search
+for entry in Path.cwd().joinpath("01_Python_Basic").glob("[1-2][0-9]_*.py"):
     print(entry.name)
-# 10_String_methods_Cell.py
 # 11_chr_ord.py
+# 27_TXT_open_read_write.py
+# 15_calendar_import.py
+# 14_time_module.py
+# 28_CSV_TSV_open_read_write.py
+# 17_match_case.py
+# 20_while.py
+# 29_JSON_load_dump.py
+# 13_datetime_timedelta_pytz.py
+# 21_break_continue_pass.py
+# 19_for_enumerate_zip.py
+# 25_Dictionary_create_methods_comprehension.py
+# 10_String_Methods.py
+# 18_try_except_assertion_else.py
+# 22_List_create_methods_comprehension.py
+# 26_unpacking_operators.py
+# 24_Set_Frozenset_create_operations_methods.py
+# 23_Tuple_create_methods_comprehension.py
 # 12_re_RegularExpression_regex.py
-# 13_datetime_timedelta.py
-# 14_calendar_import.py
-# 15_if_elif_else.py
-# 16_match_case.py
-# 17_try_except_assertion_else.py
-# 19_while_Loop_Nest.py
-# 20_break_continue_pass.py
-# 21_List_create_methods_comprehension.py
-# 22_Tuple_create_methods_comprehension.py
-# 23_Set_Frozenset_create_operations_methods.py
-# 24_Dictionary_create_methods_comprehension.py
-# 25_unpacking_operators.py
-# 18_for_Loop_Nest_enumerate.py
-# 26_TXT_open_read_write.py
-# 27_CSV_TSV_open_read_write.py
-# 28_JSON_load_dump.py
-# 29_XML_parse_create_write.py
+# 16_if_elif_else.py
 
 
 ################################
@@ -168,28 +168,33 @@ for entry in Path.cwd().joinpath("01_Python_Basic").glob("[1-2][0-9]_*.py"):  # 
 for entry in Path.cwd().joinpath("01_Python_Basic").glob("*[!.py]"):  # Exclude all .py files
     print(entry.name)
 # demo_data
-# Exercises
 # demo_package
 
 
 # The elements that do not start with '0', '1', '2' or '3:
-for entry in Path.cwd().joinpath("01_Python_Basic").glob("[!0-3]*"):  # Exclude all files starting with '0' or '1'
+for entry in Path.cwd().joinpath("01_Python_Basic").glob("[!0-3]*"):  # Exclude all files starting with '0', '1', '2' or '3'
     print(entry.name)
-# 40_multi_threading.py
-# 41_multi_processing.py
-# demo_data
-# Exercises
-# demo_module_same_directory.py
 # demo_package
-# 43_logging.py
-# 44_loguru_logger.py
-# 42_ArgumentParser_MainFunction.py
-# 45_Debugging_demonstration.py
-
+# 43_multi_processing.py
+# 46_loguru_logger.py
+# 41_itertools_product_combination.py
+# 47_warnings_module.py
+# demo_data
+# 48_Debugging_demonstration.py
+# 42_multi_threading.py
+# 45_logging.py
+# demo_module_same_directory.py
+# 44_ArgumentParser_MainFunction.py
+# 40_filter.py
 
 #############################
 ## ** for recursive search ##
 #############################
+
+for entry in demo_path.glob("*.xml"): # Without '**', return nothing
+    print(entry)
+    # (no output, because there are no .xml files in the given directory)
+
 
 for entry in demo_path.glob("**/*.xml"):  # '**' for recursive search
     print(entry)
@@ -197,12 +202,6 @@ for entry in demo_path.glob("**/*.xml"):  # '**' for recursive search
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files/plant_catalog.xml
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files/music_cd.xml
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files/new_written_starwars.xml
-
-
-for entry in demo_path.glob("*.xml"): # Without '**', return nothing
-    print(entry)
-    # (no output, because there are no .xml files in the given directory)
-
 
 #####################################################
 ## combine with regular expression to filter files ##
@@ -213,17 +212,15 @@ target_pattern = r"^0\d{1}_.*\.py$"
 for entry in Path.cwd().joinpath("01_Python_Basic").glob("*.py"): # Glob for all .py files
     if re.match(target_pattern, entry.name): # filter out .py files that satisfy the regex pattern
         print(entry.name)
-
-# 02_Comments_singleLine_multipleLines.py
-# 03_String_FormatSymbol.py
-# 04_Variables.py
-# 05_Casting_Convert_Datatypes.py
-# 06_Operators.py
 # 07_input_eval.py
 # 08_import_dir_math_random.py
-# 09_String_slicing_repr_RawString.py
-# 01_print_termcolor.py
-
+# 04_Variables.py
+# 02_Comments_singleLine_multipleLines.py
+# 06_Operators_Arithmetic_Compare_Logic.py
+# 03_String_FormatSymbol.py
+# 09_StringSlicing_RawString_repr.py
+# 01_print_end_sep_termcolor.py
+# 05_TypeConversion_isinstance.py
 
 #################################
 ## Count the number of matches ##
@@ -231,20 +228,21 @@ for entry in Path.cwd().joinpath("01_Python_Basic").glob("*.py"): # Glob for all
 
 # Count the number of python files in the 01_Python_Basic using normal glob("*.py")
 py_count = sum(1 for _ in Path.cwd().joinpath("01_Python_Basic").glob("*.py")) # Use "_" as a looping factor to complete the for loop syntax, but not needed later
-print(py_count) # 46
+print(py_count) # 49
 
 # Count the number of non-python files in the current directory using recursive glob("**/*[!.py]")
 non_py_count = sum(1 for _ in Path.cwd().glob("**/*[!.py]"))
-print(non_py_count) # 1926
+print(non_py_count) # 1383
 
 
 #-------------------------------------------------------------------------------------------------------------#
 #------------------------------------- 3. path_object.rglob() ------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
-
-# .rglob(pattern) is similar to .glob() 
-#  but it recursively searches for files matching the specified pattern in the directory and all its subdirectories.
-# (so it works like glob() with '**' )
+'''
+.rglob(pattern) is similar to .glob() 
+but it recursively searches for files matching the specified pattern in the directory and all its subdirectories.
+(so it works like glob() with '**' )
+'''
 
 ###############
 ## Basic use ##
@@ -265,7 +263,6 @@ for entry in demo_path.rglob("*.json"):  # rglob for recursive search
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files/women.json
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files/new_written_jsondump.json
 
-
 ################################################
 ## Filter results with Path object attributes ##
 ################################################
@@ -274,17 +271,17 @@ for entry in Path.cwd().rglob("*.py"):
     if entry.parent.name == "02_Python_class_OOP":
         print(entry.name)
 
-# 01_class_self_Introduction.py
-# 04_other_magic_methods.py
-# 05_ClassMethod.py
-# 06_StaticMethod.py
-# 07_inheritance.py
-# 02_init_InstanceAttribute.py
-# 03_dict_repr_ClassAttribute.py
+# 07_Decorator_property_getter_setter.py
 # item.py
-# 08_property_getter_setter_underscore.py
-# 09_OOP_principles.py
-
+# 05_Decorator_ClassMethod.py
+# 03_dict_repr_ClassAttribute.py
+# 09_inheritance.py
+# 04_magic_methods.py
+# 10_OOP_principles.py
+# 01_class_self_Introduction.py
+# 02_init_InstanceAttribute.py
+# 08_Private_attrs_methods.py
+# 06_Deocrator_StaticMethod.py
 
 #################################
 ## Exclusive rglob() using "!" ##
@@ -293,71 +290,65 @@ for entry in Path.cwd().rglob("*.py"):
 # The non-python elements:
 for entry in Path.cwd().joinpath("01_Python_Basic").rglob("*[!.py|!.json]"):  # Exclude all .py and .json files
     print(entry.name)
-# demo_data
+    
 # demo_package
-# drinks.csv
-# weather.tsv
-# write_dictionary.csv
-# write_list.csv
-# write_quoting_all.csv
-# write_quoting_non_numeric.csv
-# write_tsv.tsv
-# medals.csv
-# ADream.txt
-# Customers.txt
-# HumptyDumpty.txt
-# JohnnyJohnny.txt
-# Rain.txt
-# StudentScores.txt
+# demo_data
 # food.xml
 # music_cd.xml
 # new_written_starwars.xml
 # plant_catalog.xml
+# ADream.txt
+# JohnnyJohnny.txt
+# Customers.txt
+# Rain.txt
+# StudentScores.txt
+# HumptyDumpty.txt
+# write_tsv.tsv
+# write_quoting_non_numeric.csv
+# write_list.csv
+# weather.tsv
+# medals.csv
+# drinks.csv
+# write_quoting_all.csv
+# write_dictionary.csv
 
 
-# The elements that do not start with '0', '1', '2' or '3 and not a json file:
+# The elements that DO NOT start with '0', '1', '2' or '3 and not a json file:
 for entry in Path.cwd().joinpath("01_Python_Basic").rglob("[!0-3]*[!.json]"):  # Exclude all files starting with '0' or '1'
     print(entry.name)
-# 40_multi_threading.py
-# 41_multi_processing.py
-# demo_data
-# demo_module_same_directory.py
 # demo_package
-# 43_logging.py
-# 44_loguru_logger.py
-# 42_ArgumentParser_MainFunction.py
-# 45_Debugging_demonstration.py
-# Exercise_session_03_Birthday_StudentClassify.py
-# Exercise_session_04_List_practice.py
-# Exercise_session_05_Tuple_Set_Frozenset.py
-# Exercise_session_06_Dictionary_UnpackingOperators.py
-# Exercise_session_07_TXT_CSV_TSV.py
-# Exercise_session_08_JSON_XML.py
-# Exercise_session_01_calculate_circumference_area.py
-# Exercise_session_02_StringMethods_RegularExpression.py
-# Exercise_session_09_os_shutil.py
-# package_module_2.py
+# 43_multi_processing.py
+# 46_loguru_logger.py
+# 41_itertools_product_combination.py
+# 47_warnings_module.py
+# demo_data
+# 48_Debugging_demonstration.py
+# 42_multi_threading.py
+# 45_logging.py
+# demo_module_same_directory.py
+# 44_ArgumentParser_MainFunction.py
+# 40_filter.py
 # __init__.py
 # package_module_1.py
-# drinks.csv
-# weather.tsv
-# write_dictionary.csv
-# write_list.csv
-# write_quoting_all.csv
-# write_quoting_non_numeric.csv
-# write_tsv.tsv
-# medals.csv
-# ADream.txt
-# Customers.txt
-# HumptyDumpty.txt
-# JohnnyJohnny.txt
-# Rain.txt
-# StudentScores.txt
+# package_module_2.py
 # food.xml
 # music_cd.xml
 # new_written_starwars.xml
 # plant_catalog.xml
-
+# ADream.txt
+# JohnnyJohnny.txt
+# Customers.txt
+# Rain.txt
+# StudentScores.txt
+# HumptyDumpty.txt
+# write_tsv.tsv
+# write_quoting_non_numeric.csv
+# write_list.csv
+# weather.tsv
+# medals.csv
+# drinks.csv
+# write_quoting_all.csv
+# write_dictionary.csv
 
 ############################################
 ## filter results with regular expression ##
@@ -387,27 +378,27 @@ for entry in Path.cwd().rglob("*.py"):
 # 02_Convex_Optimization_CVXPY/13_OptimizationStandardForm_LocalOptimal_ImplicitConstraints.py
 # 02_Convex_Optimization_CVXPY/14_CvxOpt_StandardForm_LocalGlobalOptima.py
 
-
 #################################
 ## Count the number of matches ##
 #################################
 
 # Count the number of python files in the current directory using rglob("*.py")
 py_count = sum(1 for _ in Path.cwd().rglob("*.py")) # Use "_" as a looping factor to complete the for loop syntax, but not needed later
-print(py_count) # 202
+print(py_count) # 301
 
 # Count the number of non-python and non-json files in the current directory using rglob("*[!.py|!.json]")
 non_py_json_count = sum(1 for _ in Path.cwd().rglob("*[!.py|!.json]"))
-print(non_py_json_count) # 1502
+print(non_py_json_count) # 951
 
 
 #--------------------------------------------------------------------------------------------------------------#
 #------------------------------------- 4. path_object.walk() --------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
-
-# path_object.walk() is a method that recursively walks through the directory tree, 
-# yielding tuples of directory paths and file names.
-# (like os.walk() but returns Path objects)
+'''
+path_object.walk() is a method that recursively walks through the directory tree, 
+yielding tuples of directory paths and file names.
+(like os.walk() but returns Path objects)
+'''
 
 target_path = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/"
 
@@ -430,7 +421,6 @@ for dirpath, dirnames, filenames in Path(target_path).walk():
 # Directory: figures
 # Directory: python
 # File: additional_exercises.pdf
-
 
 #######################################################
 ## combine with joinpath() to specify a subdirectory ##
