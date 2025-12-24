@@ -7,7 +7,7 @@ Unlike the traditional `os` module, `pathlib` provides a more intuitive and read
 #######################################################
 
 Flow of contents:
-1. Create Path object: PurePath, Concrete Path, Join Path slash /
+1. Create Path object: Concrete Path, PurePath, Join Path slash /
 2. Get current working directory and home directory: Path.cwd(), Path.home()
 3. Extract path object components: name, suffix, stem, parent, parents, suffix, suffixes, parts, root
 4. Checking path properties: exists(), is_file(), is_dir(), is_symlink(), is_absolute(), is_relative_to()
@@ -29,43 +29,6 @@ from loguru import logger
 #--------------------------------------------------------------------------------------------------------------------#
 #--------------------------- 1. Create Path object: PurePath, Concrete Path, slash / --------------------------------#
 #--------------------------------------------------------------------------------------------------------------------#
-
-################################################
-## PurePath - PurePosixPath - PureWindowsPath ##
-################################################
-'''
-PurePath classes represent a filesystem path without any actual file system operations.
-They are designed for purely computational operations on path strings, such as joining segments, extracting names, or changing extensions.
-They do not allow for any file system operations like reading or writing files, and other methods like .exists() or .is_file()
-'''
-
-from pathlib import PurePath, PurePosixPath, PureWindowsPath
-
-
-# Create a PurePath object using PurePath. 
-# It will automatically handle the path separator based on the operating system.
-pure_path = PurePath('parent_dir', 'child_dir', 'example.txt') # Works like os.path.join()
-print(pure_path) # parent_dir/child_dir/example.txt
-
-
-# Create a PurePosixPath object for POSIX-style paths (Linux, macOS).
-pure_posix_path = PurePosixPath('/home', 'user/documents', 'example.txt')
-print(pure_posix_path)  # /home/user/documents/example.txt
-
-
-# Create a PureWindowsPath object for Windows-style paths.
-pure_windows_path = PureWindowsPath('C:\\', 'Users', 'User', 'Documents', 'example.txt')
-print(pure_windows_path)  # C:\Users\User\Documents\example.txt
-
-
-# Trying to perform file system operations on PurePath objects will raise an AttributeError.
-try:
-    pure_path.exists()
-except Exception as e:
-    logger.error(e) # | ERROR    | __main__:<module>:4 - 'PurePosixPath' object has no attribute 'exists'
-
-else:
-    print(pure_path.exists())
 
 ##################################
 ## Path - PosixPath WindowsPath ##
@@ -125,6 +88,43 @@ for entry in Path("").glob("*"):
 # .git
 # .gitignore
 # .vscode
+
+################################################
+## PurePath - PurePosixPath - PureWindowsPath ##
+################################################
+'''
+PurePath classes represent a filesystem path without any actual file system operations.
+They are designed for purely computational operations on path strings, such as joining segments, extracting names, or changing extensions.
+They do not allow for any file system operations like reading or writing files, and other methods like .exists() or .is_file()
+'''
+
+from pathlib import PurePath, PurePosixPath, PureWindowsPath
+
+
+# Create a PurePath object using PurePath. 
+# It will automatically handle the path separator based on the operating system.
+pure_path = PurePath('parent_dir', 'child_dir', 'example.txt') # Works like os.path.join()
+print(pure_path) # parent_dir/child_dir/example.txt
+
+
+# Create a PurePosixPath object for POSIX-style paths (Linux, macOS).
+pure_posix_path = PurePosixPath('/home', 'user/documents', 'example.txt')
+print(pure_posix_path)  # /home/user/documents/example.txt
+
+
+# Create a PureWindowsPath object for Windows-style paths.
+pure_windows_path = PureWindowsPath('C:\\', 'Users', 'User', 'Documents', 'example.txt')
+print(pure_windows_path)  # C:\Users\User\Documents\example.txt
+
+
+# Trying to perform file system operations on PurePath objects will raise an AttributeError.
+try:
+    pure_path.exists()
+except Exception as e:
+    logger.error(e) # | ERROR    | __main__:<module>:4 - 'PurePosixPath' object has no attribute 'exists'
+
+else:
+    print(pure_path.exists())
 
 #####################################
 ## Using .joinpath() to join paths ##
