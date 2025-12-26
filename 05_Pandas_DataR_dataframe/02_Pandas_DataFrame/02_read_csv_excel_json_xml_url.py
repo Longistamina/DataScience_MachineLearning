@@ -26,9 +26,12 @@ Pandas offers many functions to read data from various file formats into DataFra
 
 4. pd.read_xml() - Read XML files
    + Installation: conda install -c conda-forge lxml / pip3 install lxml
+   
+5. pd.read_csv(url) - Read data from a URL
 '''
 
 import pandas as pd
+
 
 #---------------------------------------------------------------------------------------------------------#
 #----------------------------------------- 1. pd.read_csv() ----------------------------------------------#
@@ -633,3 +636,19 @@ print(df_food)
 # 2  Berry-Berry Belgian Waffles  $8.95  Light Belgian waffles covered with an assortme...       900
 # 3                 French Toast  $4.50  Thick slices made from our homemade sourdough ...       600
 # 4          Homestyle Breakfast  $6.95  Two eggs, bacon or sausage, toast, and our eve...       950
+
+
+#---------------------------------------------------------------------------------------------------------#
+#--------------------------------------- 5. pd.read_csv(url) ---------------------------------------------#
+#---------------------------------------------------------------------------------------------------------#
+
+url = "https://raw.githubusercontent.com/laxmimerit/All-CSV-ML-Data-Files-Download/refs/heads/master/jamesbond.csv"
+
+df_jamesbond = pd.read_csv(url)
+print(df_jamesbond.head())
+#                     Film  Year         Actor       Director  Box Office  Budget  Bond Actor Salary
+# 0                 Dr. No  1962  Sean Connery  Terence Young       448.8     7.0                0.6
+# 1  From Russia with Love  1963  Sean Connery  Terence Young       543.8    12.6                1.6
+# 2             Goldfinger  1964  Sean Connery   Guy Hamilton       820.4    18.6                3.2
+# 3            Thunderball  1965  Sean Connery  Terence Young       848.1    41.9                4.7
+# 4          Casino Royale  1967   David Niven     Ken Hughes       315.0    85.0                NaN
