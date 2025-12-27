@@ -29,11 +29,21 @@ pip3 install -U requests aiohttp
 
 For NVIDIA GPUs, check out this link:
 https://docs.rapids.ai/install/
+
+For cuda 12: 
+pip3 install "cudf-cu12==25.12.*"
+
+For cuda 13:
+pip3 install "cudf-cu13==25.12.*"
 '''
 
 import hipdf
 print(hipdf.__version__)
 # 2.0.00
+
+import cudf
+print(cudf.__version__)
+# 25.12.00
 
 
 #-----------------------------------------------------------------------------------------------#
