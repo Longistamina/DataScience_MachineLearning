@@ -92,8 +92,9 @@ print(classify_grade(7))   # Output: Good
 #------------ Example 4: match case with if ---------------#
 #----------------------------------------------------------#
 
-month = 5
-day = 4
+month = int(input("Enter month number (1-12): "))
+day = int(input("Enter day number (1-31): "))
+
 match day:
   case 1 | 2 | 3 | 4 | 5 if month == 4:
     print("A weekday in April")
