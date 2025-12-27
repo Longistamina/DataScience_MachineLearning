@@ -12,3 +12,4 @@
 + [01_Python_Basic_part_03](https://youtu.be/gXvD_N22CRM): chr(), ord(), Regular Expression (re, regex)
 + [01_Python_Basic_part_04](https://youtu.be/ASYs4V-MoHU): datetime, date, timedelta, pytz (timezone handling)
 + [01_Python_Basic_part_05](https://youtu.be/owrsc_nQhqA): time module, calendar module
++ [01_Python_Basic_part_06](https://youtu.be/jZnFdhI9pzI): if-elif-else, match-case, try-except-assert-else
