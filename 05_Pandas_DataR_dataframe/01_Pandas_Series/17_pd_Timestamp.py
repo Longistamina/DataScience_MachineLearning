@@ -33,7 +33,7 @@ Key Features: Nanosecond precision, timezone awareness, extensive date/time mani
    + .date(): Extract date object
    + .time(): Extract time object
    + .timetz(): Extract time with timezone
-   + .to_datetime(): Convert to Python datetime
+   + .to_pydatetime(): Convert to Python datetime
    + .to_datetime64(): Convert to numpy datetime64
 
 4. String representation and formatting:
@@ -103,6 +103,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import pytz
 
+
 #-------------------------------------------------------------------------------------------------------------#
 #------------------------------------ 0. Creating Timestamp objects -----------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
@@ -113,9 +114,9 @@ import pytz
 #--------------------------
 '''
 
-#####################################
+######################################
 ## pd.Timestamp() from string input ##
-#####################################
+######################################
 
 # Basic string formats
 ts1 = pd.Timestamp('2023-01-15')
@@ -175,9 +176,9 @@ print(ts_ns)
 #--------------------------
 '''
 
-########################################
+##########################################
 ## pd.Timestamp() with year, month, day ##
-########################################
+##########################################
 
 # Basic date components
 ts_components = pd.Timestamp(year=2023, month=1, day=15)
@@ -206,9 +207,9 @@ print(ts_tz)
 #--------------------------
 '''
 
-####################
+########################
 ## pd.Timestamp.now() ##
-####################
+########################
 
 # Get current local time
 ts_now = pd.Timestamp.now()
@@ -224,18 +225,18 @@ ts_now_tokyo = pd.Timestamp.now(tz='Asia/Tokyo')
 print(ts_now_tokyo)
 # 2025-12-28 17:20:15.123456+09:00 (example output)
 
-######################
+##########################
 ## pd.Timestamp.today() ##
-######################
+##########################
 
 # Get today's date (equivalent to now() without timezone)
 ts_today = pd.Timestamp.today()
 print(ts_today)
 # 2025-12-28 17:20:15.123456 (example output)
 
-#######################
+###########################
 ## pd.Timestamp.utcnow() ##
-#######################
+###########################
 
 # Get current UTC time
 ts_utcnow = pd.Timestamp.utcnow()
@@ -261,6 +262,7 @@ print(ts_from_dt)
 print(type(ts_from_dt))
 # <class 'pandas._libs.tslibs.timestamps.Timestamp'>
 
+
 #-------------------------------------------------------------------------------------------------------------#
 #------------------------------------ 1. Basic Timestamp attributes -----------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
@@ -282,9 +284,9 @@ print(ts.month)
 print(ts.day)
 # 15
 
-###################################
+#############################
 ## .hour, .minute, .second ##
-###################################
+#############################
 
 print(ts.hour)
 # 14
@@ -295,9 +297,9 @@ print(ts.minute)
 print(ts.second)
 # 45
 
-######################################
+###############################
 ## .microsecond, .nanosecond ##
-######################################
+###############################
 
 print(ts.microsecond)
 # 123456
@@ -305,9 +307,9 @@ print(ts.microsecond)
 print(ts.nanosecond)
 # 789
 
-#######################################
+###################################
 ## .dayofweek, .dayofyear, .week ##
-#######################################
+###################################
 
 # Day of week (Monday=0, Sunday=6)
 print(ts.dayofweek)
@@ -333,9 +335,9 @@ print(ts.week)
 print(ts.quarter)
 # 1
 
-##################
+####################
 ## .days_in_month ##
-##################
+####################
 
 # Number of days in the month
 print(ts.days_in_month)
@@ -357,9 +359,9 @@ ts_year_start = pd.Timestamp('2023-01-01')
 ts_year_end = pd.Timestamp('2023-12-31')
 ts_leap = pd.Timestamp('2024-02-29')
 
-##########################################
+####################################
 ## .is_month_start, .is_month_end ##
-##########################################
+####################################
 
 print(ts_month_start.is_month_start)
 # True
@@ -370,9 +372,9 @@ print(ts_month_end.is_month_end)
 print(pd.Timestamp('2023-03-15').is_month_start)
 # False
 
-##############################################
+########################################
 ## .is_quarter_start, .is_quarter_end ##
-##############################################
+########################################
 
 print(ts_quarter_start.is_quarter_start)
 # True
@@ -383,9 +385,9 @@ print(ts_quarter_end.is_quarter_end)
 print(pd.Timestamp('2023-02-15').is_quarter_start)
 # False
 
-##########################################
+##################################
 ## .is_year_start, .is_year_end ##
-##########################################
+##################################
 
 print(ts_year_start.is_year_start)
 # True
@@ -396,9 +398,9 @@ print(ts_year_end.is_year_end)
 print(pd.Timestamp('2023-06-15').is_year_start)
 # False
 
-######################
+###################
 ## .is_leap_year ##
-######################
+###################
 
 print(ts_leap.is_leap_year)
 # True (2024 is a leap year)
@@ -407,16 +409,16 @@ print(pd.Timestamp('2023-01-01').is_leap_year)
 # False (2023 is not a leap year)
 
 #-------------------------------------------------------------------------------------------------------------#
-#------------------------------ 3. Date/Time extraction methods ----------------------------------------------#
+#------------------------------------ 3. Date/Time extraction methods ----------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
 ts = pd.Timestamp('2023-03-15 14:30:45', tz='Asia/Seoul')
 print(ts)
 # 2023-03-15 14:30:45+09:00
 
-##############
+#############
 ## .date() ##
-##############
+#############
 
 # Extract date object (loses time and timezone info)
 date_obj = ts.date()
@@ -438,9 +440,9 @@ print(time_obj)
 print(type(time_obj))
 # <class 'datetime.time'>
 
-################
+###############
 ## .timetz() ##
-################
+###############
 
 # Extract time object with timezone info
 timetz_obj = ts.timetz()
@@ -451,7 +453,7 @@ print(type(timetz_obj))
 # <class 'datetime.time'>
 
 ######################
-## .to_datetime() ##
+## .to_pydatetime() ##
 ######################
 
 # Convert to Python datetime object
@@ -462,9 +464,9 @@ print(dt)
 print(type(dt))
 # <class 'datetime.datetime'>
 
-########################
+######################
 ## .to_datetime64() ##
-########################
+######################
 
 # Convert to numpy datetime64
 dt64 = ts.to_datetime64()
@@ -474,9 +476,9 @@ print(dt64)
 print(type(dt64))
 # <class 'numpy.datetime64'>
 
-###################
+#################
 ## .to_numpy() ##
-###################
+#################
 
 # Convert to numpy datetime64 (alternative method)
 np_dt = ts.to_numpy()
@@ -486,6 +488,7 @@ print(np_dt)
 print(type(np_dt))
 # <class 'numpy.datetime64'>
 
+
 #-------------------------------------------------------------------------------------------------------------#
 #---------------------------- 4. String representation and formatting ---------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
@@ -494,9 +497,9 @@ ts = pd.Timestamp('2023-03-15 14:30:45', tz='US/Pacific')
 print(ts)
 # 2023-03-15 14:30:45-07:00
 
-###################
+##################
 ## .isoformat() ##
-###################
+##################
 
 # ISO 8601 format
 iso_str = ts.isoformat()
@@ -508,9 +511,9 @@ iso_str2 = ts.isoformat(sep=' ', timespec='seconds')
 print(iso_str2)
 # 2023-03-15 14:30:45-07:00
 
-##########################
+#######################
 ## .strftime(format) ##
-##########################
+#######################
 
 # Custom formatting using strftime codes
 # https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes
@@ -531,9 +534,9 @@ formatted4 = ts.strftime('%I:%M %p on %b %d, %Y')
 print(formatted4)
 # 02:30 PM on Mar 15, 2023
 
-####################
+#################
 ## .day_name() ##
-####################
+#################
 
 # Get day name
 day = ts.day_name()
@@ -541,13 +544,14 @@ print(day)
 # Wednesday
 
 # With locale (requires locale parameter)
-day_locale = ts.day_name(locale='en_US')
+day_locale = ts.day_name(locale='en_US.utf8')
 print(day_locale)
 # Wednesday
+'''NOTE: use "locale -a" to check available locales on your system'''
 
-######################
+###################
 ## .month_name() ##
-######################
+###################
 
 # Get month name
 month = ts.month_name()
@@ -555,30 +559,32 @@ print(month)
 # March
 
 # With locale
-month_locale = ts.month_name(locale='en_US')
+month_locale = ts.month_name(locale='en_US.utf8')
 print(month_locale)
 # March
+'''NOTE: use "locale -a" to check available locales on your system'''
 
-###############
+##############
 ## .ctime() ##
-###############
+##############
 
 # C-style string representation
 ctime_str = ts.ctime()
 print(ctime_str)
 # Wed Mar 15 14:30:45 2023
 
-#################
+###########
 ## str() ##
-#################
+###########
 
 # String representation
 str_repr = str(ts)
 print(str_repr)
 # 2023-03-15 14:30:45-07:00
 
+
 #-------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 5. Timezone operations -----------------------------------------------#
+#----------------------------------------- 5. Timezone operations --------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
 '''
@@ -610,9 +616,9 @@ print(type(ts_aware.tz))
 #--------------------------
 '''
 
-#######################
+######################
 ## .tz_localize(tz) ##
-#######################
+######################
 
 # Assign timezone to naive timestamp
 ts_localized = ts_naive.tz_localize('Asia/Tokyo')
@@ -622,7 +628,8 @@ print(ts_localized)
 # This assumes the time was in Tokyo timezone and adds the UTC offset
 
 # Cannot localize already timezone-aware timestamp
-# ts_aware.tz_localize('UTC')  # Raises TypeError
+ts_aware.tz_localize('UTC')
+'''Raises TypeError'''
 
 # To handle ambiguous times during DST transitions
 ts_dst = pd.Timestamp('2023-11-05 01:30:00')
@@ -640,9 +647,9 @@ print(ts_dst_second)
 #--------------------------
 '''
 
-######################
+#####################
 ## .tz_convert(tz) ##
-######################
+#####################
 
 # Convert timezone-aware timestamp to another timezone
 ts_tokyo = ts_aware.tz_convert('Asia/Tokyo')
@@ -658,7 +665,8 @@ print(ts_london)
 # 2023-03-15 21:30:45+00:00
 
 # Cannot convert naive timestamp
-# ts_naive.tz_convert('UTC')  # Raises TypeError
+ts_naive.tz_convert('UTC')
+'''Raises TypeError'''
 
 '''
 #--------------------------
@@ -666,17 +674,17 @@ print(ts_london)
 #--------------------------
 '''
 
-################
+###############
 ## .tzname() ##
-################
+###############
 
 # Get timezone name
 print(ts_aware.tzname())
 # PDT (Pacific Daylight Time)
 
-###################
+##################
 ## .utcoffset() ##
-###################
+##################
 
 # Get UTC offset as timedelta
 offset = ts_aware.utcoffset()
@@ -695,8 +703,9 @@ dst_info = ts_aware.dst()
 print(dst_info)
 # 1:00:00 (1 hour DST adjustment)
 
+
 #-------------------------------------------------------------------------------------------------------------#
-#------------------------------------ 6. Time manipulation methods -------------------------------------------#
+#-------------------------------------- 6. Time manipulation methods -----------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
 ts = pd.Timestamp('2023-03-15 14:45:23.123456789')
@@ -709,9 +718,9 @@ print(ts)
 #--------------------------
 '''
 
-###############
+################
 ## .replace() ##
-###############
+################
 
 # Replace specific components
 ts_new_year = ts.replace(year=2024)
@@ -737,9 +746,9 @@ print(ts_replaced)
 #--------------------------
 '''
 
-#################
+##################
 ## .round(freq) ##
-#################
+##################
 
 # Round to nearest frequency
 ts_round_hour = ts.round('h')
@@ -758,9 +767,9 @@ ts_round_month = ts.round('ME')  # Month end
 print(ts_round_month)
 # 2023-03-31 00:00:00
 
-#################
+##################
 ## .floor(freq) ##
-#################
+##################
 
 # Round down to frequency
 ts_floor_hour = ts.floor('h')
@@ -798,9 +807,9 @@ print(ts_ceil_day)
 #--------------------------
 '''
 
-###################
+##################
 ## .normalize() ##
-###################
+##################
 
 # Set time to midnight (00:00:00)
 ts_normalized = ts.normalize()
@@ -813,8 +822,9 @@ ts_norm_tz = ts_with_tz.normalize()
 print(ts_norm_tz)
 # 2023-03-15 00:00:00-07:00
 
+
 #-------------------------------------------------------------------------------------------------------------#
-#----------------------- 7. Timestamp construction from special formats --------------------------------------#
+#--------------------------- 7. Timestamp construction from special formats ----------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
 '''
@@ -830,16 +840,16 @@ print(ts_norm_tz)
 # Create Timestamp from POSIX timestamp (seconds since epoch)
 ts_from_posix = pd.Timestamp.fromtimestamp(1678896323)
 print(ts_from_posix)
-# 2023-03-15 14:45:23 (actual output depends on local timezone)
+# 2023-03-16 01:05:23 (actual output depends on local timezone)
 
 # With timezone
 ts_from_posix_utc = pd.Timestamp.fromtimestamp(1678896323, tz='UTC')
 print(ts_from_posix_utc)
-# 2023-03-15 14:45:23+00:00
+# 2023-03-15 16:05:23+00:00
 
 ts_from_posix_tokyo = pd.Timestamp.fromtimestamp(1678896323, tz='Asia/Tokyo')
 print(ts_from_posix_tokyo)
-# 2023-03-15 23:45:23+09:00
+# 2023-03-16 01:05:23+09:00
 
 '''
 #--------------------------
@@ -866,20 +876,20 @@ print(ts_iso_tz)
 #--------------------------
 '''
 
-#############################
+###############################
 ## .fromordinal(ordinal, tz) ##
-#############################
+###############################
 
 # Create Timestamp from proleptic Gregorian ordinal
 # Day 1 is January 1 of year 1
 ts_ordinal = pd.Timestamp.fromordinal(738598)
 print(ts_ordinal)
-# 2023-03-15 00:00:00
+# 2023-03-19 00:00:00
 
 # With timezone
 ts_ordinal_tz = pd.Timestamp.fromordinal(738598, tz='Asia/Seoul')
 print(ts_ordinal_tz)
-# 2023-03-15 00:00:00+09:00
+# 2023-03-19 00:00:00+09:00
 
 '''
 #--------------------------
@@ -887,9 +897,9 @@ print(ts_ordinal_tz)
 #--------------------------
 '''
 
-###########################################
+#######################################
 ## .fromisocalendar(year, week, day) ##
-###########################################
+#######################################
 
 # Create Timestamp from ISO year, week number, and weekday
 # Week 1 is the first week with a Thursday
@@ -898,8 +908,9 @@ ts_iso_cal = pd.Timestamp.fromisocalendar(2023, 11, 3)
 print(ts_iso_cal)
 # 2023-03-15 00:00:00
 
+
 #-------------------------------------------------------------------------------------------------------------#
-#------------------------------ 8. Conversions and transformations ------------------------------------------#
+#----------------------------------- 8. Conversions and transformations --------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
 ts = pd.Timestamp('2023-03-15 14:45:23', tz='US/Pacific')
@@ -912,9 +923,9 @@ print(ts)
 #--------------------------
 '''
 
-########################
+######################
 ## .to_period(freq) ##
-########################
+######################
 
 # Convert to Period object
 period_day = ts.to_period('D')
@@ -938,9 +949,9 @@ print(period_quarter)
 #--------------------------
 '''
 
-#########################
+#######################
 ## .to_julian_date() ##
-#########################
+#######################
 
 # Convert to Julian date
 julian_date = ts.to_julian_date()
@@ -999,16 +1010,17 @@ print(type(ordinal))
 # Get time tuple (like time.localtime())
 time_tuple = ts.timetuple()
 print(time_tuple)
-# time.struct_time(tm_year=2023, tm_mon=3, tm_mday=15, tm_hour=14, tm_min=45, tm_sec=23, tm_wday=2, tm_yday=74, tm_isdst=-1)
+# time.struct_time(tm_year=2023, tm_mon=3, tm_mday=15, tm_hour=14, tm_min=45, tm_sec=23, tm_wday=2, tm_yday=74, tm_isdst=1)
 
-####################
+#####################
 ## .utctimetuple() ##
-####################
+#####################
 
 # Get UTC time tuple
 utc_time_tuple = ts.utctimetuple()
 print(utc_time_tuple)
 # time.struct_time(tm_year=2023, tm_mon=3, tm_mday=15, tm_hour=21, tm_min=45, tm_sec=23, tm_wday=2, tm_yday=74, tm_isdst=0)
+
 
 #-------------------------------------------------------------------------------------------------------------#
 #-------------------------------------- 9. ISO calendar operations -------------------------------------------#
@@ -1018,9 +1030,9 @@ ts = pd.Timestamp('2023-03-15 14:45:23')
 print(ts)
 # 2023-03-15 14:45:23
 
-#######################
+####################
 ## .isocalendar() ##
-#######################
+####################
 
 # Get ISO calendar components as named tuple
 iso_cal = ts.isocalendar()
@@ -1036,26 +1048,27 @@ print(iso_cal.week)
 print(iso_cal.weekday)
 # 3 (Wednesday in ISO format: Monday=1, Sunday=7)
 
-#####################
+###################
 ## .isoweekday() ##
-#####################
+###################
 
 # ISO weekday (Monday=1, Sunday=7)
 iso_weekday = ts.isoweekday()
 print(iso_weekday)
 # 3 (Wednesday)
 
-#################
+################
 ## .weekday() ##
-#################
+################
 
 # Python weekday (Monday=0, Sunday=6)
 weekday = ts.weekday()
 print(weekday)
 # 2 (Wednesday)
 
+
 #-------------------------------------------------------------------------------------------------------------#
-#------------------------------ 10. Arithmetic and comparisons ----------------------------------------------#
+#--------------------------------------- 10. Arithmetic and comparisons --------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
 ts1 = pd.Timestamp('2023-03-15 14:30:00')
@@ -1067,9 +1080,9 @@ ts2 = pd.Timestamp('2023-03-20 18:45:30')
 #--------------------------
 '''
 
-######################################
+#######################################
 ## Adding and subtracting timedeltas ##
-######################################
+#######################################
 
 # Add timedelta
 td = pd.Timedelta(days=5)
@@ -1100,9 +1113,9 @@ print(ts_future3)
 #--------------------------
 '''
 
-####################################
+############################
 ## Subtracting timestamps ##
-####################################
+############################
 
 # Calculate difference
 diff = ts2 - ts1
@@ -1128,9 +1141,9 @@ print(diff.total_seconds())
 #--------------------------
 '''
 
-####################################
+##########################
 ## Comparing timestamps ##
-####################################
+##########################
 
 print(ts1 < ts2)
 # True
@@ -1186,8 +1199,9 @@ print(in_range)
 # 2    False
 # dtype: bool
 
+
 #-------------------------------------------------------------------------------------------------------------#
-#--------------------------------- Additional Useful Examples -----------------------------------------------#
+#---------------------------------------- Additional Useful Examples -----------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
 '''
@@ -1197,23 +1211,33 @@ print(in_range)
 '''
 
 # Various string formats that work
-examples = [
-    '2023-03-15',
-    '2023/03/15',
-    '03-15-2023',
-    '03/15/2023',
-    'March 15, 2023',
-    '15-Mar-2023',
-    '2023-03-15 14:30:45',
-    '2023-03-15T14:30:45',
-    '2023-03-15 14:30:45.123456',
-    '2023-03-15 14:30:45+00:00',
-]
+examples = pd.Series([
+   '2023-03-15',
+   '2023/03/15',
+   '03-15-2023',
+   '03/15/2023',
+   'March 15, 2023',
+   '15-Mar-2023',
+   '2023-03-15 14:30:45',
+   '2023-03-15T14:30:45',
+   '2023-03-15 14:30:45.123456',
+   '2023-03-15 14:30:45+00:00',
+])
 
-for fmt in examples:
-    ts = pd.Timestamp(fmt)
-    print(f"{fmt:30s} -> {ts}")
-
+examples_parsed = examples.apply(pd.Timestamp)
+print(examples_parsed)
+# 0           2023-03-15 00:00:00
+# 1           2023-03-15 00:00:00
+# 2           2023-03-15 00:00:00
+# 3           2023-03-15 00:00:00
+# 4           2023-03-15 00:00:00
+# 5           2023-03-15 00:00:00
+# 6           2023-03-15 14:30:45
+# 7           2023-03-15 14:30:45
+# 8    2023-03-15 14:30:45.123456
+# 9     2023-03-15 14:30:45+00:00
+# dtype: object
+'''
 # 2023-03-15                     -> 2023-03-15 00:00:00
 # 2023/03/15                     -> 2023-03-15 00:00:00
 # 03-15-2023                     -> 2023-03-15 00:00:00
@@ -1224,6 +1248,9 @@ for fmt in examples:
 # 2023-03-15T14:30:45            -> 2023-03-15 14:30:45
 # 2023-03-15 14:30:45.123456     -> 2023-03-15 14:30:45.123456
 # 2023-03-15 14:30:45+00:00      -> 2023-03-15 14:30:45+00:00
+'''
+
+#############################
 
 '''
 #--------------------------
