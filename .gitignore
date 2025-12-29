@@ -89,7 +89,7 @@ Thumbs.db
 
 # vscode workspace file
 *.code-workspace
-/home/longdpt/Documents/Academic/DataScience_MachineLearning/.vscode
+*.vscode
 
 test.py
 
