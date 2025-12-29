@@ -763,10 +763,6 @@ ts_round_day = ts.round('D')
 print(ts_round_day)
 # 2023-03-15 00:00:00
 
-ts_round_month = ts.round('ME')  # Month end
-print(ts_round_month)
-# 2023-03-31 00:00:00
-
 ##################
 ## .floor(freq) ##
 ##################
