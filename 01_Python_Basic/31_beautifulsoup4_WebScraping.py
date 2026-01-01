@@ -28,10 +28,7 @@ No def/class used, only built-in modules + bs4.
 '''
 
 from bs4 import BeautifulSoup  # bs4 docs: BeautifulSoup(markup, 'html.parser') 
-
-import urllib.request          # built-in HTTP client 
-import urllib.error            # HTTPError / URLError 
-import csv                     # optional output
+import requests                # Read HTLM documents from URLs
 import time                    # optional pacing
 
 
@@ -59,9 +56,9 @@ Minimal expected HTML skeleton:
 #-------------------------- 2. Parse html_string, then read from URL ----------------------------#
 #------------------------------------------------------------------------------------------------#
 
-#################################
-## 2.1 Parse local html_string ##
-#################################
+#############################
+## Parse local html_string ##
+#############################
 
 html_string = """
 <html>
@@ -88,14 +85,18 @@ soup = BeautifulSoup(html_string, "html.parser")
 
 # Verify initial parse
 print(soup)
-# <html>
-# <head>
-# <title>Sample Page</title>
-# </head>
-# <body>
-# .....
-# </body>
-# </html>
+'''
+<html>
+<head>
+<title>Sample Page</title>
+</head>
+<body>
+.....
+</body>
+</html>
+'''
+
+#############
 
 print(soup.title) # <title>Sample Page</title>
 print(soup.title.text) # Sample Page (a string type)
@@ -103,51 +104,22 @@ print(soup.title.text) # Sample Page (a string type)
 print(soup.h1) # <h1>Welcome to Web Scraping</h1>
 print(soup.h1.string) # Welcome to Web Scraping (a 'bs4.element.NavigableString' type)
 
-###############################################
-## 2.2 Read HTML from a URL (MOST IMPORTANT) ##
-###############################################
+###########################################
+## Read HTML from a URL (MOST IMPORTANT) ##
+###########################################
 
 # Change this URL to your target.
 url = "https://quotes.toscrape.com"
 
-# Add headers (many sites behave better with a User-Agent).
-headers = {
-    "User-Agent": "Mozilla/5.0 (compatible; bs4-learning-script; +https://quotes.toscrape.com)"
-}
+# Get HTLM document
+req = requests.get(url)
+html_document = req.text  # string (Unicode)
 
-# urllib.request supports Request objects + headers + timeout. 
-req = urllib.request.Request(url, headers=headers)
+# Parse HTML from URL
+soup = BeautifulSoup(html_document, "html.parser")
 
-html_bytes = None
-final_url = None
-
-try:
-    with urllib.request.urlopen(req, timeout=15) as resp:  # timeout avoids hanging 
-        final_url = resp.geturl()
-        html_bytes = resp.read()
-except urllib.error.HTTPError as e:
-    print("HTTPError:", e.code, e.reason)
-except urllib.error.URLError as e:
-    print("URLError:", e.reason)
-except TimeoutError:
-    print("TimeoutError")
-
-# If download succeeded, replace the soup with live page content and use it for EVERYTHING below.
-if html_bytes is not None:
-    # BS4 can accept bytes; if you pass bytes, it assumes UTF-8 by default. 
-    # For many pages this is fine; if you hit encoding issues, decode yourself using the server charset.
-    soup = BeautifulSoup(html_bytes, "html.parser")  # live soup source 
-    print("Downloaded from:", final_url)
-    print("From URL -> soup.title =", soup.title)
-else:
-    print("Falling back to html_string soup (URL fetch failed).")
-    
-'''
-OUTPUT:
-
-Downloaded from: https://quotes.toscrape.com
-From URL -> soup.title = <title>Quotes to Scrape</title>
-'''
+print(soup.title)
+'''<title>Quotes to Scrape</title>'''
 
 print(soup)
 '''
@@ -167,6 +139,7 @@ print(soup)
 <h1>
 <a href="/" style="text-decoration: none">Quotes to Scrape</a>
 ...
+(more contents)
 '''
 
 
@@ -185,10 +158,12 @@ Docs: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 print(soup.name) # Usually '[document]' for the root
 # [document]
 
-# Find the first <a> tag
+# Find the first <a> tag (link)
 print(soup.find("a"))  
-# <a href="/" style="text-decoration: none">Quotes to Scrape</a>
-# may be None if page has no links 
+'''
+<a href="/" style="text-decoration: none">Quotes to Scrape</a>
+may be None if page has no links 
+'''
 
 first_a = soup.find("a")
 
@@ -196,6 +171,7 @@ print(first_a.name)  # a
 print(first_a.attrs) # {'href': '/', 'style': 'text-decoration: none'}
 print(first_a['href'])  # /
 print(first_a.get('style'))  # text-decoration: none
+print(first_a.get_text(strip=True))  # Quotes to Scrape
 
 
 #------------------------------------------------------------------------------------------------#
@@ -204,26 +180,57 @@ print(first_a.get('style'))  # text-decoration: none
 
 body = soup.body  # may be None if HTML is fragment or unusual
 print("Has <body>:", body is not None)
+# Has <body>: True
 
-if body:
-    # children includes text nodes like '\n'
-    body_children = list(body.children)
-    print("len(list(body.children)):", len(body_children))
+print(body.children) # <generator object Tag.children.<locals>.<genexpr> at 0x7b905973b400>
 
-    # example: get the first element child (skip text nodes)
-    first_element_child = None
-    for node in body_children:
-        if getattr(node, "name", None) is not None:  # Tag nodes have .name
-            first_element_child = node
-            break
+body_children = list(body.children)
+print(body_children)
+'''
+['\n', <div class="container">
+<div class="row header-box">
+<div class="col-md-8">
+..., '\n']
+'''
 
-    print("First element child under <body>:", first_element_child)
+print(body_children.count('\n')) # '\n' are text
+# 3
 
-    if first_element_child:
-        next_sib = first_element_child.find_next_sibling()  # skips text nodes 
-        print("Next sibling element:", next_sib)
-else:
-    print("No <body> tag available; navigation examples will be limited.")
+######################
+
+first_element_child = None
+for node in body_children: # get the first element child (skip text nodes)
+    if getattr(node, "name", None) is not None:  # Check if that node has a 'name' attribute (i.e., is a Tag)
+        first_element_child = node # Assign that node to first_element_child if it has a 'name' attribute
+        break
+
+print(f"First element child under <body>:\n{first_element_child}")
+'''
+<div class="container">
+<div class="row header-box">
+<div class="col-md-8">
+...
+(more contents)
+'''
+
+######################
+
+# Find next sibling of that first element child (skipping text nodes)
+next_sibling = first_element_child.find_next_sibling()
+
+print(f"Next sibling of first element child:\n{next_sibling}")
+'''
+<footer class="footer">
+<div class="container">
+<p class="text-muted">
+                Quotes by: <a href="https://www.goodreads.com/quotes">GoodReads.com</a>
+</p>
+<p class="copyright">
+                Made with <span class="zyte">❤</span> by <a class="zyte" href="https://www.zyte.com">Zyte</a>
+</p>
+</div>
+</footer>
+'''
 
 
 #------------------------------------------------------------------------------------------------#
@@ -232,11 +239,48 @@ else:
 
 '''
 - find(...) -> first match or None 
-- find_all(...) -> list (possibly empty) 
+- find_all(...) -> list (possibly empty)
 '''
 
-all_links = soup.find_all("a")  # list 
+#############
+## .find() ##
+#############
+
+first_quote = soup.find(name="span", class_="text")  # Tag or None
+
+print(first_quote)
+'''
+<span class="text" itemprop="text">“The world as we have created it is a process of our thinking. 
+It cannot be changed without changing our thinking.”</span>
+'''
+
+print(first_quote.attrs) # {'class': ['text'], 'itemprop': 'text'}
+print(first_quote['class'])  # ['text']
+print(first_quote.get('itemprop'))  # text
+
+print(first_quote.get_text(strip=True)) # strip=True removes surrounding whitespace
+'''
+“The world as we have created it is a process of our thinking. 
+It cannot be changed without changing our thinking.”
+'''
+
+#################
+## .find_all() ##
+#################
+
+all_links = soup.find_all("a")  # list
+
+print(all_links[:3])  # print first few <a> tags
+'''
+[<a href="/" style="text-decoration: none">Quotes to Scrape</a>, 
+<a href="/login">Login</a>, 
+<a href="/author/Albert-Einstein">(about)</a>]
+'''
+
 print("Number of <a> tags:", len(all_links))
+# Number of <a> tags: 55
+
+######################
 
 # Print first few links (safe)
 max_show = 5
@@ -248,15 +292,26 @@ for a in all_links:
     href = a.get("href")
     print("Link:", text, "=>", href)
     count += 1
+'''
+Link: Quotes to Scrape => /
+Link: Login => /login
+Link: (about) => /author/Albert-Einstein
+Link: change => /tag/change/page/1/
+Link: deep-thoughts => /tag/deep-thoughts/page/1/
+'''
+
+######################
 
 # Safe None-handling pattern
 maybe_title = soup.find("title")  # Tag or None 
-title_text = maybe_title.get_text(strip=True) if maybe_title else None
+title_text = maybe_title.get_text(strip=True) if maybe_title else None # Get the text safely (if it is not None)
+
 print("Safe title_text:", title_text)
+# Safe title_text: Quotes to Scrape
 
 
 #------------------------------------------------------------------------------------------------#
-#------------------------------ 6. Text extraction ----------------------------------------------#
+#----------------------------------- 6. Text extraction -----------------------------------------#
 #------------------------------------------------------------------------------------------------#
 
 '''
@@ -265,11 +320,35 @@ print("Safe title_text:", title_text)
 '''
 
 h1 = soup.find("h1")
-if h1:
-    print("h1.string:", h1.string)  # may be None if nested tags exist
-    print("h1.get_text(strip=True):", h1.get_text(strip=True))  # robust 
-else:
-    print("No <h1> found.")
+
+print(h1)
+'''
+<h1>
+<a href="/" style="text-decoration: none">Quotes to Scrape</a>
+</h1>
+'''
+
+#########################################
+
+print(h1.string)
+# None
+'''Returns None because <h1> has a child <a> tag, so it is not a single text node.'''
+
+print(h1.get_text(strip=True))
+# Quotes to Scrape
+
+###########################
+## Demo single text node ##
+###########################
+
+first_a = soup.find("a")
+
+print(first_a)
+# <a href="/" style="text-decoration: none">Quotes to Scrape</a>
+
+print(first_a.string)
+# Quotes to Scrape
+'''Because <a> has only one direct text node, .string works here.'''
 
 
 #------------------------------------------------------------------------------------------------#
@@ -283,14 +362,41 @@ CSS selectors:
 Docs: https://www.crummy.com/software/BeautifulSoup/bs4/doc/ 
 '''
 
+###############
+## .select() ##
+###############
+
 all_paragraphs = soup.select("p")
-print("Number of <p> tags (via select):", len(all_paragraphs))
+
+print(all_paragraphs)
+'''
+[<p>
+<a href="/login">Login</a>
+</p>, <p class="text-muted">
+                Quotes by: <a href="https://www.goodreads.com/quotes">GoodReads.com</a>
+</p>, <p class="copyright">
+                Made with <span class="zyte">❤</span> by <a class="zyte" href="https://www.zyte.com">Zyte</a>
+</p>]
+'''
+
+print(len(all_paragraphs))
+# 3
+
+###################
+## .select_one() ##
+###################
 
 first_p = soup.select_one("p")
-if first_p:
-    print("First <p> text:", first_p.get_text(" ", strip=True))
-else:
-    print("No <p> found.")
+
+print(first_p)
+'''
+<p>
+<a href="/login">Login</a>
+</p>
+'''
+
+print(first_p.get_text(strip=True))
+# Login
 
 
 #------------------------------------------------------------------------------------------------#
@@ -305,15 +411,31 @@ for a in soup.find_all("a"):  # list of Tag
     })
 
 print("Extracted link rows:", len(rows))
-if rows[:3]:
-    print("First rows sample:", rows[:3])
+# Extracted link rows: 55
 
-# Optional: write to CSV
-# output_path = "links.csv"
-# with open(output_path, "w", newline="", encoding="utf-8") as f:
-#     writer = csv.DictWriter(f, fieldnames=["text", "href"])
-#     writer.writeheader()
-#     writer.writerows(rows)
+for idx, row in enumerate(rows[:5]):  # print first few rows
+    print(f"Row {idx+1}: Text='{row['text']}', Href='{row['href']}'")
+'''
+Row 1: Text='Quotes to Scrape', Href='/'
+Row 2: Text='Login', Href='/login'
+Row 3: Text='(about)', Href='/author/Albert-Einstein'
+Row 4: Text='change', Href='/tag/change/page/1/'
+Row 5: Text='deep-thoughts', Href='/tag/deep-thoughts/page/1/'
+'''
+
+#############################
+## Write to CSV (optional) ##
+#############################
+
+'''
+import csv
+
+output_path = "links.csv"
+with open(output_path, "w", newline="", encoding="utf-8") as f:
+    writer = csv.DictWriter(f, fieldnames=["text", "href"])
+    writer.writeheader()
+    writer.writerows(rows)
+'''
 
 
 #------------------------------------------------------------------------------------------------#
