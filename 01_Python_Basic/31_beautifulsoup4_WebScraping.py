@@ -113,10 +113,10 @@ url = "https://quotes.toscrape.com"
 
 # Get HTLM document
 req = requests.get(url)
-html_document = req.text  # string (Unicode)
+html_content = req.text  # string (Unicode)
 
 # Parse HTML from URL
-soup = BeautifulSoup(html_document, "html.parser")
+soup = BeautifulSoup(html_content, "html.parser")
 
 print(soup.title)
 '''<title>Quotes to Scrape</title>'''
