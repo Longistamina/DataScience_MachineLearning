@@ -49,6 +49,35 @@ print(a)      # Output: 1
 print(b)      # Output: 2
 print(rest)   # Output: [3, 4, 5]
 
+#################################
+## Unpacking a nested iterable ##
+#################################
+
+nested_list = ["han", (20, 4000), "developer", "single", "NYC"]
+
+name, (age, salary), profession, *other_info = nested_list
+print(name)        # han
+print(age)         # 20
+print(salary)      # 4000
+print(profession)  # developer
+print(other_info)  # ['single', 'NYC']
+
+#### for loop ####
+
+employees = [
+    ["han", (20, 4000), "developer", "single", "NYC"],
+    ["luke", (25, 5000), "designer", "married", "LA"],
+    ["leia", (22, 4500), "manager", "single", "SF"]
+]
+
+for name, (age, salary), profession, *other_info in employees:
+    print(f"Name: {name}, Age: {age}, Salary: {salary}, Profession: {profession}, Other Info: {other_info}")
+'''
+Name: han, Age: 20, Salary: 4000, Profession: developer, Other Info: ['single', 'NYC']
+Name: luke, Age: 25, Salary: 5000, Profession: designer, Other Info: ['married', 'LA']
+Name: leia, Age: 22, Salary: 4500, Profession: manager, Other Info: ['single', 'SF']
+'''
+
 #####################################################
 ## Unpacking and combining lists with asterisk (*) ##
 #####################################################
