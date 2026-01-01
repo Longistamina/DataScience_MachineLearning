@@ -107,6 +107,7 @@ print(soup.h1.string) # Welcome to Web Scraping (a 'bs4.element.NavigableString'
 ###########################################
 ## Read HTML from a URL (MOST IMPORTANT) ##
 ###########################################
+'''To open HTML contennt of a website, press F12 to inspect, choose "Elements"'''
 
 # Change this URL to your target.
 url = "https://quotes.toscrape.com"
