@@ -91,7 +91,7 @@ Thumbs.db
 *.code-workspace
 *.vscode
 
-test.py
+test*.py
 
 demo.py
 
