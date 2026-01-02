@@ -47,3 +47,13 @@ Set Trigger Parameter Hints shortcut:
 Set Outdent Shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "outdent" => Ctrl + Tab
 (set this to avoid conflicting the "Trigger Parameter Hints")
+
+
+#----------------------------------------------------#
+#------------- Set jupyter environment --------------#
+#----------------------------------------------------#
+
+
+python3 -m ipykernel install --user --name=<conda_env_name>
+
+example: python3 -m ipykernel install --user --name=data
