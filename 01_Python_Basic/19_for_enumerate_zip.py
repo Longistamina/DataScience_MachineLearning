@@ -9,6 +9,9 @@ for i in range(1, 20):
     if i%2 != 0: 
         print(i)
 
+for i in range(2, 21, 2):
+    print(i)
+
 #### for zip() ####
 
 lst_name = ["Socrates", "Plato", "Aristotle"]
@@ -96,3 +99,20 @@ for _, _ in enumerate(lst_fruits):
 # This is a fruit.
 # This is a fruit.
 # This is a fruit.
+
+################################
+## Using range(len(iterable)) ##
+################################
+
+# Not recommended
+for i in range(len(lst_fruits)):
+    print(f'Index: {i}, Fruit: {lst_fruits[i]}')
+# Index: 0, Fruit: apple
+# Index: 1, Fruit: banana
+# Index: 2, Fruit: cherry
+
+# Can use for modifying list elements
+for i in range(len(lst_fruits)):
+    lst_fruits[i] = lst_fruits[i].upper()
+
+print(lst_fruits)  # Output: ['APPLE', 'BANANA', 'CHERRY']
