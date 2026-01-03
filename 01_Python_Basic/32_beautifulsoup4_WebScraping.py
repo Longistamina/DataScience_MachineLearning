@@ -15,7 +15,7 @@ Docs:
 Flow of contents:
 
 1. HTML structure basics
-2. Parse html_string, then read HTML from URL
+2. Parse html_string, then read HTML from URL, soup.prettify()
 3. Inspect tags/text/attributes
 4. Navigate the parse tree (parent/children/siblings)
 5. Search (find / find_all) with safe None-handling
@@ -139,22 +139,70 @@ print(soup)
 <div class="col-md-8">
 <h1>
 <a href="/" style="text-decoration: none">Quotes to Scrape</a>
-...
-(more contents)
+....(more contents)
+</html>
+'''
+
+#####################
+## soup.prettify() ##
+#####################
+'''soup.prettify() formats the HTML with proper indentation for readability.'''
+
+pretty_html = soup.prettify()
+print(pretty_html)
+'''
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   Quotes to Scrape
+  </title>
+  <link href="/static/bootstrap.min.css" rel="stylesheet"/>
+....(more contents)
+</html>
+'''
+
+print(soup.prettify()[:100])  # print first 500 chars of prettified HTML
+'''
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <title>
+   Quotes to Scrape
+  <
 '''
 
 
 #------------------------------------------------------------------------------------------------#
 #------------------------------ 3. Inspect tags / text / attributes -----------------------------#
 #------------------------------------------------------------------------------------------------#
-
 '''
 Core objects:
 - BeautifulSoup: whole document
-- Tag: element nodes like <a>, <div>, <p>
+- Tag: element nodes like <head>, <a>, <div>, <p>
 - Text nodes: strings inside tags
 Docs: https://www.crummy.com/software/BeautifulSoup/bs4/doc/ 
 '''
+
+print(soup.head.meta) # <meta charset="utf-8"/>
+print(soup.head.meta['charset']) # UTF-8
+
+print(soup.head.title) # <title>Quotes to Scrape</title>
+print(soup.head.title.get_text(strip=True)) # Quotes to Scrape
+
+print(soup.body.div.div.div.h1)
+'''
+<h1>
+<a href="/" style="text-decoration: none">Quotes to Scrape</a>
+</h1>
+'''
+
+print(soup.body.div.div.div.h1.a) # <a href="/" style="text-decoration: none">Quotes to Scrape</a>
+print(soup.body.div.div.div.h1.a['style']) # text-decoration: none
+
+##################
 
 print(soup.name) # Usually '[document]' for the root
 # [document]
@@ -163,10 +211,11 @@ print(soup.name) # Usually '[document]' for the root
 print(soup.find("a"))  
 '''
 <a href="/" style="text-decoration: none">Quotes to Scrape</a>
-may be None if page has no links 
+
+NOTE: may be None if page has no links 
 '''
 
-first_a = soup.find("a")
+first_a = soup.find("a") # first_a here is a Tag object
 
 print(first_a.name)  # a
 print(first_a.attrs) # {'href': '/', 'style': 'text-decoration: none'}
@@ -176,14 +225,15 @@ print(first_a.get_text(strip=True))  # Quotes to Scrape
 
 
 #------------------------------------------------------------------------------------------------#
-#------------------------------ 4. Navigate the parse tree --------------------------------------#
+#--------------------------------- 4. Navigate the parse tree -----------------------------------#
 #------------------------------------------------------------------------------------------------#
 
 body = soup.body  # may be None if HTML is fragment or unusual
 print("Has <body>:", body is not None)
 # Has <body>: True
 
-print(body.children) # <generator object Tag.children.<locals>.<genexpr> at 0x7b905973b400>
+print(body.children) 
+# <generator object Tag.children.<locals>.<genexpr> at 0x7b905973b400>
 
 body_children = list(body.children)
 print(body_children)
@@ -205,13 +255,15 @@ for node in body_children: # get the first element child (skip text nodes)
         first_element_child = node # Assign that node to first_element_child if it has a 'name' attribute
         break
 
-print(f"First element child under <body>:\n{first_element_child}")
+print(f"First element child under <body>:\n{first_element_child.prettify()}")
 '''
 <div class="container">
-<div class="row header-box">
-<div class="col-md-8">
-...
-(more contents)
+ <div class="row header-box">
+  <div class="col-md-8">
+... (more contents)
+  </div>
+ </div>
+</div>
 '''
 
 ######################
@@ -219,17 +271,27 @@ print(f"First element child under <body>:\n{first_element_child}")
 # Find next sibling of that first element child (skipping text nodes)
 next_sibling = first_element_child.find_next_sibling()
 
-print(f"Next sibling of first element child:\n{next_sibling}")
+print(f"Next sibling of first element child:\n{next_sibling.prettify()}")
 '''
 <footer class="footer">
-<div class="container">
-<p class="text-muted">
-                Quotes by: <a href="https://www.goodreads.com/quotes">GoodReads.com</a>
-</p>
-<p class="copyright">
-                Made with <span class="zyte">❤</span> by <a class="zyte" href="https://www.zyte.com">Zyte</a>
-</p>
-</div>
+ <div class="container">
+  <p class="text-muted">
+   Quotes by:
+   <a href="https://www.goodreads.com/quotes">
+    GoodReads.com
+   </a>
+  </p>
+  <p class="copyright">
+   Made with
+   <span class="zyte">
+    ❤
+   </span>
+   by
+   <a class="zyte" href="https://www.zyte.com">
+    Zyte
+   </a>
+  </p>
+ </div>
 </footer>
 '''
 
@@ -250,10 +312,7 @@ print(f"Next sibling of first element child:\n{next_sibling}")
 first_quote = soup.find(name="span", class_="text")  # Tag or None
 
 print(first_quote)
-'''
-<span class="text" itemprop="text">“The world as we have created it is a process of our thinking. 
-It cannot be changed without changing our thinking.”</span>
-'''
+# <span class="text" itemprop="text">“The world as we have created it is a process of our thinking...”</span>
 
 print(first_quote.attrs) # {'class': ['text'], 'itemprop': 'text'}
 print(first_quote['class'])  # ['text']
@@ -322,10 +381,12 @@ print("Safe title_text:", title_text)
 
 h1 = soup.find("h1")
 
-print(h1)
+print(h1.prettify())
 '''
 <h1>
-<a href="/" style="text-decoration: none">Quotes to Scrape</a>
+ <a href="/" style="text-decoration: none">
+  Quotes to Scrape
+ </a>
 </h1>
 '''
 
@@ -344,8 +405,12 @@ print(h1.get_text(strip=True))
 
 first_a = soup.find("a")
 
-print(first_a)
-# <a href="/" style="text-decoration: none">Quotes to Scrape</a>
+print(first_a.prettify())
+'''
+<a href="/" style="text-decoration: none">
+ Quotes to Scrape
+</a>
+'''
 
 print(first_a.string)
 # Quotes to Scrape
@@ -389,10 +454,12 @@ print(len(all_paragraphs))
 
 first_p = soup.select_one("p")
 
-print(first_p)
+print(first_p.prettify())
 '''
 <p>
-<a href="/login">Login</a>
+ <a href="/login">
+  Login
+ </a>
 </p>
 '''
 
