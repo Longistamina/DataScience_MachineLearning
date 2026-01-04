@@ -40,9 +40,11 @@ github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
 + matrix (2-D array) handling with NumPy
 + sparse matrix handling with scipy
 
-4. UnivarMath Random
+4. Basic Math Review
 
-5. DataFrame - Pandas - DataR
+5. UnivarMath Random
+
+6. DataFrame - Pandas - DataR
 + Pandas datatype
 + Pandas I/O: CSV, XLSX, ...
 + Pandas subset columns and rows
@@ -55,20 +57,20 @@ github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
 + Pandas simple plot
 + DataR: handle DataFrame with R's dplyr and tidyverse style
 
-6. Polars - Tidypolars4sci: like Pandas but faster
+7. Polars - Tidypolars4sci: like Pandas but faster
 
-7. Datavisualization with Matplotlib, Seaborn, Plotnine and Plotly
+8. Datavisualization with Matplotlib, Seaborn, Plotnine and Plotly
 + Matplotlib: scatter plot, line plot, boxplot, ...
 + Seaborn: scatter plot, line plot, boxplot, ...
 + Plotnine: datavisualization with ggplot style
 + Plotly: 3D visualization
 
-8. Calculus - SymPy - Limits - Derivative - Integral:
+9. Calculus - SymPy - Limits - Derivative - Integral:
 + Limits
 + Derivative
 + Integral
 
-9. Linear Algebra
+10. Linear Algebra
 + Vector and Matrix operations
 + Rank, Determinant, Trace
 + Transpose, Inverse Matrix
@@ -77,7 +79,7 @@ github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
 + Pseudo Inverse Matrix
 + Dimension Reduction: PCA, TSVD
 
-10. Statistics
+11. Statistics
 + Probability Revision
 + Random Variable
 + Bayesian Probability
@@ -90,9 +92,9 @@ github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
 + Univariate Analysis: descriptive statistics for quantitative variable, categorical count
 + Bivariate Analysis: Covariance, Correlation, Chi-squared test, T-test, Mann-Whitney U test, Wilcoxon signed rank test, ANOVA, Kruskal=Wallis test, ANOVA repeated measurements, Friedman test
 
-11. Convex Optimization - CVXPY:
+12. Convex Optimization - CVXPY:
 
-12. Data Preprocessing:
+13. Data Preprocessing:
 + Column names "cleaning"
 + Text data handling
 + Handle Missing data
@@ -106,7 +108,7 @@ github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
 + Train - Test - Split
 + Univariate plot: quantitative and categorical
 
-13. Supervised Learning:
+14. Supervised Learning:
 + Linear Regression, Regularization (L1, L2, ElasticNet), Polynomial Regression
 + Logistic Regression, Softmax Regression
 + Naive Bayes: Bernouli, Multinomial, Gaussian
@@ -118,7 +120,7 @@ github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
 + CrossValidation
 + Parameter Tunning, Grid Search, Randomized Search
 
-14. Unsupervised Learning:
+15. Unsupervised Learning:
 + Distance Scipy: Euclidean, Manhattan, ...
 + K-Means clustering
 + Hierachical clustering
@@ -130,8 +132,8 @@ github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
 + Dimension Reduction: UMAP, t-SNE, LLE
 + Association Rules: Apriori, ECLAT
 
-15. Time Series Analysis:
+16. Time Series Analysis:
 + ARIMA
 + HoltWinters
 
-16. Data Analysis Workflow: put everything of the course into a step-by-step process
+17. Data Analysis Workflow: put everything of the course into a step-by-step process
