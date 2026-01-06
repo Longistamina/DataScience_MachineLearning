@@ -89,6 +89,29 @@ combined = [*list1, *list2]
 
 print(combined)  # [1, 2, 3, 4, 5, 6]
 
+###################################
+## Unpacking with zip(*iterable) ##
+###################################
+
+data = [
+    ['Alice', [25, 30, 35], ('USA', 'NYC')],
+    ['Bob', [28, 32, 36], ('Canada', 'Toronto')],
+    ['Charlie', [22, 27, 31], ('UK', 'London')],
+    ['Diana', [24, 29, 33], ('Australia', 'Sydney')]
+]
+
+names, scores, locations = zip(*data)
+'''
+This works like:
+# names = (data[i][0] for i in range(len(data)))
+# scores = (data[i][1] for i in range(len(data)))
+# locations = (data[i][2] for i in range(len(data)))
+'''
+
+print(names) # ('Alice', 'Bob', 'Charlie', 'Diana')
+print(scores) # ([25, 30, 35], [28, 32, 36], [22, 27, 31], [24, 29, 33])
+print(locations) # (('USA', 'NYC'), ('Canada', 'Toronto'), ('UK', 'London'), ('Australia', 'Sydney'))
+
 ###################################################
 ## Unpacking a string into individual characters ##
 ###################################################
