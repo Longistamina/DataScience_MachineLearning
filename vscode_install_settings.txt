@@ -38,7 +38,7 @@ Set clear terminal shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "Terminal: Clear" => Ctrl + L
 
 Set run Python selected codes/lines shortcut:
-    File -> Preferences -> Keyboard Shortcuts -> search "Python: Run Selection/Line in Python Terminal" => Ctrl + Enter
+    File -> Preferences -> Keyboard Shortcuts -> search "Terminal: Run Selected Text in Active Terminal" => Ctrl + Enter
 (Note: remember to remove other Ctrl+Enter related to "Python: Run...")
 
 Set Trigger Parameter Hints shortcut:
@@ -48,6 +48,23 @@ Set Outdent Shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "outdent" => Ctrl + Tab
 (set this to avoid conflicting the "Trigger Parameter Hints")
 
+#---------------------------------------------------#
+#------------- Add a terminal profile --------------#
+#---------------------------------------------------#
+
+Press: Ctrl+Shift+P
+(to open Preferences)
+
+Find and choose: ">Preferences: Open User Settings (JSON)"
+
+Add a terminal profile to the json file:
+"terminal.integrated.profiles.linux": {
+    "python-data-3.12": { # Name of the profile
+        "path": "/home/longdpt/miniconda3/envs/data/bin/python", # Path to the executable file (should be inside an env)
+        "args": [],
+        "overrideName": true # To use the profile name as terminal name
+    }
+}
 
 #----------------------------------------------------#
 #------------- Set jupyter environment --------------#
