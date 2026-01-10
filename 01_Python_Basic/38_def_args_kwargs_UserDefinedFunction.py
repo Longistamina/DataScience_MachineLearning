@@ -62,21 +62,18 @@ greet()
 
 def add_numbers(x, y):
     """Add two numbers."""
-    print(f"{x} + {y} = {x + y}")
-
+    print(f"{x} + {y} = {x + y}")   
 
 # Call the function with arguments
 add_numbers(
-    x = 5, # x and y are parameters
-    y = 10 # 5 and 10 are arguments passed to the function's parameters
+    x=5, # x and y are parameters
+    y=10 # 5 and 10 are arguments passed to the function's parameters
 )
 # 5 + 10 = 15
-
 
 # Call the function with positional arguments
 add_numbers(3, 7)
 # 3 + 7 = 10
-
 
 ######################################
 ## Function with default parameters ##
@@ -99,20 +96,19 @@ customer_info("Bob", 25, "Engineer")
 #------------------------------------------------------------------------------------------------------------#
 #------------------------------- 2. Return a value using "return" statement ---------------------------------#
 #------------------------------------------------------------------------------------------------------------#
-
-# "return" statement is used to exit a function and return a value to the caller.
+'''"return" statement is used to exit a function and return a value to the caller.'''
 
 ###############
 ## Example 1 ##
 ###############
 def square(number):
     """Return the square of a number."""
-    return number * number
+    output = number * number
+    return output
 
 # Call the function and store the returned value
 result = square(4)
 print(f"The square of 4 is: {result}")
-
 
 ###############
 ## Example 2 ##
@@ -157,7 +153,6 @@ it will show you the expected data types for the parameters and return value.
 This is useful for documentation and code readability, but it does not enforce type checking at runtime.
 '''
 
-
 ###############
 ## Example 2 ##
 ###############
@@ -173,10 +168,11 @@ print(result_3)  # Hello, World!
 #------------------------------------------------------------------------------------------------------------#
 #--------------------- 4. Positional arguments: passing arguments in the order of parameters ----------------#
 #------------------------------------------------------------------------------------------------------------#
-
-# Positional arguments are passed to a function in the order of the parameters defined in the function signature.
-# If the function has parameters `a`, `b`, and `c`, you can call it like this: `function_name(1, 2, 3)`.
-# If the order is violated, it can lead to unexpected results, or even errors.
+'''
+Positional arguments are passed to a function in the order of the parameters defined in the function signature.
+If the function has parameters `a`, `b`, and `c`, you can call it like this: `function_name(1, 2, 3)`.
+If the order is violated, it can lead to unexpected results, or even errors.
+'''
 
 def info_display(first_name, last_name, DoB):
     """Display the full name."""
@@ -201,9 +197,10 @@ This is because positional arguments are matched to parameters based on their po
 #------------------------------------------------------------------------------------------------------------#
 #------------- 5. Keyword arguments: passing arguments by explicitly specifying the parameter names ---------#
 #------------------------------------------------------------------------------------------------------------#
-
-# Keyword arguments allow you to pass arguments to a function by explicitly specifying the parameter names.
-# This makes the code more readable and allows you to pass arguments in any order.
+'''
+Keyword arguments allow you to pass arguments to a function by explicitly specifying the parameter names.
+This makes the code more readable and allows you to pass arguments in any order.
+'''
 
 def person_info(name, age, city):
     """Display person's information."""
@@ -217,9 +214,9 @@ person_info(name="John", age=30, city="New York")
 
 # Call the function with keyword arguments in a different order
 person_info(
-    city = "Los Angeles", 
-    age = 25, 
-    name = "Alice"
+    city="Los Angeles", 
+    age=25, 
+    name="Alice"
 )
 # Name: Alice, Age: 25, City: Los Angeles
 
@@ -232,9 +229,10 @@ This is because keyword arguments explicitly specify which parameter each argume
 #------------------------------------------------------------------------------------------------------------#
 #------------------- 6. Default arguments: parameters with default values that can be omitted ---------------#
 #------------------------------------------------------------------------------------------------------------#
-
-# Default arguments allow you to define parameters with default values.
-# If the caller does not provide a value for that parameter, the default value is used.
+'''
+Default arguments allow you to define parameters with default values.
+If the caller does not provide a value for that parameter, the default value is used.
+'''
 
 def greet_user(name, greeting="Hello"):
     """Greet the user with a default greeting."""
@@ -254,11 +252,11 @@ greet_user("Bob", "Bonjour")
 #-------------------------------------------------------------------------------------------------------------#
 #-------------------------------- 7. *args (Variable Positional Arguments) -----------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
-
-# *args allows you to pass a variable number of positional arguments to a function.
-# It collects all the extra positional arguments into a TUPLE.
-# This is useful when you don't know in advance how many arguments will be passed.
-
+'''
+*args allows you to pass a variable number of positional arguments to a function.
+It collects all the extra positional arguments into a TUPLE.
+This is useful when you don't know in advance how many arguments will be passed.
+'''
 
 #####################################
 ## Example 1: print out all inputs ##
@@ -276,7 +274,6 @@ print_all("Hello", "World", 42, True)
 # 42
 # True
 
-
 #########################################
 ## Example 2: change the name of *args ##
 #########################################
@@ -287,16 +284,14 @@ def sum_numbers(*nums): # Now *nums will work as *args to collect all positional
         return "No numbers provided." # It will return this and exit the function immediately
     else:
         total = 0
-
-    for num in nums:
-        total += num
-    return total
+        for num in nums:
+            total += num
+        return total
 
 
 print(sum_numbers()) # No numbers provided.
 print(sum_numbers(1, 2, 3, 4, 5)) # 15
 print(sum_numbers(30)) # 30
-
 
 ###############################################
 ## Example 3: combine *args with enumerate() ##
@@ -304,7 +299,7 @@ print(sum_numbers(30)) # 30
 
 def sign_check(*nums):
     """Check the sign of the numbers, return: positive, negative or zero"""
-    nums = list(nums) # Convert to string to enable modification
+    nums = list(nums) # Convert to list to enable modification
     
     for idx, number in enumerate(nums):
         if number > 0:
@@ -318,7 +313,6 @@ def sign_check(*nums):
 
 print(sign_check(2, 2.4, 3.5, -6, 1, -22.0, 0))
 # ['positive', 'positive', 'positive', 'negative', 'positive', 'negative', 'zero']
-
 
 ###############################################
 ## Example 4: concatenate strings with *args ##
@@ -335,10 +329,10 @@ print(create_message("Hello", "world", "from", "Python"))
 #-------------------------------------------------------------------------------------------------------------#
 #---------------------------------- 8. **kwargs (Variable Keyword Arguments) ---------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
-
-# **kwargs allows you to pass a variable number of keyword arguments to a function.
-# It collects all the extra keyword arguments into a dictionary.
-
+'''
+**kwargs allows you to pass a variable number of keyword arguments to a function.
+It collects all the extra keyword arguments into a dictionary.
+'''
 
 ##########################
 ## **kwargs explanation ##
@@ -359,7 +353,6 @@ demo_kwargs(key1="value1", key2="value2", key3=42)
 # dict_keys(['key1', 'key2', 'key3'])
 # dict_values(['value1', 'value2', 42])
 
-
 #################################
 ## Change the name of **kwargs ##
 #################################
@@ -375,7 +368,6 @@ display_info(name="Alice", age=30, city="New York")
 # name: Alice
 # age: 30
 # city: New York
-
 
 ########################################################################
 ## Example: calculate salary with required fields and optional fields ##
@@ -409,21 +401,21 @@ def calculate_salary(**info):
     
     total_salary = base_salary + bonus
 
-    logger.info(f"Calculating salary for {name}:\nBase Salary = {base_salary}\nBonus = {bonus}\n==> Total Salary = {total_salary}")
+    logger.info(f"\nCalculating salary for {name}:\nBase Salary = {base_salary}\nBonus = {bonus}\n==> Total Salary = {total_salary}")
     return {"Name": name, "Total Salary": total_salary}
-
 
 #----------------------
 ## Call the function with required and optional fields
 #----------------------
 
 salary_info = calculate_salary(
-    name = "Alice",
-    salary_daily = 100,
-    working_days = 20,
-    bonus = 500
+    name="Alice",
+    salary_daily=100,
+    working_days=20,
+    bonus=500
 )
-# | INFO     | __main__:calculate_salary:19 - Calculating salary for Alice:
+# 2026-01-10 15:58:31.838 | INFO     | __main__:calculate_salary:19 - 
+# Calculating salary for Alice:
 # Base Salary = 2000
 # Bonus = 500
 # ==> Total Salary = 2500

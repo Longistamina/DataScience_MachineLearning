@@ -40,11 +40,9 @@ print(f"Result of the imported function: {result}")
 # | INFO     | demo_module_same_directory:add:7 - This module is being imported
 # 5 + 3 = 8
 
-
 ##################################################
 ## import all functions from the module using * ##
 ##################################################
-
 ''' DEMO if __name__ == "__main__" '''
 
 from demo_module_same_directory import *
@@ -61,7 +59,6 @@ _ = subtract(10, 4)
 #----------------------------------------------------------------------------------------------------#
 #-------------------- Import the module from a package (different directory) ------------------------#
 #----------------------------------------------------------------------------------------------------#
-
 '''
 Python package is a directory that contains an __init__.py file and can contain submodules.
 So, when creating a package, must create an __init__.py file in the package directory.
@@ -113,7 +110,7 @@ PEP8 (Python Enhancement Proposal 8) recommends against using "from package impo
 Because it can lead to confusion and make the code less readable.
 
 Reasons:
-# pollute the caller’s namespace and obscure the origin of identifiers,
+# pollute the caller's namespace and obscure the origin of identifiers,
 # make accidental name collisions more likely,
 # hobble tooling and auto-completion, and
 # tie code correctness to the order of import * statements, which is fragile.
