@@ -14,3 +14,4 @@
 + [01_Python_Basic_part_05](https://youtu.be/owrsc_nQhqA): time module, calendar module (the story of Wang Zhaojun)
 + [01_Python_Basic_part_06](https://youtu.be/jZnFdhI9pzI): if-elif-else, match-case, try-except-assert-else (Logic, Syllogism, Induction, Deduction, Abduction, Sophism, David Hume empiricism)
 + [01_Python_Basic_part_07](https://youtu.be/MI8R07d8kes): for loop, zip(), enumerate(), while loop, break-continue-pass (Logic in cancer therapy, reasonable and true, black swan paradox)
++ [01_Python_Basic_part_08](https://youtu.be/Hva7ZeXgUac): List, Tuple (Francis 1 of France and Leonardo Da Vinci)
