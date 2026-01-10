@@ -1,15 +1,14 @@
 '''
-1. np.concatenate((arr1, arr2, ...)): concatenate many vectors into one vector
+1. split:
+   + np.split() by "number of sections"
+   + np.split() by "indices"
+   + np.array_split(): supports unequal splits
 
-2. np.split(arr, indices_or_sections): split a vector into many vectors
-   + Splitting by "number of sections"
-   + Splitting by "indices"
-
-3. np.repeat(arr, repeats): repeat elements of an array
+2. np.repeat(arr, repeats): repeat elements of an array
    + Repeating with same count
    + Repeating with different counts
 
-4. np.unique(arr): find the unique elements of an array
+3. np.unique(arr): find the unique elements of an array
    + np.unique()
    + np.unique(return_counts=True)
 '''
@@ -18,25 +17,7 @@ import numpy as np
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 1. np.concatenate() -----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
-
-vector_1 = np.array([1, 5, 3])
-vector_2 = np.array([4, 2, 6])
-vector_3 = np.array([7, 9, 8])
-
-###################
-## Concatenating ##
-###################
-
-concatenated_vector = np.concatenate((vector_1, vector_2, vector_3))
-
-print(concatenated_vector)
-# [1 5 3 4 2 6 7 9 8]
-
-
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 2. np.split() -----------------------------------------------------#
+#------------------------------------------ 1. np.split() -----------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
 np.random.seed(0)
@@ -44,9 +25,9 @@ vector = np.random.randint(1, 11, size=9)
 print(vector)
 # [ 6  1  4  4  8 10  4  6  3]
 
-######################################
-## Splitting by "number of sections ##
-######################################
+#######################################
+## np.split() by "number of sections ##
+#######################################
 
 split_vectors = np.split(ary=vector, indices_or_sections=3)
 
@@ -62,9 +43,9 @@ for i, vec in enumerate(split_vectors):
 
 '''NOTE: If the array cannot be split evenly, a ValueError will be raised.'''
 
-############################
-## Splitting by "indices" ##
-############################
+#############################
+## np.split() by "indices" ##
+#############################
 
 split_vectors = np.split(ary=vector, indices_or_sections=[2, 5])
 
@@ -78,9 +59,28 @@ for i, vec in enumerate(split_vectors):
 # Vector 3: [10  4  6  3]
 '''Using specified indices allows unequal splits.'''
 
+#############################################
+## np.array_split() supports unequal split ##
+#############################################
+
+vector_uneven = np.array([1, 2, 3, 4, 5, 6, 7])
+
+split_vectors = np.array_split(ary=vector_uneven, indices_or_sections=3)
+
+print(split_vectors)
+# [array([1, 2, 3]), array([4, 5]), array([6, 7])]
+'''Returns a list of 3 arrays with unequal sizes.'''
+
+for i, vec in enumerate(split_vectors):
+    print(f"Vector {i+1}: {vec}")
+# Vector 1: [1 2 3]
+# Vector 2: [4 5]
+# Vector 3: [6 7]
+'''NOTE: np.array_split() handles uneven divisions gracefully, unlike np.split().'''
+
 
 #--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 3. arr.repeat() ---------------------------------------------------#
+#------------------------------------------ 2. arr.repeat() ---------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
 vector = np.array([3, 6, 9])
@@ -106,7 +106,7 @@ the 3rd element (9) is repeated three times.
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 4. np.unique() ----------------------------------------------------#
+#------------------------------------------ 3. np.unique() ----------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
 vector_npy = np.load('03_Vector_Matrix_Sparse/01_Vector_1D/data/timeseries.npy')
