@@ -7,7 +7,7 @@ Tuple allows HETEROGENEOUS datatype
 Tuple is like List, but with ONE key difference:
     => UNABLE to change or modify
 
-Tuple still allows duplicate values (because it has index to distinguish)
+Tuple still allows DUPLICATE values (because it has index to distinguish)
 
 Should use Tuple when you don't want others modify your data
 
@@ -39,7 +39,7 @@ print(type(tup1))
 
 tup2 = (1, 2, 3, 4, 5)
 tup3 = 6, 7, 8, 9, 10
-tup4 = 8,              # If have only one element, must end with "," to make Python understand this as Tuple
+tup4 = 8,         # If have only one element, must end with "," to make Python understand this as Tuple
 tup5 = ('abc',)
 tup6 = ('cdf', True, 1.2, 3, ["Name", False])
 
@@ -97,6 +97,12 @@ if "apple" in fruits:
 #----------------- Modify tuple via list ----------------------#
 #--------------------------------------------------------------#
 
+predators_tup = ("tiger", "lion", "leopard")
+print(predators_tup)
+
+predators_tup[2] = "wolf"
+'''TypeError: 'tuple' object does not support item assignment'''
+
 '''
 Again, Tuple DOES NOT allow modifying its elements
 So, if we still need to make modifications => convert to list first using list(tuple_name)
@@ -104,9 +110,6 @@ So, if we still need to make modifications => convert to list first using list(t
 After that, we can apply list modifying methods: 
       insert, append, extend, remove, pop, clear, copy, sort, reverse
 '''
-
-predators_tup = ("tiger", "lion", "leopard")
-print(predators_tup)
 
 predators_list = list(predators_tup)
 print(predators_list) # ['tiger', 'lion', 'leopard']
@@ -224,7 +227,7 @@ it raises error because the number of iterators and the number of items are not 
 
 
 #------------------------------------------------------------#
-#---------------- Tuple comprehension -----------------------#
+#------------------- Tuple comprehension --------------------#
 #------------------------------------------------------------#
 
 samurais = "Miyamoto Musashi", "Oda Nobunaga", "Sanada Yukimura", "Honda Tadakatsu"

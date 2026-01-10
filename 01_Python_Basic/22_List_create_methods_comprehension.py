@@ -1,7 +1,7 @@
 '''
 List is a type of iteration in Python
 
-List allows storing duplicate HETEROGENEOUS data (different datatypes)
+List allows storing DUPLICATE and HETEROGENEOUS data (different datatypes)
 (however, should store homogeneous data to facilitate processing steps)
 
 First element has index = 0
@@ -21,7 +21,7 @@ Last element has index = len(list) - 1 (or -1)
 
 
 #------------------------------------------------------#
-#----------------- Create a list ----------------------#
+#------------------- Create a list --------------------#
 #------------------------------------------------------#
 
 empty_list_1 = []      # => []
@@ -65,7 +65,7 @@ print(fruits[2:]) # from fruits[2] to the last element fruits[-1] (and also incl
 print(fruits[2:5]) # from fruits[2] to fruits[5] but excluded fruits[5]
                    # ['cherry', 'orange', 'kiwi']
 
-print(fruits[1:6:2]) # from fruits[1] to fruits[6] but excluded fruits[6]
+print(fruits[1:6:2]) # from fruits[1] to fruits[6] but excluded fruits[6] with step=2
                      # ['banana', 'orange', 'melon']
 
 print(fruits[-1:-4]) # []
@@ -93,7 +93,7 @@ if "apple" in fruits:
 
 
 #---------------------------------------------------------#
-#----------------- Update list item ----------------------#
+#------------------ Update list item ---------------------#
 #---------------------------------------------------------#
 
 predators = ["tiger", "lion", "leopard"]
@@ -113,8 +113,9 @@ predators[1:] = "eagle"
 print(predators) # return ['bear', 'e', 'a', 'g', 'l', 'e']
 '''
 
+
 #-----------------------------------------------------#
-#----------------- List methods ----------------------#
+#------------------- List methods --------------------#
 #-----------------------------------------------------#
 
 # .count()
@@ -195,6 +196,10 @@ print(animals) #["dog", "cat", "bird", 4, 3]
 programmer_life.remove("debugging")
 print(programmer_life) # ['dreaming', 'waking', 'eating', 'crying', 'hoping', 'crying', 4]
 
+duplicate_list = ["A", "B", "C", "A", "D", "A"]
+duplicate_list.remove("A")
+print(duplicate_list) # ['B', 'C', 'A', 'D', 'A'] | only the first "A" is removed
+
 ############
 ## .pop() ##
 ############
@@ -242,6 +247,18 @@ print(f"list_original: {list_original}") # [1, 'a', 2.0, 'c', 'b', False, 'Goodn
 print(f"list_copy_2: {list_copy_2}")     # [1, 'a', 2.0, 'c', 'b', False, 'Goodnight']
 print(f"list_copy_1: {list_copy_1}")     # [1, 'a', 2.0, 'c', 'b', False]
 
+#----
+## save original list before modification
+#---
+
+list_raw = [10, 20, 30, 40, 50]
+
+list_raw_backup = list_raw.copy() # make a copy before modification
+
+list_raw.append(60)
+print(f"list_raw        : {list_raw}")         # [10, 20, 30, 40, 50, 60]
+print(f"list_raw_backup : {list_raw_backup}")  # [10, 20, 30, 40, 50]
+
 #############
 ## .sort() ##
 #############
@@ -262,6 +279,11 @@ print(numbers) # [0.49, 1.27, 3.72, 6.03, 8.15]
 numbers = [3.72, 8.15, 0.49, 6.03, 1.27]
 numbers.sort(reverse=True)
 print(numbers) # [8.15, 6.03, 3.72, 1.27, 0.49]
+
+list_mix = ["Lentani", 35.5, 20, "abc", False]
+list_mix.sort()
+'''TypeError: '<' not supported between instances of 'float' and 'str'''
+# Cannot sort a list with heterogeneous data types
 
 ################
 ## .reverse() ##
@@ -294,6 +316,7 @@ print(lst_multiply) # [1, 3, 5, 1, 3, 5, 1, 3, 5]
 print(lst3*4) # ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C']
 
 print(lst1*2 + lst3*3) # [1, 3, 5, 1, 3, 5, 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C']
+
 
 #-------------------------------------------------------------------#
 #------------------ List and Loops and 2D list ---------------------#
@@ -376,10 +399,11 @@ print(even_numbers) # [0, 'odd', 2, 'odd', 4, 'odd', 6, 'odd', 8, 'odd']
 #------------------------------------------------------------------------------------------#
 #------------------ Numeric List calculating with Aggregate Functions ---------------------#
 #------------------------------------------------------------------------------------------#
+'''
+For numeric list, can use math aggregate functions
 
-# For numeric list, can use math aggregate functions
-
-# Aggregate Functions are those which take many input numbers but return ONLY ONE output (like mean, min, max, std...)
+Aggregate Functions are those which take many input numbers but return ONLY ONE output (like mean, min, max, std...)
+'''
 
 import numpy as np
 
@@ -397,6 +421,11 @@ print(np.std(lst_floats))
 print(sum(["A", "b", "c"])) #=> TypeError
 '''
 
+list_bools = [True, False, True, True, False]
+
+print(np.sum(list_bools))   
+# 3 | True = 1, False = 0
+
 
 #-------------------------------------------------------------------------------------------------------#
 #------------------ map() and list comprehension for list element-wise calculation ---------------------#
@@ -404,9 +433,11 @@ print(sum(["A", "b", "c"])) #=> TypeError
 
 import numpy as np
 
-# Use map() to perform list element-wise transformation
-# map() returns a map object; therefore must convert back into list to get the final calculated list
-# map(function, iteration) | list(map(function, iteration))
+'''
+Use map() to perform list element-wise transformation
+map() returns a map object; therefore must convert back into list to get the final calculated list
+map(function, iteration) | list(map(function, iteration))
+'''
 
 lst_floats = [213.0, 321.5, 56198.99, 65489.55, 213.68]
 
