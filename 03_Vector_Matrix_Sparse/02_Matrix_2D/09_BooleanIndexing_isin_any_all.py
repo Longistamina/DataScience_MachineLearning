@@ -406,26 +406,47 @@ flattening the result into a 1D array when using element-wise conditions.
 ################
 
 matrix_3d = np.random.randint(10, 50, size=(3, 4, 5))
-print("\n3D Matrix shape:", matrix_3d.shape)
-print("3D Matrix:\n", matrix_3d)
 
-print("\n3D: Elements > 40:")
+print(matrix_3d.shape) # (3, 4, 5)
+
+print(matrix_3d)
+# [[[23 26 45 49 13]
+#   [11 15 13 38 27]
+#   [35 43 19 45 23]
+#   [40 24 17 23 32]]
+
+#  [[49 30 25 27 33]
+#   [35 34 38 24 10]
+#   [34 16 18 33 10]
+#   [17 33 20 26 17]]
+
+#  [[44 44 42 14 48]
+#   [37 16 18 17 21]
+#   [43 42 32 33 46]
+#   [44 49 31 36 44]]]
+
 print(matrix_3d[matrix_3d > 40])
+# [45 49 43 45 49 44 44 42 48 43 42 46 44 49 44]
 
-print("\n3D: Filter along axis (first dimension where mean of each 2D slice > 28):")
-slice_means = matrix_3d.mean(axis=(1, 2))
-print("Slice means:", slice_means)
-print(matrix_3d[slice_means > 28])
+slice_means = matrix_3d.mean(axis=(1, 2)) # Mean of each 2D slice along the first axis
+print("Slice means:", slice_means) # Slice means: [28.05 26.45 35.05]
+print(matrix_3d[slice_means > 30])
+# [[[44 44 42 14 48]
+#   [37 16 18 17 21]
+#   [43 42 32 33 46]
+#   [44 49 31 36 44]]]
 
 ################
 ## 4D Example ##
 ################
 
 matrix_4d = np.random.randint(5, 25, size=(2, 3, 3, 4))
-print("\n4D Matrix shape:", matrix_4d.shape)
 
-print("\n4D: Elements in [10, 15, 20]:")
+print(matrix_4d.shape) # (2, 3, 3, 4)
+
 print(matrix_4d[np.isin(matrix_4d, [10, 15, 20])])
+# [15 10 15 10]
 
-print("\n4D: Combined condition (< 10) | (> 20):")
 print(matrix_4d[(matrix_4d < 10) | (matrix_4d > 20)])
+# [ 5  7  9  7  5  9 23 21 24  8  9  8 23  6 24  5  5 24  7  9  5 23 24 21
+#  21 24  6  7 21  9 21 21 21  6  6  9  5]
