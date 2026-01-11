@@ -40,11 +40,9 @@ github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
 + matrix (2-D array) handling with NumPy
 + sparse matrix handling with scipy
 
-4. Basic Math Review
+4. MathFunctions Random
 
-5. UnivarMath Random
-
-6. DataFrame - Pandas - DataR
+5. DataFrame - Pandas - DataR
 + Pandas datatype
 + Pandas I/O: CSV, XLSX, ...
 + Pandas subset columns and rows
@@ -57,13 +55,15 @@ github instruction: https://www.youtube.com/watch?v=LbNd2XgWFe0&t=5615s
 + Pandas simple plot
 + DataR: handle DataFrame with R's dplyr and tidyverse style
 
-7. Polars - Tidypolars4sci: like Pandas but faster
+6. Polars - Tidypolars4sci: like Pandas but faster
 
-8. Datavisualization with Matplotlib, Seaborn, Plotnine and Plotly
+7. Datavisualization with Matplotlib, Seaborn, Plotnine and Plotly
 + Matplotlib: scatter plot, line plot, boxplot, ...
 + Seaborn: scatter plot, line plot, boxplot, ...
 + Plotnine: datavisualization with ggplot style
 + Plotly: 3D visualization
+
+8. Basic Math Review
 
 9. Calculus - SymPy - Limits - Derivative - Integral:
 + Limits
