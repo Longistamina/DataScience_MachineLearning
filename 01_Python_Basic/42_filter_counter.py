@@ -126,9 +126,11 @@ print(fruit_count)  # Counter({'apple': 3, 'banana': 2, 'orange': 1})
 print(fruit_count["apple"])  # 3
 print(fruit_count["grape"])  # 0 (returns 0 for missing elements, not KeyError!)
 
-##########################
-## most_common() method ##
-##########################
+'''char_count and fruit_count are Counter objects, which behave like dictionaries.'''
+
+###########################
+## .most_common() method ##
+###########################
 
 # Get the n most common elements
 chars = [1, 1, 1, 2, 2, 3, 3, 3, 3, 4, 5, 5]
@@ -177,9 +179,9 @@ print(intersection)  # Counter({'a': 1, 'b': 1})
 union = counter1 | counter2
 print(union)  # Counter({'b': 3, 'a': 2, 'd': 2, 'c': 1})
 
-#######################
-## elements() method ##
-#######################
+########################
+## .elements() method ##
+########################
 
 # Returns an iterator over elements, repeating each as many times as its count
 c = Counter(a=3, b=2, c=1)
@@ -189,9 +191,9 @@ print(list(c.elements()))  # ['a', 'a', 'a', 'b', 'b', 'c']
 c2 = Counter(a=2, b=0, c=-1)
 print(list(c2.elements()))  # ['a', 'a']
 
-#####################################
-## update() and subtract() methods ##
-#####################################
+#######################################
+## .update() and .subtract() methods ##
+#######################################
 
 # update() adds counts (like += but in-place)
 counter = Counter(['a', 'b', 'c'])
@@ -214,7 +216,7 @@ print(word_freq.most_common(2))  # [('the', 3), ('fox', 2)]
 # DNA sequence nucleotide counting
 dna_sequence = "ATCGATCGATCGTAGCTAGCTA"
 nucleotide_count = Counter(dna_sequence)
-print(nucleotide_count)  # Counter({'A': 7, 'T': 7, 'C': 5, 'G': 3})
+print(nucleotide_count)  # Counter({'A': 6, 'T': 6, 'C': 5, 'G': 5})
 
 # Finding duplicates in a dataset
 data = [1, 2, 3, 2, 4, 5, 3, 6, 3]
@@ -230,7 +232,7 @@ print(f"Winner: {winner[0]} with {winner[1]} votes")  # Winner: Alice with 4 vot
 
 # Character frequency for password strength analysis
 password = "P@ssw0rd123!"
-char_types = Counter()
+char_types = Counter() # Initialize empty Counter
 for char in password:
     if char.isalpha():
         char_types['letters'] += 1

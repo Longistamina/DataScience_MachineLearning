@@ -11,14 +11,13 @@ Otherwise, reach for "def" once the function grows or needs a name, documentatio
 ## Basic example ##
 ###################
 
-square = lambda x: x ** 2 # can under stand as "square = def square(x): return x ** 2"
+square = lambda x: x**2 # can under stand as "square = def square(x): return x ** 2"
 
 print(square(x=5)) # Keyword argument
 # 25
 
 print(square(10)) # Positional argument
 # 100
-
 
 #########################
 ## Multiple parameters ##
@@ -34,28 +33,25 @@ affine_2 = affine_combination(5, 25, 0.9)
 print(affine_2)
 # 7.0
 
-
 #######################
 ## lambda with map() ##
 #######################
 
 nums = [1, 2, 3, 4, 5, 6]
-doubles = list(map(lambda x: x * 2, nums))
+doubles = list(map(lambda x: x*2, nums))
 
 print(doubles)
 # [2, 4, 6, 8, 10, 12]
-
 
 ########################
 ## lambda with filter ##
 ########################
 
 nums = [1, 2, 3, 4, 5, 6]
-evens = list(filter(lambda x: x % 2 == 0, nums))
+evens = list(filter(lambda x: x%2 == 0, nums))
 
 print(evens)
 # [2, 4, 6]
-
 
 ##########################
 ## lambda with sorted() ##
@@ -64,13 +60,16 @@ print(evens)
 #----------
 ## Sort words by length using lambda
 #----------
-words = ['lambda', 'is', 'handy']
-print(sorted(words, key=lambda w: len(w))) # ['is', 'handy', 'lambda']
 
+words = ['lambda', 'is', 'handy']
+
+print(sorted(words, key=lambda w: len(w))) 
+# ['is', 'handy', 'lambda']
 
 #---------------
 ## Sort a dictionanry by keys
 #---------------
+
 demo_dict = {
     "B": 5,
     "D": 1,
@@ -83,8 +82,8 @@ demo_dict = {
 sorted_dict_key = dict(
     sorted(
         demo_dict.items(), 
-        key = lambda x: x[0], # sort by keys
-        reverse = False # sort ascending
+        key=lambda x: x[0], # sort by keys
+        reverse=False # sort ascending
     )
 )
 
@@ -97,15 +96,15 @@ for key, value in sorted_dict_key.items():
 # H: 10
 # X: 7
 
-
 #---------------
 ## Sort a dictionanry by values
 #---------------
+
 sorted_dict_value = dict(
     sorted(
         demo_dict.items(), 
-        key = lambda x: x[1], # sort by values
-        reverse = True # sort descending
+        key=lambda x: x[1], # sort by values
+        reverse=True # sort descending
     )
 )
 
@@ -118,19 +117,17 @@ for key, value in sorted_dict_value.items():
 # C: 3
 # D: 1  
 
-
 #########################################
 ## use lambda for currying / factories ##
 #########################################
 
 def multiplier(n):
-    return lambda x: x * n # returns a customized lambda
+    return lambda x: x*n # returns a customized lambda
 
 tripler = multiplier(3)
 
 print(tripler(10))
 # 30
-
 
 ############################
 ## lambda with logic code ##
@@ -147,11 +144,10 @@ print(sign_check(0))
 print(sign_check(-15.3))
 # Negative
 
-
 #############################
 ## Nested lambda functions ##
 #############################
 
-exponential = lambda x: (lambda y: x ** y)
+exponential = lambda x: (lambda y: x**y)
 print(exponential(2)(3))  # 2^3 = 8
 print(exponential(5)(2))  # 5^2 = 25

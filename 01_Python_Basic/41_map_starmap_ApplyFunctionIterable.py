@@ -4,18 +4,21 @@ Flow of contents:
 2. itertools.starmap()
 '''
 
+#############################
 
 '''
 itertools.starmap() is similar to map(), 
 but it unpacks the arguments from each tuple in the iterable(s) before applying the function.
 '''
 
+
 #-------------------------------------------------------------------------------------------------------#
 #------------------------------------------------ map() ------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------#
 
 '''
-map() applies a function to every element in one or more iterables and produces a lazy, memory-efficient iterator.
+map() applies a function to every element in one or more iterables 
+and produces a lazy and memory-efficient iterator.
 
 map(function, iterable, *iterables) → map object creates an iterator that yields function(item1, item2, …) 
 for each parallel group of items drawn from the supplied iterable(s)
@@ -31,7 +34,7 @@ To materialize results you must wrap with list(), tuple(), set() or loop over th
 ################
 
 numbers = [1, 2, 3, 4, 5]
-map_object = map(lambda x: x ** 2, numbers)
+map_object = map(lambda x: x**2, numbers)
 
 # print out the map object
 print(map_object)  # <map object at 0x7f8f521fffa0>
@@ -39,10 +42,10 @@ print(map_object)  # <map object at 0x7f8f521fffa0>
 # Get the materialized results
 squared = list(map_object)
 print(squared)  # [1, 4, 9, 16, 25]
+
 print(list(map(lambda x: x ** 2, numbers))) # [1, 4, 9, 16, 25]
 
-print(list(map_object))  # [] (empty, as map object is exhausted)
-
+print(list(map_object))  # [] (empty, as map object is exhausted after initial iteration)
 
 ########################################################
 ##           map(func, iterable, *iterables)          ##
@@ -58,6 +61,7 @@ exps2 = [5, 6, 7]
 #-------------
 ## pass 2 iterables to pow() using map()
 #-------------
+
 print(list(map(pow, nums, exps1)))   # 1**2, 2**3, 3**4
                                      # [1, 8, 81]
 
@@ -82,10 +86,13 @@ what actually happens is:
     pow(base=3, exp=4, mod=7) = (3⁴) % 7 = 81 % 7 = 4
 '''
 
-
 ################################
 ## map() with lambda function ##
 ################################
+
+#---
+## single input
+#---
 
 lst_floats = [213.0, 321.5, 56198.99, 65489.55, 213.68]
 
@@ -94,18 +101,28 @@ output_lst = list(map(lambda x: x/100, lst_floats))
 print(output_lst)
 # [2.13, 3.215, 561.9899, 654.8955000000001, 2.1368]
 
+#---
+## multiple inputs
+#---
+
+lengths = [2, 3, 4]
+widths = [5, 6, 7]
+
+areas = list(map(lambda l, w: l*w, lengths, widths))
+
+print(areas)  
+# [10, 18, 28]
+
 
 #-------------------------------------------------------------------------------------------------------#
 #---------------------------------------- itertools.starmap() ------------------------------------------#
 #-------------------------------------------------------------------------------------------------------#
-
 """
 itertools.starmap() is similar to map(), 
 but it unpacks the arguments from each tuple in the iterable(s) before applying the function.
 """
 
 from itertools import starmap
-
 
 ####################################
 ## starmap() with normal function ##
@@ -135,13 +152,26 @@ what actually happens is:
     syp.diff(2**x + 3*z, x, 2 => differentiating 2**x + 3*z with respect to x, 2 orders
 '''
 
+#-------------
+## using map() instead of starmap()
+#-------------
+
+object_function = (2*x + 3*y - z, x**2 + 2*x*y + z**4, 2**x + 3*z)
+respect_variable = (y, z, x)
+diff_time = (1, 3, 2)
+
+print(list(map(syp.diff, object_function, respect_variable, diff_time)))
+
 ###########################
 ## starmap() with lambda ##
 ###########################
 
 height_width = [(1.5, 2.0), (2.0, 3.0), (3.0, 4.0)]
 
-area = list(starmap(lambda h, w: h * w, height_width)) #NOTE: startmap() takes no keyword arguments
+area = list(starmap(lambda h, w: h*w, height_width))
 
 print(area) # 1.5*2.0, 2.0*3.0, 3.0*4.0 
             # [3.0, 6.0, 12.0]
+'''
+NOTE: startmap() takes no keyword arguments
+'''
