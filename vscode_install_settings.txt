@@ -40,9 +40,6 @@ Set clear terminal shortcut:
 Set run Python selected codes/lines shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "Python: Run Selection/Line in Python Terminal" => Ctrl + Enter
 
-Set run selected text shortcut:
-    File -> Preferences -> Keyboard Shortcuts -> search "Terminal: Run Selected Text in Active Terminal" => Shift + Enter
-
 Set Trigger Parameter Hints shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "Trigger Parameter Hints" => Shift + Tab
 
