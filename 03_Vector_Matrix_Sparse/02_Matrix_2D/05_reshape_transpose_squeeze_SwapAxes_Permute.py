@@ -31,6 +31,9 @@
    
 6. Expand dims:
    + np.expand_dims(arr, axis): Expand the shape of an array by inserting a new axis at the specified position
+   + arr[np.newaxis, :, :] ||| arr[np.newaxis, ...]: equivalent to np.expand_dims(arr, axis=0)
+   + arr[:, np.newaxis, :]: equivalent to np.expand_dims(arr, axis=1)
+   + arr[:, :, np.newaxis] ||| arr[..., np.newaxis]: equivalent to np.expand_dims(arr, axis=2
 
 7. swapaxes:
    + np.swapaxes(arr, axis1, axis2): swap two axes of an array; for 2D, swapping 0 and 1 is equivalent to transpose
@@ -474,6 +477,10 @@ print(matrix6)
 ## axis=0: (1, 3, 4) ##
 #######################
 
+#-------
+## np.expand_dims()
+#-------
+
 expanded_axis0 = np.expand_dims(matrix6, axis=0)
 
 print(expanded_axis0)
@@ -483,9 +490,31 @@ print(expanded_axis0)
 
 print(expanded_axis0.shape) # (1, 3, 4)
 
+#-------
+## arr[np.newaxis, :, :]
+#-------
+
+print(matrix6[np.newaxis, :, :])
+# [[[ 4 15 16  7]
+#   [17 10  9  5]
+#   [ 8 17 17  8]]]
+
+#-------
+## arr[np.newaxis, ...]
+#-------
+
+print(matrix6[np.newaxis, ...])
+# [[[ 4 15 16  7]
+#   [17 10  9  5]
+#   [ 8 17 17  8]]]
+
 #######################
 ## axis=1: (3, 1, 4) ##
 #######################
+
+#-------
+## np.expand_dims()
+#-------
 
 expanded_axis1 = np.expand_dims(matrix6, axis=1)
 
@@ -497,6 +526,17 @@ print(expanded_axis1)
 #  [[ 8 17 17  8]]]
 
 print(expanded_axis1.shape) # (3, 1, 4)
+
+#-------
+## arr[:, np.newaxis, :]
+#-------
+
+print(matrix6[:, np.newaxis, :])
+# [[[ 4 15 16  7]]
+
+#  [[17 10  9  5]]
+
+#  [[ 8 17 17  8]]]
 
 #######################
 ## axis=2: (3, 4, 1) ##
@@ -521,6 +561,46 @@ print(expanded_axis2)
 #   [ 8]]]
 
 print(expanded_axis2.shape) # (3, 4, 1)
+
+#-------
+## arr[:, :, np.newaxis]
+#-------
+
+print(matrix6[:, :, np.newaxis])
+# [[[ 4]
+#   [15]
+#   [16]
+#   [ 7]]
+
+#  [[17]
+#   [10]
+#   [ 9]
+#   [ 5]]
+
+#  [[ 8]
+#   [17]
+#   [17]
+#   [ 8]]]
+
+#-------
+## arr[..., np.newaxis]
+#-------
+
+print(matrix6[..., np.newaxis])
+# [[[ 4]
+#   [15]
+#   [16]
+#   [ 7]]
+
+#  [[17]
+#   [10]
+#   [ 9]
+#   [ 5]]
+
+#  [[ 8]
+#   [17]
+#   [17]
+#   [ 8]]]
 
 
 #--------------------------------------------------------------------------------------------------------------#

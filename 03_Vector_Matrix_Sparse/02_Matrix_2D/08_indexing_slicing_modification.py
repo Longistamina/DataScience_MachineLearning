@@ -8,12 +8,15 @@
 4. Advance Indexing (using methods):
    + arr.item(row, col)
    + arr.take(indices, axis)
+   + np.take_along_axis(arr, indices, axis)
 
 5. Modifying Elements:
    + matrix[row, col] = new_value
    + arr.put(flat_indices, list_of_new_values)
 
 6. Examples for 3D and 4D matrices
+
+7. Elipsis for skipping elements: arr[..., indices]: useful for higher-dimensional arrays
 '''
 
 import numpy as np
@@ -243,6 +246,128 @@ print(matrix.take(np.arange(matrix.shape[0] - 1, -1, -1), axis=0))
 #  [10 11 12 13 14 15]]
 # (Take all rows in reverse order using np.arange())
 
+################################
+## Using np.take_along_axis() ##
+################################
+
+'''
+np.take_along_axis() takes values from an array by matching indices along a specified axis.
+Unlike np.take(), this function works with 2D index arrays and can select different indices 
+for each row or column.
+
+Syntax: np.take_along_axis(arr, indices, axis)
+- arr: input array
+- indices: array of indices (must have same shape as arr, or broadcastable)
+- axis: axis along which to take values
+'''
+
+# Create index arrays for demonstration
+row_indices = np.array([[0, 2, 4],    # For row 0, take columns 0, 2, 4
+                        [1, 3, 5],    # For row 1, take columns 1, 3, 5
+                        [5, 4, 3],    # For row 2, take columns 5, 4, 3
+                        [2, 1, 0]])   # For row 3, take columns 2, 1, 0
+
+print(row_indices.shape)
+# (4, 3)
+
+#-----
+## Taking along axis=1 (columns)
+#-----
+
+result_axis1 = np.take_along_axis(matrix[:4], row_indices, axis=1)
+print(result_axis1)
+# [[10 12 14]
+#  [21 23 25]
+#  [35 34 33]
+#  [42 41 40]]
+
+print(f"Original matrix[0]: {matrix[0]}")
+print(f"Indices for row 0: {row_indices[0]}")
+print(f"Result for row 0: {result_axis1[0]}")
+# Original matrix[0]: [10 11 12 13 14 15]
+# Indices for row 0: [0 2 4]
+# Result for row 0: [10 12 14]
+
+#-----
+## Taking along axis=0 (rows)
+#-----
+
+col_indices = np.array([[0, 1, 2, 3, 4, 5],    # For col 0, take row 0
+                        [7, 6, 5, 4, 3, 2],    # For col 1, take row 7
+                        [2, 2, 2, 2, 2, 2]])   # For col 2, take row 2
+
+print(col_indices.shape)
+# (3, 6)
+
+result_axis0 = np.take_along_axis(matrix, col_indices, axis=0)
+print(result_axis0)
+# [[10 21 32 43 54 65]
+#  [80 71 62 53 44 35]
+#  [30 31 32 33 34 35]]
+
+print(f"Column 0 values: {matrix[:, 0]}")
+print(f"Indices for col 0: {col_indices[:, 0]}")
+print(f"Result for col 0: {result_axis0[:, 0]}")
+# Column 0 values: [10 20 30 40 50 60 70 80]
+# Indices for col 0: [0 7 2]
+# Result for col 0: [10 80 30]
+
+#-----
+## Using with custom index patterns
+#-----
+
+# Create indices to select specific elements from each row
+# For rows that have values > 40, select columns 0, 1, 2
+# For rows that don't, select column 0 three times
+sample_indices = np.array([[0, 0, 0],     # Row 0: values <= 40, repeat column 0
+                           [0, 0, 0],     # Row 1: values <= 40, repeat column 0
+                           [0, 0, 0],     # Row 2: values <= 40, repeat column 0
+                           [0, 1, 2],     # Row 3: select columns 0, 1, 2
+                           [0, 1, 2]])    # Row 4: select columns 0, 1, 2
+
+result_sample = np.take_along_axis(matrix[3:, :], sample_indices, axis=1)
+print(result_sample)
+# [[40 40 40]
+#  [50 50 50]
+#  [60 60 60]
+#  [70 71 72]
+#  [80 81 82]]
+
+# This shows how each row uses its corresponding index array
+print(f"Row 3 (matrix[3]): {matrix[3]}")
+print(f"Indices [0, 0, 0]: {matrix[3][[0, 0, 0]]}")
+# Row 3 (matrix[3]): [40 41 42 43 44 45]
+# Indices [0, 0, 0]: [40 40 40]
+
+print(f"Row 7 (matrix[7]): {matrix[7]}")
+print(f"Indices [0, 1, 2]: {matrix[7][[0, 1, 2]]}")
+# Row 7 (matrix[7]): [80 81 82 83 84 85]
+# Indices [0, 1, 2]: [80 81 82]
+
+#-----
+## Practical example: combine with argsort to get sorted elements
+#-----
+
+matrix_scores = np.array([
+    [85, 92, 78, 95, 88],
+    [76, 88, 91, 84, 79],
+    [93, 81, 87, 90, 85],
+    [88, 79, 94, 77, 92]
+])
+
+# Get the indices that would sort each row (horizontally)
+sorted_indices = np.argsort(matrix_scores, axis=1)
+print(np.take_along_axis(matrix_scores, sorted_indices, axis=1))
+# [[78 85 88 92 95]
+#  [76 79 84 88 91]
+#  [81 85 87 90 93]
+#  [77 79 88 92 94]]
+
+# Get the indices of argmax each column (vertically)
+argmax_indices = np.argmax(matrix_scores, axis=0)
+print(np.take_along_axis(matrix_scores, argmax_indices[np.newaxis, :], axis=0))
+# [[93 92 94 95 92]]
+'''np.newaxis is used to convert 1D array argmax_indices to 2D for proper broadcasting'''
 
 #---------------------------------------------------------------------------------------------------------#
 #-------------------------- 5. Modifying elements: matrix[row, col] = new_value --------------------------#
@@ -496,3 +621,78 @@ print(tensor_4d.take([0], axis=0).shape)
 print(tensor_4d.take([1, 3], axis=2).shape)
 # (2, 3, 2, 5)
 # (Take rows 1 and 3 from all batches and channels)
+
+
+#---------------------------------------------------------------------------------------------------------#
+#---------------------- 7. Elipsis for skipping elements: arr[..., indices] ------------------------------#
+#---------------------------------------------------------------------------------------------------------#
+
+########################
+## 3D Matrix (Tensor) ##
+########################
+
+# Create a 3D array with shape (3, 4, 5) - 3 layers, 4 rows, 5 columns
+tensor_3d = np.arange(60).reshape(3, 4, 5)
+
+print(tensor_3d)
+# [[[ 0  1  2  3  4]
+#   [ 5  6  7  8  9]
+#   [10 11 12 13 14]
+#   [15 16 17 18 19]]
+#
+#  [[20 21 22 23 24]
+#   [25 26 27 28 29]
+#   [30 31 32 33 34]
+#   [35 36 37 38 39]]
+#
+#  [[40 41 42 43 44]
+#   [45 46 47 48 49]
+#   [50 51 52 53 54]
+#   [55 56 57 58 59]]]
+
+print(tensor_3d[..., 2])
+# [[ 2  7 12 17]
+#  [22 27 32 37]
+#  [42 47 52 57]]
+'''
+All layers, all rows, column 2
+Equivalent to tensor_3d[:, :, 2]
+'''
+
+print(tensor_3d[1, ...])
+# [[20 21 22 23 24]
+#  [25 26 27 28 29]
+#  [30 31 32 33 34]
+#  [35 36 37 38 39]]
+'''
+Layer 1, all rows and columns
+Equivalent to tensor_3d[1, :, :]
+'''
+
+print(tensor_3d[..., 1:4])
+# [[[ 1  2  3]
+#   [ 6  7  8]
+#   [11 12 13]
+#   [16 17 18]]
+
+#  [[21 22 23]
+#   [26 27 28]
+#   [31 32 33]
+#   [36 37 38]]
+
+#  [[41 42 43]
+#   [46 47 48]
+#   [51 52 53]
+#   [56 57 58]]]
+'''
+All layers, all rows, columns 1 to 3
+Equivalent to tensor_3d[:, :, 1:4]
+'''
+
+print(tensor_3d[1, ..., 3])
+# [23 28 33 38]
+'''
+Layer 1, all rows, column 3
+Equivalent to tensor_3d[1, :, 3]
+'''
+
