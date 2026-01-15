@@ -5,6 +5,7 @@
    + arr.prod(): Computes the product of all elements in the vector.
    + arr.max(): Finds the maximum value in the vector.
    + arr.min(): Finds the minimum value in the vector.
+   + np.ptp(arr): Computes the peak-to-peak (max - min) value of the vector. (i.e., range)
    + arr.var(): Computes the variance of the elements in the vector.
    + arr.std(): Computes the standard deviation of the elements in the vector.
 

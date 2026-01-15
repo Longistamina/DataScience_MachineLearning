@@ -20,10 +20,8 @@
                           (and it modifies the original array in-place)
    + np.resize(arr, newshape): resize with repeated copies of the original array
 
-
 4. arr.transpose() or arr.T: Transpose the array (swap rows and columns)
    + np.transpose(arr) or np.T(arr): similar to arr.transpose() or arr.T
-
 
 5. Squeeze:
    + arr.squeeze(): Remove single-dimensional entries from the shape of an array
@@ -37,6 +35,7 @@
 
 7. swapaxes:
    + np.swapaxes(arr, axis1, axis2): swap two axes of an array; for 2D, swapping 0 and 1 is equivalent to transpose
+   + arr.swapaxes(axis1, axis2): similar to np.swapaxes(arr, axis1, axis2)
 
 8. permute_dims:
    + np.permute_dims(arr, axes): permute (reorder) all axes according to axes
@@ -49,7 +48,6 @@ import numpy as np
 #--------------------------------------------------------------------------------------------------------------#
 #----------------------------------------- 1. arr.reshape(dimension) ------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
-
 
 np.random.seed(0)
 matrix = np.random.randint(1, 21, size=(4, 5))
@@ -616,7 +614,6 @@ For higher dimensions:
    + only the two specified axes are swapped, others stay in place
 '''
 
-
 np.random.seed(6)
 matrix7 = np.random.randint(1, 21, size=(3, 4))
 
@@ -626,7 +623,6 @@ print(matrix7)
 #  [ 2 12 14 16]]
 
 print(matrix7.shape)   # (3, 4)
-
 
 ########
 ## 2D ##
@@ -645,6 +641,7 @@ print(swapped_2d.shape)  # (4, 3), same as transpose
 ## 3D ##
 ########
 
+np.random.seed(0)
 tensor3d = np.random.randint(1, 10, size=(2, 3, 4))
 
 print(tensor3d)
@@ -682,6 +679,26 @@ print(swapped_3d)
 
 print(swapped_3d.shape)  
 # (4, 3, 2)
+
+##########################
+## using arr.swapaxes() ##
+##########################
+
+swapped_3d_method = tensor3d.swapaxes(1, 2)
+print(swapped_3d_method)
+# [[[6 8 5]
+#   [1 4 8]
+#   [4 6 7]
+#   [4 3 9]]
+
+#  [[9 8 9]
+#   [2 9 5]
+#   [7 2 4]
+#   [8 6 1]]]
+
+print(swapped_3d_method.shape)
+# (2, 4, 3)
+'''from (2, 3, 4) to (2, 4, 3), only axes 1 and 2 are swapped.'''
 
 
 #--------------------------------------------------------------------------------------------------------------#
