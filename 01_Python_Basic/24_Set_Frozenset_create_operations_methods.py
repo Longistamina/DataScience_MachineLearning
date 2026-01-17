@@ -171,7 +171,6 @@ fset = frozenset(["cd", "pwd", (3 + 5.5j), 2, 5.7, False, ("text", True)])
 for element in fset:
     print(element)  # prints each element in fset
 
-
 '''
 NOTE: cannot use enumerate() with set or frozenset directly because they are unordered collections
 (meaning they do not have an index)
@@ -211,6 +210,8 @@ print(set_a & set_b)     # {3, 4}
 set_difference = set_a.difference(set_b)  # or set_a - set_b
 print(set_difference)  # {1, 2}
 print(set_a - set_b)   # {1, 2}
+
+print(set_b - set_a)   # {5, 6}
 
 #####################################################################################################
 ## .symmetric_difference(): returns elements in either set_a or set_b but not both (set_a ^ set_b) ##

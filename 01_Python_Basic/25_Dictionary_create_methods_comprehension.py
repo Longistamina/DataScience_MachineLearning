@@ -70,9 +70,9 @@ dict_4 = {
 print(dict_4)  # {'ID': [1, 2, 3], 'Name': ['Alice', 'Bob', 'Charlie'], 'Age': [30, 25, 35]}
 
 dict_5 = dict(
-    ID = (4, 5, 6), 
-    Name =('Alien', 'Anna', 'Chalker-chalk'), 
-    Age = (32, 52, 55)
+    ID=(4, 5, 6), 
+    Name=('Alien', 'Anna', 'Chalker-chalk'), 
+    Age=(32, 52, 55)
 )
 print(dict_5) # {'ID': (4, 5, 6), 'Name': ('Alien', 'Anna', 'Chalker-chalk'), 'Age': (32, 52, 55)}
 
@@ -136,7 +136,6 @@ dict_acces = {
 print(dict_acces['name'])  # Eve
 print(dict_acces['age'])   # 28
 print(dict_acces['city'])  # San Francisco
-
 
 '''
 Accessing a key that does not exist raises a KeyError
@@ -404,8 +403,8 @@ demo_dict = {
 sorted_dict_key = dict(
     sorted(
         demo_dict.items(), 
-        key = lambda x: x[0], # sort by keys
-        reverse = False # sort ascending
+        key=lambda x: x[0], # sort by keys
+        reverse=False # sort ascending
     )
 )
 
@@ -426,8 +425,8 @@ for key, value in sorted_dict_key.items():
 sorted_dict_value = dict(
     sorted(
         demo_dict.items(), 
-        key = lambda x: x[1], # sort by values
-        reverse = True # sort descending
+        key=lambda x: x[1], # sort by values
+        reverse=True # sort descending
     )
 )
 
@@ -459,7 +458,7 @@ sample_loop_dict = {
 ########################################
 
 for key in sample_loop_dict:
-    print(f"Key: {key}")  
+    print(f"Key: {key}")
 # Key: name 
 # Key: age
 # Key: city
@@ -523,24 +522,20 @@ print(dict_comp)  # {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
 dict_comp_cond = {x: x**2 for x in range(10) if x % 2 == 0}
 print(dict_comp_cond)  # {0: 0, 2: 4, 4: 16, 6: 36, 8: 64}
 
-
 # Create a dictionary from two lists using zip()
 keys = ['a', 'b', 'c']
 values = [1, 2, 3]
 dict_from_zip = {k: v for k, v in zip(keys, values)}
 print(dict_from_zip)  # {'a': 1, 'b': 2, 'c': 3}
 
-
 # Create a dictionary with mixed data types using comprehension
 mixed_dict_comp = {x: (x, x**2) for x in range(5)}
 print(mixed_dict_comp)  # {0: (0, 0), 1: (1, 1), 2: (2, 4), 3: (3, 9), 4: (4, 16)}
-
 
 # Create a nested dictionary using comprehension
 nested_dict_comp = {f'item_{x}': {'value': x, 'square': x**2} for x in range(3)}
 print(nested_dict_comp)
 # {'item_0': {'value': 0, 'square': 0}, 'item_1': {'value': 1, 'square': 1}, 'item_2': {'value': 2, 'square': 4}}
-
 
 # Create a dictionary with keys as letters and values as their ASCII codes
 dict_ascii = {chr(x): x for x in range(65, 91)}  # A-Z
