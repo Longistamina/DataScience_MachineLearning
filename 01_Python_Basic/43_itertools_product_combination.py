@@ -26,10 +26,10 @@ Flow of contents:
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 1. count() ------------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# count() creates an iterator that generates consecutive integers starting from a specified number.
-# It can be used to create an infinite sequence of numbers, which can be useful in various
 '''
+count() creates an iterator that generates consecutive integers starting from a specified number.
+It can be used to create an infinite sequence of numbers, which can be useful in various
+
 NOTE: it will not stop until you stop it manually (using a stop condition or KeyboardInterrupt Ctrl+C).
 '''
 
@@ -58,9 +58,9 @@ for num in counter:
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 2. cycle() ------------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# cycle() creates an iterator that cycles through an iterable indefinitely.
 '''
+cycle() creates an iterator that cycles through an iterable indefinitely.
+
 NOTE: it will not stop until you stop it manually (using a stop condition or KeyboardInterrupt Ctrl+C).
 '''
 
@@ -89,8 +89,7 @@ for i, color in enumerate(cyler):
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 3. repeat() -----------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# repeat() creates an iterator that repeats an object a specified number of times or indefinitely.
+'''repeat() creates an iterator that repeats an object a specified number of times or indefinitely.'''
 
 from itertools import repeat
 
@@ -130,8 +129,7 @@ for i, value in enumerate(repeater):
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 4. accumulate() -------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# accumulate() creates an iterator that returns accumulated sums or results of a binary function applied to the elements of an iterable.
+'''accumulate() creates an iterator that returns accumulated sums or results of a binary function applied to the elements of an iterable.'''
 
 from itertools import accumulate
 
@@ -147,7 +145,6 @@ print(list(accumulated))
 # 6 = 1 + 2 + 3
 # 10 = 1 + 2 + 3 + 4
 # 15 = 1 + 2 + 3 + 4 + 5
-
 
 #############################################
 ## Using a custom function with accumulate ##
@@ -171,8 +168,7 @@ print(list(accumulated_product))
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 5. chain() ------------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# chain() combines multiple iterables into a single iterable.
+'''chain() combines multiple iterables into a single iterable.'''
 
 from itertools import chain
 
@@ -191,9 +187,10 @@ print(list(chained_iterable))
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 6. compress() ---------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# compress() filters elements from an iterable based on a selector iterable.
-# the selector iterable determines which elements to include in the output.
+'''
+compress() filters elements from an iterable based on a selector iterable.
+the selector iterable determines which elements to include in the output.
+'''
 
 from itertools import compress
 
@@ -203,7 +200,6 @@ selectors = [1, 0, 1, 0, 1]  # Selector iterable (1=include, 0=exclude)
 compressed_data = compress(data, selectors)
 print(list(compressed_data))
 # ['A', 'C', 'E']
-
 
 ###########################
 ## More advanced example ##
@@ -222,8 +218,7 @@ print(list(compressed_even_numbers))
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 7. dropwhile() --------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# dropwhile() drops elements from an iterable as long as a predicate is true, then returns the rest.
+'''dropwhile() drops elements from an iterable as long as a predicate is true, then returns the rest.'''
 
 from itertools import dropwhile
 
@@ -239,8 +234,7 @@ print(list(remaining))
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 8. filterfalse() ------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# filterfalse() filters elements from an iterable where a predicate is false.
+'''filterfalse() filters elements from an iterable where a predicate is false.'''
 
 from itertools import filterfalse
 
@@ -256,9 +250,9 @@ list(filter(None, nums))  # This will return all elements in nums since None is 
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 9. groupby() ----------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# groupby() groups elements from an iterable based on a key function.
 '''
+groupby() groups elements from an iterable based on a key function.
+
 NOTE: groupby() only groups consecutive elements that have the same key.
 '''
 
@@ -278,7 +272,6 @@ for key, group in grouped_data:
 # B: [('B', 3), ('B', 4)]
 # C: [('C', 5)]
 
-
 ######################################
 ## Non-consecutive grouping example ##
 ######################################
@@ -296,7 +289,6 @@ for key, group in grouped_data:
 # B: [('B', 3), ('B', 4)]
 # C: [('C', 5)]
 
-
 ###################################
 ## Grouping duplicates in a list ##
 ###################################
@@ -310,7 +302,6 @@ grouped_data = [list(g) for _, g in groupby(sorted_data)]  # Group by the elemen
 
 print(grouped_data)
 # [['apple', 'apple', 'apple'], ['banana', 'banana'], ['orange']]
-
 
 #########################################
 ## Grouping with a custom key function ##
@@ -345,9 +336,11 @@ If the input of the same group is not consecutive, it will be "scattered"
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 10. islice() ----------------------------------------#
 #--------------------------------------------------------------------------------------------#
+'''
+islice() returns selected elements from an iterable based on specified start, stop, and step parameters.
 
-# islice() returns selected elements from an iterable based on specified start, stop, and step parameters.
-'''islice() takes no Keyword arguments, only positional arguments'''
+NOTE: islice() takes no Keyword arguments, only positional arguments
+'''
 
 from itertools import islice
 
@@ -376,9 +369,8 @@ print(list(sliced_l))
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 11. pairwise() --------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# pairwise() returns consecutive pairs of elements from an iterable.
 '''
+pairwise() returns consecutive pairs of elements from an iterable.
 NOTE: if the iterable is empty or has only one element, it will return an empty iterator.
 '''
 
@@ -403,14 +395,12 @@ print(list(pairs))
 #------------------------------------------------------------------------------------------------#
 #---------------------------------------- 12.starmap() ------------------------------------------#
 #------------------------------------------------------------------------------------------------#
-
 """
 itertools.starmap() is similar to map(), 
 but it unpacks the arguments from each tuple in the iterable(s) before applying the function.
 """
 
 from itertools import starmap
-
 
 ####################################
 ## starmap() with normal function ##
@@ -455,9 +445,10 @@ print(area) # 1.5*2.0, 2.0*3.0, 3.0*4.0
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 13. takewhile() -------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# takewhile() takes elements from an iterable as long as a predicate is true, then stops.
-# it is the opposite of dropwhile().
+'''
+takewhile() takes elements from an iterable as long as a predicate is true, then stops.
+it is the opposite of dropwhile().
+'''
 
 from itertools import takewhile
 
@@ -472,8 +463,7 @@ print(list(taken))
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 14. tee() -------------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# tee() creates multiple independent iterators from a single iterable.
+'''tee() creates multiple independent iterators from a single iterable.'''
 
 from itertools import tee
 
@@ -488,9 +478,10 @@ print(list(iter2))  # [1, 2, 3, 4, 5]
 #-------------------------------------------------------------------------------------------#
 #------------------------------------- 15. zip_longest() -----------------------------------#
 #-------------------------------------------------------------------------------------------#
-
-# zip_longest() combines multiple iterables into tuples, filling missing values with a specified fill value.
-# Default fill value is None.
+'''
+zip_longest() combines multiple iterables into tuples, filling missing values with a specified fill value.
+Default fill value is None.
+'''
 
 ################################
 ## Default fill value is None ##
@@ -506,6 +497,7 @@ zipped = zip_longest(iter1, iter2, iter3)  # Combine iterables, filling missing 
 print(list(zipped))
 # [(1, 'a', True), (2, 'b', False), (3, 'c', None), (4, None, None), (5, None, None)]
 
+zipped = list(zip_longest(iter1, iter2, iter3))  # Combine iterables, filling missing values with None
 for i, j, k in zipped: # or in zip_longest(iter1, iter2, iter3, fillvalue='X'):
     print(f"{i} - {j} - {k}")
 # 1 - a - True
@@ -518,7 +510,6 @@ for i, j, k in zipped: # or in zip_longest(iter1, iter2, iter3, fillvalue='X'):
 Here, the first three tuples are filled with values from the respective iterables,
 while the remaining tuples are filled with None for the missing values.
 '''
-
 
 #######################################
 ## Custom fill value using fillvalue ##
@@ -534,6 +525,7 @@ zipped = zip_longest(iter1, iter2, iter3, fillvalue="Empty")  # Combine iterable
 print(list(zipped))
 # [(1, 'a', True), (2, 'b', False), (3, 'c', 'Empty'), (4, 'Empty', 'Empty'), (5, 'Empty', 'Empty')]
 
+zipped = list(zip_longest(iter1, iter2, iter3, fillvalue="Empty"))  # Combine iterables, filling missing values with None
 for i, j, k in zipped:  # or in zip_longest(iter1, iter2, iter3, fillvalue='X'):
     print(f"{i} - {j} - {k}")
 # 1 - a - True
@@ -546,9 +538,9 @@ for i, j, k in zipped:  # or in zip_longest(iter1, iter2, iter3, fillvalue='X'):
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 16. product() ---------------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# product() computes the Cartesian product of input iterables.
 '''
+product() computes the Cartesian product of input iterables.
+
 NOTE: it returns a one-time consumed iterator. Cannot be reused.
 '''
 
@@ -586,12 +578,10 @@ for result in list(cartesian_product):
 # (2, 'c', True)
 # (2, 'c', False)
 
-
 ##################################
 ## Product with repeat argument ##
 ##################################
-
-# The repeat argument allows you to compute the Cartesian product of the same iterable multiple times.
+'''The repeat argument allows you to compute the Cartesian product of the same iterable multiple times.'''
 
 product_with_repeat = product(iter1, iter2, repeat=2)  # Compute the Cartesian product with repeat
 
@@ -638,8 +628,7 @@ for result in product_with_repeat:
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 17. permutations() ----------------------------------#
 #--------------------------------------------------------------------------------------------#
-
-# permutations() generates all possible orderings of elements in an iterable.
+'''permutations() generates all possible orderings of elements in an iterable.'''
 
 from itertools import permutations
 
@@ -648,7 +637,6 @@ letter = ['A', 'B', 'C']
 permutations_result = permutations(letter)  # Generate all permutations of the letters
 print(list(permutations_result))
 # [('A', 'B', 'C'), ('A', 'C', 'B'), ('B', 'A', 'C'), ('B', 'C', 'A'), ('C', 'A', 'B'), ('C', 'B', 'A')]
-
 
 # Loop through the permutations
 permutations_result = permutations(letter)
@@ -660,7 +648,6 @@ for perm in list(permutations_result):
 # B - C - A
 # C - A - B
 # C - B - A
-
 
 ##########################################
 ## Permutations with a specified length ##
@@ -676,9 +663,10 @@ print(list(permutations_result))
 #---------------------------------------------------------------------------------------------#
 #-------------------------------------- 18. combinations() -----------------------------------#
 #---------------------------------------------------------------------------------------------#
-
-# combinations() generates all possible combinations of a specified length from an iterable.
-# (does not consider the order of elements)
+'''
+combinations() generates all possible combinations of a specified length from an iterable.
+(does not consider the order of elements)
+'''
 
 from itertools import combinations
 
@@ -697,9 +685,10 @@ print(list(combination_2))
 #----------------------------------------------------------------------------------------------#
 #---------------------------- 19. combinations_with_replacement() -----------------------------#
 #----------------------------------------------------------------------------------------------#
-
-# combinations_with_replacement() generates combinations of a specified length from an iterable,
-# allowing repeated elements.
+'''
+combinations_with_replacement() generates combinations of a specified length from an iterable,
+allowing repeated elements.
+'''
 
 from itertools import combinations_with_replacement
 
