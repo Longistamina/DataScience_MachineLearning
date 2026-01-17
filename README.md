@@ -15,4 +15,4 @@
 + [01_Python_Basic_part_06](https://youtu.be/jZnFdhI9pzI): if-elif-else, match-case, try-except-assert-else (Logic, Syllogism, Induction, Deduction, Abduction, Sophism, David Hume empiricism)
 + [01_Python_Basic_part_07](https://youtu.be/MI8R07d8kes): for loop, zip(), enumerate(), while loop, break-continue-pass (Logic in cancer therapy, reasonable and true, black swan paradox)
 + [01_Python_Basic_part_08](https://youtu.be/Hva7ZeXgUac): List, Tuple (Francis 1 of France and Leonardo Da Vinci)
-+ [01_Python_Basic_part_09](https://youtu.be/Mn2m_6MeKuQ): Set - Frozenset, Dictionary (Concept, Intension, Extension, Definition of a concept, what is brave? what is beauty? what)
++ [01_Python_Basic_part_09](https://youtu.be/Mn2m_6MeKuQ): Set - Frozenset, Dictionary (Concept, Intension, Extension, Definition of a concept, what is brave? what is beauty? what is love?)
