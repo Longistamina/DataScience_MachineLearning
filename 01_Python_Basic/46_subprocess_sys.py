@@ -1,5 +1,4 @@
 '''
-
 Python has subprocess module which is used to spawn new processes, connect to their input/output/error pipes,
 and obtain their return codes. 
 
@@ -62,7 +61,6 @@ Table of Contents:
 - Setting environment variables
 - Piping between multiple commands
 - Running background processes
-
 '''
 
 import subprocess
