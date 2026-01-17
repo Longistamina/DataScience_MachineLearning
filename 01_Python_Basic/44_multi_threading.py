@@ -34,7 +34,7 @@ print("\nDone single-thread calculating in:", time.time() - t0) # Get the curren
 
 
 #--------------------------------------------------#
-#-------------- Multithreading --------------------#
+#----------------- Multithreading -----------------#
 #--------------------------------------------------#
 
 # GIL = Global Interpreter Lock
@@ -46,7 +46,7 @@ SHARING the SAME memory space (code, data, files) but each thread has its own re
 Use case: Best suited for I/O-bound tasks such as network operations, file reading, 
 or waiting for user input, where the program spends time waiting and can switch between threads efficiently.
 
-Performance: Due to Python’s GIL, only one thread executes Python bytecode at a time, 
+Performance: Due to Python's GIL, only one thread executes Python bytecode at a time, 
 so multithreading achieves concurrency but not true parallelism for CPU-bound tasks. 
 This means multithreading does not speed up CPU-intensive operations in pure Python code.
 
@@ -84,8 +84,8 @@ arr = [2, 3, 8, 9]
 
 t0 = time.time() # Return the current time in second (before calculating)
 
-thread1 = threading.Thread(target = calc_square, args = (arr, )) # Create thread1 to handle calc_square function
-thread2 = threading.Thread(target = calc_cube, args = (arr, ))   # Create thread2 to handle calc_cube function
+thread1 = threading.Thread(target=calc_square, args=(arr, )) # Create thread1 to handle calc_square function
+thread2 = threading.Thread(target=calc_cube, args=(arr, ))   # Create thread2 to handle calc_cube function
                                                                  # (arr, ) means that this is a tuple, not just arr itself
 
 thread1.start() # activate thread1 to execute calc_square
@@ -145,7 +145,7 @@ def multithread_process(input_blocks, max_threads=4):
     Returns: List of output blocks corresponding to input blocks
     """
     with ThreadPoolExecutor(max_workers=max_threads) as executor:
-        futures = [executor.submit(fn=target_function, single_block=block) for block in input_blocks]
+        futures = [executor.submit(target_function, single_block=block) for block in input_blocks]
         output_blocks = [future.result() for future in futures]
 
     return output_blocks
@@ -185,7 +185,7 @@ def multithread_process(input_blocks, max_threads=4, output_dir="outputs"):
     os.makedirs(output_dir, exist_ok=True)
 
     with ThreadPoolExecutor(max_workers=max_threads) as executor:
-        futures = [executor.submit(fn=write_output_file, idx=index, single_block=block, output_dir=output_dir) 
+        futures = [executor.submit(write_output_file, idx=index, single_block=block, output_dir=output_dir) 
                    for index, block in enumerate(input_blocks)]
         
         for future in futures:

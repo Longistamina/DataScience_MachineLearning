@@ -34,7 +34,7 @@ print("\nDone single-thread calculating in:", time.time() - t0) # Get the curren
 
 
 #--------------------------------------------------------#
-#---------------- Multiprocessing -----------------------#
+#------------------- Multiprocessing --------------------#
 #--------------------------------------------------------#
 
 # GIL = Global Interpreter Lock
@@ -53,7 +53,7 @@ Advantages: Avoids GIL limitations, improves performance for CPU-intensive tasks
 
 Disadvantages: Higher overhead due to process creation and inter-process communication, more memory consumption, and more complex implementation for sharing data between processes.
 
-Implementation: Python’s "multiprocessing" module allows creation of processes similar to threading, 
+Implementation: Python's "multiprocessing" module allows creation of processes similar to threading, 
 with APIs like "Process" and "Pool" for managing multiple processes
 '''
 
@@ -93,6 +93,8 @@ processor1.join() # tell the main program to wait until processor1 terminates it
 processor2.join() # tell the main program to wait until processor2 terminates its process.
                   # This ensures that the main program (or the next lines of code) will only proceed 
                   # after the specified processor has completed its task.
+                  
+print("\nDone double-process calculating in:", time.time() - t0)
 
 
 ###################### Dynamic Multitprocess using "Pool" from "multiprocessing"          #########################
@@ -132,7 +134,6 @@ outputs = multicore_process(inputs, max_processes=4)
 print(outputs)
 # Output: [[3, 2, 1], ['c', 'b', 'a'], [40, 30, 20, 10], [200, 100], ['z', 'y', 'x']]
 
-
 ####### save output to multiple files #######
 
 from multiprocessing import Pool
@@ -148,7 +149,7 @@ def target_function(single_block, idx):
 def multicore_process(input_blocks, max_processes=4):
     with Pool(processes=max_processes) as pool:
         # Use starmap to pass index along with block
-        pool.starmap(funct = target_function, iterable = [(block, i) for i, block in enumerate(input_blocks)])
+        pool.starmap(func=target_function, iterable=[(block, i) for i, block in enumerate(input_blocks)])
 
 # Example usage
 inputs = [
@@ -212,7 +213,7 @@ if __name__ == '__main__':
 
 
 #---------------------------------------------------------------------------------#
-#----------- difference between Multithreading and Multiprocessing ---------------#
+#------------- difference between Multithreading and Multiprocessing -------------#
 #---------------------------------------------------------------------------------#
 
 '''
