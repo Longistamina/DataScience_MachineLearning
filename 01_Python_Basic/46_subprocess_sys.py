@@ -221,7 +221,7 @@ print(result.stdout)
 ## Using shell features like pipes (requires shell=True)
 #----
 
-result = subprocess.run('echo Hello | grep Hello', shell=True, capture_output=True, text=True)
+result = subprocess.run("echo Hello world | awk '{print $1}'", shell=True, capture_output=True, text=True)
 print(result.stdout)
 # Hello
 '''(Without shell=True, pipes won't work)'''
@@ -287,6 +287,7 @@ except subprocess.CalledProcessError as e:
 # Command failed with return code 2
 # Error output: ls: cannot access 'nonexistent_file': No such file or directory
 
+
 #---------------------------------------------------------------------------------------------#
 #-------------------------------- Working with input/output ----------------------------------#
 #---------------------------------------------------------------------------------------------#
@@ -335,6 +336,10 @@ print(result.stdout)
 ls: cannot access 'file.txt': No such file or directory
 ls: cannot access 'nonexistent': No such file or directory
 '''
+
+result = subprocess.run(['echo', 'Hello'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+print(result.stdout)
+# Hello
 
 #----
 ## Discard output using DEVNULL
@@ -441,6 +446,9 @@ You can split it into lines for processing
 result = subprocess.run(['ls', '-1'], capture_output=True, text=True)
 lines = result.stdout.splitlines()
 
+print(lines)
+# ['00_Course_Intro', '01_Python_Basic', '02_Python_class_OOP', '03_Vector_Matrix_Sparse', '05_Pandas_DataR_dataframe', '11_Convex_Optimization_CVXPY', 'Curriculum.txt', 'demo.py', 'Libraries_Installation.txt', 'Python_Coding_Methodology.pdf', 'README.md', 'test_GPU.py', 'vscode_install_settings.txt']
+
 for line in lines:
     print(f"File: {line}")
 '''
@@ -481,6 +489,10 @@ subprocess.Popen() provides more control than subprocess.run():
 - Can send signals to the process
 - More complex but more powerful
 '''
+
+subprocess.run(['sleep', '3'])  # Blocking version for comparison
+print("Waited for sleep to finish")
+
 
 #############################
 ## Creating a Popen object ##
@@ -619,6 +631,7 @@ You can send signals to control subprocess:
 process = subprocess.Popen(['sleep', '100'])
 print(f"Process PID: {process.pid}")
 # Process PID: 10279
+'''use "htop --pid=10279" in another terminal to monitor the process'''
 
 import time
 time.sleep(1)
@@ -641,6 +654,7 @@ print(f"Process PID: {process.pid}")
 # Process PID: 10279
 
 process.kill()  # Send SIGKILL (immediate termination)
+
 process.wait() 
 # -9 
 # (means killed forcefully, no cleanup, etc.)
@@ -737,7 +751,7 @@ import shlex
 user_input = "file with spaces.txt"
 
 # Use shlex.quote() to safely escape arguments
-safe_command = f'cat {shlex.quote(user_input)}'
+safe_command = f'cat {shlex.quote(user_input)}' # "cat 'file with spaces.txt'"
 result = subprocess.run(safe_command, shell=True, capture_output=True)
 
 print(result.stdout)
@@ -946,7 +960,7 @@ for i in range(5):
     processes.append(p)
 
 print(f"Started {len(processes)} processes in parallel")
-# # Started 5 processes in parallel
+# Started 5 processes in parallel
 
 # Wait for all processes to complete
 for i, p in enumerate(processes):
