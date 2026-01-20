@@ -92,6 +92,13 @@ customer_info("Alice")
 customer_info("Bob", 25, "Engineer")
 # Customer Name: Bob, Age: 25 Job: Engineer
 
+'''
+NOTE: the NON-DEFAULT parameters (name) must appear BEFORE default parameters (age, job).
+
+If you try to define a function with a default parameter before a non-default parameter,
+it will raise a SyntaxError.
+'''
+
 
 #------------------------------------------------------------------------------------------------------------#
 #------------------------------- 2. Return a value using "return" statement ---------------------------------#
