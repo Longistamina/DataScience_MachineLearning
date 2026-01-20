@@ -11,10 +11,10 @@ import numpy as np
 ################################
 
 np.random.seed(0)
-mean_vector = np.random.uniform(0, 10, 5).mean().round(2)
+mean_matrix = np.random.uniform(0, 10, (3, 4)).mean(axis=0).round(3)
 
-print(mean_vector)
-# 5.67
+print(mean_matrix)
+# [6.454 5.815 6.107 6.552]
 
 #################################
 ## Multi-line chaining methods ##
@@ -22,9 +22,9 @@ print(mean_vector)
 
 np.random.seed(0)
 print(
-    np.random.uniform(0, 10, 10)  # Generate 5 random numbers between 0 and 10
-    .round(2)                     # Round the numbers to 2 decimal places
-    .mean()                       # Calculate the mean of the rounded numbers
-    .round(1)                     # Round the mean to 1 decimal place
+    np.random.uniform(0, 10, (3, 4))  # Generate a random 3x4 matrix between 0 and 10
+    .transpose()                      # Transpose the matrix to 4x3
+    .mean(axis=0)                     # Calculate the mean vertically (for each column)
+    .round(2)                         # Round the mean to 2 decimal place
 )
-# 6.2
+# [6.03  6. 6.67]
