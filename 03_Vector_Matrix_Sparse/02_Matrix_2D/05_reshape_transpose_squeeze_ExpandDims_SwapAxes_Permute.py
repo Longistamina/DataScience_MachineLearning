@@ -31,7 +31,8 @@
    + np.expand_dims(arr, axis): Expand the shape of an array by inserting a new axis at the specified position
    + arr[np.newaxis, :, :] ||| arr[np.newaxis, ...]: equivalent to np.expand_dims(arr, axis=0)
    + arr[:, np.newaxis, :]: equivalent to np.expand_dims(arr, axis=1)
-   + arr[:, :, np.newaxis] ||| arr[..., np.newaxis]: equivalent to np.expand_dims(arr, axis=2
+   + arr[:, :, np.newaxis] ||| arr[..., np.newaxis]: equivalent to np.expand_dims(arr, axis=2)
+   + arr[:, None, :]: use None instead of np.newaxis also works
 
 7. swapaxes:
    + np.swapaxes(arr, axis1, axis2): swap two axes of an array; for 2D, swapping 0 and 1 is equivalent to transpose
@@ -600,6 +601,32 @@ print(matrix6[..., np.newaxis])
 #   [17]
 #   [ 8]]]
 
+###########################
+## using arr[:, :, None] ##
+###########################
+
+print(matrix6[:, None, :])
+# [[[ 4 15 16  7]]
+
+#  [[17 10  9  5]]
+
+#  [[ 8 17 17  8]]]
+
+print(matrix6[..., None]) # same as arr[:, :, np.newaxis]
+# [[[ 4]
+#   [15]
+#   [16]
+#   [ 7]]
+
+#  [[17]
+#   [10]
+#   [ 9]
+#   [ 5]]
+
+#  [[ 8]
+#   [17]
+#   [17]
+#   [ 8]]]
 
 #--------------------------------------------------------------------------------------------------------------#
 #--------------------------------------- 7. np.swapaxes(): swap two axes --------------------------------------#

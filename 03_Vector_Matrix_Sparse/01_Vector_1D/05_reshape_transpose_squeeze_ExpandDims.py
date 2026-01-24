@@ -29,7 +29,7 @@
    + np.expand_dims(arr, axis): Expand the shape of an array by inserting a new axis at the specified position
    + arr[np.newaxis, :]: equivalent to np.expand_dims(arr, axis=0)
    + arr[:, np.newaxis]: equivalent to np.expand_dims(arr, axis=1)
-   
+   + arr[:, None] or arr[None, :]: equivalent to using np.newaxis
 '''
 
 import numpy as np
@@ -527,3 +527,24 @@ print(vector[:, np.newaxis])
 #  [ 1.45]]
 # shape: (12, 1)
 # equivalent to np.expand_dims(vector, axis=1)
+
+########################################
+## Using arr[:, None] or arr[None, :] ##
+########################################
+
+print(vector[None, :])
+# [[ 1.76  0.4   0.98  2.24  1.87 -0.98  0.95 -0.15 -0.1   0.41  0.14  1.45]]
+
+print(vector[:, None])
+# [[ 1.76]
+#  [ 0.4 ]
+#  [ 0.98]
+#  [ 2.24]
+#  [ 1.87]
+#  [-0.98]
+#  [ 0.95]
+#  [-0.15]
+#  [-0.1 ]
+#  [ 0.41]
+#  [ 0.14]
+#  [ 1.45]]
