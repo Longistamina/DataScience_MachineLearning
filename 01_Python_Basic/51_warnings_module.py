@@ -36,6 +36,26 @@ import warnings
 
 
 #----------------------------------------------------------------------------------------------------------#
+#------------------------------------ Exmaples of disabling a warning -------------------------------------#
+#----------------------------------------------------------------------------------------------------------#
+
+import numpy as np
+
+np.sqrt(-1)
+# <stdin>:1: RuntimeWarning: invalid value encountered in sqrt
+# np.float64(nan)
+
+np.log(0)
+# <stdin>:1: RuntimeWarning: divide by zero encountered in log
+# np.float64(-inf)
+
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
+np.sqrt(-1)  # No warning
+# np.float64(nan)
+
+
+#----------------------------------------------------------------------------------------------------------#
 #----------------------------------------- 1. Issue a Warning ---------------------------------------------#
 #----------------------------------------------------------------------------------------------------------#
 
@@ -66,7 +86,6 @@ warnings.warn("This is a runtime warning.", RuntimeWarning)
 #----------------------------------------------------------------------------------------------------------#
 #----------------------------------- 2. List of all Warning Categories ------------------------------------#
 #----------------------------------------------------------------------------------------------------------#
-
 '''
 Warning: A base class for all warning categories.
 
@@ -122,7 +141,9 @@ warnings.warn("This is a deprecation warning.", DeprecationWarning)  # No output
 # Convert all RuntimeWarnings into errors
 warnings.simplefilter("error", RuntimeWarning)
 try:
-    warnings.warn("This is a runtime warning.", RuntimeWarning)
+   # warnings.warn("This is a runtime warning.", RuntimeWarning)
+   import numpy as np
+   np.log(0)  # This will raise a RuntimeWarning, which is converted to
 except RuntimeWarning as e:
     logger.error(f"Caught an error: {e}")
 # 2025-11-18 15:11:27.898 | ERROR    | __main__:<module>:4 - Caught an error: This is a runtime warning.
