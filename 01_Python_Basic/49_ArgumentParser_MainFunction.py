@@ -88,12 +88,12 @@ formatter = lambda prog: HelpFormatter(prog, width=200, max_help_position=50)
 # Put the parser inside a function so that it will not be executed when the module is imported
 def parse_args():
     # Create an ArgumentParser object named "parser"
-    parser = ArgumentParser(prog = "Rectangle Calculator",
-                            description = "Calculate the perimeter and area of a rectangle.",
-                            epilog = "Thank you for using the Rectangle Calculator!",
-                            usage = "rectangle_calculator.py [options] <length> <width>",
-                            add_help = True,
-                            formatter_class = formatter)
+    parser = ArgumentParser(prog="Rectangle Calculator",
+                            description="Calculate the perimeter and area of a rectangle.",
+                            epilog="Thank you for using the Rectangle Calculator!",
+                            usage="rectangle_calculator.py [options] <length> <width>",
+                            add_help=True,
+                            formatter_class=formatter)
 
     # Add arguments to the "parser" object
     parser.add_argument("-l", "--length", required=True, metavar="\b", help="Length of the rectangle (expected to be a positive number).")
@@ -104,11 +104,11 @@ def parse_args():
 
 # -o means short flag
 # --out means long flag
-# required = True means that the argument is mandatory (False means optional)
-# metavar = "\b" to hide the metavar like LENGTH and WIDTH, and avoid the space character like "-l , --length" (if set metavar="")
-# type = str means that the argument MUST be a string
-# default = "" means that if the user doesn't provide this argument, an empty string will be parsed as default value
-# help = "..." is the description of the argument that will be shown in the help message
+# required=True means that the argument is mandatory (False means optional)
+# metavar="\b" to hide the metavar like LENGTH and WIDTH, and avoid the space character like "-l , --length" (if set metavar="")
+# type=str means that the argument MUST be a string
+# default="" means that if the user doesn't provide this argument, an empty string will be parsed as default value
+# help="..." is the description of the argument that will be shown in the help message
 
 
 #--------------------------------------------------------------------------------------------------------------------------#
@@ -122,8 +122,8 @@ def main():
 
         # Calculate the perimeter
         perimeter = rectangle_perimeter(
-            length = args.length, # Get the length from the parsed arguments
-            width = args.width # Get the width from the parsed arguments
+            length=args.length, # Get the length from the parsed arguments
+            width=args.width # Get the width from the parsed arguments
         )
 
         if perimeter is None:

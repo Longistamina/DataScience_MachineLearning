@@ -36,7 +36,7 @@ Flow of contents:
 '''
 
 #---------------------------------------------------------------------------------------------#
-#------------------------------------ 1. logging ---------------------------------------------#
+#------------------------------------- 1. logging --------------------------------------------#
 #---------------------------------------------------------------------------------------------#
 
 import logging
@@ -59,7 +59,6 @@ def logging_with_level(log_level=None):
     logger.error("This is an error message.")
     logger.critical("This is a critical message.")
 
-
 ####################################
 ## Run with default logging level ##
 ####################################
@@ -68,7 +67,6 @@ logging_with_level()
 # WARNING:__main__:This is a warning message.
 # ERROR:__main__:This is an error message.
 # CRITICAL:__main__:This is a critical message.
-
 
 ##################################
 ## Run with DEBUG logging level ##
@@ -81,7 +79,6 @@ logging_with_level(logging.DEBUG)
 # ERROR:__main__:This is an error message.
 # CRITICAL:__main__:This is a critical message.
 
-
 #################################
 ## Run with INFO logging level ##
 #################################
@@ -92,7 +89,6 @@ logging_with_level(logging.INFO)
 # ERROR:__main__:This is an error message.
 # CRITICAL:__main__:This is a critical message.
 
-
 ####################################
 ## Run with WARNING logging level ##
 ####################################
@@ -102,7 +98,6 @@ logging_with_level(logging.WARNING)
 # ERROR:__main__:This is an error message.
 # CRITICAL:__main__:This is a critical message.
 
-
 ##################################
 ## Run with ERROR logging level ##
 ##################################
@@ -110,7 +105,6 @@ logging_with_level(logging.WARNING)
 logging_with_level(logging.ERROR)
 # ERROR:__main__:This is an error message.
 # CRITICAL:__main__:This is a critical message.
-
 
 #####################################
 ## Run with CRITICAL logging level ##
@@ -129,7 +123,7 @@ This the logging of loguru is already configured and ready to use.
 
 
 #---------------------------------------------------------------------------------------------#
-#--------------------- 2. loguru.logger (from loguru import logger) --------------------------#
+#----------------------- 2. loguru.logger (from loguru import logger) ------------------------#
 #---------------------------------------------------------------------------------------------#
 
 ###################
