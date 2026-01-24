@@ -286,7 +286,6 @@ print(f"Error: {stderr}")
 '''
 .run() method provides fine-grained control:
 - retcode: Expected return code(s), raises ProcessExecutionError if not matched
-- stdin: Provide input to command
 - timeout: Set execution timeout
 - cwd: Change working directory
 - env: Set environment variables
@@ -320,7 +319,6 @@ print(f"Command exited with code: {return_code}")
 #############################################
 ## Providing input to a subprocess (stdin) ##
 #############################################
-
 '''
 You can provide input to a subprocess using the << operator
 The << operator redirects data to the command's stdin
