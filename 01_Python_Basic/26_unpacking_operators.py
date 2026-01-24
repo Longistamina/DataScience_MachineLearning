@@ -103,9 +103,9 @@ data = [
 names, scores, locations = zip(*data)
 '''
 This works like:
-# names = (data[i][0] for i in range(len(data)))
-# scores = (data[i][1] for i in range(len(data)))
-# locations = (data[i][2] for i in range(len(data)))
+# names = list(data[i][0] for i in range(len(data)))
+# scores = tuple(data[i][1] for i in range(len(data)))
+# locations = list(data[i][2] for i in range(len(data)))
 '''
 
 print(names) # ('Alice', 'Bob', 'Charlie', 'Diana')

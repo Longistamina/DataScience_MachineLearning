@@ -66,6 +66,7 @@ from alive_progress.styles import showtime
 
 showtime() # This displays an interactive showcase of all available styles
 
+
 #----------------------------------------------------------------------------------------------------------------------#
 #------------------------------------------------- 2. Basic Usage -----------------------------------------------------#
 #----------------------------------------------------------------------------------------------------------------------#
@@ -97,14 +98,14 @@ with alive_bar(50, title='Processing') as bar:
 
 # Output: Processing |██████████████| 50/50 [100%] in 2.5s (20.00/s)
 
-#####################################
+####################################
 ## Setting text during processing ##
-#####################################
+####################################
 
 with alive_bar(100, title='Downloading') as bar:
     for i in range(100):
         bar.text(f'-> file {i+1}') # Update the text being displayed
-        time.sleep(0.02)
+        time.sleep(0.05)
         bar()
 
 # Output: Downloading |████████| 100/100 [100%] in 2.0s -> file 100
@@ -120,6 +121,7 @@ with alive_bar(1000) as bar:
 
 # Output: |████████████████████████████| 1000/1000 [100%] in 1.0s
 
+
 #----------------------------------------------------------------------------------------------------------------------#
 #------------------------------------------------- 3. Unknown Mode ----------------------------------------------------#
 #----------------------------------------------------------------------------------------------------------------------#
@@ -127,12 +129,11 @@ with alive_bar(1000) as bar:
 ###########################################
 ## Progress bar without total (for loop) ##
 ###########################################
-
 '''Useful when you don't know how many items you'll process'''
 
 with alive_bar() as bar: # No total specified - unknown mode
     for i in range(50):
-        time.sleep(0.05)
+        time.sleep(0.1)
         bar() # Just keeps updating, no percentage shown
 
 # Output: |⠋| 50 in 2.5s (20.00/s)
@@ -161,6 +162,7 @@ with alive_bar(title='Streaming') as bar:
         bar()
 
 # Output: Streaming |⠙| 75 in 2.3s (32.61/s) -> processing chunk 75
+
 
 #----------------------------------------------------------------------------------------------------------------------#
 #------------------------------------------------- 4. Manual Mode -----------------------------------------------------#
@@ -191,6 +193,7 @@ with alive_bar(len(tasks), manual=True) as bar:
         bar((i+1)/len(tasks)) # Set fractional progress
 
 # Output: |█████████████████| 100.0% [100%] in 5.0s -> Done
+
 
 #----------------------------------------------------------------------------------------------------------------------#
 #----------------------------------------- 5. Auto-iterating with alive_it --------------------------------------------#
@@ -305,7 +308,7 @@ bar = alive_it(data,
 
 for item in bar:
     bar.text(f'Processing item {item}')
-    time.sleep(0.03)
+    time.sleep(0.05)
 
 # Output: Custom Style ⡿ |○○○○○●●●●●| 75/75 [100%] in 2.3s
 
@@ -317,7 +320,6 @@ for item in bar:
 ######################
 ## Changing spinner ##
 ######################
-
 '''Try different spinner styles'''
 
 with alive_bar(50, spinner='dots') as bar:
@@ -411,7 +413,6 @@ from alive_progress import config_handler
 ##########################
 ## Global configuration ##
 ##########################
-
 '''Set default values for all progress bars'''
 
 config_handler.set_global(
@@ -461,7 +462,7 @@ with alive_bar(50, spinner='dots') as bar: # This overrides global setting
 
 with alive_bar(100, calibrate=True) as bar:
     for i in range(100):
-        time.sleep(0.01)
+        time.sleep(0.05)
         bar()
 
 # Output: Shows calibration metrics for spinner speed
@@ -474,7 +475,7 @@ with alive_bar(100, calibrate=True) as bar:
 with alive_bar(100, dual_line=True, title='Processing') as bar:
     for i in range(100):
         bar.text(f'Item {i+1}')
-        time.sleep(0.02)
+        time.sleep(0.05)
         bar()
 
 # Output: 
