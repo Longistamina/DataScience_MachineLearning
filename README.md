@@ -16,3 +16,4 @@
 + [01_Python_Basic_part_07](https://youtu.be/MI8R07d8kes): for loop, zip(), enumerate(), while loop, break-continue-pass (Logic in cancer therapy, reasonable and true, black swan paradox)
 + [01_Python_Basic_part_08](https://youtu.be/Hva7ZeXgUac): List, Tuple (Francis 1 of France and Leonardo Da Vinci)
 + [01_Python_Basic_part_09](https://youtu.be/Mn2m_6MeKuQ): Set - Frozenset, Dictionary (Concept, Intension, Extension, Definition of a concept, what is brave? what is beauty? what is love?)
++ [01_Python_Basic_part_10](https://youtu.be/i_LI9at__lE): Unpacking operators * and **, Progress Bar (Critical thinking: Equivocation; Does AI have conciousness? Why does God create Evil? How reincarnation works in Buddha?)
