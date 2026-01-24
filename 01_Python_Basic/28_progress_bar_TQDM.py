@@ -352,7 +352,7 @@ with tqdm(desc='Streaming') as pbar:
 ##############################
 
 tasks = ['Init', 'Load', 'Process', 'Save', 'Done']
-with tqdm(total=len(tasks), desc='Pipeline') as pbar:
+with tqdm(total=len(tasks)) as pbar:
     for task in tasks:
         pbar.set_description(f'Pipeline: {task}')
         time.sleep(1)
