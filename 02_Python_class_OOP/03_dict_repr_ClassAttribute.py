@@ -39,17 +39,16 @@ print(item1.discount_rate) # Accessing the class attribute from an instance     
 print(item2.discount_rate) # Accessing the class attribute from another instance   => 0.2
 # ==> all instances share the same class attribute
 
+
 print(item1.apply_discount_ClassAttribute())  # Applying discount on item1 => 1200.0
 
-
-############ ATTENTION ############
-
-# If you change the class attribute, it will affect all instances
+'''ATTENTION: If you change the class attribute, it will affect all instances'''
 # for example:
 Item.discount_rate = 0.3   # This changes will be applied to all instances of the class Item
 print(item1.discount_rate) # 0.3
 
-# If you only change the class attribute of an instance, only that instance will be affected
+'''If you only change the class attribute of an instance, only that instance will be affected'''
+# for example:
 item2.discount_rate = 0.25 # This applies only to item2, while item1 discount_rate remains 0.3
 print(item2.discount_rate)  # 0.25
 print(item1.discount_rate)  # 0.3
@@ -70,10 +69,10 @@ print(item1.__dict__) # Show all the attributes of the instance item1
 #-------------------------------------#
 #-------- __repr__() method  ---------#
 #-------------------------------------#
-
+'''
 # "repr" stands for "representation"
 # __repr__() method is used to define a string nickname for the class
-
+'''
 
 # Imagine we want to create a list to store all the items (instances of Item class)
 
@@ -98,10 +97,11 @@ item3 = ItemNoRepr("Tablet", 800, 2)
 
 print(ItemNoRepr.all_items) # Print out the list of all the items created
 # [<__main__.ItemNoRepr object at 0x7f9ef73979e0>, <__main__.ItemNoRepr object at 0x7f9ef7236c60>, <__main__.ItemNoRepr object at 0x7f9ef7237b30>]
-# The output shows the memory address of each instance, which is not very "friendly" for our eyes
+'''The output shows the memory address of each instance, which is not very "friendly" for our eyes'''
 
-
+##########################################
 ######## Using __reper__() method ########
+##########################################
 
 class ItemWithRepr:
 
@@ -128,4 +128,4 @@ item3 = ItemWithRepr("Tablet", 800, 2)
 
 print(ItemWithRepr.all_items) # Print out the list of all the items created
 # [Item(Laptop, 1500, 3), Item(Phone, 1000, 5), Item(Tablet, 800, 2)]
-# The output now looks really more friendly and informative.
+'''The output now looks really more friendly and informative.'''

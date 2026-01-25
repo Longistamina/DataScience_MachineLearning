@@ -29,13 +29,16 @@ Difference between __repr__() and __str__():
 
 At the end of this file are the list of many other magic methods.
 '''
+
 #-------------------------------------#
 #-------- __new__() method -----------#
 #-------------------------------------#
+'''__new__() called a new instance of a class (subclass).'''
 
-# __new__() called a new instance of a class (subclass).
+#######################
+## without __new__() ##
+#######################
 
-# without __new__()
 class IntClass:
     def __init__(self, value):
         self.value = value
@@ -43,7 +46,10 @@ class IntClass:
 obj = IntClass(10)
 print(obj.value)  # Output: 10
 
-# with __new__()
+####################
+## with __new__() ##
+####################
+
 class EvenIntClass(int):
     def __new__(cls, value): # cls is the keyword to refer to the class itself (like self for instance)
         value = value if value % 2 == 0 else value + 1
@@ -52,13 +58,16 @@ class EvenIntClass(int):
 e = EvenIntClass(3)
 print(e)  # Output: 4
 
+
 #--------------------------------------#
 #-------- __str__() method ------------#
 #--------------------------------------#
+'''__str__() Called by str() to define the “informal” string representation of an instance'''
 
-# __str__() Called by str() to define the “informal” string representation of an instance
+#######################
+## without __str__() ##
+#######################
 
-# without __str__()
 class Book:
     def __init__(self, title):
         self.title = title
@@ -66,7 +75,10 @@ class Book:
 b = Book("Python 101")
 print(b)  # Output: <__main__.Book object at 0x...>
 
-# with __str__()
+####################
+## with __str__() ##
+####################
+
 class Book:
     def __init__(self, title):
         self.title = title
@@ -74,16 +86,24 @@ class Book:
         return f"Book: {self.title}"
 
 b = Book("Python 101")
-print(b)  # Output: Book: Python 101
+print(b)  # Book: Python 101
+
+'''
+Output if using __repr__() instead of __str__():
+
+'Book: Python 101'
+'''
 
 
 #--------------------------------------#
 #-------- __len__() method ------------#
 #--------------------------------------#
+'''__len__() Called by len() to return the lenght of an object via len(obj)'''
 
-# __len__() Called by len() to return the lenght of an object via len(obj)
+#######################
+## without __len__() ##
+#######################
 
-# without __len__()
 class Team:
     def __init__(self, players):
         self.players = players
@@ -91,8 +111,10 @@ class Team:
 t = Team(['Alice', 'Bob'])
 print(len(t)) # TypeError: object of type 'Team' has no len()
 
+####################
+## with __len__() ##
+####################
 
-# with __len__()
 class Team:
     def __init__(self, players):
         self.players = players
@@ -100,16 +122,18 @@ class Team:
         return len(self.players)
 
 t = Team(['Alice', 'Bob'])
-print(len(t))  # Output: 2
+print(len(t))  # 2
 
 
 #------------------------------------------#
 #-------- __getitem__() method ------------#
 #------------------------------------------#
+'''__getitem__() Called to enable bracket access (obj[key]).'''
 
-# __getitem__() Called to enable bracket access (obj[key]).
+###########################
+## without __getitem__() ##
+###########################
 
-# without __getitem__()
 class Colors:
     def __init__(self, colors):
         self.colors = colors
@@ -117,7 +141,10 @@ class Colors:
 c = Colors(['red', 'blue'])
 print(c[0])  # TypeError: 'Colors' object is not subscriptable
 
-# with __getitem__()
+########################
+## with __getitem__() ##
+########################
+
 class Colors:
     def __init__(self, colors):
         self.colors = colors
@@ -125,16 +152,20 @@ class Colors:
         return self.colors[index]
 
 c = Colors(['red', 'blue'])
-print(c[0])  # Output: red
+print(c[0])  # red
+
+'''This explains why set is not subscriptable, as it does not implement __getitem__() method.'''
 
 
 #------------------------------------------#
 #-------- __setitem__() method ------------#
 #------------------------------------------#
+'''__setitem__() Called to enable item assignment (obj[key]=value).'''
 
-# __setitem__() Called to enable item assignment (obj[key]=value).
+###########################
+## without __setitem__() ##
+###########################
 
-# without __setitem__()
 class Basket:
     def __init__(self):
         self.items = {}
@@ -142,26 +173,34 @@ class Basket:
 b = Basket()
 b['apple'] = 3  # TypeError: 'Basket' object does not support item assignment
 
-# with __setitem__()
+########################
+## with __setitem__() ##
+########################
+
 class Basket:
     def __init__(self):
         self.items = {}
     def __setitem__(self, key, value):
         self.items[key] = value
+    def __getitem__(self, key):
+        return self.items[key]
 
 b = Basket()
 b['apple'] = 3
-print(b.items)    # Output: {'apple': 3}
-print(b["apple"]) # Output: 3
+
+print(b.items)    # {'apple': 3}
+print(b["apple"]) # 3
 
 
 #-------------------------------------#
 #-------- __eq__() method ------------#
 #-------------------------------------#
+'''__eq__()      Called to enable equality comparison (obj1 == obj2)'''
 
-# __eq__()      Called to enable equality comparison (obj1 == obj2)
+######################
+## without __eq__() ##
+######################
 
-# without __eq__()
 class Point:
     def __init__(self, x):
         self.x = x
@@ -170,7 +209,10 @@ p1 = Point(1)
 p2 = Point(1)
 print(p1 == p2)  # Output: False (compares memory addresses)
 
-# with __eq__()
+###################
+## with __eq__() ##
+###################
+
 class Point:
     def __init__(self, x):
         self.x = x
@@ -181,6 +223,7 @@ p1 = Point(1)
 p2 = Point(1)
 print(p1 == p2)  # Output: True
 
+'''
 # Other comparison magic methods:
 # __lt__(self, other): Less than <
 # __le__(self, other): Less than or equal <=
@@ -188,15 +231,18 @@ print(p1 == p2)  # Output: True
 # __ne__(self, other): Not equal !=
 # __gt__(self, other): Greater than >
 # __ge__(self, other): Greater than or equal >=
+'''
 
 
 #--------------------------------------#
 #-------- __add__() method ------------#
 #--------------------------------------#
+'''__add__() called to enable arithmetic addition (obj1 + obj2)'''
 
-# __add__() called to enable arithmetic addition (obj1 + obj2)
+#######################
+## without __add__() ##
+#######################
 
-# without __add__()
 class Vector:
     def __init__(self, x):
         self.x = x
@@ -205,7 +251,10 @@ v1 = Vector(2)
 v2 = Vector(3)
 print(v1 + v2)  # TypeError: unsupported operand type(s)
 
-# with __add__()
+####################
+## with __add__() ##
+####################
+
 class Vector:
     def __init__(self, x):
         self.x = x
@@ -218,6 +267,7 @@ v1 = Vector(2)
 v2 = Vector(3)
 print(v1 + v2)  # Output: Vector(5)
 
+'''
 # Other arithmetic magic methods:
 # __sub__(self, other)	            Defines behavior for self - other.
 # __mul__(self, other)	            Defines behavior for self * other.
@@ -225,15 +275,18 @@ print(v1 + v2)  # Output: Vector(5)
 # __floordiv__(self, other)	        Defines behavior for self // other.
 # __mod__(self, other)	            Defines behavior for self % other.
 # __pow__(self, other[, modulo])	Defines behavior for self ** other.
+'''
 
 
 #---------------------------------------#
 #-------- __call__() method ------------#
 #---------------------------------------#
+''' __call__() Makes an instance callable like a function'''
 
-# __call__() Makes an instance callable like a function
+########################
+## without __call__() ##
+########################
 
-# without __call__()
 class Greeter:
     def __init__(self, name):
         self.name = name
@@ -241,7 +294,10 @@ class Greeter:
 g = Greeter("Alice")
 g()  # TypeError: 'Greeter' object is not callable
 
-# with __call__()
+#####################
+## with __call__() ##
+#####################
+
 class Greeter:
     def __init__(self, name):
         self.name = name
@@ -255,17 +311,23 @@ g()  # Output: Hello, Alice!
 #---------------------------------------------#
 #-------- __enter__() and __exit__() ---------#
 #---------------------------------------------#
+'''__enter__() and __exit__() are used to define the behavior of a context manager'''
 
-# __enter__() and __exit__() are used to define the behavior of a context manager
+########################################
+## without __enter__() and __exit__() ##
+########################################
 
-# without __enter__() and __exit__()
 class FileOpener:
     def __init__(self, filename):
         self.filename = filename
+
 with FileOpener("test.txt") as f:  # TypeError: 'FileOpener' object does not support the context manager protocol
     pass
 
-# with __enter__() and __exit__()
+#####################################
+## with __enter__() and __exit__() ##
+#####################################
+
 class FileOpener:
     def __init__(self, filename):
         self.filename = filename
@@ -285,10 +347,12 @@ with FileOpener("test.txt") as f:
 #-----------------------------------#
 #-------- __del__() method ---------#
 #-----------------------------------#
+'''__del__() is called to add behavior when an object is about to be destroyed'''
 
-# __del__() is called to add behavior when an object is about to be destroyed
+#######################
+## without __del__() ##
+#######################
 
-# without __del__()
 class Temp:
     def __init__(self, name):
         self.name = name
@@ -296,17 +360,19 @@ class Temp:
 t = Temp("A")
 del t # No output
 
-# with __del__()
+####################
+## with __del__() ##
+####################
+
 class Temp:
     def __init__(self, name):
         self.name = name
     def __del__(self):
-        print(f"{self.name} is being deleted")
+        print(f"{self.name} is deleted")
+        # Can be other behaviors like closing files, releasing resources, etc.
 
 t = Temp("A")
 del t  # Output: A is being deleted
-
-
 
 '''
 Other magic methods:
