@@ -33,7 +33,11 @@ At the end of this file are the list of many other magic methods.
 #-------------------------------------#
 #-------- __new__() method -----------#
 #-------------------------------------#
-'''__new__() called a new instance of a class (subclass).'''
+'''
+__new__() called a new instance of a class (subclass).
+
+Meaning this method is responsible for creating and returning a new instance of the class.
+'''
 
 #######################
 ## without __new__() ##
@@ -58,6 +62,7 @@ class EvenIntClass(int):
 e = EvenIntClass(3)
 print(e)  # Output: 4
 
+'''This class ensures that any instance of EvenIntClass will always represent an even integer.'''
 
 #--------------------------------------#
 #-------- __str__() method ------------#
