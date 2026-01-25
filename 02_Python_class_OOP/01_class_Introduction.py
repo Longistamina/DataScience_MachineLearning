@@ -64,6 +64,12 @@ class Item_method:
     # must have "self" argument so that the method can access other attributes like self.price or self.quantity
     #                                                                              (item3.price)  (item3.quantity)
 
+'''
+# "self" argument in "def method_name(self,....)" helps refer to the current instance of the class itself
+# It is the way an instance method accesses the attributes (variables) and other methods of the same object
+# When you define a method in a class, you explicitly include "self" as the first parameter, 
+# which allows you to refer to the instance calling the method.
+'''
     
 
 item3 = Item_method()   # Create the object item1 which belongs to class Item()

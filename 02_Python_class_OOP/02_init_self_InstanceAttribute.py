@@ -14,6 +14,10 @@
 # which allows you to refer to the instance calling the method.
 '''
 
+###########################
+## __init__() basic demo ##
+###########################
+
 class Item:
     def __init__(self, name):
         self.name = name    # define a new attribute 'name' for instance 'self' as 'self.name'
@@ -39,13 +43,32 @@ item_no_name = Item()
 # => This case raises error because the __init__() require us to define the value for attribute 'name'
 #                                                 (but we didn't)
 
+####################################
+## __init__() with default values ##
+####################################
+
+class Car:
+    def __init__(self, name, color="Green"):
+        self.name = name
+        self.color = color
+
+car1 = Car("BMW", "Red")
+print(car1.name)   # "BMW"
+print(car1.color)  # "Red"
+
+car2 = Car("Audi") # color not defined, so the default value "Green" is assigned
+print(car2.name)   # "Audi"
+print(car2.color)  # "Green"
 
 
 #------------------------------------------------------------#
 #------------- __innit__ additional example -----------------#
 #------------------------------------------------------------#
 
-################ Explicit example #################
+######################
+## Explicit example ##
+######################
+
 class ItemExplicit:
     def __init__(self, name_input, price_input, quantity_input):
         self.name = name_input           # Attribute self.name takes the value of name_input variable
@@ -53,17 +76,19 @@ class ItemExplicit:
         self.quantity = quantity_input   # Attribute self.quantity takes the value of quantity_input variable
 
 item_extend_1 = ItemExplicit(
-    name_input = "Phone",
-    price_input = 1000,
-    quantity_input = 5
+    name_input="Phone",
+    price_input=1000,
+    quantity_input=5
 )
 
 print(item_extend_1.name)      # "Phone"
 print(item_extend_1.price)     # 1000
 print(item_extend_1.quantity)  # 5
 
+#####################
+## Concise example ##
+#####################
 
-################ Concise example #################
 class ItemConcise:
     def __init__(self, name, price, quantity):
         self.name = name
@@ -83,14 +108,16 @@ print(item_extend_2.quantity)  # 3
 
 class ItemWithConstraints:
     def __init__(self, name: str, price: float, quantity: int):
-        # "name: string" means the name of the item must be a string
-        # "price: float" means the price of the item must be a float
-        # "quantity: int" means the quantity of the item must be an integer
+        # "name: string" means the name of the item should be a string
+        # "price: float" means the price of the item should be a float
+        # "quantity: int" means the quantity of the item should be an integer
+        '''=> These are type hints (not raise error if not followed)'''
 
         # Adding constraints to ensure valid values for attributes
         assert isinstance(name, str), "Name must be a string" # isinstance(name, str) checks if the type of 'name' is string
         assert price >= 0, "Price must be greater than zero"
         assert quantity >= 0, "Quantity must be greater than or equal to zero"
+        '''=> Create assertions to force the constraints on attributes'''
 
         # Assigning values to attributes of the instance
         self.name = name
