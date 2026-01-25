@@ -2,8 +2,17 @@
 #-------- __init__ explanation --------------#
 #--------------------------------------------#
 
+'''
 # __init__() method is a method that forces the definition of specific attributes when created an object from a class
 # Those attributes required by __init__() if somehow are not defined will result in unsucessful object creation
+
+###########################################
+
+# "self" argument in "def method_name(self,....)" helps refer to the current instance of the class itself
+# It is the way an instance method accesses the attributes (variables) and other methods of the same object
+# When you define a method in a class, you explicitly include "self" as the first parameter, 
+# which allows you to refer to the instance calling the method.
+'''
 
 class Item:
     def __init__(self, name):

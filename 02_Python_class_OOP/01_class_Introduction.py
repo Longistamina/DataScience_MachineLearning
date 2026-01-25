@@ -19,13 +19,14 @@ print(item1_name.upper()) # PHONE
 # => here .upper() is a method of string object from string class
 
 
-#------------------------------------------------------------------------#
-#---------------------- first example of class --------------------------#
-#------------------------------------------------------------------------#
-
+#------------------------------------------------------------------------------------#
+#---------------------- first example of class: Attributes --------------------------#
+#------------------------------------------------------------------------------------#
+'''
 # class: is a keyword in Python enables us to create the datatype (or class) of our own
 # attribute ~ variable
 # method    ~ function
+'''
 
 # Create a class name Item
 class Item:
@@ -51,15 +52,9 @@ print(type(item2))   # <class '__main__.Item'>
 # => class RemoveMissingValues:
 
 
-#-----------------------------------------------------------------#
-#---------------------- "self" argument --------------------------#
-#-----------------------------------------------------------------#
-
-# "self" argument in "def method_name(self,....)" helps refer to the current instance of the class itself
-# It is the way an instance method accesses the attributes (variables) and other methods of the same object
-# When you define a method in a class, you explicitly include "self" as the first parameter, 
-# which allows you to refer to the instance calling the method.
- 
+#----------------------------------------------------------#
+#---------------------- Method() --------------------------#
+#----------------------------------------------------------#
 
 # Create a class name Item
 class Item_method:
@@ -74,6 +69,8 @@ class Item_method:
 item3 = Item_method()   # Create the object item1 which belongs to class Item()
 item3.name = "Car"
 item3.price = 50000
-item3.quantity = 1
+item3.quantity = 2
 
-print(item3.calculate_total_price(item3.price, item3.quantity)) # 50000
+# item3.calculate_total_price = item3.price * item3.quantity
+
+print(item3.calculate_total_price(item3.price, item3.quantity)) # 100000
