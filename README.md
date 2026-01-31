@@ -54,7 +54,7 @@
 + [01_Python_Basic_part_08](https://youtu.be/Hva7ZeXgUac): 
     * List 
     * Tuple 
-    * Bnous: Francis 1 of France and Leonardo Da Vinci
+    * Bonus: Francis 1 of France and Leonardo Da Vinci
 + [01_Python_Basic_part_09](https://youtu.be/Mn2m_6MeKuQ): 
     * Set - Frozenset
     * Dictionary
