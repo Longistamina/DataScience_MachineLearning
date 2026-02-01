@@ -88,7 +88,7 @@ json.load() is used to read a JSON file and convert it into a Python dictionary.
 The 'load' in 'json.load()' stands for 'load from file'.
 '''
 
-with open (f"{parent_dir}/emps.json", "r") as file: # Open the JSON file in read mode
+with open(f"{parent_dir}/emps.json", "r") as file: # Open the JSON file in read mode
     python_dict_from_file = json.load(file) # Convert the JSON file into a Python dictionary
 
 print(python_dict_from_file)

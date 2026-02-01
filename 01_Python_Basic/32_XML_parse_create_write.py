@@ -110,7 +110,6 @@ print(f"Root Element Children: {list(root_food)}") # Root Element Children:
 num_children = len(list(root_food))
 print(f"Number of Child Elements: {num_children}") # Number of Child Elements: 5
 
-
 ########################################
 ## Parse a XML string into XML object ##
 ########################################
@@ -125,6 +124,7 @@ xml_string = '''<?xml version="1.0"?>
 
 root_string = ET.fromstring(xml_string)
 print(f"Student name: {root_string.find('name').text}") # Alice Johnson
+print(f"Student age: {root_string.find('age').text}")   # 20
 
 
 #--------------------------------------------------------------------------#
@@ -256,10 +256,10 @@ tree_starwars = ET.ElementTree(root_starwars)
 
 print(tree_starwars) # <xml.etree.ElementTree.ElementTree object at 0x7f4f7e8856a0>
 
-
 ###############################
 ## Loop through new xml tree ##
 ###############################
+
 root_starwars = tree_starwars.getroot()
 
 for character_element in root_starwars:
@@ -282,5 +282,5 @@ ET.indent(tree_starwars, space="  ", level=0)
 tree_starwars.write(
     f"{parent_dir}/new_written_starwars.xml", 
     encoding='utf-8', 
-    xml_declaration=True,
+    xml_declaration=True
 )
