@@ -50,7 +50,7 @@ parent_dir = '/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Py
 ## file_pointer.close()      ##
 ###############################
 
-file_pointer = open(file=f'{parent_dir}/JohnnyJohnny.txt', mode='r')  # "file" variable here is a file pointer
+file_pointer = open(file=f'{parent_dir}/JohnnyJohnny.txt', mode='r')  # "file_pointer" variable here is a file pointer object
 content = file_pointer.read()  # Read the entire file content as a whole string
 file_pointer.close()
 # (Must close the file pointer maunally)

@@ -25,6 +25,7 @@ import json
 
 parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files"
 
+
 #------------------------------------------------------------#
 #------------ json.loads() and json.load() ------------------#
 #------------------------------------------------------------#
