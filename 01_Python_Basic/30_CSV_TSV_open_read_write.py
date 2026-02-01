@@ -45,8 +45,8 @@ import csv
 ##############################
 
 with open(file=f"{parent_dir}/drinks.csv", mode="r", newline="", encoding="utf-8") as file_pointer:
-    # newline = "" parameter is crucial to prevent issues with line endings across different operating systems
-    # encoding = "utf-8" means interpret the file using the utf8 encoding
+    # newline="" parameter is crucial to prevent issues with line endings across different operating systems
+    # encoding="utf-8" means interpret the file using the utf8 encoding
     csv_read_object = csv.reader(file_pointer)
 
     print(csv_read_object) # <_csv.reader object at 0x7f91d9449000>
