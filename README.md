@@ -63,3 +63,10 @@
     * Unpacking operators * and **
     * Progress Bar: alive_progress, tqdm
     * Bonus: Dialectic and GAN; Critical thinking: Equivocation, Does AI have conciousness? Why does God create Evil? How reincarnation works in Buddhism without a soul?
++ [01_Python_Basic_part_11](https://youtu.be/VBYKq0Xk1_Q): 
+    * Progress Bar: tldm (upgraded version of tqdm)
+    * TXT files handling
+    * CSV and TSV files handling
+    * JSON files handling
+    * XML files handling
+    * BeautifulSoup4: static web scrapping
