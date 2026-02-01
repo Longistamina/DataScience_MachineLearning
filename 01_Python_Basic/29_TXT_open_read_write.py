@@ -39,6 +39,7 @@ Table of Contents:
 
 parent_dir = '/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/txt_files'
 
+
 #---------------------------------------------------------------------------------------------#
 #------------------------------------- Read a file -------------------------------------------#
 #---------------------------------------------------------------------------------------------#
@@ -166,6 +167,7 @@ print(is_readable)  # True
 
 with open(file=f'{parent_dir}/JohnnyJohnny.txt', mode='a') as file_pointer:
     is_readable = file_pointer.readable()  # Check if the file is readable
+    content = file_pointer.read()  # Try to read the file (will raise an error)
 
 print(is_readable) # False
 
