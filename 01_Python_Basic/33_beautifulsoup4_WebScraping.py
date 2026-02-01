@@ -163,7 +163,7 @@ print(pretty_html)
 </html>
 '''
 
-print(soup.prettify()[:100])  # print first 500 chars of prettified HTML
+print(soup.prettify()[:100])  # print first 100 chars of prettified HTML
 '''
 <!DOCTYPE html>
 <html lang="en">
@@ -373,7 +373,6 @@ print("Safe title_text:", title_text)
 #------------------------------------------------------------------------------------------------#
 #----------------------------------- 6. Text extraction -----------------------------------------#
 #------------------------------------------------------------------------------------------------#
-
 '''
 - .string is only reliable when a tag has a single direct text node. 
 - .get_text(strip=True) is robust for “all text under this tag”. 
