@@ -65,8 +65,14 @@ sudo apt update
 wget https://repo.radeon.com/amdgpu-install/7.1.1/ubuntu/noble/amdgpu-install_7.1.1.70101-1_all.deb
 sudo apt install ./amdgpu-install_7.1.1.70101-1_all.deb
 
-# Insatll driver
-amdgpu-install -y --usecase=rocm --no-dkms
+# Install kernel headers first
+sudo apt install "linux-headers-$(uname -r)"
+
+# Install ROCm stack (without DKMS if you want to keep existing kernel driver)
+sudo amdgpu-install --usecase=rocm --no-dkms -y
+
+# Or with DKMS to install/update the kernel driver:
+sudo amdgpu-install --usecase=rocm -y
 
 # Reboot to apply changes
 sudo reboot
