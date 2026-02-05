@@ -75,6 +75,9 @@ sudo amdgpu-install --usecase=rocm --no-dkms -y
 # Or with DKMS to install/update the kernel driver:
 sudo amdgpu-install --usecase=rocm -y
 
+# Add user
+sudo usermod -a -G render,video $LOGNAME
+
 # Reboot to apply changes
 sudo reboot
 
