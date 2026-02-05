@@ -52,9 +52,30 @@ Use pip3 install -U for latest versions
    pip3 install -U termcolor regex loguru pytz numpy pandas modin[ray] datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima
 
 
-#---------------------------------------------------------------------------------------------#
-#-------------------------- Pytorch for AMD ROCm (ubuntu command) ----------------------------#
-#---------------------------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------#
+#-------------------------- Pytorch and PyG for AMD ROCm (ubuntu command) ----------------------------#
+#-----------------------------------------------------------------------------------------------------#
+
+#######################
+## Remove old things ##
+#######################
+
+# Remove all ROCm packages
+sudo apt autoremove rocm-core rocm-libs rocm-dev amd-smi -y
+sudo apt purge rocm-* amdgpu-* -y
+sudo apt autoremove -y
+
+# Remove AMDGPU install script
+sudo apt purge amdgpu-install -y
+
+# Remove repositories
+sudo rm -f /etc/apt/sources.list.d/amdgpu*.list
+sudo rm -f /etc/apt/sources.list.d/rocm*.list
+
+# Clean cache
+sudo rm -rf /var/cache/apt/*
+sudo apt clean all
+sudo apt update
 
 ############################
 ## Install Ryzen software ##
@@ -82,38 +103,9 @@ sudo reboot
 rocminfo
 amd-smi
 
-#################################
-## Install amd package manager ##
-#################################
-
-# Make the directory if it doesn't exist yet.
-# This location is recommended by the distribution maintainers.
-sudo mkdir --parents --mode=0755 /etc/apt/keyrings
-# Download the key, convert the signing-key to a full
-# keyring required by apt and store in the keyring directory
-wget https://repo.radeon.com/rocm/rocm.gpg.key -O - | \
-    gpg --dearmor | sudo tee /etc/apt/keyrings/rocm.gpg > /dev/null
-
-# Register package
-sudo tee /etc/apt/sources.list.d/rocm.list << EOF
-deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/7.1/ noble main
-EOF
-sudo tee /etc/apt/preferences.d/rocm-pin-600 << EOF
-Package: *
-Pin: release o=repo.radeon.com
-Pin-Priority: 600
-EOF
-sudo apt update
-
-# Upgrade
-sudo apt upgrade -y
-
-# Install rocm
-sudo apt install rocm
-
-#####################
-## Install Pytorch ##
-#####################
+#############################
+## Install Pytorch and PyG ##
+#############################
 
 # Activate conda
 conda activate data
@@ -127,11 +119,14 @@ pip3 install --upgrade pip wheel
 # Uninstall old things
 pip3 uninstall torch torchvision triton torchaudio
 
-# Install new ones
+# Install PyTorch 2.9.1 for ROCm 7.1.0
 pip install --index-url=https://rocm.nightlies.amd.com/v2-staging/gfx1151/ \
-    torch==2.11.0a0+rocm7.11.0a20251217 \
+    torch==2.9.1+rocm7.10.0a20251117 \
     torchvision \
     torchaudio
+
+# Insatll PyG
+pip install torch-geometric torch-sparse-rocm torch-spline-conv-rocm torch-scatter-rocm torch-cluster-rocm
 
 # test torch GPU detection
 python3
