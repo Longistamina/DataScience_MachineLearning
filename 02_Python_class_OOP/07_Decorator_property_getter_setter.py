@@ -31,7 +31,8 @@ print(item1.total_price)  # Output: 4500 (1500 * 3)
                           # no need for parentheses like item1.total_price() in other files
 
 ## ATTENTION: @property is read-only by default
-item1.total_price = 5000  # This will raise an "AttributeError: can't set attribute"
+item1.total_price = 5000
+'''This will raise an "AttributeError: can't set attribute'''
 
 
 #----------------------------------------------------------------#
@@ -65,7 +66,7 @@ class ItemWithSetter:
 
     @total_price.setter # This setter allows you to modify the total price directly
     def total_price(self, value):
-        print("You are trying to set the new total price")
+        print("WARNING: You are trying to set the new total price!!!")
         self._total_price = value
         # do not need to return a value from a property setter in Python 
         # because setter methods are only meant to set the value, not to return anything.

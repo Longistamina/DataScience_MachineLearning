@@ -25,6 +25,8 @@ This directory contains the compiled bytecode of the module, which is used to sp
 
 This directory is automatically created by Python when a module is imported.
 You can safely ignore this directory, as it is not necessary for the module to work.
+
+NOTE: the module name must NOT start with a number.
 '''
 
 #########################################

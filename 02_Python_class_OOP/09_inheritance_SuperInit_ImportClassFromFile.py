@@ -27,7 +27,7 @@ class Item:
 #----------- why need Inheritance? --------------#
 #------------------------------------------------#
 
-# Imagine we our item list have many types of phones.
+# Imagine our item list have many types of phones.
 # We want to determine whether the phone is broken or not for selling.
 # If we set a new attribute like self.broken_phone in side the Item class,
 # it will be applied to all the items, not just phones.
@@ -65,7 +65,8 @@ print(Phone.all_items) # Output: [Phone(iPhone 14, 1200, 5), Phone(Samsung Galax
 
 # We can also import the Item class from another file like item.py and inherit from it
 
-import csv
+import os
+os.chdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP')
 
 from item import Item # Make sure file item.py is in the same directory or adjust the import path accordingly
 
