@@ -1,21 +1,27 @@
 '''
 1. np.positive(): returns an array with the positive values of the input array.
 2. np.negative(): returns an array with the negative values of the input array.
+
 3. np.add(): adds arrays element-wise.
 4. np.subtract(): subtracts arrays element-wise.
 5. np.multiply(): multiplies arrays element-wise.
 6. np.divide() or np.true_divide(): divides arrays element-wise.
 7. np.reciprocal(): computes the reciprocal (1/x) of each element in the array.
 8. np.floor_divide(): performs floor division on arrays element-wise.
+
 9. np.remainder() or np.mod(): computes the element-wise remainder of division (modulus).
 10. np.divmod(): returns the quotient and remainder of division of the input arrays.
 11. np.fmod(): computes the element-wise remainder of division, similar to np.remainder().
 12. np.modf(): returns the fractional and integral parts of an array.
+
 13. np.power() or np.pow(): raises elements of one array to the powers of another array element-wise.
 14. np.float_power(): raises elements of one array to the powers of another array element-wise, using float precision.
+
 15. np.absolute() or np.abs(): computes the absolute values of each element in the array.
 16. np.fabs(): computes the absolute values of each element in the array (don't handle complex).
+
 17. np.square(): computes the square of each element in the array.
+
 18. np.sqrt(): computes the square root of each element in the array.
 19. np.cbrt(): computes the cube root of each element in the array.
 20. np.sign(): returns an array indicating the sign of each element in the input array.

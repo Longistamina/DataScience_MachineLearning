@@ -2,11 +2,13 @@
 1. np.sin(): computes the sine of each element in the array.
 2. np.cos(): computes the cosine of each element in the array.
 3. np.tan(): computes the tangent of each element in the array.
+
 4. np.arcsin() or np.asin(): computes the inverse sine (arcsine) of each element in the array.
 5. np.arccos() or np.acos(): computes the inverse cosine (arccosine) of each element in the array.
 6. np.arctan() or np.atan(): computes the inverse tangent (arctangent) of each element in the array.
 7. np.hypot(): computes the hypotenuse given the legs of a right triangle.
 8. np.arctan2() or np.atan2(): computes the element-wise arc tangent of x1/x2 choosing the quadrant correctly.
+
 9. np.degrees() or np.rad2deg(): converts angles from radians to degrees.
 10. np.radians() or np.deg2rad(): converts angles from degrees to radians.
 11. np.unwrap(): unwraps by taking the complement of large deltas with respect to the period.
