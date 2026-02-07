@@ -6,14 +6,20 @@
 
 # When to use: we should use class methods to do something that is related to the class
 #              but does not need to be unique per instance
-#              and IS involved in creating new instances of the class (like construct_from_csv() below)
+#              and want to have access to class attributes or other class methods
 
 import csv
 
 class Employee:
+    
+    class_atribute = "This is a class attribute of Employee class"
+    
     @classmethod # indicates the below method is a class method, not an instance method
-    def demo_class_method(cls): # class method requires "cls" as the first argument, like "self" for instance method
-        print("This is a demo class method of the class Item")
+    def demo_class_method(cls, attr=False): # class method requires "cls" as the first argument, like "self" for instance method
+        if attr:
+            print(cls.class_atribute)
+        else:
+            print("This demo class method has been executed successfully!")
 
     @classmethod
     def construct_from_csv(cls, file_path: str): #A function to construct an instance of the class from a .csv file
@@ -21,13 +27,20 @@ class Employee:
             reader = csv.DictReader(f) # Read .csv file as a dictionary
             employees = list(reader)
 
+        cls.demo_class_method(attr=False) # Call another class method from this class method
         return employees
+    
+########################################################
 
-print(Employee.demo_class_method()) # Execute a class method
-                                    # This is a demo class method of the class Item
-                                    # None (this is because we did not define the return value for the demo method)
+Employee.demo_class_method(attr=False)
+# This is a demo class method of the class Item
 
-csv_path = "/home/longdpt/Documents/Academic/DataScience_MachineLearning_Python_SQL/01_Python_Basic/class_OOP/class_method_employees.csv"
+Employee.demo_class_method(attr=True)
+# This is a class attribute of Employee class
+
+########################################################
+
+csv_path = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP/class_method_employees.csv"
 
 lst_employees = Employee.construct_from_csv(file_path=csv_path)
 print(lst_employees)
@@ -35,4 +48,4 @@ print(lst_employees)
 # {'Name': 'Bob', 'Age': '25', 'City': 'Los Angeles'}
 # {'Name': 'Charlie', 'Age': '35', 'City': 'Chicago'}
 
-### NOT RECOMMEND: class methods can be called from an instance, but should not do so
+'''NOT RECOMMEND: class methods can be called from an instance, but should not do so'''
