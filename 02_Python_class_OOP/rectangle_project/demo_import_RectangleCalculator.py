@@ -135,8 +135,8 @@ rectangle.width = 25.5
 print(rectangle.length) # 33
 print(rectangle.width) # 25.5
 
-print(rectangle.perimeter) # None
-print(rectangle.area) # None
+print(rectangle.perimeter) # 117.0
+print(rectangle.area) # 841.5
 
 print(rectangle.summary())
 # Result of the nameless rectangle:
