@@ -137,7 +137,7 @@ root_dir is the root directory to archive, and base_dir is the directory within 
 shutil.make_archive('/home/longdpt/Documents/Academic/DataScience_MachineLearning/demo_archive',  # base name (destination archive file name)
                     'zip',  # format (extension will be .zip)
                     root_dir='./02_Python_class_OOP',  # root directory to archive (source directory)
-                    base_dir= '')  # base directory within root_dir to archive (set to '' to include all files in root_dir)
+                    base_dir='')  # base directory within root_dir to archive (set to '' to include all files in root_dir)
 
 # List the contents of the created archive
 os.system('unzip -l /home/longdpt/Documents/Academic/DataScience_MachineLearning/demo_archive.zip') 
@@ -173,6 +173,9 @@ shutil.disk_usage(path) is used to get the disk usage statistics for the specifi
 '''
 
 disk_usage = shutil.disk_usage('/')  # Get disk usage statistics for the root directory
+print(disk_usage)
+# usage(total=2013991550976, used=311823769600, free=1599787077632)
+
 print(f"Total: {disk_usage.total / (1024 ** 3):.2f} GB") # Convert bytes to GB by dividing by (1024 ** 3)
 print(f"Used: {disk_usage.used / (1024 ** 3):.2f} GB")
 print(f"Free: {disk_usage.free / (1024 ** 3):.2f} GB")
