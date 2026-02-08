@@ -357,8 +357,8 @@ def main():
         args = __parse_args()
 
         calculator = RectangleCalculator(
-            length = args.length,
-            width = args.width
+            length=args.length,
+            width=args.width
         )
         calculator._input = args.input
         calculator._output = args.output
