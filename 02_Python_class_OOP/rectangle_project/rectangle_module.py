@@ -387,6 +387,9 @@ def main():
                         if answer.lower() == "y":
                             with multiprocessing.Pool(processes=calculator._cores) as pool:
                                 pool.starmap(func=calculator._single_workflow, iterable=input_json_files)
+                                
+                            # for entry in calculator._input.glob("*.json"):
+                            #     calculator._single_workflow(entry.name)
                         
                         else:
                             return None # stop the program
