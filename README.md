@@ -74,3 +74,6 @@
     * JSON files handling
     * XML files handling
     * BeautifulSoup4: static web scrapping
++ [01_Python_Basic_part_12](https://youtu.be/lstIgxC0wk8): 8th/02/2026
+    * os: operating-system dependent functionalities (os.getcwd(), os.chdir(), os.system(), etc.)
+    * shutil: more shell utilities (shutil.copy(), shutil.move(), shutil.rmtree(), etc.)
