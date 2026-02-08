@@ -64,16 +64,16 @@ It includes the system name, node name (hostname), release, version, and machine
 '''
 
 print(os.uname())
-# posix.uname_result(sysname='Linux', nodename='fedora', release='6.15.4-200.fc42.x86_64', 
-#                    version='#1 SMP PREEMPT_DYNAMIC Fri Jun 27 15:32:46 UTC 2025', machine='x86_64')
+# posix.uname_result(sysname='Linux', nodename='zbook', release='6.18.7-061807-generic', 
+# version='#202601231045 SMP PREEMPT_DYNAMIC Fri Jan 23 11:25:00 UTC 2026', machine='x86_64')
 
 
 # Example of using os.uname() to get system information
 system_info = os.uname()
 print(f"System: {system_info.sysname}") # System: Linux
-print(f"Node Name: {system_info.nodename}") # Node Name: '192.168.1.32.non-exists.ptr.local'
-print(f"Release: {system_info.release}") # Release: 6.15.4-200.fc42.x86_64
-print(f"Version: {system_info.version}") # Version: #1 SMP PREEMPT_DYNAMIC Fri Jun 27 15:32:46 UTC 2025
+print(f"Node Name: {system_info.nodename}") # Node Name: zbook
+print(f"Release: {system_info.release}") # Release: 6.18.7-061807-generic
+print(f"Version: {system_info.version}") # Version: #202601231045 SMP PREEMPT_DYNAMIC Fri Jan 23 11:25:00 UTC 2026
 print(f"Machine: {system_info.machine}") # Machine: x86_64
 
 ####################
@@ -186,6 +186,19 @@ with os.scandir('/home/longdpt/Documents/Academic') as entries:
             # Directory: DataScience_MachineLearning
             # Directory: Programming_Materials
 
+# Use for loop directly on os.scandir() without 'with' statement
+for entry in os.scandir('.'):
+    print(entry.name, entry.path, entry.is_file(), entry.is_dir())
+    # 01_Python_Basic ./01_Python_Basic False True
+    # merge_mp4.sh ./merge_mp4.sh True False
+    # Unrar_file.txt ./Unrar_file.txt True False
+    # .git ./.git False True
+    # Python_Important_packages.txt ./Python_Important_packages.txt True False
+    # vscode_install_settings.txt ./vscode_install_settings.txt True False
+    # Calculus_ConvexOptimization ./Calculus_ConvexOptimization False True
+    # .gitignore ./.gitignore True False
+    # 02_Python_class_OOP ./02_Python_class_OOP False True
+
 ################
 ## os.mkdir() ##
 ################
@@ -202,7 +215,7 @@ os.mkdir('new_directory')
 os.mkdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/new_directory_2')
 
 
-'''Note: if the parent directory does not exist, it will raise a FileNotFoundError.'''
+'''NOTE: if the parent directory does not exist, it will raise a FileNotFoundError.'''
 try:
     os.mkdir('parent_dir/child_dir')
 except Exception as e:
@@ -223,7 +236,7 @@ os.makedirs('parent_dir/child_dir/grandchild_dir')
 # even if 'parent_dir' or 'child_dir' does not exist.
 
 
-'''Note: if the parent directory exists, it will raise a FileNotFoundError.'''
+'''NOTE: if the parent directory exists, it will raise a FileNotFoundError.'''
 try:
     os.makedirs('parent_dir/child_dir/grandchild_dir')
 except Exception as e:
@@ -346,7 +359,7 @@ _ = os.system(commands) # Assign to underscore to avoid displaying the exit stat
 ## os.popen() ##
 ################
 '''
-os.popen(command) opens a pipe to or from the command (a string) and returns a file object.
+os.popen(command) opens a pipe to or from the command (a string) and returns a wrap object.
 This allows you to read the output of the command or write to its input.
 '''
 
@@ -395,7 +408,7 @@ os.execv(
     ['ls', '-l', '.']  # Arguments to pass to the command
 ) # (NO KEYWORD ARGUMENTS)
 '''
-Note: This will not return to the original process (after runing this, it will EXIT CURRENT PYTHON PROCESS)
+NOTE: This will not return to the original process (after runing this, it will EXIT CURRENT PYTHON PROCESS)
 so the following lines or commands will not be executed.
 '''
 
@@ -416,7 +429,7 @@ os.execvp(
     args=['ls', '-l', '.']  # Arguments to pass to the command
 )
 '''
-Note: This will not return to the original process (after runing this, it will EXIT CURRENT PYTHON PROCESS)
+NOTE: This will not return to the original process (after runing this, it will EXIT CURRENT PYTHON PROCESS)
 so the following lines or commands will not be executed.
 '''
 
@@ -466,7 +479,7 @@ def get_conda_env(env_name):
     return json.loads(result.stdout.strip())
 
 # Get the environment for your conda environment
-conda_env = get_conda_env('bio')
+conda_env = get_conda_env('base')
 print(conda_env)  # Display the environment variables of the conda environment
 # {'SHELL': '/bin/bash', 'SESSION_MANAGER': 'local/unix:@/tmp/.ICE-unix/2578,unix/unix:/tmp/.ICE-unix/2578', 'COLORTERM': 'truecolor', 'VSCODE_DEBUGPY_ADAPTER_ENDPOINTS': 
 
@@ -477,7 +490,7 @@ os.execvpe(
     env=conda_env  # Use the conda environment variables
 )
 '''
-Note: This will not return to the original process (after runing this, it will EXIT CURRENT PYTHON PROCESS)
+NOTE: This will not return to the original process (after runing this, it will EXIT CURRENT PYTHON PROCESS)
 so the following lines or commands will not be executed.
 '''
 
@@ -588,3 +601,12 @@ result = subprocess.run(['python', '-c', 'import os; print("Child process:", os.
                        capture_output=True, text=True)
 
 print(result.stdout.strip()) # my_value
+
+##########################################
+## Update environment variable directly ##
+##########################################
+
+os.environ['MY_ENV_VAR_2'] = 'my_value_2'
+os.environ['NCCL_P2P_DISABLE'] = '1'  # Example: setting NCCL_P2P_DISABLE to '1'
+
+os.environ.update({'NCCL_IB_DISABLE': '1', 'ANOTHER_VAR': 'another_value'})
