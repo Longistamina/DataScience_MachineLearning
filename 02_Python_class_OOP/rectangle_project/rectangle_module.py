@@ -144,11 +144,15 @@ class RectangleCalculator:
 
     @property
     def perimeter(self):
-        if (None in [self.__length, self.__width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
-            length, width = RectangleCalculator.__valiate_input_number(self.length, self.width)
-        
-        else:
-            length, width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
+        match __name__:
+            case "__main__":
+                if (None in [self.__length, self.__width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
+                    length, width = self.length, self.width
+                else:
+                    length, width = self.__length, self.__width
+            case _:
+                length, width = RectangleCalculator.__valiate_input_number(self.length, self.width)
+
         
         if None in [length, width]:
             self.__perimeter = None
@@ -161,11 +165,14 @@ class RectangleCalculator:
 
     @property
     def area(self):
-        if (None in [self.__length, self.__width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
-            length, width = RectangleCalculator.__valiate_input_number(self.length, self.width)
-        
-        else:
-            length, width = RectangleCalculator.__valiate_input_number(self.__length, self.__width)
+        match __name__:
+            case "__main__":
+                if (None in [self.__length, self.__width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
+                    length, width = self.length, self.width
+                else:
+                    length, width = self.__length, self.__width
+            case _:
+                length, width = RectangleCalculator.__valiate_input_number(self.length, self.width)
         
         if None in [length, width]:
             self.__area = None
