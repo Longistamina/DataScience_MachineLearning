@@ -20,7 +20,6 @@ class RectangleCalculator:
     The class supports multicore computing.
     '''
 
-
     def __init__(self, length=None, width=None):
         '''
         input: the path leading to an input directory containing JSON files, or directly to a specified JSON file
@@ -31,13 +30,29 @@ class RectangleCalculator:
         '''
         self._input = ''
         self._output = ''
-        self.length = length
-        self.width = width
+        
+        self.length, self.width = self.__valiate_input_number(length, width)
+        
         self.__length = None
         self.__width = None
         self._cores = 2
         self._single_output_path = None
         self._json_count = 0
+
+
+    @staticmethod
+    def __valiate_input_number(*numbers): # Internal use only, cannot call out when the module is being imported
+        numeric_pattern = r"^\+?\d+\.?\d*$"
+        numbers = list(numbers)
+        
+        for idx, number in enumerate(numbers):
+            if re.match(numeric_pattern, str(number)):
+                numbers[idx] = float(number)
+            
+            else:
+                numbers[idx] = None
+        
+        return numbers
 
 
     def __validate_output_directory(self): # Internal use only, cannot call out when the module is being imported
@@ -108,21 +123,6 @@ class RectangleCalculator:
         return json_output_file
 
 
-    @staticmethod
-    def __valiate_input_number(*numbers): # Internal use only, cannot call out when the module is being imported
-        numeric_pattern = r"^\+?\d+\.?\d*$"
-        numbers = list(numbers)
-        
-        for idx, number in enumerate(numbers):
-            if re.match(numeric_pattern, str(number)):
-                numbers[idx] = float(number)
-            
-            else:
-                numbers[idx] = None
-        
-        return numbers
-
-
     def __load_rectangle_inputs(self, json_rectangle_file): # Internal use only, cannot call out when the module is being imported
         if len(Path(json_rectangle_file).parts) > 1:
             json_file_path = json_rectangle_file
@@ -144,16 +144,11 @@ class RectangleCalculator:
 
     @property
     def perimeter(self):
-        match __name__:
-            case "__main__":
-                if (None in [self.__length, self.__width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
-                    length, width = self.length, self.width
-                else:
-                    length, width = self.__length, self.__width
-            case _:
-                length, width = RectangleCalculator.__valiate_input_number(self.length, self.width)
+        if (None in [self.__length, self.__width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
+            length, width = self.length, self.width
+        else:
+            length, width = self.__length, self.__width
 
-        
         if None in [length, width]:
             self.__perimeter = None
         
@@ -165,14 +160,10 @@ class RectangleCalculator:
 
     @property
     def area(self):
-        match __name__:
-            case "__main__":
-                if (None in [self.__length, self.__width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
-                    length, width = self.length, self.width
-                else:
-                    length, width = self.__length, self.__width
-            case _:
-                length, width = RectangleCalculator.__valiate_input_number(self.length, self.width)
+        if (None in [self.__length, self.__width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
+            length, width = self.length, self.width
+        else:
+            length, width = self.__length, self.__width
         
         if None in [length, width]:
             self.__area = None
@@ -259,9 +250,7 @@ class RectangleCalculator:
                 return None
 
 
-    def _single_workflow(self, json_rectangle_file):
-        self.length, self.width = RectangleCalculator.__valiate_input_number(self.length, self.width)
-        
+    def _single_workflow(self, json_rectangle_file):        
         match json_rectangle_file:
             case "":
                 if None in [self.length, self.width]: # Check if the given inputs from -l and -w are valid
