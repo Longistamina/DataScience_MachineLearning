@@ -77,3 +77,4 @@
 + [01_Python_Basic_part_12](https://youtu.be/lstIgxC0wk8): 8th/02/2026
     * os: operating-system dependent functionalities (os.getcwd(), os.chdir(), os.system(), etc.)
     * shutil: more shell utilities (shutil.copy(), shutil.move(), shutil.rmtree(), etc.)
+    * Bonus: monitoring GPU usage (nvidia-smi, nvitop, amd-smi, amdgpu_top)
