@@ -200,7 +200,6 @@ print(dir_name)  # 02_Python_class_OOP
 ######################
 '''The path_object.stem property returns the name of the file or directory without its suffix (extension).'''
 
-
 file_stem = demo_file_path.stem
 print(file_stem)  # example
 
@@ -284,10 +283,12 @@ for entry in no_parent_file.parent.glob("*"):
 #########################
 '''The path_object.parents property returns a sequence of all parent directories of the file or directory.'''
 
+# demo_file_path = Path('parent_dir/child_dir/example.txt')
 file_parents = demo_file_path.parents
 print(file_parents)  # <PosixPath.parents>
 print(list(file_parents))  # [PosixPath('parent_dir/child_dir'), PosixPath('parent_dir'), PosixPath('.')]
 
+# demo_dir_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP")
 dir_parents = demo_dir_path.parents
 print(dir_parents)  # <PosixPath.parents>
 print(list(dir_parents))  # [PosixPath('/home/longdpt/Documents/Academic/DataScience_MachineLearning'), PosixPath('/home/longdpt/Documents/Academic'), PosixPath('/home/longdpt/Documents'), PosixPath('/home/longdpt'), PosixPath('/home'), PosixPath('/')]
@@ -335,8 +336,10 @@ exist_dir_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearn
 ##########################
 '''The path_object.exists() method checks if the file or directory exists in the file system.'''
 
-print(demo_file_path.exists())  # False
+print(demo_file_path.exists())   # False
+print(exist_file_path.exists())  # True
 
+print(demo_dir_path.exists())   # False
 print(exist_dir_path.exists())  # True
 
 ###########################
@@ -373,7 +376,7 @@ exist_symlink_path = Path("symlink_to_curriculum.txt")
 
 '''
 The path_object.is_symlink() method checks if the path is a symbolic link.
-Note: This will return False if the path does not exist.
+NOTE: This will return False if the path does not exist.
 '''
 
 print(demo_symlink_path.is_symlink())  # False (since the symlink does not exist)
@@ -451,9 +454,13 @@ The path_object.absolute() method returns the absolute path of the file or direc
 but it does not resolve symbolic links or relative paths.
 '''
 
-absolute_path_alternative = demo_relative_path_1.absolute()
-print(absolute_path_alternative)
+absolute_path_alternative_1 = demo_relative_path_1.absolute()
+print(absolute_path_alternative_1)
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP
+
+absolute_path_alternative_2 = demo_relative_path_2.absolute()
+print(absolute_path_alternative_2)
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/DataScience_MachineLearning/02_Python_class_OOP
 
 absolute_symlink_path = symlink_path.absolute()
 print(absolute_symlink_path)
@@ -471,7 +478,7 @@ print(relative_symlink_path.resolve())  # /home/longdpt/Documents/Academic/DataS
 print(relative_symlink_path.absolute())  # /home/longdpt/Documents/Academic/DataScience_MachineLearning/lmstudio_exe
 
 '''
->> Note: the absolute path is not the actual absolute path of the symlink target, 
+>> NOTE: the absolute path is not the actual absolute path of the symlink target, 
 >> but rather the absolute path from the current working directory to the symlink itself.
 '''
 
@@ -489,7 +496,7 @@ from pathlib import Path
 # mkdir() basic use
 data_dir = Path('./data')
 data_dir.mkdir(exist_ok=True)  # Create 'data' directory (at existed parent dir) like os.mkdir()
-                               # Don't fail if exists
+                               # Don't fail if exists (not overwrite)
 
 
 # mkdir() with joinpath()
@@ -584,10 +591,10 @@ print(symlink_path.is_symlink())  # True
 
 
 # Create a symbolic link to a directory
-dir_symlink_target = Path('data/raw')
-dir_symlink_path = Path('data_raw_symlink')
+dir_symlink_target = Path('01_Python_Basic')
+dir_symlink_path = Path('dir_symlink')
 
-dir_symlink_path.symlink_to(dir_symlink_target, target_is_directory=True)  # Create a symlink to the directory
+dir_symlink_path.symlink_to(dir_symlink_target, target_is_directory=True)  # Create a symlink to the directory (copy all the directory contents)
 print(dir_symlink_path.is_symlink())  # True
 
 '''
@@ -612,7 +619,7 @@ symlink_path.unlink(missing_ok=True)  # Remove the symlink if it exists
 
 
 # Remove a symbolic link to a directory
-dir_symlink_path = Path('./data_raw_symlink')
+dir_symlink_path = Path('./dir_symlink')
 dir_symlink_path.unlink(missing_ok=True)  # Remove the symlink if it exists
                                           # Don't raise an error if the symlink does not exist
 

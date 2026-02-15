@@ -40,11 +40,9 @@ import os
 os.path.exists('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic')
 # True
 
-
 # Check a file path
 os.path.exists('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_end_sep_termcolor.py')
 # True
-
 
 # Check a non-existing path
 os.path.exists('non_existing_dir/non_existing_file.txt')
@@ -59,7 +57,6 @@ os.path.exists('non_existing_dir/non_existing_file.txt')
 os.path.isabs('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_termcolor.py')
 # True
 
-
 # Check a non-absolute path
 os.path.isabs('01_Python_Basic/01_print_termcolor.py')
 # False
@@ -72,7 +69,6 @@ os.path.isabs('01_Python_Basic/01_print_termcolor.py')
 # Check if a path is a directory
 os.path.isdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/')
 # True
-
 
 # Check if a non-directory path
 os.path.isdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_termcolor.py')
@@ -87,11 +83,9 @@ os.path.isdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_P
 os.path.isfile('/home/longdpt/Documents/Academic/DataScience_MachineLearning/Libraries_Installation.txt')
 # True
 
-
 # Check a non-file path
 os.path.isfile('/home/longdpt/Documents/Academic/DataScience_MachineLearning')
 # False
-
 
 # Check a non-existing path
 os.path.isfile('non_existing_file.txt')
@@ -106,7 +100,6 @@ os.path.isfile('non_existing_file.txt')
 # Join components without leading or trailing slashes
 joined_path = os.path.join('dir_1', 'dir_2', 'file.txt')
 print(joined_path) # dir_1/dir_2/file.txt
-
 
 # Join components with leading or trailing slashes
 joined_path = os.path.join('dir_parent/', 'dir_child/', 'file.txt')
@@ -124,7 +117,6 @@ NOTE: os.path.join() automatically handles the path separators based on the oper
 
 demo_file_path = 'dir_1/dir_2/file.txt'
 demo_dir_path = 'dir_1/dir_2/dir_3'
-
 
 # Get the base name of the file path
 base_name_file = os.path.basename(demo_file_path)
@@ -220,7 +212,7 @@ print(relative_path)
 
 
 #------------------------------------------------------------------------------------------#
-#------------------- 12. Using os.path.commonpath() to find the common path prefix --------#
+#---------------- 12. Using os.path.commonpath() to find the common path prefix -----------#
 #------------------------------------------------------------------------------------------#
 '''os.path.commonpath() returns the common path prefix of a list of paths.'''
 
@@ -280,7 +272,7 @@ print(os.path.pardir)  # ..
 #-----------------------------------------------------------------------------------------------------#
 
 # os.path.islink() checks if a path is a symbolic link.
-is_link = os.path.islink('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_termcolor.py')
+is_link = os.path.islink('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_end_sep_termcolor.py')
 print(is_link)  # False (if the file is not a symbolic link)
 
 # Create a symbolic link for demonstration (uncomment the line below to create the link)
@@ -305,8 +297,24 @@ print(os.walk('/home/longdpt/Academic/DataScience_MachineLearning/01_Python_Basi
 # <generator object walk at 0x7f1a1fd5b290>
 # Not the content of the dir, only the generator object.
 
+
+
 ## Exmaple to use os.walk() to print all files in a directory tree ##
 path_to_traverse = '/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic'
+
+for infor in list(os.walk(path_to_traverse))[:2]: # Get the first 2 items from the generator
+    print(infor)
+'''
+dirpath: /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic
+dirnames: ['demo_package', 'demo_data']
+filenames: ['39_def_args_kwargs_UserDefinedFunction.py', '11_chr_ord.py', '15_calendar_import.py', ...]
+
+--------------------------------
+
+dirpath: /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_package
+dirnames: ['__pycache__']
+filenames: ['__init__.py', 'package_module_1.py',....]
+'''
 
 for dirpath, dirnames, filenames in os.walk(path_to_traverse):
     print(f'Current Directory: {dirpath}')
@@ -315,6 +323,7 @@ for dirpath, dirnames, filenames in os.walk(path_to_traverse):
     for filename in filenames:
         print(f'File: {filename}')
     print('---')
+
 # Current Directory: /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data
 # Directory: csv_tsv_files
 # Directory: txt_files
@@ -339,11 +348,11 @@ for dirpath, dirnames, filenames in os.walk(path_to_traverse):
 '''os.path.getsize() returns the size of a file in bytes.'''
 
 file_size = os.path.getsize('./01_Python_Basic/01_print_end_sep_termcolor.py')
-print(file_size) # 5158 (bytes)
+print(file_size) # 5158 (bytes) (convert to GB by dividing by 1024**3)
 
 
 #------------------------------------------------------------------------------------------------------#
-#------------------- 19. Using os.path.getmtime() to get the last modification time of a file ---------#
+#----------------- 19. Using os.path.getmtime() to get the last modification time of a file -----------#
 #------------------------------------------------------------------------------------------------------#
 
 '''os.path.getmtime() returns the last modification time of a file as a timestamp.'''
@@ -363,12 +372,12 @@ print(last_mod_time_human)  # 2025-12-18 16:03:08.235511
 
 # os.path.getatime() returns the last access time of a file as a timestamp.
 last_access_time = os.path.getatime('./01_Python_Basic/01_print_end_sep_termcolor.py')
-print(last_access_time)  # 1766140589.234306 (timestamp)
+print(last_access_time)  # 1771156240.955581 (timestamp)
 
 
 # Convert the timestamp to a human-readable format
 last_access_time_human = datetime.datetime.fromtimestamp(last_access_time)
-print(last_access_time_human)  # 2023-10-15 12:34:43.9826865
+print(last_access_time_human)  # 2026-02-15 20:50:40.955581
 
 
 #---------------------------------------------------------------------------------------------------------#

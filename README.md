@@ -78,3 +78,6 @@
     * os: operating-system dependent functionalities (os.getcwd(), os.chdir(), os.system(), etc.)
     * shutil: more shell utilities (shutil.copy(), shutil.move(), shutil.rmtree(), etc.)
     * Bonus: monitoring GPU usage (nvidia-smi, nvitop, amd-smi, amdgpu_top)
++ [01_Python_Basic_part_13](): 15th/02/2026
+    * os.path: path handling with os.path submodule
+    * pathlib.Path: path handling with Path object (OOP style)
