@@ -370,13 +370,13 @@ print(np.allclose(vol_rec_r, vol))
 # True
 
 
-#-------------------------------------------------------------------------------------------------#
+#--------------------------------------------------------------------------------------------------#
 #--------------------------------------- 3. Hermitian FFTs ----------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+#--------------------------------------------------------------------------------------------------#
 
-##################
+###################
 ## np.fft.hfft() ##
-##################
+###################
 '''
 np.fft.hfft() computes the FFT of a signal that is Hermitian-symmetric in the time domain,
 producing a real-valued output spectrum.
@@ -413,9 +413,9 @@ print(x_from_hfft.shape)
 print(np.allclose(x_from_hfft, x_real))
 # True
 
-###################
+####################
 ## np.fft.ihfft() ##
-###################
+####################
 '''
 np.fft.ihfft() is the inverse of hfft().
 
@@ -451,9 +451,9 @@ print(np.allclose(img_from_hfft2, img))
 #--------------------------------------- 4. Helper routines --------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-#####################
+######################
 ## np.fft.fftfreq() ##
-#####################
+######################
 '''
 np.fft.fftfreq() returns the DFT sample frequencies corresponding to fft/ifft output bins.
 
@@ -485,9 +485,9 @@ for f, a in zip(freqs, np.abs(X_full).round(2)):
 #  -2 Hz : 0.0
 #  -1 Hz : 4.0   ← mirror (negative frequency)
 
-######################
+#######################
 ## np.fft.rfftfreq() ##
-######################
+#######################
 '''
 np.fft.rfftfreq() returns the DFT sample frequencies for rfft/irfft output.
 
@@ -511,9 +511,9 @@ for f, a in zip(rfreqs, np.abs(XR).round(2)):
 # 3 Hz : 0.0
 # 4 Hz : 0.0
 
-#####################
+#######################
 ## np.fft.fftshift() ##
-#####################
+#######################
 '''
 np.fft.fftshift() shifts the zero-frequency component to the center of the array.
 
@@ -538,9 +538,9 @@ IMG_shifted = np.fft.fftshift(np.fft.fft2(img))
 print(IMG_shifted[2, 2])  # DC at center
 # (136+0j)
 
-######################
+########################
 ## np.fft.ifftshift() ##
-######################
+########################
 '''
 np.fft.ifftshift() undoes fftshift — moves the zero-frequency component back to index 0.
 
@@ -582,13 +582,13 @@ print(n_fft)
 # 1000
 
 
-#-------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------#
 #--------------------- 5. Discrete Cosine / Sine Transforms  (scipy.fft) ------------------------#
-#-------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------#
 
-################
+#################
 ## spfft.dct() ##
-################
+#################
 '''
 spfft.dct() computes the Discrete Cosine Transform (DCT) of a real sequence.
 
@@ -623,9 +623,9 @@ print(spfft.dct(x_dc, type=1).round(4))
 print((X_dct_ortho**2).round(2))
 # [162.     41.5     0.       0.45    0.       0.04    0.       0.  ]  — concentrated at low k
 
-#################
+##################
 ## spfft.idct() ##
-#################
+##################
 '''
 spfft.idct() computes the inverse DCT.
 
@@ -647,9 +647,9 @@ x_rec_ortho = spfft.idct(X_dct_ortho, norm='ortho')
 print(np.allclose(x_rec_ortho, x_dc))
 # True
 
-#################
+##################
 ## spfft.dctn() ##
-#################
+##################
 '''
 spfft.dctn() computes the N-D DCT along specified axes.
 
@@ -683,9 +683,9 @@ img_approx = spfft.idctn(DCT_block, norm='ortho')
 print(img_approx.shape)
 # (8, 8)  — reconstructed (lossy) block
 
-#######################
+##########################
 ## spfft.dst() / idst() ##
-#######################
+##########################
 '''
 spfft.dst() computes the Discrete Sine Transform (DST) of a real sequence.
 
@@ -717,9 +717,9 @@ print(np.allclose(spfft.idstn(DST2D, norm='ortho'), img_small))
 #--------------------------- 6. Fast Hankel Transforms  (scipy.fft) ------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-################
+#################
 ## spfft.fht() ##
-################
+#################
 '''
 spfft.fht() computes the Fast Hankel Transform (FHT) via logarithmic convolution.
 
@@ -764,9 +764,9 @@ k = k[::-1]
 print(A[:5].round(6))
 # small values (edge of transform); center bins approximate exp(-k^2/2)
 
-#################
+##################
 ## spfft.ifht() ##
-#################
+##################
 '''
 spfft.ifht() is the inverse Fast Hankel Transform.
 
@@ -779,9 +779,9 @@ a_rec = spfft.ifht(A, dln, mu)
 print(np.allclose(a_rec, a, atol=1e-6))
 # True  (round-trip recovery)
 
-######################
+#######################
 ## spfft.fhtoffset() ##
-######################
+#######################
 '''
 spfft.fhtoffset() returns the optimal offset for a Fast Hankel Transform.
 
@@ -804,12 +804,12 @@ for order in [0.0, 0.5, 1.0]:
 
 
 #-------------------------------------------------------------------------------------------------#
-#------------------------- 7. Workers & backend control  (scipy.fft) ----------------------------#
+#------------------------- 7. Workers & backend control  (scipy.fft) -----------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-######################
+#########################
 ## spfft.set_workers() ##
-######################
+#########################
 '''
 spfft.set_workers() is a context manager that sets the default number of parallel workers
 used internally by scipy.fft transforms.
@@ -835,9 +835,9 @@ with spfft.set_workers(-1):
 print(spfft.get_workers())
 # 1  (restored to default after the context block)
 
-#######################
+#########################
 ## spfft.set_backend() ##
-#######################
+#########################
 '''
 spfft.set_backend() is a context manager that sets a custom FFT backend (e.g. PyFFTW).
 
