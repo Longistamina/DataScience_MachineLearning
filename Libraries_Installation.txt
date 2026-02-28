@@ -83,8 +83,8 @@ sudo apt update
 
 # Install amdgpu-install (7.1.0)
 sudo apt update
-wget https://repo.radeon.com/amdgpu-install/7.1/ubuntu/noble/amdgpu-install_7.1.70100-1_all.deb
-sudo apt install ./amdgpu-install_7.1.70100-1_all.deb
+wget https://repo.radeon.com/amdgpu-install/7.2/ubuntu/noble/amdgpu-install_7.2.70200-1_all.deb
+sudo apt install ./amdgpu-install_7.2.70200-1_all.deb
 sudo apt update
 
 # Install kernel headers first
@@ -119,11 +119,12 @@ pip3 install --upgrade pip wheel
 # Uninstall old things
 pip3 uninstall torch torchvision triton torchaudio
 
-# Install PyTorch 2.9.1 for ROCm 7.1.0
+# Install PyTorch 2.9.1 for ROCm 7.2.0
 pip install --index-url=https://rocm.nightlies.amd.com/v2-staging/gfx1151/ \
-    torch==2.9.1+rocm7.10.0a20251117 \
+    torch==2.9.1 \
     torchvision \
-    torchaudio
+    torchaudio \
+    triton
 
 # Insatll PyG
 pip install torch-geometric torch-sparse-rocm torch-spline-conv-rocm torch-scatter-rocm torch-cluster-rocm
