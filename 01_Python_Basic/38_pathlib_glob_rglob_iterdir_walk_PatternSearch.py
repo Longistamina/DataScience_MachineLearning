@@ -11,6 +11,7 @@ Flow of contents:
 2. path_object.glob(pattern) - Search for files matching a pattern in the directory. (like glob.glob())
 3. path_object.rglob(pattern) - Recursively search for files matching a pattern in the directory and subdirectories.
 4. path_object.walk() [Python 3.12+] - Recursively walk through the directory tree, yielding tuples of directory paths and file names.
+5. glob module (LEGACY) - A separate module for pattern matching and file searching, similar to path_object.glob() but returns strings instead of Path objects.
 '''
 
 from pathlib import Path
@@ -444,3 +445,68 @@ for dirpath, dirnames, filenames in Path(target_path).joinpath("01_Python_Basic"
 # File: 06_Operators.py
 # File: 07_input_eval.py
 # File: 10_String_methods_Cell.py
+
+
+#--------------------------------------------------------------------------------------------------------------#
+#------------------------------------------- 5. glob module (LEGACY) ------------------------------------------#
+#--------------------------------------------------------------------------------------------------------------#
+
+from glob import glob
+
+"""
+NOTE: glob only accepts string paths and returns string paths, 
+
+while pathlib's glob accepts Path objects and returns Path objects.
+"""
+
+##################
+## Basic search ##
+##################
+
+for entry in glob("./*.md"):  # search for all .md files in the current directory
+    print(entry)
+# ./README.md
+
+path = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/"
+for entry in glob(path + "1[0-9]*.py"):  # search for all .py files in the given directory that start with '1' and have at least 2 digits
+    print(entry)
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/11_chr_ord.py
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/15_calendar_import.py
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/14_time_module.py
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/17_match_case.py
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/13_datetime_timedelta_pytz.py
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/19_for_enumerate_zip.py
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/10_string_methods.py
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/18_try_except_assertion_else.py
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/12_re_RegularExpression_regex.py
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/16_if_elif_else.py
+
+######################
+## Recursive search ##
+######################
+
+for entry in glob("**/*.txt", recursive=True): # search for all .txt files in the current directory and subdirectories
+    print(entry)
+# vscode_install_settings.txt
+# Libraries_Installation.txt
+# Curriculum.txt
+# 11_Convex_Optimization_CVXPY/Exercises_Data/python/ae_emb_data.txt
+# 02_Python_class_OOP/rectangle_project/rectangle_logs.txt
+# 03_Vector_Matrix_Sparse/01_Vector_1D/data/heights.txt
+# 03_Vector_Matrix_Sparse/01_Vector_1D/data/missing.txt
+# 03_Vector_Matrix_Sparse/01_Vector_1D/save/vector_1_tofile.txt
+# 03_Vector_Matrix_Sparse/01_Vector_1D/save/vector_1.txt
+# 03_Vector_Matrix_Sparse/01_Vector_1D/save/vector_2.txt
+# 03_Vector_Matrix_Sparse/01_Vector_1D/save/vector_2_tofile.txt
+# 03_Vector_Matrix_Sparse/02_Matrix_2D/data/heights_2D_space.txt
+# 03_Vector_Matrix_Sparse/02_Matrix_2D/data/heights_2D_semicolon.txt
+# 03_Vector_Matrix_Sparse/02_Matrix_2D/data/heights.txt
+# 03_Vector_Matrix_Sparse/02_Matrix_2D/data/adjacency_matrix.txt
+# 03_Vector_Matrix_Sparse/02_Matrix_2D/save/matrix_1.txt
+# 03_Vector_Matrix_Sparse/02_Matrix_2D/save/matrix_1_tofile.txt
+# 01_Python_Basic/demo_data/txt_files/ADream.txt
+# 01_Python_Basic/demo_data/txt_files/JohnnyJohnny.txt
+# 01_Python_Basic/demo_data/txt_files/Customers.txt
+# 01_Python_Basic/demo_data/txt_files/Rain.txt
+# 01_Python_Basic/demo_data/txt_files/StudentScores.txt
+# 01_Python_Basic/demo_data/txt_files/HumptyDumpty.txt
