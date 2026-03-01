@@ -81,3 +81,9 @@
 + [01_Python_Basic_part_13](https://youtu.be/baRqtT8t1wU): 15th/02/2026
     * os.path: path handling with os.path submodule
     * pathlib.Path: path handling with Path object (OOP style)
++ [01_Python_Basic_part_14](https://youtu.be/R3WLUdDAYmg): 01st/03/2026
+    * PathObject.iterdir()
+    * PathObject.glob()
+    * PathObject.rglob()
+    * PathObject.walk()
+    * (LEGACY) glob module
