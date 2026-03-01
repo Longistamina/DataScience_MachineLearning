@@ -40,9 +40,9 @@ for entry in demo_path.iterdir():
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files
 
-######################
-# Filtering entries ##
-######################
+#######################
+## Filtering entries ##
+#######################
 
 for entry in demo_path.iterdir():
     if entry.is_file():
@@ -159,7 +159,6 @@ for entry in Path.cwd().joinpath("01_Python_Basic").glob("[1-2][0-9]_*.py"):
 # 23_Tuple_create_methods_comprehension.py
 # 12_re_RegularExpression_regex.py
 # 16_if_elif_else.py
-
 
 ################################
 ## Exclusive glob() using "!" ##
@@ -289,7 +288,7 @@ for entry in Path.cwd().rglob("*.py"):
 #################################
 
 # The non-python elements:
-for entry in Path.cwd().joinpath("01_Python_Basic").rglob("*[!.py|!.json]"):  # Exclude all .py and .json files
+for entry in Path.cwd().joinpath("01_Python_Basic").rglob("*[!.py|!.json]"):  # Exclude all .py OR .json files
     print(entry.name)
     
 # demo_package
@@ -314,7 +313,7 @@ for entry in Path.cwd().joinpath("01_Python_Basic").rglob("*[!.py|!.json]"):  # 
 # write_dictionary.csv
 
 
-# The elements that DO NOT start with '0', '1', '2' or '3 and not a json file:
+# The elements that DO NOT start with '0', '1', '2' or '3 AND not a json file:
 for entry in Path.cwd().joinpath("01_Python_Basic").rglob("[!0-3]*[!.json]"):  # Exclude all files starting with '0' or '1'
     print(entry.name)
 # demo_package
