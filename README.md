@@ -83,7 +83,12 @@
     * pathlib.Path: path handling with Path object (OOP style)
 + [01_Python_Basic_part_14](https://youtu.be/R3WLUdDAYmg): 01st/03/2026
     * PathObject.iterdir()
-    * PathObject.glob()
-    * PathObject.rglob()
+    * PathObject.glob(): pattern search
+    * PathObject.rglob(): pattern search (recursive)
     * PathObject.walk()
     * (LEGACY) glob module
++ [01_Python_Basic_part_15](https://youtu.be/QPh-YTI029M): 8th/03/2026
+    * def, *args, **kwargs: User-defined function
+    * Module and Package, `__pycache__`, `__init__.py`, `if __name__ == "main"`
+    * lambda: Anonymous function
+    * map() and starmap(): mapping iterables to a function
