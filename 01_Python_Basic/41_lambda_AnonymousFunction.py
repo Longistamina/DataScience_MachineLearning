@@ -33,6 +33,12 @@ affine_2 = affine_combination(5, 25, 0.9)
 print(affine_2)
 # 7.0
 
+'''
+if 0 < theta < 1, the result lies between x and y
+
+Else: the result can be outside the range of x and y, depending on the value of theta
+'''
+
 #######################
 ## lambda with map() ##
 #######################

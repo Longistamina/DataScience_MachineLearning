@@ -89,7 +89,7 @@ customer_info("Alice")
 
 
 # Call the function with custom parameters (repalacing default values)
-customer_info("Bob", 25, "Engineer")
+customer_info(name="Bob", age=25, job="Engineer")
 # Customer Name: Bob, Age: 25 Job: Engineer
 
 '''
@@ -108,6 +108,7 @@ it will raise a SyntaxError.
 ###############
 ## Example 1 ##
 ###############
+
 def square(number):
     """Return the square of a number."""
     output = number * number
@@ -134,6 +135,28 @@ customer_data = input_customer_info()
 
 print(f"Customer Data: {customer_data}")
 #Customer Data: {'name': 'Zetharax', 'age': 150000, 'job': 'Creator of the world'}
+
+###############
+## Example 3 ##
+###############
+
+def calculate_square_cubic(number, return_original=False):
+    """Calculate and return both the square and cubic of a number."""
+    square = number ** 2
+    cubic = number ** 3
+    
+    if return_original:
+        return number, square, cubic  # Return original number along with square and cubic
+    else:
+        return square, cubic  # Return multiple values as a tuple
+    
+original, square, cubic = calculate_square_cubic(3, return_original=True)
+print(f"Original: {original}, Square: {square}, Cubic: {cubic}")
+# Original: 3, Square: 9, Cubic: 27
+
+square, cubic = calculate_square_cubic(5) # Calculate with return_original=False (default)
+print(f"Square: {square}, Cubic: {cubic}")
+# Square: 25, Cubic: 125
 
 
 #------------------------------------------------------------------------------------------------------------#
@@ -275,7 +298,7 @@ def print_all(*args):
         print(arg)
 
 # Call the function with multiple arguments
-print_all("Hello", "World", 42, True)
+print_all("Hello", "World", 42, True) # ("Hello", "World", 42, True) is collected into a tuple and passed to the function
 # Hello
 # World
 # 42

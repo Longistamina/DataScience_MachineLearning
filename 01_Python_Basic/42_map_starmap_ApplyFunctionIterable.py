@@ -52,8 +52,8 @@ print(list(map_object))  # [] (empty, as map object is exhausted after initial i
 ########################################################
 
 nums  = [1, 2, 3]
-exps1  = [2, 3, 4]
-exps2 = [5, 6, 7]
+exps  = [2, 3, 4]
+mod = [5, 6, 7]
 
 # pow(base, exp, mod) returns (base ** exp) % mod
 # If the mod is not provided, it will return base ** exp (the exponentiation result only).
@@ -62,7 +62,7 @@ exps2 = [5, 6, 7]
 ## pass 2 iterables to pow() using map()
 #-------------
 
-print(list(map(pow, nums, exps1)))   # 1**2, 2**3, 3**4
+print(list(map(pow, nums, exps)))   # 1**2, 2**3, 3**4
                                      # [1, 8, 81]
 
 '''
@@ -76,7 +76,7 @@ what actually happens is:
 ## pass 3 iterables to pow() using map()
 #-------------
 
-print(list(map(pow, nums, exps1, exps2)))
+print(list(map(pow, nums, exps, mod)))
 # [1, 2, 4]
 
 '''
