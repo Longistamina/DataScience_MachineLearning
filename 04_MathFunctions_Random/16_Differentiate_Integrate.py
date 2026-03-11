@@ -199,7 +199,7 @@ print(J.round(6))
 print(np.allclose(J, [[2*2*(np.pi/3), 4.], [1., np.cos(np.pi/3)]], atol=1e-6))
 # True
 
-# f: R³ → R  (gradient is a 1×3 Jacobian)
+# f: R³ → R  (gradient is a 1x3 Jacobian)
 def f_scalar(xyz):
     x, y, z = xyz
     return np.atleast_1d(x**2 + y**2 + z**2)   # sphere function; ∇f = 2[x, y, z]
@@ -389,14 +389,14 @@ print(np.diff(y_d, n=2))
 #-------------------------------------------------------------------------------------------------#
 
 #-------------------------------------------------------------------------------------------------#
-#--------------------------------- 4. quad() — 1-D adaptive -------------------------------------#
+#---------------------------------- 4. quad() — 1-D adaptive -------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-###########
+############
 ## quad() ##
-###########
+############
 '''
-quad(func, a, b) computes ∫ₐᵇ func(x) dx using adaptive Gaussian quadrature (QUADPACK).
+quad(func, a, b) computes ∫ₐᵇ func(x)dx using adaptive Gaussian quadrature (QUADPACK).
 
 Returns: (result, abserr)
   result : estimated integral value.
@@ -413,17 +413,17 @@ weight / wvar : built-in weight functions (Cauchy, algebraic endpoint singularit
 quad is the go-to for 1-D integration of smooth or mildly singular functions.
 '''
 
-# Basic: ∫₀ᵖⁱ sin(x) dx = 2.0
+# Basic: ∫₀ᵖⁱ sin(x)dx = 2.0
 val, err = quad(f1, 0, np.pi)
 print(round(val, 8), err)
 # 2.0  ~2.2e-14
 
-# Infinite limits: ∫₋∞∞ exp(-x²) dx = √π
+# Infinite limits: ∫₋∞∞ exp(-x²)dx = √π
 val_inf, err_inf = quad(f2, -np.inf, np.inf)
 print(round(val_inf, 8), round(np.sqrt(np.pi), 8))
 # 1.77245385  1.77245385  ✓
 
-# Semi-infinite: ∫₀∞ x·exp(-x) dx = 1  (Γ(2) = 1)
+# Semi-infinite: ∫₀∞ x·exp(-x)dx = 1  (Γ(2) = 1)
 val_semi, err_semi = quad(lambda x: x * np.exp(-x), 0, np.inf)
 print(round(val_semi, 8))
 # 1.0
@@ -431,11 +431,10 @@ print(round(val_semi, 8))
 # With arguments: ∫₀ᵖⁱ a·sin(b·x) dx = a*(1-cos(bπ))/b
 val_args, _ = quad(lambda x, a, b: a * np.sin(b * x), 0, np.pi, args=(3., 2.))
 print(round(val_args, 6))
-# 3.0   (= 3*(1-cos(2π))/2 = 0)  wait: = 3*[-cos(2x)/2]₀ᵖⁱ = 3*(-cos(2π)/2 + 1/2) = 0
-# Actually: 3*[-cos(2x)/2]₀ᵖⁱ = 3*(−cos(2π)+cos(0))/2 = 3*(−1+1)/2 = 0
-print(round(val_args, 6))   # 0.0
+# 0.0
+# 3*[-cos(2x)/2]₀ᵖⁱ = 3*(−cos(2π)+cos(0))/2 = 3*(−1+1)/2 = 0
 
-# Singularity handling: ∫₀¹ 1/√x dx = 2.0  (integrable singularity at x=0)
+# Singularity handling: ∫₀¹ 1/√xdx = 2.0  (integrable singularity at x=0)
 val_sing, err_sing = quad(lambda x: 1.0 / np.sqrt(x), 0, 1,
                           points=[0.01])   # hint: singularity near 0
 print(round(val_sing, 6))
@@ -452,12 +451,14 @@ val_full, err_full, info = quad(f1, 0, np.pi, full_output=True)
 print(info['neval'])     # number of function evaluations
 # 21  (typical for smooth integrand)
 
-# Complex-valued integrand: ∫₀ᵖⁱ e^{ix} dx = [e^{ix}/i]₀ᵖⁱ = (e^{iπ}-1)/i = -2i/i... = 2i/1
-def f_complex(x): return np.exp(1j * x)   # split into real and imag
+# Complex-valued integrand: ∫₀ᵖⁱ e^{ix}dx = [e^{ix}/i]₀ᵖⁱ = (e^{iπ}-1)/i = -2i/i... = 2i/1
+def f_complex(x): 
+  return np.exp(1j * x)   # split into real and imag
+
 val_re, _ = quad(lambda x: np.exp(1j * x).real, 0, np.pi)
 val_im, _ = quad(lambda x: np.exp(1j * x).imag, 0, np.pi)
 print(complex(round(val_re,4), round(val_im,4)))
-# (-0+2j)   = ∫₀ᵖⁱ e^{ix} dx  ✓
+# (-0+2j)   = ∫₀ᵖⁱ e^{ix}dx  ✓
 
 
 #-------------------------------------------------------------------------------------------------#
@@ -514,15 +515,15 @@ print(val_mat.round(6))
 
 
 #-------------------------------------------------------------------------------------------------#
-#---------------------------- 6. cubature() — N-D adaptive --------------------------------------#
+#--------------------------------- 6. cubature() — N-D adaptive ----------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-###############
+################
 ## cubature() ##
-###############
+################
 '''
 cubature(f, a, b, rule, rtol, atol, max_subdivisions) computes ∫_[a,b] f(x) dx
-over a d-dimensional box [a₁,b₁] × [a₂,b₂] × ... × [aₐ,bₐ].
+over a d-dimensional box [a₁,b₁] x [a₂,b₂] x ... x [aₐ,bₐ].
 
 f must accept x of shape (..., d) — last axis is the d spatial dimensions.
 a, b : 1-D arrays of lower and upper bounds (length d).
@@ -565,12 +566,12 @@ if _has_cubature:
 
 
 #-------------------------------------------------------------------------------------------------#
-#--------------------- 7. dblquad() / tplquad() — iterated integrals ---------------------------#
+#------------------------- 7. dblquad() / tplquad() — iterated integrals -------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-##############
+###############
 ## dblquad() ##
-##############
+###############
 '''
 dblquad(func, a, b, gfun, hfun) computes ∫ₐᵇ ∫_{g(x)}^{h(x)} func(y, x) dy dx
 
@@ -603,9 +604,9 @@ val_disc, _ = dblquad(lambda y, x: 1.0,
 print(round(val_disc, 6))
 # 3.141593  = π  ✓
 
-##############
+###############
 ## tplquad() ##
-##############
+###############
 '''
 tplquad(func, a, b, gfun, hfun, qfun, rfun) computes a triple integral.
 
@@ -637,7 +638,7 @@ print(round(val_sphere, 5))
 
 
 #-------------------------------------------------------------------------------------------------#
-#------------------------------- 8. nquad() — N-D nested quad -----------------------------------#
+#--------------------------------- 8. nquad() — N-D nested quad ----------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 #############
@@ -672,7 +673,7 @@ print(round(val_nq_var, 8))
 
 
 #-------------------------------------------------------------------------------------------------#
-#---------------------- 9. tanhsinh() — double-exponential quadrature ---------------------------#
+#------------------------ 9. tanhsinh() — double-exponential quadrature --------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 ################
@@ -722,12 +723,12 @@ print(res_sinc.integral.round(8))
 
 
 #-------------------------------------------------------------------------------------------------#
-#------------------------------ 10. fixed_quad() — fixed Gauss order ----------------------------#
+#------------------------------- 10. fixed_quad() — fixed Gauss order ----------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-#################
+##################
 ## fixed_quad() ##
-#################
+##################
 '''
 fixed_quad(func, a, b, n=5) computes ∫ₐᵇ func(x) dx using n-point Gauss-Legendre quadrature.
 
@@ -749,9 +750,9 @@ val_fq5, _ = fixed_quad(f1, 0, np.pi, n=5)
 val_fq10, _ = fixed_quad(f1, 0, np.pi, n=10)
 val_fq20, _ = fixed_quad(f1, 0, np.pi, n=20)
 
-print(abs(val_fq5  - 2.0))   # error at n=5
-print(abs(val_fq10 - 2.0))   # error at n=10 — smaller
-print(abs(val_fq20 - 2.0))   # error at n=20 — even smaller
+print(abs(val_fq5  - 2.0))   # 1.1028447266525632e-07 - error at n=5
+print(abs(val_fq10 - 2.0))   # 2.6645352591003757e-15 - error at n=10 — smaller
+print(abs(val_fq20 - 2.0))   # 2.6645352591003757e-15 - error at n=20 — even smaller
 
 # Exact for polynomial of degree ≤ 2n-1
 # n=5 integrates x^8 exactly since deg 8 < 2*5-1=9
@@ -763,16 +764,15 @@ print(abs(val_poly - 1./9))   # exact: ∫₀¹ x⁸ = 1/9
 edges = np.array([[0.,1.], [1.,2.], [2.,3.]])
 results_fq = [fixed_quad(lambda x: x**2, a, b, n=3)[0] for a, b in edges]
 print(np.array(results_fq).round(6))
-# [0.333  2.333  8.333]  (∫ x² dx = x³/3; at 1: 1/3, at 2: 7/3+1/3=8/3-1/3... let me recompute)
-# [1/3, 7/3, 19/3] = [0.333, 2.333, 6.333]
+# [0.333, 2.333, 6.333]
 
 
 #-------------------------------------------------------------------------------------------------#
-#------------------------- 11. newton_cotes() — weights for equal spacing -----------------------#
+#-------------------------- 11. newton_cotes() — weights for equal spacing -----------------------#
 #-------------------------------------------------------------------------------------------------#
 
 ####################
-## newton_cotes()  ##
+## newton_cotes() ##
 ####################
 '''
 newton_cotes(rn, equal=0) returns Newton-Cotes weights and error coefficient.
@@ -819,12 +819,12 @@ print(round(val_nc, 8))
 
 
 #-------------------------------------------------------------------------------------------------#
-#-------------------------- 12. lebedev_rule() — sphere quadrature ----------------------------#
+#----------------------------- 12. lebedev_rule() — sphere quadrature ----------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-##################
+####################
 ## lebedev_rule() ##
-##################
+####################
 '''
 lebedev_rule(n) returns (points, weights) for n-th order Lebedev quadrature on S².
 
@@ -865,7 +865,7 @@ print(round(val_x2, 6), round(4 * np.pi / 3, 6))
 # Higher order: more accurate for higher-degree polynomials
 pts_hi, wts_hi = lebedev_rule(21)
 print(pts_hi.shape)
-# (3, 92)  — 92 quadrature points for order 21
+# (3, 170)  — 170 quadrature points for order 21
 
 # Integrate Y_2^0(θ,φ) = √(5/4π) * (3cos²θ - 1) / 2  — a degree-2 spherical harmonic
 # ∫_{S²} |Y_2^0|² dΩ = 1 (normalised)
@@ -877,7 +877,7 @@ print(round(val_Y20, 6))
 
 
 #-------------------------------------------------------------------------------------------------#
-#------------------------------ 13. qmc_quad() — Quasi-Monte Carlo ------------------------------#
+#------------------------------- 13. qmc_quad() — Quasi-Monte Carlo ------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 ################
@@ -905,21 +905,22 @@ Use for:
   - Stochastic simulation integrals.
 '''
 
-# 2-D: ∫₀¹ ∫₀¹ sin(πx)·sin(πy) dx dy = (2/π)² ≈ 0.4053
+# 2-D: ∫₀¹ ∫₀¹ sin(πx)·sin(πy)dxdy = (2/π)² ≈ 0.4053
 def f_qmc(xy):
     return np.sin(np.pi * xy[..., 0]) * np.sin(np.pi * xy[..., 1])
 
 res_qmc = qmc_quad(f_qmc, a=[0., 0.], b=[1., 1.], n_points=2048)
 print(res_qmc.integral.round(6), (2 / np.pi)**2)
-# ≈ 0.405285  0.405285
+# ≈ 0.00033 0.40528473456935116
 
-# 5-D: ∫₀¹⁵ Π sin(πxᵢ) dˣ = (2/π)⁵ ≈ 0.03317
+# 5-D: ∫₀¹⁵ Π sin(πxᵢ)dx = (2/π)⁵ ≈ 0.10457
 def f_5d(x):
     return np.prod(np.sin(np.pi * x), axis=-1)
 
 res_5d = qmc_quad(f_5d, a=np.zeros(5), b=np.ones(5), n_points=2048)
 true_5d = (2 / np.pi)**5
 print(res_5d.integral.round(5), round(true_5d, 5))
+# 0.0 0.10457
 
 # Compare accuracy: QMC vs plain MC at same sample count
 rng_mc = np.random.default_rng(0)
@@ -927,11 +928,11 @@ n = 2048 * 8
 x_mc = rng_mc.uniform(0, 1, (n, 5))
 mc_est = f_5d(x_mc).mean()
 print(f"MC error: {abs(mc_est - true_5d):.2e}   QMC error: {abs(res_5d.integral - true_5d):.2e}")
-# QMC error is typically 10–100× smaller
+# MC error: 1.71e-03   QMC error: 1.05e-01
 
 
 #-------------------------------------------------------------------------------------------------#
-#----------------------------------- 14. nsum() — series summation ------------------------------#
+#------------------------------------ 14. nsum() — series summation ------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 ############
@@ -972,16 +973,18 @@ from scipy.special import zeta
 for s in [2., 3., 4.]:
     res_zeta = nsum(lambda n: n**(-s), 1, np.inf)
     print(f"ζ({s:.0f}) = {res_zeta.sum.round(6):.6f}  (scipy: {zeta(s):.6f})")
-# ζ(2) = 1.644934  ζ(3) = 1.202057  ζ(4) = 1.082323
+# ζ(2) = 1.644934  (scipy: 1.644934)
+# ζ(3) = 1.202057  (scipy: 1.202057)
+# ζ(4) = 1.082323  (scipy: 1.082323)
 
 
 #-------------------------------------------------------------------------------------------------#
 #----------------------- 15. trapezoid() / cumulative_trapezoid() --------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-###############
+################
 ## trapezoid() ##
-###############
+################
 '''
 trapezoid(y, x=None, dx=1.0, axis=-1) integrates using the composite trapezoidal rule.
 
@@ -1007,23 +1010,24 @@ print(val_trap.round(8))
 x_nu = np.array([0., 0.1, 0.5, 1.0, 2.0, np.pi])
 y_nu = np.sin(x_nu)
 print(trapezoid(y_nu, x_nu).round(6))
+# 1.845475
 # rougher estimate due to coarser grid
 
 # Uniform spacing (pass dx instead of x)
 dx = np.pi / 999
 print(trapezoid(y_t, dx=dx).round(8))
+# 1.99999835
 # same as above
 
 # Batch: integrate each row of a 2-D array
 Y_batch = np.array([np.sin(x_t), np.cos(x_t), np.exp(-x_t)])
 vals_batch = trapezoid(Y_batch, x_t, axis=1)
 print(vals_batch.round(6))
-# [1.99999835  -1.   0.93398]  (sin→2, cos→0... wait cos on [0,π] = -sin on [0,π] = -(-2) no)
-# ∫₀ᵖⁱ cos = [sin]₀ᵖⁱ = 0;  ∫₀ᵖⁱ e^{-x} = 1 - e^{-π}
+# [1.999998 0.       0.956787]
 
-#############################
-## cumulative_trapezoid()  ##
-#############################
+############################
+## cumulative_trapezoid() ##
+############################
 '''
 cumulative_trapezoid(y, x=None, dx=1.0, axis=-1, initial=None) returns the running
 (cumulative) integral: result[i] = ∫_{x[0]}^{x[i+1]} f(x) dx.
@@ -1044,7 +1048,7 @@ print(cumint.shape)
 # cumint[i] ≈ ∫₀^{xᵢ} sin(t) dt = 1 - cos(xᵢ)
 true_cumint = 1 - np.cos(x_ct)
 print(np.abs(cumint - true_cumint).max().round(5))
-# very small error
+# 0.00017 (very small error)
 
 print(cumint[-1].round(6))
 # ≈ 2.0  (= 1 - cos(π) = 2)
@@ -1059,9 +1063,9 @@ print(cumint_short.shape)
 #--------------------------- 16. simpson() / cumulative_simpson() --------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-##############
+###############
 ## simpson() ##
-##############
+###############
 '''
 simpson(y, x=None, dx=1.0, axis=-1) integrates using composite Simpson's rule.
 
@@ -1084,9 +1088,9 @@ print(val_simp.round(12))
 
 # Accuracy comparison at the same node count
 val_trap_cmp = trapezoid(y_s, x_s)
-print(f"trapezoid error: {abs(val_trap_cmp - 2):.2e}")
-print(f"simpson error:   {abs(val_simp    - 2):.2e}")
-# simpson is typically ~1000× more accurate for smooth integrands
+print(f"trapezoid error: {abs(val_trap_cmp - 2):.2e}") # 1.64e-06
+print(f"simpson error:   {abs(val_simp    - 2):.2e}")  # 1.08e-12
+# simpson is typically ~1000x more accurate for smooth integrands
 
 # Non-uniform spacing
 x_nu_s = np.concatenate([[0.], np.sort(np.random.default_rng(0).uniform(0.1, np.pi-0.1, 50)), [np.pi]])
@@ -1094,9 +1098,9 @@ y_nu_s = np.sin(x_nu_s)
 print(simpson(y_nu_s, x_nu_s).round(6))
 # ≈ 2.0
 
-############################
-## cumulative_simpson()   ##
-############################
+##########################
+## cumulative_simpson() ##
+##########################
 '''
 cumulative_simpson(y, x=None, dx=1.0, axis=-1, initial=None) returns the running Simpson
 integral using the composite 3/8 rule over adjacent pairs.
@@ -1112,12 +1116,12 @@ print(np.abs(cumsimp - true_cumsimp).max().round(8))
 
 
 #-------------------------------------------------------------------------------------------------#
-#------------------------------------- 17. romb() -----------------------------------------------#
+#-------------------------------------- 17. romb() -----------------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-###########
+############
 ## romb() ##
-###########
+############
 '''
 romb(y, dx=1.0, axis=-1, show=False) uses Romberg integration on a uniformly-spaced grid.
 
@@ -1140,14 +1144,14 @@ val_romb = romb(y_r, dx=dx_r)
 print(val_romb.round(14))
 # 2.0000000000000  — extremely accurate
 
-print(f"trapezoid error: {abs(trapezoid(y_r, x_r) - 2):.2e}")
-print(f"simpson error:   {abs(simpson(y_r, x_r)   - 2):.2e}")
-print(f"romb error:      {abs(val_romb             - 2):.2e}")
+print(f"trapezoid error: {abs(trapezoid(y_r, x_r) - 2):.2e}")  # 2.51e-05
+print(f"simpson error:   {abs(simpson(y_r, x_r)   - 2):.2e}")  # 2.52e-10
+print(f"romb error:      {abs(val_romb             - 2):.2e}") # 4.44e-16
 # romb error is smallest, demonstrating Richardson extrapolation
 
 
 #-------------------------------------------------------------------------------------------------#
-#------------------------ 18. solve_ivp() — modern IVP solver -----------------------------------#
+#----------------------------- 18. solve_ivp() — modern IVP solver -------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 #################
@@ -1178,16 +1182,18 @@ Returns OdeSolution with:
 '''
 
 # ── Scalar ODE: y' = -y,  y(0)=1  →  y(t) = exp(-t)
-def f_decay(t, y): return -y
+def f_decay(t, y): 
+  return -y
 
 sol = solve_ivp(f_decay, t_span=(0, 5), y0=[1.0], t_eval=np.linspace(0, 5, 50))
 print(sol.success)
 # True
 
 print(np.abs(sol.y[0] - np.exp(-sol.t)).max().round(8))
-# very small error
+# 0.00045811 (very small error)
 
 # ── Van der Pol oscillator (stiff for large μ): y'' - μ(1-y²)y' + y = 0
+#                                             => y'' = μ(1-y²)y' - y
 def van_der_pol(t, y, mu=1000.):
     return [y[1], mu * (1 - y[0]**2) * y[1] - y[0]]
 
@@ -1198,14 +1204,18 @@ sol_vdp = solve_ivp(van_der_pol, t_span=(0, 3000), y0=[2., 0.],
 print(sol_vdp.success)
 # True
 print(sol_vdp.nfev)
-# relatively few evaluations — Radau adapts step size around stiff regions
+# 9920 (relatively few evaluations — Radau adapts step size around stiff regions)
 
 # ── Dense output: evaluate solution at arbitrary time
 sol_dense = solve_ivp(f_decay, t_span=(0, 5), y0=[1.0], dense_output=True)
 t_query = np.array([0.1, 0.5, 1.0, 2.5])
 y_query = sol_dense.sol(t_query)   # shape (1, 4)
+
 print(y_query[0].round(6))
+# [0.904837 0.606072 0.36814  0.08216 ]
+
 print(np.exp(-t_query).round(6))   # true values
+# [0.904837 0.606531 0.367879 0.082085]
 # very close
 
 # ── Events: stop when y crosses zero (for bouncing ball example)
@@ -1213,7 +1223,8 @@ def ball(t, y):
     # y[0] = height, y[1] = velocity
     return [y[1], -9.81]
 
-def hit_ground(t, y): return y[0]    # zero when height = 0
+def hit_ground(t, y): 
+  return y[0]    # zero when height = 0
 hit_ground.terminal = True           # stop integration at first zero
 hit_ground.direction = -1            # only trigger on decreasing zero-crossing
 
@@ -1231,6 +1242,7 @@ sol_lv = solve_ivp(lotka_volterra, t_span=(0, 15), y0=[10., 5.],
                    t_eval=np.linspace(0, 15, 300), method='RK45', rtol=1e-8)
 print(sol_lv.y.shape)
 # (2, 300)  — prey and predator populations at 300 time points
+
 print(sol_lv.y[:, 0])   # initial state [10., 5.]
 # [10.   5.]
 
@@ -1246,11 +1258,11 @@ sol_osc = solve_ivp(damped_osc, t_span=(0, 10),
 # True solution: y(t) = e^{-t}(cos(2t) + 0.5 sin(2t))
 y_true_osc = np.exp(-sol_osc.t) * (np.cos(2*sol_osc.t) + 0.5*np.sin(2*sol_osc.t))
 print(np.abs(sol_osc.y[0] - y_true_osc).max().round(8))
-# very small error
+# 0.00022858 (very small error)
 
 
 #-------------------------------------------------------------------------------------------------#
-#--------------------------- 19. ODE method selection guide -------------------------------------#
+#---------------------------- 19. ODE method selection guide -------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 '''
@@ -1280,6 +1292,7 @@ jac : analytic Jacobian for Radau/BDF (improves speed and reliability for stiff 
 # Non-stiff: RK45 (default)
 sol_nonstiff = solve_ivp(lambda t, y: np.cos(t), (0, 10), [0.], method='RK45')
 print(sol_nonstiff.nfev)
+# 68
 
 # Stiff: BDF with analytic Jacobian
 def robertson(t, y):
@@ -1303,18 +1316,20 @@ sol_rob = solve_ivp(robertson, (0, 1e11), [1., 0., 0.],
                     t_eval=[0., 1e4, 1e8, 1e11])
 
 print(sol_rob.y[:, -1].round(6))
+# [-2.46868122e+07 -4.00000000e-06  2.46868132e+07]
 # steady-state solution of Robertson system
+
 print(sol_rob.success)
 # True
 
 
 #-------------------------------------------------------------------------------------------------#
-#------------------------------ 20. solve_bvp() — boundary value problems ----------------------#
+#------------------------------ 20. solve_bvp() — boundary value problems ------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-################
+#################
 ## solve_bvp() ##
-################
+#################
 '''
 solve_bvp(fun, bc, x, y, p=None, S=None, fun_jac=None, bc_jac=None,
           tol=1e-3, verbose=0, bc_tol=None, max_nodes=1000)
@@ -1359,7 +1374,7 @@ x_fine_bvp = np.linspace(0, 1, 100)
 y_fine_bvp = sol_bvp.sol(x_fine_bvp)[0]
 y_true_bvp = np.sin(np.pi * x_fine_bvp)
 print(np.abs(y_fine_bvp - y_true_bvp).max().round(6))
-# very small error
+# 0.99989 (error)
 
 # BVP with unknown parameter (Sturm-Liouville eigenvalue problem)
 # y'' + λy = 0,  y(0)=0, y(1)=0  →  smallest eigenvalue λ = π²
@@ -1377,17 +1392,20 @@ y_eig[1] = np.pi * np.cos(np.pi * x_eig)
 
 sol_eig = solve_bvp(bvp_eigen, bvp_eigen_bc, x_eig, y_eig, p=[10.])
 print(sol_eig.p[0].round(6))
+# 9.876071
 # ≈ 9.869604  ≈ π²  ✓  (smallest eigenvalue)
+
 print(round(np.pi**2, 6))
+# 9.869604
 
 
 #-------------------------------------------------------------------------------------------------#
-#-------------------------------- 21. Legacy ODE: odeint() -------------------------------------#
+#---------------------------------- 21. Legacy ODE: odeint() -------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-#############
+##############
 ## odeint() ##
-#############
+##############
 '''
 odeint(func, y0, t, args=(), Dfun=None, col_deriv=False, full_output=False,
        rtol=None, atol=None, tcrit=None, h0=0, hmax=0, hmin=0, ixpr=0,
@@ -1406,7 +1424,8 @@ Modern replacement: solve_ivp(fun, (t[0], t[-1]), y0, method='LSODA', t_eval=t)
 '''
 
 # y' = -y,  y(0)=1  →  y(t) = exp(-t)
-def f_odeint(y, t): return -y    # note: y first, t second
+def f_odeint(y, t): 
+  return -y    # note: y first, t second
 
 t_ode = np.linspace(0, 5, 50)
 y_ode = odeint(f_odeint, y0=[1.], t=t_ode)
@@ -1415,7 +1434,7 @@ print(y_ode.shape)
 # (50, 1)  ← shape is (n_times, n_eqs) — OPPOSITE of solve_ivp which gives (n_eqs, n_times)
 
 print(np.abs(y_ode[:, 0] - np.exp(-t_ode)).max().round(8))
-# very small
+# 3e-08 (very small)
 
 # System: Lotka-Volterra  (same as solve_ivp example)
 def lv_odeint(y, t, alpha=1.5, beta=1.0, delta=0.75, gamma=1.5):
@@ -1435,10 +1454,12 @@ y_lv_T = y_lv.T   # (2, 300)  — now matches sol.y from solve_ivp
 sol_lv_modern = solve_ivp(lotka_volterra, (0, 15), [10., 5.],
                            t_eval=t_lv, method='LSODA')
 print(np.allclose(y_lv_T, sol_lv_modern.y, atol=0.5))
-# approximately True  (both LSODA; small differences accumulate over long integration)
+# True
+# (both LSODA; small differences accumulate over long integration)
 
 # tfirst=True: use func(t, y) convention (same as solve_ivp)
-def f_tfirst(t, y): return -y
+def f_tfirst(t, y): 
+  return -y
 
 y_tfirst = odeint(f_tfirst, y0=[1.], t=t_ode, tfirst=True)
 print(np.allclose(y_ode, y_tfirst))
@@ -1446,12 +1467,12 @@ print(np.allclose(y_ode, y_tfirst))
 
 
 #-------------------------------------------------------------------------------------------------#
-#---------------------------- NumPy supportive — sample-based integration -----------------------#
+#----------------------------- NumPy supportive — sample-based integration -----------------------#
 #-------------------------------------------------------------------------------------------------#
 
-##################
+####################
 ## np.trapezoid() ##
-##################
+####################
 '''
 np.trapezoid(y, x=None, dx=1.0, axis=-1) — identical to scipy.integrate.trapezoid.
 
@@ -1470,9 +1491,9 @@ print(np.trapezoid(y_np, x_np).round(6))
 print(np.allclose(np.trapezoid(y_np, x_np), trapezoid(y_np, x_np)))
 # True
 
-#############################
-## np.cumsum() pattern     ##
-#############################
+#########################
+## np.cumsum() pattern ##
+#########################
 '''
 For uniform grids, cumulative integration with the rectangle rule is:
   ∫₀^{xᵢ} f(x) dx ≈ Σⱼ₌₀^{i-1} f(xⱼ) · dx
@@ -1492,5 +1513,5 @@ cumrect = np.cumsum(y_cs) * dx_cs   # left endpoints
 cumtrap = cumulative_trapezoid(y_cs, x_cs, initial=0)
 true_cs = 1 - np.cos(x_cs)
 
-print(np.abs(cumrect - true_cs).max().round(5))   # rectangle error
-print(np.abs(cumtrap - true_cs).max().round(5))   # trapezoid error — smaller
+print(np.abs(cumrect - true_cs).max().round(5))   # 0.00157 rectangle error
+print(np.abs(cumtrap - true_cs).max().round(5))   # 0.0     trapezoid error — smaller
