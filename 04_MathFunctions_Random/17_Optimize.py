@@ -957,9 +957,14 @@ CONVERGENCE RATES (per function evaluation):
   halley   : 1.44 — needs fprime and fprime2; fastest per iter
 '''
 
-def f_root(x):    return x**3 - x - 2       # root near x = 1.5214
-def f_root_d(x):  return 3*x**2 - 1
-def f_root_d2(x): return 6*x
+def f_root(x):    
+    return x**3 - x - 2       # root near x = 1.5214
+
+def f_root_d(x):  
+    return 3*x**2 - 1
+
+def f_root_d2(x): 
+    return 6*x
 
 # brentq: default bracketing method (guaranteed, superlinear)
 res_bq = root_scalar(f_root, bracket=[1, 2], method='brentq')
@@ -968,33 +973,36 @@ print(res_bq.converged)          # True
 
 # bisect: simplest, guaranteed, but slow
 res_bisect = root_scalar(f_root, bracket=[1, 2], method='bisect')
-print(round(res_bisect.root, 10), res_bisect.iterations)
+print(round(res_bisect.root, 10), res_bisect.iterations) # 1.5213797068 39
 
 # toms748: usually fastest bracketing method
 res_toms = root_scalar(f_root, bracket=[1, 2], method='toms748')
-print(round(res_toms.root, 10), res_toms.function_calls)
+print(round(res_toms.root, 10), res_toms.function_calls) # 1.5213797068 8
 
 # Newton-Raphson: needs fprime; no bracket required
 res_newton = root_scalar(f_root, x0=1.5, fprime=f_root_d, method='newton')
-print(round(res_newton.root, 10), res_newton.iterations)
+print(round(res_newton.root, 10), res_newton.iterations) # 1.5213797068 4
 
 # Halley: needs fprime + fprime2; cubic convergence per iteration
 res_halley = root_scalar(f_root, x0=1.5, fprime=f_root_d, fprime2=f_root_d2,
                           method='halley')
-print(round(res_halley.root, 10), res_halley.iterations)  # fewest iterations
+print(round(res_halley.root, 10), res_halley.iterations)  # 1.5213797068 2 (fewest iterations)
 
 # Secant: two starting points, no derivative
 res_secant = root_scalar(f_root, x0=1.4, x1=1.6, method='secant')
-print(round(res_secant.root, 10))
+print(round(res_secant.root, 10)) # 1.5213797068
 
 # Ridder: bracket, no derivative; quadratic convergence
 res_ridder = root_scalar(f_root, bracket=[1, 2], method='ridder')
-print(round(res_ridder.root, 10), res_ridder.iterations)
+print(round(res_ridder.root, 10), res_ridder.iterations) # 1.5213797068 4
 
 # Extra arguments: find sqrt(a) as root of x^2 - a = 0
 for a in [2., 3., 5.]:
     r = root_scalar(lambda x, a: x**2 - a, args=(a,), bracket=[0, 5])
     print(f"sqrt({a:.0f}) = {r.root:.6f}  (true: {a**0.5:.6f})")
+# sqrt(2) = 1.414214  (true: 1.414214)
+# sqrt(3) = 1.732051  (true: 1.732051)
+# sqrt(5) = 2.236068  (true: 2.236068)
 
 # Multiple roots: find each with separate brackets
 roots_sin = [root_scalar(np.sin, bracket=[k*np.pi - 0.1, k*np.pi + 0.1]).root
@@ -1005,15 +1013,17 @@ print([round(r, 6) for r in roots_sin])
 # Direct bracket functions (legacy-compatible standalone wrappers)
 from scipy.optimize import brentq, bisect, newton
 root_bq_direct = brentq(f_root, 1., 2.)
-print(round(root_bq_direct, 10))   # same as root_scalar with method='brentq'
+print(round(root_bq_direct, 10))
+# 1.5213797068   
+# same as root_scalar with method='brentq'
 
 root_newton_direct = newton(f_root, x0=1.5, fprime=f_root_d, fprime2=f_root_d2)
-print(round(root_newton_direct, 10))
+print(round(root_newton_direct, 10)) # 1.5213797068
 
 
-##########
+############
 ## root() ##
-##########
+############
 '''
 root(fun, x0, args=(), method='hybr', jac=None, tol=None, callback=None, options=None)
 
@@ -1039,17 +1049,15 @@ Returns OptimizeResult with res.x, res.fun (residual), res.success.
 # x0 - x1 = 0      (diagonal)
 # Solution: x0 = x1 = 1/sqrt(2) ~= 0.7071
 def F_system(x):
-    return [x[0]**2 + x[1]**2 - 1,
-            x[0] - x[1]]
+    return [x[0]**2 + x[1]**2 - 1, x[0] - x[1]]
 
 def J_system(x):
-    return [[2*x[0], 2*x[1]],
-            [1.,     -1.   ]]
+    return [[2*x[0], 2*x[1]], [1.,     -1.   ]]
 
 res_root = root(F_system, x0=[0.5, 0.3], method='hybr')
 print(res_root.x.round(8))                          # [0.70710678  0.70710678]
 print(np.abs(F_system(res_root.x)).max() < 1e-10)   # True: residual near zero
-print(res_root.success)
+print(res_root.success) # True
 
 # With analytic Jacobian (faster convergence)
 res_jac_sys = root(F_system, x0=[0.5, 0.5], jac=J_system, method='hybr')
@@ -1058,7 +1066,7 @@ print(np.allclose(res_root.x, res_jac_sys.x, atol=1e-8))  # True
 # Classic: find where gradient of Rosenbrock is zero (= minimum)
 res_rosen_root = root(rosen_der, x0=np.ones(3)*0.5, method='hybr')
 print(res_rosen_root.x.round(6))   # [1. 1. 1.]
-print(res_rosen_root.success)
+print(res_rosen_root.success) # True
 
 # Broyden for larger systems (no full Jacobian stored)
 def large_F(x):
@@ -1066,12 +1074,11 @@ def large_F(x):
 
 res_broyden = root(large_F, x0=np.zeros(10), method='broyden1')
 print(res_broyden.x.round(6))   # [0. 0. ... 0.] (trivial root sin(x)=0.5x at x=0)
-print(res_broyden.success)
+print(res_broyden.success) # True
 
-
-##################
+###################
 ## fixed_point() ##
-##################
+###################
 '''
 fixed_point(func, x0, args=(), xtol=1e-8, maxiter=500, method='del2')
 
@@ -1100,10 +1107,9 @@ print(fp_res.round(8))   # 1.5213797068 (root of x^3 - x - 2)
 res_fp_vec = fixed_point(np.cos, x0=np.array([0.5, 1.5]))
 print(res_fp_vec.round(8))  # [0.73908513, 0.73908513]
 
-
-##############
+#################
 ## elementwise ##
-##############
+#################
 '''
 scipy.optimize.elementwise  (new in SciPy 1.15)
 
@@ -1132,7 +1138,13 @@ res_br = elementwise.bracket_root(lambda x, a: x**2 - a,
                                    (np.full(4, 0.5), np.full(4, 3.)),
                                    args=(a_vals,))
 xl_br, xr_br = res_br.bracket
-print(xl_br.round(4), xr_br.round(4))   # brackets bracketing the roots
+print(xl_br.round(4))
+# [[0.5 0.5 1.5 1.5]
+#  [0.  0.  0.  2. ]]
+
+print(xr_br.round(4))
+# [[1.5 1.5 2.5 2.5]
+#  [2.  2.  2.  3. ]]
 
 # find_minimum: minimise (x - a)^2 for a = [1, 2, 3]
 # init is a 3-tuple (xl, xm, xr) with f(xm) < f(xl) and f(xm) < f(xr)
@@ -1147,7 +1159,18 @@ res_bm = elementwise.bracket_minimum(lambda x, a: (x - a)**2,
                                       (np.zeros(3), np.full(3, 5.)),
                                       args=(a_min,))
 xl_bm, xm_bm, xr_bm = res_bm.bracket
-print(xl_bm.round(3), xm_bm.round(3), xr_bm.round(3))
+print(xl_bm.round(3))
+# [[ 0.   0.5  1.5]
+#  [-3.5  0.5  2.5]]
+
+print(xm_bm.round(3))
+# [[0.5 1.5 2.5]
+#  [0.5 2.5 3.5]]
+
+print(xr_bm.round(3))
+# [[1.5 2.5 4.5]
+#  [2.5 3.5 4.5]]
+
 # Use the found bracket for find_minimum
 res_fm2 = elementwise.find_minimum(lambda x, a: (x - a)**2,
                                     res_bm.bracket, args=(a_min,))
@@ -1155,12 +1178,12 @@ print(res_fm2.x.round(6))   # [1.  2.  3.]  ✓
 
 
 #-------------------------------------------------------------------------------------------------#
-#═══════════════════  PART E — LINEAR PROGRAMMING & ASSIGNMENT  ══════════════════════════════════#
+#═════════════════════════  PART E — LINEAR PROGRAMMING & ASSIGNMENT  ════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-##############
+###############
 ## linprog() ##
-##############
+###############
 '''
 linprog(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
         bounds=None, method='highs', callback=None, options=None, x0=None)
@@ -1206,18 +1229,18 @@ res_diet = linprog(costs,
                    A_ub=-nutrients,   # A.x >= b  <=>  -A.x <= -b
                    b_ub=-min_req,
                    bounds=[(0, None)]*4)
-print(res_diet.x.round(4))    # optimal food quantities
-print(round(res_diet.fun, 4))   # minimum cost
+print(res_diet.x.round(4))    # [0.     1.4815 4.0741 0.    ] optimal food quantities
+print(round(res_diet.fun, 4))   # 6.2222 minimum cost
 
 # Slack: which constraints are tight at optimality?
 # res_lp.slack < 1e-8 means that constraint is binding
 binding = np.array(A_ub) @ res_lp.x - np.array(b_ub)
-print(binding.round(8))    # negative slack = room left; 0 = constraint is tight
+print(binding.round(8))    # [0. 0.], negative slack = room left; 0 = constraint is tight
 
 
-##########
+############
 ## milp() ##
-##########
+############
 '''
 milp(c, constraints=None, integrality=None, bounds=None, options=None)
 
@@ -1260,9 +1283,9 @@ print(res_mix.x)     # [4.  1.]
 print(-res_mix.fun)  # 22.0
 
 
-############################
+#############################
 ## linear_sum_assignment() ##
-############################
+#############################
 '''
 linear_sum_assignment(cost_matrix, maximize=False)
 
@@ -1287,9 +1310,9 @@ cost = np.array([[4, 1, 3],
                  [3, 2, 2]])
 
 row_ind, col_ind = linear_sum_assignment(cost)
-print(row_ind, col_ind)            # [0 1 2]  [1 0 2]
-print(cost[row_ind, col_ind])      # [1 2 2]
-print(cost[row_ind, col_ind].sum())# 5 (minimum total cost)
+print(row_ind, col_ind)             # [0 1 2]  [1 0 2]
+print(cost[row_ind, col_ind])       # [1 2 2]
+print(cost[row_ind, col_ind].sum()) # 5 (minimum total cost)
 
 # Maximisation: assign workers to maximise total profit
 profit = np.array([[9, 2, 7],
@@ -1304,20 +1327,20 @@ cost_rect = np.array([[1., 3., 2.],
                        [3., 1., 4.],
                        [2., 4., 3.]])
 row_r, col_r = linear_sum_assignment(cost_rect)
-print(row_r, col_r)
-print(cost_rect[row_r, col_r].sum())
+print(row_r, col_r) # [0 1 2] [0 2 1]
+print(cost_rect[row_r, col_r].sum()) # 3.0
 
 # Point matching: match two point sets to minimise total distance
 pts_A = np.array([[0,0], [1,0], [2,0]], dtype=float)
 pts_B = np.array([[2,1], [0.1,0.1], [1,1.2]], dtype=float)
 dist_mat = np.linalg.norm(pts_A[:, None] - pts_B[None, :], axis=-1)
 row_d, col_d = linear_sum_assignment(dist_mat)
-print(dist_mat[row_d, col_d].sum().round(4))
+print(dist_mat[row_d, col_d].sum().round(4)) # 2.3414
 
 
-##########################
+############################
 ## quadratic_assignment() ##
-##########################
+############################
 '''
 quadratic_assignment(A, B, method='faq', options=None)
 
@@ -1345,21 +1368,21 @@ B_qa   = (B_qa + B_qa.T) / 2
 
 res_qa = quadratic_assignment(A_qa, B_qa, method='faq',
                                options={'maximize': False, 'rng': 3})
-print(res_qa.col_ind)   # recovered permutation
-print(res_qa.fun)        # objective value (lower is better)
+print(res_qa.col_ind)   # [1 4 2 3 0] recovered permutation
+print(res_qa.fun)       # 316.71576192033615 objective value (lower is better)
 
 res_qa_2opt = quadratic_assignment(A_qa, B_qa, method='2opt',
                                     options={'rng': 3})
-print(res_qa_2opt.fun)
+print(res_qa_2opt.fun) # 325.28359010373157
 
 
 #-------------------------------------------------------------------------------------------------#
-#══════════════════════════  PART F — UTILITIES & LEGACY  ════════════════════════════════════════#
+#═════════════════════════════════  PART F — UTILITIES & LEGACY  ═════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-##################################
-## approx_fprime / check_grad   ##
-##################################
+################################
+## approx_fprime / check_grad ##
+################################
 '''
 approx_fprime(xk, f, epsilon=sqrt(eps))
   Finite-difference approximation of the gradient of f at xk.
@@ -1376,20 +1399,20 @@ x_test       = np.array([1., 2., 3.])
 fd_grad      = approx_fprime(x_test, rosen)
 analytic_grad= rosen_der(x_test)
 
-print(fd_grad.round(4))
-print(analytic_grad.round(4))
+print(fd_grad.round(4)) # [-400. 1002. -200.]
+print(analytic_grad.round(4)) # [-400. 1002. -200.]
 print(np.allclose(fd_grad, analytic_grad, atol=1e-4))  # True
 
 # check_grad: returns gradient error
 err_ok = check_grad(rosen, rosen_der, x_test)
-print(f"Correct gradient error: {err_ok:.2e}")   # very small (~1e-5 or less)
+print(f"Correct gradient error: {err_ok:.2e}")   # 2.70e-05 very small
 
 # Detecting a wrong gradient
 def bad_grad(x):
     return rosen_der(x) * 2.0   # intentionally wrong (factor of 2)
 
 err_bad = check_grad(rosen, bad_grad, x_test)
-print(f"Wrong gradient error:   {err_bad:.2e}")   # much larger
+print(f"Wrong gradient error:   {err_bad:.2e}")   # 1.10e+03 much larger
 
 # Useful pattern: always check_grad before using analytic gradients in minimize()
 def my_func(x):
@@ -1399,12 +1422,11 @@ def my_grad(x):
     return np.array([np.cos(x[0]) * np.exp(-x[1]**2),
                      -2*x[1] * np.sin(x[0]) * np.exp(-x[1]**2)])
 
-print(f"Custom gradient error: {check_grad(my_func, my_grad, [1., 0.5]):.2e}")  # small ✓
+print(f"Custom gradient error: {check_grad(my_func, my_grad, [1., 0.5]):.2e}")  # 1.09e-08 small ✓
 
-
-#######################
-## rosen family       ##
-#######################
+##################
+## rosen family ##
+##################
 '''
 rosen(x)          : Rosenbrock function. sum [100*(x[i+1]-x[i]^2)^2 + (1-x[i])^2].
                     Minimum = 0 at x = [1, 1, ..., 1].
@@ -1422,7 +1444,9 @@ print(rosen(x_min_rosen))               # 0.0  at the minimum
 print(rosen_der(x_min_rosen))           # [0. 0. 0. 0. 0.]  gradient=0 at minimum
 
 # Eigenvalues of Hessian confirm it is a positive definite minimum
-print(np.linalg.eigvalsh(rosen_hess(x_min_rosen)).round(2))   # all positive
+print(np.linalg.eigvalsh(rosen_hess(x_min_rosen)).round(2))   
+# [5.00000e-01 3.54630e+02 7.54590e+02 1.24910e+03 1.64918e+03]
+# all positive
 
 # Hessian-vector product matches H*p
 x_near = np.array([1.1, 0.9, 1.0, 1.0, 1.0])
@@ -1434,11 +1458,14 @@ print(np.allclose(hp, rosen_hess(x_near) @ p_test, atol=1e-10))  # True
 for n in [2, 5, 10, 50]:
     res_r = minimize(rosen, np.zeros(n), method='L-BFGS-B', jac=rosen_der)
     print(f"n={n:2d}  fun={res_r.fun:.2e}  success={res_r.success}")
+# n= 2  fun=1.04e-13  success=True
+# n= 5  fun=1.86e-12  success=True
+# n=10  fun=1.29e-10  success=True
+# n=50  fun=4.17e-10  success=True
 
-
-#############
+###############
 ## bracket() ##
-#############
+###############
 '''
 bracket(func, xa=0.0, xb=1.0, args=(), grow_limit=110.0, maxiter=1000)
 
@@ -1455,7 +1482,7 @@ def f_bracket(x):
     return (x - 3)**2 + 2   # minimum at x = 3
 
 xa, xb, xc, fa, fb, fc, ncalls = bracket(f_bracket, xa=0., xb=1.)
-print(xa, xb, xc)         # bracket containing x=3
+print(xa, xb, xc)         # 2.6180339999999998 3.0 3.6180339748440002, bracket containing x=3
 print(fa > fb, fc > fb)   # True True -- fb is the smallest
 
 # Pass the bracket to minimize_scalar
@@ -1464,7 +1491,7 @@ print(res_ms.x.round(6))   # 3.0  ✓
 
 
 ################
-## Legacy API  ##
+## Legacy API ##
 ################
 '''
 fsolve(func, x0, **)  : Legacy root-finding for F: R^n -> R^n (MINPACK HYBRD).
@@ -1487,7 +1514,7 @@ Key differences from modern API:
 
 # fsolve: same system as root() example
 x_fsolve = fsolve(F_system, x0=[0.5, 0.5])
-print(x_fsolve.round(8))  # same root as root() above
+print(x_fsolve.round(8))  # [0.70710678 0.70710678] same root as root() above
 
 # fsolve with analytic Jacobian (fprime=)
 x_fsolve_jac = fsolve(F_system, x0=[0.5, 0.5], fprime=J_system)
@@ -1513,5 +1540,7 @@ residuals_sol = residuals_exp(popt_lsq, t_data, y_data)
 sigma2 = (residuals_sol**2).sum() / (len(t_data) - len(popt_lsq))
 if cov_x is not None:
     perr_lsq = np.sqrt(np.diag(cov_x) * sigma2)
-    print(perr_lsq.round(5))   # parameter standard errors
+    print(perr_lsq.round(5))   
+# [0.05801 0.03112]    
+# parameter standard errors
 # Note: curve_fit handles this automatically and is preferred.
