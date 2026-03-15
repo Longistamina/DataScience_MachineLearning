@@ -96,3 +96,4 @@
     * filter(): built-in function for boolean indexing in Python
     * counter(): built-in function for counting frequency (number of repeats) in Python
     * itertools: built-in module for handling discrete math and set like product(), permutations(), combinations()
+    * Bonus: broadcasting-vectorization-parallel computing, reduction and scatter/gather, cartesian product and mendelian genetics, distance matrix and O(N^2)
