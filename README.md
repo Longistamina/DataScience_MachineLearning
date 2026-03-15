@@ -92,3 +92,7 @@
     * Module and Package, `__pycache__`, `__init__.py`, `if __name__ == "main"`
     * lambda: Anonymous function
     * map() and starmap(): mapping iterables to a function
++ [01_Python_Basic_part_16](https://youtu.be/Z6d8ozM_x1s): 15th/03/2026
+    * filter(): built-in function for boolean indexing in Python
+    * counter(): built-in function for counting frequency (number of repeats) in Python
+    * itertools: built-in module for handling discrete math and set like product(), permutations(), combinations()
