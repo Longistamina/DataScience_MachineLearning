@@ -36,7 +36,7 @@ so you need to convert it to a list or another iterable type to see the material
 numbers = [1, 5.2, 3, 7.9, 2.8, 10, 15.6]
 
 def is_integer(num):
-    return isinstance(num, int) # Check if num is an integer
+    return isinstance(num, int) # Check if num is an integer (Must return True or False)
 
 filter_object = filter(is_integer, numbers)
 print(filter_object) # <filter object at 0x7f7014402bc0>
@@ -58,12 +58,22 @@ print(angels_upper) # ['ADAM', 'SHAMSHEL', 'GAGHIEL', 'SANDALPHON']
 angels_short = list(filter(lambda angel: len(angel) <= 6, angels))
 print(angels_short) # ['Lilith', 'ADAM', 'Ramiel']
 
+################################
+## Filter with "not" operator ##
+################################
+
+samurais = ["Musashi", "Kojiro", "Hattori", "Yagyu", "Miyamoto"]
+
+# Filter out the samurais whose name does not contain "o"
+samurais_no_o = list(filter(lambda samurai: "o" not in samurai, samurais))
+print(samurais_no_o) # ['Musashi', 'Yagyu']
+
 ####################################
 ##    Using filter() with None    ##
 ####################################
 '''
 When you pass None as the function argument, 
-filter() removes all "falsy" values (0, empty strings, empty iterables, False, None, etc.)
+filter() removes all "falsy" values (0, empty strings '', empty iterables [] () {}, False, None, etc.)
 '''
 
 mixed_data = [0, 1, '', 'data', None, False, True, [], [1, 2]]
@@ -135,7 +145,7 @@ print(fruit_count["grape"])  # 0 (returns 0 for missing elements, not KeyError!)
 
 # Get the n most common elements
 chars = [1, 1, 1, 2, 2, 3, 3, 3, 3, 4, 5, 5]
-num_counter = Counter(numbers)
+num_counter = Counter(chars)
 
 # Get all elements sorted by frequency (omit argument)
 all_sorted = num_counter.most_common()
@@ -170,7 +180,12 @@ print(combined)  # Counter({'b': 4, 'a': 3, 'd': 2, 'c': 1})
 
 # Subtraction: subtract counts (keeps only positive counts)
 difference = counter1 - counter2
-print(difference)  # Counter({'b': 2, 'c': 1, 'a': 0})
+print(difference)  # Counter({'b': 2, 'a': 1, 'c': 1})
+
+print(counter2 - counter1) 
+# Counter({'d': 2}) 
+# - counter1 has no 'd', 
+# so it remains, while 'a' and 'b' are subtracted to zero or negative and thus removed.
 
 # Intersection: keep minimum counts
 intersection = counter1 & counter2

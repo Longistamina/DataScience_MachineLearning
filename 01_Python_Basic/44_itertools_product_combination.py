@@ -35,7 +35,7 @@ NOTE: it will not stop until you stop it manually (using a stop condition or Key
 
 from itertools import count
 
-counter = count(start=10, step=2)  # Start from 5, increment by 2
+counter = count(start=10, step=2)  # Start from 10, increment by 2
 
 for num in counter:
     print(num)
@@ -112,7 +112,6 @@ print(
 )
 # [['A', True, 3.14], ['A', True, 3.14], ['A', True, 3.14], ['A', True, 3.14]]
 
-
 ###########################
 ## Loop through repeater ##
 ###########################
@@ -183,6 +182,26 @@ chained_iterable = chain(iterable1, iterable2, iterable1, iterable2) # Chaining 
 print(list(chained_iterable))
 # [1, 2, 3, 'a', 'b', 'c', 1, 2, 3, 'a', 'b', 'c']
 
+######################
+## chain with tuple ##
+######################
+
+tup1 = (1, 2, 3)
+tup2 = ('x', 'y', 'z')
+
+print(list(chain(tup1, tup2, tup2)))
+# [1, 2, 3, 'x', 'y', 'z', 'x', 'y', 'z']
+
+#######################
+## chain with string ##
+#######################
+
+str1 = "Hello"
+str2 = "World"
+
+print(list(chain(str1, str2)))
+# ['H', 'e', 'l', 'l', 'o', 'W', 'o', 'r', 'l', 'd']
+
 
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 6. compress() ---------------------------------------#
@@ -196,6 +215,7 @@ from itertools import compress
 
 data = ['A', 'B', 'C', 'D', 'E']
 selectors = [1, 0, 1, 0, 1]  # Selector iterable (1=include, 0=exclude)
+                             # selectors can also be called as "mask"
 
 compressed_data = compress(data, selectors)
 print(list(compressed_data))
@@ -232,7 +252,7 @@ print(list(remaining))
 
 
 #--------------------------------------------------------------------------------------------#
-#-------------------------------------- 8. filterfalse() ------------------------------------#
+#--------------------------------- 8. filterfalse() -----------------------------------------#
 #--------------------------------------------------------------------------------------------#
 '''filterfalse() filters elements from an iterable where a predicate is false.'''
 
@@ -490,8 +510,8 @@ Default fill value is None.
 from itertools import zip_longest
 
 iter1 = [1, 2, 3, 4, 5]
-iter2 = ['a', 'b', 'c']
-iter3 = [True, False]
+iter2 = ['a', 'b', 'c'] # -> broadcasted to ['a', 'b', 'c', None, None]
+iter3 = [True, False]   # -> broadcasted to [True, False, None, None, None]
 
 zipped = zip_longest(iter1, iter2, iter3)  # Combine iterables, filling missing values with None
 print(list(zipped))
@@ -661,7 +681,7 @@ print(list(permutations_result))
 
 
 #---------------------------------------------------------------------------------------------#
-#-------------------------------------- 18. combinations() -----------------------------------#
+#----------------------------------- 18. combinations() --------------------------------------#
 #---------------------------------------------------------------------------------------------#
 '''
 combinations() generates all possible combinations of a specified length from an iterable.
