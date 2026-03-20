@@ -133,12 +133,12 @@ x_noisy  = np.sin(2*np.pi*50*t) + rng.normal(0, 0.3, len(t))   # 50 Hz + Gaussia
 
 
 #-------------------------------------------------------------------------------------------------#
-#════════════════════  PART A — CONVOLUTION & CORRELATION  ═══════════════════════════════════════#
+#═════════════════════════════  PART A — CONVOLUTION & CORRELATION  ══════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-##############
+################
 ## convolve() ##
-##############
+################
 '''
 convolve(in1, in2, mode='full', method='auto') — convolve two N-D arrays.
 
@@ -182,13 +182,13 @@ kern_2d = np.outer(np.array([1,2,1]), np.array([1,2,1])) / 16   # 3x3 Gaussian a
 conv_2d = convolve(img, kern_2d, mode='same')
 print(conv_2d.shape)  # (10, 10)
 
-##################
+###################
 ## fftconvolve() ##
-##################
+###################
 '''
 fftconvolve(in1, in2, mode='full', axes=None)
 
-Always uses the FFT method — O(n log n). Identical interface to convolve().
+Always uses the FFT method — O(nlogn). Identical interface to convolve().
 
 axes : convolve along specific axes of an N-D array. Other axes are treated
        independently (like batched 1-D convolutions).
@@ -211,7 +211,7 @@ result_batch = fftconvolve(matrix, filt[np.newaxis, :], mode='same', axes=1)
 print(result_batch.shape)  # (5, 1000)
 
 ##################
-## oaconvolve()  ##
+## oaconvolve() ##
 ##################
 '''
 oaconvolve(in1, in2, mode='full', axes=None)
@@ -227,9 +227,9 @@ fftconvolve is usually slightly faster for equal lengths.
 y_oa = oaconvolve(x_long, h_long, mode='same')
 print(np.allclose(y_oa, y_fft, atol=1e-8))  # True
 
-################
+#################
 ## correlate() ##
-################
+#################
 '''
 correlate(in1, in2, mode='full', method='auto')
 
@@ -258,22 +258,22 @@ x_ref     = np.sin(2*np.pi*10*t)
 x_delayed = np.roll(x_ref, delay_samples)   # shift by 50 samples
 xcorr     = correlate(x_delayed, x_ref, mode='full')
 lags_xc   = correlation_lags(len(x_delayed), len(x_ref), mode='full')
-print(lags_xc[np.argmax(xcorr)])   # 50 ← detected delay
+print(lags_xc[np.argmax(xcorr)])   # -50 ← detected delay
 
 # Matched filter: detect a known pattern in noise
 pattern = np.array([1., -1., 1., -1., 1.])   # ±1 template
 noisy_signal = np.concatenate([rng.normal(0,1,50), pattern, rng.normal(0,1,50)])
 mf_output = correlate(noisy_signal, pattern, mode='valid')
 detected_pos = np.argmax(mf_output)
-print(detected_pos)   # ~50 — where the pattern is embedded
+print(detected_pos)   # 50 — where the pattern is embedded
 
 # correlation_lags: generate the lag array for a known pair of lengths
 lags_arr = correlation_lags(100, 80, mode='full')
 print(lags_arr[0], lags_arr[-1])  # -79  99
 
-####################
-## convolve2d()   ##
-####################
+##################
+## convolve2d() ##
+##################
 '''
 convolve2d(in1, in2, mode='full', boundary='fill', fillvalue=0)
 
@@ -313,9 +313,9 @@ print(blurred.shape)  # (64, 64)
 # Wrap (circular) convolution for periodic data
 y_wrap = convolve2d(img_gray, sobel_x, mode='same', boundary='wrap')
 
-########################
+##########################
 ## choose_conv_method() ##
-########################
+##########################
 '''
 choose_conv_method(in1, in2, mode='full', measure=False)
 
@@ -333,12 +333,12 @@ print(method_timed)    # 'fft' for long signals
 
 
 #-------------------------------------------------------------------------------------------------#
-#════════════════════════  PART B — FILTER APPLICATION  ══════════════════════════════════════════#
+#══════════════════════════════  PART B — FILTER APPLICATION  ════════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-#######################
+##########################
 ## lfilter / lfilter_zi ##
-#######################
+##########################
 '''
 lfilter(b, a, x, axis=-1, zi=None)
 
@@ -378,8 +378,8 @@ def peak_amp(y, freq, fs=1000):
     idx = np.argmin(np.abs(freqs - freq))
     return Y[idx]
 
-print(f"50 Hz (passband):  {peak_amp(y_lfilter, 50):.3f}")   # ~1.0
-print(f"150 Hz (stopband): {peak_amp(y_lfilter, 150):.3f}")  # <<0.5
+print(f"50 Hz (passband):  {peak_amp(y_lfilter, 50):.3f}")   # 0.994 (~1.0)
+print(f"150 Hz (stopband): {peak_amp(y_lfilter, 150):.3f}")  # 0.082 <<0.5
 
 # Streaming: initialise state for step-response steady-state (no initial transient)
 zi_lp = lfilter_zi(b_lp, a_lp) * x_multi[0]   # scale zi by first sample value
@@ -393,10 +393,9 @@ from scipy.signal import lfiltic
 zi_from_ic = lfiltic(b_lp, a_lp, y=[y_lfilter[-1]], x=[x_multi[-1]])
 print(zi_from_ic.shape)  # (max(len(b),len(a))-1,)
 
-
-##############
+################
 ## filtfilt() ##
-##############
+################
 '''
 filtfilt(b, a, x, axis=-1, padtype='odd', padlen=None, method='pad', irlen=None)
 
@@ -426,18 +425,17 @@ print(f"filtfilt 50 Hz amp: {peak_amp(y_filtfilt, 50):.3f}")   # ~1.0
 # Quantify phase delay of lfilter at 50 Hz
 w, gd = group_delay((b_lp, a_lp), fs=fs)
 idx_50 = np.argmin(np.abs(w - 50))
-print(f"lfilter group delay at 50 Hz: {gd[idx_50]:.1f} samples")
+print(f"lfilter group delay at 50 Hz: {gd[idx_50]:.1f} samples") # 4.7 samples
 # filtfilt has zero group delay by construction
 
 # Edge handling: padtype='odd' is robust for signals with non-zero start/end
 y_odd   = filtfilt(b_lp, a_lp, x_multi, padtype='odd')
 y_const = filtfilt(b_lp, a_lp, x_multi, padtype='constant')
-print(np.abs(y_odd[:10] - y_const[:10]).max().round(4))  # differs at edges
+print(np.abs(y_odd[:10] - y_const[:10]).max().round(4))  # 0.3309 differs at edges
 
-
-#####################################################
-## sosfilt / sosfilt_zi / sosfiltfilt              ##
-#####################################################
+########################################
+## sosfilt / sosfilt_zi / sosfiltfilt ##
+########################################
 '''
 sosfilt(sos, x, axis=-1, zi=None)
 
@@ -460,7 +458,7 @@ print(sos_lp.shape)   # (4, 6) — 4 second-order sections
 
 # Apply causal SOS filter
 y_sos = sosfilt(sos_lp, x_multi)
-print(f"150 Hz SOS attenuated: {peak_amp(y_sos, 150):.4f}")   # very small
+print(f"150 Hz SOS attenuated: {peak_amp(y_sos, 150):.4f}") # 0.0125 very small
 
 # Zero-phase SOS (preferred for offline processing)
 y_sosfiltfilt = sosfiltfilt(sos_lp, x_multi)
@@ -477,12 +475,11 @@ b_hi, a_hi = butter(20, 100.0, btype='low', fs=fs)   # BA form — numerically b
 y_sos_hi   = sosfilt(sos_hi, x_multi)
 y_ba_hi    = lfilter(b_hi, a_hi, x_multi)   # may be NaN/Inf for very high order
 print(f"SOS stable: {np.isfinite(y_sos_hi).all()}")   # True
-print(f"BA stable:  {np.isfinite(y_ba_hi).all()}")    # False for order >= ~15+
+print(f"BA stable:  {np.isfinite(y_ba_hi).all()}")    # True (False for order >= ~15+)
 
-
-####################
+#####################
 ## savgol_filter() ##
-####################
+#####################
 '''
 savgol_filter(x, window_length, polyorder, deriv=0, delta=1.0, axis=-1, mode='interp')
 
@@ -505,12 +502,12 @@ savgol_coeffs(window_length, polyorder, deriv=0) : returns the FIR coefficients
 
 # Smooth noisy data
 y_sg = savgol_filter(x_noisy, window_length=51, polyorder=3)
-print(f"SG smoothed noise std: {(y_sg - np.sin(2*np.pi*50*t)).std():.4f}")  # < original noise std
+print(f"SG smoothed noise std: {(y_sg - np.sin(2*np.pi*50*t)).std():.4f}")  # 0.8101 < original noise std
 
 # First derivative: d/dt sin(2*pi*50*t) = 2*pi*50*cos(2*pi*50*t)
 dy_dt = savgol_filter(x_noisy, window_length=51, polyorder=3, deriv=1, delta=1/fs)
 true_deriv = 2*np.pi*50 * np.cos(2*np.pi*50*t)
-print(f"Derivative error: {np.abs(dy_dt[100:-100] - true_deriv[100:-100]).mean():.4f}")
+print(f"Derivative error: {np.abs(dy_dt[100:-100] - true_deriv[100:-100]).mean():.4f}") # 223.3455
 
 # Second derivative
 d2y_dt2 = savgol_filter(x_noisy, window_length=51, polyorder=3, deriv=2, delta=1/fs)
@@ -529,9 +526,8 @@ print(coeffs_sg.shape)   # (51,)
 y_sg_fir = np.convolve(x_noisy, coeffs_sg, mode='same')
 print(np.allclose(y_sg_fir[25:-25], y_sg[25:-25], atol=1e-10))  # True (interior)
 
-
 #####################################
-## medfilt / wiener / order_filter  ##
+## medfilt / wiener / order_filter ##
 #####################################
 '''
 medfilt(volume, kernel_size=3) : N-D median filter. Removes salt-and-pepper noise.
@@ -544,11 +540,11 @@ order_filter(a, domain, rank): general order filter (rank 0=min, rank N-1=max, r
 x_spike = x_noisy.copy()
 x_spike[::100] = 5.0   # inject spike noise
 y_med = medfilt(x_spike, kernel_size=5)   # median over 5-sample window
-print(f"Spike noise removed: {np.abs(y_med[::100] - np.sin(2*np.pi*50*t[::100])).max():.3f}")  # small
+print(f"Spike noise removed: {np.abs(y_med[::100] - np.sin(2*np.pi*50*t[::100])).max():.3f}")  # 0.711 small
 
 # Compare: moving average smears spikes; median completely removes them
 y_ma = np.convolve(x_spike, np.ones(5)/5, mode='same')
-print(f"MA spike error:      {np.abs(y_ma[::100]).max():.3f}")   # still visible
+print(f"MA spike error:      {np.abs(y_ma[::100]).max():.3f}")   # 1.210 still visible
 
 # wiener: adaptive denoising — estimates local noise and suppresses it
 y_wiener = wiener(x_noisy, mysize=11)
@@ -560,10 +556,9 @@ domain = np.ones((3, 3))
 img_erode  = sig.order_filter(img_bin, domain, rank=0)   # min filter
 img_dilate = sig.order_filter(img_bin, domain, rank=8)   # max filter (3*3-1=8)
 
-
-##############################
-## hilbert / envelope        ##
-##############################
+########################
+## hilbert / envelope ##
+########################
 '''
 hilbert(x, N=None, axis=-1)
 
@@ -590,12 +585,12 @@ am_signal = am_modulator * am_carrier
 z_analytic = hilbert(am_signal)
 env_hilbert = np.abs(z_analytic)   # instantaneous amplitude
 
-print(f"Envelope error: {np.abs(env_hilbert - am_modulator).max():.4f}")  # should be small
+print(f"Envelope error: {np.abs(env_hilbert - am_modulator).max():.4f}")  # 0.0000 should be small
 
 # Instantaneous frequency
 inst_phase = np.unwrap(np.angle(z_analytic))
 inst_freq  = np.diff(inst_phase) * fs / (2*np.pi)
-print(f"Inst freq (should be ~200): {inst_freq[400:600].mean():.2f} Hz")
+print(f"Inst freq (should be ~200): {inst_freq[400:600].mean():.2f} Hz") # 200.00 Hz
 
 # envelope() function: smoother API — returns shape (2, N): row 0 is upper, row 1 is lower envelope
 env_new = envelope(am_signal)
@@ -606,10 +601,9 @@ print(np.allclose(env_new[0], env_hilbert, atol=1e-3))  # True (upper envelope ~
 x_speech_sim = np.sin(2*np.pi*440*t) * (1 + np.sin(2*np.pi*5*t))
 env_speech = np.abs(hilbert(x_speech_sim))
 
-
-########################################################
-## decimate / resample / resample_poly / upfirdn      ##
-########################################################
+###################################################
+## decimate / resample / resample_poly / upfirdn ##
+###################################################
 '''
 decimate(x, q, n=None, ftype='iir', axis=-1, zero_phase=True)
   Downsample by factor q after anti-aliasing lowpass filter.
@@ -659,9 +653,8 @@ print(f"After detrend: mean={x_detrend_lin.mean():.4f}")  # ~0.0
 
 
 #-------------------------------------------------------------------------------------------------#
-#════════════════════════  PART C — FIR FILTER DESIGN  ═══════════════════════════════════════════#
+#══════════════════════════════════  PART C — FIR FILTER DESIGN  ═════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
-
 '''
 FIR vs IIR summary:
   FIR (Finite Impulse Response):
@@ -679,7 +672,7 @@ FIR vs IIR summary:
 '''
 
 ##############
-## firwin()  ##
+## firwin() ##
 ##############
 '''
 firwin(numtaps, cutoff, width=None, window='hamming', pass_zero=True,
@@ -730,15 +723,14 @@ print(f"LP gain at 150 Hz: {np.abs(H_lp[150]).round(4)}")   # << 1
 # Rule: kaiserord gives numtaps and beta for a given ripple and transition width
 numtaps_ksr, beta_ksr = kaiserord(ripple=60, width=20/(fs/2))  # 60 dB, 20 Hz transition
 b_firwin_kaiser = firwin(numtaps_ksr, 100.0, window=('kaiser', beta_ksr), fs=fs)
-print(f"Kaiser filter: {numtaps_ksr} taps, beta={beta_ksr:.2f}")
+print(f"Kaiser filter: {numtaps_ksr} taps, beta={beta_ksr:.2f}") # 183 taps, beta=5.65
 
 # width= shortcut: automatically selects Kaiser window
 b_firwin_auto = firwin(101, 100.0, width=20.0, fs=fs)   # 20 Hz transition width
 
-
-################
-## firwin2()  ##
-################
+###############
+## firwin2() ##
+###############
 '''
 firwin2(numtaps, freq, gain, nfreqs=None, window='hamming', antisymmetric=False, fs=None)
 
@@ -772,9 +764,8 @@ freq_mb = [0., 100., 200., 400., 500.]
 gain_mb = [1.,   1.,   0.,   0.,   1.]
 b_mb    = firwin2(301, freq_mb, gain_mb, fs=fs)
 
-
 ###################
-## firls / remez  ##
+## firls / remez ##
 ###################
 '''
 firls(numtaps, bands, desired, weight=None, fs=None)
@@ -824,10 +815,9 @@ b_min_phase = minimum_phase(b_firwin_lp, method='homomorphic')
 print(b_min_phase.shape)   # same length as b_firwin_lp
 # Minimum-phase: all zeros inside unit circle; causal; less group delay at cost of phase linearity
 
-
-##################################
-## kaiserord / kaiser_beta      ##
-##################################
+#############################
+## kaiserord / kaiser_beta ##
+#############################
 '''
 kaiserord(ripple, width) -> (numtaps, beta)
   Compute Kaiser window FIR order and beta from desired attenuation specs.
@@ -845,7 +835,7 @@ kaiser_atten(numtaps, width) -> attenuation
 ripple_db = 60.0
 trans_hz  = 20.0
 numtaps_k, beta_k = kaiserord(ripple_db, trans_hz / (fs/2))
-print(f"Kaiser: {numtaps_k} taps, beta={beta_k:.4f}")
+print(f"Kaiser: {numtaps_k} taps, beta={beta_k:.4f}") # 183 taps, beta=5.6533
 
 b_kaiser = firwin(numtaps_k, 100.0, window=('kaiser', beta_k), fs=fs)
 _, H_kaiser = freqz(b_kaiser, fs=fs)
@@ -853,7 +843,7 @@ freqs_k = np.linspace(0, fs/2, len(H_kaiser))
 # Verify stopband attenuation
 stop_mask = freqs_k > 120
 atten_kaiser = -20*np.log10(np.abs(H_kaiser[stop_mask]).max())
-print(f"Actual stopband attenuation: {atten_kaiser:.1f} dB")  # >= 60 dB
+print(f"Actual stopband attenuation: {atten_kaiser:.1f} dB")  # 66.1 dB
 
 # kaiser_beta: directly compute beta from attenuation requirement
 beta_direct = kaiser_beta(60)   # beta for 60 dB attenuation
@@ -861,11 +851,11 @@ print(f"beta for 60 dB: {beta_direct:.4f}")
 
 # kaiser_atten: what attenuation does a given design achieve?
 atten = kaiser_atten(numtaps_k, trans_hz / (fs/2))
-print(f"Predicted attenuation: {atten:.1f} dB")
+print(f"Predicted attenuation: {atten:.1f} dB") # 60.2 dB
 
 
 #-------------------------------------------------------------------------------------------------#
-#════════════════════════  PART D — IIR FILTER DESIGN  ═══════════════════════════════════════════#
+#════════════════════════════════  PART D — IIR FILTER DESIGN  ═══════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
 '''
@@ -890,7 +880,7 @@ All design functions support:
 '''
 
 ######################
-## butter / buttord  ##
+## butter / buttord ##
 ######################
 '''
 butter(N, Wn, btype='lowpass', analog=False, output='ba', fs=None)
@@ -916,21 +906,21 @@ print(f"Butterworth LP at 300 Hz: {peak_amp(y_butt, 300):.4f}")  # ~0.0
 
 # Automatic order selection via buttord
 N_butt, Wn_butt = buttord(wp=100., ws=150., gpass=1., gstop=40., fs=fs)
-print(f"buttord: N={N_butt}, Wn={Wn_butt:.2f} Hz")
+print(f"buttord: N={N_butt}, Wn={Wn_butt:.2f} Hz") # N=12, Wn=105.39 Hz
 sos_butt_auto = butter(N_butt, Wn_butt, btype='low', fs=fs, output='sos')
 
 # Bandpass Butterworth: 80-120 Hz
 sos_butt_bp = butter(4, [80., 120.], btype='bandpass', fs=fs, output='sos')
 y_bp = sosfiltfilt(sos_butt_bp, x_multi)
-print(f"BP at 50 Hz (stop):  {peak_amp(y_bp, 50):.4f}")
-print(f"BP at 100 Hz (pass): {peak_amp(y_bp, 100):.4f}")  # ... but we don't have 100 Hz in signal
+print(f"BP at 50 Hz (stop):  {peak_amp(y_bp, 50):.4f}") # 0.0008
+print(f"BP at 100 Hz (pass): {peak_amp(y_bp, 100):.4f}")  # 0.0032
 
 # ZPK form: more numerically stable for very high orders than BA
 z_bp, p_bp, k_bp = butter(4, [80., 120.], btype='bandpass', fs=fs, output='zpk')
 print(f"Poles inside unit circle: {np.all(np.abs(p_bp) < 1)}")  # True (stable)
 
 ########################
-## cheby1 / cheb1ord   ##
+## cheby1 / cheb1ord  ##
 ########################
 '''
 cheby1(N, rp, Wn, btype='lowpass', analog=False, output='ba', fs=None)
@@ -946,14 +936,14 @@ cheb1ord(wp, ws, gpass, gstop, analog=False, fs=None) -> (N, Wn)
 
 sos_cheb1 = cheby1(6, 1., 100., btype='low', fs=fs, output='sos')  # 1 dB ripple
 y_cheb1 = sosfiltfilt(sos_cheb1, x_multi)
-print(f"Cheby1 at 50 Hz:  {peak_amp(y_cheb1, 50):.4f}")
-print(f"Cheby1 at 150 Hz: {peak_amp(y_cheb1, 150):.4f}")   # steeper than Butterworth
+print(f"Cheby1 at 50 Hz:  {peak_amp(y_cheb1, 50):.4f}") # 0.7959
+print(f"Cheby1 at 150 Hz: {peak_amp(y_cheb1, 150):.4f}") # 0.0015 steeper than Butterworth
 
 N_c1, Wn_c1 = cheb1ord(wp=100., ws=150., gpass=1., gstop=40., fs=fs)
-print(f"cheb1ord: N={N_c1} (vs buttord N={N_butt})")   # Cheby I needs fewer stages
+print(f"cheb1ord: N={N_c1} (vs buttord N={N_butt})")   # cheb1ord: N=6 (vs buttord N=12) - Cheby I needs fewer stages
 
 ########################
-## cheby2 / cheb2ord   ##
+## cheby2 / cheb2ord  ##
 ########################
 '''
 cheby2(N, rs, Wn, btype='lowpass', analog=False, output='ba', fs=None)
@@ -974,10 +964,10 @@ print(f"Cheby2 at 50 Hz (pass):  {peak_amp(y_cheb2, 50):.4f}")   # ~1.0 (flat pa
 print(f"Cheby2 at 200 Hz (stop): {peak_amp(y_cheb2, 200):.4f}")  # very small (equiripple stop)
 
 N_c2, Wn_c2 = cheb2ord(wp=100., ws=150., gpass=1., gstop=40., fs=fs)
-print(f"cheb2ord: N={N_c2}")
+print(f"cheb2ord: N={N_c2}") # N=6
 
 ######################
-## ellip / ellipord  ##
+## ellip / ellipord ##
 ######################
 '''
 ellip(N, rp, rs, Wn, btype='lowpass', analog=False, output='ba', fs=None)
@@ -993,11 +983,11 @@ Use when: filter order is critical and some passband and stopband ripple is acce
 
 sos_ellip = ellip(4, 1., 40., 100., btype='low', fs=fs, output='sos')
 y_ellip = sosfiltfilt(sos_ellip, x_multi)
-print(f"Ellip at 50 Hz:  {peak_amp(y_ellip, 50):.4f}")
-print(f"Ellip at 150 Hz: {peak_amp(y_ellip, 150):.4f}")   # very sharp transition
+print(f"Ellip at 50 Hz:  {peak_amp(y_ellip, 50):.4f}") # 0.9846
+print(f"Ellip at 150 Hz: {peak_amp(y_ellip, 150):.4f}") # 0.0017 very sharp transition
 
 N_el, Wn_el = ellipord(wp=100., ws=130., gpass=1., gstop=40., fs=fs)
-print(f"ellipord: N={N_el} vs buttord N={N_butt}")   # ellip needs fewest stages
+print(f"ellipord: N={N_el} vs buttord N={N_butt}") # ellipord: N=5 vs buttord N=12 - ellip needs fewest stages
 
 # Compare sharpness for same N=4
 print("=== Order 4, lowpass 100 Hz, stopband at 150 Hz ===")
@@ -1008,10 +998,16 @@ for name, sos_cmp in [("Butterworth", butter(4, 100., fs=fs, output='sos')),
     w_cmp, H_cmp = freqz_sos(sos_cmp, worN=1000, fs=fs)
     atten_cmp = -20*np.log10(np.abs(H_cmp[150:]).max() + 1e-16)
     print(f"  {name:15s}: attenuation at 150+ Hz = {atten_cmp:.1f} dB")
+    
+# === Order 4, lowpass 100 Hz, stopband at 150 Hz ===
+#   Butterworth    : attenuation at 150+ Hz = 0.4 dB
+#   Cheby1 1dB     : attenuation at 150+ Hz = 0.0 dB
+#   Cheby2 40dB    : attenuation at 150+ Hz = 2.1 dB
+#   Elliptic       : attenuation at 150+ Hz = 0.0 dB
 
-##########
+############
 ## bessel ##
-##########
+############
 '''
 bessel(N, Wn, btype='lowpass', analog=False, output='ba', norm='phase', fs=None)
 
@@ -1029,19 +1025,19 @@ Use when: preserving waveform shape is critical (e.g. pulse signals, group delay
 
 sos_bessel = bessel(6, 100., btype='low', fs=fs, output='sos', norm='phase')
 y_bessel = sosfiltfilt(sos_bessel, x_multi)
-print(f"Bessel at 50 Hz:  {peak_amp(y_bessel, 50):.4f}")
+print(f"Bessel at 50 Hz:  {peak_amp(y_bessel, 50):.4f}") # 0.6182
 
 # Bessel has nearly constant group delay in the passband
 w_bes, gd_bes = group_delay(bessel(6, 100., fs=fs), fs=fs)
 pass_mask = w_bes < 80
-print(f"Bessel group delay variation in passband: {gd_bes[pass_mask].std():.4f} samples")
+print(f"Bessel group delay variation in passband: {gd_bes[pass_mask].std():.4f} samples") # 0.1222 samples
 # Compare with Butterworth
 w_but, gd_but = group_delay(butter(6, 100., fs=fs), fs=fs)
-print(f"Butterworth group delay variation:       {gd_but[pass_mask].std():.4f} samples")
+print(f"Butterworth group delay variation:       {gd_but[pass_mask].std():.4f} samples") # 0.8739 samples
 
-##################################
-## iirdesign / iirfilter         ##
-##################################
+###########################
+## iirdesign / iirfilter ##
+###########################
 '''
 iirfilter(N, Wn, rp=None, rs=None, btype='lowpass', analog=False, ftype='butter',
           output='ba', fs=None)
@@ -1063,11 +1059,11 @@ print(np.allclose(sos_gen, butter(6, 100., fs=fs, output='sos')))  # True
 # iirdesign: all-in-one with automatic order selection
 sos_iird = iirdesign(wp=100., ws=150., gpass=1., gstop=40.,
                      ftype='ellip', output='sos', fs=fs)
-print(f"iirdesign elliptic: {sos_iird.shape[0]} sections")
+print(f"iirdesign elliptic: {sos_iird.shape[0]} sections") # 2 sections
 
-############################################
-## iirnotch / iirpeak / iircomb           ##
-############################################
+##################################
+## iirnotch / iirpeak / iircomb ##
+##################################
 '''
 iirnotch(w0, Q, fs=1.0)
   Second-order IIR notch filter at frequency w0 with quality factor Q.
@@ -1089,14 +1085,14 @@ iircomb(w0, Q, ftype='notch', fs=1.0, pass_zero=False)
 b_notch, a_notch = iirnotch(50., Q=30., fs=fs)
 x_noise50 = x_noisy + np.sin(2*np.pi*50*t) * 2   # add 50 Hz interference
 y_notch = filtfilt(b_notch, a_notch, x_noise50)
-print(f"50 Hz notch output: {peak_amp(y_notch, 50):.4f}")   # very small
-print(f"100 Hz preserved:   {peak_amp(y_notch, 100):.4f}")  # ~1 (if it were in signal)
+print(f"50 Hz notch output: {peak_amp(y_notch, 50):.4f}")   # 0.2812
+print(f"100 Hz preserved:   {peak_amp(y_notch, 100):.4f}")  # 0.0048
 
 # iirpeak: parametric EQ-style peak filter at 200 Hz
 b_peak, a_peak = iirpeak(200., Q=5., fs=fs)
 _, H_peak = freqz(b_peak, a_peak, fs=fs)
 w_peak = np.linspace(0, fs/2, len(H_peak))
-print(f"Peak gain at 200 Hz: {np.abs(H_peak[200]):.4f}")   # > 1
+print(f"Peak gain at 200 Hz: {np.abs(H_peak[200]):.4f}")   # 0.9736
 
 # iircomb: notch at 50 Hz and all harmonics (50, 100, 150, 200, ...)
 b_comb, a_comb = iircomb(50., Q=30., ftype='notch', fs=fs)
