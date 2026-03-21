@@ -1101,12 +1101,12 @@ y_comb = filtfilt(b_comb, a_comb, x_noise50)
 
 
 #-------------------------------------------------------------------------------------------------#
-#═══════════  PART E — FREQUENCY RESPONSE & FILTER REPRESENTATIONS  ══════════════════════════════#
+#════════════════════  PART E — FREQUENCY RESPONSE & FILTER REPRESENTATIONS  ═════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-####################################
-## freqz / freqz_zpk / freqz_sos  ##
-####################################
+###################################
+## freqz / freqz_zpk / freqz_sos ##
+###################################
 '''
 freqz(b, a=1, worN=512, whole=False, plot=None, fs=2*pi, include_nyquist=False)
 
@@ -1153,11 +1153,11 @@ print(f"Butterworth at 100 Hz: {mag_db[idx_100]:.2f} dB")  # ~-3.0 dB
 b_analog, a_analog = butter(4, 2*np.pi*100, analog=True)   # analog filter at 100 rad/s
 w_analog = np.logspace(1, 4, 200)   # rad/s
 _, H_analog = freqs(b_analog, a_analog, worN=w_analog)
-print(f"Analog Butterworth at 100 rad/s: {20*np.log10(np.abs(H_analog[100])):.2f} dB")
+print(f"Analog Butterworth at 100 rad/s: {20*np.log10(np.abs(H_analog[100])):.2f} dB") # -0.02 dB
 
-####################
-## group_delay()   ##
-####################
+###################
+## group_delay() ##
+###################
 '''
 group_delay(system, w=512, whole=False, fs=2*pi)
 
@@ -1182,13 +1182,12 @@ print(f"FIR group delay: {gd_pass.mean():.2f} ± {gd_pass.std():.4f} samples")  
 
 # IIR Butterworth: nonlinear group delay
 w_gd_iir, gd_iir = group_delay((b4, a4), fs=fs)
-print(f"IIR group delay at 50 Hz:  {gd_iir[50]:.2f} samples")
-print(f"IIR group delay at 95 Hz:  {gd_iir[95]:.2f} samples")   # larger near cutoff
+print(f"IIR group delay at 50 Hz:  {gd_iir[50]:.2f} samples")   # 4.63 samples
+print(f"IIR group delay at 95 Hz:  {gd_iir[95]:.2f} samples")   # 6.52 samples (larger near cutoff)
 
-
-#############################################
-## tf2zpk / tf2sos / zpk2sos / sos2tf      ##
-#############################################
+########################################
+## tf2zpk / tf2sos / zpk2sos / sos2tf ##
+########################################
 '''
 Representation conversions:
 
@@ -1213,7 +1212,7 @@ z_ex, p_ex, k_ex = tf2zpk(b_ex, a_ex)
 print(f"Zeros: {len(z_ex)}, Poles: {len(p_ex)}")  # 6 zeros, 6 poles
 
 # All poles inside unit circle = stable
-print(f"Max pole magnitude: {np.abs(p_ex).max():.6f}")  # < 1.0
+print(f"Max pole magnitude: {np.abs(p_ex).max():.6f}")  # 0.857855 (< 1.0)
 
 # ZPK -> BA (round-trip)
 b_rt, a_rt = zpk2tf(z_ex, p_ex, k_ex)
@@ -1237,10 +1236,9 @@ b_digital, a_digital = bilinear(b_a_analog, a_a_analog, fs=fs)
 b_direct, a_direct = butter(4, 100., fs=fs)
 print(np.abs(b_digital - b_direct).max() < 0.01)  # True — close but not identical (pre-warp diff)
 
-
-###############################
-## residue / invres           ##
-###############################
+######################
+## residue / invres ##
+######################
 '''
 residue(b, a, tol=1e-3, rtype='avg') -> (r, p, k)
   Partial fraction expansion of B(s)/A(s) (continuous-time / s-domain).
@@ -1264,7 +1262,7 @@ b_pf = np.array([1.])
 a_pf = np.array([1., 3., 2.])   # (s+1)(s+2)
 
 r_pf, p_pf, k_pf = residue(b_pf, a_pf)
-print(f"Poles: {p_pf}")   # [-2. -1.]
+print(f"Poles: {p_pf}")   # Poles: [-1. -2.]
 print(f"Residues: {r_pf}")  # [ 1. -1.]  -> 1/(s+2) - 1/(s+1) -> inverse Laplace: e^{-2t} - e^{-t}
 
 # Reconstruct: invres should give back b, a (may have leading zero)
@@ -1275,15 +1273,14 @@ print(np.allclose(np.real(b_rt_pf[-len(b_pf):]), b_pf, atol=1e-8))  # True (trai
 b_z = np.array([1., 0.5])
 a_z = np.array([1., -1.5, 0.5])   # poles at z=1 and z=0.5
 r_z, p_z, k_z = residuez(b_z, a_z)
-print(f"Z-domain poles: {p_z.round(4)}")   # [1.  0.5]
+print(f"Z-domain poles: {p_z.round(4)}")   # [0.5 1. ]
 b_rtz, a_rtz = invresz(r_z, p_z, k_z)
 print(np.allclose(np.real(b_rtz), b_z, atol=1e-8))  # True
 
 
 #-------------------------------------------------------------------------------------------------#
-#════════════════════════  PART F — WINDOW FUNCTIONS  ════════════════════════════════════════════#
+#═════════════════════════════════  PART F — WINDOW FUNCTIONS  ═══════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
-
 '''
 Windows are used in spectral analysis (reduce spectral leakage) and FIR filter design.
 
@@ -1333,20 +1330,33 @@ for name, w in [('boxcar', w_boxcar), ('hann', w_hann),
                 ('hamming', w_hamming), ('blackman', w_blackman),
                 ('flattop', w_flattop), ('kaiser8.6', w_kaiser)]:
     print(f"  {name:15s}  coherent_gain={coherent_gain(w):.4f}")
+  # boxcar           coherent_gain=1.0000
+  # hann             coherent_gain=0.5000
+  # hamming          coherent_gain=0.5400
+  # blackman         coherent_gain=0.4200
+  # flattop          coherent_gain=0.2156
+  # kaiser8.6        coherent_gain=0.4208
 
 # Hann window (sym=False) for FFT: avoids double-counting the end point
 w_hann_periodic = win.hann(N_win, sym=False)
 print(f"Periodic Hann: w[0]={w_hann_periodic[0]:.4f}  w[-1]={w_hann_periodic[-1]:.4f}")
+# Periodic Hann: w[0]=0.0000  w[-1]=0.0024
 # For FIR design, use sym=True (default); for FFT analysis, use sym=False
 
 # Kaiser: tune sidelobe level via beta
 for beta, sll_approx in [(0, 13), (5, 40), (8.6, 60), (14, 100)]:
     w_k = win.kaiser(N_win, beta=beta, sym=False)
     print(f"  Kaiser beta={beta:.1f}: approx sidelobe level ~ {sll_approx} dB")
+  # Kaiser beta=0.0: approx sidelobe level ~ 13 dB
+  # Kaiser beta=5.0: approx sidelobe level ~ 40 dB
+  # Kaiser beta=8.6: approx sidelobe level ~ 60 dB
+  # Kaiser beta=14.0: approx sidelobe level ~ 100 dB
 
 # DPSS: optimal concentration of energy in a bandwidth of NW/N Hz (per half-sample)
 print(f"DPSS tapers: {w_dpss.shape}")   # (7, 64) — 7 tapers of length 64
-print(f"Concentration ratios: {dpss_ratios.round(6)}")   # near 1 for first few
+print(f"Concentration ratios: {dpss_ratios.round(6)}")   
+# Concentration ratios: [1.       1.       0.999999 0.99997  0.999437 0.99271  0.937469]
+# near 1 for first few
 
 # Nuttall, Parzen, Lanczos
 w_nuttall = win.nuttall(N_win, sym=False)
@@ -1355,12 +1365,12 @@ w_lanczos = win.lanczos(N_win, sym=False)   # sinc window; good for image resamp
 
 
 #-------------------------------------------------------------------------------------------------#
-#════════════════════════  PART G — SPECTRAL ANALYSIS  ═══════════════════════════════════════════#
+#═════════════════════════════  PART G — SPECTRAL ANALYSIS  ══════════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-####################
-## periodogram()   ##
-####################
+###################
+## periodogram() ##
+###################
 '''
 periodogram(x, fs=1.0, window='boxcar', nfft=None, detrend='constant',
             return_onesided=True, scaling='density')
@@ -1387,21 +1397,21 @@ Variance: periodogram has high variance (not useful alone for noisy signals).
 f_per, Pxx_per = periodogram(x_multi, fs=fs, window='hann', scaling='density')
 # Peaks should be at 50, 150, 300 Hz
 peak_freqs = f_per[np.argsort(Pxx_per)[-4:]]
-print(f"Periodogram peaks at: {np.sort(peak_freqs).astype(int)}")  # [50, 150, 300, ...]
+print(f"Periodogram peaks at: {np.sort(peak_freqs).astype(int)}")  # [ 49  50  51 150]
 
 # Power spectrum: integrate density over df to get total power
 df = f_per[1] - f_per[0]
 total_power = np.sum(Pxx_per) * df
-print(f"Total power: {total_power:.4f}")   # should be sum(A^2/2) = 0.5 + 0.125 + 0.045 = 0.67
+print(f"Total power: {total_power:.4f}") # should be sum(A^2/2) = 0.5 + 0.125 + 0.045 = 0.67
 
 # Effect of zero-padding (interpolates spectral display, doesn't add resolution)
 f_nfft, Pxx_nfft = periodogram(x_multi[:100], fs=fs, window='hann', nfft=4096, scaling='density')
 print(f"Zero-padded: {len(f_nfft)} frequency bins vs {100} data points")
+# Zero-padded: 2049 frequency bins vs 100 data points
 
-
-##############
-## welch()   ##
-##############
+#############
+## welch() ##
+#############
 '''
 welch(x, fs=1.0, window='hann', nperseg=256, noverlap=None, nfft=None,
       detrend='constant', return_onesided=True, scaling='density', axis=-1)
@@ -1429,20 +1439,23 @@ Pxx_db = 10 * np.log10(Pxx_welch + 1e-16)
 for f_tone in [50, 150, 300]:
     idx_t = np.argmin(np.abs(f_welch - f_tone))
     print(f"  Welch PSD at {f_tone} Hz: {Pxx_db[idx_t]:.1f} dBW/Hz")
+  # Welch PSD at 50 Hz: -10.9 dBW/Hz
+  # Welch PSD at 150 Hz: -17.6 dBW/Hz
+  # Welch PSD at 300 Hz: -21.4 dBW/Hz
 
 # Longer segment: higher resolution but more variance
 f_long, Pxx_long = welch(x_multi, fs=fs, nperseg=512, scaling='density')
-print(f"Long-segment Welch: {f_long[1]-f_long[0]:.2f} Hz resolution")
+print(f"Long-segment Welch: {f_long[1]-f_long[0]:.2f} Hz resolution") # 1.95 Hz resolution
 
 # Apply to noisy signal: Welch reliably finds buried 50 Hz tone
 f_n, Pxx_n = welch(x_noisy, fs=fs, nperseg=256, scaling='density')
 snr_db = 10*np.log10(Pxx_n[np.argmin(np.abs(f_n-50))] / np.median(Pxx_n))
 print(f"SNR of 50 Hz in noise: {snr_db:.1f} dB")
+# SNR of 50 Hz in noise: 26.8 dB
 
-
-#########################
-## csd / coherence()    ##
-#########################
+#######################
+## csd / coherence() ##
+#######################
 '''
 csd(x, y, fs=1.0, window='hann', nperseg=256, noverlap=None, nfft=None,
     detrend='constant', return_onesided=True, scaling='density', axis=-1)
@@ -1467,18 +1480,17 @@ y_csd = 0.8*np.sin(2*np.pi*50*t + 0.3) + rng.normal(0, 0.5, len(t))
 
 # Cross-spectral density
 f_csd, Pxy = csd(x_csd, y_csd, fs=fs, nperseg=256, window='hann')
-print(f"CSD phase at 50 Hz: {np.angle(Pxy[np.argmin(np.abs(f_csd-50))], deg=True):.1f} deg")  # ~17 deg
+print(f"CSD phase at 50 Hz: {np.angle(Pxy[np.argmin(np.abs(f_csd-50))], deg=True):.1f} deg")  # 23.7 deg
 
 # Coherence: high at 50 Hz (shared), low elsewhere (independent noise)
 f_coh, Cxy = coherence(x_csd, y_csd, fs=fs, nperseg=256)
 idx_50_coh = np.argmin(np.abs(f_coh - 50))
-print(f"Coherence at 50 Hz: {Cxy[idx_50_coh]:.4f}")   # high ~0.8+
-print(f"Coherence at 200 Hz: {Cxy[np.argmin(np.abs(f_coh-200))]:.4f}")  # low ~0.0
+print(f"Coherence at 50 Hz: {Cxy[idx_50_coh]:.4f}")   # 0.9917 (high ~0.8+)
+print(f"Coherence at 200 Hz: {Cxy[np.argmin(np.abs(f_coh-200))]:.4f}")  # 0.2905 low ~0.0
 
-
-######################################
-## ShortTimeFFT (modern STFT)        ##
-######################################
+################################
+## ShortTimeFFT (modern STFT) ##
+################################
 '''
 ShortTimeFFT(win, hop, fs, fft_mode='onesided', mfft=None, dual_win=None,
              scale_to=None, phase_shift=None)
@@ -1516,27 +1528,26 @@ t_chirp = np.linspace(0, 1, int(fs))
 x_chirp = chirp(t_chirp, f0=10, f1=400, t1=1.0, method='linear')
 
 Zxx = SFT.stft(x_chirp)   # complex STFT, shape (n_freqs, n_frames)
-print(f"STFT shape: {Zxx.shape}")
-print(f"Frequencies: {SFT.f[:5].round(1)} ... {SFT.f[-5:].round(1)}")
+print(f"STFT shape: {Zxx.shape}") # (26, 41)
+print(f"Frequencies: {SFT.f[:5].round(1)} ... {SFT.f[-5:].round(1)}") # [ 0. 20. 40. 60. 80.] ... [420. 440. 460. 480. 500.]
 
 # Time-frequency representation: time vs frequency magnitude
 spectrogram_tf = np.abs(Zxx)
 
 # Inverse STFT: reconstruct the original signal
 x_reconstructed = SFT.istft(Zxx, k1=len(x_chirp))
-print(f"Reconstruction error: {np.abs(x_reconstructed - x_chirp).max():.2e}")  # very small
+print(f"Reconstruction error: {np.abs(x_reconstructed - x_chirp).max():.2e}")  # 4.44e-16 very small
 
 # check_NOLA: verify reconstruction is possible (nonzero overlap)
 print(check_NOLA(win_stft, len(win_stft), len(win_stft) - hop_stft))  # True
 
 # spectrogram method directly
 S = SFT.spectrogram(x_chirp)   # |STFT|^2; shape (n_freqs, n_frames)
-print(S.shape)
+print(S.shape) # (26, 41)
 
-
-##########################
+###########################
 ## stft / istft (legacy) ##
-##########################
+###########################
 '''
 stft(x, fs=1.0, window='hann', nperseg=256, noverlap=None, nfft=None,
      detrend=False, return_onesided=True, boundary='zeros', padded=True, axis=-1)
@@ -1554,17 +1565,16 @@ istft(Zxx, fs=1.0, window='hann', nperseg=None, noverlap=None, nfft=None,
 '''
 
 f_stft, t_stft, Zxx_stft = stft(x_chirp, fs=fs, window='hann', nperseg=50, noverlap=25)
-print(f"Legacy STFT: {Zxx_stft.shape}")   # (26, ...) freq bins x frames
+print(f"Legacy STFT: {Zxx_stft.shape}")   # (26, 41) freq bins x frames
 
 # Reconstruct
 _, x_rec_stft = istft(Zxx_stft, fs=fs, window='hann', nperseg=50, noverlap=25)
 x_rec_stft = x_rec_stft[:len(x_chirp)]
-print(f"Legacy STFT reconstruction error: {np.abs(x_rec_stft - x_chirp).max():.2e}")
+print(f"Legacy STFT reconstruction error: {np.abs(x_rec_stft - x_chirp).max():.2e}") # 5.55e-16
 
-
-####################
-## lombscargle()   ##
-####################
+###################
+## lombscargle() ##
+###################
 '''
 lombscargle(x, y, freqs, precenter=False, normalize=False)
 
@@ -1591,10 +1601,9 @@ pgram_ls = lombscargle(t_irr, y_irr, ang_freqs, precenter=True)
 peak_f = freqs_ls[np.argmax(pgram_ls)]
 print(f"Lomb-Scargle detected frequency: {peak_f:.2f} Hz")  # ~10.0 Hz
 
-
-##############
+###############
 ## detrend() ##
-##############
+###############
 '''
 detrend(data, axis=-1, type='linear', bp=0, overwrite_data=False)
 
@@ -1617,9 +1626,8 @@ print(f"After constant detrend: mean = {x_dt_dc.mean():.4f}")               # ~0
 
 
 #-------------------------------------------------------------------------------------------------#
-#════════════════════════  PART H — LTI SYSTEMS  ═════════════════════════════════════════════════#
+#══════════════════════════════════  PART H — LTI SYSTEMS  ═══════════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
-
 '''
 LTI system representations:
   TransferFunction(b, a)         : H(s) = B(s)/A(s) (continuous) or H(z) (discrete).
@@ -1631,9 +1639,9 @@ Continuous-time: time in seconds, frequency in rad/s.
 Discrete-time:   add dt=... to make dlti.
 '''
 
-##################################
-## Continuous-time LTI systems   ##
-##################################
+#################################
+## Continuous-time LTI systems ##
+#################################
 
 # Define a 2nd-order underdamped system: natural frequency wn=10 rad/s, zeta=0.1
 wn = 10.0     # natural frequency (rad/s)
@@ -1643,7 +1651,7 @@ a_ct = [1., 2*zeta*wn, wn**2]
 
 # TransferFunction object
 sys_tf = TransferFunction(b_ct, a_ct)
-print(f"System poles: {sys_tf.poles.round(4)}")  # complex conjugate pair
+print(f"System poles: {sys_tf.poles.round(4)}")  # [-1.+9.9499j -1.-9.9499j]
 
 # ZerosPolesGain object
 z_ct, p_ct, k_ct = tf2zpk(b_ct, a_ct)
@@ -1656,6 +1664,7 @@ sys_ss = StateSpace(A_ss, B_ss, C_ss, D_ss)
 # Impulse response: response to delta input
 T_ir, h_ir = impulse(sys_tf, T=np.linspace(0, 5, 500))
 print(f"Impulse response peak: {h_ir.max():.4f} at t={T_ir[np.argmax(h_ir)]:.3f} s")
+# Impulse response peak: 8.6233 at t=0.150 s
 
 # Step response: response to unit step input
 T_step, y_step = step(sys_tf, T=np.linspace(0, 5, 500))
@@ -1671,6 +1680,7 @@ print(f"Simulation output shape: {y_sim.shape}")   # (5000,)
 w_bode = np.logspace(-1, 3, 500)   # rad/s
 w_mag, mag_db_bode, phase_bode = bode(sys_tf, w=w_bode)
 print(f"Resonance peak: {mag_db_bode.max():.2f} dB at {w_bode[np.argmax(mag_db_bode)]:.2f} rad/s")
+# Resonance peak: 14.02 dB at 9.91 rad/s
 
 # Frequency response
 w_fr, H_fr = freqresp(sys_tf, w=w_bode)
@@ -1680,11 +1690,11 @@ print(np.allclose(mag_db_bode, 20*np.log10(np.abs(H_fr)), atol=1e-8))  # True
 dt = 1/fs   # sampling period at 1000 Hz
 sys_d = cont2discrete((b_ct, a_ct), dt, method='bilinear')
 print(f"Discrete TF: b={sys_d[0].round(6)}, a={sys_d[1].round(6)}")
+# Discrete TF: b=[[2.5e-05 5.0e-05 2.5e-05]], a=[ 1.       -1.997902  0.998002]
 
-
-##################################
-## Discrete-time LTI systems     ##
-##################################
+###############################
+## Discrete-time LTI systems ##
+###############################
 '''
 dlti(*system, dt=1) : discrete-time LTI system.
   Same representations: TransferFunction(b,a,dt=...), ZerosPolesGain(z,p,k,dt=...), StateSpace(A,B,C,D,dt=...).
@@ -1705,7 +1715,7 @@ print(f"Discrete impulse response shape: {h_dimp[0].shape}")  # (500, 1)
 
 # Discrete step response
 _, y_dstep = dstep(sys_dlti, n=500)
-print(f"Discrete step final value: {y_dstep[0][-1][0]:.4f}")   # ~1.0
+print(f"Discrete step final value: {y_dstep[0][-1][0]:.4f}")   # 0.9044 (~1)
 
 # Discrete simulation
 n_sim = np.arange(500)
@@ -1715,16 +1725,16 @@ print(f"Discrete simulation output shape: {y_disc.shape}")  # (500, 1)
 
 # Discrete Bode
 w_dbode, mag_d, phase_d = dbode(sys_dlti, n=200)
-print(f"Max gain: {mag_d.max():.2f} dB")
+print(f"Max gain: {mag_d.max():.2f} dB") # 0.00 dB
 
 
 #-------------------------------------------------------------------------------------------------#
-#════════════════════════  PART I — PEAK FINDING  ════════════════════════════════════════════════#
+#═════════════════════════════════  PART I — PEAK FINDING  ═══════════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-###############
+################
 ## find_peaks ##
-###############
+################
 '''
 find_peaks(x, height=None, threshold=None, distance=None, prominence=None,
            width=None, wlen=None, rel_height=0.5, plateau_size=None)
@@ -1754,21 +1764,20 @@ print(f"Peaks at indices: {peaks}")   # [1, 3, 5, 9, 11]
 
 # Filter by prominence: only significant peaks
 peaks_prom, props_prom = find_peaks(x_peaks, prominence=1.0)
-print(f"Prominent peaks: {peaks_prom}")   # [3, 9]
+print(f"Prominent peaks: {peaks_prom}")   # [ 1  3  5  9 11]
 
 # Filter by width
 peaks_wide, props_wide = find_peaks(x_peaks, width=2)
-print(f"Wide peaks: {peaks_wide}")
+print(f"Wide peaks: {peaks_wide}") # [] (no peaks are wide enough)
 
 # Realistic signal: find peaks in noisy sinusoid
 x_spiky = np.sin(2*np.pi*5*t[:200]) + rng.normal(0, 0.1, 200)
 peaks_real, _ = find_peaks(x_spiky, height=0.5, distance=50, prominence=0.8)
-print(f"Found {len(peaks_real)} peaks in sinusoid")   # ~5 (one per period)
+print(f"Found {len(peaks_real)} peaks in sinusoid")   # Found 1 peaks in sinusoid
 
-
-##################################
+####################################
 ## peak_prominences / peak_widths ##
-##################################
+####################################
 '''
 peak_prominences(x, peaks, wlen=None) -> (prominences, left_bases, right_bases)
   Compute prominence of each peak: height above the highest of the two flanking valleys.
@@ -1785,25 +1794,25 @@ peak_widths(x, peaks, rel_height=0.5, prominence_data=None, wlen=None)
 
 # Prominence analysis
 prominences, left_b, right_b = peak_prominences(x_peaks, peaks)
-print(f"Prominences: {prominences.round(2)}")
+print(f"Prominences: {prominences.round(2)}") # Prominences: [1.  2.  1.5 0.5 3.  1. ]
 
 # Width analysis at FWHM (50% of prominence from peak top)
 widths, width_heights, left_ips, right_ips = peak_widths(
     x_peaks, peaks, rel_height=0.5, prominence_data=(prominences, left_b, right_b)
 )
-print(f"Peak widths (FWHM): {widths.round(2)}")
+print(f"Peak widths (FWHM): {widths.round(2)}") # Peak widths (FWHM): [1. 1. 1. 1. 1. 1.]
 
 # Full peak analysis pipeline
 peaks_all, props_all = find_peaks(x_spiky, height=0.4, distance=40, prominence=0.5)
 prom_all, _, _ = peak_prominences(x_spiky, peaks_all)
 widths_all, _, _, _ = peak_widths(x_spiky, peaks_all, rel_height=0.5)
 for i, p in enumerate(peaks_all):
-    print(f"  Peak at sample {p}: height={x_spiky[p]:.3f}  prom={prom_all[i]:.3f}  width={widths_all[i]:.1f} samples")
+    print(f"  Peak at sample {p}: height={x_spiky[p]:.3f}  prom={prom_all[i]:.3f}  width={widths_all[i]:.1f} samples")\
+# Peak at sample 48: height=1.111  prom=1.209  width=60.4 samples
 
-
-##################################
-## argrelmin / argrelmax         ##
-##################################
+###########################
+## argrelmin / argrelmax ##
+###########################
 '''
 argrelmin(data, axis=0, order=1, mode='clip') -> (indices,)
 argrelmax(data, axis=0, order=1, mode='clip') -> (indices,)
@@ -1823,21 +1832,22 @@ x_argrel = np.sin(2*np.pi*3*t[:200])
 
 maxima = argrelmax(x_argrel, order=30)   # order=30: neighbour window
 minima = argrelmin(x_argrel, order=30)
-print(f"Maxima at: {maxima[0]}")   # roughly every 333 samples / 3 Hz
-print(f"Minima at: {minima[0]}")
+print(f"Maxima at: {maxima[0]}")   # [83] roughly every 333 samples / 3 Hz
+print(f"Minima at: {minima[0]}")   # []
 
 # Custom comparator: find "plateaux" (where values are equal)
 extrema = argrelextrema(x_argrel, np.greater_equal, order=5)
 print(f"Found {len(extrema[0])} extrema")
+# Found 1 extrema
 
 
 #-------------------------------------------------------------------------------------------------#
-#═════════════════  PART J — WAVEFORMS & CHIRP Z-TRANSFORM  ══════════════════════════════════════#
+#════════════════════════════  PART J — WAVEFORMS & CHIRP Z-TRANSFORM  ═══════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-##############
+###############
 ## Waveforms ##
-##############
+###############
 '''
 chirp(t, f0, t1, f1, method='linear', phi=0, vertex_zero=True)
   Frequency-swept cosine (chirp) signal.
@@ -1891,11 +1901,11 @@ t_gp = np.linspace(-0.5e-3, 0.5e-3, 1000)
 x_gp, x_gp_q, env_gp = gausspulse(t_gp, fc=5000, bw=0.5, retquad=True, retenv=True)
 print(f"Gaussian pulse peak: {env_gp.max():.4f}")   # 1.0 (unit amplitude envelope)
 print(f"Pulse width (samples with env > 0.5): {(env_gp > 0.5).sum()}")
+# Pulse width (samples with env > 0.5): 352
 
-
-#####################################
-## Chirp Z-Transform / Zoom FFT     ##
-#####################################
+##################################
+## Chirp Z-Transform / Zoom FFT ##
+##################################
 '''
 czt(x, m=None, w=None, a=1.0, axis=-1)
   Chirp Z-transform: evaluate Z-transform along a spiral in the z-plane.
@@ -1934,10 +1944,13 @@ f_zoom, Z_zoom = zoom_fft(x_zoom, fn=[48., 52.], m=500, fs=fs), None
 X_zoom = zoom_fft(x_zoom, fn=[48., 52.], m=500, fs=fs)
 freqs_zoom = np.linspace(48., 52., 500)
 print(f"Zoom FFT peak near 50 Hz: {freqs_zoom[np.argmax(np.abs(X_zoom))]:.2f} Hz")
+# Zoom FFT peak near 50 Hz: 50.16 Hz
 
 # Resolve 50.0 vs 50.3 Hz (0.3 Hz separation) — not possible with standard FFT (1 Hz resolution)
 peak_idx = np.argsort(np.abs(X_zoom))[-4:]
-print(f"Zoom peaks at: {freqs_zoom[np.sort(peak_idx)].round(2)}")  # shows fine structure
+print(f"Zoom peaks at: {freqs_zoom[np.sort(peak_idx)].round(2)}")  
+# Zoom peaks at: [50.14 50.15 50.16 50.16]
+# shows fine structure
 
 # Reusable CZT class: create once, apply many times
 czt_fn = CZT(n=len(x_czt_sig), m=N_czt, w=W, a=1.0)
