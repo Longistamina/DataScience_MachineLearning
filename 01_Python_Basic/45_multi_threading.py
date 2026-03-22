@@ -224,25 +224,24 @@ def square(x):
 def calculate(x, y, z):
     return x * y + z
 
-if __name__ == '__main__':
     
-    # ✅ Multi-argument inputs using list comprehension
-    multi_arg_inputs = [(i, i+1) for i in range(1, 7, 2)]  # [(1, 2), (3, 4), (5, 6)]
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        results_multi = list(executor.map(lambda args: add_numbers(*args), multi_arg_inputs))
-    print(f"Multi-arg results: {results_multi}")  # [3, 7, 11]
-    
-    # ✅ Single-argument inputs using list comprehension (note the comma for tuple)
-    single_arg_inputs = [(i,) for i in range(2, 6)]  # [(2,), (3,), (4,), (5,)]
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        results_single = list(executor.map(lambda args: square(*args), single_arg_inputs))
-    print(f"Single-arg results: {results_single}")  # [4, 9, 16, 25]
-    
-    # ✅ Three-argument inputs using list comprehension
-    three_arg_inputs = [(i, i*2, i+1) for i in range(1, 4)]  # [(1, 2, 2), (2, 4, 3), (3, 6, 4)]
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        results_three = list(executor.map(lambda args: calculate(*args), three_arg_inputs))
-    print(f"Three-arg results: {results_three}")  # [4, 11, 22]
+# ✅ Multi-argument inputs using list comprehension
+multi_arg_inputs = [(i, i+1) for i in range(1, 7, 2)]  # [(1, 2), (3, 4), (5, 6)]
+with ThreadPoolExecutor(max_workers=4) as executor:
+    results_multi = list(executor.map(lambda args: add_numbers(*args), multi_arg_inputs))
+print(f"Multi-arg results: {results_multi}")  # [3, 7, 11]
+
+# ✅ Single-argument inputs using list comprehension (note the comma for tuple)
+single_arg_inputs = [(i,) for i in range(2, 6)]  # [(2,), (3,), (4,), (5,)]
+with ThreadPoolExecutor(max_workers=4) as executor:
+    results_single = list(executor.map(lambda args: square(*args), single_arg_inputs))
+print(f"Single-arg results: {results_single}")  # [4, 9, 16, 25]
+
+# ✅ Three-argument inputs using list comprehension
+three_arg_inputs = [(i, i*2, i+1) for i in range(1, 4)]  # [(1, 2, 2), (2, 4, 3), (3, 6, 4)]
+with ThreadPoolExecutor(max_workers=4) as executor:
+    results_three = list(executor.map(lambda args: calculate(*args), three_arg_inputs))
+print(f"Three-arg results: {results_three}")  # [4, 11, 22]
 
 
 #---------------------------------------------------------------------------------#

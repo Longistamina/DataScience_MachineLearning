@@ -81,8 +81,8 @@ arr = [2, 3, 8, 9]
 
 t0 = time.time() # Return the current time in second (before calculating)
 
-processor1 = multiprocessing.Process(target = calc_square, args = (arr, )) # Create processor1 to handle calc_square function
-processor2 = multiprocessing.Process(target = calc_cube, args = (arr, ))   # Create processor2 to handle calc_cube function
+processor1 = multiprocessing.Process(target=calc_square, args=(arr, )) # Create processor1 to handle calc_square function
+processor2 = multiprocessing.Process(target=calc_cube, args=(arr, ))   # Create processor2 to handle calc_cube function
                                                                            # (arr, ) means that this is a tuple, not just arr itself
                                                                            # Processor here is one CPU CORE
 
@@ -180,36 +180,35 @@ def square(x):
 def calculate(x, y, z):
     return x * y + z
 
-if __name__ == '__main__':
     
-    # ✅ Multi-argument inputs using list comprehension
-    multi_arg_inputs = [(i, i+1) for i in range(1, 7, 2)]  # [(1, 2), (3, 4), (5, 6)]
-    with multiprocessing.Pool() as pool:
-        results_multi = pool.starmap(func=add_numbers, iterable=multi_arg_inputs)
-    print(f"Multi-arg results: {results_multi}")  # [3, 7, 11]
-    
-    # ✅ Single-argument inputs using list comprehension (note the comma for tuple)
-    single_arg_inputs = [(i,) for i in range(2, 6)]  # [(2,), (3,), (4,), (5,)]
-    with multiprocessing.Pool() as pool:
-        results_single = pool.starmap(func=square, iterable=single_arg_inputs)
-    print(f"Single-arg results: {results_single}")  # [4, 9, 16, 25]
-    
-    # ✅ Three-argument inputs using list comprehension
-    three_arg_inputs = [(i, i*2, i+1) for i in range(1, 4)]  # [(1, 2, 2), (2, 4, 3), (3, 6, 4)]
-    with multiprocessing.Pool() as pool:
-        results_three = pool.starmap(func=calculate, iterable=three_arg_inputs)
-    print(f"Three-arg results: {results_three}")  # [4, 11, 22]
-    
-    # ✅ More complex comprehension examples
-    # Creating pairs from two different ranges
-    complex_inputs = [(x, y) for x in range(1, 4) for y in range(10, 13)]
-    # [(1, 10), (1, 11), (1, 12), (2, 10), (2, 11), (2, 12), (3, 10), (3, 11), (3, 12)]
-    
-    # Using conditional comprehension
-    conditional_inputs = [(i,) for i in range(10) if i % 2 == 0]  # [(0,), (2,), (4,), (6,), (8,)]
-    
-    print(f"Complex inputs: {complex_inputs[:3]}...")  # Show first 3
-    print(f"Conditional inputs: {conditional_inputs}")
+# ✅ Multi-argument inputs using list comprehension
+multi_arg_inputs = [(i, i+1) for i in range(1, 7, 2)]  # [(1, 2), (3, 4), (5, 6)]
+with multiprocessing.Pool() as pool:
+    results_multi = pool.starmap(func=add_numbers, iterable=multi_arg_inputs)
+print(f"Multi-arg results: {results_multi}")  # [3, 7, 11]
+
+# ✅ Single-argument inputs using list comprehension (note the comma for tuple)
+single_arg_inputs = [(i,) for i in range(2, 6)]  # [(2,), (3,), (4,), (5,)]
+with multiprocessing.Pool() as pool:
+    results_single = pool.starmap(func=square, iterable=single_arg_inputs)
+print(f"Single-arg results: {results_single}")  # [4, 9, 16, 25]
+
+# ✅ Three-argument inputs using list comprehension
+three_arg_inputs = [(i, i*2, i+1) for i in range(1, 4)]  # [(1, 2, 2), (2, 4, 3), (3, 6, 4)]
+with multiprocessing.Pool() as pool:
+    results_three = pool.starmap(func=calculate, iterable=three_arg_inputs)
+print(f"Three-arg results: {results_three}")  # [4, 11, 22]
+
+# ✅ More complex comprehension examples
+# Creating pairs from two different ranges
+complex_inputs = [(x, y) for x in range(1, 4) for y in range(10, 13)]
+# [(1, 10), (1, 11), (1, 12), (2, 10), (2, 11), (2, 12), (3, 10), (3, 11), (3, 12)]
+
+# Using conditional comprehension
+conditional_inputs = [(i,) for i in range(10) if i % 2 == 0]  # [(0,), (2,), (4,), (6,), (8,)]
+
+print(f"Complex inputs: {complex_inputs[:3]}...")  # Show first 3
+print(f"Conditional inputs: {conditional_inputs}")
 
 
 #---------------------------------------------------------------------------------#
