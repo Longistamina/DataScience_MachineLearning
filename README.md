@@ -97,3 +97,7 @@
     * counter(): built-in function for counting frequency (number of repeats) in Python
     * itertools: built-in module for handling discrete math and set like product(), permutations(), combinations()
     * Bonus: broadcasting-vectorization-parallel computing, reduction and scatter/gather, cartesian product and mendelian genetics, distance matrix and O(N^2)
++ [01_Python_Basic_part_17](https://youtu.be/QbWKk2QFiNY): 22th/03/2026
+    * multithreading: concurency computing
+    * multiprocess: parallel computing with multiple CPU cores
+    * Bonus: device-agnostic ML and DL libraries (tinygrad and Burn), GPU kernel, a glance at Rust programming language, stochastic gradient descent
