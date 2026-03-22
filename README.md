@@ -100,4 +100,4 @@
 + [01_Python_Basic_part_17](https://youtu.be/QbWKk2QFiNY): 22th/03/2026
     * multithreading: concurency computing
     * multiprocess: parallel computing with multiple CPU cores
-    * Bonus: device-agnostic ML and DL libraries (tinygrad and Burn), GPU kernel, a glance at Rust programming language, stochastic gradient descent
+    * Bonus: device-agnostic ML and DL libraries (tinygrad and Burn), GPU kernel, a glance at Rust programming language, probability and stochastic gradient descent
