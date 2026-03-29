@@ -101,3 +101,6 @@
     * multithreading: concurency computing
     * multiprocess: parallel computing with multiple CPU cores
     * Bonus: device-agnostic ML and DL libraries (tinygrad and Burn), GPU kernel, a glance at Rust programming language, probability and stochastic gradient descent
++ [01_Python_Basic_part_18](https://youtu.be/5J1nFDLbjxc): 29th/03/2026
+    * subprocess: running external commands and scripts in Python
+    * plumbum: like subprocess but with more readable syntax
