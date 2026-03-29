@@ -444,8 +444,11 @@ You can split it into lines for processing
 '''
 
 result = subprocess.run(['ls', '-1'], capture_output=True, text=True)
-lines = result.stdout.splitlines()
 
+print(result.stdout)
+# '00_Course_Intro\n01_Python_Basic\n02_Python_class_OOP\n03_Vector_Matrix_Sparse\n04_MathFunctions_Random\n05_Pandas_DataR_dataframe\n11_Convex_Optimization_CVXPY\nCurriculum.txt\ndemo.py\nLibraries_Installation.txt\nPython_Coding_Methodology.pdf\nREADME.md\ntest_GPU.py\nvscode_install_settings.txt\n'
+
+lines = result.stdout.splitlines()
 print(lines)
 # ['00_Course_Intro', '01_Python_Basic', '02_Python_class_OOP', '03_Vector_Matrix_Sparse', '05_Pandas_DataR_dataframe', '11_Convex_Optimization_CVXPY', 'Curriculum.txt', 'demo.py', 'Libraries_Installation.txt', 'Python_Coding_Methodology.pdf', 'README.md', 'test_GPU.py', 'vscode_install_settings.txt']
 
@@ -724,7 +727,7 @@ NEVER do this with user input:
 '''
 
 # BAD - Vulnerable to injection
-user_input = "file.txt; rm -rf /"  # Malicious input
+user_input = "file.txt; rm -rf asdf"  # Malicious input
 result = subprocess.run(f'cat {user_input}', shell=True)  # DANGEROUS! DON'T DO THIS
 '''"rm -rf /" would DELETE all files on the system if run with sufficient permissions!'''
 
