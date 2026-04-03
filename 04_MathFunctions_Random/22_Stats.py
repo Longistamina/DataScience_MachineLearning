@@ -148,12 +148,12 @@ x_pos    = np.abs(rng.normal(3, 1, N)) + 0.1        # positive reals
 
 
 #-------------------------------------------------------------------------------------------------#
-#═══════════════════════  PART A — CONTINUOUS DISTRIBUTIONS  ═════════════════════════════════════#
+#═════════════════════════════  PART A — CONTINUOUS DISTRIBUTIONS  ═══════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-#####################
-## rv_continuous API #
-#####################
+#######################
+## rv_continuous API ##
+#######################
 '''
 Every continuous distribution in scipy.stats is an instance (or frozen instance)
 of rv_continuous. They all share the same method interface:
@@ -190,6 +190,7 @@ print("=== rv_continuous API ===")
 p_unfrozen = stats.norm.pdf(1.0, loc=0, scale=1)        # N(0,1) pdf at x=1
 p_frozen   = stats.norm(loc=0, scale=1).pdf(1.0)        # same, frozen
 print(f"pdf(1|N(0,1)) unfrozen={p_unfrozen:.6f}  frozen={p_frozen:.6f}")   # same
+# pdf(1|N(0,1)) unfrozen=0.241971  frozen=0.241971
 
 d_norm = stats.norm(loc=0, scale=1)   # frozen standard normal — used below
 print(f"CDF(1.96) = {d_norm.cdf(1.96):.4f}")    # 0.9750
@@ -198,7 +199,8 @@ print(f"SF(1.96)  = {d_norm.sf(1.96):.4f}")     # 0.0250
 print(f"ISF(0.025)= {d_norm.isf(0.025):.4f}")   # 1.9600  (= ppf(0.975))
 
 mn, vr, sk, ku = d_norm.stats(moments='mvsk')
-print(f"N(0,1) mean={mn}, var={vr}, skew={sk}, kurt={ku}")   # 0 1 0 0
+print(f"N(0,1) mean={mn}, var={vr}, skew={sk}, kurt={ku}")
+# N(0,1) mean=0.0, var=1.0, skew=0.0, kurt=0.0
 
 print(f"Entropy N(0,1) = {d_norm.entropy():.4f}")   # 0.5*log(2πe) ≈ 1.4189
 print(f"E[X²] N(0,1)   = {d_norm.expect(lambda x: x**2):.4f}")   # = var = 1.0
@@ -209,9 +211,8 @@ print(f"95% interval N(0,1): [{ci[0]:.4f}, {ci[1]:.4f}]")   # [-1.96, 1.96]
 samp = d_norm.rvs(size=5, random_state=0)
 print(f"5 samples: {samp.round(4)}")
 
-
 ##########
-## norm  #
+## norm ##
 ##########
 '''
 stats.norm(loc=0, scale=1)
@@ -229,10 +230,9 @@ print(f"pdf(5)={d.pdf(5):.4f}  cdf(7)={d.cdf(7):.4f}")   # peak, ~0.841
 print(f"ppf(0.90)={d.ppf(0.90):.4f}")   # 5 + 2*1.2816 = 7.563
 print(f"rvs mean≈{d.rvs(10000, random_state=0).mean():.3f}")   # ≈ 5.0
 
-
-######
-## t  #
-######
+#######
+## t ##
+#######
 '''
 stats.t(df, loc=0, scale=1)
   Student's t-distribution.  df = degrees of freedom.
@@ -255,11 +255,19 @@ for df in [1, 5, 30, 1000]:
 for df in [5, 10, 20, 30, 120]:
     t_star = stats.t.ppf(0.975, df)
     print(f"  df={df:3d}  t*(0.975)={t_star:.4f}")
+  # df=   1  P(T>1.96)=0.1502  (N(0,1): 0.0250)
+  # df=   5  P(T>1.96)=0.0536  (N(0,1): 0.0250)
+  # df=  30  P(T>1.96)=0.0297  (N(0,1): 0.0250)
+  # df=1000  P(T>1.96)=0.0251  (N(0,1): 0.0250)
+  # df=  5  t*(0.975)=2.5706
+  # df= 10  t*(0.975)=2.2281
+  # df= 20  t*(0.975)=2.0860
+  # df= 30  t*(0.975)=2.0423
+  # df=120  t*(0.975)=1.9799
 
-
-#########
-## chi2  #
-#########
+##########
+## chi2 ##
+##########
 '''
 stats.chi2(df, loc=0, scale=1)
   Chi-squared distribution.  df = degrees of freedom.
@@ -273,19 +281,18 @@ stats.chi2(df, loc=0, scale=1)
 print("\n=== chi2 ===")
 df_chi = 5
 d_chi  = stats.chi2(df_chi)
-print(f"χ²(5) mean={d_chi.mean():.1f}, var={d_chi.var():.1f}")   # 5, 10
+print(f"χ²(5) mean={d_chi.mean():.1f}, var={d_chi.var():.1f}")   # χ²(5) mean=5.0, var=10.0
 print(f"Critical value χ²(5, 0.95) = {d_chi.ppf(0.95):.4f}")     # 11.0705
 print(f"P(X > 11.07) = {d_chi.sf(11.0705):.4f}")                  # ≈ 0.05
 
 # Chi2 as sum of squared normals
 z_vals = rng.standard_normal((10000, df_chi))
 chi2_samples = (z_vals**2).sum(axis=1)
-print(f"Simulated χ²(5) mean={chi2_samples.mean():.3f} (expect 5)")
+print(f"Simulated χ²(5) mean={chi2_samples.mean():.3f} (expect 5)") # Simulated χ²(5) mean=5.029 (expect 5)
 
-
-######
-## f  #
-######
+#######
+## f ##
+#######
 '''
 stats.f(dfn, dfd, loc=0, scale=1)
   F-distribution.  dfn=numerator df, dfd=denominator df.
@@ -301,10 +308,9 @@ print(f"F(3,20) mean={d_f.mean():.4f}")           # 20/18 ≈ 1.111
 print(f"F* for α=0.05: {d_f.ppf(0.95):.4f}")      # 3.0984
 print(f"P(F > 3.10) = {d_f.sf(3.10):.4f}")        # ≈ 0.050
 
-
-##########
-## expon  #
-##########
+###########
+## expon ##
+###########
 '''
 stats.expon(loc=0, scale=1)
   Exponential distribution.  Mean = scale = 1/λ (rate parameterisation λ=1/scale).
@@ -317,17 +323,18 @@ stats.expon(loc=0, scale=1)
 '''
 print("\n=== expon ===")
 d_exp = stats.expon(scale=2.0)   # mean = 2
-print(f"Mean={d_exp.mean()}, Var={d_exp.var()}")   # 2, 4
+print(f"Mean={d_exp.mean()}, Var={d_exp.var()}")   # Mean=2.0, Var=4.0
+
 # Memorylessness check
 s, t_ = 3.0, 1.0
 lhs = d_exp.sf(s + t_) / d_exp.sf(s)
 rhs = d_exp.sf(t_)
 print(f"Memoryless: P(X>4|X>3)={lhs:.6f} == P(X>1)={rhs:.6f}")   # True
+# Memoryless: P(X>4|X>3)=0.606531 == P(X>1)=0.606531
 
-
-##########
-## gamma  #
-##########
+###########
+## gamma ##
+###########
 '''
 stats.gamma(a, loc=0, scale=1)
   Gamma distribution.  a = shape (α), scale = 1/rate (β=1/scale).
@@ -341,17 +348,17 @@ stats.gamma(a, loc=0, scale=1)
 '''
 print("\n=== gamma ===")
 d_gam = stats.gamma(a=3, scale=2)   # shape=3, scale=2
-print(f"Gamma(3,2) mean={d_gam.mean()}, var={d_gam.var()}")   # 6, 12
+print(f"Gamma(3,2) mean={d_gam.mean()}, var={d_gam.var()}")   # mean=6.0, var=12.0
+
 # Sum of 3 exponentials ~ Gamma(3, scale)
 sim_sum = sum(stats.expon(scale=2).rvs((10000, 3), random_state=i).sum(axis=1)
               for i in range(1)) / 1  # one trial
 g_sim = d_gam.rvs(10000, random_state=0)
-print(f"Gamma rvs mean≈{g_sim.mean():.3f} (expect 6)")
+print(f"Gamma rvs mean≈{g_sim.mean():.3f} (expect 6)") # mean≈5.956 (expect 6)
 
-
-########
-## beta #
-########
+##########
+## beta ##
+##########
 '''
 stats.beta(a, b, loc=0, scale=1)
   Beta distribution on [loc, loc+scale].  a, b > 0 are shape parameters.
@@ -367,7 +374,11 @@ stats.beta(a, b, loc=0, scale=1)
 print("\n=== beta ===")
 for a, b in [(1, 1), (2, 5), (5, 2), (0.5, 0.5)]:
     d_b = stats.beta(a, b)
-    print(f"  Beta({a},{b}) mean={d_b.mean():.4f} mode={max(0,(a-1)/(a+b-2)) if a+b>2 else 'at edge':.4f}")
+    print(f"Beta({a},{b}) mean={d_b.mean():.4f} mode={max(0,(a-1)/(a+b-2)) if a+b>2 else 'at edge'}")
+# Beta(1,1) mean=0.5000 mode=at edge
+# Beta(2,5) mean=0.2857 mode=0.2
+# Beta(5,2) mean=0.7143 mode=0.8
+# Beta(0.5,0.5) mean=0.5000 mode=at edge
 
 # Bayesian binomial proportion: after 7 heads in 10 flips
 # Prior: Beta(1,1) → Posterior: Beta(1+7, 1+3) = Beta(8, 4)
@@ -375,11 +386,11 @@ prior = stats.beta(1, 1)
 posterior = stats.beta(8, 4)
 ci_95 = posterior.interval(0.95)
 print(f"Posterior Beta(8,4): mean={posterior.mean():.4f}, 95% CI={np.array(ci_95).round(4)}")
+# Posterior Beta(8,4): mean=0.6667, 95% CI=[0.3903 0.8907]
 
-
-###########
-## lognorm #
-###########
+#############
+## lognorm ##
+#############
 '''
 stats.lognorm(s, loc=0, scale=1)
   Log-normal distribution.  s = σ (std of underlying normal), scale = exp(μ).
@@ -394,17 +405,16 @@ stats.lognorm(s, loc=0, scale=1)
 print("\n=== lognorm ===")
 mu_ln, sig_ln = 1.0, 0.5
 d_ln = stats.lognorm(s=sig_ln, scale=np.exp(mu_ln))
-print(f"LN mean={d_ln.mean():.4f} (expect {np.exp(mu_ln + sig_ln**2/2):.4f})")
-print(f"LN var ={d_ln.var():.4f}")
+print(f"LN mean={d_ln.mean():.4f} (expect {np.exp(mu_ln + sig_ln**2/2):.4f})") # mean=3.0802 (expect 3.0802) 
+print(f"LN var={d_ln.var():.4f}") # var=2.6948
 
 # Simulated log-normal via underlying normal
 x_log = rng.lognormal(mean=mu_ln, sigma=sig_ln, size=10000)
-print(f"sim mean={x_log.mean():.4f}, std={x_log.std():.4f}")
+print(f"sim mean={x_log.mean():.4f}, std={x_log.std():.4f}") # sim mean=3.0785, std=1.6715
 
-
-###########
-## uniform #
-###########
+#############
+## uniform ##
+#############
 '''
 stats.uniform(loc=0, scale=1)
   Uniform distribution on [loc, loc+scale].
@@ -414,13 +424,12 @@ stats.uniform(loc=0, scale=1)
 '''
 print("\n=== uniform ===")
 d_u = stats.uniform(loc=2, scale=6)   # Uniform[2, 8]
-print(f"U[2,8] mean={d_u.mean()}, var={d_u.var():.4f}")   # 5, 3
+print(f"U[2,8] mean={d_u.mean()}, var={d_u.var():.4f}")   # mean=5.0, var=3.0000
 print(f"P(3 < X < 6) = {d_u.cdf(6) - d_u.cdf(3):.4f}")   # 0.5
 
-
-####################################
-## weibull_min / weibull_max       #
-####################################
+###############################
+## weibull_min / weibull_max ##
+###############################
 '''
 stats.weibull_min(c, loc=0, scale=1)  — Weibull distribution (most common form).
   c = shape (k), scale = λ.
@@ -435,12 +444,14 @@ print("\n=== weibull_min ===")
 for c in [0.5, 1.0, 2.0, 3.5]:
     d_w = stats.weibull_min(c, scale=2)
     print(f"  c={c}: mean={d_w.mean():.4f}, median={d_w.median():.4f}")
-# c=1: mean = scale = 2, c=3.5: roughly normal shape
+  # c=0.5: mean=4.0000, median=0.9609
+  # c=1.0: mean=2.0000, median=1.3863
+  # c=2.0: mean=1.7725, median=1.6651
+  # c=3.5: mean=1.7995, median=1.8012
 
-
-###################
-## pareto / genpareto
-###################
+########################
+## pareto / genpareto ##
+########################
 '''
 stats.pareto(b, loc=0, scale=1)
   Pareto distribution.  b = shape (α), scale = x_m (minimum value).
@@ -456,15 +467,14 @@ stats.genpareto(c, loc=0, scale=1)
 '''
 print("\n=== pareto / genpareto ===")
 d_pa = stats.pareto(b=3)
-print(f"Pareto(3) mean={d_pa.mean():.4f}, var={d_pa.var():.4f}")   # 1.5, 0.75
+print(f"Pareto(3) mean={d_pa.mean():.4f}, var={d_pa.var():.4f}")   # mean=1.5000, var=0.7500
 
 d_gp = stats.genpareto(c=0.2)   # heavy-tailed
-print(f"GenPareto(ξ=0.2) mean={d_gp.mean():.4f}")
+print(f"GenPareto(ξ=0.2) mean={d_gp.mean():.4f}") # mean=1.2500
 
-
-##########
-## cauchy #
-##########
+############
+## cauchy ##
+############
 '''
 stats.cauchy(loc=0, scale=1)
   Cauchy (Lorentz) distribution.
@@ -478,14 +488,17 @@ stats.cauchy(loc=0, scale=1)
 print("\n=== cauchy ===")
 d_ca = stats.cauchy(loc=0, scale=1)
 print(f"Cauchy median={d_ca.median():.4f}")   # 0
+
 samp_c = d_ca.rvs(10000, random_state=0)
 print(f"Sample mean of 10000 Cauchy: {samp_c.mean():.2f}  (undefined, wildly varying)")
+# 2.57  (undefined, wildly varying)
+
 print(f"Sample median             : {np.median(samp_c):.4f}  (stable ≈ 0)")
+# Sample median: -0.0204  (stable ≈ 0)
 
-
-###########
-## laplace #
-###########
+#############
+## laplace ##
+#############
 '''
 stats.laplace(loc=0, scale=1)
   Laplace (double exponential) distribution.
@@ -496,12 +509,11 @@ stats.laplace(loc=0, scale=1)
 '''
 print("\n=== laplace ===")
 d_la = stats.laplace(loc=0, scale=1)
-print(f"Laplace var={d_la.var()}, kurtosis={d_la.stats('k')}")   # 2, 3
+print(f"Laplace var={d_la.var()}, kurtosis={d_la.stats('k')}")   # var=2.0, kurtosis=3.0
 
-
-############
-## logistic #
-############
+##############
+## logistic ##
+##############
 '''
 stats.logistic(loc=0, scale=1)
   Logistic distribution.
@@ -515,13 +527,12 @@ print("\n=== logistic ===")
 d_lo = stats.logistic(loc=0, scale=1)
 # CDF of logistic IS the sigmoid
 x_test = 2.0
-print(f"Logistic CDF(2) = {d_lo.cdf(x_test):.6f}")
+print(f"Logistic CDF(2) = {d_lo.cdf(x_test):.6f}") # 0.880797
 print(f"Sigmoid(2)      = {1/(1+np.exp(-x_test)):.6f}")   # same
 
-
-###################################
-## Extreme value: gumbel / genextreme
-###################################
+########################################
+## Extreme value: gumbel / genextreme ##
+########################################
 '''
 stats.gumbel_r(loc=0, scale=1)  : right-skewed Gumbel (max-domain-of-attraction).
 stats.gumbel_l(loc=0, scale=1)  : left-skewed Gumbel (reflected).
@@ -533,18 +544,17 @@ stats.genextreme(c, loc, scale) : Generalised Extreme Value (GEV).
   GEV is the limiting distribution of block maxima (Fisher-Tippett theorem).
   Used in flood frequency analysis, extreme wind speeds, financial tail risk.
 '''
-print("\n=== extreme value ===")
+print("\n=== extreme value - Gumbel ===")
 d_gu = stats.gumbel_r(loc=0, scale=1)
-print(f"Gumbel mean={d_gu.mean():.4f} (≈ Euler-Mascheroni γ={0.5772:.4f})")
+print(f"Gumbel mean={d_gu.mean():.4f} (≈ Euler-Mascheroni γ={0.5772:.4f})") # mean=0.5772
 print(f"Gumbel mode=0 (loc), skew={d_gu.stats('s'):.4f}")   # skew = 1.1396
 
 d_gev = stats.genextreme(c=0.3, loc=0, scale=1)   # Fréchet type
-print(f"GEV(ξ=0.3) mean={d_gev.mean():.4f}")
+print(f"GEV(ξ=0.3) mean={d_gev.mean():.4f}") # mean=0.3418
 
-
-############
-## skewnorm #
-############
+##############
+## skewnorm ##
+##############
 '''
 stats.skewnorm(a, loc=0, scale=1)
   Skew-normal distribution.  a = shape (skewness parameter).
@@ -556,11 +566,13 @@ print("\n=== skewnorm ===")
 for a in [-5, 0, 5]:
     d_sn = stats.skewnorm(a, loc=0, scale=1)
     print(f"  a={a:3d}: mean={d_sn.mean():.4f}, skew={d_sn.stats('s'):.4f}")
+  # a= -5: mean=-0.7824, skew=-0.8510
+  # a=  0: mean=0.0000, skew=0.0000
+  # a=  5: mean=0.7824, skew=0.8510
 
-
-############
-## truncnorm #
-############
+###############
+## truncnorm ##
+###############
 '''
 stats.truncnorm(a, b, loc=0, scale=1)
   Truncated normal: N(loc, scale²) restricted to [loc+a*scale, loc+b*scale].
@@ -577,14 +589,13 @@ lo, hi    = 2.0, 8.0
 a_tn = (lo - mu) / sigma
 b_tn = (hi - mu) / sigma
 d_tn = stats.truncnorm(a_tn, b_tn, loc=mu, scale=sigma)
-print(f"Truncated N(5,2) on [2,8]: mean={d_tn.mean():.4f}, std={d_tn.std():.4f}")
+print(f"Truncated N(5,2) on [2,8]: mean={d_tn.mean():.4f}, std={d_tn.std():.4f}") # mean=5.0000, std=1.4853
 samp_tn = d_tn.rvs(10000, random_state=0)
 print(f"All in [2,8]: {(samp_tn >= 2).all() and (samp_tn <= 8).all()}")   # True
 
-
-#############
-## loguniform #
-#############
+################
+## loguniform ##
+################
 '''
 stats.loguniform(a, b)
   Log-uniform (reciprocal) distribution on [a, b].
@@ -594,13 +605,12 @@ stats.loguniform(a, b)
 '''
 print("\n=== loguniform ===")
 d_lu = stats.loguniform(1e-3, 1e3)   # 10⁻³ to 10³ (6 orders of magnitude)
-print(f"loguniform median = {d_lu.median():.4f}")   # 1.0 (geometric midpoint)
-print(f"loguniform mean   = {d_lu.mean():.4f}")
+print(f"loguniform median = {d_lu.median():.4f}") # 1.0 (geometric midpoint)
+print(f"loguniform mean   = {d_lu.mean():.4f}") # 72.3823
 
-
-################
-## rv_histogram #
-################
+##################
+## rv_histogram ##
+##################
 '''
 stats.rv_histogram(histogram, density=True)
   Build an empirical distribution from a histogram.
@@ -615,17 +625,17 @@ print("\n=== rv_histogram ===")
 x_hist = rng.normal(0, 1, 1000)
 hist_counts, bin_edges = np.histogram(x_hist, bins=30, density=True)
 d_rv_hist = stats.rv_histogram((hist_counts, bin_edges))
-print(f"rv_histogram mean ≈ {d_rv_hist.mean():.4f}")   # ≈ 0
-print(f"rv_histogram CDF(0) ≈ {d_rv_hist.cdf(0):.4f}")  # ≈ 0.5
+print(f"rv_histogram mean ≈ {d_rv_hist.mean():.4f}")   # -0.0322 (≈ 0)
+print(f"rv_histogram CDF(0) ≈ {d_rv_hist.cdf(0):.4f}")  # 0.5068 (≈ 0.5)
 
 
 #-------------------------------------------------------------------------------------------------#
 #════════════════════════════  PART B — DISCRETE DISTRIBUTIONS  ══════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-####################
-## rv_discrete API  #
-####################
+#####################
+## rv_discrete API ##
+#####################
 '''
 Discrete distributions share the same interface as rv_continuous, with:
   .pmf(k)  : probability mass function P(X = k)
@@ -637,9 +647,9 @@ Discrete distributions share the same interface as rv_continuous, with:
   No .pdf() — use .pmf() instead.
 '''
 
-##########
-## binom  #
-##########
+###########
+## binom ##
+###########
 '''
 stats.binom(n, p)
   Binomial distribution.  n = trials, p = success probability.
@@ -649,19 +659,18 @@ stats.binom(n, p)
 '''
 print("\n=== binom ===")
 d_bi = stats.binom(n=20, p=0.3)
-print(f"Binom(20,0.3) mean={d_bi.mean()}, var={d_bi.var()}")   # 6, 4.2
+print(f"Binom(20,0.3) mean={d_bi.mean()}, var={d_bi.var()}")   # mean=6.0, var=4.2
 k_vals = np.arange(0, 21)
-print(f"PMF(k=6) = {d_bi.pmf(6):.4f}")    # mode
+print(f"PMF(k=6) = {d_bi.pmf(6):.4f}")    # 0.1916 (mode)
 print(f"P(X≤8)   = {d_bi.cdf(8):.4f}")    # 0.8867
-print(f"P(X≥10)  = {d_bi.sf(9):.4f}")     # = 1 - P(X≤9)
+print(f"P(X≥10)  = {d_bi.sf(9):.4f}")     # 0.0480 = 1 - P(X≤9)
 
 # 95th percentile: smallest k with P(X≤k)≥0.95
-print(f"95th percentile: {d_bi.ppf(0.95):.0f}")   # 10
+print(f"95th percentile: {d_bi.ppf(0.95):.0f}")   # 9
 
-
-###########
-## poisson #
-###########
+#############
+## poisson ##
+#############
 '''
 stats.poisson(mu)
   Poisson distribution.  mu = λ = rate parameter.
@@ -673,21 +682,20 @@ stats.poisson(mu)
 '''
 print("\n=== poisson ===")
 d_po = stats.poisson(mu=4)
-print(f"Poisson(4) mean={d_po.mean()}, var={d_po.var()}")   # 4, 4
+print(f"Poisson(4) mean={d_po.mean()}, var={d_po.var()}")   # mean=4.0, var=4.0
 print(f"P(X=4) = {d_po.pmf(4):.4f}")    # 0.1954  (mode)
 print(f"P(X=0) = {d_po.pmf(0):.4f}")    # 0.0183  (probability of no events)
 
 # Compare Poisson vs Normal approximation (large λ)
 lam = 100
 d_po100 = stats.poisson(lam)
-print(f"Poisson(100) mean={d_po100.mean()}, std={d_po100.std():.4f}")
-print(f"Normal approx P(X≤95) ≈ {stats.norm(lam, np.sqrt(lam)).cdf(95):.4f}")
-print(f"Poisson exact P(X≤95) = {d_po100.cdf(95):.4f}")   # close
+print(f"Poisson(100) mean={d_po100.mean()}, std={d_po100.std():.4f}") # mean=100.0, std=10.0000
+print(f"Normal approx P(X≤95) ≈ {stats.norm(lam, np.sqrt(lam)).cdf(95):.4f}") # 0.3085
+print(f"Poisson exact P(X≤95) = {d_po100.cdf(95):.4f}")   # 0.3312 (close)
 
-
-########
-## geom  #
-########
+##########
+## geom ##
+##########
 '''
 stats.geom(p)
   Geometric distribution.  p = success probability per trial.
@@ -698,13 +706,12 @@ stats.geom(p)
 '''
 print("\n=== geom ===")
 d_ge = stats.geom(p=0.25)
-print(f"Geom(0.25) mean={d_ge.mean()}, var={d_ge.var()}")   # 4, 12
+print(f"Geom(0.25) mean={d_ge.mean()}, var={d_ge.var()}")   # mean=4.0, var=12.0
 print(f"P(X=1) = {d_ge.pmf(1):.4f}")   # 0.25 (success on first trial)
 
-
-#############
-## hypergeom #
-#############
+###############
+## hypergeom ##
+###############
 '''
 stats.hypergeom(M, n, N)
   Hypergeometric distribution (sampling WITHOUT replacement).
@@ -719,12 +726,11 @@ print("\n=== hypergeom ===")
 M, n_h, N_h = 50, 10, 7   # 50 items, 10 defective, draw 7
 d_hg = stats.hypergeom(M, n_h, N_h)
 print(f"Hypergeom(50,10,7) mean={d_hg.mean():.4f}")   # 1.4
-print(f"P(0 defective in 7) = {d_hg.pmf(0):.4f}")
+print(f"P(0 defective in 7) = {d_hg.pmf(0):.4f}") # 0.1867 
 
-
-##########
-## nbinom #
-##########
+############
+## nbinom ##
+############
 '''
 stats.nbinom(n, p)
   Negative Binomial distribution.
@@ -738,10 +744,9 @@ print("\n=== nbinom ===")
 d_nb = stats.nbinom(n=5, p=0.4)
 print(f"NBinom(5,0.4) mean={d_nb.mean():.4f}")   # 5*0.6/0.4 = 7.5
 
-
-###########
-## bernoulli #
-###########
+###############
+## bernoulli ##
+###############
 '''
 stats.bernoulli(p)
   Bernoulli distribution (single binary trial).  p = P(X=1).
@@ -751,12 +756,11 @@ stats.bernoulli(p)
 '''
 print("\n=== bernoulli ===")
 d_ber = stats.bernoulli(p=0.7)
-print(f"Bernoulli(0.7) mean={d_ber.mean()}, var={d_ber.var():.4f}")   # 0.7, 0.21
+print(f"Bernoulli(0.7) mean={d_ber.mean()}, var={d_ber.var():.4f}")   # mean=0.7, var=0.2100
 
-
-###########
-## randint  #
-###########
+#############
+## randint ##
+#############
 '''
 stats.randint(low, high)
   Discrete uniform distribution on {low, low+1, ..., high-1}.
@@ -767,10 +771,9 @@ print("\n=== randint ===")
 d_ri = stats.randint(1, 7)   # die roll {1,2,3,4,5,6}
 print(f"Die mean={d_ri.mean()}, var={d_ri.var():.4f}")   # 3.5, 35/12≈2.917
 
-
-########
-## zipf  #
-########
+##########
+## zipf ##
+##########
 '''
 stats.zipf(a)
   Zipf distribution (Zeta distribution).  a > 1.
@@ -784,19 +787,19 @@ stats.zipfian(a, n)
 '''
 print("\n=== zipf/zipfian ===")
 d_zf = stats.zipf(a=2.0)
-print(f"Zipf(2) P(X=1)={d_zf.pmf(1):.4f}, P(X=2)={d_zf.pmf(2):.4f}")
+print(f"Zipf(2) P(X=1)={d_zf.pmf(1):.4f}, P(X=2)={d_zf.pmf(2):.4f}") # P(X=1)=0.6079, P(X=2)=0.1520
 
 d_zi = stats.zipfian(a=1.5, n=1000)
-print(f"Zipfian(1.5,1000) mean={d_zi.mean():.4f}")
+print(f"Zipfian(1.5,1000) mean={d_zi.mean():.4f}") # mean=24.2438
 
 
 #-------------------------------------------------------------------------------------------------#
-#═══════════════════════  PART C — MULTIVARIATE DISTRIBUTIONS  ═══════════════════════════════════#
+#═══════════════════════════  PART C — MULTIVARIATE DISTRIBUTIONS  ═══════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-##########################
-## multivariate_normal   ##
-##########################
+#########################
+## multivariate_normal ##
+#########################
 '''
 stats.multivariate_normal(mean, cov, allow_singular=False)
   Multivariate normal distribution N(μ, Σ).
@@ -819,10 +822,10 @@ cov_mv = np.array([[1.0, 0.8], [0.8, 2.0]])
 d_mv   = stats.multivariate_normal(mean=mu_mv, cov=cov_mv)
 
 samp_mv = d_mv.rvs(size=1000, random_state=0)
-print(f"Sample mean : {samp_mv.mean(axis=0).round(4)}")   # ≈ [1, 2]
+print(f"Sample mean : {samp_mv.mean(axis=0).round(4)}")   # [1.0229 2.0261]
 print(f"Sample cov :\n{np.cov(samp_mv.T).round(4)}")     # ≈ [[1, 0.8],[0.8, 2]]
-print(f"Entropy     : {d_mv.entropy():.4f}")
-print(f"pdf(μ)      : {d_mv.pdf(mu_mv):.6f}")   # peak density
+print(f"Entropy     : {d_mv.entropy():.4f}") # 2.9916
+print(f"pdf(μ)      : {d_mv.pdf(mu_mv):.6f}") # 0.136474 (peak density)
 
 # Mahalanobis distance: each sample should be chi2(2) distributed
 inv_cov = np.linalg.inv(cov_mv)
@@ -832,10 +835,9 @@ maha2 = np.einsum('ij,jk,ik->i', diff, inv_cov, diff)   # (x-μ)ᵀΣ⁻¹(x-μ)
 chi2_95 = stats.chi2(df=2).ppf(0.95)
 print(f"Fraction inside 95% confidence ellipse: {(maha2 <= chi2_95).mean():.4f}")   # ≈ 0.95
 
-
-############
-## dirichlet #
-############
+###############
+## dirichlet ##
+###############
 '''
 stats.dirichlet(alpha)
   Dirichlet distribution on the probability simplex.
@@ -851,17 +853,21 @@ stats.dirichlet(alpha)
 print("\n=== dirichlet ===")
 alpha = np.array([2.0, 5.0, 1.0])
 d_dir = stats.dirichlet(alpha)
-print(f"Dirichlet mean: {d_dir.mean().round(4)}")    # [0.25, 0.625, 0.125]
-print(f"Dirichlet var : {d_dir.var().round(4)}")
+print(f"Dirichlet mean: {d_dir.mean().round(4)}") # [0.25, 0.625, 0.125]
+print(f"Dirichlet var : {d_dir.var().round(4)}") # [0.0208 0.026  0.0122]
 
 samp_dir = d_dir.rvs(size=5, random_state=0)
 print("Samples (rows sum to 1):\n", samp_dir.round(4))
+#  [[0.4558 0.4954 0.0489]
+#  [0.0686 0.8898 0.0416]
+#  [0.1771 0.8159 0.007 ]
+#  [0.2371 0.6026 0.1603]
+#  [0.5024 0.48   0.0175]]
 print("Row sums:", samp_dir.sum(axis=1).round(8))   # all 1.0
 
-
-###############
-## multinomial #
-###############
+#################
+## multinomial ##
+#################
 '''
 stats.multinomial(n, p)
   Multinomial distribution.  n = total trials, p = (k,) probability vector.
@@ -877,10 +883,9 @@ x_sample = d_mult.rvs(size=3, random_state=0)
 print("Samples:\n", x_sample)
 print("Row sums:", x_sample.sum(axis=1))   # all 10
 
-
-#####################
-## wishart / invwishart
-#####################
+##########################
+## wishart / invwishart ##
+##########################
 '''
 stats.wishart(df, scale)
   Wishart distribution — matrix generalisation of Chi-squared.
@@ -899,16 +904,25 @@ scale_W = np.eye(3)
 d_wish = stats.wishart(df=5, scale=scale_W)
 W_samp = d_wish.rvs(random_state=0)
 print("Wishart sample (3×3 PSD matrix):\n", W_samp.round(4))
-print(f"Wishart mean = df*scale = 5*I:\n{d_wish.mean()}")
+#  [[14.8444  6.7966  1.5417]
+#  [ 6.7966  4.7084  1.9426]
+#  [ 1.5417  1.9426  7.3944]]
+
+print(f"Wishart mean = df*scale = 5*I:\n{d_wish.mean()}") 
+# [[5. 0. 0.]
+#  [0. 5. 0.]
+#  [0. 0. 5.]]
 
 d_iw = stats.invwishart(df=7, scale=scale_W)
 IW_samp = d_iw.rvs(random_state=0)
 print("InvWishart sample:\n", IW_samp.round(4))
+#  [[ 0.0674 -0.0683  0.0099]
+#  [-0.0683  0.3996 -0.0902]
+#  [ 0.0099 -0.0902  0.0825]]
 
-
-#################
-## multivariate_t #
-#################
+####################
+## multivariate_t ##
+####################
 '''
 stats.multivariate_t(loc, shape, df)
   Multivariate t-distribution.  Heavier tails than multivariate normal.
@@ -919,17 +933,17 @@ stats.multivariate_t(loc, shape, df)
 print("\n=== multivariate_t ===")
 d_mvt = stats.multivariate_t(loc=[0, 0], shape=np.eye(2), df=4)
 samp_mvt = d_mvt.rvs(size=1000, random_state=0)
-print(f"Multivariate t sample mean: {samp_mvt.mean(axis=0).round(4)}")   # ≈ [0, 0]
-print(f"Sample var (expect 4/(4-2)=2): {samp_mvt.var(axis=0).round(3)}")
+print(f"Multivariate t sample mean: {samp_mvt.mean(axis=0).round(4)}")   # [-0.0888  0.0099]
+print(f"Sample var (expect 4/(4-2)=2): {samp_mvt.var(axis=0).round(3)}") # [1.763 1.787]
 
 
 #-------------------------------------------------------------------------------------------------#
 #═══════════════════════  PART D — SUMMARY & DESCRIPTIVE STATISTICS  ═════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-##############
-## describe()  #
-##############
+################
+## describe() ##
+################
 '''
 stats.describe(a, axis=0, ddof=1, bias=True, nan_policy='propagate')
   -> DescribeResult(nobs, minmax, mean, variance, skewness, kurtosis)
@@ -943,19 +957,18 @@ stats.describe(a, axis=0, ddof=1, bias=True, nan_policy='propagate')
 '''
 print("\n=== describe ===")
 res = stats.describe(x_norm, ddof=1)
-print(f"n={res.nobs}, min={res.minmax[0]:.3f}, max={res.minmax[1]:.3f}")
-print(f"mean={res.mean:.4f}, var={res.variance:.4f}")
-print(f"skew={res.skewness:.4f}, excess_kurt={res.kurtosis:.4f}")
+print(f"n={res.nobs}, min={res.minmax[0]:.3f}, max={res.minmax[1]:.3f}") # n=100, min=1.098, max=9.283
+print(f"mean={res.mean:.4f}, var={res.variance:.4f}") # mean=4.8995, var=2.4129
+print(f"skew={res.skewness:.4f}, excess_kurt={res.kurtosis:.4f}") # skew=-0.1370, excess_kurt=-0.2691
 
 # 2-D array: axis=0 gives column-wise statistics
 X_2d = rng.normal(0, 1, (50, 3))
 res2 = stats.describe(X_2d, axis=0)
 print(f"2-D describe shape: mean={res2.mean.shape}")   # (3,)
 
-
-###################################
-## gmean / hmean / pmean          #
-###################################
+###########################
+## gmean / hmean / pmean ##
+###########################
 '''
 stats.gmean(a, axis=0, dtype=None, weights=None, nan_policy='propagate', keepdims=False)
   Geometric mean: (∏ aᵢ)^(1/n) = exp(mean(log(aᵢ))).
@@ -974,16 +987,16 @@ stats.pmean(a, p, axis=0, dtype=None, weights=None, nan_policy='propagate', keep
 print("\n=== gmean / hmean / pmean ===")
 a_means = np.array([1.0, 2.0, 4.0, 8.0])
 print(f"Arithmetic mean : {a_means.mean():.4f}")          # 3.75
-print(f"Geometric mean  : {stats.gmean(a_means):.4f}")    # 2^(1+2+4+8)/4... = (1*2*4*8)^(1/4) = 2^(6/4)
-print(f"Harmonic mean   : {stats.hmean(a_means):.4f}")    # smallest
-print(f"Power mean p=2  : {stats.pmean(a_means, 2):.4f}") # RMS, largest
+print(f"Geometric mean  : {stats.gmean(a_means):.4f}")    # 2.8284 = 2^(1+2+4+8)/4... = (1*2*4*8)^(1/4) = 2^(6/4)
+print(f"Harmonic mean   : {stats.hmean(a_means):.4f}")    # 2.1333
+print(f"Power mean p=2  : {stats.pmean(a_means, 2):.4f}") # 4.6098 (RMS, largest)
 
 # AM ≥ GM ≥ HM
 print(f"AM≥GM≥HM: {a_means.mean():.4f} ≥ {stats.gmean(a_means):.4f} ≥ {stats.hmean(a_means):.4f}")
-
+# AM≥GM≥HM: 3.7500 ≥ 2.8284 ≥ 2.1333
 
 #####################
-## skew / kurtosis  #
+## skew / kurtosis ##
 #####################
 '''
 stats.skew(a, axis=0, bias=True, nan_policy='propagate', keepdims=False)
@@ -1003,12 +1016,13 @@ for dist_name, sample in [('Normal',  x_norm),
     sk = stats.skew(sample)
     ku = stats.kurtosis(sample)
     print(f"  {dist_name:<10}: skew={sk:.3f}, excess_kurt={ku:.3f}")
-# Normal ≈ (0, 0), Exponential ≈ (2, 6), Uniform ≈ (0, -1.2)
+  # Normal    : skew=-0.137, excess_kurt=-0.269
+  # Exp       : skew=1.786, excess_kurt=4.556
+  # Uniform   : skew=-0.110, excess_kurt=-1.190
 
-
-########################################
-## mode / trim_mean / tmean / tsem     #
-########################################
+#####################################
+## mode / trim_mean / tmean / tsem ##
+#####################################
 '''
 stats.mode(a, axis=0, nan_policy='propagate', keepdims=False)
   Modal value and its count.
@@ -1031,14 +1045,13 @@ a_cat = np.array([1, 2, 2, 3, 3, 3, 4, 4])
 m = stats.mode(a_cat)
 print(f"mode={m.mode}, count={m.count}")   # mode=3, count=3
 
-print(f"10% trimmed mean (x_norm): {stats.trim_mean(x_norm, 0.1):.4f}")
-print(f"tmean (2 to 8)           : {stats.tmean(x_norm, limits=(2, 8)):.4f}")
-print(f"tsem  (2 to 8)           : {stats.tsem(x_norm,  limits=(2, 8)):.6f}")
+print(f"10% trimmed mean (x_norm): {stats.trim_mean(x_norm, 0.1):.4f}") # 4.9444
+print(f"tmean (2 to 8)           : {stats.tmean(x_norm, limits=(2, 8)):.4f}") # 4.9615
+print(f"tsem  (2 to 8)           : {stats.tsem(x_norm,  limits=(2, 8)):.6f}") # 0.141831
 
-
-###############################
-## sem / iqr / variation      #
-###############################
+###########################
+## sem / iqr / variation ##
+###########################
 '''
 stats.sem(a, axis=0, ddof=1, nan_policy='propagate')
   Standard error of the mean: std(a) / sqrt(n).
@@ -1053,17 +1066,16 @@ stats.variation(a, axis=0, ddof=0, nan_policy='propagate', keepdims=False)
   Coefficient of variation: std / mean.  Dimensionless relative spread.
 '''
 print("\n=== sem / iqr / variation ===")
-print(f"SEM of x_norm: {stats.sem(x_norm):.4f}")
+print(f"SEM of x_norm: {stats.sem(x_norm):.4f}") # 0.1553
 print(f"95% CI: ({x_norm.mean() - 1.96*stats.sem(x_norm):.3f}, "
-      f"{x_norm.mean() + 1.96*stats.sem(x_norm):.3f})")
-print(f"IQR of x_norm  : {stats.iqr(x_norm):.4f}")
-print(f"Robust σ (IQR/1.349): {stats.iqr(x_norm, scale='normal'):.4f}")   # ≈ 2 (true σ)
-print(f"CV (coeff var) : {stats.variation(x_pos):.4f}")
+      f"{x_norm.mean() + 1.96*stats.sem(x_norm):.3f})") # (4.595, 5.204)
+print(f"IQR of x_norm  : {stats.iqr(x_norm):.4f}") # 2.1578
+print(f"Robust σ (IQR/1.349): {stats.iqr(x_norm, scale='normal'):.4f}")   # 1.5996
+print(f"CV (coeff var) : {stats.variation(x_pos):.4f}") # 0.3356
 
-
-###############
-## moment()    #
-###############
+##############
+## moment() ##
+##############
 '''
 stats.moment(a, moment=1, axis=0, nan_policy='propagate', center=None, keepdims=False)
   Compute the n-th central moment (by default): E[(X - mean(X))^n].
@@ -1079,6 +1091,10 @@ for n in range(1, 5):
     m_n = stats.moment(x_norm, moment=n)
     print(f"  central moment {n}: {m_n:.6f}")
 # m1≈0, m2≈var, m3 related to skew, m4 related to kurt
+  # central moment 1: 0.000000
+  # central moment 2: 2.388781
+  # central moment 3: -0.505727
+  # central moment 4: 15.583166
 
 
 #-------------------------------------------------------------------------------------------------#
@@ -1743,7 +1759,7 @@ print("\n=== dunnett ===")
 control_grp  = rng.normal(5, 1.5, 30)
 treatment_1  = rng.normal(6, 1.5, 30)
 treatment_2  = rng.normal(5.2, 1.5, 30)
-res_dn = stats.dunnett(control_grp, treatment_1, treatment_2, control=0)
+res_dn = stats.dunnett(control_grp, treatment_1, treatment_2, control=control_grp)
 print("Dunnett p-values (vs control):", res_dn.pvalue.round(4))
 
 
@@ -1865,7 +1881,7 @@ print(f"Bandwidth factor (Scott): {kde.factor:.4f}")
 # Evaluate density at grid
 x_grid = np.linspace(-5, 6, 200)
 density = kde(x_grid)
-print(f"KDE integrates to ≈ {np.trapz(density, x_grid):.6f}")   # ≈ 1.0
+print(f"KDE integrates to ≈ {np.trapezoid(density, x_grid):.6f}")   # ≈ 1.0
 
 # Silverman vs Scott
 kde_scott     = stats.gaussian_kde(x_kde, bw_method='scott')
