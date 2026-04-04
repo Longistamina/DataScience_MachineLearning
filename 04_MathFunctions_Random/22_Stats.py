@@ -1098,12 +1098,12 @@ for n in range(1, 5):
 
 
 #-------------------------------------------------------------------------------------------------#
-#═══════════════════════════  PART E — FREQUENCY STATISTICS  ═════════════════════════════════════#
+#═══════════════════════════════  PART E — FREQUENCY STATISTICS  ═════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-#########################
-## cumfreq / relfreq    #
-#########################
+#######################
+## cumfreq / relfreq ##
+#######################
 '''
 stats.cumfreq(a, numbins=10, defaultreallimits=None, weights=None)
   -> CumfreqResult(cumcount, lowerlimit, binsize, extrapoints)
@@ -1116,14 +1116,13 @@ stats.relfreq(a, numbins=10, defaultreallimits=None, weights=None)
 '''
 print("\n=== cumfreq / relfreq ===")
 cf = stats.cumfreq(x_norm, numbins=10)
-print(f"Cumfreq bins: {cf.cumcount.astype(int)}")   # increasing to N
+print(f"Cumfreq bins: {cf.cumcount.astype(int)}")   # [  1   8  20  35  53  76  95  98  99 100] increasing to N
 rf = stats.relfreq(x_norm, numbins=10)
 print(f"Relfreq (sum≈1): {rf.frequency.sum():.4f}")   # 1.0
 
-
-###################################
-## percentileofscore / scoreatpercentile
-###################################
+###########################################
+## percentileofscore / scoreatpercentile ##
+###########################################
 '''
 stats.percentileofscore(a, score, kind='rank', nan_policy='propagate')
   Compute the percentile rank of a score relative to a sample.
@@ -1143,10 +1142,9 @@ print(f"percentileofscore(30, rank)  = {stats.percentileofscore(a_perc, score, '
 print(f"percentileofscore(30, strict)= {stats.percentileofscore(a_perc, score, 'strict'):.1f}") # 40.0
 print(f"percentileofscore(30, mean)  = {stats.percentileofscore(a_perc, score, 'mean'):.1f}")   # 50.0
 
-
-#####################
-## rankdata / tiecorrect
-#####################
+###########################
+## rankdata / tiecorrect ##
+###########################
 '''
 stats.rankdata(a, method='average', axis=None, nan_policy='propagate')
   Assign ranks to data, handling ties according to method:
@@ -1162,19 +1160,18 @@ stats.tiecorrect(rankvals)
 '''
 print("\n=== rankdata ===")
 a_rank = np.array([3, 1, 4, 1, 5, 9, 2, 6, 5])
-print("average ranks:", stats.rankdata(a_rank, method='average'))
-# [5.  1.5 6.  1.5 7.5 9.  3.  8.  7.5]
-print("min ranks    :", stats.rankdata(a_rank, method='min'))
-print("dense ranks  :", stats.rankdata(a_rank, method='dense'))
-print(f"Tie correction: {stats.tiecorrect(stats.rankdata(a_rank)):.4f}")
+print("average ranks:", stats.rankdata(a_rank, method='average')) # [5.  1.5 6.  1.5 7.5 9.  3.  8.  7.5]
+print("min ranks    :", stats.rankdata(a_rank, method='min')) # [4 1 5 1 6 9 3 8 6]
+print("dense ranks  :", stats.rankdata(a_rank, method='dense')) # [3 1 4 1 5 7 2 6 5]
+print(f"Tie correction: {stats.tiecorrect(stats.rankdata(a_rank)):.4f}") # 0.9833
 
 
 #-------------------------------------------------------------------------------------------------#
-#═══════════════════════  PART F — CORRELATION & ASSOCIATION  ════════════════════════════════════#
+#═════════════════════════════  PART F — CORRELATION & ASSOCIATION  ══════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
 ##############
-## pearsonr  #
+## pearsonr ##
 ##############
 '''
 stats.pearsonr(x, y, alternative='two-sided') -> PearsonRResult
@@ -1195,19 +1192,18 @@ print("\n=== pearsonr ===")
 x_corr = rng.normal(0, 1, 50)
 y_corr = 2 * x_corr + rng.normal(0, 0.5, 50)   # strong linear relationship
 res_pr = stats.pearsonr(x_corr, y_corr)
-print(f"Pearson r={res_pr.statistic:.4f}, p={res_pr.pvalue:.4e}")   # r≈0.97, p≈0
+print(f"Pearson r={res_pr.statistic:.4f}, p={res_pr.pvalue:.4e}")   # r=0.9734, p=2.2793e-32 (r≈0.97, p≈0)
 ci_pr = res_pr.confidence_interval(0.95)
-print(f"95% CI for r: [{ci_pr.low:.4f}, {ci_pr.high:.4f}]")
+print(f"95% CI for r: [{ci_pr.low:.4f}, {ci_pr.high:.4f}]") # [0.9533, 0.9849]
 
 # Independent: r should be near 0
 y_ind = rng.normal(0, 1, 50)
 res_ind = stats.pearsonr(x_corr, y_ind)
-print(f"Independent r={res_ind.statistic:.4f}, p={res_ind.pvalue:.4f}")   # p > 0.05
+print(f"Independent r={res_ind.statistic:.4f}, p={res_ind.pvalue:.4f}")   # r=-0.0177, p=0.9031 (p > 0.05)
 
-
-##############
-## spearmanr  #
-##############
+###############
+## spearmanr ##
+###############
 '''
 stats.spearmanr(a, b=None, axis=0, nan_policy='propagate',
                 alternative='two-sided') -> SpearmanrResult
@@ -1222,18 +1218,20 @@ print("\n=== spearmanr ===")
 y_mono = x_corr**3 + rng.normal(0, 0.1, 50)   # monotonic but nonlinear
 res_sp_lin  = stats.spearmanr(x_corr, y_corr)
 res_sp_mono = stats.spearmanr(x_corr, y_mono)
-print(f"Spearman (linear)    ρ={res_sp_lin.statistic:.4f}")
-print(f"Spearman (monotonic) ρ={res_sp_mono.statistic:.4f}")   # also high
+print(f"Spearman (linear)    ρ={res_sp_lin.statistic:.4f}") # ρ=0.9321
+print(f"Spearman (monotonic) ρ={res_sp_mono.statistic:.4f}") # ρ=0.9236 (also high)
 
 # Matrix form: pass 2-D array, get correlation matrix
 X_corr_mat = np.column_stack([x_corr, y_corr, y_ind])
 rho_mat, p_mat = stats.spearmanr(X_corr_mat)
 print("Spearman correlation matrix:\n", rho_mat.round(3))
+#  [[ 1.     0.932 -0.033]
+#  [ 0.932  1.     0.005]
+#  [-0.033  0.005  1.   ]]
 
-
-##############
-## kendalltau #
-##############
+################
+## kendalltau ##
+################
 '''
 stats.kendalltau(x, y, initial_lexsort=None, nan_policy='propagate',
                  method='auto', alternative='two-sided') -> KendalltauResult
@@ -1249,16 +1247,15 @@ stats.kendalltau(x, y, initial_lexsort=None, nan_policy='propagate',
 '''
 print("\n=== kendalltau ===")
 res_kt = stats.kendalltau(x_corr, y_corr)
-print(f"Kendall τ={res_kt.statistic:.4f}, p={res_kt.pvalue:.4e}")
+print(f"Kendall τ={res_kt.statistic:.4f}, p={res_kt.pvalue:.4e}") # τ=0.7992, p=2.6298e-16
 
 # Somers' D: asymmetric rank correlation (one variable is ordinal response)
 res_sd = stats.somersd(x_corr, y_corr)
-print(f"Somers' D={res_sd.statistic:.4f}, p={res_sd.pvalue:.4e}")
+print(f"Somers' D={res_sd.statistic:.4f}, p={res_sd.pvalue:.4e}") # D=0.7992, p=2.2002e-74
 
-
-###################
-## pointbiserialr  #
-###################
+####################
+## pointbiserialr ##
+####################
 '''
 stats.pointbiserialr(x, y) -> PointbiserialrResult
   Point-biserial correlation: Pearson r when one variable is dichotomous (0/1).
@@ -1270,12 +1267,11 @@ x_cont = rng.normal(0, 1, 50)
 x_bin  = (x_cont > 0).astype(float) + rng.normal(0, 0.1, 50)   # noisy binary
 grp    = (x_cont > 0).astype(int)
 res_pb = stats.pointbiserialr(grp, x_bin)
-print(f"Point-biserial r={res_pb.statistic:.4f}, p={res_pb.pvalue:.4e}")
+print(f"Point-biserial r={res_pb.statistic:.4f}, p={res_pb.pvalue:.4e}") # r=0.9793, p=5.7988e-35
 
-
-####################
-## chi2_contingency #
-####################
+######################
+## chi2_contingency ##
+######################
 '''
 stats.chi2_contingency(observed, correction=True, lambda_=None)
   Chi-squared test of independence for a contingency table.
@@ -1296,24 +1292,26 @@ print("\n=== chi2_contingency ===")
 obs_table = np.array([[50, 30, 20],   # group A
                        [20, 40, 40]])  # group B
 res_ct = stats.chi2_contingency(obs_table, correction=False)
-print(f"χ²={res_ct.statistic:.4f}, df={res_ct.dof}, p={res_ct.pvalue:.4f}")
+print(f"χ²={res_ct.statistic:.4f}, df={res_ct.dof}, p={res_ct.pvalue:.4f}") # χ²=20.9524, df=2, p=0.0000
 print("Expected counts:\n", res_ct.expected_freq.round(2))
+#  [[35. 35. 30.]
+#  [35. 35. 30.]]
 
 # Cramér's V: effect size for chi-squared
 n_ct = obs_table.sum()
 cramer_v = np.sqrt(res_ct.statistic / (n_ct * min(obs_table.shape[0]-1, obs_table.shape[1]-1)))
-print(f"Cramér's V = {cramer_v:.4f}")   # 0=no association, 1=perfect
+print(f"Cramér's V = {cramer_v:.4f}")   # V = 0.3237 (0=no association, 1=perfect)
 
 
 #-------------------------------------------------------------------------------------------------#
-#═══════════════════════════  PART G — STATISTICAL TESTS  ════════════════════════════════════════#
+#═════════════════════════════════  PART G — STATISTICAL TESTS  ══════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
 # ────────────────────── G1 : ONE-SAMPLE TESTS ─────────────────────────────────
 
-##################
-## ttest_1samp   #
-##################
+#################
+## ttest_1samp ##
+#################
 '''
 stats.ttest_1samp(a, popmean, axis=0, nan_policy='propagate',
                   alternative='two-sided') -> TtestResult
@@ -1325,20 +1323,20 @@ stats.ttest_1samp(a, popmean, axis=0, nan_policy='propagate',
 '''
 print("\n=== ttest_1samp ===")
 res_t1 = stats.ttest_1samp(x_norm, popmean=5.0)
-print(f"t={res_t1.statistic:.4f}, p={res_t1.pvalue:.4f}, df={res_t1.df}")
+print(f"t={res_t1.statistic:.4f}, p={res_t1.pvalue:.4f}, df={res_t1.df}") # t=-0.6472, p=0.5190, df=99
 # True mean is 5, so p > 0.05 (fail to reject H₀)
 
 res_t1_false = stats.ttest_1samp(x_norm, popmean=0.0)
-print(f"t={res_t1_false.statistic:.4f}, p={res_t1_false.pvalue:.4e}")  # p ≈ 0 (reject)
+print(f"t={res_t1_false.statistic:.4f}, p={res_t1_false.pvalue:.4e}")  # t=31.5412, p=1.9003e-53 (p ≈ 0 -> reject)
 
 # One-sided: test if mean > 4
 res_t1_one = stats.ttest_1samp(x_norm, popmean=4.0, alternative='greater')
 print(f"H₀: μ≤4  t={res_t1_one.statistic:.4f}, p={res_t1_one.pvalue:.4f}")
+# H₀: μ≤4  t=5.7904, p=0.0000
 
-
-#####################
-## ks_1samp / kstest #
-#####################
+#######################
+## ks_1samp / kstest ##
+#######################
 '''
 stats.kstest(rvs, cdf, args=(), N=20, alternative='two-sided', method='auto')
 stats.ks_1samp(x, cdf, args=(), alternative='two-sided', method='auto')
@@ -1355,19 +1353,18 @@ stats.ks_1samp(x, cdf, args=(), alternative='two-sided', method='auto')
 print("\n=== ks_1samp ===")
 # Test x_norm against N(5,4) = N(5,2²)
 res_ks = stats.ks_1samp(x_norm, stats.norm(loc=5, scale=2).cdf)
-print(f"KS N(5,2): D={res_ks.statistic:.4f}, p={res_ks.pvalue:.4f}")  # p > 0.05 (correct dist)
+print(f"KS N(5,2): D={res_ks.statistic:.4f}, p={res_ks.pvalue:.4f}")  # D=0.1196, p=0.1054 (p > 0.05 (correct dist))
 
 res_ks_wrong = stats.ks_1samp(x_norm, stats.norm(loc=0, scale=1).cdf)
-print(f"KS N(0,1): D={res_ks_wrong.statistic:.4f}, p={res_ks_wrong.pvalue:.4e}")  # p ≈ 0 (wrong dist)
+print(f"KS N(0,1): D={res_ks_wrong.statistic:.4f}, p={res_ks_wrong.pvalue:.4e}")  # D=0.9515, p=7.5557e-132 (p ≈ 0 (wrong dist))
 
 # Using kstest with string name
 res_kstest = stats.kstest(x_exp, 'expon', args=(0, 2))   # expon(loc=0, scale=2)
-print(f"kstest Expon(2): D={res_kstest.statistic:.4f}, p={res_kstest.pvalue:.4f}")
+print(f"kstest Expon(2): D={res_kstest.statistic:.4f}, p={res_kstest.pvalue:.4f}") # D=0.0588, p=0.8600 (p > 0.05 (correct dist))
 
-
-###########
-## shapiro #
-###########
+#############
+## shapiro ##
+#############
 '''
 stats.shapiro(x) -> ShapiroWilkResult(.statistic, .pvalue)
   Shapiro-Wilk test for normality.  Best for small samples (n < 5000).
@@ -1378,13 +1375,12 @@ stats.shapiro(x) -> ShapiroWilkResult(.statistic, .pvalue)
 print("\n=== shapiro ===")
 res_sw_norm = stats.shapiro(x_norm[:50])
 res_sw_exp  = stats.shapiro(x_exp[:50])
-print(f"Shapiro-Wilk (Normal):     W={res_sw_norm.statistic:.4f}, p={res_sw_norm.pvalue:.4f}")
-print(f"Shapiro-Wilk (Exponential):W={res_sw_exp.statistic:.4f},  p={res_sw_exp.pvalue:.4e}")
+print(f"Shapiro-Wilk (Normal):     W={res_sw_norm.statistic:.4f}, p={res_sw_norm.pvalue:.4f}") # W=0.9841, p=0.7301
+print(f"Shapiro-Wilk (Exponential):W={res_sw_exp.statistic:.4f},  p={res_sw_exp.pvalue:.4e}") # W=0.7925,  p=5.9247e-07
 # Normal p > 0.05 (don't reject), Exp p ≪ 0.05 (reject normality)
 
-
 ################
-## normaltest  #
+## normaltest ##
 ################
 '''
 stats.normaltest(a, axis=0, nan_policy='propagate') -> NormaltestResult
@@ -1395,15 +1391,14 @@ stats.normaltest(a, axis=0, nan_policy='propagate') -> NormaltestResult
 '''
 print("\n=== normaltest ===")
 res_nt = stats.normaltest(x_norm)
-print(f"normaltest: stat={res_nt.statistic:.4f}, p={res_nt.pvalue:.4f}")   # p > 0.05
+print(f"normaltest: stat={res_nt.statistic:.4f}, p={res_nt.pvalue:.4f}")   # stat=0.4731, p=0.7893 (p > 0.05)
 
 res_nt_exp = stats.normaltest(x_exp)
-print(f"normaltest (Exp): stat={res_nt_exp.statistic:.4f}, p={res_nt_exp.pvalue:.4e}")
+print(f"normaltest (Exp): stat={res_nt_exp.statistic:.4f}, p={res_nt_exp.pvalue:.4e}") # stat=49.1796, p=2.0931e-11
 
-
-################
-## jarque_bera #
-################
+#################
+## jarque_bera ##
+#################
 '''
 stats.jarque_bera(x, *, axis=None, nan_policy='propagate', keepdims=False)
   Jarque-Bera test for normality using skewness and kurtosis.
@@ -1413,12 +1408,11 @@ stats.jarque_bera(x, *, axis=None, nan_policy='propagate', keepdims=False)
 '''
 print("\n=== jarque_bera ===")
 res_jb = stats.jarque_bera(x_norm)
-print(f"Jarque-Bera: stat={res_jb.statistic:.4f}, p={res_jb.pvalue:.4f}")
+print(f"Jarque-Bera: stat={res_jb.statistic:.4f}, p={res_jb.pvalue:.4f}") # stat=0.6145, p=0.7355
 
-
-##############
-## chisquare  #
-##############
+###############
+## chisquare ##
+###############
 '''
 stats.chisquare(f_obs, f_exp=None, ddof=0, axis=0) -> Power_divergenceResult
   One-way chi-squared goodness-of-fit test.
@@ -1431,14 +1425,14 @@ print("\n=== chisquare ===")
 die_obs = np.array([18, 22, 15, 20, 19, 16])   # 6 faces, 110 rolls
 die_exp = np.full(6, die_obs.sum() / 6)
 res_cs  = stats.chisquare(die_obs, f_exp=die_exp)
-print(f"Die fairness: χ²={res_cs.statistic:.4f}, p={res_cs.pvalue:.4f}")   # p > 0.05
+print(f"Die fairness: χ²={res_cs.statistic:.4f}, p={res_cs.pvalue:.4f}")   # χ²=1.8182, p=0.8737 (p > 0.05)
 
 
 # ────────────────────── G2 : TWO-SAMPLE TESTS ─────────────────────────────────
 
-##############
-## ttest_ind  #
-##############
+###############
+## ttest_ind ##
+###############
 '''
 stats.ttest_ind(a, b, axis=0, equal_var=True, nan_policy='propagate',
                 permutations=None, random_state=None, alternative='two-sided',
@@ -1454,23 +1448,24 @@ print("\n=== ttest_ind ===")
 group_a = rng.normal(5, 2, 50)
 group_b = rng.normal(6, 2, 50)   # different mean
 
-res_ti_student = stats.ttest_ind(group_a, group_b, equal_var=True)
-res_ti_welch   = stats.ttest_ind(group_a, group_b, equal_var=False)
-print(f"Student t: t={res_ti_student.statistic:.4f}, p={res_ti_student.pvalue:.4f}")
-print(f"Welch   t: t={res_ti_welch.statistic:.4f},   p={res_ti_welch.pvalue:.4f}")
+res_ti_student = stats.ttest_ind(group_a, group_b, equal_var=True) 
+res_ti_welch   = stats.ttest_ind(group_a, group_b, equal_var=False) 
+print(f"Student t: t={res_ti_student.statistic:.4f}, p={res_ti_student.pvalue:.4f}") # t=-1.2726, p=0.2062
+print(f"Welch   t: t={res_ti_welch.statistic:.4f},   p={res_ti_welch.pvalue:.4f}") # t=-1.2726,   p=0.2065
 
 # One-sided: is group_b > group_a?
 res_one = stats.ttest_ind(group_a, group_b, alternative='less')
-print(f"One-sided (a<b): p={res_one.pvalue:.4f}")   # < 0.05
+print(f"One-sided (a<b): p={res_one.pvalue:.4f}")   # p=0.1031
+# This means that we fail to reject H₀: mean(a) ≥ mean(b)
+# If we set their std=1 instead of 2, we would get p=0.0001 (reject H₀: mean(a) ≥ mean(b))
 
 # Trim=0.1: Yuen's robust version
 res_yuen = stats.ttest_ind(group_a, group_b, trim=0.1)
-print(f"Yuen (10% trim): t={res_yuen.statistic:.4f}, p={res_yuen.pvalue:.4f}")
+print(f"Yuen (10% trim): t={res_yuen.statistic:.4f}, p={res_yuen.pvalue:.4f}") # t=-1.3764, p=0.1726
 
-
-##############
-## ttest_rel  #
-##############
+###############
+## ttest_rel ##
+###############
 '''
 stats.ttest_rel(a, b, axis=0, nan_policy='propagate', alternative='two-sided')
   Paired (related-samples) t-test.  H₀: mean(a-b) == 0.
@@ -1483,12 +1478,11 @@ before = rng.normal(5, 1, 30)
 effect = rng.normal(1, 0.5, 30)   # true treatment effect
 after  = before + effect
 res_tr = stats.ttest_rel(before, after)
-print(f"Paired t: t={res_tr.statistic:.4f}, p={res_tr.pvalue:.4e}")   # p ≪ 0.05
+print(f"Paired t: t={res_tr.statistic:.4f}, p={res_tr.pvalue:.4e}") # Paired t: t=-13.3031, p=7.1158e-14 (p ≪ 0.05)
 
-
-#################
-## mannwhitneyu  #
-#################
+##################
+## mannwhitneyu ##
+##################
 '''
 stats.mannwhitneyu(x, y, use_continuity=True, alternative='two-sided',
                    axis=0, method='auto', nan_policy='propagate') -> MannwhitneyuResult
@@ -1503,12 +1497,11 @@ print("\n=== mannwhitneyu ===")
 x_skew = rng.exponential(2, 40)
 y_skew = rng.exponential(3, 40)   # different median
 res_mw = stats.mannwhitneyu(x_skew, y_skew, alternative='two-sided')
-print(f"Mann-Whitney U={res_mw.statistic:.1f}, p={res_mw.pvalue:.4f}")
+print(f"Mann-Whitney U={res_mw.statistic:.1f}, p={res_mw.pvalue:.4f}") # U=532.0, p=0.0101
 
-
-###########
-## wilcoxon #
-###########
+##############
+## wilcoxon ##
+##############
 '''
 stats.wilcoxon(x, y=None, zero_method='wilcox', correction=False,
                alternative='two-sided', method='auto', nan_policy='propagate')
@@ -1520,12 +1513,11 @@ stats.wilcoxon(x, y=None, zero_method='wilcox', correction=False,
 '''
 print("\n=== wilcoxon ===")
 res_wc = stats.wilcoxon(before, after, alternative='less')
-print(f"Wilcoxon: stat={res_wc.statistic:.1f}, p={res_wc.pvalue:.4e}")   # p ≪ 0.05
+print(f"Wilcoxon: stat={res_wc.statistic:.1f}, p={res_wc.pvalue:.4e}") # stat=0.0, p=9.3132e-10 (p ≪ 0.05)
 
-
-#############
-## ks_2samp  #
-#############
+##############
+## ks_2samp ##
+##############
 '''
 stats.ks_2samp(data1, data2, alternative='two-sided', method='auto')
   Two-sample Kolmogorov-Smirnov test.
@@ -1538,17 +1530,16 @@ print("\n=== ks_2samp ===")
 d1 = rng.normal(0, 1, 100)
 d2 = rng.normal(0.5, 1, 100)   # different location
 res_ks2 = stats.ks_2samp(d1, d2)
-print(f"KS 2samp: D={res_ks2.statistic:.4f}, p={res_ks2.pvalue:.4f}")
+print(f"KS 2samp: D={res_ks2.statistic:.4f}, p={res_ks2.pvalue:.4f}") # D=0.3300, p=0.0000
 
 # Same distribution
 d3 = rng.normal(0, 1, 100)
 res_ks2_same = stats.ks_2samp(d1, d3)
-print(f"KS 2samp (same dist): D={res_ks2_same.statistic:.4f}, p={res_ks2_same.pvalue:.4f}")
+print(f"KS 2samp (same dist): D={res_ks2_same.statistic:.4f}, p={res_ks2_same.pvalue:.4f}") # D=0.1300, p=0.3682 (same distribution, p > 0.05)
 
-
-##################
-## cramervonmises #
-##################
+####################
+## cramervonmises ##
+####################
 '''
 stats.cramervonmises(rvs, cdf, args=())             # one-sample
 stats.cramervonmises_2samp(x, y, method='auto')     # two-sample
@@ -1559,11 +1550,10 @@ stats.cramervonmises_2samp(x, y, method='auto')     # two-sample
 '''
 print("\n=== cramervonmises_2samp ===")
 res_cvm = stats.cramervonmises_2samp(d1, d2)
-print(f"CvM 2samp: stat={res_cvm.statistic:.4f}, p={res_cvm.pvalue:.4f}")
-
+print(f"CvM 2samp: stat={res_cvm.statistic:.4f}, p={res_cvm.pvalue:.4f}") # stat=1.9331, p=0.0000
 
 ##############
-## ranksums   #
+## ranksums ##
 ##############
 '''
 stats.ranksums(x, y, alternative='two-sided', nan_policy='propagate')
@@ -1572,12 +1562,11 @@ stats.ranksums(x, y, alternative='two-sided', nan_policy='propagate')
 '''
 print("\n=== ranksums ===")
 res_rs = stats.ranksums(x_skew, y_skew)
-print(f"Ranksums: stat={res_rs.statistic:.4f}, p={res_rs.pvalue:.4f}")
+print(f"Ranksums: stat={res_rs.statistic:.4f}, p={res_rs.pvalue:.4f}") # stat=-2.5788, p=0.0099
 
-
-##################
-## brunnermunzel  #
-##################
+###################
+## brunnermunzel ##
+###################
 '''
 stats.brunnermunzel(x, y, alternative='two-sided', distribution='t',
                     nan_policy='propagate')
@@ -1587,13 +1576,13 @@ stats.brunnermunzel(x, y, alternative='two-sided', distribution='t',
 '''
 print("\n=== brunnermunzel ===")
 res_bm = stats.brunnermunzel(x_skew, y_skew)
-print(f"Brunner-Munzel: stat={res_bm.statistic:.4f}, p={res_bm.pvalue:.4f}")
+print(f"Brunner-Munzel: stat={res_bm.statistic:.4f}, p={res_bm.pvalue:.4f}") # stat=2.7664, p=0.0071
 
 
 # ────────────────────── G3 : k-SAMPLE / ANOVA TESTS ──────────────────────────
 
 ##############
-## f_oneway   #
+## f_oneway ##
 ##############
 '''
 stats.f_oneway(*args, axis=0) -> F_onewayResult(.statistic, .pvalue)
@@ -1608,12 +1597,11 @@ g1 = rng.normal(5, 1.5, 30)
 g2 = rng.normal(6, 1.5, 30)
 g3 = rng.normal(5.5, 1.5, 30)
 res_f = stats.f_oneway(g1, g2, g3)
-print(f"ANOVA F={res_f.statistic:.4f}, p={res_f.pvalue:.4f}")
+print(f"ANOVA F={res_f.statistic:.4f}, p={res_f.pvalue:.4f}") # F=4.7812, p=0.0107
 
-
-############
-## kruskal  #
-############
+#############
+## kruskal ##
+#############
 '''
 stats.kruskal(*args, nan_policy='propagate', axis=0, keepdims=False)
   Kruskal-Wallis H test (non-parametric one-way ANOVA).
@@ -1623,12 +1611,11 @@ stats.kruskal(*args, nan_policy='propagate', axis=0, keepdims=False)
 '''
 print("\n=== kruskal ===")
 res_kw = stats.kruskal(g1, g2, g3)
-print(f"Kruskal-Wallis H={res_kw.statistic:.4f}, p={res_kw.pvalue:.4f}")
+print(f"Kruskal-Wallis H={res_kw.statistic:.4f}, p={res_kw.pvalue:.4f}") # H=8.3704, p=0.0152
 
-
-#####################
-## friedmanchisquare #
-#####################
+#######################
+## friedmanchisquare ##
+#######################
 '''
 stats.friedmanchisquare(*args) -> FriedmanchisquareResult
   Friedman test (non-parametric repeated-measures / two-way ANOVA).
@@ -1641,12 +1628,11 @@ cond_a = rng.normal(5, 1, subj)
 cond_b = cond_a + rng.normal(1, 0.5, subj)   # treatment effect
 cond_c = cond_a + rng.normal(2, 0.5, subj)   # larger effect
 res_fr = stats.friedmanchisquare(cond_a, cond_b, cond_c)
-print(f"Friedman: stat={res_fr.statistic:.4f}, p={res_fr.pvalue:.4e}")
+print(f"Friedman: stat={res_fr.statistic:.4f}, p={res_fr.pvalue:.4e}") # stat=32.4000, p=9.2136e-08  
 
-
-###############
-## median_test #
-###############
+#################
+## median_test ##
+#################
 '''
 stats.median_test(*args, ties='below', correction=True, lambda_=None,
                   nan_policy='propagate')
@@ -1657,11 +1643,11 @@ stats.median_test(*args, ties='below', correction=True, lambda_=None,
 print("\n=== median_test ===")
 res_mt = stats.median_test(g1, g2, g3)
 print(f"Median test: stat={res_mt.statistic:.4f}, p={res_mt.pvalue:.4f}, median={res_mt.median:.4f}")
+# stat=5.6000, p=0.0608, median=5.6443
 
-
-#############################
-## levene / bartlett / fligner
-#############################
+#################################
+## levene / bartlett / fligner ##
+#################################
 '''
 stats.levene(*args, center='median', proportiontocut=0.05)
   Levene test for equality of variances.  Robust (uses medians by default).
@@ -1684,13 +1670,16 @@ for test, name in [(stats.levene, 'levene'), (stats.bartlett, 'bartlett'),
     eq_res   = test(*g_eq)
     uneq_res = test(*g_uneq)
     print(f"{name}: equal_var p={eq_res.pvalue:.4f}  unequal_var p={uneq_res.pvalue:.4f}")
+# levene: equal_var p=0.7078  unequal_var p=0.0000
+# bartlett: equal_var p=0.3946  unequal_var p=0.0000
+# fligner: equal_var p=0.7601  unequal_var p=0.0000
 
 
 # ────────────────────── G4 : ASSOCIATION / CONTINGENCY TESTS ─────────────────
 
-################
-## fisher_exact #
-################
+##################
+## fisher_exact ##
+##################
 '''
 stats.fisher_exact(table, alternative='two-sided') -> OddsRatioResult
   Fisher's exact test for a 2×2 contingency table.
@@ -1704,10 +1693,9 @@ table_2x2 = np.array([[8, 2], [1, 9]])   # 20 subjects, 2×2 table
 res_fe = stats.fisher_exact(table_2x2)
 print(f"Fisher exact: OR={res_fe.statistic:.4f}, p={res_fe.pvalue:.4f}")   # OR≈36, p<0.05
 
-
-###########################
-## barnard_exact / boschloo #
-###########################
+##############################
+## barnard_exact / boschloo ##
+##############################
 '''
 stats.barnard_exact(table, alternative='two-sided', pooled=True, n=32)
   Barnard's exact test: unconditional exact test for 2×2 tables.
@@ -1720,15 +1708,15 @@ stats.boschloo_exact(table, alternative='two-sided', n=32)
 print("\n=== barnard_exact / boschloo_exact ===")
 res_ba = stats.barnard_exact(table_2x2)
 res_bo = stats.boschloo_exact(table_2x2)
-print(f"Barnard exact  p={res_ba.pvalue:.4f}")
-print(f"Boschloo exact p={res_bo.pvalue:.4f}")
+print(f"Barnard exact  p={res_ba.pvalue:.4f}") # p=0.0018
+print(f"Boschloo exact p={res_bo.pvalue:.4f}") # p=0.0018
 
 
 # ────────────────────── G5 : POST-HOC TESTS ──────────────────────────────────
 
-#############
-## tukey_hsd #
-#############
+###############
+## tukey_hsd ##
+###############
 '''
 stats.tukey_hsd(*args) -> TukeyHSDResult
   Tukey HSD (honestly significant difference) post-hoc test.
@@ -1742,13 +1730,17 @@ print("\n=== tukey_hsd ===")
 res_hsd = stats.tukey_hsd(g1, g2, g3)
 print("Tukey HSD pvalue matrix:")
 print(res_hsd.pvalue.round(4))
+# [[1.     0.0185 0.9784]
+#  [0.0185 1.     0.0313]
+#  [0.9784 0.0313 1.    ]]
+
 ci_hsd = res_hsd.confidence_interval(0.95)
 print("95% CI for group1 - group2:", (ci_hsd.low[0,1].round(4), ci_hsd.high[0,1].round(4)))
+# 95% CI for group1 - group2: (np.float64(-2.0782), np.float64(-0.1561))
 
-
-############
-## dunnett  #
-############
+#############
+## dunnett ##
+#############
 '''
 stats.dunnett(*args, control=0, alternative='two-sided') -> DunnettResult
   Dunnett's test: compare multiple treatment groups to a single control.
@@ -1760,7 +1752,7 @@ control_grp  = rng.normal(5, 1.5, 30)
 treatment_1  = rng.normal(6, 1.5, 30)
 treatment_2  = rng.normal(5.2, 1.5, 30)
 res_dn = stats.dunnett(control_grp, treatment_1, treatment_2, control=control_grp)
-print("Dunnett p-values (vs control):", res_dn.pvalue.round(4))
+print("Dunnett p-values (vs control):", res_dn.pvalue.round(4)) # [1.     0.0037 0.1284]
 
 
 #-------------------------------------------------------------------------------------------------#
@@ -1768,7 +1760,7 @@ print("Dunnett p-values (vs control):", res_dn.pvalue.round(4))
 #-------------------------------------------------------------------------------------------------#
 
 ################
-## dist.fit()  #
+## dist.fit() ##
 ################
 '''
 dist.fit(data, *args, **kwds) -> (shape_params..., loc, scale)
@@ -1781,39 +1773,43 @@ dist.fit(data, *args, **kwds) -> (shape_params..., loc, scale)
   This reduces the number of free parameters.
 
   Note: for heavy-tailed or multi-modal data, consider using the new
-  stats.fit() function (SciPy ≥ 1.9) which uses differential evolution.
+  stats.fit() function which uses differential evolution.
 '''
 print("\n=== dist.fit() MLE ===")
 # Fit normal distribution to data
 x_fit = rng.normal(loc=3.0, scale=1.5, size=200)
 mu_hat, sig_hat = stats.norm.fit(x_fit)
 print(f"Normal fit: μ̂={mu_hat:.4f} (true 3), σ̂={sig_hat:.4f} (true 1.5)")
+# Normal fit: μ̂=3.3047 (true 3), σ̂=1.5575 (true 1.5)
 
 # Fit gamma distribution (shape, loc, scale)
 x_gamma_fit = rng.gamma(shape=2, scale=3, size=500)
 a_hat, loc_hat, scale_hat = stats.gamma.fit(x_gamma_fit, floc=0)   # fix loc=0
 print(f"Gamma fit (floc=0): a={a_hat:.4f} (true 2), scale={scale_hat:.4f} (true 3)")
+# Gamma fit (floc=0): a=2.1563 (true 2), scale=2.8089 (true 3)
 
 # Fit exponential (fix loc=0 for proper exponential)
 x_expon_fit = rng.exponential(scale=4, size=300)
 _, scale_expon = stats.expon.fit(x_expon_fit, floc=0)
 print(f"Expon fit: scale={scale_expon:.4f} (true 4)")
+# Expon fit: scale=3.9326 (true 4)
 
 # Log-likelihood at fitted parameters
 ll = np.sum(stats.norm.logpdf(x_fit, mu_hat, sig_hat))
 print(f"Log-likelihood at MLE: {ll:.4f}")
+# Log-likelihood at MLE: -372.4014
 
 # Kolmogorov-Smirnov goodness-of-fit check
 ks_stat, ks_p = stats.kstest(x_fit, 'norm', args=(mu_hat, sig_hat))
 print(f"KS test after fit: D={ks_stat:.4f}, p={ks_p:.4f}")   # should be p > 0.05
+# KS test after fit: D=0.0355, p=0.9548
 
-
-#############
-## stats.fit #
-#############
+###############
+## stats.fit ##
+###############
 '''
 stats.fit(dist, data, bounds=None, *, guess=None, method='mle', optimizer=<...>)
-  Unified fitting function (SciPy ≥ 1.9).
+  Unified fitting function.
   Uses differential evolution for global optimisation — more robust than
   the gradient-based dist.fit() for difficult likelihoods.
 
@@ -1840,9 +1836,12 @@ try:
 except Exception as e:
     print(f"stats.fit: {e}")
 
+# stats.fit gamma: FitParams(a=np.float64(2.1563174968015772), loc=np.float64(0.0), scale=np.float64(2.808928997083049))
+# Success: True
+# Neg log-likelihood: 1331.3813
 
 ##################
-## gaussian_kde  #
+## gaussian_kde ##
 ##################
 '''
 stats.gaussian_kde(dataset, bw_method=None, weights=None)
@@ -1873,20 +1872,20 @@ KDE vs histogram:
 '''
 print("\n=== gaussian_kde ===")
 x_kde = np.concatenate([rng.normal(-2, 0.5, 150),
-                         rng.normal( 2, 0.8, 100)])   # bimodal
+                         rng.normal( 2, 0.8, 100)]) # bimodal
 
 kde = stats.gaussian_kde(x_kde)
-print(f"Bandwidth factor (Scott): {kde.factor:.4f}")
+print(f"Bandwidth factor (Scott): {kde.factor:.4f}") # 0.3314
 
 # Evaluate density at grid
 x_grid = np.linspace(-5, 6, 200)
 density = kde(x_grid)
-print(f"KDE integrates to ≈ {np.trapezoid(density, x_grid):.6f}")   # ≈ 1.0
+print(f"KDE integrates to ≈ {np.trapezoid(density, x_grid):.6f}") # 0.999917 (≈ 1.0)
 
 # Silverman vs Scott
 kde_scott     = stats.gaussian_kde(x_kde, bw_method='scott')
 kde_silverman = stats.gaussian_kde(x_kde, bw_method='silverman')
-print(f"Scott bw={kde_scott.factor:.4f}, Silverman bw={kde_silverman.factor:.4f}")
+print(f"Scott bw={kde_scott.factor:.4f}, Silverman bw={kde_silverman.factor:.4f}") # bw=0.3314, Silverman bw=0.3511
 
 # Resample from KDE (smoothed bootstrap)
 resampled = kde.resample(size=100, seed=0)
@@ -1895,20 +1894,20 @@ print(f"Resampled shape: {resampled.shape}")   # (1, 100) for 1-D input
 # 2-D KDE
 x_2d_kde = rng.multivariate_normal([0, 0], [[1, 0.8], [0.8, 2]], 500)
 kde_2d = stats.gaussian_kde(x_2d_kde.T)
-print(f"2-D KDE pdf at origin: {kde_2d([0, 0])[0]:.6f}")
+print(f"2-D KDE pdf at origin: {kde_2d([0, 0])[0]:.6f}") # 0.121600
 
 # Integrate box (1-D only)
 prob_between = kde.integrate_box_1d(-1, 1)
-print(f"P(-1 < X < 1) from KDE: {prob_between:.4f}")
+print(f"P(-1 < X < 1) from KDE: {prob_between:.4f}") # 0.1515
 
 
 #-------------------------------------------------------------------------------------------------#
-#══════════════════  PART I — CONFIDENCE INTERVALS & RESAMPLING  ═════════════════════════════════#
+#════════════════════════  PART I — CONFIDENCE INTERVALS & RESAMPLING  ═══════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-#############
-## bootstrap #
-#############
+###############
+## bootstrap ##
+###############
 '''
 stats.bootstrap(data, statistic, *, n_resamples=9999, batch=None,
                 vectorized=None, paired=False, axis=0,
@@ -1936,14 +1935,14 @@ data_bs = (x_norm,)   # tuple of samples
 res_bs_mean = stats.bootstrap(data_bs, statistic=np.mean, n_resamples=2000,
                               method='BCa', random_state=0)
 ci_bs = res_bs_mean.confidence_interval
-print(f"Bootstrap 95% CI for mean: [{ci_bs.low:.4f}, {ci_bs.high:.4f}]")
-print(f"Bootstrap SE of mean: {res_bs_mean.standard_error:.4f}")
+print(f"Bootstrap 95% CI for mean: [{ci_bs.low:.4f}, {ci_bs.high:.4f}]") # [4.5922, 5.1999]
+print(f"Bootstrap SE of mean: {res_bs_mean.standard_error:.4f}") # 0.1522
 
 # Bootstrap CI for the median (analytically hard — bootstrap shines here)
 res_bs_med = stats.bootstrap(data_bs, statistic=np.median, n_resamples=2000,
                              method='BCa', random_state=0)
 ci_med = res_bs_med.confidence_interval
-print(f"Bootstrap 95% CI for median: [{ci_med.low:.4f}, {ci_med.high:.4f}]")
+print(f"Bootstrap 95% CI for median: [{ci_med.low:.4f}, {ci_med.high:.4f}]") # [4.3744, 5.4423]
 
 # Two-sample bootstrap for difference of means
 data_2s = (group_a, group_b)
@@ -1951,13 +1950,12 @@ def diff_means(x, y, axis): return np.mean(x, axis=axis) - np.mean(y, axis=axis)
 res_bs_diff = stats.bootstrap(data_2s, statistic=diff_means, n_resamples=2000,
                               paired=False, method='BCa', random_state=0)
 ci_diff = res_bs_diff.confidence_interval
-print(f"Bootstrap CI for μ_a - μ_b: [{ci_diff.low:.4f}, {ci_diff.high:.4f}]")
+print(f"Bootstrap CI for μ_a - μ_b: [{ci_diff.low:.4f}, {ci_diff.high:.4f}]") # [-1.2279, 0.2241]
 # If CI excludes 0 → significant difference
 
-
-####################
-## permutation_test #
-####################
+######################
+## permutation_test ##
+######################
 '''
 stats.permutation_test(data, statistic, *, permutation_type='independent',
                        vectorized=None, n_resamples=9999, batch=None,
@@ -1985,19 +1983,18 @@ def mean_diff(x, y, axis):
 res_pt = stats.permutation_test((group_a, group_b), mean_diff,
                                 n_resamples=999, permutation_type='independent',
                                 alternative='two-sided', random_state=0)
-print(f"Permutation test: stat={res_pt.statistic:.4f}, p={res_pt.pvalue:.4f}")
+print(f"Permutation test: stat={res_pt.statistic:.4f}, p={res_pt.pvalue:.4f}") # stat=-0.4990, p=0.1740
 
 # Sign test via 'samples' type (one-sample symmetry test)
 diffs = (after - before,)
 def signed_sum(d, axis): return np.sum(d > 0, axis=axis)
 res_sign = stats.permutation_test(diffs, signed_sum, permutation_type='samples',
                                   n_resamples=999, alternative='greater', random_state=0)
-print(f"Sign test: stat={res_sign.statistic:.0f}, p={res_sign.pvalue:.4f}")
+print(f"Sign test: stat={res_sign.statistic:.0f}, p={res_sign.pvalue:.4f}") # stat=30, p=0.0010
 
-
-####################
-## dist.interval()  #
-####################
+#####################
+## dist.interval() ##
+#####################
 '''
 dist.interval(confidence, *args, **kwds)
   Equal-tailed interval [a, b] such that P(a ≤ X ≤ b) = confidence.
@@ -2017,12 +2014,11 @@ mu_ci = x_norm.mean()
 se_ci = x_norm.std(ddof=1) / np.sqrt(n_ci)
 t_star = stats.t.ppf(0.975, df=n_ci-1)
 ci_mean = (mu_ci - t_star * se_ci, mu_ci + t_star * se_ci)
-print(f"95% CI for mean of x_norm: ({ci_mean[0]:.4f}, {ci_mean[1]:.4f})")
+print(f"95% CI for mean of x_norm: ({ci_mean[0]:.4f}, {ci_mean[1]:.4f})") # (4.5912, 5.2077)
 
-
-################
-## bayes_mvs   #
-################
+###############
+## bayes_mvs ##
+###############
 '''
 stats.bayes_mvs(data, alpha=0.90) -> (mean_ci, var_ci, std_ci)
   Bayesian credible intervals for mean, variance, and std.
@@ -2037,18 +2033,23 @@ stats.bayes_mvs(data, alpha=0.90) -> (mean_ci, var_ci, std_ci)
 '''
 print("\n=== bayes_mvs ===")
 mean_ci, var_ci, std_ci = stats.bayes_mvs(x_norm, alpha=0.95)
+
 print(f"Bayesian mean 95% CI: center={mean_ci.statistic:.4f}, "
       f"interval={np.array(mean_ci.minmax).round(4)}")
+# Bayesian mean 95% CI: center=4.8995, interval=[4.5912 5.2077]
+
 print(f"Bayesian var  95% CI: center={var_ci.statistic:.4f}, "
       f"interval={np.array(var_ci.minmax).round(4)}")
+# Bayesian var  95% CI: center=2.4627, interval=[1.8601 3.2562]
+
 print(f"Bayesian std  95% CI: center={std_ci.statistic:.4f}, "
       f"interval={np.array(std_ci.minmax).round(4)}")
+# Bayesian std  95% CI: center=1.5652, interval=[1.3639 1.8045]
 
 
 #-------------------------------------------------------------------------------------------------#
 #══════════════════════════════  PART J — QUASI-MONTE CARLO  ═════════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
-
 '''
 Quasi-Monte Carlo (QMC) sequences are "low-discrepancy" — they fill the unit
 hypercube more uniformly than pseudo-random numbers.
@@ -2063,9 +2064,9 @@ Use cases: numerical integration, sensitivity analysis, surrogate modelling,
 All QMC engines return samples in [0, 1]^d. Use qmc.scale to map to [l, u]^d.
 '''
 
-###############
-## qmc.Halton  #
-###############
+################
+## qmc.Halton ##
+################
 '''
 qmc.Halton(d, scramble=True, seed=None)
   Halton sequence: uses different prime bases for each dimension.
@@ -2080,20 +2081,35 @@ print("\n=== qmc.Halton ===")
 halton = qmc.Halton(d=2, scramble=True, seed=42)
 H = halton.random(n=16)
 print("Halton 16 samples (2-D):\n", H.round(4))
+#  [[0.5513 0.1518]
+#  [0.0513 0.8184]
+#  [0.8013 0.4851]
+#  [0.3013 0.2629]
+#  [0.6763 0.9295]
+#  [0.1763 0.5962]
+#  [0.9263 0.0407]
+#  [0.4263 0.7073]
+#  [0.6138 0.374 ]
+#  [0.1138 0.1888]
+#  [0.8638 0.8555]
+#  [0.3638 0.5221]
+#  [0.7388 0.2999]
+#  [0.2388 0.9666]
+#  [0.9888 0.6332]
+#  [0.4888 0.0777]]
 
 disc_H = qmc.discrepancy(H)
-print(f"Halton discrepancy (L2-star): {disc_H:.6f}")
+print(f"Halton discrepancy (L2-star): {disc_H:.6f}") # 0.002367
 
 # Compare with pure random
 R = rng.uniform(size=(16, 2))
 disc_R = qmc.discrepancy(R)
-print(f"Random discrepancy (L2-star): {disc_R:.6f}")
+print(f"Random discrepancy (L2-star): {disc_R:.6f}") # 0.028178
 # Halton << random discrepancy → more uniform coverage
 
-
-##############
-## qmc.Sobol  #
-##############
+###############
+## qmc.Sobol ##
+###############
 '''
 qmc.Sobol(d, scramble=True, bits=30, seed=None)
   Sobol' sequence: base-2 digital net with very low discrepancy.
@@ -2107,12 +2123,11 @@ print("\n=== qmc.Sobol ===")
 sobol = qmc.Sobol(d=3, scramble=True, seed=42)
 S = sobol.random_base2(m=4)   # 2^4 = 16 samples
 print(f"Sobol 16 samples shape: {S.shape}")   # (16, 3)
-print(f"Sobol discrepancy: {qmc.discrepancy(S[:, :2]):.6f}")
+print(f"Sobol discrepancy: {qmc.discrepancy(S[:, :2]):.6f}") # 0.002114
 
-
-#####################
-## qmc.LatinHypercube #
-#####################
+########################
+## qmc.LatinHypercube ##
+########################
 '''
 qmc.LatinHypercube(d, scramble=True, strength=1, optimization=None, seed=None)
   Latin Hypercube Sampling (LHS): divides [0,1]^d into n equal strata per
@@ -2127,7 +2142,7 @@ print("\n=== qmc.LatinHypercube ===")
 lhs = qmc.LatinHypercube(d=4, seed=42)
 L = lhs.random(n=20)
 print(f"LHS shape: {L.shape}")   # (20, 4)
-print(f"LHS discrepancy: {qmc.discrepancy(L[:, :2]):.6f}")
+print(f"LHS discrepancy: {qmc.discrepancy(L[:, :2]):.6f}") # 0.001378
 
 # Verify marginal stratification: each dimension has one sample per stratum
 for col in range(4):
@@ -2135,10 +2150,9 @@ for col in range(4):
     assert len(np.unique(strata)) == 20, "LHS strata violated!"
 print("Marginal stratification verified for all 4 dimensions.")
 
-
-##################
-## qmc.discrepancy #
-##################
+#####################
+## qmc.discrepancy ##
+#####################
 '''
 qmc.discrepancy(sample, iterative=False, method='CD', workers=1)
   Compute the discrepancy of a QMC sample (measure of uniformity).
@@ -2158,12 +2172,15 @@ for name, samp in [('Random',  rng.uniform(size=(64, 2))),
                    ('LHS',     qmc.LatinHypercube(d=2, seed=0).random(64))]:
     d_cd = qmc.discrepancy(samp, method='CD')
     print(f"  {name:<8}: CD discrepancy = {d_cd:.6f}")
+  # Random  : CD discrepancy = 0.003287
+  # Halton  : CD discrepancy = 0.000200
+  # Sobol   : CD discrepancy = 0.000153
+  # LHS     : CD discrepancy = 0.000460
 # Sobol and LHS typically lowest for small n; all beat random
 
-
-#############
-## qmc.scale #
-#############
+###############
+## qmc.scale ##
+###############
 '''
 qmc.scale(sample, l_bounds, u_bounds, reverse=False)
   Map QMC samples from [0, 1]^d to an arbitrary hyperbox [l, u]^d.
@@ -2181,14 +2198,15 @@ l_bounds = np.array([-5.0, 0.0,  100.0])
 u_bounds = np.array([ 5.0, 10.0, 200.0])
 
 sobol_scaled = qmc.scale(sobol_unit, l_bounds, u_bounds)
-print(f"Scaled min: {sobol_scaled.min(axis=0).round(4)}")
-print(f"Scaled max: {sobol_scaled.max(axis=0).round(4)}")
+print(f"Scaled min: {sobol_scaled.min(axis=0).round(4)}") # [-4.758200e+00  4.880000e-02  1.012702e+02]
+print(f"Scaled max: {sobol_scaled.max(axis=0).round(4)}") # [  4.8274   9.7473 199.1615]
 print(f"Scaled dim 0 range ≈ [-5, 5]: "
       f"{sobol_scaled[:, 0].min():.3f}  to  {sobol_scaled[:, 0].max():.3f}")
+# Scaled dim 0 range ≈ [-5, 5]: -4.758  to  4.827
 
 # Round-trip: scale then reverse-scale should recover original
 sobol_back = qmc.scale(sobol_scaled, l_bounds, u_bounds, reverse=True)
-print(f"Round-trip error: {np.abs(sobol_back - sobol_unit).max():.2e}")   # ≈ 0
+print(f"Round-trip error: {np.abs(sobol_back - sobol_unit).max():.2e}") # ≈ 0
 
 
 # ── End-to-end: QMC integration example ──────────────────────────────────────
@@ -2211,7 +2229,7 @@ est_mc  = integrand(pts_mc).mean()
 pts_qmc = qmc.Sobol(d=2, seed=42).random_base2(10)   # 2^10 = 1024
 est_qmc = integrand(pts_qmc).mean()
 
-print(f"True value  : {true_val:.6f}")
-print(f"MC estimate : {est_mc:.6f}  (error={abs(est_mc-true_val):.2e})")
-print(f"QMC estimate: {est_qmc:.6f}  (error={abs(est_qmc-true_val):.2e})")
+print(f"True value  : {true_val:.6f}") # 0.405285
+print(f"MC estimate : {est_mc:.6f}  (error={abs(est_mc-true_val):.2e})") # 0.393078  (error=1.22e-02)
+print(f"QMC estimate: {est_qmc:.6f}  (error={abs(est_qmc-true_val):.2e})") # 0.405290  (error=5.06e-06)
 # QMC typically 10-100x more accurate than MC for same n
