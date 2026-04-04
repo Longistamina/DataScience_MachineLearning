@@ -47,6 +47,14 @@ Set Outdent Shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "outdent" => Ctrl + Tab
 (set this to avoid conflicting the "Trigger Parameter Hints")
 
+#------------------------------------------------------------------------#
+#------------- Select Conda Env for automatical activation --------------#
+#------------------------------------------------------------------------#
+
+Look at the BOTTOM RIGHT corner of vscode/vscodium
+-> click the buttom "env_name(x.x.x)" next to the BELL icon (for example "base (3.13.11)")
+-> select the wanted Python Environment
+
 #---------------------------------------------------#
 #------------- Add a terminal profile --------------#
 #---------------------------------------------------#
@@ -57,13 +65,19 @@ Press: Ctrl+Shift+P
 Find and choose: ">Preferences: Open User Settings (JSON)"
 
 Add a terminal profile to the json file:
-"terminal.integrated.profiles.linux": {
-    "python-data-3.12": { # Name of the profile
-        "path": "/home/longdpt/miniconda3/envs/data/bin/python", # Path to the executable file (should be inside an env)
-        "args": [],
-        "overrideName": true # To use the profile name as terminal name
-    }
-}
+  "terminal.integrated.profiles.linux": {
+      "Bash (Conda Data)": {
+        "path": "/bin/bash",
+        "args": ["-l"],
+        "icon": "terminal-bash",
+        "env": {
+          "PATH": "/home/longdpt/miniconda3/envs/data/bin:${env:PATH}",
+          "CONDA_DEFAULT_ENV": "data",
+          "CONDA_PREFIX": "/home/longdpt/miniconda3/envs/data"
+        }
+      }
+    },
+    "terminal.integrated.defaultProfile.linux": "Bash (Conda Data)",
 
 #----------------------------------------------------#
 #------------- Set jupyter environment --------------#
