@@ -104,3 +104,9 @@
 + [01_Python_Basic_part_18](https://youtu.be/5J1nFDLbjxc): 29th/03/2026
     * subprocess: running external commands and scripts in Python
     * plumbum: like subprocess but with more readable syntax
++ [01_Python_Basic_part_19](https://youtu.be/Ox7xHBI2DIk): 05th/04/2026
+    * ArgumentParser, main() function: parsing inputs from terminal, make Python file a command line
+    * logging, loguru, logger: manipulate log messages and create log files
+    * warnings: handle warnings message in Python
+    * VSCode debugging demonstration
+    * Bonus: OpenCode and agentic AI workflow; A glance at Rust code; The story of Rust's creator
