@@ -161,4 +161,5 @@ logger.add("01_Python_Basic/terminal_logs.txt",
            retention="10 days",  # Keep logs for 10 days
            level="INFO") # Only save the "INFO" level and above
 
+logger.debug("This is a debug message.") # Will not be saved to the file since the lowest set level is "INFO"
 logger.info("This is an info message.")

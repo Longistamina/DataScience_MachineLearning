@@ -33,7 +33,7 @@ The Three-Step Process
 
 
 #----------------------------------------------------------------------------------------------------------#
-#--------------------------------- Define functional functions --------------------------------------------#
+#------------------------------------ Define functional functions -----------------------------------------#
 #----------------------------------------------------------------------------------------------------------#
 
 from loguru import logger
@@ -88,12 +88,14 @@ formatter = lambda prog: HelpFormatter(prog, width=200, max_help_position=50)
 # Put the parser inside a function so that it will not be executed when the module is imported
 def parse_args():
     # Create an ArgumentParser object named "parser"
-    parser = ArgumentParser(prog="Rectangle Calculator",
-                            description="Calculate the perimeter and area of a rectangle.",
-                            epilog="Thank you for using the Rectangle Calculator!",
-                            usage="rectangle_calculator.py [options] <length> <width>",
-                            add_help=True,
-                            formatter_class=formatter)
+    parser = ArgumentParser(
+        prog="Rectangle Calculator",
+        description="Calculate the perimeter and area of a rectangle.",
+        epilog="Thank you for using the Rectangle Calculator!",
+        usage="rectangle_calculator.py [options] <length> <width>",
+        add_help=True,
+        formatter_class=formatter
+    )
 
     # Add arguments to the "parser" object
     parser.add_argument("-l", "--length", required=True, metavar="\b", help="Length of the rectangle (expected to be a positive number).")

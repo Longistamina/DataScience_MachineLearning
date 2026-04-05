@@ -65,8 +65,8 @@ def main():
 
         # Calculate the perimeter
         perimeter = rectangle_perimeter(
-            length = length, # Get the length from the parsed arguments
-            width = width # Get the width from the parsed arguments
+            length=length, # Get the length from the parsed arguments
+            width=width # Get the width from the parsed arguments
         )
 
         # Calculate the area

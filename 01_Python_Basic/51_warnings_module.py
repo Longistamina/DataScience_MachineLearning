@@ -33,13 +33,12 @@ but it is not severe enough to raise an exception and halt the program.
 '''
 
 import warnings
+import numpy as np
 
 
 #----------------------------------------------------------------------------------------------------------#
 #------------------------------------ Exmaples of disabling a warning -------------------------------------#
 #----------------------------------------------------------------------------------------------------------#
-
-import numpy as np
 
 np.sqrt(-1)
 # <stdin>:1: RuntimeWarning: invalid value encountered in sqrt
@@ -53,6 +52,11 @@ import warnings
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 np.sqrt(-1)  # No warning
 # np.float64(nan)
+
+'''
+warnings.filterwarnings("ignore")
+=> This will ignore all warnings, regardless of their category or message content.
+'''
 
 
 #----------------------------------------------------------------------------------------------------------#
@@ -154,7 +158,7 @@ except RuntimeWarning as e:
 '''warnings.filterwarnings(action, message='', category=WarningCategory) allows more granular control using regex.'''
 
 # Ignore warnings containing "deprecated"
-warnings.filterwarnings("ignore", message=".*deprecated.*")
+warnings.filterwarnings("ignore", message=r".*deprecated.*")
 
 warnings.warn("This feature is deprecated.", DeprecationWarning)  
 # No output (because its message matches the regex, having the "deprecated" word)
