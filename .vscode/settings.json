@@ -1,9 +1,7 @@
 {
   "r.rterm.linux": "/home/longdpt/miniconda3/envs/data/bin/R",
   "r.rpath.linux": "/home/longdpt/miniconda3/envs/data/bin/R",
-  "r.rterm.options": [
-    "--quiet"
-  ],
+  "r.rterm.options": ["--quiet"],
   "r.lsp.diagnostics": false,
   "[r]": {
     "editor.semanticHighlighting.enabled": false
@@ -17,7 +15,7 @@
     "python": true,
     "r": false
   },
-  "python.defaultInterpreterPath": "/home/longdpt/miniconda3/envs/data/bin/python",
+  "python.defaultInterpreterPath": "/home/longdpt/miniconda3/envs/data/bin/python3",
   "editor.largeFileOptimizations": false,
   "python.terminal.activateEnvironment": true,
   "python.terminal.activateEnvInCurrentTerminal": true,
@@ -25,19 +23,16 @@
     "*.copilotmd": "vscode.markdown.preview.editor",
     "*.xls": "default"
   },
+  "python-envs.defaultEnvManager": "ms-python.python:conda",
+  "python-envs.defaultPackageManager": "ms-python.python:conda",
+  "terminal.integrated.env.linux": {
+    "CONDA_DEFAULT_ENV": "data"
+  },
+  "terminal.integrated.defaultProfile.linux": "bash",
   "terminal.integrated.profiles.linux": {
-      "Bash (Conda Data)": {
-        "path": "/bin/bash",
-        "args": ["-l"],
-        "icon": "terminal-bash",
-        "env": {
-          "PATH": "/home/longdpt/miniconda3/envs/data/bin:${env:PATH}",
-          "CONDA_DEFAULT_ENV": "data",
-          "CONDA_PREFIX": "/home/longdpt/miniconda3/envs/data"
-        }
-      }
-    },
-    "terminal.integrated.defaultProfile.linux": "Bash (Conda Data)",
-    "python-envs.defaultEnvManager": "ms-python.python:conda",
-    "python-envs.defaultPackageManager": "ms-python.python:conda"
+    "bash": {
+      "path": "/bin/bash",
+      "args": []
+    }
+  }
 }

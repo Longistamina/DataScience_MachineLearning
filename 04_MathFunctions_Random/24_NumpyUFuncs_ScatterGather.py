@@ -109,9 +109,9 @@ j16 = np.array([0b0110, 0b1010, 0b1100], dtype=np.uint8)
 #═══════════════════════  PART A — UFUNC ANATOMY: ATTRIBUTES & INTROSPECTION  ════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-##########################
-## Ufunc attributes      ##
-##########################
+######################
+## Ufunc attributes ##
+######################
 '''
 Every ufunc exposes a set of read-only informational attributes.
 
@@ -136,10 +136,15 @@ for uf, label in [(np.add,      'add'),
     print(f"{label:<12}: nin={uf.nin}, nout={uf.nout}, nargs={uf.nargs}, "
           f"ntypes={uf.ntypes}, identity={uf.identity}, "
           f"signature={uf.signature!r}")
+# add         : nin=2, nout=1, nargs=3, ntypes=22, identity=0, signature=None
+# multiply    : nin=2, nout=1, nargs=3, ntypes=23, identity=1, signature=None
+# sin         : nin=1, nout=1, nargs=2, ntypes=8, identity=None, signature=None
+# divmod      : nin=2, nout=2, nargs=4, ntypes=15, identity=None, signature=None
+# matmul      : nin=2, nout=1, nargs=3, ntypes=19, identity=None, signature='(n?,k),(k,m?)->(n?,m?)'
 
 # Inspect type-resolution loops of np.add
 print("\nnp.add type loops (first 5):", np.add.types[:5])
-# ['bb->b', 'BB->B', 'hh->h', 'HH->H', 'ii->i']
+# ['??->?', 'bb->b', 'BB->B', 'hh->h', 'HH->H']
 # Lower-case = signed, upper-case = unsigned; b=int8, h=int16, i=int32, f=float32, d=float64
 
 # np.matmul is a gufunc with a shape signature
@@ -147,12 +152,12 @@ print("matmul signature:", np.matmul.signature)   # (n?,k),(k,m?)->(n?,m?)
 
 
 #-------------------------------------------------------------------------------------------------#
-#═══════════════  PART B — OPTIONAL KEYWORD ARGUMENTS (apply to all ufuncs)  ════════════════════#
+#══════════════════  PART B — OPTIONAL KEYWORD ARGUMENTS (apply to all ufuncs)  ══════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-##########
-## out   ##
-##########
+#########
+## out ##
+#########
 '''
 out : array or tuple of arrays, or None (default)
 
@@ -184,6 +189,7 @@ q = np.empty(5)
 r = np.empty(5)
 np.divmod(b, np.array([3.,3.,3.,3.,3.]), out=(q, r))
 print("divmod quotient:", q, "  remainder:", r)
+# divmod quotient: [ 3.  6. 10. 13. 16.]   remainder: [1. 2. 0. 1. 2.]
 
 # Scalar 0-D: without out= it converts to Python scalar
 z0 = np.add(np.float64(1.0), np.float64(2.0))
@@ -191,9 +197,8 @@ print(f"0-D without out: type={type(z0)}")           # <class 'numpy.float64'>
 z0e = np.add(np.float64(1.0), np.float64(2.0), out=np.empty(()))
 print(f"0-D with out=:   type={type(z0e)}, val={z0e}")  # ndarray, 3.0
 
-
 ###########
-## where  ##
+## where ##
 ###########
 '''
 where : boolean array, broadcast-compatible with inputs and output
@@ -226,9 +231,8 @@ log_out = np.full(5, np.nan)
 np.log(vals, out=log_out, where=(vals > 0))
 print("Masked log:", log_out)   # [nan  0.  1.386  nan  1.]
 
-
 #############
-## casting  ##
+## casting ##
 #############
 '''
 casting : {'no', 'equiv', 'safe', 'same_kind', 'unsafe'}  — default 'same_kind'
@@ -250,22 +254,24 @@ b_f64 = np.array([0.5, 1.5, 2.5], dtype=np.float64)
 
 # 'safe': int32 → float64 is fine (no precision loss)
 res_safe = np.add(a_int, b_f64, casting='safe')
-print("casting='safe' (int+float):", res_safe, res_safe.dtype)   # float64
+print("casting='safe' (int+float):", res_safe, res_safe.dtype)
+# casting='safe' (int+float): [1.5 3.5 5.5] float64
 
 # 'unsafe': float64 → int32 (truncates)
 out_int = np.empty(3, dtype=np.int32)
 np.add(a_int, b_f64, out=out_int, casting='unsafe')
-print("casting='unsafe' (truncated):", out_int)   # [1 3 5] (truncated)
+print("casting='unsafe' (truncated):", out_int)   
+# casting='unsafe' (truncated): [1 3 5]
 
 # 'no': fails if dtypes differ
 try:
     np.add(a_int, b_f64, casting='no')
 except TypeError as e:
     print(f"casting='no' TypeError: {e}")
-
+# casting='no' TypeError: Cannot cast ufunc 'add' input 0 from dtype('int32') to dtype('float64') with casting rule 'no'
 
 ###########
-## dtype  ##
+## dtype ##
 ###########
 '''
 dtype : dtype or None (default None)
@@ -280,23 +286,21 @@ dtype : dtype or None (default None)
     • Force float32 everywhere for GPU-friendliness.
 '''
 print("\n=== dtype keyword ===")
-small_ints = np.array([10000, 20000, 30000], dtype=np.int16)
-# reduce without dtype: wraps around at 32767
-overflow_wrong = np.add.reduce(small_ints)
-print(f"add.reduce int16 (overflow): {overflow_wrong}")   # -25536 (wrapped!)
+big_ints = np.array([1e10, 2e10, 3e10], dtype=np.int64)
+overflow_wrong = np.add.reduce(big_ints, dtype=np.int16)
+print(f"add.reduce dtype=int16:      {overflow_wrong}")  # 22528 (overflow)
 
 # dtype=np.int64 accumulates in 64-bit before placing in output
-overflow_ok = np.add.reduce(small_ints, dtype=np.int64)
-print(f"add.reduce dtype=int64:      {overflow_ok}")   # 60000 (correct)
+overflow_ok = np.add.reduce(big_ints, dtype=np.int64)
+print(f"add.reduce dtype=int64:      {overflow_ok:.1e}")   # 6.0e+10 (correct)
 
 # Force float32 computation
 a32 = np.ones(4, dtype=np.float32)
 res32 = np.multiply(a32, a32, dtype=np.float32)
 print(f"multiply dtype=float32: {res32.dtype}")   # float32
 
-
 ###########
-## order  ##
+## order ##
 ###########
 '''
 order : {'K', 'C', 'F', 'A'}  — default 'K'
@@ -317,10 +321,9 @@ res_C = np.add(X_f, 1.0, order='C')   # forces C layout
 print(f"order='K' is F-contig: {res_K.flags['F_CONTIGUOUS']}")   # True
 print(f"order='C' is C-contig: {res_C.flags['C_CONTIGUOUS']}")   # True
 
-
-#############################################
-## axes / axis / keepdims  (gufunc only)   ##
-#############################################
+###########################################
+## axes / axis / keepdims  (gufunc only) ##
+###########################################
 '''
 These three parameters only apply to generalised ufuncs (gufuncs), which
 operate on sub-arrays (core elements) rather than scalars.
@@ -359,9 +362,9 @@ print("axes= explicit:", np.allclose(batch_C, batch_C2))   # True
 #═══════════════════════════════  PART C — METHOD: reduce  ═══════════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-###############
-## reduce()   ##
-###############
+##############
+## reduce() ##
+##############
 '''
 ufunc.reduce(array, axis=0, dtype=None, out=None, keepdims=False,
              initial=<no value>, where=True)
@@ -409,7 +412,7 @@ print("add.reduce axis=None (total):", np.add.reduce(M, axis=None)) # 21
 # keepdims: shape stays (1, 3) instead of (3,)
 col_sums = np.add.reduce(M, axis=0, keepdims=True)
 print("keepdims=True shape:", col_sums.shape)   # (1, 3)
-print("Broadcasts back:", (M / col_sums).round(4))   # column normalisation
+print("Broadcasts back:", (M / col_sums).round(4))   # [[0.2    0.2857 0.3333] column normalisation
 
 # initial: useful for empty arrays and injecting a head value
 print("add.reduce([], initial=100):", np.add.reduce(np.array([]), initial=100))  # 100
@@ -420,9 +423,9 @@ w = np.array([True, False, True, False, True])
 print("add.reduce where=[T,F,T,F,T]:", np.add.reduce(x, where=w, initial=0))   # 1+3+5=9
 
 # dtype to prevent integer overflow
-big = np.array([100_000] * 100, dtype=np.int16)
-wrong = np.add.reduce(big)
-right = np.add.reduce(big, dtype=np.int64)
+big = np.array([100_000] * 100, dtype=np.int32)
+wrong = np.add.reduce(big, dtype=np.int16)   # overflows to -27008
+right = np.add.reduce(big, dtype=np.int64)   #  10000000 (correct)
 print(f"int16 reduce (overflows): {wrong}  |  int64 reduce: {right}")
 
 # Multi-axis reduction: reduce over axes (0, 1) simultaneously
@@ -434,7 +437,7 @@ print("add.reduce axis=(0,1):", np.add.reduce(M, axis=(0, 1)))   # 21
 #-------------------------------------------------------------------------------------------------#
 
 ##################
-## accumulate()  ##
+## accumulate() ##
 ##################
 '''
 ufunc.accumulate(array, axis=0, dtype=None, out=None)
@@ -486,8 +489,8 @@ print("logaddexp.accumulate (log cumsum):", np.exp(log_cumsum).round(4))
 prices = np.array([100., 105., 102., 108., 103., 112., 109.])
 peak   = np.maximum.accumulate(prices)
 drawdown = (prices - peak) / peak * 100
-print("Running peak   :", peak)
-print("Drawdown (%)   :", drawdown.round(2))
+print("Running peak   :", peak) # [100. 105. 105. 108. 108. 112. 112.]
+print("Drawdown (%)   :", drawdown.round(2)) # [ 0.    0.   -2.86  0.   -4.63  0.   -2.68]
 
 
 #-------------------------------------------------------------------------------------------------#
@@ -495,7 +498,7 @@ print("Drawdown (%)   :", drawdown.round(2))
 #-------------------------------------------------------------------------------------------------#
 
 ################
-## reduceat()  ##
+## reduceat() ##
 ################
 '''
 ufunc.reduceat(array, indices, axis=0, dtype=None, out=None)
@@ -551,16 +554,16 @@ print("Group min :", np.minimum.reduceat(values, group_starts))     # [10. 40. 7
 # Sparse group-by: use np.unique to get segment starts from sorted labels
 labels = np.array([0, 0, 0, 1, 1, 2, 2, 2, 2])   # group labels (must be sorted)
 _, starts = np.unique(labels, return_index=True)
-print("Group sums via unique:", np.add.reduceat(values, starts))   # [60. 150. 240.]
+print("Group sums via unique:", np.add.reduceat(values, starts))   # [ 60.  90. 300.]
 
 
 #-------------------------------------------------------------------------------------------------#
 #═══════════════════════════════  PART F — METHOD: outer  ════════════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
-##########
+###########
 ## outer ##
-##########
+###########
 '''
 ufunc.outer(A, B, /, **kwargs)
   Apply ufunc to all pairs (a, b) with a in A and b in B.
@@ -630,7 +633,7 @@ print("PQ[0,0]:", PQ[0, 0])          # [[5 6],[7 8]] = 1 * Q
 #-------------------------------------------------------------------------------------------------#
 
 ########
-## at  ##
+## at ##
 ########
 '''
 ufunc.at(a, indices, b=None)
@@ -852,6 +855,13 @@ for step, (i, s) in enumerate(zip(index, src)):
     old = out_trace[i]
     np.maximum.at(out_trace, np.array([i]), np.array([s]))
     print(f"  step {step}: index={i}, src={s}, {old:.0f} → {out_trace[i]:.0f}")
+# Trace of np.maximum.at for index=[2,0,2,1,0,2], src=[1,2,3,4,5,6]:
+#   step 0: index=2, src=1.0, -inf → 1
+#   step 1: index=0, src=2.0, -inf → 2
+#   step 2: index=2, src=3.0, 1 → 3
+#   step 3: index=1, src=4.0, -inf → 4
+#   step 4: index=0, src=5.0, 2 → 5
+#   step 5: index=2, src=6.0, 3 → 6
 
 
 # ── scatter_amin  ─────────────────────────────────────────────────────────────
@@ -912,6 +922,9 @@ rows = np.arange(N)[:, None]                  # (3, 1)
 np.add.at(out_2d, (rows, index_2d), src_2d)
 print("2-D scatter_sum (dim=1):")
 print(out_2d)
+# [[ 4.  0.  2.  0.  4.]
+#  [ 0. 12.  8.  6.  0.]
+#  [10.  0. 12. 11.  9.]]
 # Row 0: out[0,0]=1+3=4, out[0,2]=2, out[0,4]=4  → [4 0 2 0 4]
 # Row 1: out[1,1]=5+7=12, out[1,3]=6, out[1,2]=8  → [0 12 8 6 0]
 # Row 2: out[2,4]=9, out[2,0]=10, out[2,3]=11, out[2,2]=12 → [10 0 12 11 9]
@@ -1011,6 +1024,10 @@ batch_rows = np.arange(B)[:, None]   # (4, 1)
 np.add.at(out_batch, (batch_rows, index_batch), src_batch)
 print("Batched scatter_sum:")
 print(out_batch)
+# [[ 2.  1.  0.]
+#  [ 4.  5.  3.]
+#  [ 0. 13.  8.]
+#  [ 9.  0. 21.]]
 
 print("\n--- Advanced: scatter with unary ufunc (in-place negation at indices) ---")
 '''
@@ -1033,14 +1050,14 @@ print(f"power.at [1,3] **2 : {a_pow}")   # [1.  4.  3. 16.  5.]
 
 
 #-------------------------------------------------------------------------------------------------#
-#══════════════════════════════  PART H — MATH UFUNCS  ═══════════════════════════════════════════#
+#════════════════════════════════  PART H — MATH UFUNCS  ═════════════════════════════════════════#
 #-------------------------------------------------------------------------------------------------#
 
 print("\n=== Math ufuncs ===")
 
-###########################################################
-## add / subtract / multiply / divide / floor_divide / mod
-###########################################################
+#############################################################
+## add / subtract / multiply / divide / floor_divide / mod ##
+#############################################################
 '''
 np.add(x1, x2)           : x1 + x2   (triggered by a + b when a or b is ndarray)
 np.subtract(x1, x2)      : x1 - x2
@@ -1063,11 +1080,11 @@ print("fmod      (% like C)     :", np.fmod(x, d))        # [-1. -1.  1.  1.]
 
 q, r = np.divmod(x, d)
 print("divmod quotient:", q, "  remainder:", r)
+# divmod quotient: [-3. -2.  1.  2.]   remainder: [2. 1. 1. 1.]
 
-
-##############################################
-## negative / positive / absolute / fabs / sign / rint
-##############################################
+#########################################################
+## negative / positive / absolute / fabs / sign / rint ##
+#########################################################
 '''
 np.negative(x)   : -x   (triggered by -a)
 np.positive(x)   : +x   (explicit unary +)
@@ -1083,10 +1100,9 @@ print("rint :", np.rint(z))    # [-3. -0.  0.  0.  2.  3.]  (ties→even: -0.5�
 z_cplx = np.array([3. + 4.j, -1. + 0.j])
 print("absolute (complex):", np.absolute(z_cplx))   # [5. 1.]
 
-
-##################################################
-## power / float_power / square / sqrt / cbrt / reciprocal
-##################################################
+#############################################################
+## power / float_power / square / sqrt / cbrt / reciprocal ##
+#############################################################
 '''
 np.power(x1, x2)       : x1 ** x2  (integer powers stay integer if inputs are int)
 np.float_power(x1, x2) : x1 ** x2  (always float64 — avoids int overflow; handles
@@ -1100,15 +1116,13 @@ p = np.array([2., 3., 4., -8.])
 print("square  :", np.square(p))          # [ 4.  9. 16. 64.]
 print("sqrt    :", np.sqrt(np.abs(p)))    # [ 1.414  1.732  2.  2.828]
 print("cbrt    :", np.cbrt(p))            # [ 1.26   1.44   1.587  -2.  ]
-print("power   :", np.power(2., np.array([0., 1., 2., 3., 10.])))
-# [1. 2. 4. 8. 1024.]
+print("power   :", np.power(2., np.array([0., 1., 2., 3., 10.]))) # [1. 2. 4. 8. 1024.]
 print("float_power(-1, 0.5):", np.float_power(-1, 0.5))   # nan (real domain)
 print("reciprocal:", np.reciprocal(p))   # [0.5   0.333  0.25  -0.125]
 
-
-######################################################
-## exp / exp2 / expm1 / log / log2 / log10 / log1p   ##
-######################################################
+#####################################################
+## exp / exp2 / expm1 / log / log2 / log10 / log1p ##
+#####################################################
 '''
 np.exp(x)    : eˣ
 np.exp2(x)   : 2ˣ
@@ -1130,10 +1144,9 @@ x_exp = np.array([1., 2., 4., 8., 1024.])
 print("log2 :", np.log2(x_exp))    # [0. 1. 2. 3. 10.]
 print("log10:", np.log10(np.array([1., 10., 100., 1000.])))   # [0. 1. 2. 3.]
 
-
-######################################
-## logaddexp / logaddexp2            ##
-######################################
+############################
+## logaddexp / logaddexp2 ##
+############################
 '''
 np.logaddexp(x1, x2)  : log(eˣ¹ + eˣ²) computed stably.
                          = x1 + log(1 + exp(x2-x1))  (stable if x1 ≥ x2)
@@ -1155,10 +1168,9 @@ log_probs = np.array([-1000., -999., -998.])   # would underflow with exp()
 lse = np.logaddexp.reduce(log_probs)
 print(f"log-sum-exp {log_probs}: {lse:.4f}")   # -997.5917... (correct)
 
-
-#############################
-## heaviside / gcd / lcm   ##
-#############################
+###########################
+## heaviside / gcd / lcm ##
+###########################
 '''
 np.heaviside(x1, x2)  : 0 if x1<0, x2 if x1=0, 1 if x1>0.
                          x2 is the value at exactly zero (commonly 0.0 or 0.5).
@@ -1208,10 +1220,9 @@ print("arctan2 quadrants:", np.degrees(angles))   # [45. 135. -45. -135.]
 
 print("hypot(3,4):", np.hypot(3., 4.))   # 5.0 (Pythagorean triple)
 
-
-##############################################
-## sinh / cosh / tanh / arcsinh / arccosh / arctanh
-##############################################
+######################################################
+## sinh / cosh / tanh / arcsinh / arccosh / arctanh ##
+######################################################
 '''
 Hyperbolic functions. Identities:
   cosh²(x) - sinh²(x) == 1
@@ -1222,10 +1233,9 @@ x_h = np.array([0., 0.5, 1., 2.])
 print("cosh²-sinh²=1:", np.allclose(np.cosh(x_h)**2 - np.sinh(x_h)**2, 1.0))   # True
 print("tanh(1):", np.tanh(1.))   # 0.7616...
 
-
-###################################
-## deg2rad / rad2deg / degrees / radians
-###################################
+###########################################
+## deg2rad / rad2deg / degrees / radians ##
+###########################################
 '''
 np.deg2rad(x)  : degrees → radians  (== x * π/180)
 np.rad2deg(x)  : radians → degrees  (== x * 180/π)
@@ -1234,7 +1244,7 @@ np.radians(x)  : alias for deg2rad
 '''
 deg = np.array([0., 30., 45., 60., 90., 180., 360.])
 rad = np.deg2rad(deg)
-print("deg→rad:", rad.round(4))
+print("deg→rad:", rad.round(4)) # [0.     0.5236 0.7854 1.0472 1.5708 3.1416 6.2832]
 print("rad→deg:", np.rad2deg(rad))   # back to original
 print("sin(30°):", np.sin(np.deg2rad(30.)))   # 0.5
 
@@ -1245,9 +1255,9 @@ print("sin(30°):", np.sin(np.deg2rad(30.)))   # 0.5
 
 print("\n=== Bit-twiddling ufuncs ===")
 
-############################################
-## bitwise_and / bitwise_or / bitwise_xor / bitwise_not
-############################################
+##########################################################
+## bitwise_and / bitwise_or / bitwise_xor / bitwise_not ##
+##########################################################
 '''
 np.bitwise_and(x1, x2)  : x1 & x2   — AND each bit pair
 np.bitwise_or(x1, x2)   : x1 | x2   — OR each bit pair
@@ -1266,6 +1276,10 @@ print("AND:", np.bitwise_and(a_b, b_b), '=', [bin(x) for x in np.bitwise_and(a_b
 print("OR :", np.bitwise_or(a_b, b_b),  '=', [bin(x) for x in np.bitwise_or(a_b, b_b)])
 print("XOR:", np.bitwise_xor(a_b, b_b), '=', [bin(x) for x in np.bitwise_xor(a_b, b_b)])
 print("NOT:", np.bitwise_not(a_b),       '=', [bin(x) for x in np.bitwise_not(a_b)])
+# AND: [2 8 4] = ['0b10', '0b1000', '0b100']
+# OR : [14 14 14] = ['0b1110', '0b1110', '0b1110']
+# XOR: [12  6 10] = ['0b1100', '0b110', '0b1010']
+# NOT: [245 243 249] = ['0b11110101', '0b11110011', '0b11111001']
 
 # Boolean bitwise
 p = np.array([True, True, False, False])
@@ -1278,17 +1292,16 @@ print("bool XOR:", np.bitwise_xor(p, q))   # [F T T F]
 FLAGS = np.array([0b1011, 0b0101, 0b1110], dtype=np.uint8)
 READ_BIT  = np.uint8(0b0001)
 WRITE_BIT = np.uint8(0b0010)
-print("Has READ  flag:", np.bitwise_and(FLAGS, READ_BIT).astype(bool))
-print("Has WRITE flag:", np.bitwise_and(FLAGS, WRITE_BIT).astype(bool))
+print("Has READ  flag:", np.bitwise_and(FLAGS, READ_BIT).astype(bool)) # [ True  True False]
+print("Has WRITE flag:", np.bitwise_and(FLAGS, WRITE_BIT).astype(bool)) # [ True False  True]
 
 # reduce and accumulate work on bitwise ops too
-print("bitwise_or.reduce  :", np.bitwise_or.reduce(FLAGS))    # all flags OR'd
-print("bitwise_and.reduce :", np.bitwise_and.reduce(FLAGS))   # only flags set in ALL
+print("bitwise_or.reduce  :", np.bitwise_or.reduce(FLAGS))  # 15, all flags OR'd
+print("bitwise_and.reduce :", np.bitwise_and.reduce(FLAGS)) # 0, only flags set in ALL
 
-
-#########################################
-## left_shift / right_shift             ##
-#########################################
+##############################
+## left_shift / right_shift ##
+##############################
 '''
 np.bitwise_left_shift(x1, x2)  : x1 << x2  — multiply by 2^x2
 np.left_shift(x1, x2)          : alias
@@ -1316,9 +1329,9 @@ print("Fast log2(2^k):", log2_pow2)   # [0 1 2 3 4 5 6 7]
 
 print("\n=== Comparison ufuncs ===")
 
-###############################################################
-## greater / greater_equal / less / less_equal / equal / not_equal
-###############################################################
+#####################################################################
+## greater / greater_equal / less / less_equal / equal / not_equal ##
+#####################################################################
 '''
 np.greater(x1, x2)       : x1 > x2   (triggered by a > b)
 np.greater_equal(x1, x2) : x1 >= x2
@@ -1342,14 +1355,14 @@ result_bool = np.empty(5, dtype=bool)
 np.greater(x, 3.0, out=result_bool)
 print("x > 3 (out=):", result_bool)   # [F F F T T]
 
-# equal.reduce: all elements equal (manual np.all equivalent)
+# equal: all elements equal (manual np.all equivalent)
 same = np.array([5, 5, 5, 5])
-print("equal.reduce (all same?):", np.equal.reduce(same))   # True
+is_all_fives = np.all(np.equal(same, same[0])) 
+print("Are all elements equal? (using np.equal + np.all):", is_all_fives)  # True
 
-
-##################################################
-## logical_and / logical_or / logical_xor / logical_not
-##################################################
+##########################################################
+## logical_and / logical_or / logical_xor / logical_not ##
+##########################################################
 '''
 np.logical_and(x1, x2)  : bool(x1) AND bool(x2)   — element-wise
 np.logical_or(x1, x2)   : bool(x1) OR  bool(x2)
@@ -1372,10 +1385,9 @@ print("logical_not:", np.logical_not(x_l))         # [T F T F]
 # Works on floats: 0.0 → False, nonzero → True
 print("logical_and(1.5, 0.0):", np.logical_and(1.5, 0.0))   # False
 
-
-##################################################
-## maximum / minimum / fmax / fmin             ##
-##################################################
+#####################################
+## maximum / minimum / fmax / fmin ##
+#####################################
 '''
 np.maximum(x1, x2) : element-wise max — PROPAGATES NaN.
 np.minimum(x1, x2) : element-wise min — PROPAGATES NaN.
@@ -1413,9 +1425,9 @@ print("Clipped [0,10]:", clipped)   # [0. 0. 5. 10. 0.]
 
 print("\n=== Floating-point ufuncs ===")
 
-#######################################
-## isfinite / isinf / isnan / isnat / signbit
-#######################################
+################################################
+## isfinite / isinf / isnan / isnat / signbit ##
+################################################
 '''
 np.isfinite(x) : True where x is finite (not ±inf, not NaN)
 np.isinf(x)    : True where x is ±inf
@@ -1440,10 +1452,9 @@ print("log (safe):", log_safe)   # [0. nan nan nan nan nan]
 dt = np.array(['2024-01', 'NaT', '2024-03'], dtype='datetime64[M]')
 print("isnat datetime:", np.isnat(dt))   # [F T F]
 
-
-##################################################
-## copysign / nextafter / spacing              ##
-##################################################
+####################################
+## copysign / nextafter / spacing ##
+####################################
 '''
 np.copysign(x1, x2)  : magnitude of x1, sign of x2.
                         copysign(3., -1.) == -3.
@@ -1459,10 +1470,9 @@ print("nextafter(1, inf) :", np.nextafter(1., np.inf))# 1+epsilon ≈ 1.00000000
 print("spacing(1.0)      :", np.spacing(1.0))          # 2.22e-16 = machine epsilon
 print("np.finfo vs spacing:", np.isclose(np.spacing(1.0), np.finfo(float).eps))  # True
 
-
-###########################
-## modf / ldexp / frexp  ##
-###########################
+##########################
+## modf / ldexp / frexp ##
+##########################
 '''
 np.modf(x)       : (fractional part, integer part) both with sign of x.
                    Returns two arrays. Like math.modf but vectorised.
@@ -1484,10 +1494,9 @@ print("frexp exponent :", exp)    # [ 2       0    1     3      ]
 reconstructed = np.ldexp(mant, exp)
 print("ldexp round-trip:", np.allclose(reconstructed, x_fp))   # True
 
-
-##############
-## matmul   ##
-##############
+############
+## matmul ##
+############
 '''
 np.matmul(x1, x2)  : matrix product  (gufunc, signature (n?,k),(k,m?)->(n?,m?))
 
@@ -1527,9 +1536,9 @@ print(np.allclose(batch_C[1], (M22*2.) @ (M22b*0.5)))  # True
 
 print("\n=== Custom ufuncs ===")
 
-#####################
-## np.frompyfunc    ##
-#####################
+###################
+## np.frompyfunc ##
+###################
 '''
 np.frompyfunc(func, nin, nout, *, identity=None)
   Wrap any Python callable as a true ufunc.
@@ -1550,21 +1559,27 @@ np.frompyfunc(func, nin, nout, *, identity=None)
   For float output use .astype(float) or wrap with np.vectorize (see below).
 '''
 
-# Scalar sigmoid as ufunc
-import math
-def _sigmoid(x):
-    return 1.0 / (1.0 + math.exp(-x))
+# Scalar add as ufunc
+def _custom_add(a, b):
+    # Just a silly custom binary operation: a + (b / 2)
+    return a + (b / 2.0)
 
-sigmoid_uf = np.frompyfunc(_sigmoid, nin=1, nout=1)
-x_sig = np.array([-2., -1., 0., 1., 2.])
-result_obj = sigmoid_uf(x_sig)
-result_f64 = result_obj.astype(np.float64)
-print("sigmoid (frompyfunc):", result_f64.round(4))
-# [0.1192 0.2689 0.5    0.7311 0.8808]
+# Create the binary ufunc (nin=2, nout=1)
+custom_op_uf = np.frompyfunc(_custom_add, nin=2, nout=1)
 
-# Since it's a real ufunc, all methods are available
-# .reduce: running product of sigmoid values
-print("sigmoid.reduce:", float(sigmoid_uf.reduce(x_sig)))  # object scalar
+x_bin = np.array([10., 4., 2.])
+
+# Evaluate element-wise (requires two arrays or broadcasting)
+# Here we add x_bin to a scalar 2.0
+print("custom_op(x, 2):", custom_op_uf(x_bin, 2.0))
+# [11.0 5.0 3.0]
+
+# Now .reduce() works perfectly!
+# It does: _custom_add(_custom_add(10, 4), 2)
+# Step 1: 10 + (4/2) = 12
+# Step 2: 12 + (2/2) = 13
+print("custom_op.reduce:", float(custom_op_uf.reduce(x_bin))) 
+# 13.0
 
 # Binary ufunc: clamp(x, lo, hi) = max(lo, min(hi, x))
 def _clamp(x, lo, hi):
@@ -1580,6 +1595,10 @@ def _power_mod(base, exp):
 pm_uf = np.frompyfunc(_power_mod, nin=2, nout=1)
 table = pm_uf.outer(np.arange(1, 5), np.arange(0, 4)).astype(int)
 print("power_mod outer (mod 7):\n", table)
+#  [[1 1 1 1]
+#  [1 2 4 1]
+#  [1 3 2 6]
+#  [1 4 2 1]]
 
 # Two-output ufunc
 def _divmod_py(a, b):
@@ -1591,11 +1610,11 @@ def _rem(a, b):  return a % b
 divmod2 = np.frompyfunc(lambda a, b: (int(a)//int(b), int(a)%int(b)), 2, 2)
 q_out, r_out = divmod2(np.array([10, 11, 12]), np.array([3, 3, 3]))
 print("frompyfunc 2-out divmod:", q_out.astype(int), r_out.astype(int))
+# [3 3 4] [1 2 0]
 
-
-#####################
-## np.vectorize     ##
-#####################
+##################
+## np.vectorize ##
+##################
 '''
 np.vectorize(pyfunc, otypes=None, doc=None, excluded=None,
              cache=False, signature=None)
@@ -1636,7 +1655,7 @@ def logistic_map(x, r):
 logmap_v = np.vectorize(logistic_map, otypes=[float])
 x0 = np.array([0.1, 0.2, 0.3, 0.4])
 r  = 3.9
-print("logistic map:", logmap_v(x0, r).round(4))
+print("logistic map:", logmap_v(x0, r).round(4)) # [0.351 0.624 0.819 0.936]
 
 # excluded: r is a scalar parameter, not vectorised
 logmap_excl = np.vectorize(logistic_map, otypes=[float], excluded=['r'])
@@ -1667,6 +1686,7 @@ for _ in range(10): _ = np.sin(x_perf)
 t_c = (time.perf_counter() - t0) / 10
 
 # frompyfunc
+import math
 sin_py = np.frompyfunc(math.sin, 1, 1)
 t0 = time.perf_counter()
 for _ in range(3): _ = sin_py(x_perf)
@@ -1678,9 +1698,9 @@ t0 = time.perf_counter()
 for _ in range(3): _ = sin_v(x_perf)
 t_v = (time.perf_counter() - t0) / 3
 
-print(f"np.sin   (C ufunc)  : {t_c*1000:.2f} ms")
-print(f"frompyfunc(sin)     : {t_py*1000:.2f} ms  ({t_py/t_c:.0f}x slower)")
-print(f"vectorize(sin)      : {t_v*1000:.2f} ms  ({t_v/t_c:.0f}x slower)")
+print(f"np.sin   (C ufunc)  : {t_c*1000:.2f} ms") # 3.78 ms
+print(f"frompyfunc(sin)     : {t_py*1000:.2f} ms  ({t_py/t_c:.0f}x slower)") # 20.54 ms  (5x slower)
+print(f"vectorize(sin)      : {t_v*1000:.2f} ms  ({t_v/t_c:.0f}x slower)") # 32.12 ms  (9x slower)
 # C ufunc is typically 50-200x faster than Python-wrapped versions.
 # frompyfunc ≈ vectorize in speed; prefer vectorize for cleaner API,
 # frompyfunc when you need the ufunc methods (reduce/accumulate/at/outer).
