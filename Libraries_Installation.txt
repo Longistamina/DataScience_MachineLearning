@@ -1,3 +1,4 @@
+marimo (alternative for jupyter-notebook)
 termcolor
 regex
 loguru
