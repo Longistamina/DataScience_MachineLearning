@@ -17,8 +17,8 @@
   },
   "python.defaultInterpreterPath": "/home/longdpt/miniconda3/envs/data/bin/python3",
   "editor.largeFileOptimizations": false,
-  "python.terminal.activateEnvironment": true,
-  "python.terminal.activateEnvInCurrentTerminal": true,
+  "python.terminal.activateEnvironment": false,
+  "python.terminal.activateEnvInCurrentTerminal": false,
   "workbench.editorAssociations": {
     "*.copilotmd": "vscode.markdown.preview.editor",
     "*.xls": "default"
@@ -28,11 +28,11 @@
   "terminal.integrated.env.linux": {
     "CONDA_DEFAULT_ENV": "data"
   },
-  "terminal.integrated.defaultProfile.linux": "bash",
   "terminal.integrated.profiles.linux": {
-    "bash": {
-      "path": "/bin/bash",
-      "args": []
-    }
-  }
+        "Nushell": {
+            "path": "nu",
+            "icon": "terminal-bash"
+        }
+    },
+    "terminal.integrated.defaultProfile.linux": "Nushell"
 }
