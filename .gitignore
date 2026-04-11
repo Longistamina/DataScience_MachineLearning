@@ -95,3 +95,5 @@ test*.py
 demo.py
 
 *.gitignore
+
+*__marimo__
