@@ -3,6 +3,7 @@
 # TABLE OF CONTENTS
 - [00_Course_Intro](#00_course_intro)
 - [01_Python_Basic](#01_python_basic)
+- [02_Python_class_OOP](#02_python_class_oop)
 
 ## 00_Course_Intro
 + [00_Course_Intro_part_01](https://www.youtube.com/watch?v=v1ZxYlfbZ9o): 1st/11/2025
@@ -110,3 +111,11 @@
     * warnings: handle warnings message in Python
     * VSCode debugging demonstration
     * Bonus: OpenCode and agentic AI workflow; A glance at Rust code; The story of Rust's creator
+
+## 02_Python_class_OOP
++ [02_Python_class_OOP_part_01](https://youtu.be/6I61G3QYc9E): 12th/04/2026
+    * class, instance and object introduction
+    * ``__init__``, ``self``, instance attribute
+    * ``__dict__``, ``__repr__``, class attribute
+    * magic methods: ``__new__``, ``_len__``, ``__getitem__``, etc (and many more)
+    * Bonus: RustPython, NuShell for data wrangling right in the terminal!!!
