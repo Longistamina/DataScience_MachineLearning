@@ -46,7 +46,7 @@ item2.quantity = 3
 print(type(item2))   # <class '__main__.Item'>
 
 
-# Note: the name of a class should be written uppercase the first charcter of each words:
+# NOTE: the name of a class should be written uppercase the first charcter of each words:
 # => class Student:
 # => class MyNewClass:
 # => class RemoveMissingValues:
@@ -57,7 +57,7 @@ print(type(item2))   # <class '__main__.Item'>
 #----------------------------------------------------------#
 
 # Create a class name Item
-class Item_method:
+class ItemMethod:
     def calculate_total_price(self, price, quantity):
         return (price * quantity)
     # def calculate_total_price(price, quantity): => raise error because all methods require "self" argument
@@ -72,9 +72,9 @@ class Item_method:
 '''
     
 
-item3 = Item_method()   # Create the object item1 which belongs to class Item()
+item3 = ItemMethod()   # Create the object item1 which belongs to class Item()
 item3.name = "Car"
-item3.price = 50000
+item3.price = 50_000 # 5e4
 item3.quantity = 2
 
 # item3.calculate_total_price = item3.price * item3.quantity

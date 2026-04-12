@@ -106,6 +106,8 @@ print(item_extend_2.quantity)  # 3
 #------------- __innit__ add constraints -----------------#
 #---------------------------------------------------------#
 
+DISCOUNT = 0.1
+
 class ItemWithConstraints:
     def __init__(self, name: str, price: float, quantity: int):
         # "name: string" means the name of the item should be a string
@@ -124,9 +126,9 @@ class ItemWithConstraints:
         self.price = price
         self.quantity = quantity
     
-    def calculate_total_price(self): # no need to pass method(self, price, quantity) as the method is bound to the instance
+    def calculate_total_price(self, discount=0): # no need to pass method(self, price, quantity) as the method is bound to the instance
         # Method to calculate total price of the item
-        return self.price * self.quantity
+        return (self.price * self.quantity) * (1 - discount)
 
 # Example usage
 item_with_constraints = ItemWithConstraints("Tablet", 300, 10)
@@ -134,6 +136,7 @@ print(item_with_constraints.name)      # "Tablet"
 print(item_with_constraints.price)     # 300
 print(item_with_constraints.quantity)  # 10
 print(item_with_constraints.calculate_total_price())  # 3000
+print(item_with_constraints.calculate_total_price(discount=DISCOUNT))  # 2700.0
 
 # Attempting to create an item with invalid constraints
 try:

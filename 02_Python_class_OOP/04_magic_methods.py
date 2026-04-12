@@ -265,7 +265,7 @@ class Vector:
         self.x = x
     def __add__(self, other):
         return Vector(self.x + other.x)
-    def __str__(self):
+    def __repr__(self):
         return f"Vector({self.x})"
 
 v1 = Vector(2)
