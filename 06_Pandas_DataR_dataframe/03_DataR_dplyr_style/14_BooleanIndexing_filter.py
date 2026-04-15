@@ -22,10 +22,14 @@ import pandas as pd
 from pipda import register_verb
 dr.filter = register_verb(func=dr.filter_)
 
+from pathlib import Path
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
 ########################
 
 tb_pokemon = dr.tibble(
-    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    pd.read_csv(data_dir/"pokemon.csv")
     >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
     >> dr.select(~f["#"]) # Drop the "#" column
     >> dr.mutate(
@@ -274,7 +278,7 @@ print(
 
 tb_emp = dr.tibble(
     pd.read_csv(
-        filepath_or_buffer="05_Pandas_DataR_dataframe/data/emp.csv",
+        filepath_or_buffer=data_dir/"emp.csv",
         parse_dates=["start_date"]
     )
 )
@@ -427,7 +431,7 @@ print(
 
 tb_lifexp = dr.tibble(
     pd.read_csv(
-        filepath_or_buffer="05_Pandas_DataR_dataframe/data/life_expectancy.csv"
+        filepath_or_buffer=data_dir/"life_expectancy.csv"
     )
 )
 

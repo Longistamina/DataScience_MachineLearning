@@ -7,10 +7,14 @@ from datar import f
 import pandas as pd
 import plotnine as pln
 
+from pathlib import Path
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
 ########################
 
 tb_baseball = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/baseball.csv")
+    pd.read_csv(data_dir/"baseball.csv")
     >> dr.select(f.Name, f.Position, f.Height, f.Weight)
     >> dr.mutate(Position = dr.as_factor(f.Position))
 )

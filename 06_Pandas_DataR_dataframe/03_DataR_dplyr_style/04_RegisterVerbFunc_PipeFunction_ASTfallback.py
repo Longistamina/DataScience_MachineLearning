@@ -17,16 +17,18 @@
 import datar.all as dr
 from datar import f
 import pandas as pd
-
 from pipda import register_verb, register_func
+from pathlib import Path
 
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 #######################
 ## Datar preparation ##
 #######################
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer="05_Pandas_DataR_dataframe/data/baseball.csv",
+    filepath_or_buffer=data_dir/"baseball.csv",
     usecols=["Name", "Team", "Height", "Weight"],
     dtype={"Team": "category"}
 )

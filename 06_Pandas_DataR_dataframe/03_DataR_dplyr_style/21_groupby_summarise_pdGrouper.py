@@ -13,11 +13,15 @@ import datar.all as dr
 from datar import f
 import pandas as pd
 import numpy as np
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 ########################
 
 tb_pokemon = dr.tibble(
-    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    pd.read_csv(data_dir/"pokemon.csv")
     >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
     >> dr.select(~f["#"]) # Drop the "#" column
     >> dr.mutate(
@@ -181,7 +185,7 @@ print(
 #------------------------------------------------------------------------------------------------------------#
 
 df_aq = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/air_quality_no2_long.csv")
+    pd.read_csv(data_dir/"air_quality_no2_long.csv")
     .rename(columns={"date.utc": "date"})
     .assign(date = lambda df: pd.to_datetime(df["date"], format="%Y-%m-%d %H:%M:%S%z")) # Must be datetime type for pd.Grouper
 )

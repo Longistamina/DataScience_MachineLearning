@@ -22,11 +22,15 @@ import datar.all as dr
 from datar import f
 import pandas as pd
 import numpy as np
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 ########################
 
 tb_pokemon = dr.tibble(
-    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    pd.read_csv(data_dir/"pokemon.csv")
     >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
     >> dr.select(~f["#"]) # Drop the "#" column
     >> dr.mutate(
@@ -344,7 +348,7 @@ from scipy import stats
 
 tb_pokemon = dr.tibble(
     pd.read_csv(
-        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        filepath_or_buffer=data_dir/"pokemon.csv",
         dtype={
             "Type 1": "category",
             "Type 2": "category",

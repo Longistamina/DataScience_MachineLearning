@@ -13,6 +13,13 @@ However, can use dr.pipe() to apply Pandas methods for saving dataframes.
 import datar.all as dr
 from datar import f
 import pandas as pd
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
+save_dir = Path("/home").rglob("*/06_Pandas_DataR_dataframe/save")
+save_dir = next(save_dir)
 
 
 #-----------------------------------------------------------------------------------------------------------#
@@ -20,7 +27,7 @@ import pandas as pd
 #-----------------------------------------------------------------------------------------------------------#
 
 (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/baseball.csv")
+    pd.read_csv(data_dir/"baseball.csv")
     >> dr.select(f.Name, f.Position, f.Height, f.Weight)
     >> dr.mutate(
         Position = dr.as_factor(f.Position),
@@ -28,7 +35,7 @@ import pandas as pd
         Weight = f.Weight * 0.453592,  # convert to kg
         BMI = f.Weight / (f.Height ** 2)
     )
-    >> dr.pipe(lambda df: df.to_csv("05_Pandas_DataR_dataframe/save/tb_to.csv", index=False)) # Save to CSV
+    >> dr.pipe(lambda df: df.to_csv(save_dir/"tb_to.csv", index=False)) # Save to CSV
 )
 
 
@@ -70,7 +77,7 @@ def rename_subjects(subjects_str):
 #---------
 
 (
-    pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx")
+    pd.read_excel(data_dir/"Baccalaureate_2016.xlsx")
     >> dr.rename( # Rename columns from Vietnamese to English
         ID = f.SOBAODANH,
         FULL_NAME = f.HO_TEN,
@@ -98,6 +105,6 @@ def rename_subjects(subjects_str):
             lambda col: col.fillna('not_attend') 
         )
     )
-    >> dr.pipe(lambda df: df.to_excel("05_Pandas_DataR_dataframe/save/tb_baccalaureat_to.xlsx", sheet_name='Baccalaureate_2016'))
+    >> dr.pipe(lambda df: df.to_excel(save_dir/"tb_baccalaureat_to.xlsx", sheet_name='Baccalaureate_2016'))
                           # Save to EXCEL
 )
