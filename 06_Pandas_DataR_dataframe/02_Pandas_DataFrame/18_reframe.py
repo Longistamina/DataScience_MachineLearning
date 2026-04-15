@@ -12,12 +12,17 @@ Un like .assign() and .agg(), reframe technique allows returning a new DataFrame
 '''
 
 import pandas as pd
+from pandas import col as c
 from scipy import stats
 import numpy as np
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 df_boston = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/BostonHousing.csv")
-    .drop(columns=["CHAS", "RAD", "CAT. MEDV"], axis=1)
+    pd.read_csv(data_dir/"BostonHousing.csv")
+    .drop(columns=["CHAS", "RAD", "CAT. MEDV"])
     .pipe(lambda df: df.set_axis(df.columns.str.lower(), axis=1))
 )
 

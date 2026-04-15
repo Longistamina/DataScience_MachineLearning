@@ -6,13 +6,17 @@ df.describe(): Get summary statistics of DataFrame columns.
 '''
 
 import pandas as pd
-
+from pandas import col as c
+from pathlib import Path
 import warnings
 warnings.filterwarnings("ignore")
 
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
 df_pokemon = (
     pd.read_csv(
-        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        filepath_or_buffer=data_dir/"pokemon.csv",
         dtype={
             "Type 1": "category",
             "Type 2": "category",
@@ -22,7 +26,7 @@ df_pokemon = (
     )
     .drop(columns=["#"])
     .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
-    .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
+    .assign(Generation = c('Generation').cat.as_ordered())
 )
 
 print(df_pokemon.info())

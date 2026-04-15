@@ -47,11 +47,17 @@ Draw basic plots using DataFrame.plot() method or DataFrame.plot.<plotting_metho
 '''
 
 import pandas as pd
+from pandas import col as c
 import matplotlib.pyplot as plt
+
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 df_pokemon = (
     pd.read_csv(
-        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        filepath_or_buffer=data_dir/"pokemon.csv",
         dtype={
             "Type 1": "category",
             "Type 2": "category",
@@ -61,7 +67,7 @@ df_pokemon = (
     )
     .drop(columns=["#"])
     .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
-    .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
+    .assign(Generation = c('Generation').cat.as_ordered())
 )
 
 print(df_pokemon.info())
@@ -842,7 +848,7 @@ often used to visualize trends over time or ordered categories.
 '''
 
 df_aq = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/air_quality_no2_long.csv")
+    pd.read_csv(data_dir/"air_quality_no2_long.csv")
     .rename(columns={"date.utc": "date"})
     .assign(date = lambda df: pd.to_datetime(df["date"], format="%Y-%m-%d %H:%M:%S%z"))
 )

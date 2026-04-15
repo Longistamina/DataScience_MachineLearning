@@ -17,6 +17,10 @@ Just need to change a single line of code to import modin instead of pandas.
 #-----------------------------------------------------------------------------------------------#
 
 import modin.pandas as pd # Change only this line to use modin instead of pandas
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 dict_subjects = {
     'Toán':'Math',
@@ -46,7 +50,7 @@ def rename_subjects(subjects_str):
 #######################
 
 df_bac = (
-    pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx")
+    pd.read_excel(data_dir/"Baccalaureate_2016.xlsx")
     .rename(columns = { # Change column names to English
         "SOBAODANH": "ID",
         "HO_TEN": "FULL_NAME",

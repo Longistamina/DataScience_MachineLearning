@@ -24,10 +24,14 @@ To select Pandas datetimetz dtypes, use: 'datetimetz' or 'datetime64[ns, tz]'
 '''
 
 import pandas as pd
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 df_emp = (
     pd.read_csv(
-        filepath_or_buffer="05_Pandas_DataR_dataframe/data/emp.csv",
+        filepath_or_buffer=data_dir/"emp.csv",
         parse_dates=["start_date"],
         dtype={"dept": "category"}
     )

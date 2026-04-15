@@ -37,11 +37,16 @@
 '''
 
 import pandas as pd
+from pandas import col as c
 import numpy as np
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 df_mkt = (
     pd.read_csv(
-        filepath_or_buffer="05_Pandas_DataR_dataframe/data/marketing_data.csv",
+        filepath_or_buffer=data_dir/"marketing_data.csv",
         dtype={"week": "category", "Year": "category"}
     )
     .pipe(

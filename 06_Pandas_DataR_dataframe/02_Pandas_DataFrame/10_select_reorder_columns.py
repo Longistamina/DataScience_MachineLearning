@@ -6,8 +6,12 @@ Two ways to select and reorder columns in a Pandas DataFrame.
 '''
 
 import pandas as pd
+from pathlib import Path
 
-df_emp = pd.read_csv("05_Pandas_DataR_dataframe/data/emp.csv")
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
+df_emp = pd.read_csv(data_dir/"emp.csv")
 print(df_emp)
 #    id      name  salary  start_date        dept
 # 0   1      Rick  623.30  2012-01-01          IT

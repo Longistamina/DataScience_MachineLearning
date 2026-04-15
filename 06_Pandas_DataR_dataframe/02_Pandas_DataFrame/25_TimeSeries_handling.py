@@ -1,11 +1,17 @@
 import pandas as pd
+from pandas import col as c
+from pathlib import Path
+
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 ##################################
 ## Read the Air Quality dataset ##
 ##################################
 
 df_aq = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/air_quality_no2_long.csv")
+    pd.read_csv(data_dir/"air_quality_no2_long.csv")
     .rename(columns={"date.utc": "date"})
 )
 

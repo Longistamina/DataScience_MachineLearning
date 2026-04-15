@@ -5,7 +5,9 @@
 
 2. Using df.assign()
    + Modify existing columns: df = df.assign(existing_col=lambda df: ...)
-   + Add new columns: df = df.assign(new_col=...) OR df.assign(new_col=lambda df: ...)
+   + Add new columns: df = df.assign(new_col=...) 
+                      OR df.assign(new_col=c("existing_col")...) 
+                      OR df.assign(new_col=lambda df: ...)
    + Using df.assign(**kwargs) to avoid overlap with python keywords
 
 3. Using df.eval()
@@ -14,10 +16,15 @@
 '''
 
 import pandas as pd
+from pandas import col as c
 import numpy as np
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer = "05_Pandas_DataR_dataframe/data/baseball.csv",
+    filepath_or_buffer = data_dir/"baseball.csv",
     usecols = ["Name", "Team", "Height", "Weight"],
     dtype = {"Team": "category"}
 )
@@ -108,9 +115,9 @@ print(df_demo.head(3))
 #-----------------
 
 df_demo = df_baseball.copy().assign(
-    Height = lambda df: df["Height"] * 2.54,
-    Weight = lambda df: df["Weight"] * 0.453592,
-    Team = lambda df: df["Team"].str.lower().astype("category")
+    Height = c("Height") * 2.54, # or use lambda df: df["Height"] * 2.54
+    Weight = c("Weight") * 0.453592, # or use lambda df: df["Weight"] * 0.453592
+    Team = c("Team").str.lower().astype("category") # or use lambda df: df["Team"].str.lower().astype("category"
 )
 
 print(df_demo.head(3))
@@ -138,7 +145,7 @@ print(df_demo.head(3))
 # 2  Ramon_Hernandez  BAL      72     210  False
 
 # Add BMI column
-df_demo = df_baseball.copy().assign(BMI = lambda df: df["Weight"] / (df["Height"] ** 2))
+df_demo = df_baseball.copy().assign(BMI = c("Weight") / (c("Height") ** 2))
 print(df_demo.head(3))
 #               Name Team  Height  Weight       BMI
 # 0    Adam_Donachie  BAL      74     180  0.032871
@@ -151,9 +158,9 @@ print(df_demo.head(3))
 
 # Add Height in cm, Weight in kg, and BMI columns
 df_demo = df_baseball.copy().assign(
-    Height_cm = lambda df: df["Height"] * 2.54,
-    Weight_kg = lambda df: df["Weight"] * 0.453592,
-    BMI = lambda df: df["Weight_kg"] / (df["Height_cm"] ** 2)
+    Height_cm = c("Height") * 2.54,
+    Weight_kg = c("Weight") * 0.453592,
+    BMI = c("Weight_kg") / (c("Height_cm") ** 2)
 )
 
 print(df_demo.head(3))
@@ -188,10 +195,10 @@ print(df_demo.head(3))
 # Also modify "Team" to lowercase
 
 df_demo = df_baseball.copy().assign(**{
-    "height_cm": lambda df: df["Height"] * 2.54,
-    "weight_kg": lambda df: df["Weight"] * 0.453592,
-    "bmi": lambda df: df["weight_kg"] / (df["height_cm"] ** 2),
-    "Team": lambda df: df["Team"].str.lower().astype("category")
+    "height_cm": c("Height") * 2.54,
+    "weight_kg": c("Weight") * 0.453592,
+    "bmi": c("weight_kg") / (c("height_cm") ** 2),
+    "Team": c("Team").str.lower().astype("category")
 })
 
 print(df_demo.head(3))

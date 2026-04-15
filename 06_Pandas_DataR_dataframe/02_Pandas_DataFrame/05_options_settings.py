@@ -23,9 +23,13 @@ Detailed documentation: https://pandas.pydata.org/docs/user_guide/options.html#
 '''
 
 import pandas as pd
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 df_medals = pd.read_csv(
-    filepath_or_buffer = "05_Pandas_DataR_dataframe/data/medals.csv",
+    filepath_or_buffer = data_dir/"medals.csv",
     skiprows = 4
 )
 

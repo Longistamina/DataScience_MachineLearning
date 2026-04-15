@@ -15,16 +15,21 @@ Key Features:
 '''
 
 import pandas as pd
+from pandas import col as c
 import numpy as np
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer="05_Pandas_DataR_dataframe/data/baseball.csv",
+    filepath_or_buffer=data_dir/"baseball.csv",
     usecols=["Name", "Team", "Height", "Weight"],
     dtype={"Team": "category"}
 ).copy().assign(
-    Height = lambda df: df["Height"] * 2.54,
-    Weight = lambda df: df["Weight"] * 0.453592,
-    Team = lambda df: df["Team"].astype("category")
+    Height = c("Height") * 2.54,
+    Weight = c("Weight") * 0.453592,
+    Team = c("Team").astype("category")
 )
 
 print(df_baseball.head(3))

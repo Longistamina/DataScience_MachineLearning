@@ -1,4 +1,10 @@
 import pandas as pd
+from pandas import col as c
+from pathlib import Path
+
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 #-----------------------------------------------------------------------------------------------------------#
 #------------------------------------------- Step-by-step workflow -----------------------------------------#
@@ -9,7 +15,7 @@ import pandas as pd
 ######################
 
 df_bac = (
-    pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx")
+    pd.read_excel(data_dir/"Baccalaureate_2016.xlsx")
     .rename(columns={ # Change column names to English
         "SOBAODANH": "ID",
         "HO_TEN": "FULL_NAME",
@@ -85,39 +91,41 @@ df_bac = (
     df_bac.replace(to_replace=dict_translate) # Translate values into English
     .assign(
         BIRTHDAY = lambda df: pd.to_datetime(df['BIRTHDAY'], format='%d/%m/%Y', errors='coerce'), # Convert BIRTHDAY to datetime
-        EXAM_LOCATION = lambda df: df['EXAM_LOCATION'].astype('category'), # Convert EXAM_LOCATION to category
-        GENDER = lambda df: df['GENDER'].astype('category'), # Convert GENDER to category
+        EXAM_LOCATION = c('EXAM_LOCATION').astype('category'), # Convert EXAM_LOCATION to category
+        GENDER = c('GENDER').astype('category'), # Convert GENDER to category
     )
 )
 
 print(df_bac.head())
 #           ID      FULL_NAME   BIRTHDAY  EXAM_LOCATION  GENDER                                              SCORE
-# 0  018000001  DƯƠNG VIỆT AN 1998-03-12  Bac Giang DET    Male  Toán:   2.00   Ngữ văn:   5.50   Lịch sử:   3....
-# 1  018000002      ĐỖ VĂN AN 1998-12-09  Bac Giang DET    Male  Toán:   5.50   Ngữ văn:   5.25   Địa lí:   5.5...
-# 2  018000003     ĐỖ XUÂN AN 1997-08-12  Bac Giang DET    Male  Toán:   4.50   Ngữ văn:   5.50   Địa lí:   3.7...
-# 3  018000004   ĐẶNG PHÚC AN 1998-03-19  Bac Giang DET  Female  Toán:   3.00   Ngữ văn:   6.00   Địa lí:   5.5...
-# 4  018000005    ĐẶNG VĂN AN 1998-10-25  Bac Giang DET    Male  Toán:   2.25   Ngữ văn:   4.75   Địa lí:   5.2...
+# 0  018000001  DƯƠNG VIỆT AN 1998-03-12  Bac Giang DET    Male  Math:   2.00   Literature:   5.50   History:  ...
+# 1  018000002      ĐỖ VĂN AN 1998-12-09  Bac Giang DET    Male  Math:   5.50   Literature:   5.25   Geography:...
+# 2  018000003     ĐỖ XUÂN AN 1997-08-12  Bac Giang DET    Male  Math:   4.50   Literature:   5.50   Geography:...
+# 3  018000004   ĐẶNG PHÚC AN 1998-03-19  Bac Giang DET  Female  Math:   3.00   Literature:   6.00   Geography:...
+# 4  018000005    ĐẶNG VĂN AN 1998-10-25  Bac Giang DET    Male  Math:   2.25   Literature:   4.75   Geography:...
 
 print(df_bac.info())
+# <class 'pandas.DataFrame'>
 # RangeIndex: 34826 entries, 0 to 34825
 # Data columns (total 6 columns):
 #  #   Column         Non-Null Count  Dtype         
 # ---  ------         --------------  -----         
-#  0   ID             34826 non-null  object        
-#  1   FULL_NAME      34826 non-null  object        
-#  2   BIRTHDAY       34806 non-null  datetime64[ns]
+#  0   ID             34826 non-null  str           
+#  1   FULL_NAME      34826 non-null  str           
+#  2   BIRTHDAY       34806 non-null  datetime64[us]
 #  3   EXAM_LOCATION  34826 non-null  category      
 #  4   GENDER         34826 non-null  category      
-#  5   SCORE          34826 non-null  object        
-# dtypes: category(2), datetime64[ns](1), object(3)
-# memory usage: 1.1+ MB
+#  5   SCORE          34826 non-null  str           
+# dtypes: category(2), datetime64[us](1), str(3)
+# memory usage: 4.5 MB
+# None
 
 ###################################
 ## Check invalid BIRTHDAY values ##
 ###################################
 
 s_birthday = (
-    pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx", usecols=['NGAY_SINH'])
+    pd.read_excel(data_dir/"Baccalaureate_2016.xlsx", usecols=['NGAY_SINH'])
     .rename(columns={"NGAY_SINH": "BIRTHDAY"})
     .squeeze() # Convert single-column DataFrame to Series
 )
@@ -247,7 +255,7 @@ def rename_subjects(subjects_str):
 #######################
 
 df_bac = (
-    pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx")
+    pd.read_excel(data_dir/"Baccalaureate_2016.xlsx")
     .rename(columns = { # Change column names to English
         "SOBAODANH": "ID",
         "HO_TEN": "FULL_NAME",
@@ -256,12 +264,12 @@ df_bac = (
         "GIOI_TINH": "GENDER",
         "DIEM_THI": "SCORE",
     })
-    .assign(SCORE=lambda df: df['SCORE'].apply(rename_subjects)) # Change subject names into English
+    .assign(SCORE=c('SCORE').apply(rename_subjects)) # Change subject names into English
     .replace(to_replace=dict_translate) # Translate other values into English
     .assign(
         BIRTHDAY = lambda df: pd.to_datetime(df['BIRTHDAY'], format='%d/%m/%Y', errors='coerce'), # Convert BIRTHDAY to datetime
-        EXAM_LOCATION = lambda df: df['EXAM_LOCATION'].astype('category'), # Convert EXAM_LOCATION to category
-        GENDER = lambda df: df['GENDER'].astype('category'), # Convert GENDER to category
+        EXAM_LOCATION = c('EXAM_LOCATION').astype('category'), # Convert EXAM_LOCATION to category
+        GENDER = c('GENDER').astype('category'), # Convert GENDER to category
     )
     .pipe(lambda df: # Split SCORE column into multiple subject columns
           df.assign(**{subj: df['SCORE'].str.extract(fr'{subj}:\s*(\d+\.\d+)', expand=False).astype(float) for subj in dict_subjects.values()})
@@ -272,11 +280,10 @@ df_bac = (
 )
 
 print(df_bac.head())
-#                FULL_NAME     GENDER     Math Literature Geography     History     English     Biology     Physics   Chemistry
-                                                                                                                             
-# ID              <object> <category> <object>   <object>  <object>    <object>    <object>    <object>    <object>    <object>
-# 018000001  DƯƠNG VIỆT AN       Male      2.0        5.5       5.0         3.0  not_attend  not_attend  not_attend  not_attend
-# 018000002      ĐỖ VĂN AN       Male      5.5       5.25       5.5  not_attend        3.68  not_attend  not_attend  not_attend
-# 018000003     ĐỖ XUÂN AN       Male      4.5        5.5      3.75  not_attend        2.25  not_attend  not_attend  not_attend
-# 018000004   ĐẶNG PHÚC AN     Female      3.0        6.0       5.5  not_attend         1.5  not_attend  not_attend  not_attend
-# 018000005    ĐẶNG VĂN AN       Male     2.25       4.75      5.25  not_attend         2.0  not_attend  not_attend  not_attend
+#                FULL_NAME  GENDER  Math Literature Geography     History     English     Biology     Physics   Chemistry
+# ID                                                                                                                     
+# 018000001  DƯƠNG VIỆT AN    Male   2.0        5.5       5.0         3.0  not_attend  not_attend  not_attend  not_attend
+# 018000002      ĐỖ VĂN AN    Male   5.5       5.25       5.5  not_attend        3.68  not_attend  not_attend  not_attend
+# 018000003     ĐỖ XUÂN AN    Male   4.5        5.5      3.75  not_attend        2.25  not_attend  not_attend  not_attend
+# 018000004   ĐẶNG PHÚC AN  Female   3.0        6.0       5.5  not_attend         1.5  not_attend  not_attend  not_attend
+# 018000005    ĐẶNG VĂN AN    Male  2.25       4.75      5.25  not_attend         2.0  not_attend  not_attend  not_attend

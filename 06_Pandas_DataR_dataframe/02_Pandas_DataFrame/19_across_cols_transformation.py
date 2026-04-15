@@ -14,6 +14,11 @@
 '''
 
 import pandas as pd
+from pandas import col as c
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 #----------------------------------------------------------------------------------------------------------------#
 #--------------------------------- 1. df.apply() across columns to modify values --------------------------------#
@@ -21,8 +26,8 @@ import pandas as pd
 '''Using df.apply() will modify all the columns of the dataframe with the same function'''
 
 df_boston = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/BostonHousing.csv")
-    .drop(columns=["CHAS", "RAD", "CAT. MEDV"], axis=1)
+    pd.read_csv(data_dir/"BostonHousing.csv")
+    .drop(columns=["CHAS", "RAD", "CAT. MEDV"])
     .pipe(lambda df: df.set_axis(df.columns.str.lower(), axis=1))
 )
 
@@ -64,8 +69,8 @@ print(df_boston_scaled.head())
 '''Using df.apply() with aggregation functions to reduce values'''
 
 df_boston = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/BostonHousing.csv")
-    .drop(columns=["CHAS", "RAD", "CAT. MEDV"], axis=1)
+    pd.read_csv(data_dir/"BostonHousing.csv")
+    .drop(columns=["CHAS", "RAD", "CAT. MEDV"])
     .pipe(lambda df: df.set_axis(df.columns.str.lower(), axis=1))
 )
 
@@ -121,7 +126,7 @@ print(
 '''Using df.pipe(), df.assign() and df.select_dtypes().columns to modify specific type of columns'''
 
 df_baseball = df_baseball = pd.read_csv(
-    filepath_or_buffer = "05_Pandas_DataR_dataframe/data/baseball.csv",
+    filepath_or_buffer = data_dir/"BostonHousing.csv",
     dtype = {
         "Team": "category",
         "Position": "category",
@@ -172,7 +177,7 @@ print(df_baseball_log.head())
 df_baseball_lower = df_baseball.pipe(
     lambda df: df.assign(**{
         col: df[col].str.lower() # Lowercase string values
-        for col in df.select_dtypes(include=["object", "category"]).columns # For all str and cat columns
+        for col in df.select_dtypes(include=["string", "category"]).columns # For all str and cat columns
         if (col != "Name") # But exclude "Name" column
     })
 )

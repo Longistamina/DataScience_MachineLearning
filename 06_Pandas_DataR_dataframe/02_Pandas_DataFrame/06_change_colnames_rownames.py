@@ -25,8 +25,12 @@
 '''
 
 import pandas as pd
+from pathlib import Path
 
-df_lifexp = pd.read_csv("05_Pandas_DataR_dataframe/data/life_expectancy.csv")
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
+df_lifexp = pd.read_csv(data_dir/"life_expectancy.csv")
 print(df_lifexp.dtypes)
 # Country                             object
 # Year                                 int64
@@ -51,7 +55,7 @@ print(df_lifexp.dtypes)
 # Income composition of resources    float64
 # Schooling                          float64
 
-df_emp = pd.read_csv("05_Pandas_DataR_dataframe/data/emp.csv")
+df_emp = pd.read_csv(data_dir/"emp.csv")
 print(df_emp.dtypes)
 # id              int64
 # name           object
@@ -126,7 +130,7 @@ print(df_new_cols.head(3))
 ###################################################################################
 
 df_new_cols_pipe = df_lifexp.pipe(
-    lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True), axis=1, copy=True)
+    lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True), axis=1)
 )
 
 print(df_new_cols_pipe.head(3))
@@ -172,9 +176,9 @@ print(df_new_cols.dtypes)
 # thinness_1-19_years                float64
 # thinness_5-9_years                 float64
 
-###################################################
-## df.columns = df.columns.apply(string_methods) ##
-###################################################
+#################################################
+## df.columns = df.columns.map(string_methods) ##
+#################################################
 
 df_new_cols = df_lifexp.copy()
 

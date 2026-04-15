@@ -16,10 +16,12 @@ that allows you to filter data based on specific conditions.
    + & (and),
    + | (or)
    + Combine & and |
+   
+4. Using pd.col() or c() for faster access to columns for querying (for Pandas >= 3.x.x only)
 
-4. Using .loc[] for Boolean Filtering within specific columns
+5. Using .loc[] for Boolean Filtering within specific columns
 
-5. Using .query() for short-syntax condition
+6. Using .query() for short-syntax condition
    + df.query("condition_expression")
    + df.query("colname.str.method()") => string methods (same for .dt and .cat methods)
    + df.query("~condition_expression") => negation of condition
@@ -28,10 +30,15 @@ that allows you to filter data based on specific conditions.
 '''
 
 import pandas as pd
+from pandas import col as c
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 df_pokemon = (
     pd.read_csv(
-        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        filepath_or_buffer=data_dir/"pokemon.csv",
         dtype = {
             "Type 1": "category",
             "Type 2": "category",
@@ -232,7 +239,7 @@ print(df_pokemon[df_pokemon['Name'].str.endswith('saur')]) # Name ends with 'sau
 ##############################
 
 df_emp = pd.read_csv(
-    filepath_or_buffer = "05_Pandas_DataR_dataframe/data/emp.csv",
+    filepath_or_buffer = data_dir/"emp.csv",
     parse_dates = ["start_date"]
 )
 
@@ -364,7 +371,42 @@ print(df_pokemon[((df_pokemon['Type_1'] == 'Fire') | (df_pokemon['Type_1'] == 'W
 
 
 #-------------------------------------------------------------------------------------------------------------#
-#---------------------- 4. Using .loc[] for Boolean Filtering within specific columns ------------------------#
+#--------------------- 4. Using pd.col() or c() for faster access to columns for querying --------------------#
+#-------------------------------------------------------------------------------------------------------------#
+'''
+pd.col("column_name") or c("column_name") => faster access to columns for querying
+NOTE: for Pandas >= 3.x.x only
+'''
+
+###########################
+## pd.col("column_name") ##
+###########################
+
+print(df_pokemon[(pd.col("HP") < 30) | (pd.col("HP") > 100)]) # HP less than 30 OR HP greater than 100
+#                  Name    Type_1  Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
+# 44         Jigglypuff    Normal   Fairy    270  115      45       20      45      25     20          1      False
+# 45         Wigglytuff    Normal   Fairy    435  140      70       45      85      50     45          1      False
+# 55            Diglett    Ground     NaN    265   10      55       25      35      45     95          1      False
+# 68               Abra   Psychic     NaN    310   25      20       15     105      55     90          1      False
+# 88          Magnemite  Electric   Steel    325   25      35       70      95      55     45          1      False
+
+######################
+## c("column_name") ##
+######################
+
+print(df_pokemon[c("Type_2").isin(["Ground", "Ghost"]) & (c("HP") > 100)]) # Type_2 in the list ['Ground', 'Ghost']
+#                       Name  Type_1  Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
+# 372               Whiscash   Water  Ground    468  110      78       73      76      71     60          3      False
+# 470              Gastrodon   Water  Ground    475  111      83       68      92      82     39          4      False
+# 493               Garchomp  Dragon  Ground    600  108     130       95      80      85    102          4      False
+# 494  GarchompMega Garchomp  Dragon  Ground    700  108     170      115     120      95     92          4      False
+# 524              Mamoswine     Ice  Ground    530  110     130       80      70      60     80          4      False
+# 597             Seismitoad   Water  Ground    509  105      95       75      85      75     74          5      False
+# 794       Zygarde50% Forme  Dragon  Ground    600  108     100      121      81      95     95          6       True
+
+
+#-------------------------------------------------------------------------------------------------------------#
+#---------------------- 5. Using .loc[] for Boolean Filtering within specific columns ------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
 '''df.loc[filter_conditions, columns]'''
@@ -389,7 +431,7 @@ print(df_pokemon.loc[~df_pokemon['Type_2'].isin(["Ground", "Ghost"]), ["Name", "
 
 
 #-------------------------------------------------------------------------------------------------------------#
-#-------------------------------- 5. Using .query() for Boolean Filtering ------------------------------------#
+#-------------------------------- 6. Using .query() for Boolean Filtering ------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
 '''
@@ -481,7 +523,7 @@ print(
 ## Using `column name` ##
 #########################
 
-df_pkm_raw = pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+df_pkm_raw = pd.read_csv(data_dir/"pokemon.csv")
 print(df_pkm_raw.columns)
 # Index(['#', 'Name', 'Type 1', 'Type 2', 'Total', 'HP', 'Attack', 'Defense',
 #        'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary'],

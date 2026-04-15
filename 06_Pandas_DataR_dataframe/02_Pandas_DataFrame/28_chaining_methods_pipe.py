@@ -23,7 +23,13 @@ by reducing the need for intermediate variables.
 '''
 
 import pandas as pd
+from pandas import col as c
 import matplotlib.pyplot as plt
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
 
 #-------------------------------------------------------------------------------------------------------------#
 #--------------------------------------- 1. General Chaining Methods -----------------------------------------#
@@ -31,7 +37,7 @@ import matplotlib.pyplot as plt
 
 # Time series DataFrame
 df_aq = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/air_quality_no2_long.csv")
+    pd.read_csv(data_dir/"air_quality_no2_long.csv")
     .rename(columns={"date.utc": "date"})
     .assign(date = lambda df: pd.to_datetime(df["date"], format="%Y-%m-%d %H:%M:%S%z"))
 )
@@ -53,7 +59,7 @@ s_aq = (
 # Example with Pokemon dataset
 df_pokemon = (
     pd.read_csv(
-        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        filepath_or_buffer=data_dir/"pokemon.csv",
         dtype={
             "Type 1": "category",
             "Type 2": "category",
@@ -63,14 +69,14 @@ df_pokemon = (
     )
     .drop(columns=["#"])
     .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
-    .assign(Generation = lambda df: df['Generation'].cat.as_ordered())
+    .assign(Generation = c('Generation').cat.as_ordered())
 )
 
 from scipy import stats
 
 # Example with Boston Housing dataset and reframing technique
 df_boston_stats = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/BostonHousing.csv")
+    pd.read_csv(data_dir/"BostonHousing.csv")
     .pipe(lambda df: df.set_axis(df.columns.str.lower(), axis=1))
     .reindex(columns=["rm", "lstat", "medv"]) # select specific columns
     .pipe(
@@ -173,7 +179,7 @@ def rename_subjects(subjects_str):
 #######################
 
 df_bac = (
-    pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx")
+    pd.read_excel(data_dir/"Baccalaureate_2016.xlsx")
     .rename(columns={ # Change column names to English
         "SOBAODANH": "ID",
         "HO_TEN": "FULL_NAME",
@@ -186,8 +192,8 @@ df_bac = (
     .replace(to_replace=dict_translate) # Translate other values into English
     .assign(
         BIRTHDAY = lambda df: pd.to_datetime(df['BIRTHDAY'], format='%d/%m/%Y', errors='coerce'), # Convert BIRTHDAY to datetime
-        EXAM_LOCATION = lambda df: df['EXAM_LOCATION'].astype('category'), # Convert EXAM_LOCATION to category
-        GENDER = lambda df: df['GENDER'].astype('category'), # Convert GENDER to category
+        EXAM_LOCATION = c('EXAM_LOCATION').astype('category'), # Convert EXAM_LOCATION to category
+        GENDER = c('GENDER').astype('category'), # Convert GENDER to category
     )
     .pipe(lambda df: # Split SCORE column into multiple subject columns
           df.assign(**{subj: df['SCORE'].str.extract(fr'{subj}:\s*(\d+\.\d+)', expand=False).astype(float) for subj in dict_subjects.values()})

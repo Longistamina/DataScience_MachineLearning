@@ -7,7 +7,12 @@
 '''
 
 import pandas as pd
+from pandas import col as c
 import numpy as np
+from pathlib import Path
+
+save_dir = Path("/home").rglob("*/06_Pandas_DataR_dataframe/save")
+save_dir = next(save_dir)
 
 df = pd.DataFrame(
     {
@@ -32,7 +37,7 @@ print(df)
 #-----------------------------------------------------------------------------------------------------------#
 
 df.to_csv(
-    path_or_buf='05_Pandas_DataR_dataframe/save/df_to.csv',
+    path_or_buf=save_dir/'df_to.csv',
     sep=',',      # Column separator
     index=False, # Do not write row indices
     na_rep='NaN'  # Represent NaN values as 'NaN' in the CSV file
@@ -44,7 +49,7 @@ df.to_csv(
 #-----------------------------------------------------------------------------------------------------------#
 
 df.to_excel(
-    excel_writer='05_Pandas_DataR_dataframe/save/df_to.xlsx',
+    excel_writer=save_dir/'df_to.xlsx',
     sheet_name='Sheet1',  # Name of the sheet in the Excel file
     index=False,         # Do not write row indices
     na_rep=np.nan         # Represent NaN values as np.nan (empty) in the Excel file
@@ -56,7 +61,7 @@ df.to_excel(
 #-----------------------------------------------------------------------------------------------------------#
 
 df.to_json(
-    path_or_buf='05_Pandas_DataR_dataframe/save/df_to.json',
+    path_or_buf=save_dir/'df_to.json',
     orient='records',  # Format of the JSON file,
     indent=4,
     lines=False,      # Do not write JSON objects line by line
