@@ -10,10 +10,14 @@ import datar.all as dr
 from datar import f
 import pandas as pd
 
+from pathlib import Path
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
 ###############################
 
 tb_aq = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/air_quality_no2_long.csv")
+    pd.read_csv(data_dir/"air_quality_no2_long.csv")
     >> dr.rename(date = f["date.utc"])
 )
 
@@ -104,7 +108,7 @@ print(
 #----------------------------------------------------------------------------------------------------------------------#
 
 df_aq = (
-    pd.read_csv("05_Pandas_DataR_dataframe/data/air_quality_no2_long.csv")
+    pd.read_csv(data_dir/"air_quality_no2_long.csv")
     .rename(columns={"date.utc": "date"})
     .assign(date = lambda df: pd.to_datetime(df["date"], format="%Y-%m-%d %H:%M:%S%z")) # Must be datetime type for pd.Grouper
 )

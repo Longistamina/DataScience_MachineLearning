@@ -9,10 +9,14 @@ dr.relocate(dr.where(dr.is_numeric), _after=0) # Move all numeric columns to the
 import datar.all as dr
 from datar import f
 import pandas as pd
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 ########################
 
-tb_emp = dr.tibble(pd.read_csv("05_Pandas_DataR_dataframe/data/emp.csv"))
+tb_emp = dr.tibble(pd.read_csv(data_dir/"emp.csv"))
 print(tb_emp)
 #        id      name    salary  start_date        dept
 #   <int64>  <object> <float64>    <object>    <object>

@@ -4,6 +4,10 @@ To read dataframe, just use pandas.read.....() functions, then convert to datar 
 
 import datar.all as dr
 import pandas as pd
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 
 #--------------------------------------------------------------------------------------------------------------------#
@@ -14,7 +18,7 @@ import pandas as pd
 ## Read from CSV file ##
 ########################
 
-tb_csv = dr.tibble(pd.read_csv('05_Pandas_DataR_dataframe/data/air_quality_no2_long.csv'))
+tb_csv = dr.tibble(pd.read_csv(data_dir/'air_quality_no2_long.csv'))
 print(tb_csv.head())
 #       city  country                   date.utc location parameter     value     unit
 #   <object> <object>                   <object> <object>  <object> <float64> <object>

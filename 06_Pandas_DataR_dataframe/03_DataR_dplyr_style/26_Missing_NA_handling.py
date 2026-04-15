@@ -23,10 +23,14 @@ import pandas as pd
 from pipda import register_verb
 dr.filter = register_verb(func=dr.filter_)
 
+from pathlib import Path
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
 ###################################################
 
 tb_mkt = dr.tibble(
-    pd.read_csv('05_Pandas_DataR_dataframe/data/marketing_data.csv')
+    pd.read_csv(data_dir/'marketing_data.csv')
     >> dr.rename_with(lambda col: re.sub("\\s+|\\.", "_", col.strip().lower()))
 )
 

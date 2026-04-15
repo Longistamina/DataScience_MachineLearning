@@ -12,10 +12,14 @@ import pandas as pd
 from pipda import register_verb
 dr.filter = register_verb(func=dr.filter_)
 
+from pathlib import Path
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
 ########################
 
 tb_pokemon = dr.tibble(
-    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    pd.read_csv(data_dir/"pokemon.csv")
     >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
     >> dr.select(~f["#"]) # Drop the "#" column
     >> dr.mutate(

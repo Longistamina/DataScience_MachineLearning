@@ -15,11 +15,15 @@ import datar.all as dr
 from datar import f
 import pandas as pd
 import numpy as np
+from pathlib import Path
+
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
 
 ########################
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer="05_Pandas_DataR_dataframe/data/baseball.csv",
+    filepath_or_buffer=data_dir/"baseball.csv",
     usecols=["Name", "Team", "Height", "Weight"],
     dtype={"Team": "category"}
 )

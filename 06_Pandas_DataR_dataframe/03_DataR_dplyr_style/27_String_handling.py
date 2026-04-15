@@ -63,10 +63,14 @@ from pipda import register_verb
 dr.filter = register_verb(func=dr.filter_)
 dr.slice = register_verb(func=dr.slice_)
 
+from pathlib import Path
+data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = next(data_dir)
+
 ########################
 
 tb_pokemon = dr.tibble(
-    pd.read_csv("05_Pandas_DataR_dataframe/data/pokemon.csv")
+    pd.read_csv(data_dir/"pokemon.csv")
     >> dr.rename_with(lambda col: col.strip().replace(" ", "_").replace(".", "")) # Clean column names
     >> dr.select(~f["#"]) # Drop the "#" column
     >> dr.mutate(
@@ -874,7 +878,7 @@ print(
 ## Load raw data
 #---------
 
-tb_bac_2016 = dr.tibble(pd.read_excel("05_Pandas_DataR_dataframe/data/Baccalaureate_2016.xlsx"))
+tb_bac_2016 = dr.tibble(pd.read_excel(data_dir/"Baccalaureate_2016.xlsx"))
 
 print(
     tb_bac_2016
