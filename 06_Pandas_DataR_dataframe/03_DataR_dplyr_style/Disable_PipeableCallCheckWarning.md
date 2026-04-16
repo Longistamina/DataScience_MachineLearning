@@ -1,5 +1,16 @@
 # How to disable the PipeableCallCheckWarning
 
+##################
+## Use warnings ##
+##################
+
+import warnings
+warnings.filterwarnings("ignore", module="pipda")
+
+########################
+## Setup in ~/.bashrc ##
+########################
+
 Run this command in the terminal to open the ~/.bashrc file
 ```
 nano ~/.bashrc
@@ -18,3 +29,14 @@ After that, run this command to reload the ~/.bashrc file
 ```
 source ~/.bashrc
 ```
+
+#################
+## For NuShell ##
+#################
+
+nano $nu.env-path
+
+# Disable PipeableCallCheckWarning of datar (Add this to the nu.env-path)
+$env.DATAR_VERB_AST_FALLBACK = "piping"
+
+source $nu.env-path

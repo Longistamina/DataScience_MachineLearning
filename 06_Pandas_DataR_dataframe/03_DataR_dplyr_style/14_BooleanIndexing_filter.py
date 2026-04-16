@@ -15,6 +15,10 @@
 
 4. Columns with "bad" names: using f["col name"]
 '''
+
+import warnings
+warnings.filterwarnings("ignore", module="pipda")
+
 import datar.all as dr
 from datar import f
 import pandas as pd

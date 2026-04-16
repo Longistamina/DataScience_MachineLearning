@@ -14,6 +14,12 @@ from pathlib import Path
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
+'''
+NOTE: if using marimo, use "from datar import f as _" or "from datar import f as _f" 
+      to bypass the marimo scanner
+'''
+
+
 
 #---------------------------------------------------------------------------------------------------------------------#
 #---------------------------------------------- 1. "f" expression ----------------------------------------------------#
