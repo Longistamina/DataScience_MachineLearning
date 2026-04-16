@@ -37,8 +37,8 @@ Go to the Extension menu (Ctrl + Shift + X) and install these extensions:
 Set clear terminal shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "Terminal: Clear" => Ctrl + L
 
-Set run Python selected codes/lines shortcut:
-    File -> Preferences -> Keyboard Shortcuts -> search "Python: Run Selection/Line in Python Terminal" => Ctrl + Enter
+Set run Python selected codes/lines shortcut: (use with ipython)
+    File -> Preferences -> Keyboard Shortcuts -> search "Terminal: Run Selected text in active Terminal" => Ctrl + Enter
 
 Set Trigger Parameter Hints shortcut:
     File -> Preferences -> Keyboard Shortcuts -> search "Trigger Parameter Hints" => Shift + Tab
