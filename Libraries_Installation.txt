@@ -1,3 +1,4 @@
+ipython (for interactive python terminal)
 marimo (alternative for jupyter-notebook)
 termcolor
 regex
