@@ -277,36 +277,47 @@ Because the MyRangeIterable class computes each item one by one
 
 from pathlib import Path
 import numpy as np
+from plotly import graph_objects as go
+
+#####################################
+## Utilize the generator from Path ##
+#####################################
 
 data_dir = Path("/home/").glob("**/3D_structures/")  # Create a generator that yields matching directories
 data_dir = next(data_dir)  # Get the first matching directory
 
+data_iterator = data_dir.glob("*.npy")
 
+def plot_with_iterator(iterator):
+    path = next(iterator)
+    structure = np.load(path)
+    structure = structure - structure.mean(axis=0) # center the structure to origin
 
-# from plotly import graph_objects as go
+    shared_range = [structure.min(), structure.max()]
 
-# shared_range = [structure.min(), structure.max()]
+    fig = go.Figure()
+    fig.add_trace(go.Scatter3d(
+        x=structure[:, 0],
+        y=structure[:, 1],
+        z=structure[:, 2],
+        mode='markers+lines',
+        marker=dict(size=5, color='green'),
+        line=dict(color='brown', width=2)
+    ))
+    fig.update_layout(
+        title=f'{path.stem}',
+        # width=800,
+        # height=600,
+        scene=dict(
+            xaxis_title='X Axis',
+            yaxis_title='Y Axis',
+            zaxis_title='Z Axis',
+            xaxis=dict(range=shared_range),
+            yaxis=dict(range=shared_range),
+            zaxis=dict(range=shared_range)
+        )
+    )
+    
+    fig.show()
 
-# fig = go.Figure()
-# fig.add_trace(go.Scatter3d(
-#     x=structure[:, 0],
-#     y=structure[:, 1],
-#     z=structure[:, 2],
-#     mode='markers+lines',
-#     marker=dict(size=5, color='green'),
-#     line=dict(color='brown', width=2)
-# ))
-# fig.update_layout(
-#     title='3D Structure Visualization',
-#     # width=800,
-#     # height=600,
-#     scene=dict(
-#         xaxis_title='X Axis',
-#         yaxis_title='Y Axis',
-#         zaxis_title='Z Axis',
-#         xaxis=dict(range=shared_range),
-#         yaxis=dict(range=shared_range),
-#         zaxis=dict(range=shared_range)
-#     )
-# )
-# fig.show()
+plot_with_iterator(data_iterator)
