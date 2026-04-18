@@ -14,7 +14,7 @@ that would otherwise crash your program due to memory limits.
 1. yield and next()
 2. iter() converts iterable to iterator
 3. use "class" to create an Iterator
-4. Example: loading big 3D shapes efficiently
+4. Example: loading big 3D shapes efficiently and batch-wise
 '''
 
 
