@@ -7,7 +7,14 @@ While common iterables like lists and tuples are "eager"
 (meaning they store all their data in RAM immediately), 
 lazy iterables (iterators) use a "just-in-time" approach. 
 This makes them essential for handling massive datasets or infinite sequences 
-that would otherwise crash your program due to memory limits. 
+that would otherwise crash your program due to memory limits.
+
+######################
+
+1. yield and next()
+2. iter() converts iterable to iterator
+3. use "class" to create an Iterator
+4. Example: loading big 3D shapes efficiently
 '''
 
 
@@ -279,16 +286,16 @@ from pathlib import Path
 import numpy as np
 from plotly import graph_objects as go
 
+data_dir = Path("/home/").glob("**/3D_structures/")  # Create a generator that yields matching directories
+data_dir = next(data_dir)  # Get the first matching directory
+
 #####################################
 ## Utilize the generator from Path ##
 #####################################
 
-data_dir = Path("/home/").glob("**/3D_structures/")  # Create a generator that yields matching directories
-data_dir = next(data_dir)  # Get the first matching directory
-
 data_iterator = data_dir.glob("*.npy")
 
-def plot_with_iterator(iterator):
+def plot_iterator_single(iterator):
     path = next(iterator)
     structure = np.load(path)
     structure = structure - structure.mean(axis=0) # center the structure to origin
@@ -296,6 +303,7 @@ def plot_with_iterator(iterator):
     shared_range = [structure.min(), structure.max()]
 
     fig = go.Figure()
+    
     fig.add_trace(go.Scatter3d(
         x=structure[:, 0],
         y=structure[:, 1],
@@ -304,6 +312,7 @@ def plot_with_iterator(iterator):
         marker=dict(size=5, color='green'),
         line=dict(color='brown', width=2)
     ))
+    
     fig.update_layout(
         title=f'{path.stem}',
         # width=800,
@@ -320,4 +329,106 @@ def plot_with_iterator(iterator):
     
     fig.show()
 
-plot_with_iterator(data_iterator)
+#--------------#
+
+plot_iterator_single(data_iterator)
+
+#################################################################
+## Create custom Iterator with class to yield multiple objects ##
+#################################################################
+
+import random
+
+class StructureIterator():
+    def __init__(self, entries: list[Path], batch_size: int = 1, shuffle: bool = False):
+        self.batch_size = batch_size
+        self.shuffle = shuffle
+        
+        if not isinstance(entries, list):
+            entries = sorted(list(entries))
+            
+        if shuffle:
+            random.shuffle(entries)
+            
+        self.entries = entries
+        
+        self.n = len(entries)
+        self.i = 0
+        
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self.i >= self.n:
+            raise StopIteration
+        
+        start = self.i
+        end = self.i + self.batch_size
+        entries_batched = self.entries[start:end]
+        # entries_batched = self.entries[self.i:self.i + self.batch_size]
+        
+        self.i += self.batch_size # update iterator indices
+        
+        # Load structures from entries_batched
+        batch = []
+        for entry in entries_batched:
+            structure = np.load(entry)
+            batch.append(structure)
+                
+        return batch
+
+#-------------#
+
+def plot_iterator_multi(iterator, colors):
+    structures = next(iterator)
+    num_structures = len(structures)
+    
+    random.shuffle(colors)
+    colors = colors[:num_structures]
+    
+    fig = go.Figure()
+    min_values = []
+    max_values = []
+    for idx, (structure, color) in enumerate(zip(structures, colors), start=1):
+        
+        structure = structure - structure.mean(0)
+        
+        min_values.append(structure.min())
+        max_values.append(structure.max())
+        
+        fig.add_trace(go.Scatter3d(
+            x=structure[:, 0],
+            y=structure[:, 1],
+            z=structure[:, 2],
+            mode='markers+lines',
+            marker=dict(size=5, color=color),
+            line=dict(color='black', width=2),
+            name=f"Structure {idx}"
+        ))
+    
+    shared_range = [min(min_values), max(max_values)]
+    
+    fig.update_layout(
+        title=f'3D structure visualization',
+        # width=800,
+        # height=600,
+        scene=dict(
+            xaxis_title='X Axis',
+            yaxis_title='Y Axis',
+            zaxis_title='Z Axis',
+            xaxis=dict(range=shared_range),
+            yaxis=dict(range=shared_range),
+            zaxis=dict(range=shared_range)
+        )
+    )
+    
+    fig.show()
+
+#--------------#
+
+entries = data_dir.glob("*.npy")
+
+structure_iterator = StructureIterator(entries, 2, False)
+colors = ["#1f78b4", "#33a02c", "#e31a1c", "#ff7f00", "#6a3d9a"]
+
+plot_iterator_multi(structure_iterator, colors)
