@@ -275,3 +275,38 @@ Because the MyRangeIterable class computes each item one by one
 #-------------------- 4. Example: loading big 3D shapes efficiently ---------------------#
 #----------------------------------------------------------------------------------------#
 
+from pathlib import Path
+import numpy as np
+
+data_dir = Path("/home/").glob("**/3D_structures/")  # Create a generator that yields matching directories
+data_dir = next(data_dir)  # Get the first matching directory
+
+
+
+# from plotly import graph_objects as go
+
+# shared_range = [structure.min(), structure.max()]
+
+# fig = go.Figure()
+# fig.add_trace(go.Scatter3d(
+#     x=structure[:, 0],
+#     y=structure[:, 1],
+#     z=structure[:, 2],
+#     mode='markers+lines',
+#     marker=dict(size=5, color='green'),
+#     line=dict(color='brown', width=2)
+# ))
+# fig.update_layout(
+#     title='3D Structure Visualization',
+#     # width=800,
+#     # height=600,
+#     scene=dict(
+#         xaxis_title='X Axis',
+#         yaxis_title='Y Axis',
+#         zaxis_title='Z Axis',
+#         xaxis=dict(range=shared_range),
+#         yaxis=dict(range=shared_range),
+#         zaxis=dict(range=shared_range)
+#     )
+# )
+# fig.show()
