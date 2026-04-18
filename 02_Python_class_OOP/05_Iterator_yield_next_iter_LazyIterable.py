@@ -361,14 +361,16 @@ class StructureLoader():
     def __init__(self, entries: list[Path], batch_size: int = 1, shuffle: bool = False):
         if not isinstance(entries, list):
             entries = sorted(list(entries))
-            
-        if shuffle:
-            random.shuffle(entries)
-            
+        
+        self.entries = entries
+        self.shuffle = shuffle
         self.entries = entries
         self.batch_size = batch_size        
     
     def __iter__(self):
+        
+        if self.shuffle:
+            random.shuffle(self.entries)
         return StructureIterator(self.entries, self.batch_size)
 
 class StructureIterator():
@@ -449,8 +451,10 @@ def plot_iterator_multi(iterator, colors):
 
 entries = data_dir.glob("*.npy")
 
-structure_loader = StructureLoader(entries, 2, False)
+structure_loader = StructureLoader(entries, 2, True)
 structure_iterator = iter(structure_loader) # convert the loader(iterable) into iterator for next()
+for entry in structure_iterator.entries:
+    print(entry.stem)
 
 colors = ["#1f78b4", "#33a02c", "#e31a1c", "#ff7f00", "#6a3d9a"]
 random.shuffle(colors)
