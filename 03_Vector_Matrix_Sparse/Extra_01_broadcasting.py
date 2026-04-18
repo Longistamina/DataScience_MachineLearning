@@ -46,8 +46,13 @@ Flow of contents:
    + 2D op 3D
    + 2D op 4D
    + 3D op 4D
+   
+6. NumPy broadcasting functions:
+   + np.broadcast_to
+   + np.broadcast_arrays
+   + np.broadcast_shapes
 
-6. Practical Examples
+7. Practical Examples
    + Row-wise normalisation (zero-mean, unit-variance)
    + Column-wise normalisation
    + Pairwise Euclidean distance matrix
@@ -424,7 +429,7 @@ print(np.array_equal(F + filter_3d,
 
 
 #--------------------------------------------------------------------------------------------------------#
-#---------------------------- 5. Mixed-dimension Broadcasting -------------------------------------------#
+#------------------------------- 5. Mixed-dimension Broadcasting ----------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
 
 ##############
@@ -566,7 +571,81 @@ print(np.array_equal(F2342 + block_3d,
 
 
 #--------------------------------------------------------------------------------------------------------#
-#------------------------------------ 6. Practical Examples ---------------------------------------------#
+#------------------------------- 6. NumPy broadcasting functions  ---------------------------------------#
+#--------------------------------------------------------------------------------------------------------#
+
+#######################
+## np.broadcast_to() ##
+#######################
+'''Broadcast an array to a new shape.'''
+
+x = np.array([1, 2, 3])   # shape (3,)
+
+print(np.broadcast_to(array=x, shape=(4, 3)))
+# [[1 2 3]
+#  [1 2 3]
+#  [1 2 3]
+#  [1 2 3]]
+
+print(np.broadcast_to(x, (3, 2, 3)))
+# [[[1 2 3]
+#   [1 2 3]]
+
+#  [[1 2 3]
+#   [1 2 3]]
+
+#  [[1 2 3]
+#   [1 2 3]]]
+
+###########################
+## np.broadcast_arrays() ##
+###########################
+'''
+Broadcast multiple arrays against each other and return views.
+NOTE: the returned arrays are in tuple.
+'''
+
+a1 = np.array([1, 2, 3])   # shape (3,)
+a2 = np.array([[10], [20], [30], [40]])   # shape (4, 1)
+
+print(np.broadcast_arrays(a1, a2))
+# (array([[1, 2, 3],
+#        [1, 2, 3],
+#        [1, 2, 3],
+#        [1, 2, 3]]), array([[10, 10, 10],
+#        [20, 20, 20],
+#        [30, 30, 30],
+#        [40, 40, 40]]))
+
+b1, b2 = np.broadcast_arrays(a1, a2)
+
+print(b1)
+# [[1 2 3]
+#  [1 2 3]
+#  [1 2 3]
+#  [1 2 3]]
+
+print(b2)
+# [[10 10 10]
+#  [20 20 20]
+#  [30 30 30]
+#  [40 40 40]]
+
+###########################
+## np.broadcast_shapes() ##
+###########################
+'''Determine the shape of the broadcast result from multiple shapes.'''
+
+shape1 = (3,)
+shape2 = (4, 1)
+shape3 = (2, 4, 1)
+
+print(np.broadcast_shapes(shape1, shape2, shape3))
+# (2, 4, 3)
+
+
+#--------------------------------------------------------------------------------------------------------#
+#------------------------------------ 7. Practical Examples ---------------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
 
 data = np.array([[ 2., 4., 6., 8.],
