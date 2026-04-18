@@ -368,7 +368,6 @@ class StructureLoader():
         self.batch_size = batch_size        
     
     def __iter__(self):
-        
         if self.shuffle:
             random.shuffle(self.entries)
         return StructureIterator(self.entries, self.batch_size)
