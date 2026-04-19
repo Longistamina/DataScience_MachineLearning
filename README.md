@@ -125,4 +125,4 @@
     * Use ``__next__`` and ``__iter__`` to create custom Iterable and Iterator
     * Example: create MiniLoader to load big 3D structures efficiently
     * The concept of DataLoader, shuffle and collate_fn
-    * Bonus: ipython, bpython, setup alias linked to executable file
+    * Bonus: ipython, bpython, setup alias linked to executable file, use conda without "conda activate"
