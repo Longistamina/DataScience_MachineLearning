@@ -152,7 +152,7 @@ def roll_dice(): # A callable that simulates rolling a six-sided die
     return random.randint(1, 6)
 
 def roll_until_n(n):
-    assert 1 <= n <= 6, "n must be between 1 and 6"
+    # assert 1 <= n <= 6, "n must be between 1 and 6"
     return iter(roll_dice, n) # n is the sentinel value that stops the iteration when roll_dice() returns n
 
 n = 5
@@ -170,6 +170,10 @@ for roll in roller:
 
 print(f"Rolled a {n} - stopping.")
 # Rolled a 5 - stopping.
+
+'''
+NOTE: if the sentinel is not in the value domain of the callable, it will run forever
+'''
 
 
 ####################################################
@@ -233,7 +237,7 @@ print(next(my_range))  # Output: 1
 
 for num in my_range:
     print(num)  # Output: 2, 3, 4 (0 and 1 already consumed)
-    
+
 ##########################
 ## Iterator vs Iterable ##
 ##########################
@@ -267,7 +271,7 @@ class MyRangeIterable:
     """Iterable — can be looped multiple times"""
     def __init__(self, n):
         self.n = n
-        
+
     def __iter__(self):
         return MyRangeIterator(self.n) # returns a NEW iterator each time calling iter(instance)
 
@@ -365,7 +369,7 @@ class StructureLoader():
         self.entries = entries
         self.shuffle = shuffle
         self.entries = entries
-        self.batch_size = batch_size        
+        self.batch_size = batch_size
     
     def __iter__(self):
         if self.shuffle:
@@ -413,6 +417,7 @@ def plot_iterator_multi(iterator, colors):
     fig = go.Figure()
     min_values = []
     max_values = []
+    
     for idx, (structure, color) in enumerate(zip(structures, colors), start=1):
         
         min_values.append(structure.min())
@@ -458,3 +463,69 @@ for entry in structure_iterator.entries:
 colors = ["#1f78b4", "#33a02c", "#e31a1c", "#ff7f00", "#6a3d9a"]
 random.shuffle(colors)
 plot_iterator_multi(structure_iterator, colors)
+
+###########################################
+## Create a MiniLoader for batching data ##
+###########################################
+
+class MiniLoader:
+    def __init__(
+        self, data: list[np.ndarray], 
+        batch_size: int = 1,
+        n_subset=None,
+        shuffle: bool = True,
+    ):
+        self.data = data
+        self.batch_size = batch_size
+        self.n_subset = n_subset
+        self.shuffle = shuffle
+        
+    def __iter__(self):
+        data = self.data
+        if self.shuffle:
+            random.shuffle(data)
+        return MiniIterator(data[:self.n_subset], self.batch_size)
+    
+class MiniIterator:
+    def __init__(self, data: list[np.ndarray], batch_size: int = 1):
+        self.data = data
+        self.batch_size = batch_size
+        self.n = len(data)
+        self.i = 0
+        
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self.i >= self.n:
+            raise StopIteration
+        
+        start = self.i
+        end = self.i + self.batch_size
+            
+        batch = self.data[start:end]
+        
+        self.i += self.batch_size
+        
+        return batch
+
+#--------------#
+
+entries = data_dir.glob("*.npy")
+structures_list = []
+for entry in entries:
+    structure = np.load(entry)
+    structure = structure - structure.mean(axis=0)
+    structures_list.append(structure)
+
+loader = MiniLoader(
+    data=structures_list,
+    batch_size=3,
+    shuffle=True,
+    n_subset=6
+)
+
+for batch_idx, batch in enumerate(loader, start=1):
+    print(f"Batch: {batch_idx}")
+    print(batch)
+    print("="*30)

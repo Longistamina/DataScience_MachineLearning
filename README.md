@@ -119,3 +119,10 @@
     * ``__dict__``, ``__repr__``, class attribute
     * magic methods: ``__new__``, ``_len__``, ``__getitem__``, etc (and many more)
     * Bonus: RustPython, NuShell for data wrangling right in the terminal!!!
++ [02_Python_class_OOP_part_02](https://youtu.be/zAzfQ-3sRfo): 19th/04/2026
+    * ``yield``, ``next``, ``iter``
+    * Iterator, Iterable, Generator
+    * Use ``__next__`` and ``__iter__`` to create custom Iterable and Iterator
+    * Example: create MiniLoader to load big 3D structures efficiently
+    * The concept of DataLoader, shuffle and collate_fn
+    * Bonus: ipython, bpython, setup alias linked to executable file
