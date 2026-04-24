@@ -1,3 +1,10 @@
+'''
+1. np.copyto()
+2. np.ndim()
+3. np.shape()
+4. np.size()
+'''
+
 
 import numpy as np
 
