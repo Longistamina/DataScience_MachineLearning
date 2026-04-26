@@ -51,8 +51,27 @@ Use pip3 install -U for latest versions
    conda activate data
 
 5) Install libraries:
-   pip3 install -U termcolor regex loguru pytz numpy pandas modin[ray] datar[pandas] polars tidypolars4sci matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima
+   pip3 install -U termcolor regex loguru pytz numpy pandas datar[pandas] polars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima
 
+######################
+## install using uv ##
+######################
+
+# Download uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+cargo install --locked uv # if Rust and cargo were installed before
+
+cd ~
+uv venv myenv --python 3.13 # or 3.12
+uv pip install numpy pandas ipython <and_other_libraries_names> --python ~/myenv/bin/python
+
+# For example:
+uv pip install ipython bpython jupyterlab termcolor regex loguru pytz numpy pandas datar[pandas] polars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima --python ~/dl/bin/python
+
+# Then try to set up alias like to make usage easier
+py3 = ~/myenv/bin/python3.13
+ipt = ~/myenv/bin/ipython
+uv-myenv-install = uv pip install --python ~/myenv/bin/python
 
 #-----------------------------------------------------------------------------------------------------#
 #-------------------------- Pytorch and PyG for AMD ROCm (ubuntu command) ----------------------------#
@@ -122,14 +141,13 @@ pip3 install --upgrade pip wheel
 pip3 uninstall torch torchvision triton torchaudio
 
 # Install PyTorch 2.9.1 for ROCm 7.2.0
-pip install --index-url=https://rocm.nightlies.amd.com/v2-staging/gfx1151/ \
-    torch==2.9.1 \
-    torchvision \
-    torchaudio \
-    triton
+pip install --index-url=https://rocm.nightlies.amd.com/v2-staging/gfx1151/ torch>=2.9.1 torchvision torchaudio triton
+uv-dl-install --index-url=https://rocm.nightlies.amd.com/v2-staging/gfx1151/ torch>=2.9.1 torchvision torchaudio triton
+
 
 # Insatll PyG
 pip install torch-geometric torch-sparse-rocm torch-spline-conv-rocm torch-scatter-rocm torch-cluster-rocm
+uv-dl-install torch-geometric torch-sparse-rocm torch-spline-conv-rocm torch-scatter-rocm torch-cluster-rocm
 
 # test torch GPU detection
 python3
