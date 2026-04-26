@@ -529,3 +529,203 @@ for batch_idx, batch in enumerate(loader, start=1):
     print(f"Batch: {batch_idx}")
     print(batch)
     print("="*30)
+
+####################################################################
+## SourceContainer - TargetContainer - PairContainer - DataLoader ##
+####################################################################
+
+from pathlib import Path
+import numpy as np
+from plotly import graph_objects as go
+from sklearn.mixture import GaussianMixture
+import joblib
+
+data_dir = Path("/home/longdpt/").rglob("*/data/3D_structures")
+data_dir = next(data_dir)
+entries = sorted(list(data_dir.glob("*.npy")))
+
+data_list = []
+for entry in entries:
+    data = {
+        "path": entry,
+        "structure": np.load(entry)
+    }
+    data_list.append(data)
+    
+#-------------#
+
+class SourceContainer:
+    def __init__(self, data: list[dict[Path, np.ndarray]]):
+        self.data = data
+    
+    def __len__(self):
+        return len(self.data)
+    
+    def __getitem__(self, idx):
+        arr = self.data[idx]["structure"]
+        arr = arr - arr.mean(axis=0)
+        arr = arr.astype(np.float32)
+        
+        shape_name = self.data[idx]["path"].stem
+        return {"shape_name": shape_name, "coords": arr}
+
+#-------------#
+
+class TargetContainer:
+    def __init__(
+        self, 
+        input_data: list[dict[Path, np.ndarray]],
+        n_components: int = 50,
+        random_state: int = None
+    ):
+        self.gmm = []
+        self.gmm_paths = []
+        
+        for data in input_data:
+            coords = data["structure"].astype(np.float64)
+            
+            path = data["path"]
+            gmm_path = path.parent / f"{path.stem}.pkl"
+            self.gmm_paths.append(gmm_path)
+            
+            if gmm_path.is_file():
+                gmm = joblib.load(gmm_path)
+            else:
+                gmm = GaussianMixture(n_components=n_components, max_iter=500, tol=1e-4, reg_covar=1e-4, random_state=random_state)
+                gmm = gmm.fit(coords)
+                joblib.dump(value=gmm, filename=gmm_path)
+            
+            self.gmm.append(gmm)
+    
+    def __len__(self):
+        return len(self.gmm)
+    
+    def __getitem__(self, idx):
+        gmm = self.gmm[idx]
+        
+        n_points = np.random.randint(300, 400)
+        target, _ = gmm.sample(n_points)
+        
+        target = target - target.mean(axis=0)
+        target = target.astype(np.float32)
+        
+        return {"gmm_path": self.gmm_paths[idx], "coords": target}
+    
+#-------------#
+
+class PairContainer:
+    def __init__(self, source: SourceContainer, target: TargetContainer):
+        self.source = source
+        self.target = target
+    
+    def __len__(self):
+        return min(len(self.source), len(self.target))
+    
+    def __getitem__(self, idx):
+        source_item = self.source[idx]
+        target_item = self.target[idx]
+        
+        return source_item, target_item
+
+#-------------#
+
+class DataLoader:
+    def __init__(self, data, batch_size=2, n_subset=None, shuffle=True, collate_fn=None):
+        self.data = data
+        self.batch_size = batch_size
+        self.n_subset = n_subset
+        self.shuffle = shuffle
+        self.collate_fn = collate_fn
+        
+        self.indices = list(range(len(data)))
+        
+    def __len__(self):
+        n = len(self.indices) if self.n_subset is None else min(self.n_subset, len(self.indices))
+        return (n + self.batch_size - 1) // self.batch_size
+    
+    def __iter__(self):
+        if self.shuffle:
+            random.shuffle(self.indices)
+            
+        data = [self.data[idx] for idx in self.indices[:self.n_subset]]
+        return DataIterator(data, self.indices, self.batch_size, self.collate_fn)
+       # [pair0, pair1, pair2, pair3, pair4] -> 0, 1, 2, 3, 4 -> 0, 3, 1, 2, 4 -> 0, 3, 1, 2 -> [pair0, pair3, pair1, pair2]
+
+class DataIterator:
+    def __init__(self, data, indices, batch_size, collate_fn):
+        self.data = data # [pair0, pair3, pair1, pair2]
+        self.indices = indices
+        self.batch_size = batch_size
+        self.collate_fn = collate_fn
+        
+        self.n = len(self.indices)
+        self.i = 0
+        
+    def __iter__(self):
+        return self
+    
+    def __next__(self):
+        if self.i >= self.n:
+            raise StopIteration
+        
+        batch_indices = self.indices[self.i:self.i + self.batch_size]
+        batch = [self.data[idx] for idx in batch_indices] # [pair0, pair3], then [pair1, pair2]
+        
+        self.i += self.batch_size
+        
+        if self.collate_fn is not None:
+            return self.collate_fn(batch) # collate_fn([pair0, pair3]), then collate_fn([pair1, pair2])
+        
+        return batch
+    
+#-------------#
+
+def collate_fn_flat(batch):
+    src_batch = []
+    tgt_batch = []
+    
+    src_counts = []
+    tgt_counts = []
+    
+    src_idx_list = []
+    tgt_idx_list = []
+    
+    for batch_idx, (source, target) in enumerate(batch): # pair = (source, target), pair0 <-> batch_idx=0, pair3 <-> batch_idx=1, ...
+        src_len = len(source["coords"])
+        tgt_len = len(target["coords"])
+        
+        src_counts.append(src_len)
+        tgt_counts.append(tgt_len)
+        
+        src_idx_list.append(np.full((src_len,), batch_idx, dtype=np.int64))
+        tgt_idx_list.append(np.full((tgt_len,), batch_idx, dtype=np.int64))
+        
+        src_batch.append(source["coords"])
+        tgt_batch.append(target["coords"])
+    
+    return {
+        "source": {
+            "coords": np.concatenate(src_batch, axis=0),
+            "batch_idx": np.concatenate(src_idx_list, axis=0),
+            "counts": np.array(src_counts)
+        },
+        
+        "target": {
+            "coords": np.concatenate(tgt_batch, axis=0),
+            "batch_idx": np.concatenate(tgt_idx_list, axis=0),
+            "counts": np.array(tgt_counts)
+        }
+    }
+
+#-------------#
+
+source_container = SourceContainer(data_list)
+target_container = TargetContainer(data_list, n_components=50)
+pair_container = PairContainer(source_container, target_container)
+
+data_loader = DataLoader(pair_container, batch_size=2, shuffle=True, collate_fn=collate_fn_flat)
+
+data_iter = iter(data_loader)
+
+batch = next(data_iter)
+print(batch)
