@@ -126,3 +126,9 @@
     * Example: create MiniLoader to load big 3D structures efficiently
     * The concept of DataLoader, shuffle and collate_fn
     * Bonus: ipython, bpython, setup alias linked to executable file, use conda without "conda activate"
++ [02_Python_class_OOP_part_03](https://youtu.be/yAkI3iUeVA4): 26th/04/2026
+    * ``yield``, ``next``, ``iter``
+    * More about DataLoader: collate_fn, indices shuffle
+    * Diffusion model: complete input and incomplete input
+    * Something about GaussianMixture model
+    * Some plotly demonstration
