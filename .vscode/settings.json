@@ -23,11 +23,11 @@
     "*.copilotmd": "vscode.markdown.preview.editor",
     "*.xls": "default"
   },
-  "python-envs.defaultEnvManager": "ms-python.python:conda",
-  "python-envs.defaultPackageManager": "ms-python.python:conda",
-  "terminal.integrated.env.linux": {
-    "CONDA_DEFAULT_ENV": "data"
-  },
+  "python-envs.defaultEnvManager": "ms-python.python:venv",
+  "python-envs.defaultPackageManager": "ms-python.python:pip",
+  // "terminal.integrated.env.linux": {
+  //   "CONDA_DEFAULT_ENV": "data"
+  // },
   "terminal.integrated.profiles.linux": {
         "Nushell": {
             "path": "nu",

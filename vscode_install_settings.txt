@@ -87,3 +87,9 @@ Add a terminal profile to the json file:
 python3 -m ipykernel install --user --name=<conda_env_name>
 
 example: python3 -m ipykernel install --user --name=data
+
+#----------------------------------#
+#------------- Theme --------------#
+#----------------------------------#
+
+Dark Modern
