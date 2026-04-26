@@ -130,4 +130,4 @@
     * More about DataLoader: collate_fn (flat style), indices shuffle
     * Diffusion model: complete input and incomplete input
     * Something about GaussianMixture model
-    * Some plotly demonstration
+    * Some plotly demonstrations
