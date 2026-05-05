@@ -195,6 +195,63 @@ print(new_tensor)
 #   [21 22 24]
 #   [26 27 29]]]
 
+
 #-------------------------------------------------------------------------------------------------------------------#
 #--------------------------------------------- 4. np.trim_zeros() --------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------------#
+'''
+np.trim_zeros(filt, trim='fb', axis=None): Remove values along a dimension which are zero along all other.
+
+filt: Input array
+
+trim: {“fb”, “f”, “b”}, optional
+    + "f": trim from front
+    + "b": trim from back
+    + "fb" trim from both sides (default)
+
+axis: int or sequence, optional
+'''
+
+vector_with_zeros = np.array((0, 0, 0, 1, 2, 3, 0, 2, 1, 0))
+
+vector_trimmed = np.trim_zeros(vector_with_zeros)
+print(vector_trimmed)
+# [1 2 3 0 2 1]
+
+vector_trimmed = np.trim_zeros(vector_with_zeros, "f")
+print(vector_trimmed)
+# [1 2 3 0 2 1 0]
+# The zero at the end is still remained
+
+vector_trimmed = np.trim_zeros(vector_with_zeros, "b")
+print(vector_trimmed)
+# [0 0 0 1 2 3 0 2 1]
+# The zeros at the front are still remained
+
+#--------------------#
+
+matrix_with_zeros = np.array([[0, 0, 2, 3, 0, 0],
+                              [0, 1, 0, 3, 0, 0],
+                              [0, 0, 0, 0, 0, 0]])
+
+matrix_trimmed = np.trim_zeros(matrix_with_zeros)
+print(matrix_trimmed)
+# [[0 2 3]
+#  [1 0 3]]
+
+matrix_trimmed = np.trim_zeros(matrix_with_zeros, "f")
+print(matrix_trimmed)
+# [[0 2 3 0 0]
+#  [1 0 3 0 0]
+#  [0 0 0 0 0]]
+
+matrix_trimmed = np.trim_zeros(matrix_with_zeros, axis=0)
+print(matrix_trimmed)
+# [[0 0 2 3 0 0]
+#  [0 1 0 3 0 0]]
+
+matrix_trimmed = np.trim_zeros(matrix_with_zeros, axis=1)
+print(matrix_trimmed)
+# [[0 2 3]
+#  [1 0 3]
+#  [0 0 0]]
