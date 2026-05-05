@@ -101,3 +101,57 @@ print(vector_padded)
 ####################
 ## matrix padding ##
 ####################
+
+matrix_padded = np.pad(matrix, ((1, 1), (1, 1)), 'constant', constant_values=0)
+print(matrix_padded)
+# [[ 0  0  0  0  0  0  0]
+#  [ 0  0  1  2  3  4  0]
+#  [ 0  5  6  7  8  9  0]
+#  [ 0 10 11 12 13 14  0]
+#  [ 0 15 16 17 18 19  0]
+#  [ 0  0  0  0  0  0  0]]
+
+####################
+## tensor padding ##
+####################
+
+tensor_padded = np.pad(tensor, ((0, 1), (0, 1), (0, 1)), 'constant', constant_values=0)
+print(tensor_padded)
+# [[[ 0  1  2  3  4]
+#   [ 5  6  7  8  9]
+#   [10 11 12 13 14]
+#   [ 0  0  0  0  0]]
+#
+#  [[ 0  1  2  3  4]
+#   [ 5  6  7  8  9]
+#   [10 11 12 13 14]
+#   [ 0  0  0  0  0]]
+#
+#  [[ 0  1  2  3  4]
+#   [ 5  6  7  8  9]
+#   [10 11 12 13 14]
+#   [ 0  0  0  0  0]]]
+
+
+#--------------------------------------------------------------------------------------#
+#------------------------------------- 2.np.resize() ----------------------------------#
+#--------------------------------------------------------------------------------------#
+'''
+np.resize(a, new_shape)
+
+Returns a new array with the specified shape.
+If the new array size is larger than the original array size, then the new array will be populated with repeated copies of a.
+'''
+
+resized_vector = np.resize(vector, (15,))
+print(resized_vector)
+# [ 1  2  3  4  5  6  7  8  9 10  1  2  3  4  5]
+
+resized_matrix = np.resize(matrix, (6, 6))
+print(resized_matrix)
+# [[ 0  1  2  3  4  5]
+#  [ 6  7  8  9 10 11]
+#  [12 13 14 15 16 17]
+#  [18 19  0  1  2  3]
+#  [ 4  5  6  7  8  9]
+#  [10 11 12 13 14 15]]
