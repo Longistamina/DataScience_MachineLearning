@@ -1,39 +1,41 @@
 '''
 1. Sorting:
-   + Sort along axis: 
+   + Sort along axis:
         arr.sort(axis=0 or 1)
         np.sort(arr, axis=0 or 1)
-   + Sort along axis with ascending/descending: 
-        arr.sort(axis=...) -> arr[::-1] for axis 0, arr[:, ::-1] for axis 1 
+   + Sort along axis with ascending/descending:
+        arr.sort(axis=...) -> arr[::-1] for axis 0, arr[:, ::-1] for axis 1
         np.sort(arr, axis=...)[::-1] or np.sort(arr, axis=...)[:, ::-1]
-    + Sort with "kind" parameter: 
+    + Sort with "kind" parameter:
         arr.sort(axis=..., kind="...") {" quicksort", "mergesort", "heapsort", "stable"} (optional)
         np.sort(arr, axis=..., kind="...") {"quicksort", "mergesort", "heapsort", "stable"} (optional)
-    + Flatten and sort: 
+    + Flatten and sort:
         arr.flatten().sort()
         np.sort(arr, axis=None)
 
 2. Argument Sort:
-   + Ascending arg sort: 
+   + Ascending arg sort:
         arr.argsort(axis=0 or 1)
         np.argsort(arr, axis=0 or 1)
-   + Descending arg sort: 
+   + Descending arg sort:
         arr.argsort(axis=...)[::-1] or arr.argsort(axis=...)[:, ::-1]
         np.argsort(arr, axis=...)[::-1] or np.argsort(arr, axis=...)[:, ::-1]
-   + Sort with "kind" parameter: 
+   + Sort with "kind" parameter:
         arr.argsort(axis=..., kind="...") {"quicksort", "mergesort", "heapsort", "stable"} (optional)
         np.argsort(arr, axis=..., kind="...") {"quicksort", "mergesort", "heapsort", "stable"} (optional)
-   + Get the index of maximum: 
+   + Get the index of maximum:
         arr.argmax(axis=0 or 1 or None)
         np.argmax(arr, axis=0 or 1 or None)
-   + Get the index of minimum: 
+   + Get the index of minimum:
         arr.argmin(axis=0 or 1 or None)
         np.argmin(arr, axis=0 or 1 or None)
-   + Partial sort (k smallest elements): 
+   + Partial sort (k smallest elements):
         arr.argpartition(k, axis=0 or 1)
         np.argpartition(arr, k, axis=0 or 1)
 
-3. Examples on 3D and 4D matrices:
+3. np.lexsort(): performs an indirect sort using multiple keys.
+
+4. Examples on 3D and 4D matrices:
    + np.sort(arr3d, axis=0) # Sort along the first dimension
    + np.argsort(arr4d, axis=2) # Argsort along the third dimension
    + np.argmax(arr3d, axis=(0, 1)) # Get argmax along first two dimensions (returns flat index)
@@ -275,10 +277,10 @@ print(np.take_along_axis(matrix_scores, asc_indices_axis0, axis=0))
 #  [93 92 94 95 92]]
 
 '''
-For column 0: [1, 0, 3, 2] means 
-+ row 1 has smallest value (76) 
-+ then row 0 (85) 
-+ then row 3 (88) 
+For column 0: [1, 0, 3, 2] means
++ row 1 has smallest value (76)
++ then row 0 (85)
++ then row 3 (88)
 + then row 2 (93)
 '''
 
@@ -327,7 +329,7 @@ print(np.take_along_axis(matrix_scores, asc_indices_axis1, axis=1))
 #  [77 79 88 92 94]]
 
 '''
-For row 0: [2, 0, 4, 1, 3] means 
+For row 0: [2, 0, 4, 1, 3] means
 + column 2 has smallest value (78)
 + then column 0 (85)
 + then column 4 (88)
@@ -630,8 +632,139 @@ print(np.take_along_axis(matrix_scores, scores_3rd, axis=0))
 '''Only the first 3 elements in each column are sorted, the rest are not guaranteed to be sorted.'''
 
 
+#-----------------------------------------------------------------------------------------------------------#
+#------------------------------------------- 3. np.lexsort() -----------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
+'''
+np.lexsort() performs an indirect sort using multiple keys.
+It returns the indices that would sort the data based on the provided keys.
+
+IMPORTANT:
+    + The keys are provided in REVERSE order (Last key = Primary sort key).
+    + It expects 1D arrays (sequences) as keys.
+    + For 2D, 3D or nD arrays, it will unpack into smaller dimension array and sort.
+
+For 2D arrays, it will unpack the array into many rows, treat each row as a key
+-> axis must always = 0
+
+For 3D arrays, it will unpack the array into 2D arrays, treat each 2d array as key,
+-> since each key array has 2D, can specify axis=0 or axis=1 to sort
+'''
+
+# Sample Data: [Row, Col]
+# We will use this matrix to demonstrate different key extractions
+matrix = np.array([
+    [1, 2, 3],
+    [1, 1, 2],
+    [2, 1, 1],
+    [1, 2, 1]
+])
+
+# Sample 3D Tensor: [Depth, Row, Col]
+tensor = np.array([
+    [[5, 2], [1, 9]], # Depth 0
+    [[3, 8], [4, 1]], # Depth 1
+    [[7, 4], [6, 3]]  # Depth 2
+])
+
+#-----------------------------------------------------------------------------------------------------------#
+# SORTING ROWS (by column values) — matrix and axis=0
+#-----------------------------------------------------------------------------------------------------------#
+'''
+axis=0  → return indices that sort along axis-0 (rows).
+
+If not specified, the last row is always treated as primary key
+'''
+
+indices_cols = np.lexsort(matrix, axis=0) # sort by last-row, then second to last, ...
+
+print("Indices:", indices_cols)   # [2 0 1]
+print(matrix[:, indices_cols])
+# [[3 1 2]
+#  [2 1 1]
+#  [1 2 1]
+#  [1 1 2]]
+
+#############
+
+indices_cols = np.lexsort(matrix[[0, 2]], axis=0) # Sort by row_2, then row_0
+print(indices_cols) # [1 2 0]
+
+print(matrix[:, indices_cols])
+# [[2 3 1]
+#  [1 2 1]
+#  [1 1 2]
+#  [2 1 1]]
+
+#-----------------------------------------------------------------------------------------------------------#
+# SORTING COLUMNS (by row values) — matrix.T axis=0
+#-----------------------------------------------------------------------------------------------------------#
+'''
+axis=1  → return indices that sort along axis-1 (columns).
+
+If not specified, the last row is always treated as primary key
+'''
+
+# matrix.T so now the columns become rows
+# np.lexsort() breaks it into smaller 1D arrays, treat them as key and sorts
+indices_rows = np.lexsort(matrix.T, axis=0) # sort by last column, then second to last, ...
+
+print("Indices:", indices_rows)   # [2 3 1 0]
+print(matrix[indices_rows])
+# [[2 1 1]
+#  [1 2 1]
+#  [1 1 2]
+#  [1 2 3]]
+
+#-----------------------------------------------------------------------------------------------------------#
+# SORTING 3D DEPTH SLICES — axis=0 or axis=1s
+#-----------------------------------------------------------------------------------------------------------#
+'''
+For 3D tensor, since np.lexsort returns 2D indices here
+-> to get the sorted tensor, need np.take_along_axis, with the apply-axis being one step ahead of the sort-axis
+'''
+
+#----------------------------#
+# axis=0 → for each COLUMN independently, sort the ROWS
+#----------------------------#
+# Primary key col 0: tensor[2][:,0] = [7,6] → row 1 (6) first → [1,0]
+# Primary key col 1: tensor[2][:,1] = [4,3] → row 1 (3) first → [1,0]
+
+idx0 = np.lexsort(tensor, axis=0)       # shape (2, 2)
+print("Indices (axis=0):\n", idx0)
+# [[1 1]
+#  [0 0]]
+
+print(np.take_along_axis(tensor, idx0[np.newaxis].repeat(3, axis=0), axis=1))
+# [[[1 9]    ← depth 0, rows swapped
+#   [5 2]]
+#  [[4 1]    ← depth 1, rows swapped
+#   [3 8]]
+#  [[6 3]    ← depth 2 (primary), smaller row now first
+#   [7 4]]]
+
+#----------------------------#
+# axis=1 → for each ROW independently, sort the COLUMNS
+#----------------------------#
+# Primary key row 0: tensor[2][0,:] = [7,4] → col 1 (4) first → [1,0]
+# Primary key row 1: tensor[2][1,:] = [6,3] → col 1 (3) first → [1,0]
+
+idx1 = np.lexsort(tensor, axis=1)       # shape (2, 2)
+print("Indices (axis=1):\n", idx1)
+# [[1 0]
+#  [1 0]]
+
+print(np.take_along_axis(tensor, idx1[np.newaxis].repeat(3, axis=0), axis=2))
+# [[[2 5]    ← depth 0, cols swapped
+#   [9 1]]
+#  [[8 3]    ← depth 1, cols swapped
+#   [1 4]]
+#  [[4 7]    ← depth 2 (primary), smaller col now first
+#   [3 6]]]
+
+
 #-----------------------------------------------------------------------------------------------------------------#
-#----------------------------------- 3. Examples on 3D and 4D matrices -------------------------------------------#
+#----------------------------------- 4. Examples on 3D and 4D matrices -------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 
 '''
@@ -682,7 +815,7 @@ print(sorted_3d_axis0)
 #   [75 63 97 56 98]]]
 
 '''
-In this case, for each (i,j) position in the 4x5 slices, 
+In this case, for each (i,j) position in the 4x5 slices,
 we sort the values across the 3 slices (along axis 0).
 
 at position (0,0): [54, 91, 42] -> sorted to [42, 54, 91]
