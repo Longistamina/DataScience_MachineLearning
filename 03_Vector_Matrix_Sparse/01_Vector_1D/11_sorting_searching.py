@@ -14,7 +14,9 @@
    + Get the index of minimum: arr.argmin() ||| np.argmin(arr)
    + Partial sort (k smallest elements): arr.argpartition(k) ||| np.argpartition(arr, k)
 
-3. Searching (Binary Search): Find indices where elements should be inserted to maintain order.
+3. np.lexsort(): performs an indirect sort using multiple keys.
+
+4. Searching (Binary Search): Find indices where elements should be inserted to maintain order.
    + arr.searchsorted(value)
    + np.searchsorted(arr, value)
    + (The array must be sorted first)
@@ -339,8 +341,84 @@ print(vector_heights[heights_2nd])
 '''Only the first 2 elements are sorted, the rest are not guaranteed to be sorted.'''
 
 
+#-----------------------------------------------------------------------------------------------------------#
+#------------------------------------------------- 3. np.lexsort() -----------------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
+'''
+np.lexsort() performs an indirect sort using multiple keys.
+It returns the indices that would sort the data based on the provided keys.
+
+IMPORTANT:
+    + The keys are provided in REVERSE order (Last key = Primary sort key).
+    + It expects 1D arrays (sequences) as keys.
+    + To sort a 2D or 3D array, you must extract the desired dimensions as keys.
+'''
+
+np.random.seed(0)
+key1 = np.random.randint(0, 10, 5)
+print(key1)
+# [5 0 3 3 7]
+
+np.random.seed(5)
+key2 = np.random.randint(0, 10, 5)
+print(key2)
+# [3 6 6 0 9]
+
+np.random.seed(10)
+key3 = np.random.randint(0, 10, 5)
+print(key3)
+# [9 4 0 1 9]
+
+#############################
+## Sort by key1, then key2 ##
+#############################
+
+# Sort by key1 first (primary), then key2
+sorted_idx = np.lexsort((key2, key1)) # Must provide in reverse
+print("sorted_idx =", sorted_idx)
+# [1 3 2 0 4]
+
+print("sorted key1 and key2")
+print(key1[sorted_idx])
+print(key2[sorted_idx])
+# [0 3 3 5 7]
+# [6 0 6 3 9]
+
+#############################
+## Sort by key2, then key1 ##
+#############################
+
+# Sort by key2 first (primary), then key1
+sorted_idx = np.lexsort((key1, key2)) # Must provide in reverse
+print("sorted_idx =", sorted_idx)
+# [3 0 1 2 4]
+
+print("sorted key1 and key2")
+print(key1[sorted_idx])
+print(key2[sorted_idx])
+# [3 5 0 3 7]
+# [0 3 6 6 9]
+
+########################################
+## Sort by key3, then key1, then key2 ##
+########################################
+
+# Sort by key2 first (primary), then key1
+sorted_idx = np.lexsort((key2, key1, key3)) # Must provide in reverse
+print("sorted_idx =", sorted_idx)
+# [2 3 1 0 4]
+
+print("sorted key1, key2 and key3")
+print(key1[sorted_idx])
+print(key2[sorted_idx])
+print(key3[sorted_idx])
+# [3 3 0 5 7]
+# [6 0 6 3 9]
+# [0 1 4 9 9]
+
+
 #-----------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 3. Searching (Binary Search) ------------------------------------------#
+#----------------------------------------- 4. Searching (Binary Search) ------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 '''
 Binary search finds the indices where elements should be inserted to maintain order.
