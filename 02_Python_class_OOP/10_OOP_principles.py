@@ -11,15 +11,15 @@ There are four main principles of Object-Oriented Programming (OOP):
 #-------------------------------------------------------#
 
 '''
-Encapsulation in Python's object-oriented programming (OOP) is the concept of bundling data (attributes) 
-and the methods (functions) that operate on that data into a single unit called a class. 
+Encapsulation in Python's object-oriented programming (OOP) is the concept of bundling data (attributes)
+and the methods (functions) that operate on that data into a single unit called a class.
 
-It restricts direct access to some of an object's components, 
+It restricts direct access to some of an object's components,
 which helps protect the integrity of the data and prevents accidental modification
 
-Data Hiding: Encapsulation hides the internal state of an object 
-and only exposes a controlled interface, usually through methods. 
-This means the internal variables of a class can be made private (__attribute) or protected (_attribute) 
+Data Hiding: Encapsulation hides the internal state of an object
+and only exposes a controlled interface, usually through methods.
+This means the internal variables of a class can be made private (__attribute) or protected (_attribute)
 to prevent direct access from outside the class
 '''
 
@@ -47,8 +47,8 @@ p.set_age(35)          # Modify private attribute via setter
 print(p.get_age())
 
 
-# In this example, the __age attribute is private and cannot be accessed directly from outside the class. 
-# Instead, the get_age and set_age methods provide controlled access to it
+# In this example, the __age attribute is private and cannot be accessed directly from outside the class.
+# Instead, the ``get_age()`` and ``set_age()`` methods provide controlled access to it
 
 # To sum it up, Encapsulation prevents direct access and direct modification of an object's attributes,
 # helps ensure data security and integrity while providing a clean interface for interaction
@@ -59,10 +59,10 @@ print(p.get_age())
 #-----------------------------------------------------#
 
 '''
-Abstraction in Python's object-oriented programming (OOP) is the concept of hiding the internal implementation details 
-of a class or method and exposing only the essential features and behaviors to the user. 
+Abstraction in Python's object-oriented programming (OOP) is the concept of hiding the internal implementation details
+of a class or method and exposing only the essential features and behaviors to the user.
 
-It allows you to focus on what an object does rather than how it does it, 
+It allows you to focus on what an object does rather than how it does it,
 simplifying complex systems by providing a clear and simplified interface
 
 => Abstraction means "hiding the complexity or unnecessary details" from the user.
@@ -84,7 +84,7 @@ class Email():
         Please do not share it with anyone.
         """
         return self.body
-    
+
     @staticmethod
     def __connect_to_server():
         # This is a private static method that connects to the email server
@@ -100,7 +100,7 @@ email_demo = Email("Don Quixote", "Sancho Panza", "Adventure Awaits")
 email_demo.send_email()  # Output: Email sent successfully!
 
 # In this example, the Email class abstracts the complexity of sending an email.
-# The __redact_body and __connect_to_server methods are private, 
+# The __redact_body and __connect_to_server methods are private,
 # meaning they are not intended to be accessed directly by the user.
 # The user interacts with the Email class through the public send_email() method,
 # which provides a simplified interface for sending an email without needing to know the details of how it works.
@@ -118,10 +118,10 @@ class Shape(ABC):
     @abstractmethod
     def area(self):
         pass
-    # @abstractmethod This decorator is used to mark methods inside an abstract class as abstract methods. 
+    # @abstractmethod This decorator is used to mark methods inside an abstract class as abstract methods.
     # These methods have no implementation in the abstract class and must be overridden by any subclass.
     # If a subclass does not implement all abstract methods, it cannot be instantiated either.
-    
+
 class Circle(Shape):
     def __init__(self, radius):
         self.radius = radius
@@ -143,23 +143,23 @@ rectangle = Rectangle(5, 7)
 print(circle.area())      # Output: 113.09724
 print(rectangle.area())   # Output: 35
 
-# In this example, Shape is an abstract class with an abstract method area(). 
-# The subclasses Circle and Rectangle implement the area() method, hiding the details of how the area is calculated. 
+# In this example, Shape is an abstract class with an abstract method area().
+# The subclasses Circle and Rectangle implement the area() method, hiding the details of how the area is calculated.
 # Users interact with the shapes through the common interface defined by the abstract class
 
 
 #-----------------------------------------------------#
-#---------------- Inheritance ------------------------#
+#-------------------- Inheritance --------------------#
 #-----------------------------------------------------#
 
 '''
-Inheritance in Python's object-oriented programming (OOP) is a mechanism that allows one class (called the child or subclass) 
-to inherit attributes and methods from another class (called the parent or superclass). 
+Inheritance in Python's object-oriented programming (OOP) is a mechanism that allows one class (called the child or subclass)
+to inherit attributes and methods from another class (called the parent or superclass).
 
 This promotes code reuse, simplifies maintenance, and helps create a hierarchical relationship between classes.
 '''
 
-# Refer to file 07_inheritance.py for detailed examples of inheritance
+# Refer to file 09_inheritance.py for detailed examples of inheritance
 
 
 #-----------------------------------------------------#
@@ -167,11 +167,11 @@ This promotes code reuse, simplifies maintenance, and helps create a hierarchica
 #-----------------------------------------------------#
 
 '''
-Polymorphism, derived from Greek meaning "many forms," is a feature in object-oriented programming (OOP) 
-where objects of different classes can respond to the same method call in their own way. 
+Polymorphism, derived from Greek meaning "many forms," is a feature in object-oriented programming (OOP)
+where objects of different classes can respond to the same method call in their own way.
 
-This allows you to write code that can work with objects of different types 
-without needing to know their specific class. 
+This allows you to write code that can work with objects of different types
+without needing to know their specific class.
 
 Polymorphism enables flexibility and extensibility in your code
 '''
