@@ -1,11 +1,11 @@
 '''
 1. _attribute (Single Underscore)
-    
+
     Convention: Indicates the attribute is intended for internal use (a "protected" member).
 
     Not enforced: You can still access it from outside the class.
 
-    Usage: Signals to other programmers: 
+    Usage: Signals to other programmers:
            "This is for internal use, don't touch unless you know what you're doing."
 '''
 class DemoSingleUnderscore:
@@ -17,9 +17,9 @@ print(obj._internal)  # Output: 42 (can access, but should not)
 
 
 '''
-2. __attribute (Double Underscore)
+2. __attribute (Double Underscores)
 
-    Name Mangling: Python changes the attribute name internally to _ClassName__attribute 
+    Name Mangling: Python changes the attribute name internally to _ClassName__attribute
                    to avoid accidental access and name clashes in subclasses.
     (meaning to access it, you must write something like obj._DemoClass__internal)
 
@@ -33,10 +33,11 @@ class DemoDoubleUnderscore:
 
 obj = DemoDoubleUnderscore()
 
+print(obj.__private)  # AttributeError: 'MyClass' object has no attribute '__private'
+
 print(obj._DemoDoubleUnderscore__private)  # Output: 99 (can access using name mangling)
                                            # harder to access, but still possible
 
-print(obj.__private)  # AttributeError: 'MyClass' object has no attribute '__private'
 
 '''
 The above conventions also apply to methods:

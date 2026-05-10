@@ -1,3 +1,6 @@
+import csv
+from pathlib import Path
+
 #--------------------------------------------------------------------------------------#
 #----------------------------- Decorator: @classmethod --------------------------------#
 #--------------------------------------------------------------------------------------#
@@ -12,12 +15,10 @@
 #              but does not need to be unique per instance
 #              and want to have access to class attributes or other class methods
 
-import csv
-
 class Employee:
-    
+
     class_atribute = "This is a class attribute of Employee class"
-    
+
     @classmethod # indicates the below method is a class method, not an instance method
     def demo_class_method(cls, attr=False): # class method requires "cls" as the first argument, like "self" for instance method
         if attr:
@@ -26,14 +27,14 @@ class Employee:
             print("This demo class method has been executed successfully!")
 
     @classmethod
-    def construct_from_csv(cls, file_path: str): #A function to construct an instance of the class from a .csv file
+    def construct_from_csv(cls, file_path: str | Path): #A function to construct an instance of the class from a .csv file
         with open(file_path, 'r') as f:
             reader = csv.DictReader(f) # Read .csv file as a dictionary
             employees = list(reader)
 
         cls.demo_class_method(attr=False) # Call another class method from this class method
         return employees
-    
+
 ########################################################
 
 Employee.demo_class_method(attr=False)
@@ -44,7 +45,9 @@ Employee.demo_class_method(attr=True)
 
 ########################################################
 
-csv_path = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP/class_method_employees.csv"
+csv_path = next(Path("/home/").glob("**/Documents/**/class_method_employees.csv"))
+print(csv_path)
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP/class_method_employees.csv
 
 lst_employees = Employee.construct_from_csv(file_path=csv_path)
 print(lst_employees)
@@ -67,12 +70,12 @@ print(lst_employees)
 
 # When to use: we should use static methods to do something that is related to the class
 #              but does not need to be unique per instance
-#              and IS NOT involved in creating new instances of the class
+#              and does not require accessing other class atributes and class methods
 
 class DemoStatic:
-    
+
     class_attribute = "I am a class attribute"
-    
+
     @staticmethod
     def demo_static_method(attr=False): #No need any compulsory arguments like "cls" or "self"
         if attr:
@@ -83,7 +86,7 @@ class DemoStatic:
 
     @staticmethod
     def add_numbers(addend_1: float, addend_2: float): # No need any compulsory arguments like "cls" or "self"
-        
+
         DemoStatic.demo_static_method(attr=False) # Call another static method from this static method
         '''cls.demo_static_method(attr=False) # This will raise an error'''
         return addend_1 + addend_2
