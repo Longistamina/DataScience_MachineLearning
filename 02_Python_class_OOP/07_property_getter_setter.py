@@ -4,6 +4,7 @@
 
 # Python has a decorator called @property that allows you to define a method as a property (or attribute)
 # This means you can access it like an attribute, but it behaves like a method.
+# This allows processing them on demand, not store them as a stale value (makes some workflows more efficient)
 
 class Item:
     def __init__(self, name: str, price: float, quantity: int):
@@ -11,8 +12,8 @@ class Item:
         assert price >= 0, "Price must be greater than zero"
         assert quantity >= 0, "Quantity must be greater than or equal to zero"
 
-        self.name = name          
-        self.price = price        
+        self.name = name
+        self.price = price
         self.quantity = quantity
 
     @property # This decorator allows us to define a method as a property
@@ -21,14 +22,15 @@ class Item:
 
     def __repr__(self):
         return f"Item({self.name}, {self.price}, {self.quantity})"
-    
+
 item1 = Item("Laptop", 1500, 3)
 
 print(item1)  # Output: Item(Laptop, 1500, 3)
 
 print(item1.total_price)  # Output: 4500 (1500 * 3)
-                          # Accessing total_price like an attribute, but it behaves like a method 
+                          # Accessing total_price like an attribute, but it behaves like a method
                           # no need for parentheses like item1.total_price() in other files
+                          # only compute ``total_price`` on demand, not calculate during __init__
 
 ## ATTENTION: @property is read-only by default
 item1.total_price = 5000
@@ -48,15 +50,15 @@ class ItemWithSetter:
         assert price >= 0, "Price must be greater than zero"
         assert quantity >= 0, "Quantity must be greater than or equal to zero"
 
-        self.name = name          
-        self.price = price        
+        self.name = name
+        self.price = price
         self.quantity = quantity
-        
+
         self._total_price = self.price * self.quantity
         # We set the name of the attribute as _total_price (internal use)
         # This will avoid the overlap name with total_price method below (as a property)
         # And avoid RecursionError when we call "obj.total_price"
-    
+
     def __repr__(self):
         return f"ItemWithSetter({self.name}, {self.price}, {self.quantity})"
 
@@ -68,10 +70,10 @@ class ItemWithSetter:
     def total_price(self, value):
         print("WARNING: You are trying to set the new total price!!!")
         self._total_price = value
-        # do not need to return a value from a property setter in Python 
+        # do not need to return a value from a property setter in Python
         # because setter methods are only meant to set the value, not to return anything.
-    
-       
+
+
 
 item2 = ItemWithSetter("Phone", 1000, 5)
 print(item2.total_price)  # Output: 5000 (1000 * 5)
