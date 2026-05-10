@@ -140,6 +140,6 @@
     * Inhereitance, ```super().__init__()```
     * Principles of Python OOP: Encapsulation, Abstraction, Inheritance, Polymorphism
     * rectangle_project: capstone project for 01_Python_Basic and 02_Python_class_OOP
-    * Bonus 1: Zed - a blazing fast and clean editor written in Rust, can disable all AI features with only one button
+    * Bonus 1: Zed - a blazing fast editor written in Rust, disable all AI features with only one button
     * Bonus 2: Positron - something like Rstudio but for Python
     * Bonus 3: starship and GruvboxRainbow, how to make the shell terminal look prettier
