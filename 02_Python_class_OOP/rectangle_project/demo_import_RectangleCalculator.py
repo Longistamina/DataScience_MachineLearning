@@ -55,13 +55,13 @@ from loguru import logger
 try:
     rectangle.perimeter = 33
 except Exception as e:
-    logger.error(e) 
+    logger.error(e)
     # | ERROR    | __main__:<module>:5 - property 'perimeter' of 'RectangleCalculator' object has no setter
 
 try:
     rectangle.area = 260
 except Exception as e:
-    logger.error(e) 
+    logger.error(e)
     # | ERROR    | __main__:<module>:4 - property 'area' of 'RectangleCalculator' object has no setter
 
 '''
@@ -71,7 +71,7 @@ Here, the codes return errors because the perimeter and area are properties of t
 The true corresponding attributes are self.__perimeter and self.__area, which are private attributes of the class.
 So, they cannot be accessed directly from outside the class.
 
-This will prevent users from changing the perimeter and area directly, keep the integrity of the class, 
+This will prevent users from changing the perimeter and area directly, keep the integrity of the class,
 and ensure that the perimeter and area are always calculated based on the length and width.
 '''
 
