@@ -1,10 +1,12 @@
 ipython (for interactive python terminal)
+bpython (like ipython but with parameter hints)
 marimo (alternative for jupyter-notebook)
 termcolor
 regex
 loguru
 pytz
-numpy 
+numpy
+numba
 pandas modin[ray] datar[pandas] polars tidypolars4sci
 matplotlib seaborn plotnine plotly
 scipy statsmodels
@@ -16,22 +18,6 @@ hdbscan
 umap-learn[plot]
 mlxtend pyECLAT
 pmdarima
-
-
-###############################
-## install using conda-forge ##
-###############################
-
-Use conda-forge for stable version
-
-1) install miniconda
-
-2) Go to (base) environment
-   conda activate
-
-3) Run this command to create a conda environment and install libraries: 
-   conda create -c conda-forge -n data python=3.12 termcolor regex loguru pytz numpy pandas modin-ray datar polars tidypolars4sci matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imbalanced-learn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima
-
 
 ########################
 ## install using pip3 ##
@@ -51,7 +37,7 @@ Use pip3 install -U for latest versions
    conda activate data
 
 5) Install libraries:
-   pip3 install -U termcolor regex loguru pytz numpy pandas datar[pandas] polars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima
+   pip3 install -U termcolor regex loguru pytz numpy numba pandas datar[polars] polars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima
 
 ######################
 ## install using uv ##
@@ -66,7 +52,7 @@ uv venv myenv --python 3.13 # or 3.12
 uv pip install numpy pandas ipython <and_other_libraries_names> --python ~/myenv/bin/python
 
 # For example:
-uv pip install ipython bpython jupyterlab termcolor regex loguru pytz numpy pandas datar[pandas] polars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima --python ~/dl/bin/python
+uv pip install ipython bpython jupyterlab termcolor regex loguru pytz numpy numba pandas datar[polars] polars matplotlib seaborn plotnine plotly scipy statsmodels sympy cvxpy scikit-learn imblearn xgboost hdbscan mlxtend pyECLAT umap-learn[plot] pmdarima --python ~/dl/bin/python
 
 # Then try to set up alias like to make usage easier
 py3 = ~/myenv/bin/python3.13
