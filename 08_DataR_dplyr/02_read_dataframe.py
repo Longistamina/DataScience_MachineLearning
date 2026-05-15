@@ -32,7 +32,7 @@ print(tb_csv.head())
 ## Read from Excel file ##
 ##########################
 
-tb_excel = dr.tibble(pd.read_excel("05_Pandas_DataR_dataframe/data/emp_sheetname.xlsx", sheet_name='emp'))
+tb_excel = dr.tibble(pd.read_excel(data_dir/"emp_sheetname.xlsx", sheet_name='emp'))
 print(tb_excel)
 #         id      name    salary       start_date        dept
 #   <object>  <object> <float64> <datetime64[ns]>    <object>
@@ -51,7 +51,7 @@ print(tb_excel)
 
 tb_pokemon = dr.tibble(
     pd.read_csv(
-        filepath_or_buffer="05_Pandas_DataR_dataframe/data/pokemon.csv",
+        filepath_or_buffer=data_dir/"pokemon.csv",
         dtype={
             "Type 1": "category",
             "Type 2": "category",
@@ -63,7 +63,6 @@ tb_pokemon = dr.tibble(
     .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
     .assign(Generation = lambda f: f['Generation'].cat.as_ordered())
 )
-
 print(
     tb_pokemon
     >> dr.slice_head(n=5)

@@ -1,8 +1,6 @@
 '''
-tibble() function from DataR library creates a DataFrame in a more user-friendly way 
+tibble() function from DataR library creates a DataFrame in a more user-friendly way
 compared to the traditional pandas DataFrame constructor.
-
-DataR offers the "f" expression syntax, which allows for a more concise and readable way to manipulate DataFrames.
 
 #############################
 
@@ -12,7 +10,6 @@ DataR offers the "f" expression syntax, which allows for a more concise and read
 '''
 
 import datar.all as dr
-from datar import f
 import pandas as pd
 
 
