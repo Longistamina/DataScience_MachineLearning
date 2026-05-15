@@ -114,9 +114,9 @@ print(
 # Q2              74.0             200.0
 # Q3              75.0             215.0
 
-##############################################
+#######################################################################
 ## Use np.apply_along_axis() for functions like scipy.stats.shapiro  ##
-##############################################
+#######################################################################
 
 import numpy as np
 from scipy import stats
@@ -162,11 +162,9 @@ print(
 ## dr.pipe() with user-defined functions ##
 ###########################################
 
-
 def bmi_calculate(df):
     bmi = df.Weight / (df.Height**2) * 703
     return df.assign(BMI=bmi)
-
 
 print(
     df_baseball
@@ -208,18 +206,14 @@ from scipy import stats
 
 print(
     df_baseball
-    >> dr.reframe(
-        height_norm=dr.pipe(
-            lambda f: stats.norm.ppf(
-                q=[0.25, 0.5, 0.75, 1], loc=f["Height"].mean(), scale=f["Height"].std()
+    >> dr.pipe(lambda f: f >> dr.reframe(
+            height_norm=stats.norm.ppf(
+                    q=[0.25, 0.5, 0.75, 1], loc=f["Height"].mean(), scale=f["Height"].std()
+            ),
+            weight_gamma=stats.gamma.ppf(
+                    q=[0.25, 0.5, 0.75, 1], a=2, scale=f["Weight"].mean() / 2
             )
-        ),
-        weight_gamma=dr.pipe(
-            lambda f: stats.gamma.ppf(
-                q=[0.25, 0.5, 0.75, 1], a=2, scale=f["Weight"].mean() / 2
-            )
-        ),
-    )
+    ))
     >> dr.pipe(
         lambda f: f.set_axis(["ppf_25th", "ppf_50th", "ppf_75th", "ppf_100th"], axis=0)
     )  # rename the index
