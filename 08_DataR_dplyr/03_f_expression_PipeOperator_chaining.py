@@ -15,7 +15,7 @@ data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 '''
-NOTE: if using marimo, use "from datar import f as _" or "from datar import f as _f" 
+NOTE: if using marimo, use "from datar import f as _" or "from datar import f as _f"
       to bypass the marimo scanner
 '''
 
@@ -182,9 +182,9 @@ print(
 #--------------------------- 3. Functions that support "f" expression and Pipe Operator ">>" -------------------------#
 #---------------------------------------------------------------------------------------------------------------------#
 '''
-dr.slice_head(), dr.slice_tail(), dr.glimpse(), dr.rename(), 
+dr.slice_head(), dr.slice_tail(), dr.glimpse(), dr.rename(),
 
-dr.inner_join(), dr.left_join(), dr.right_join(), dr.full_join(), dr.anti_join(), dr.semi_join(), 
+dr.inner_join(), dr.left_join(), dr.right_join(), dr.full_join(), dr.anti_join(), dr.semi_join(),
 
 dr.pivot_wider(), dr.pivot_longer()
 

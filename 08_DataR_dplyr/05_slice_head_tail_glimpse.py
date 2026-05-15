@@ -50,7 +50,7 @@ print(
 ####################################
 
 print(
-    tb_pokemon 
+    tb_pokemon
     >> dr.slice_head()
 )
 #         Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
@@ -80,11 +80,11 @@ print(
 ####################################
 
 print(
-    tb_pokemon 
+    tb_pokemon
     >> dr.slice_tail()
 )
 #                     Name     Type_1     Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed Generation  Legendary
-                                                                                                                             
+
 # #               <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
 # 721            Volcanion       Fire      Water     600      80     110      120     130      90      70          6       True
 
