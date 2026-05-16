@@ -4,7 +4,7 @@
    + dr.pivot_wider(values_fill=0)
    + dr.pivot_wider(values_from=[many_cols], names_sep="_")
    + dr.pivot_wider(values_fn=...)
-   
+
 2. pivot_longer: dr.pivot_longer()
    + basig usage
    + dr.pivot_longer(cols=dr.starts_with())
@@ -65,9 +65,9 @@ df_sales.head()
 ##################################
 
 print(
-    df_sales 
+    df_sales
     >> dr.pivot_wider(
-        names_from=f.region, 
+        names_from=f.region,
         values_from=f.sales
         )
     >> dr.slice_head(n=5)
@@ -85,9 +85,9 @@ print(
 ###################################
 
 print(
-    df_sales  
+    df_sales
     >> dr.pivot_wider(
-            names_from=f.region, 
+            names_from=f.region,
             values_from=f.sales,
             values_fill=0 # Fill NaN with 0
         )
@@ -106,9 +106,9 @@ print(
 ############################################################
 
 print(
-    df_sales  
+    df_sales
     >> dr.pivot_wider(
-            names_from=f.region, 
+            names_from=f.region,
             values_from=[f.sales, f.quantity], # Pivot multiple columns
             names_sep="_", # Separator between the new column names
             values_fill=0 # Fill NaN with 0
@@ -127,7 +127,7 @@ print(
 ## dr.pivot_wider(values_fn=...) ##
 ###################################
 '''
-values_fn: function to aggregate values 
+values_fn: function to aggregate values
            if there are multiple entries for the same index/column combination.
            (e.g., sum, mean, len, etc.)
 '''
@@ -136,7 +136,7 @@ print(
     df_sales
     >> dr.select(f.product, f.region, f.sales) # Select only relevant columns
     >> dr.pivot_wider(
-            names_from=f.product, 
+            names_from=f.product,
             values_from=f.sales,
             values_fill=0, # Fill NaN with 0
             values_fn=np.mean # Aggregate by sum if there are duplicates
@@ -186,7 +186,7 @@ print(df_measurements)
 ###################################
 
 print(
-    df_measurements 
+    df_measurements
     >> dr.pivot_longer(
         cols=f[f.BP_day1 : f.HR_day3], # Specify columns to pivot
         names_to='measurement_day', # New column names
@@ -212,7 +212,7 @@ print(
 ############################################
 
 print(
-    df_measurements 
+    df_measurements
     >> dr.pivot_longer(
         cols=dr.starts_with(match=["BP", "HR"]), # Specify columns to pivot
         names_to='measurement_day', # New column names
@@ -238,7 +238,7 @@ print(
 #################################
 
 print(
-    df_measurements 
+    df_measurements
     >> dr.pivot_longer(
         cols=dr.starts_with(match=["BP", "HR"]), # Specify columns to pivot
         names_sep="_", # Separator between the new column names
@@ -265,7 +265,7 @@ print(
 #####################################
 
 print(
-    df_measurements 
+    df_measurements
     >> dr.pivot_longer(
         cols=dr.starts_with(match=["BP", "HR"]), # Specify columns to pivot
         names_to=['measurement', 'day'], # New column names
@@ -288,7 +288,7 @@ print(
 # 9      71       P002          HR     day1      81
 
 print(
-    df_measurements 
+    df_measurements
     >> dr.pivot_longer(
         cols=dr.starts_with(match=["BP", "HR"]), # Specify columns to pivot
         names_to=['measurement', 'day'], # New column names
@@ -315,7 +315,7 @@ print(
 #####################################################
 
 print(
-    df_measurements 
+    df_measurements
     >> dr.pivot_longer(
         cols=dr.starts_with(match=["BP", "HR"]), # Specify columns to pivot
         names_to=['measurement', 'day'], # New column names
@@ -341,20 +341,19 @@ print(
 # 8      40        3       P007     137      63
 # 9      48        1       P003     120      61
 
-
 ####################################################
 ## Apply dr.pipe(lambda f: pd.wide_to_long(df=f)) ##
 ####################################################
 
 print(
-    df_measurements 
+    df_measurements
     >> dr.pipe(
         lambda f: pd.wide_to_long(
             df=f,
-            stubnames=['BP', 'HR'], 
-            i=['patient_id', 'age'], 
-            j='day', 
-            sep='_', 
+            stubnames=['BP', 'HR'],
+            i=['patient_id', 'age'],
+            j='day',
+            sep='_',
             suffix=r"\w+"
         )
     )
@@ -394,14 +393,14 @@ n_resp = 250
 np.random.seed(42)
 df_survey = pd.DataFrame({
     'respondent_id'   : range(1, n_resp+1),
-    
+
     'gender'          : np.random.choice(['Male', 'Female', 'Other'], size=n_resp,
                                           p=[0.48, 0.48, 0.04]),
 
     'favorite_color'  : np.random.choice(['Red', 'Blue', 'Green', 'Yellow', 'Purple'],
                                           size=n_resp),
 
-    'purchase_intent' : np.random.choice(['Definitely', 'Probably', 'Maybe', 'Unlikely', 'Never'], 
+    'purchase_intent' : np.random.choice(['Definitely', 'Probably', 'Maybe', 'Unlikely', 'Never'],
                                           size=n_resp,
                                          p=[0.15, 0.25, 0.30, 0.20, 0.10])
 })
@@ -423,7 +422,7 @@ print(
     dr.table(df_survey['gender'], df_survey['favorite_color'])
 )
 #           Blue   Green  Purple     Red  Yellow
-# col_0                                         
+# col_0
 # row_0  <int64> <int64> <int64> <int64> <int64>
 # Female      24      19      31      21      26
 # Male        35      15      25      23      21
@@ -433,7 +432,7 @@ print(
     dr.table(df_survey[['gender', 'purchase_intent']])
 )
 #                  Definitely   Maybe   Never  Probably  Unlikely
-# purchase_intent                                                
+# purchase_intent
 # gender              <int64> <int64> <int64>   <int64>   <int64>
 # Female                   23      35      16        29        18
 # Male                     16      38      13        30        22
