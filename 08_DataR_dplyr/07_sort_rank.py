@@ -45,7 +45,7 @@ print(tb_raw)
 
 # Sort by one column
 print(
-    tb_raw 
+    tb_raw
     >> dr.arrange(f.score)
 )
 #       name  subject   score     age
@@ -58,7 +58,10 @@ print(
 # 5  Charlie     Math      95      23
 
 # Sort by multiple columns
-print(tb_raw >> dr.arrange(f.name, f.score))
+print(
+    tb_raw
+    >> dr.arrange(f.name, f.score) # Sort by muliple columns
+)
 #       name  subject   score     age
 #   <object> <object> <int64> <int64>
 # 2    Alice  Science      78      20
@@ -74,7 +77,7 @@ print(tb_raw >> dr.arrange(f.name, f.score))
 
 # Sort by one column
 print(
-    tb_raw 
+    tb_raw
     >> dr.arrange(dr.desc(f.score))
 )
 #       name  subject   score     age
@@ -88,7 +91,7 @@ print(
 
 # Sort by multiple columns
 print(
-    tb_raw 
+    tb_raw
     >> dr.arrange(dr.desc(f.age), dr.desc(f.score))
 )
 #       name  subject   score     age
@@ -105,7 +108,7 @@ print(
 ############################################
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.arrange(f.name, dr.desc(f.score))
 )
 #       name  subject   score     age
@@ -128,15 +131,15 @@ print(
 '''
 BASIC RANKING
 
-Assigns a unique sequential integer to rows within a partition of a result set, 
+Assigns a unique sequential integer to rows within a partition of a result set,
 starting at 1 for the first row in each partition.
 
-NOTE: dr.row_number() breaks ties, 
+NOTE: dr.row_number() breaks ties,
 meaning even if two rows have the same ordering key value, they still get distinct consecutive numbers
 '''
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(row_num = dr.row_number(f.score))
 )
 #       name  subject   score     age   row_num
@@ -149,7 +152,7 @@ print(
 # 5  Charlie     Math      95      23       6.0
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(row_num = dr.row_number(f.age))
 )
 #       name  subject   score     age   row_num
@@ -166,7 +169,7 @@ print(
 #------
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(row_num = dr.row_number(dr.desc(f.score)))
 )
 #       name  subject   score     age   row_num
@@ -187,7 +190,7 @@ Ties receive the same rank, and the next rank(s) are skipped.
 '''
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(min_rank = dr.min_rank(f.score))
 )
 #       name  subject   score     age  min_rank
@@ -200,7 +203,7 @@ print(
 # 5  Charlie     Math      95      23       6.0
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(min_rank = dr.min_rank(f.age))
 )
 #       name  subject   score     age  min_rank
@@ -217,7 +220,7 @@ print(
 #---
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(min_rank = dr.min_rank(dr.desc(f.age)))
 )
 #       name  subject   score     age  min_rank
@@ -238,7 +241,7 @@ Ties receive the same rank, and the next rank is the next consecutive integer.
 '''
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(dense_rank = dr.dense_rank(f.age))
 )
 #       name  subject   score     age  dense_rank
@@ -255,7 +258,7 @@ print(
 #---
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(dense_rank = dr.dense_rank(dr.desc(f.age)))
 )
 #       name  subject   score     age  dense_rank
@@ -277,7 +280,7 @@ The result is a value between 0 and 1, inclusive.
 '''
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(percent_rank = dr.percent_rank(f.score))
 )
 #       name  subject   score     age  percent_rank
@@ -290,7 +293,7 @@ print(
 # 5  Charlie     Math      95      23           1.0
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(percent_rank = dr.percent_rank(f.age))
 )
 #       name  subject   score     age  percent_rank
@@ -307,7 +310,7 @@ print(
 #---
 
 print(
-    tb_raw 
+    tb_raw
     >> dr.mutate(percent_rank = dr.percent_rank(dr.desc(f.age)))
 )
 #       name  subject   score     age  percent_rank
