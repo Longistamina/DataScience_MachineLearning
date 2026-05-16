@@ -46,7 +46,7 @@ print(tb_emp)
 ''' new_name = old_name'''
 
 tb_renamed = (
-    tb_emp 
+    tb_emp
     >> dr.rename(emp_id = f.id, emp_name = f.name)
 )
 
@@ -68,7 +68,7 @@ print(tb_renamed.head())
 #----
 
 tb_renamed2 = (
-    tb_emp 
+    tb_emp
     >> dr.rename_with(str.upper, f[f.salary, f.dept])
 )
 
@@ -107,9 +107,9 @@ from pipda import register_verb
 dr.filter = register_verb(func=dr.filter_)
 
 tb_renamed3 = (
-    tb_emp 
+    tb_emp
     >> dr.pipe(lambda f: f.add_prefix('emp_'))
-    >> dr.filter( f.emp_salary > 600)
+    >> dr.filter(f.emp_salary > 600)
 )
 
 print(tb_renamed3.head())
@@ -124,7 +124,7 @@ print(tb_renamed3.head())
 '''--- Example with f.set_axis() ---'''
 
 print(
-    tb_emp 
+    tb_emp
     >> dr.pipe(lambda f: f.set_axis(["ID", "Name", "Salary", "Start_Date", "Department"], axis=1))
 )
 #        ID      Name    Salary       Start_Date  Department
@@ -148,7 +148,7 @@ print(
 #############################
 
 tb_to_rownames = (
-    tb_emp 
+    tb_emp
     >> dr.column_to_rownames('id')
 )
 
@@ -209,14 +209,14 @@ dr.filter = register_verb(func = dr.filter_)
 
 
 tb_set_index = (
-    tb_emp 
+    tb_emp
     >> dr.pipe(lambda f: f.set_index('id'))
     >> dr.filter( f.salary > 600)
 )
 
 print(tb_set_index.head())
 #         name    salary  start_date        dept
-                                              
+
 # id  <object> <float64>    <object>    <object>
 # 1       Rick    623.30  2012-01-01          IT
 # 3   Michelle    611.00  2014-11-15          IT

@@ -34,7 +34,7 @@ tb_pokemon = dr.tibble(
 
 ###########################
 ## Show the first 3 rows ##
-############################
+###########################
 
 print(
     tb_pokemon >> dr.slice_head(n=3)
