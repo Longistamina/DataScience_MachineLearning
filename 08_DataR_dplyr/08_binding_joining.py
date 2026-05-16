@@ -15,7 +15,6 @@
 '''
 
 import datar.all as dr
-from datar import f
 import pandas as pd
 
 
@@ -155,12 +154,12 @@ orders = pd.DataFrame(
 '''
 only keeps rows whose keys are present in both DataFrames/Tibbles
 
-by= column name(s) to join on. If NULL, the default, joins on columns with the same names in x and y.
-suffix= suffix to append to overlapping column names in x and y.
+by="column name(s) to join on". If NULL, the default, joins on columns with the same names in x and y.
+suffix="suffix to append to overlapping column names in x and y".
 '''
 
 print(
-    customers 
+    customers
     >> dr.inner_join(orders, by="customer_id")
 )
 #    customer_id     name    city_x  order_id  amount   city_y
@@ -170,7 +169,7 @@ print(
 # 2            2      Bob    Boston       102     180      BOS
 
 print(
-    customers 
+    customers
     >> dr.inner_join(orders, by="customer_id", suffix=["_cst", "_ord"])
 )
 #    customer_id     name  city_cst  order_id  amount city_ord
@@ -185,7 +184,7 @@ print(
 '''keeps all rows from the left DataFrame and matches from the right DataFrame'''
 
 print(
-    customers 
+    customers
     >> dr.left_join(orders, by="customer_id", suffix=["_cst", "_ord"])
 )
 #    customer_id     name  city_cst  order_id    amount city_ord
@@ -202,7 +201,7 @@ print(
 '''keeps all rows from the right DataFrame and matches from the left DataFrame'''
 
 print(
-    customers 
+    customers
     >> dr.right_join(orders, by="customer_id", suffix=["_cst", "_ord"])
 )
 #    customer_id     name  city_cst  order_id  amount city_ord
@@ -218,7 +217,7 @@ print(
 '''keeps all rows from both DataFrames, filling in NaNs where there are no matches'''
 
 print(
-    customers 
+    customers
     >> dr.full_join(orders, by="customer_id", suffix=["_cst", "_ord"])
 )
 #    customer_id     name  city_cst  order_id    amount city_ord
@@ -239,7 +238,7 @@ print(
 '''
 
 print(
-    customers 
+    customers
     >> dr.semi_join(orders, by="customer_id")
 )
 #    customer_id     name      city
@@ -256,7 +255,7 @@ print(
 '''
 
 print(
-    customers 
+    customers
     >> dr.anti_join(orders, by="customer_id")
 )
 #    customer_id     name     city
@@ -270,7 +269,7 @@ print(
 '''creates the Cartesian product of both DataFrames'''
 
 print(
-    customers 
+    customers
     >> dr.cross_join(orders, suffix=["_cst", "_ord"])
 )
 #     customer_id_cst     name  city_cst  order_id  customer_id_ord  amount city_ord
@@ -296,12 +295,12 @@ print(
 ## dr.nest_join() ##
 ####################
 '''
-# nest_join(x, y) leaves x almost unchanged, except that it adds a new list-column, 
+# nest_join(x, y) leaves x almost unchanged, except that it adds a new list-column,
 # where each element contains the rows from y that match the corresponding row in x
 '''
 
 print(
-    customers 
+    customers
     >> dr.nest_join(orders, by="customer_id", name="orders_data")
 )
 #    customer_id     name      city orders_data
@@ -312,6 +311,6 @@ print(
 # 3            4    Diana     Miami    <DF 0x3>
 
 '''
-# It creates a new columns named "orders_data" defined by "name = ..." parameter
+# It creates a new columns named "orders_data" defined by "name=..." parameter
 # This column stores a list of y indices where y matches x
 '''
