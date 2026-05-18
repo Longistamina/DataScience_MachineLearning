@@ -1,5 +1,8 @@
 '''
-Universal Functions (ufunc) are functions that perform fast, vectorized, element-wise operations.
+Universal Functions (ufunc) are functions that operate on ndarrays in an element-by-element fashion,
+supporting array broadcasting, type casting, and several other standard features.
+-> a ufunc is a “vectorized” wrapper for a function that takes a fixed number of specific inputs
+   and produces a fixed number of specific outputs.
 
 There are two type of ufunc:
     + universal functions (ufunc): operate on scalars (@numba.vectorize)

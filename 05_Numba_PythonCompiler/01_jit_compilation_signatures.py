@@ -2,6 +2,9 @@
 Numba provides several utilities for code generation,
 but its central feature is the numba.jit(), or ``@numba.jit``
 
+JIT = Just-in-time compilation
+-> Compilation of a function at execution time
+
 Using this decorator, you can mark a function for optimization by Numba’s JIT compiler.
 Various invocation modes trigger differing compilation options and behaviours.
 
