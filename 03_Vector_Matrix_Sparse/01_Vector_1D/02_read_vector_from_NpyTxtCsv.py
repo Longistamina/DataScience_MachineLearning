@@ -13,13 +13,16 @@
 '''
 
 import numpy as np
+from pathlib import Path
+
+data_dir = next(Path('/home/').glob("**/01_Vector_1D/data/"))
 
 
 #--------------------------------------------------------------------------------------------------------#
 #------------------------------- 1. np.load(): Read vector from .npy file -------------------------------#
 #--------------------------------------------------------------------------------------------------------#
 
-vector_npy = np.load('03_Vector_Matrix_Sparse/01_Vector_1D/data/timeseries.npy')
+vector_npy = np.load(data_dir/'timeseries.npy')
 
 print(vector_npy)
 # [49. 49. 49. 49. 49. 50. 50. 50. 51. 56. 61. 66. 70. 72. 74. 76. 75. 73.
@@ -50,7 +53,7 @@ print(vector_npy)
 ####################
 
 vector_txt = np.loadtxt(
-   fname='03_Vector_Matrix_Sparse/01_Vector_1D/data/heights.txt',
+   fname=data_dir/'heights.txt',
    delimiter=','
 )
 
@@ -62,7 +65,7 @@ print(vector_txt)
 ##################################
 
 vector_csv_single = np.loadtxt(
-   fname='03_Vector_Matrix_Sparse/01_Vector_1D/data/weights.csv',
+   fname=data_dir/'weights.csv',
    delimiter=','
 )
 
@@ -74,7 +77,7 @@ print(vector_csv_single)
 #################################
 
 vector_csv_multi = np.loadtxt(
-   fname='03_Vector_Matrix_Sparse/01_Vector_1D/data/drinks.csv',
+   fname=data_dir/'drinks.csv',
    delimiter=',',
    usecols=5,  # select the 6th column (index starts from 0) - "total_litres_of_pure_alcohol"
    skiprows=1  # skip the header row to avoid errors
@@ -106,9 +109,9 @@ print(vector_csv_multi)
 ####################
 
 vector_gentxt = np.genfromtxt(
-   fname="03_Vector_Matrix_Sparse/01_Vector_1D/data/missing.txt",
+   fname=data_dir/"missing.txt",
    delimiter=";",
-   missing_values="NaN",  # indicate missing values as "NA"
+   missing_values="NaN",  # indicate missing values as "NaN"
    filling_values=0, # fill missing values with 0
    dtype=None  # let numpy decide the data type (and enable replacing "NaN" with 0)
 )
@@ -121,7 +124,7 @@ print(vector_gentxt)
 ####################
 
 vector_gencsv = np.genfromtxt(
-   fname="03_Vector_Matrix_Sparse/01_Vector_1D/data/missing.csv",
+   fname=data_dir/"missing.csv",
    delimiter=",",
    missing_values="",  # indicate missing values as empty strings
    filling_values=-1, # fill missing values with -1
@@ -136,11 +139,11 @@ print(vector_gencsv)
 ######################################################
 
 vector_gencsv_named = np.genfromtxt(
-   fname='03_Vector_Matrix_Sparse/01_Vector_1D/data/drinks.csv',
+   fname=data_dir/'drinks.csv',
    delimiter=',',
     names=True, # read the header row as column names (MUST be set to True to use usecols with column names)
     usecols="wine_servings" # select the column by its name
-)["wine_servings"]  # extract the data from the structured array 
+)["wine_servings"]  # extract the data from the structured array
 
 print(vector_gencsv_named)
 # [  0. 132.   0. 138.  57. 128.  25. 179.  72.  75.  46. 176.  63.   0.
@@ -164,7 +167,7 @@ print(vector_gencsv_named)
 
 print(
    np.genfromtxt(
-      fname='03_Vector_Matrix_Sparse/01_Vector_1D/data/drinks.csv',
+      fname=data_dir/'drinks.csv',
       delimiter=',',
       names=True, # read the header row as column names (MUST be set to True to use usecols with column names)
       usecols="wine_servings" # select the column by its name
