@@ -2,19 +2,19 @@
 1. Stack: np.stack(arrays, axis=0)
    + Concatenates a sequence of arrays along a NEW dimension.
 
-2. Vertical Stack: np.vstack(arrays) / np.row_stack(arrays)
+2. Vertical Stack: np.vstack(arrays)
    + Stacks arrays vertically (row-wise).
 
-3. Horizontal Stack: np.hstack(arrays)
-   + Stacks arrays horizontally (column-wise).
-
-4. Column Stack: np.column_stack(arrays)
+3. Column Stack: np.column_stack(arrays)
    + Specifically stacks 1D arrays as columns in a 2D result.
+
+4. Horizontal Stack: np.hstack(arrays)
+   + Stacks arrays horizontally (column-wise).
 
 5. Depth Stack: np.dstack(arrays)
    + Stacks arrays along the third dimension (depth).
-   
-6. Concatenate: np.concatenate((arr1, arr2, ...)): 
+
+6. Concatenate: np.concatenate((arr1, arr2, ...)):
    + concatenate many vectors into one vector
 '''
 
@@ -46,11 +46,10 @@ print(np.stack((a1, a2), axis=1))
 
 
 #-----------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 2. Vertical & Row Stack --------------------------------------------#
+#----------------------------------------- 2. Vertical stack -----------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 '''
 np.vstack() stacks arrays on top of each other.
-np.row_stack() is an alias for vstack ().
 
 - 1D arrays (size N) become a matrix (2 x N).
 '''
@@ -59,30 +58,9 @@ print(np.vstack((a1, a2)))
 # [[1 2 3]
 #  [4 5 6]]
 
-print(np.row_stack((a1, a2)))
-# [[1 1 1]
-#  [1 1 1]
-#  [2 2 2]
-#  [2 2 2]]
-# Shape: (4, 3)
-'''<stdin>:1: DeprecationWarning: `row_stack` alias is deprecated. Use `np.vstack` directly.'''
-
 
 #-----------------------------------------------------------------------------------------------------------#
-#------------------------------------- 3. Horizontal Stack -------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------#
-'''
-np.hstack() stacks arrays side-by-side.
-
-- 1D arrays (size N) are concatenated into a longer 1D array (size 2N).
-'''
-
-print(np.hstack((a1, a2)))
-# [1 2 3 4 5 6]
-
-
-#-----------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 4. Column Stack ----------------------------------------------------#
+#-------------------------------------- 3. Column Stack ----------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 '''
 np.column_stack() is similar to hstack, but it behaves differently for 1D arrays.
@@ -94,6 +72,19 @@ print(np.column_stack((a1, a2)))
 #  [2 5]
 #  [3 6]]
 # Result shape: (3, 2) (Compare this to hstack which stayed 1D)
+
+
+#-----------------------------------------------------------------------------------------------------------#
+#------------------------------------- 4. Horizontal Stack -------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------#
+'''
+np.hstack() stacks arrays side-by-side.
+
+- 1D arrays (size N) are concatenated into a longer 1D array (size 2N).
+'''
+
+print(np.hstack((a1, a2)))
+# [1 2 3 4 5 6]
 
 
 #-----------------------------------------------------------------------------------------------------------#

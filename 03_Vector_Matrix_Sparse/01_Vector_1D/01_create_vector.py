@@ -111,8 +111,7 @@ Creates an array of the given shape and populates it with random samples from a 
 vector_rand = np.random.rand(8)
 
 print(vector_rand)
-# [0.6467176  0.0945626  0.9247842  0.63424422 0.68531672 0.95500185
-#  0.22267681 0.92068831]
+# [0.6467176  0.0945626  0.9247842  0.63424422 0.68531672 0.95500185 0.22267681 0.92068831]
 
 #############################
 ## Using np.random.randn() ##
@@ -126,10 +125,9 @@ Creates an array of the given shape and populates it with random samples from th
 vector_randn = np.random.randn(7)
 
 print(vector_randn)
-# [ 1.31882829 -0.01315057  0.08711981  0.28162462  0.24418609  1.39280667
-#   0.7394099 ]
+# [ 1.31882829 -0.01315057  0.08711981  0.28162462  0.24418609  1.39280667  0.7394099 ]
 
-###############################
+###############################s
 ## Using np.random.uniform() ##
 ###############################
 '''

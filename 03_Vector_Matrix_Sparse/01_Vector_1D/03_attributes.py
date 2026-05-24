@@ -8,8 +8,11 @@
 '''
 
 import numpy as np
+from pathlib import Path
 
-vector = np.load('03_Vector_Matrix_Sparse/01_Vector_1D/data/timeseries.npy')
+data_dir = next(Path('/home/').glob("**/01_Vector_1D/data/"))
+
+vector = np.load(data_dir/'timeseries.npy')
 
 print(vector)
 # [49. 49. 49. 49. 49. 50. 50. 50. 51. 56. 61. 66. 70. 72. 74. 76. 75. 73.
@@ -35,7 +38,7 @@ print(vector)
 ##############
 
 print(vector.ndim)
-# 1 
+# 1
 # (1 dimension, i.e., 1D vector)
 
 ###############

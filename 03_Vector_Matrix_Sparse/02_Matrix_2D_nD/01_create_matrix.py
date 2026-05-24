@@ -15,7 +15,7 @@
    + np.tril(), np.triu()
    + np.fromfunction()
    + np.meshgrid() (build coordinate grids)
-   
+
 3. Create matrix using _like() functions
    + np.zeros_like(a)
    + np.ones_like(a)
@@ -38,6 +38,7 @@
 '''
 
 import numpy as np
+
 
 #-----------------------------------------------------------------------------------------------------------------#
 #----------------------------------- 1. Create 2D matrix using np.array() ----------------------------------------#
@@ -269,6 +270,7 @@ These outputs mean generated a grid of (x, y) coordinates:
 (-1, 0),  (-0.5, 0),  (0, 0),  (0.5, 0),  (1, 0)
 (-1, 2),  (-0.5, 2),  (0, 2),  (0.5, 2),  (1, 2)
 '''
+
 
 #-----------------------------------------------------------------------------------------------------------#
 #------------------------------ 3. Create matrix using _like() functions -----------------------------------#
@@ -530,7 +532,7 @@ print(image_3d)
 '''
 # Can use matplotlib to visualize this 3D array as an image if needed.
 
-print(image_3d.shape)  
+print(image_3d.shape)
 # (3, 4, 8)
 
 ###########################################################

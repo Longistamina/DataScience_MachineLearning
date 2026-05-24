@@ -12,9 +12,9 @@
    + arr.flatten(): convert back to 1D vector, returns a copy
    + arr.ravel(): convert back to 1D vector, returns a view whenever possible (same id, same memory location)
    + np.ravel(arr): similar to arr.ravel()
-   
-3. arr.resize(dimension): Similar to reshape, 
-                          But if the new array is larger than the original array,   
+
+3. arr.resize(dimension): Similar to reshape,
+                          But if the new array is larger than the original array,
                           then the new array is filled with repeated copies of 0
    + np.resize(arr, newshape): resize with repeated copies of the original array
 
@@ -24,7 +24,7 @@
 5. Squeeze:
    + arr.squeeze(): Remove single-dimensional entries from the shape of an array
    + np.squeeze(arr): similar to arr.squeeze()
-   
+
 6. Expand dims:
    + np.expand_dims(arr, axis): Expand the shape of an array by inserting a new axis at the specified position
    + arr[np.newaxis, :]: equivalent to np.expand_dims(arr, axis=0)
@@ -82,7 +82,7 @@ print(vector.reshape((6, 2)))
 #  [-0.1   0.41]
 #  [ 0.14  1.45]]
 
-print(vector.reshape((2, 6)))
+print(vector.reshape((2, 6,)))
 # [[ 1.76  0.4   0.98  2.24  1.87 -0.98]
 #  [ 0.95 -0.15 -0.1   0.41  0.14  1.45]]
 
@@ -387,6 +387,7 @@ print(row_vector.T)
 #  [2.24]
 #  [1.87]]
 
+
 #--------------------------------------------------------------------------------------------------------------#
 #--------------------------- 5. arr.squeeze(): remove single-dimensional entries ------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
@@ -464,7 +465,7 @@ print(squeezed_row_vector.ndim)  # 1
 #------------------------ 6. np.expand_dims(): expand shape by inserting new axis -----------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 '''
-np.expand_dims(arr, axis): Expand the shape of an array 
+np.expand_dims(arr, axis): Expand the shape of an array
 by inserting a new axis at the specified position
 '''
 

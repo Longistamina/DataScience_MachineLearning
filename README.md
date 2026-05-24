@@ -143,3 +143,13 @@
     * Bonus 1: Zed - a blazing fast and clean editor written in Rust, disable all AI features with one button
     * Bonus 2: Positron - something like Rstudio but for Python
     * Bonus 3: starship and GruvboxRainbow, how to make the shell terminal look prettier
+
+## 03_Vector_Matrix_Sparse
+  + [03_Vector_Matrix_Sparse_part_01](https://youtu.be/w--r-1IVeWQ): 24th/05/2026
+      * create a vector: ```np.array(), np.arange(), np.random, np.choice(), np.choose()```
+      * read vector from npy, txt and csv files: ```np.load(), np.loadtxt(), np.genfromtxt()```
+      * attributes of a vector: ```ndim, shape, size, dtype, itemsize, nbytes```
+      * reshape, transpose, squeeze and expand_dims a vector 
+      * stack and concatenate multiple vectors
+      * split a vector
+      * repeat and unique
