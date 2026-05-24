@@ -4,6 +4,7 @@
 - [00_Course_Intro](#00_course_intro)
 - [01_Python_Basic](#01_python_basic)
 - [02_Python_class_OOP](#02_python_class_oop)
+- [03_Vector_Matrix_Sparse](#03_vector_matrix_sparse)
 
 ## 00_Course_Intro
 + [00_Course_Intro_part_01](https://www.youtube.com/watch?v=v1ZxYlfbZ9o): 1st/11/2025
