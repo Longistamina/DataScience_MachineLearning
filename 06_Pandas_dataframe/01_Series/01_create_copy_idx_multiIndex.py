@@ -1,5 +1,7 @@
 '''
-Pandas Series is a one-dimensional labeled array capable of holding any data type (integers, strings, floating point numbers, Python objects, etc.). 
+Pandas Series is a one-dimensional labeled array capable of holding any data type
+(integers, strings, floating point numbers, Python objects, etc.).
+
 It is similar to a column in a spreadsheet or a SQL table.
 
 Sometimes, can consider it as a dictionary-like structure where each element has a unique label (index).
@@ -7,14 +9,15 @@ Or like numpy 1D array with additional features like labels.
 
 ################################################
 
-1. Creating a Series: 
-   + from a list, dictionary, ndarray or scalar value; 
+1. Creating a Series:
+   + from a list, dictionary, ndarray or scalar value;
    + with indexing, MultiLevel Indexed Series
 
-2. Copying a Series: s.copy()
+2. Copy a Series: s.copy()
 '''
 
 import pandas as pd
+import numpy as np
 
 #-------------------------------------------------------------------------------------------------------------#
 #---------------------------------------- 1. Creating a Series -----------------------------------------------#
@@ -25,7 +28,7 @@ import pandas as pd
 #################
 
 #---------------
-## Without index labels, 
+## Without index labels,
 ## pandas will create a default integer index starting from 0.
 #----------------
 
@@ -57,8 +60,6 @@ print(s)
 ####################
 ## From a ndarray ##
 ####################
-
-import numpy as np
 
 s = pd.Series(data=np.random.rand(5), index=['a', 'b', 'c', 'd', 'e'])
 
@@ -134,9 +135,9 @@ print(s_multi_index)
 # dtype: float64
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 2. Copying a Series ------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------#
+#---------------------------------------- 2. Copy a Series ------------------------------------------------#
+#----------------------------------------------------------------------------------------------------------#
 
 s_original = pd.Series(data=[10, 20, 30, 40, 50])
 
@@ -149,6 +150,11 @@ print(s_copy)
 # 4    50
 # dtype: int64
 
+print(np.shares_memory(s_original.to_numpy(), s_copy.to_numpy()))
+# False
+
+##################################
+
 s_copy_index = s_original.copy(deep=True)  # Creating a deep copy of the Series
 print(s_copy_index)
 # 0    10
@@ -157,3 +163,6 @@ print(s_copy_index)
 # 3    40
 # 4    50
 # dtype: int64
+
+print(np.shares_memory(s_original.to_numpy(), s_copy_index.to_numpy()))
+# False
