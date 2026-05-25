@@ -14,6 +14,7 @@ NOTE: polars series do not support multi-level index like pandas
 1. Creating a Series:
    + from a list
    + from a ndarray
+   + using ``strict=False`` for mixed data types
 
 2. Clone a Series: s.clone()
 '''
@@ -88,6 +89,25 @@ print(s)
 # 	26
 # 	27
 # ]
+
+#################################################
+## using ``strict=False`` for mixed data types ##
+#################################################
+
+s_mixed = pl.Series(
+    name='mixed_series',
+    values=[1, 'a', 3.0],
+    strict=False
+)
+print(s_mixed)
+# shape: (3,)
+# Series: 'mixed_series' [str]
+# [
+# 	"1"
+# 	"a"
+# 	"3.0"
+# ]
+'''All becomes String'''
 
 
 #-----------------------------------------------------------------------------------------------------------#
