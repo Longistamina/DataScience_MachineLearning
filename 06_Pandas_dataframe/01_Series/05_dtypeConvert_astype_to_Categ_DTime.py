@@ -18,6 +18,7 @@ Converting and casting data types is a fundamental operation in pandas data mani
 
 import pandas as pd
 
+
 #-------------------------------------------------------------------------------------------------#
 #---------------------------------------- 1. .astype() -------------------------------------------#
 #-------------------------------------------------------------------------------------------------#
@@ -40,7 +41,7 @@ print(s_convert)
 # 4    5
 # dtype: int64
 
-s_convert = s_str_float.astype('int64') 
+s_convert = s_str_float.astype('int64')
 """ValueError: invalid literal for int() with base 10: '1.5'"""
 
 
@@ -75,7 +76,7 @@ print(s_convert)
 # 4    5.0
 # dtype: float64
 
-s_convert = s_mixed.astype('float64')  
+s_convert = s_mixed.astype('float64')
 """ValueError: could not convert string to float: 'a'"""
 
 
@@ -170,7 +171,7 @@ print(s_convert)
 pd.to_numeric() works like .astype("int64") or .astype("float64"), but it is safer.
 It can handle errors more gracefully, allowing you to specify how to deal with invalid parsing.
 
-It has parameters like errors='coerce' to convert invalid parsing to NaN, 
+It has parameters like errors='coerce' to convert invalid parsing to NaN,
 or errors='ignore' to return the original data without conversion.
 (By default, errors='raise', which raises an error for invalid parsing.)
 '''
@@ -195,7 +196,7 @@ print(s_convert)
 ## Try with invalid mixed data (will raise an error)
 #------------------
 
-s_convert = pd.to_numeric(s_mixed) 
+s_convert = pd.to_numeric(s_mixed)
 """ValueError: Unable to parse string "a" at position 1"""
 
 #------------------
@@ -219,8 +220,8 @@ print(s_convert)
 '''
 pd.Categorical() is used to create categorical data from a Series.
 
-It allows you to specify categories and their order, 
-which can be useful for memory efficiency and performance 
+It allows you to specify categories and their order,
+which can be useful for memory efficiency and performance
 when dealing with columns that have a limited number of unique values.
 
 It's an improved version of .astype('category') that provides more control over the categories.
@@ -347,7 +348,7 @@ print(s_price_levels_categ)
 pd.to_datetime() is used to convert a Series or DataFrame column to datetime format.
 It can handle various date formats and is very flexible in parsing dates.
 
-It can also handle errors gracefully with parameters like 
+It can also handle errors gracefully with parameters like
 errors='coerce' to convert invalid parsing to NaT (Not a Time),
 errors='ignore' to return the original data without conversion,
 or errors='raise' to raise an error for invalid parsing (default).
@@ -372,7 +373,7 @@ print(s_dates_converted)
 ## Convert invalid date strings to datetime (will raise an error)
 #------------------
 
-s_dates_converted = pd.to_datetime(s_dates_invalid)  
+s_dates_converted = pd.to_datetime(s_dates_invalid)
 """ValueError: time data "invalid_date" doesn't match format "%Y-%m-%d", at position 3"""
 
 #------------------
@@ -380,7 +381,7 @@ s_dates_converted = pd.to_datetime(s_dates_invalid)
 #------------------
 
 s_dates_converted = pd.to_datetime(
-    arg = s_dates_invalid, 
+    arg = s_dates_invalid,
     errors='coerce'
 )
 print(s_dates_converted)
@@ -423,7 +424,7 @@ print(s_timedeltas_converted)
 ## Convert invalid timedelta strings to timedelta (will raise an error)
 #------------------
 
-s_timedeltas_converted = pd.to_timedelta(s_timedeltas_invalid) 
+s_timedeltas_converted = pd.to_timedelta(s_timedeltas_invalid)
 """ValueError: Could not convert 'invalid_time' to NumPy timedelta"""
 
 #------------------
@@ -431,7 +432,7 @@ s_timedeltas_converted = pd.to_timedelta(s_timedeltas_invalid)
 #------------------
 
 s_timedeltas_converted = pd.to_timedelta(
-    arg = s_timedeltas_invalid, 
+    arg = s_timedeltas_invalid,
     errors='coerce'
 )
 print(s_timedeltas_converted)
@@ -505,4 +506,3 @@ print(s_str_lambda)
 # 3     8.6
 # 4    10.0
 # dtype: object
-
