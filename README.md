@@ -154,3 +154,10 @@
       * stack and concatenate multiple vectors
       * split a vector
       * repeat and unique
+  + [03_Vector_Matrix_Sparse_part_02](https://youtu.be/sNvq5z2c880): 31st/05/2026
+      * indexing, fancy indexing, slicing, vector modification
+      * mask array, boolean indexing (conditional filtering), ```np.isin()``
+      * ```np.nditer()```
+      * sorting, argsort, searching
+      * math methods
+      * logical methods
