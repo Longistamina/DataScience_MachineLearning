@@ -151,6 +151,10 @@ print((vector_mixed_num < -1)) # [False False False False]
 print((vector_mixed_num < -1).any()) # False
 # Returns False since no elements are less than -1 (none are True)
 
+print((vector_mixed_num == 2)) # [False False  True False]
+print((vector_mixed_num == 2).any()) # True
+# Returns True since there is (at least) one element equals 2
+
 #################################
 ##      np.any() function      ##
 #################################
@@ -173,6 +177,7 @@ print(np.any(vector_mixed_num)) # True
 
 print(np.any(vector_mixed_num > 1)) # True
 print(np.any(vector_mixed_num < -1)) # False
+print(np.any(vector_mixed_num == 2)) # True
 
 
 #--------------------------------------------------------------------------------------------------------------#
@@ -232,6 +237,6 @@ print(np.nonzero(vector_mixed_num)) # (array([1, 2]),)
 print(vector_mixed_num > 0)
 # [False  True  True False]
 
-print(np.nonzero(vector_mixed_num > 0)) 
+print(np.nonzero(vector_mixed_num > 0))
 # (array([1, 2]),)
 # Returns indices of elements greater than 0 (True in the mask)

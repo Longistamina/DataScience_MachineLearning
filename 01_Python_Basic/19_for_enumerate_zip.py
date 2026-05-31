@@ -6,7 +6,7 @@ for _ in range(5):
     print("Hello, World!")
 
 for i in range(1, 20):
-    if i%2 != 0: 
+    if i%2 != 0:
         print(i)
 
 for i in range(2, 21, 2):
@@ -50,7 +50,7 @@ for n in range(1, 11, 1):
     for i in range (2, 10, 1):
         print(f'{i:2} x {n:2} = {i*n:2}', end='   ') # {i:2} means the space range of this character is 2
     print()
-    
+
 
 #------------------------------------------------------------------#
 #------------------------ for enumerate() -------------------------#

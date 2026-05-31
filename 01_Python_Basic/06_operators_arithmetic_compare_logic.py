@@ -42,7 +42,7 @@ a *= b is equivalent to a = a * b
 #####################################################################
 
 ''' LOGIC
-not - ~: negation
+not -  : negation
 and - &: return True only when all are True
 or  - |: return False only when all are False
 
@@ -59,7 +59,7 @@ result = A or B and C
        = True or False
        = True
 
-=> That's why we should use parentheses () to explicitly specify the order of operations 
+=> That's why we should use parentheses () to explicitly specify the order of operations
 when combining multiple logical operators.
 
 For example: (A or B) and C

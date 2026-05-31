@@ -23,9 +23,12 @@
 '''
 
 import numpy as np
+from pathlib import Path
+
+data_dir = next(Path('/home/').glob("**/01_Vector_1D/data/"))
 
 vector_heights = (
-    (np.loadtxt(fname='03_Vector_Matrix_Sparse/01_Vector_1D/data/heights.txt', delimiter=',')*0.0254) # Inches to Meters
+    (np.loadtxt(fname=data_dir/'heights.txt', delimiter=',')*0.0254) # Inches to Meters
     .round(2)
 )
 
@@ -342,7 +345,7 @@ print(vector_heights[heights_2nd])
 
 
 #-----------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 3. np.lexsort() -----------------------------------------#
+#--------------------------------------------- 3. np.lexsort() ---------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 '''
 np.lexsort() performs an indirect sort using multiple keys.
