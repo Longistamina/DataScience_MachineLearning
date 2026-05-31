@@ -205,7 +205,7 @@ print(vector_complex.imag)
 Returns a new vector containing the complex conjugates of the complex numbers.
 
 The complex conjugate of a complex number is obtained by changing the sign of its imaginary part.
-For example, the complex conjugate of a + bj is a - bj.
+For example, the complex conjugate of ``a + bj`` is ``a - bj``.
 '''
 
 print(vector_complex.conj())
@@ -224,8 +224,8 @@ print(vector_complex.conjugate())
 #-------------------------------------------- 5. Dot product ---------------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
 
-vector1 = np.array([1, 2, 3])
-vector2 = np.array([4, 5, 6])
+vector1 = np.array([1, 2, 3]) # (3,)
+vector2 = np.array([4, 5, 6]) # (3,)
 
 ####################
 ## arr1.dot(arr2) ##

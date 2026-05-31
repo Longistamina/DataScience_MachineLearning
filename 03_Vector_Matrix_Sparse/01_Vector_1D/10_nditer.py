@@ -10,6 +10,7 @@ np.nditer() - A Simple Guide for 1-D Arrays
 
 import numpy as np
 
+
 #-------------------------------------------------------------------------------------------------------#
 #------------------------------------- 1. Basic Loop (READ ONLY) ---------------------------------------#
 #-------------------------------------------------------------------------------------------------------#
@@ -52,6 +53,7 @@ for i, value in enumerate(arr2):
 # Index 1: value = 200
 # Index 2: value = 300
 
+
 #--------------------------------------------------------------------------------------------------------#
 #------------------------------------ 3. Modify Values --------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
@@ -80,7 +82,7 @@ with np.nditer(arr4, flags=['c_index'], op_flags=['writeonly']) as it:
 print("\nIndex squared:", arr4)
 # Index squared: [ 0.  1.  4.  9. 16.]
 
-    
+
 #--------------------------------------------------------------------------------------------------------#
 #----------------------------- 4. Process in Chunks (For Performance) -----------------------------------#
 #--------------------------------------------------------------------------------------------------------#
@@ -137,9 +139,9 @@ HONEST TRUTH:
   - Working with non-contiguous memory layouts
 
 ✗ DON'T USE nditer for:
-  - Simple loops → Just use: for x in arr
-  - Element-wise math → Use: arr * 2, arr + 5, etc.
-  - Getting indices → Use: for i, x in enumerate(arr)
+  - Simple loops → Just use: ```for x in arr```
+  - Element-wise math → Use: ```arr * 2```, ```arr + 5```, etc.
+  - Getting indices → Use: ```for i, x in enumerate(arr)```
   - Most common tasks → NumPy has built-in functions!
 
 SIMPLE ALTERNATIVES:
