@@ -122,7 +122,7 @@ print(s_demo.quantile(q=[0.25, 0.5, 0.75]))   # Q1 - Q2 - Q3 (25th, 50th, and 75
 '''
 interpolation : {'linear', 'lower', 'higher', 'midpoint', 'nearest'}
 
-This optional parameter specifies the interpolation method to use, 
+This optional parameter specifies the interpolation method to use,
 when the desired quantile lies between two data points i and j:
 
 linear: i + (j - i) * (x-i)/(j-i), where (x-i)/(j-i) is the fractional part of the index surrounded by i > j.
@@ -202,7 +202,7 @@ s_demo = pd.Series([5.8, 4.6, 2, np.nan, 14, 37, 25.2, np.nan, 9.3, 10.5])
 ###############
 # .cumsum() returns the cumulative sum of the values in the Series.
 print(s_demo.cumsum())
-# 0      5.8 
+# 0      5.8
 # 1     10.4 (5.8 + 4.6)
 # 2     12.4 (5.8 + 4.6 + 2)
 # 3      NaN
@@ -240,7 +240,7 @@ print(s_demo.cummin())
 # 0    5.8 (min of [5.8])
 # 1    4.6 (min of [5.8, 4.6])
 # 2    2.0 (min of [5.8, 4.6, 2])
-# 3    NaN 
+# 3    NaN
 # 4    2.0 (min of [5.8, 4.6, 2, 14])
 # 5    2.0
 # 6    2.0
