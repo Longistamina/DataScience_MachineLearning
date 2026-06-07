@@ -10,6 +10,7 @@ import numpy as np
 
 np.set_printoptions(linewidth=200)
 
+
 #-------------------------------------------------------------------------------------------------------------------#
 #---------------------------------------- 1. np.apply_along_axis() -------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------------#
@@ -58,7 +59,7 @@ import time
 
 ctime_vectorized = np.vectorize(time.ctime)
 print(ctime_vectorized(time_stamps))
-# ['Sat Jan  2 07:20:24 2027' 'Tue Nov 17 22:18:07 2026' 'Mon Mar 21 05:58:21 2005' 
+# ['Sat Jan  2 07:20:24 2027' 'Tue Nov 17 22:18:07 2026' 'Mon Mar 21 05:58:21 2005'
 # 'Mon May 25 21:27:52 2026' 'Fri Jun 13 04:25:10 2008']
 
 def hour_stamps(ts):
@@ -72,7 +73,7 @@ print(hour_stamps_vectorized(time_stamps))
 #----------------------------------------- 3. np.frompyfunc() ------------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------------#
 '''
-Creates a universal function (ufunc) from any Python function, enabling broadcasting. 
+Creates a universal function (ufunc) from any Python function, enabling broadcasting.
 NOTE: Unlike vectorize(), you must specify the number of inputs (nin) and outputs (nout).
 '''
 
@@ -106,7 +107,8 @@ mods = np.array([5, 7, 6, 8]) # modulus values
 
 power_mod_func = np.frompyfunc(power_mod, 3, 1)
 
-result = power_mod_func(bases, exps, mods)
+results = power_mod_func(bases, exps, mods)
+print(results)
 # Result: array([3, 2, 4, 5], dtype=object)
 
 '''
@@ -128,6 +130,8 @@ def powers(x):
 power_func = np.frompyfunc(powers, 1, 3)
 
 numbers = np.array([2, 3, 4, 5])
+
+print(power_func(numbers))
 
 vals, squares, cubes = power_func(numbers)
 

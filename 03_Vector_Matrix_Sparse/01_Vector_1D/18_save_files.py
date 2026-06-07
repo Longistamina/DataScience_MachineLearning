@@ -23,9 +23,10 @@ vector_2 = np.random.uniform(0, 100, size=10).round(2)
 print(vector_2)
 # [54.88 71.52 60.28 54.49 42.37 64.59 43.76 89.18 96.37 38.34]
 
-save_path = Path('03_Vector_Matrix_Sparse/01_Vector_1D/save')
+save_path = next(Path('/home/').glob("**/01_Vector_1D/save/"))
 print(save_path)
-# 03_Vector_Matrix_Sparse/01_Vector_1D/save
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/03_Vector_Matrix_Sparse/01_Vector_1D/save
+
 
 #-----------------------------------------------------------------------------------------------------------------------#
 #------------------------------------------------ 1. Using functions ---------------------------------------------------#

@@ -6,7 +6,7 @@
    + np.array(list_of_strings, dtype=np.dtypes.StringDType()): unlimited-length strings
 
 1. Slicing: np.strings.slice(start, stop, step)
-   
+
 2. Case conversions:
    + np.strings.capitalize()
    + np.strings.upper()
@@ -42,7 +42,7 @@
 9. Partitioning:
     + np.strings.partition()
     + np.strings.rpartition()
-    
+
 10. Combination:
     + np.strings.add()
     + np.strings.multiply()
@@ -434,8 +434,8 @@ print(partion_vector)
 ############################
 
 print(np.strings.partition(partion_vector, '-'))
-# (array(['apple', 'date', 'kiwi'], dtype='<U5'), 
-#  array(['-', '-', '-'], dtype='<U1'), 
+# (array(['apple', 'date', 'kiwi'], dtype='<U5'),
+#  array(['-', '-', '-'], dtype='<U1'),
 #  array(['banana-cherry', 'fig-grape', 'mango-papaya'], dtype='<U13'))
 
 '''
@@ -449,8 +449,8 @@ The third array(['banana-cherry', 'fig-grape', 'mango-papaya']) contains the sub
 #############################
 
 print(np.strings.rpartition(partion_vector, '-'))
-# (array(['apple-banana', 'date-fig', 'kiwi-mango'], dtype='<U12'), 
-#  array(['-', '-', '-'], dtype='<U1'), 
+# (array(['apple-banana', 'date-fig', 'kiwi-mango'], dtype='<U12'),
+#  array(['-', '-', '-'], dtype='<U1'),
 #  array(['cherry', 'grape', 'papaya'], dtype='<U6'))
 
 '''
@@ -521,7 +521,7 @@ print(vector_tz)
 translation_table = str.maketrans({'a': '@', 'e': '3', 'i': '1', 'o': '0'})
 
 translated_vector = np.strings.translate(vector_tz, translation_table)
-# print(translated_vector)
+print(translated_vector)
 # ['As1@/Ku@l@_Lumpur' 'As1@/S@kh@l1n' 'Ant@rct1c@/V0st0k' 'Eur0p3/Ist@nbul'
 #  'Eur0p3/M@dr1d' 'As1@/Kuch1ng' 'Afr1c@/K@mp@l@' 'Afr1c@/El_A@1un'
 #  'Eur0p3/S@m@r@' 'Eur0p3/C0p3nh@g3n' 'Eur0p3/Z@p0r0zhy3'
@@ -559,9 +559,9 @@ print(decoded_vector)
 
 test_vector = np.array(
    [
-      'Hello', 'WORLD', 'Hello123', 
-      '123', '⅕', '³', '₂', '456.78', 
-      ' ', '', 'café', 
+      'Hello', 'WORLD', 'Hello123',
+      '123', '⅕', '³', '₂', '456.78',
+      ' ', '', 'café',
       '\t\n', 'MyVar'
    ]
 )
@@ -771,10 +771,7 @@ print(np.strings.not_equal(data, 'pass'))
 ########################
 ## np.strings.less()  ##
 ########################
-'''
-Checks if each element in the first array is lexicographically less than the corresponding element in the second
-
-'''
+'''Checks if each element in the first array is lexicographically less than the corresponding element in the second'''
 
 # Single comparison
 print(np.strings.less('apple', 'banana'))
@@ -790,9 +787,9 @@ print(np.strings.less(arr1, arr2))
 print(np.strings.less('Apple', 'apple'))
 # True  # 'A' comes before 'a' in Unicode
 
-############################
+#############################
 ## np.strings.less_equal() ##
-############################
+#############################
 '''Checks if each element in the first array is lexicographically less than or equal to the corresponding element in the second'''
 
 # Simple example
@@ -824,5 +821,3 @@ print(np.strings.greater(arr1, arr2))
 # Note: numerical strings compared as strings, not numbers
 print(np.strings.greater('9', '10'))
 # True
-
-
