@@ -161,3 +161,9 @@
       * sorting, argsort, searching
       * math methods
       * logical methods
+  + [03_Vector_Matrix_Sparse_part_03](https://youtu.be/2-nef9QhWQk): 07th/06/2026
+      * string handling with modules ```numpy.strings```
+      * ```np.apply_along_axis()```, ```np.vectorize()```, ```np.frompyfunc()```
+      * chaining methods
+      * convert Numpy vector to other data structures
+      * save numpy vector to files
