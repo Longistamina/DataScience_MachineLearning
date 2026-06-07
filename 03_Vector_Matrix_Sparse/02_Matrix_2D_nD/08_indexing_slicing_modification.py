@@ -252,7 +252,7 @@ print(matrix.take(np.arange(matrix.shape[0] - 1, -1, -1), axis=0))
 
 '''
 np.take_along_axis() takes values from an array by matching indices along a specified axis.
-Unlike np.take(), this function works with 2D index arrays and can select different indices 
+Unlike np.take(), this function works with 2D index arrays and can select different indices
 for each row or column.
 
 Syntax: np.take_along_axis(arr, indices, axis)
@@ -695,4 +695,3 @@ print(tensor_3d[1, ..., 3])
 Layer 1, all rows, column 3
 Equivalent to tensor_3d[1, :, 3]
 '''
-
