@@ -3,8 +3,8 @@
 #########################
 
 print("Hello world!")
-print('Hello world!')
 
+print('Hello world!')
 
 ######################################
 ## Multiple-line print() [METHOD 1] ##
@@ -13,9 +13,9 @@ print('Hello world!')
 print("""
 Sir Isaac Newton was born on January 4, 1643, in Woolsthorpe, England.
 
-He was a physicist, mathematician, astronomer, and author 
+He was a physicist, mathematician, astronomer, and author
 who is widely recognized as one of the most influential scientists of all time.
-      
+
 Two his greatest contributions to science are:
 + The 3 laws of motion
 + The invention of calculus (integral and differential calculus)
@@ -24,22 +24,21 @@ Two his greatest contributions to science are:
 #--------------
 
 print('''
-Sir Isaac Newton, a devout Christian, had a close friend who was an atheist. 
-One day, Newton invited him over to his study. 
-As the friend entered, he noticed a beautifully crafted model of the solar system—made of gold and other fine materials. 
+Sir Isaac Newton, a devout Christian, had a close friend who was an atheist.
+One day, Newton invited him over to his study.
+As the friend entered, he noticed a beautifully crafted model of the solar system—made of gold and other fine materials.
 The planets were positioned accurately and moved in perfect harmony.\n
 
 Amazed, the friend asked, “This is incredible! Who made it?"
 Newton calmly replied, “No one. It just formed itself—particles randomly came together to create it.”
 The friend laughed and said, “Come on, that's impossible. Someone clearly designed and built this!”\n
 
-Newton looked at him and said, “If you can't believe that this small model came about by chance, 
-then how can you believe that the real solar system, infinitely more complex and vast, 
+Newton looked at him and said, “If you can't believe that this small model came about by chance,
+then how can you believe that the real solar system, infinitely more complex and vast,
 came into existence without a Creator?"
-      
+
 (This rhetoric skill is called "Socratic Elenchus")
 ''')
-
 
 ######################################
 ## Multiple-line print() [METHOD 2] ##
@@ -60,18 +59,17 @@ print(
 ##########################
 ## print() with "end =" ##
 ##########################
- 
+
 print("Happiness is simple", end=".")
 # Happiness is simple.>>>
 
 print("Happiness is simple", end=" .\n")
 # Happiness is simple .
-# >>> 
+# >>>
 
-
-##########################
-## print() with "sep =" ##
-##########################
+#########################
+## print() with "sep=" ##
+#########################
 
 print("Happiness", "is", "simple", sep=" - ")
 # Happiness - is - simple
@@ -83,9 +81,8 @@ print("Happiness", "is", "simple", sep="|")
 #------------------------------------------------------------------------------------------------------#
 #--------------------------------------- termcolor module ---------------------------------------------#
 #------------------------------------------------------------------------------------------------------#
-
 '''
-The termcolor module lets you add ANSI colors and text attributes (bold, underline, etc.) to console output. 
+The termcolor module lets you add ANSI colors and text attributes (bold, underline, etc.) to console output.
 
 It provides two primary functions:
     # colored(text, color, on_color=None, attrs=None):
@@ -111,7 +108,6 @@ colored_text = colored(
 
 print(colored_text)
 
-
 #############################################################
 ## use RGB tuple to define text color and background color ##
 #############################################################
@@ -127,31 +123,29 @@ print(colored_text)
 text_rgb = (200, 150, 25)
 
 colored_text = colored(
-    text = "Which color does this RGB tuple stand for?",
-    color = text_rgb,
-    on_color = (255, 255, 255), # RGB of white
-    attrs = ["blink", "bold"]
+    text="Which color does this RGB tuple stand for?",
+    color=text_rgb,
+    on_color=(255, 255, 255), # RGB of white
+    attrs=["blink", "bold"]
 )
 
 print(colored_text)
-
 
 #################################################
 ## use cprint() to print colored text directly ##
 #################################################
 
 green_lantern_oath = '''
-   In brightest day, in blackest night, no evil shall escape my sight.     
+   In brightest day, in blackest night, no evil shall escape my sight.
 Let those who worship evil's might, beware my power, Green Lantern's light.
 '''
 
 cprint(
-    text = green_lantern_oath,
-    color = "black",
-    on_color = (1,95,64),
-    attrs = ['bold']
+    text=green_lantern_oath,
+    color="black",
+    on_color=(1,95,64),
+    attrs=['bold']
 )
-
 
 #############################################################
 ## Combine colored() with Multiple-line print() [METHOD 2] ##
@@ -161,5 +155,3 @@ print(
     colored("In brightest day, in blackest night, no evil shall escape my sight.", "green", attrs=["bold"]),
     colored("\nLet those who worship evil's might, beware my power, Green Lantern's light.", "green", attrs=["bold"])
 )
-
-#
