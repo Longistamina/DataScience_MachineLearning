@@ -87,8 +87,8 @@ complex("3-infj") # (3-infj)
 #-------------------------------------------------- isinstance() -------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 '''
-isinstance checks whether an object is an instance of a given class (or any of several classes), 
-returning True or False. 
+isinstance checks whether an object is an instance of a given class (or any of several classes),
+returning True or False.
 
 It also considers inheritance, so subclasses count as instances of their parent classes.
 
