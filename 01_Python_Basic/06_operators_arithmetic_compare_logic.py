@@ -19,7 +19,7 @@ a != b #-> inequal comparision
 <      #-> less
 >=     #-> equal or greater
 <=     #-> equal or less
-Comparsion returns  True or False
+Comparsion returns True or False
 '''
 
 #####################################################################
