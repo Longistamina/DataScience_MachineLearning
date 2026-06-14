@@ -54,7 +54,7 @@ k = abc = {k}
 type_k = type_abc = {type(k)}
 \n''')
 
-k = eval('xyz') # Raise error because eval considers this abc as an undefined variable 
+k = eval('xyz') # Raise error because eval considers this abc as an undefined variable
 
 
 #----------------------------------------------------------------------------------------------------------#
