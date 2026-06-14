@@ -150,6 +150,7 @@
       * create a vector: ```np.array(), np.arange(), np.random, np.choice(), np.choose()```
       * read vector from npy, txt and csv files: ```np.load(), np.loadtxt(), np.genfromtxt()```
       * attributes of a vector: ```ndim, shape, size, dtype, itemsize, nbytes```
+      * copy, type conversion
       * reshape, transpose, squeeze and expand_dims a vector 
       * stack and concatenate multiple vectors
       * split a vector
@@ -167,3 +168,8 @@
       * chaining methods
       * convert Numpy vector to other data structures
       * save numpy vector to files
+  + [03_Vector_Matrix_Sparse_part_04](https://youtu.be/-_LUT_LO0Fw): 14th/06/2026
+      * create a 2D matrix (and nD array): ```np.array(), np.arange(), np.random, np.choice(), np.choose()```
+      * read arrays from npy, txt and csv files: ```np.load(), np.loadtxt(), np.genfromtxt()```
+      * attributes of a 2D matrix: ```ndim, shape, size, dtype, itemsize, nbytes```
+      * copy, type conversion
