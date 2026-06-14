@@ -98,9 +98,9 @@ print(matrix.T)
 print(matrix.T.shape)
 # (4, 3)
 
-##################
-## arr.strides  ##
-##################
+#################
+## arr.strides ##
+#################
 
 print(matrix.strides)
 # (8, 2)

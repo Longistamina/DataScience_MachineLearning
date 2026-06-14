@@ -14,7 +14,9 @@
 '''
 
 import numpy as np
+from pathlib import Path
 
+data_dir = next(Path('/home/').glob("**/02_Matrix_2D_nD/data/"))
 
 #--------------------------------------------------------------------------------------------------------#
 #------------------------------ Small helper for consistent inspection/printing --------------------------#
@@ -42,7 +44,7 @@ def show_matrix_info(A, name="matrix", max_rows=8, max_cols=8):
 ## Basic example ##
 ###################
 
-matrix_npy = np.load('03_Vector_Matrix_Sparse/02_Matrix_2D/data/adjMat.npy')
+matrix_npy = np.load(data_dir/'adjMat.npy')
 show_matrix_info(matrix_npy)
 # [matrix]
 # shape=(60, 60), dtype=float64
@@ -60,10 +62,10 @@ show_matrix_info(matrix_npy)
 ## np.load(allow_pickle=True) ##
 ################################
 
-matrix_obj = np.load('03_Vector_Matrix_Sparse/02_Matrix_2D/data/landmark_embedding.npy')
+matrix_obj = np.load(data_dir/'landmark_embedding.npy')
 '''ValueError: Object arrays cannot be loaded when allow_pickle=False'''
 
-matrix_obj = np.load('03_Vector_Matrix_Sparse/02_Matrix_2D/data/landmark_embedding.npy', allow_pickle=True)
+matrix_obj = np.load(data_dir/'landmark_embedding.npy', allow_pickle=True)
 show_matrix_info(matrix_obj, "matrix_obj")
 # [matrix_obj]
 # shape=(), dtype=object
@@ -102,7 +104,7 @@ show_matrix_info(static_lmk_bary_coords, "static_lmk_bary_coords")
 
 # Example: comma-separated txt (rows of numbers)
 matrix_txt = np.loadtxt(
-    fname='03_Vector_Matrix_Sparse/02_Matrix_2D/data/heights.txt',
+    fname=data_dir/'heights.txt',
     delimiter=',',
     ndmin=2,         # important: always return 2D even if it's 1 row or 1 column
 )
@@ -117,7 +119,7 @@ show_matrix_info(matrix_txt, "matrix_txt")
 
 # Example: whitespace-separated txt (delimiter can be omitted)
 matrix_txt_ws = np.loadtxt(
-    fname='03_Vector_Matrix_Sparse/02_Matrix_2D/data/heights_2D_space.txt',
+    fname=data_dir/'heights_2D_space.txt',
     ndmin=2,
 )
 
@@ -135,7 +137,7 @@ show_matrix_info(matrix_txt_ws, "matrix_txt_ws")
 
 # Example with semicolon delimiter
 matrix_txt_semicolon = np.loadtxt(
-    fname='03_Vector_Matrix_Sparse/02_Matrix_2D/data//heights_2D_semicolon.txt',
+    fname=data_dir/'heights_2D_semicolon.txt',
     delimiter=';',
     ndmin=2,
 )
@@ -161,11 +163,11 @@ NOTE: the chosen columns must be all numeric or all string (meaning, must be con
 '''
 
 matrix_csv_usecols = np.loadtxt(
-    fname='03_Vector_Matrix_Sparse/02_Matrix_2D/data/drinks.csv',
+    fname=data_dir/'drinks.csv',
     delimiter=',',
     skiprows=1,
     usecols=(2, 4, 5),   # example: take columns 3, 5, 6 (0-based indexing)
-    ndmin=2,             
+    ndmin=2,
 )
 
 show_matrix_info(matrix_csv_usecols, "matrix_csv_usecols")
@@ -186,7 +188,7 @@ show_matrix_info(matrix_csv_usecols, "matrix_csv_usecols")
 #------------------------- 3. np.genfromtxt() for more control with TXT and CSV -------------------------#
 #--------------------------------------------------------------------------------------------------------#
 
-A = np.loadtxt("03_Vector_Matrix_Sparse/02_Matrix_2D/data/adjacency_matrix.txt", delimiter=",")
+A = np.loadtxt(data_dir/"adjacency_matrix.txt", delimiter=",")
 '''
 ValueError: could not convert string ' ' to float64 at row 0, column 52.
 
@@ -198,7 +200,7 @@ ValueError: could not convert string ' ' to float64 at row 0, column 52.
 ###############################################
 
 A = np.genfromtxt(
-    "03_Vector_Matrix_Sparse/02_Matrix_2D/data/adjacency_matrix.txt",
+    data_dir/"adjacency_matrix.txt",
     delimiter=",",
     dtype=float,                 # or dtype=np.int8 if it's 0/1
     missing_values=["", " "],    # treat empty field and single-space as missing
@@ -232,7 +234,7 @@ Convert it to a plain 2D matrix by stacking fields.
 ############## Read only numeric columns without names=True ##############
 
 table_struct = np.genfromtxt(
-    fname='03_Vector_Matrix_Sparse/02_Matrix_2D/data/drinks.csv',
+    fname=data_dir/'drinks.csv',
     delimiter=',',
     dtype=None,          # allow numpy to infer types; can be float if purely numeric
     encoding='utf-8',
@@ -260,7 +262,7 @@ show_matrix_info(table_struct, "table_struct")
 ############## Read named columns with names=True ##############
 
 table_struct = np.genfromtxt(
-    fname='03_Vector_Matrix_Sparse/02_Matrix_2D/data/drinks.csv',
+    fname=data_dir/'drinks.csv',
     delimiter=',',
     dtype=None,          # allow numpy to infer types; can be float if purely numeric
     encoding='utf-8',
@@ -288,7 +290,7 @@ show_matrix_info(table_struct, "table_struct")
 ######## skip_header=1 to avoid reading header as data ########
 
 table_struct = np.genfromtxt(
-    fname='03_Vector_Matrix_Sparse/02_Matrix_2D/data/drinks.csv',
+    fname=data_dir/'drinks.csv',
     delimiter=',',
     dtype=None,          # allow numpy to infer types; can be float if purely numeric
     encoding='utf-8',
@@ -313,4 +315,3 @@ show_matrix_info(table_struct, "table_struct")
 #  [('Armenia',  21, 179)]]
 # ... (showing top-left 8x1)
 '''The fild names are now f0, f1, f2 since we skipped the header.'''
-
