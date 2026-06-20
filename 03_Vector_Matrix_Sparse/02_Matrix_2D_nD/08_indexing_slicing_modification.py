@@ -114,9 +114,9 @@ print(matrix[:, [0, 2, 4]])
 # (All rows with columns 0, 2, and 4)
 
 
-#--------------------------------------------------------------------------------------------------------#
-#--------------- 3. Slicing: matrix[row_start:row_stop:row_step, col_start:col_stop:col_step] -----------#
-#--------------------------------------------------------------------------------------------------------#
+#---------------------------------------------------------------------------------------------------------#
+#--------------- 3. Slicing: matrix[row_start:row_stop:row_step, col_start:col_stop:col_step] ------------#
+#---------------------------------------------------------------------------------------------------------#
 
 print(matrix[0:3, 1:4])
 # [[11 12 13]
@@ -232,7 +232,8 @@ print(matrix.take([1, 3, 5], axis=1))
 # (Take columns 1, 3, and 5)
 
 print(matrix.take(np.arange(0, 12, 3)))
-# [10 13 22 25 34 37 46 49 62 65 74 77]
+# [10 13 20 23]
+# np.arange(0, 12, 3)
 # (Take elements at flat indices 0, 3, 6, 9 using np.arange())
 
 print(matrix.take(np.arange(matrix.shape[0] - 1, -1, -1), axis=0))
@@ -249,7 +250,6 @@ print(matrix.take(np.arange(matrix.shape[0] - 1, -1, -1), axis=0))
 ################################
 ## Using np.take_along_axis() ##
 ################################
-
 '''
 np.take_along_axis() takes values from an array by matching indices along a specified axis.
 Unlike np.take(), this function works with 2D index arrays and can select different indices
@@ -292,9 +292,21 @@ print(f"Result for row 0: {result_axis1[0]}")
 ## Taking along axis=0 (rows)
 #-----
 
-col_indices = np.array([[0, 1, 2, 3, 4, 5],    # For col 0, take row 0
-                        [7, 6, 5, 4, 3, 2],    # For col 1, take row 7
-                        [2, 2, 2, 2, 2, 2]])   # For col 2, take row 2
+col_indices = np.array([[0, 1, 2, 3, 4, 5],
+                        [7, 6, 5, 4, 3, 2],
+                        [2, 2, 2, 2, 2, 2]])
+# | col 0: take rows 0, 7, 2 (of original col 0)
+# | col 1: take rows 1, 6, 2 (of original col 1)
+# V col 2: take rows 2, 5, 2 (of original col 2)
+# ORIGINAL
+# [[10 11 12 13 14 15]
+#  [20 21 22 23 24 25]
+#  [30 31 32 33 34 35]
+#  [40 41 42 43 44 45]
+#  [50 51 52 53 54 55]
+#  [60 61 62 63 64 65]
+#  [70 71 72 73 74 75]
+#  [80 81 82 83 84 85]]
 
 print(col_indices.shape)
 # (3, 6)
@@ -368,6 +380,7 @@ argmax_indices = np.argmax(matrix_scores, axis=0)
 print(np.take_along_axis(matrix_scores, argmax_indices[np.newaxis, :], axis=0))
 # [[93 92 94 95 92]]
 '''np.newaxis is used to convert 1D array argmax_indices to 2D for proper broadcasting'''
+
 
 #---------------------------------------------------------------------------------------------------------#
 #-------------------------- 5. Modifying elements: matrix[row, col] = new_value --------------------------#
@@ -544,6 +557,7 @@ print(f"Modified column: {tensor_3d_demo[0, :, 2]}\nOriginal column: {tensor_3d[
 
 # Create a 4D array with shape (2, 3, 4, 5) - 2 batches, 3 channels, 4 rows, 5 columns
 tensor_4d = np.arange(120).reshape(2, 3, 4, 5)
+print(tensor_4d)
 
 print(f"Shape: {tensor_4d.shape}")
 # Shape: (2, 3, 4, 5)

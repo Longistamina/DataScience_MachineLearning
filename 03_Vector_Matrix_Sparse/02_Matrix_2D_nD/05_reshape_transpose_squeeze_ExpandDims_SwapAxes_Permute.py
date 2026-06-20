@@ -8,14 +8,13 @@
    + arr.reshape(-1):   flatten to 1D vector
    + np.reshape(arr, newshape): similar to arr.reshape(newshape)
 
-
 2. Flatten and Ravel: convert 2D matrix back to 1D vector
    + arr.flatten(): convert back to 1D vector, returns a copy
    + arr.ravel(): convert back to 1D vector, returns a view whenever possible (same memory when possible)
    + np.ravel(arr): similar to arr.ravel()
-   
-3. arr.resize(dimension): Similar to reshape, 
-                          But if the new array is larger than the original array,   
+
+3. arr.resize(dimension): Similar to reshape,
+                          But if the new array is larger than the original array,
                           then the new array is filled with zeros
                           (and it modifies the original array in-place)
    + np.resize(arr, newshape): resize with repeated copies of the original array
@@ -26,7 +25,7 @@
 5. Squeeze:
    + arr.squeeze(): Remove single-dimensional entries from the shape of an array
    + np.squeeze(arr): similar to arr.squeeze()
-   
+
 6. Expand dims:
    + np.expand_dims(arr, axis): Expand the shape of an array by inserting a new axis at the specified position
    + arr[np.newaxis, :, :] ||| arr[np.newaxis, ...]: equivalent to np.expand_dims(arr, axis=0)
@@ -57,7 +56,6 @@ print(matrix)
 #  [ 8 10 20 19  5]
 #  [ 7 13  2  7  8]
 #  [15 18  6 14  9]]
-
 
 print(matrix.shape) # (4, 5)
 
@@ -103,7 +101,7 @@ print(matrix.reshape((1, 20)))
 # [[13 16  1  4  4  8 10 20 19  5  7 13  2  7  8 15 18  6 14  9]]
 # shape: (1, 20)   # row vector (still 2D)
 
-print(matrix.reshape((2, 2, 5))) # 3D matrix
+print(matrix.reshape((2, 2, 5))) # 3D array
 # [[[13 16  1  4  4]
 #   [ 8 10 20 19  5]]
 
@@ -194,7 +192,6 @@ print(np.reshape(matrix, (5, 4)))
 #------------------------------- 2. Flatten and Ravel: convert back to 1D vector ------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
-
 np.random.seed(1)
 matrix2 = np.random.randint(1, 21, size=(4, 5))
 
@@ -215,7 +212,6 @@ print(flattened)
 # Convert back to 1D vector, returns a copy
 
 print(np.shares_memory(matrix2, flattened))  # False (different memory location)
-
 
 ###############
 ## arr.ravel ##
@@ -303,7 +299,6 @@ print(matrix4)
 #  [ 3  3  2 20  6]]
 # original remains unchanged
 
-
 print(np.resize(matrix4, (6, 5)))
 # [[11  4  9  1 20]
 #  [11 12 10 11  7]
@@ -314,14 +309,12 @@ print(np.resize(matrix4, (6, 5)))
 # shape: (6, 5)
 # repeated copies of original data to fill larger size
 
-
 print(np.resize(matrix4, (3, 8)))
 # [[11  4  9  1 20 11 12 10]
 #  [11  7  1 13  8 15 18  3]
 #  [ 3  2 20  6 11  4  9  1]]
 # shape: (3, 8)
 # repeated copies with new shape
-
 
 print(matrix4)
 # original matrix4 is unchanged
@@ -375,7 +368,7 @@ print(np.transpose(matrix5))
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 5. Squeeze: remove 1-sized dims --------------------------------------#
+#--------------------------------------- 5. Squeeze: remove 1-sized dims --------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 '''
 For 2D shapes:
@@ -383,7 +376,9 @@ For 2D shapes:
    (n, 1) -> (n,)
    (m, n, 1) -> (m, n)
    (1, m, n) -> (m, n)
-   
+   (m, 1, n) -> (m, n)
+   (1, m, 1, n, 1, 1) -> (m, n)
+
    (n,) -> unchanged
    (m, n) with m>1 and n>1 -> unchanged
 '''
@@ -396,7 +391,6 @@ row_vector_2d = np.arange(1, 6).reshape(1, 5)
 print(row_vector_2d)
 # [[1 2 3 4 5]]
 # shape (1, 5)
-
 
 squeezed_row = row_vector_2d.squeeze()
 print(squeezed_row)
@@ -415,7 +409,6 @@ print(col_vector_2d)
 #  [4]
 #  [5]]
 # shape (5, 1)
-
 
 squeezed_col = col_vector_2d.squeeze()
 print(squeezed_col)
@@ -460,7 +453,7 @@ print(mat_2x3.squeeze())
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#------------------------ 6. np.expand_dims: expand shape by inserting new axis -------------------------------#
+#--------------------------- 6. np.expand_dims: expand shape by inserting new axis ----------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
 np.random.seed(5)
@@ -605,7 +598,7 @@ print(matrix6[..., np.newaxis])
 ## using arr[:, :, None] ##
 ###########################
 
-print(matrix6[:, None, :])
+print(matrix6[:, None, :]) # same as arr[:, np.newaxis, :]
 # [[[ 4 15 16  7]]
 
 #  [[17 10  9  5]]
@@ -627,6 +620,7 @@ print(matrix6[..., None]) # same as arr[:, :, np.newaxis]
 #   [17]
 #   [17]
 #   [ 8]]]
+
 
 #--------------------------------------------------------------------------------------------------------------#
 #--------------------------------------- 7. np.swapaxes(): swap two axes --------------------------------------#
@@ -680,7 +674,7 @@ print(tensor3d)
 #   [5 2 6 6]
 #   [7 2 1 6]]]
 
-print(tensor3d.shape)    
+print(tensor3d.shape)
 # (2, 3, 4)
 
 #--------------------------------#
@@ -704,7 +698,7 @@ print(swapped_3d)
 #   [7 6]
 #   [8 6]]]
 
-print(swapped_3d.shape)  
+print(swapped_3d.shape)
 # (4, 3, 2)
 
 ##########################
@@ -757,7 +751,7 @@ print(tensor3d_2)
 #   [7 4 6 9]
 #   [9 8 6 1]]]
 
-print(tensor3d_2.shape)  
+print(tensor3d_2.shape)
 # (2, 3, 4)
 
 ###########################
@@ -776,7 +770,7 @@ print(perm_1)
 #  [[9 8 7 5]
 #   [9 8 6 1]]]
 
-print(perm_1.shape)   
+print(perm_1.shape)
 # (3, 2, 4)
 
 ###########################
@@ -798,5 +792,5 @@ print(perm_2)
 #  [[4 9 5]
 #   [8 9 1]]]
 
-print(perm_2.shape)   
+print(perm_2.shape)
 # (4, 2, 3)
