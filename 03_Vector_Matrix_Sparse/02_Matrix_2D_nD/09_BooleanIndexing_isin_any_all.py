@@ -207,9 +207,8 @@ print(matrix_flat.compress(matrix_flat > 70, axis=None))
 # [78 78 75 79 77 72 76 78 74]
 
 ##########################
-## Compress with axis=0 ##
+## Compress with axis=1 ##
 ##########################
-'''axis=0 goes vertically, meaning column-wise'''
 
 col_mask = matrix.mean(axis=0) > 60
 print("Column means:", matrix.mean(axis=0).round(2))
@@ -233,7 +232,6 @@ row_mask = matrix.sum(axis=1) > 460
 print("Row sums:", matrix.sum(axis=1))
 print("Row mask:", row_mask)
 print(matrix.compress(row_mask, axis=0))
-
 # Row sums: [505 483 474 485 449 447]
 # Row mask: [ True  True  True  True False False]
 # [[78 68 54 47 60 78 58 62]
