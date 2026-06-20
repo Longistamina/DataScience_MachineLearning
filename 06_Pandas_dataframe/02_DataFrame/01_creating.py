@@ -185,10 +185,10 @@ print(df_3d_array)
 record = np.zeros(
     shape = (2,), # 1D array with 2 elements
     dtype = [("A", "i4"), ("B", "f4"), ("C", "a10")] # Define the data types for each field "A", "B", "C"
-)                                                    # "i4" means 4-byte integer, 
-                                                     # "f4" means 4-byte float, 
+)                                                    # "i4" means 4-byte integer,
+                                                     # "f4" means 4-byte float,
                                                      # "a10" means string of length 10 (bytes
-print(record)                          
+print(record)
 # [(0, 0., b'') (0, 0., b'')]
 
 # Fill the structured record with data
@@ -213,7 +213,7 @@ print(df)
 ##################
 
 list_of_dicts = [
-    {"a": 1, "b": 2}, 
+    {"a": 1, "b": 2},
     {"a": 5, "b": 10, "c": 20}
 ]
 
@@ -230,7 +230,7 @@ print(df)
 
 df = pd.DataFrame(
     data = [
-        {"a": 1.4, "b": 2.3}, 
+        {"a": 1.4, "b": 2.3},
         {"a": 5, "b": 10, "c": 20}
     ],
     index = ["row_1", "row_2"]
@@ -257,7 +257,7 @@ df = pd.DataFrame(
 )
 
 print(df)
-#        a              b      
+#        a              b
 #        b    a    c    a     b
 # A B  1.0  4.0  5.0  8.0  10.0
 #   C  2.0  3.0  6.0  7.0   NaN
@@ -361,8 +361,8 @@ print(df)
 record = np.zeros(
     shape = (2,), # 1D array with 2 elements
     dtype = [("A", "i4"), ("B", "f4"), ("C", "a10")] # Define the data types for each field "A", "B", "C"
-)                                                    # "i4" means 4-byte integer, 
-                                                     # "f4" means 4-byte float, 
+)                                                    # "i4" means 4-byte integer,
+                                                     # "f4" means 4-byte float,
                                                      # "a10" means string of length 10 (bytes
 
 # Fill the structured record with data
@@ -395,6 +395,6 @@ df = pd.DataFrame.from_records(
 )
 print(df)
 #           A    B
-# C               
+# C
 # b'Hello'  1  2.0
 # b'World'  2  3.0
