@@ -157,7 +157,7 @@
       * repeat and unique
   + [03_Vector_Matrix_Sparse_part_02](https://youtu.be/sNvq5z2c880): 31st/05/2026
       * indexing, fancy indexing, slicing, vector modification
-      * mask array, boolean indexing (conditional filtering), ```np.isin()``
+      * mask array, boolean indexing (conditional filtering), ```np.isin()```
       * ```np.nditer()```
       * sorting, argsort, searching
       * math methods
@@ -169,7 +169,13 @@
       * convert Numpy vector to other data structures
       * save numpy vector to files
   + [03_Vector_Matrix_Sparse_part_04](https://youtu.be/-_LUT_LO0Fw): 14th/06/2026
-      * create a 2D matrix (and nD array): ```np.array(), np.arange(), np.random, np.choice(), np.choose()```
-      * read arrays from npy, txt and csv files: ```np.load(), np.loadtxt(), np.genfromtxt()```
-      * attributes of a 2D matrix: ```ndim, shape, size, dtype, itemsize, nbytes```
-      * copy, type conversion
+      * 2D and nD array: create with ```np.array(), np.arange(), np.random, np.choice(), np.choose()```
+      * 2D and nD array: read arrays from npy, txt and csv files: ```np.load(), np.loadtxt(), np.genfromtxt()```
+      * 2D and nD array: attributes ```ndim, shape, size, dtype, itemsize, nbytes```
+      * 2D and nD array: copy, type conversion
+  + [03_Vector_Matrix_Sparse_part_05](https://youtu.be/nkfZII0DWn4): 20th/06/2026
+        * 2D and nD array: reshape, transpose, squeeze, expandims, swapaxes, permute_dim
+        * 2D and nD array: stack, concatenate
+        * 2D and nD array: split, repeat, unique
+        * 2D and nD array: indexing, slicing, modification
+        * 2D and nD array: mask array, boolean indexing (conditional filtering), ```np.isin()```
