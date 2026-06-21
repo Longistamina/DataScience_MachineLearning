@@ -159,7 +159,7 @@
       * indexing, fancy indexing, slicing, vector modification
       * mask array, boolean indexing (conditional filtering), ```np.isin()```
       * ```np.nditer()```
-      * sorting, argsort, searching
+      * sorting, argsort, lexsort, searching
       * math methods
       * logical methods
   + [03_Vector_Matrix_Sparse_part_03](https://youtu.be/2-nef9QhWQk): 07th/06/2026
@@ -174,8 +174,11 @@
       * 2D and nD array: attributes ```ndim, shape, size, dtype, itemsize, nbytes```
       * 2D and nD array: copy, type conversion
   + [03_Vector_Matrix_Sparse_part_05](https://youtu.be/nkfZII0DWn4): 20th/06/2026
-        * 2D and nD array: reshape, transpose, squeeze, expandims, swapaxes, permute_dim
-        * 2D and nD array: stack, concatenate
-        * 2D and nD array: split, repeat, unique
-        * 2D and nD array: indexing, slicing, modification
-        * 2D and nD array: mask array, boolean indexing (conditional filtering), ```np.isin()```
+      * 2D and nD array: reshape, transpose, squeeze, expandims, swapaxes, permute_dim
+      * 2D and nD array: stack, concatenate
+      * 2D and nD array: split, repeat, unique
+      * 2D and nD array: indexing, slicing, modification
+      * 2D and nD array: mask array, boolean indexing (conditional filtering), ```np.isin()```
+  + [03_Vector_Matrix_Sparse_part_06](https://youtu.be/KKNDTGswZrM): 21th/06/2026
+      * 2D and nD array: ```np.nditer()```
+      * 2D and nD array: sorting, argsort, lexsort
