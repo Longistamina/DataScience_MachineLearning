@@ -31,10 +31,10 @@ for value in np.nditer(matrix):
 
 ############################
 
-print(matrix.flat) 
+print(matrix.flat)
 # <numpy.flatiter object at 0x3065500>
 '''
-A flatiter object is an iterator that allows you to iterate over a NumPy array 
+A flatiter object is an iterator that allows you to iterate over a NumPy array
 as if it were a flat (1D) array, regardless of its original shape.
 '''
 
@@ -48,12 +48,12 @@ for row in matrix:
     for value in row:
         print(value, end=' ')
     print()
-# 10 20 30 
+# 10 20 30
 # 40 50 60
 
 
 #--------------------------------------------------------------------------------------------------------#
-#---------------------------------- 2. Get Index While Looping ------------------------------------------#
+#------------------------------------ 2. Get Index While Looping ----------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
 
 # When you need both value AND position (row, col)
@@ -116,7 +116,7 @@ matrix4 = np.zeros((3, 4))
 with np.nditer(matrix4, flags=['multi_index'], op_flags=['writeonly']) as it:
     for x in it:
         row, col = it.multi_index
-        #print(f"it.multi_index ({row}, {col})")
+        # print(f"it.multi_index ({row}, {col})")
         x[...] = row + col  # Set to sum of indices
 
 print("\nRow + Col index:\n", matrix4)
@@ -192,9 +192,9 @@ print("Normalized:\n", result)
 #  [2.93968471 4.72135955 7.33333333 5.66563146]]
 
 '''
-Elements closer to the center position of the matrix are divided by smaller numbers (so they stay larger), 
-while elements at the edges are divided by larger numbers (so they become smaller). 
-=> This is a spatial/geometric normalization, 
+Elements closer to the center position of the matrix are divided by smaller numbers (so they stay larger),
+while elements at the edges are divided by larger numbers (so they become smaller).
+=> This is a spatial/geometric normalization,
    useful in image processing where you want to emphasize the center of an image or apply radial weighting.
 '''
 
@@ -288,7 +288,7 @@ print("\n4D array slice [1, :, :, :]:\n", arr_4d[1])
 arr_4d_large = np.arange(120, dtype=float).reshape(2, 3, 4, 5) # A very large 4D array
 
 # Process in chunks
-with np.nditer(arr_4d_large, flags=['external_loop', 'buffered'], 
+with np.nditer(arr_4d_large, flags=['external_loop', 'buffered'],
                op_flags=['readwrite'], buffersize=20) as it:
     chunk_count = 0
     for chunk in it:

@@ -67,15 +67,15 @@ and does not allow assignment as well
 Using functions like np.sort(arr) will return a new sorted array, does not modify the original array,
 and allows assignment
 
-axis=0: Sort vertically along columns (within each column)
-axis=1: Sort horizontally along rows (within each row)
+axis=0: sort along the 1st dimension (for 2D matrix, sort vertically along columns (within each column))
+axis=1: sort along the 2nd dimension (for 2D matrix, sort horizontally along rows (within each row))
 axis=None: Flatten and sort the entire array
 '''
 
 #######################
 ## Sort along axis=0 ##
 #######################
-'''axis=0 means vertical direction (columns)'''
+'''axis=0: sort along the 1st dimension (for 2D matrix, sort vertically along columns (within each column))'''
 
 #-----
 ## using method
@@ -109,7 +109,7 @@ print(np.sort(matrix_scores, axis=0))
 #######################
 ## Sort along axis=1 ##
 #######################
-'''axis=1 means horizontal direction (rows)'''
+'''axis=1: sort along the 2nd dimension (for 2D matrix, sort horizontally along rows (within each row))'''
 
 #-----
 ## using method
@@ -248,6 +248,12 @@ axis=0: Return indices that would sort vertically along columns
 axis=1: Return indices that would sort horizontally along rows
 axis=None: Return indices that would sort the flattened array
 '''
+
+print(matrix_scores)
+# [[85 92 78 95 88]
+#  [76 88 91 84 79]
+#  [93 81 87 90 85]
+#  [88 79 94 77 92]]
 
 #################################
 ## Ascending arg sort (axis=0) ##
@@ -415,7 +421,7 @@ kind: {"quicksort", "mergesort", "heapsort", "stable"} (optional)
 ## using method
 #-----
 
-kind_indices = matrix_scores.argsort(axis=1, kind="mergesort")
+kind_indices = matrix_scores.argsort(axis=1, kind="quicksort")
 print(kind_indices)
 # [[2 0 4 1 3]
 #  [0 4 3 1 2]
@@ -662,9 +668,14 @@ matrix = np.array([
 
 # Sample 3D Tensor: [Depth, Row, Col]
 tensor = np.array([
-    [[5, 2], [1, 9]], # Depth 0
-    [[3, 8], [4, 1]], # Depth 1
-    [[7, 4], [6, 3]]  # Depth 2
+    [[5, 2],
+    [1, 9]], # Depth 0
+
+    [[3, 8],
+    [4, 1]], # Depth 1
+
+    [[7, 4],
+    [6, 3]]  # Depth 2
 ])
 
 #-----------------------------------------------------------------------------------------------------------#
@@ -700,7 +711,9 @@ print(matrix[:, indices_cols])
 # SORTING COLUMNS (by row values) — matrix.T axis=0
 #-----------------------------------------------------------------------------------------------------------#
 '''
-axis=1  → return indices that sort along axis-1 (columns).
+For 2D matrix, to do lexical sort on columns (by row values)
+=> transpose the matrix first (matrix.T)
+=> then use np.lexsort(axis=0)
 
 If not specified, the last row is always treated as primary key
 '''
@@ -717,7 +730,7 @@ print(matrix[indices_rows])
 #  [1 2 3]]
 
 #-----------------------------------------------------------------------------------------------------------#
-# SORTING 3D DEPTH SLICES — axis=0 or axis=1s
+# SORTING 3D DEPTH SLICES — axis=0 or axis=1
 #-----------------------------------------------------------------------------------------------------------#
 '''
 For 3D tensor, since np.lexsort returns 2D indices here
