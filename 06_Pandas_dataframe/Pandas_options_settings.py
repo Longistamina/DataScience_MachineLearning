@@ -1,13 +1,13 @@
 '''
-pandas has an options API configure and customize global behavior related to DataFrame display, 
+pandas has an options API configure and customize global behavior related to DataFrame display,
 data behavior and more.
 
 #########################################
 
 1. All available options: pd.describe_option()
 
-2. Getting, Setting and Resetting options: 
-   + Getting: pd.get_option() 
+2. Getting, Setting and Resetting options:
+   + Getting: pd.get_option()
    + Setting: pd.set_option()
    + Resetting: pd.reset_option()
 
@@ -29,8 +29,8 @@ data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 df_medals = pd.read_csv(
-    filepath_or_buffer = data_dir/"medals.csv",
-    skiprows = 4
+    filepath_or_buffer=data_dir/"medals.csv",
+    skiprows=4
 )
 
 # Make all columns categorical
@@ -46,8 +46,8 @@ df_medals.info()
 # <class 'pandas.core.frame.DataFrame'>
 # RangeIndex: 2311 entries, 0 to 2310
 # Data columns (total 8 columns):
-#  #   Column        Non-Null Count  Dtype   
-# ---  ------        --------------  -----   
+#  #   Column        Non-Null Count  Dtype
+# ---  ------        --------------  -----
 #  0   Year          2311 non-null   category
 #  1   City          2311 non-null   category
 #  2   Sport         2311 non-null   category
@@ -142,7 +142,7 @@ print(pd.get_option("mode.sim_interactive"))    # False
 Pandas and Python support setting startup options via configuration files.
 So that you don't have to set them manually every time you start a new session.
 
-Check the tutorial here: 
+Check the tutorial here:
 https://pandas.pydata.org/docs/user_guide/options.html#setting-startup-options-in-python-ipython-environment
 '''
 
@@ -231,10 +231,10 @@ print(df_medals)
 #-------------------------------------------------------------------------------------------------------#
 
 '''
-pandas also allows you to set how numbers are displayed in the console. 
+pandas also allows you to set how numbers are displayed in the console.
 This option is not set through the set_options API.
 
-Use the pd.set_eng_float_format() function to alter the floating-point formatting of pandas objects 
+Use the pd.set_eng_float_format() function to alter the floating-point formatting of pandas objects
 to produce a particular format.
 '''
 
@@ -266,9 +266,9 @@ print(s / 1.0e6)
 #-------------------------------------------------------------------------------------------------------#
 
 '''
-Some East Asian countries use Unicode characters whose width corresponds to two Latin characters. 
+Some East Asian countries use Unicode characters whose width corresponds to two Latin characters.
 
-If a DataFrame or Series contains these characters, 
+If a DataFrame or Series contains these characters,
 the default output mode may not align them properly.
 '''
 
