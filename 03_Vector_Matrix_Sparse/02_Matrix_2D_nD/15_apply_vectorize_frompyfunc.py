@@ -11,6 +11,7 @@
 '''
 
 import numpy as np
+import math
 
 
 #-------------------------------------------------------------------------------------------------------------------#
@@ -34,16 +35,16 @@ print(matrix_nums)
 #  [75 49 97 56 98]]
 
 print(np.apply_along_axis(np.mean, axis=0, arr=matrix_nums))
-# [57.   74.25 75.   50.25 85.  ]  # Mean of each column
+# [57.   74.25 75.   50.25 85.  ]  # Mean along axis=0
 
 print(np.apply_along_axis(np.mean, axis=1, arr=matrix_nums))
-# [67.8 57.2 73.2 75. ]  # Mean of each row
+# [67.8 57.2 73.2 75. ]  # Mean along axis=1
 
 print(np.apply_along_axis(lambda x: x.max() - x.min(), axis=0, arr=matrix_nums))
-# [61 49 67 55 30]  # Range of each column
+# [61 49 67 55 30]  # Range along axis=0
 
 print(np.apply_along_axis(lambda x: x.max() - x.min(), axis=1, arr=matrix_nums))
-# [23 78 76 49]  # Range of each row
+# [23 78 76 49]  # Range along axis=1
 
 def normalize(x):
     return (x - x.mean()) / x.std()
@@ -53,8 +54,6 @@ print(np.apply_along_axis(normalize, axis=0, arr=matrix_nums))
 #  [-1.58264657  0.87168062 -1.62021133 -0.21488022  0.92998111]
 #  [ 0.95791766  1.10412878  0.84692865 -1.42832148 -1.31747324]
 #  [ 0.74967469 -1.17386323  0.81010566  0.2907203   1.00747954]]
-
-import math
 
 print(np.apply_along_axis(math.log2, axis=0, arr=matrix_nums))
 '''TypeError: only length-1 arrays can be converted to Python scalars'''
@@ -186,12 +185,12 @@ print(hex_ufunc(matrix_hex))
 def weighted_sum(a, b, c, w1, w2, w3):
     return a*w1 + b*w2 + c*w3
 
+weighted_sum_func = np.frompyfunc(weighted_sum, 6, 1)
+
 matrix_a = np.array([[1, 2], [3, 4]])
 matrix_b = np.array([[5, 6], [7, 8]])
 matrix_c = np.array([[9, 10], [11, 12]])
 weights = (0.5, 0.3, 0.2)
-
-weighted_sum_func = np.frompyfunc(weighted_sum, 6, 1)
 
 result = weighted_sum_func(matrix_a, matrix_b, matrix_c, *weights)
 print(result.astype(float))

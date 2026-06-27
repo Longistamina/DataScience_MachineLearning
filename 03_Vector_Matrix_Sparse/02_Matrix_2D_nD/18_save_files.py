@@ -11,7 +11,6 @@
 '''
 
 import numpy as np
-
 from pathlib import Path
 
 np.random.seed(0)
@@ -30,10 +29,10 @@ print(matrix_2)
 #  [79.17 52.89 56.8  92.56  7.1 ]
 #  [ 8.71  2.02 83.26 77.82 87.  ]]
 
-save_path = Path('03_Vector_Matrix_Sparse/02_Matrix_2D/save')
+save_path = next(Path('/home/').glob("**/02_Matrix_2D_nD/save"))
 save_path.mkdir(parents=True, exist_ok=True)
 print(save_path)
-# 03_Vector_Matrix_Sparse/02_Matrix_2D/save
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/03_Vector_Matrix_Sparse/02_Matrix_2D_nD/save
 
 
 #-----------------------------------------------------------------------------------------------------------------------#
@@ -86,7 +85,7 @@ print(loaded['mat2'])
 '''
 Save multiple Numpy arrays to a compressed .npz file.
 
-but applies stronger ZIP compression (specifically zipfile.ZIP_DEFLATED), 
+but applies stronger ZIP compression (specifically zipfile.ZIP_DEFLATED),
 resulting in significantly smaller file sizes
 '''
 
