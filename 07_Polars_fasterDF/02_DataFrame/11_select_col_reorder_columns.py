@@ -14,6 +14,8 @@ In Polars, the central idea is df.select(...):
 Content flow:
 1. Explicit column selection and reordering
    -> df.select([...]), df.select("col1", "col2"), eager bracket selection,
+      df.select(df.columns[slice_of_indices]) to select columns by slice of indices
+      df.select(pl.nth(list_of_indices)) to select columns by discrete indices
       pl.col("*"), pl.col("*").exclude(...), and regex column-name selection
 2. pandas reindex(columns=...) equivalent
    -> df.select([...]) for existing columns; helper for missing columns filled with null
@@ -153,6 +155,95 @@ df_subset = df_emp.select("salary", "id", "dept")
 # │ 632.80 ┆ 7   ┆ Operations │
 # │ 722.50 ┆ 8   ┆ Finance    │
 # └────────┴─────┴────────────┘
+
+#############################################
+## df.select(df.columns[slice_of_indices]) ##
+#############################################
+'''
+df.select(df.columns[slice_of_indices]) to select columns by slice of indices
+
+For example: df.select(df.columns[::2]) or df.select(df.columns[-1])
+'''
+
+print(df_emp.select(df_emp.columns[::2]))
+# shape: (8, 3)
+# ┌─────┬────────┬────────────┐
+# │ id  ┆ salary ┆ dept       │
+# │ --- ┆ ---    ┆ ---        │
+# │ i64 ┆ f64    ┆ str        │
+# ╞═════╪════════╪════════════╡
+# │ 1   ┆ 623.30 ┆ IT         │
+# │ 2   ┆ 515.20 ┆ Operations │
+# │ 3   ┆ 611.00 ┆ IT         │
+# │ 4   ┆ 729.00 ┆ HR         │
+# │ 5   ┆ 843.25 ┆ Finance    │
+# │ 6   ┆ 578.00 ┆ IT         │
+# │ 7   ┆ 632.80 ┆ Operations │
+# │ 8   ┆ 722.50 ┆ Finance    │
+# └─────┴────────┴────────────┘
+
+print(df_emp.select(df_emp.columns[-1]))
+# shape: (8, 1)
+# ┌────────────┐
+# │ dept       │
+# │ ---        │
+# │ str        │
+# ╞════════════╡
+# │ IT         │
+# │ Operations │
+# │ IT         │
+# │ HR         │
+# │ Finance    │
+# │ IT         │
+# │ Operations │
+# │ Finance    │
+# └────────────┘
+
+########################################
+## df.select(pl.nth(list_of_indices)) ##
+########################################
+'''
+df.select(pl.nth(list_of_indices, strict=True)) to select columns by discrete indices
+
+For example: df.select(pl.nth([0, 2, 4])) or just df.select(pl.nth(0, 2, 4))
+
+if set strict=False, out-of-bounds indices are ignored.
+if set strict=True, out-of-bounds indices cause error (default)
+'''
+
+print(df_emp.select(pl.nth([0, 2, 4])))
+# shape: (8, 3)
+# ┌─────┬────────┬────────────┐
+# │ id  ┆ salary ┆ dept       │
+# │ --- ┆ ---    ┆ ---        │
+# │ i64 ┆ f64    ┆ str        │
+# ╞═════╪════════╪════════════╡
+# │ 1   ┆ 623.30 ┆ IT         │
+# │ 2   ┆ 515.20 ┆ Operations │
+# │ 3   ┆ 611.00 ┆ IT         │
+# │ 4   ┆ 729.00 ┆ HR         │
+# │ 5   ┆ 843.25 ┆ Finance    │
+# │ 6   ┆ 578.00 ┆ IT         │
+# │ 7   ┆ 632.80 ┆ Operations │
+# │ 8   ┆ 722.50 ┆ Finance    │
+# └─────┴────────┴────────────┘
+
+print(df_emp.select(pl.nth(1, 3)))
+# shape: (8, 2)
+# ┌──────────┬────────────┐
+# │ name     ┆ start_date │
+# │ ---      ┆ ---        │
+# │ str      ┆ date       │
+# ╞══════════╪════════════╡
+# │ Rick     ┆ 2012-01-01 │
+# │ Dan      ┆ 2013-09-23 │
+# │ Michelle ┆ 2014-11-15 │
+# │ Ryan     ┆ 2014-05-11 │
+# │ Gary     ┆ 2015-03-27 │
+# │ Nina     ┆ 2013-05-21 │
+# │ Simon    ┆ 2013-07-30 │
+# │ Guru     ┆ 2014-06-17 │
+# └──────────┴────────────┘
 
 ###############################################
 ## df.select(pl.col("*"))                    ##
