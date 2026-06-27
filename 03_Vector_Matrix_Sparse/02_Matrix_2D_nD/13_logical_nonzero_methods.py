@@ -12,20 +12,20 @@ import numpy as np
 
 np.random.seed(42)
 
-matrix_True = np.array([[True, True, True], 
+matrix_True = np.array([[True, True, True],
                         [True, True, True]])
 
-matrix_False = np.array([[False, False, False], 
+matrix_False = np.array([[False, False, False],
                          [False, False, False]])
 
-matrix_mixed = np.array([[True, False, True], 
+matrix_mixed = np.array([[True, False, True],
                          [False, True, False]])
 
 matrix_ones = np.ones((2, 3))  # array([[1., 1., 1.], [1., 1., 1.]])
 
 matrix_zeros = np.zeros((2, 3))  # array([[0., 0., 0.], [0., 0., 0.]])
 
-matrix_mixed_num = np.array([[0, 1, 2], 
+matrix_mixed_num = np.array([[0, 1, 2],
                              [3, 0, 4]])
 
 
@@ -37,7 +37,7 @@ arr.all() and np.all(): check if all elements (or along a specific axis) are Tru
 
 (True if all are True/non-zero, False otherwise)
 
-Can use them to verify if a boolean mask (array) is entirely True, 
+Can use them to verify if a boolean mask (array) is entirely True,
 or if all numerical values in an array are non-zero.
 
 With axis parameter:
@@ -182,7 +182,7 @@ arr.any() and np.any(): check if any element (or along a specific axis) is True 
 
 (False if all are False/zero, True otherwise)
 
-Can use them to verify if a boolean mask (array) has at least one True, 
+Can use them to verify if a boolean mask (array) has at least one True,
 or if any numerical value in an array is non-zero.
 
 With axis parameter:
@@ -332,10 +332,10 @@ For 2D arrays, returns a tuple of two arrays:
 Can be used to filter elements based on a boolean mask or find positions of non-zero elements.
 '''
 
-matrix_mixed = np.array([[True, False, True], 
+matrix_mixed = np.array([[True, False, True],
                          [False, True, False]])
 
-matrix_mixed_num = np.array([[0, 1, 2], 
+matrix_mixed_num = np.array([[0, 1, 2],
                              [3, 0, 4]])
 
 ##########################

@@ -1,6 +1,6 @@
 '''
-Chaining methods is a technique used in programming to call multiple methods on the same object. 
-This is typically done by having each method return the object itself (often referred to as "self" in object-oriented programming), 
+Chaining methods is a technique used in programming to call multiple methods on the same object.
+This is typically done by having each method return the object itself (often referred to as "self" in object-oriented programming),
 allowing subsequent methods to be called on that returned object.
 '''
 

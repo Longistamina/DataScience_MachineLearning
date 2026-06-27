@@ -1,8 +1,8 @@
 '''
 1. Statistical reduction methods:
-   + arr.sum(axis=...): Computes the sum along the specified axis. 
-                     axis=None sums all elements, 
-                     axis=0 sums vertically (column-wise), 
+   + arr.sum(axis=...): Computes the sum along the specified axis.
+                     axis=None sums all elements,
+                     axis=0 sums vertically (column-wise),
                      axis=1 sums horizontall (row-wise).
    + arr.mean(axis=...): Computes the mean along the specified axis.
    + arr.prod(axis=...): Computes the product along the specified axis.
@@ -61,7 +61,7 @@ print(matrix.sum())
 # 55.98 (sum of all elements)
 
 print(matrix.sum(axis=0))
-# [11.04 15.89  8.76 20.29] (sum vertically, i.e., column-wise)
+# [11.04 15.89  8.76 20.29] (sum along axis=0)
 '''
 11.04 = 3.66 + 2.11 + 5.27
 15.89 = 7.75 + 4.88 + 3.26
@@ -70,7 +70,7 @@ print(matrix.sum(axis=0))
 '''
 
 print(matrix.sum(axis=1))
-# [22.86 12.78 20.34] (sum horizontally, i.e., row-wise)
+# [22.86 12.78 20.34] (sum along axis=1)
 '''
 22.86 = 3.66 + 7.75 + 6.20 + 5.25
 12.78 = 2.11 + 4.88 + 8.10 + 7.32
@@ -86,10 +86,10 @@ print(matrix.mean())
 # 4,665 (mean of all elements)
 
 print(matrix.mean(axis=0))
-# [3.68   5.2967 2.92   6.7633] (mean vertically, i.e., column-wise)
+# [3.68   5.2967 2.92   6.7633] (mean along axis=0)
 
 print(matrix.mean(axis=1))
-# [5.715  3.395  5.085 ] (mean horizontally, i.e., row-wise)
+# [5.715  3.395  5.085 ] (mean along axis=1)
 
 ################
 ## arr.prod() ##
@@ -100,10 +100,10 @@ print(matrix.prod())
 # 11948863.963780865 (product of all elements)
 
 print(matrix.prod(axis=0))
-# [ 40.698102  98.605575  10.0533   296.170875] (product vertically, i.e., column-wise)
+# [ 40.698102  98.605575  10.0533   296.170875] (product along axis=0)
 
 print(matrix.prod(axis=1))
-# [923.28075     44.88384615 288.33859035] (product horizontally, i.e., row-wise)
+# [923.28075     44.88384615 288.33859035] (product along axis=1)
 
 ###############
 ## arr.max() ##
@@ -114,10 +114,10 @@ print(matrix.max())
 # 7.89 (maximum of all elements)
 
 print(matrix.max(axis=0))
-# [5.27 7.75 6.2  7.89] (maximum vertically, i.e., column-wise)
+# [5.27 7.75 6.2  7.89] (maximum along axis=0)
 
 print(matrix.max(axis=1))
-# [7.75 7.15 7.89] (maximum horizontally, i.e., row-wise)
+# [7.75 7.15 7.89] (maximum along axis=1)
 
 ###############
 ## arr.min() ##
@@ -128,10 +128,10 @@ print(matrix.min())
 # 1.15 (minimum of all elements)
 
 print(matrix.min(axis=0))
-# [2.11 2.11 1.15 5.25] (minimum vertically, i.e., column-wise)
+# [2.11 2.11 1.15 5.25] (minimum along axis=0)
 
 print(matrix.min(axis=1))
-# [3.66 1.41 1.15] (minimum horizontally, i.e., row-wise)
+# [3.66 1.41 1.15] (minimum along axis=1)
 
 #################
 ## np.ptp(arr) ##
@@ -142,10 +142,10 @@ print(np.ptp(matrix))
 # 6.74 (peak-to-peak of all elements: 7.89 - 1.15)
 
 print(np.ptp(matrix, axis=0))
-# [3.16 5.64 5.05 2.64] (range vertically, i.e., column-wise)
+# [3.16 5.64 5.05 2.64] (range along axis=0)
 
 print(np.ptp(matrix, axis=1))
-# [4.09 5.74 6.74] (range horizontally, i.e., row-wise)
+# [4.09 5.74 6.74] (range along axis=1)
 
 ###############
 ## arr.var() ##
@@ -156,10 +156,10 @@ print(matrix.var())
 # 5.669758333333334 (variance of all elements)
 
 print(matrix.var(axis=0))
-# [1.66446667 5.57048889 5.39046667 1.23635556] (variance vertically, i.e., column-wise)
+# [1.66446667 5.57048889 5.39046667 1.23635556] (variance along axis=0)
 
 print(matrix.var(axis=1))
-# [2.203925 5.295675 6.069875] (variance horizontally, i.e., row-wise)
+# [2.203925 5.295675 6.069875] (variance along axis=1)
 
 ###############
 ## arr.std() ##
@@ -170,10 +170,10 @@ print(matrix.std())
 # 2.381125434187232 (standard deviation of all elements)
 
 print(matrix.std(axis=0))
-# [1.29014211 2.36018832 2.32173785 1.11191526] (standard deviation vertically, i.e., column-wise)
+# [1.29014211 2.36018832 2.32173785 1.11191526] (standard deviation along axis=0)
 
 print(matrix.std(axis=1))
-# [1.48456223 2.30123336 2.46371163] (standard deviation horizontally, i.e., row-wise)
+# [1.48456223 2.30123336 2.46371163] (standard deviation along axis=1)
 
 
 #---------------------------------------------------------------------------------------------------------------#
@@ -319,7 +319,7 @@ print(matrix_complex.imag)
 '''
 Returns a new matrix containing the complex conjugates of the complex numbers.
 The complex conjugate of a complex number is obtained by changing the sign of its imaginary part.
-For example, the complex conjugate of a + bj is a - bj.
+For example, the complex conjugate of ``a + bj`` is ``a - bj``.
 '''
 
 print(matrix_complex.conj())
@@ -361,7 +361,11 @@ print(matrix2)
 ####################
 ## arr1.dot(arr2) ##
 ####################
-'''Computes the matrix multiplication between two matrices with compatible dimensions.'''
+'''
+Computes the matrix multiplication between two matrices with compatible dimensions.
+
+mxn @ nxp = mxp
+'''
 
 print(matrix1.dot(matrix2))
 # [[ 58  64]
