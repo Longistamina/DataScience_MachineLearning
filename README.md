@@ -182,3 +182,10 @@
   + [03_Vector_Matrix_Sparse_part_06](https://youtu.be/KKNDTGswZrM): 21th/06/2026
       * 2D and nD array: ```np.nditer()```
       * 2D and nD array: sorting, argsort, lexsort
+  + [03_Vector_Matrix_Sparse_part_07](https://youtu.be/UmwC2h3HmXo): 27th/06/2026
+      * 2D and nD array: math methods
+      * 2D and nD array: logical methods, ```nonzero()```
+      * 2D and nD array: apply_along_axis, ```apply_over_axes``` vectorize, frompyfunc
+      * 2D and nD array: chainning methods
+      * 2D and nD array: convert to other data structures
+      * 2D and nD array: save arrays to files
