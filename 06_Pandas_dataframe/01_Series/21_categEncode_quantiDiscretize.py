@@ -173,8 +173,8 @@ print(s_quantitative)
 #-----------------
 
 s_bins = pd.cut(
-    x = s_quantitative, 
-    bins = [0, 2, 4, 6, 8, 10], 
+    x = s_quantitative,
+    bins = [0, 2, 4, 6, 8, 10],
     labels = ['Very Low', 'Low', 'Medium', 'High', 'Very High']
 )
 
@@ -209,7 +209,7 @@ print(s_bins)
 #-----------------
 
 s_bins = pd.cut(
-    x = s_quantitative, 
+    x = s_quantitative,
     bins = 3,  # Create 3 equal-width bins
     labels = ['Low', 'Medium', 'High']
 )
@@ -250,7 +250,7 @@ print(s_bins)
 #-----------------
 
 s_bins = pd.qcut(
-    x = s_quantitative, 
+    x = s_quantitative,
     q = 4,  # Create 4 quantile-based bins
     labels = ['Q1', 'Q2', 'Q3', 'Q4']
 )
@@ -284,7 +284,7 @@ print(s_bins)
 #-----------------
 
 s_bins = pd.qcut(
-    x = s_quantitative, 
+    x = s_quantitative,
     q = 10,
     labels = [f'Decile {i+1}' for i in range(10)]
 )
@@ -313,4 +313,3 @@ print(s_bins)
 # dtype: category
 # Categories (10, object): ['Decile 1' < 'Decile 2' < 'Decile 3' < 'Decile 4' ... 'Decile 7' <
 #                           'Decile 8' < 'Decile 9' < 'Decile 10']
-
