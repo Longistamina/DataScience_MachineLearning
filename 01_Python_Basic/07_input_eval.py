@@ -9,8 +9,8 @@ y = int(input("Input variable y: "))
 
 print("Sum x + y =", x + y)
 print("Subtract x - y =", x - y)
-print("Multiplication x*y =", x * y)
-print("Division x/y =", x / y)
+print("Multiplication x * y =", x * y)
+print("Division x / y =", x / y)
 
 
 #--------------------------------------------------------------------------------------#
@@ -54,11 +54,12 @@ k = abc = {k}
 type_k = type_abc = {type(k)}
 \n''')
 
-k = eval('xyz') # Raise error because eval considers this abc as an undefined variable
+k = eval('xyz')
+'''Raise error because eval considers this abc as an undefined variable'''
 
 
 #----------------------------------------------------------------------------------------------------------#
-#---------------------------------------- combine input() and eval() --------------------------------------#
+#------------------------------------ combine input() and eval() ------------------------------------------#
 #----------------------------------------------------------------------------------------------------------#
 
 radius = eval(input("Input radius of a circle: "))
