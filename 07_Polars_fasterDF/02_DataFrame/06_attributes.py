@@ -190,14 +190,15 @@ Pandas df.ndim returns 2 for DataFrames.
 
 Polars DataFrames are also two-dimensional tables, but df.ndim is not a documented
 DataFrame attribute. Treat the number of dimensions as conceptually 2.
-'''
 
-dataframe_ndim = 2
-print(dataframe_ndim)
-# 2
+Can use ``len(df.shape)`` to get the ndim
+'''
 
 print(hasattr(df_baseball, "ndim"))
 # False
+
+print(len(df_baseball.shape))
+# 2
 
 
 #------------------------------------------------------------------------------------------------------#
