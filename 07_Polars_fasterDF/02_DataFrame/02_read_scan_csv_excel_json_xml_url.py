@@ -60,7 +60,6 @@ from xml.etree import ElementTree as ET
 
 import polars as pl
 
-
 # Try to find the same data directory used by the pandas guide.
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
