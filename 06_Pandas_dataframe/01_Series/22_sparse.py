@@ -1,9 +1,9 @@
 '''
-The Series.sparse accessor in pandas provides specialized functionality 
+The Series.sparse accessor in pandas provides specialized functionality
 for working with sparse data structures.
 
-Sparse Series are designed to efficiently store data 
-where a significant portion of values are identical (typically zeros or NaN), 
+Sparse Series are designed to efficiently store data
+where a significant portion of values are identical (typically zeros or NaN),
 offering substantial memory savings for such datasets.
 
 ###############################
@@ -18,7 +18,7 @@ offering substantial memory savings for such datasets.
 
 3. Methods:
    + .sparse.from_coo()
-   + .sparse.to_coo()   
+   + .sparse.to_coo()
 '''
 
 import pandas as pd
