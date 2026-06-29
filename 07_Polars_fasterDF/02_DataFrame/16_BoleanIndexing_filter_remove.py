@@ -27,31 +27,19 @@ In Polars, the central ideas are:
    + df.filter(~condition) is similar in many simple cases.
    + Null predicates are an important difference: remove() retains null-predicate rows,
      while filter(~condition) discards rows where the negated predicate is null.
-
-5. pandas .loc[row_condition, columns] equivalent
-   + df.filter(condition).select(columns)
-
-6. LazyFrame filtering
-   + Same expressions, but executed after .collect().
 '''
 
 from pathlib import Path
 import datetime as dt
-import re
 
 import polars as pl
 from polars import col as c
-
 
 # Optional display settings for tutorial output.
 pl.Config.set_tbl_rows(12)
 pl.Config.set_tbl_cols(12)
 pl.Config.set_float_precision(2)
 pl.Config.set_tbl_width_chars(120)
-
-def clean_column_name(name: str) -> str:
-    '''Clean names like "Type 1" -> "Type_1" and "Sp. Atk" -> "Sp_Atk".'''
-    return re.sub(r"\s+", "_", name.strip()).replace(".", "")
 
 
 #-------------------------------------------------------------------------------------------------------------#
@@ -70,20 +58,9 @@ Original examples:
 
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 
-# Keep a raw version too, because later we demonstrate special-character column names.
-df_pkm_raw = pl.read_csv(data_dir / "pokemon.csv")
-
-s_col_names = pl.Series(df_pkm_raw.columns)
-print(
-    s_col_names
-    .str.strip_chars()
-    .str.replace(r"\s+", "_")
-    .str.replace(".", "", literal=True)
-)
-
 # Cleaned version for most examples.
-df_pokemon = (
-    df_pkm_raw
+lf_pokemon = (
+    pl.scan_csv(data_dir / "pokemon.csv")
     .drop("#")
     .rename(lambda name: name.strip())
     .select(pl.all().name.replace(r"\s+", "_").name.replace(".", "", literal=True))
@@ -93,20 +70,31 @@ df_pokemon = (
         c("Legendary").cast(pl.Boolean),
     )
     .pipe(lambda f: f.with_columns(
-        c("Generation").cast(pl.String).cast(pl.Enum(f["Generation"].unique().sort().cast(pl.String).to_list())),
-    ))
+        c("Generation").cast(pl.String).cast(pl.Enum(f.collect()["Generation"].cast(pl.String).unique().sort())),
+    ))                                               # Must use .collect() to realize the dataframe, to access the values for Enum casting
 )
 
-print(df_pokemon.head())
+print(lf_pokemon.collect().head())
 # shape: (5, 12)
-# columns: Name, Type_1, Type_2, Total, HP, Attack, Defense, Sp_Atk, Sp_Def, Speed, Generation, Legendary
+# ┌────────────────┬────────┬────────┬───────┬─────┬────────┬─────────┬────────┬────────┬───────┬────────────┬───────────┐
+# │ Name           ┆ Type_1 ┆ Type_2 ┆ Total ┆ HP  ┆ Attack ┆ Defense ┆ Sp_Atk ┆ Sp_Def ┆ Speed ┆ Generation ┆ Legendary │
+# │ ---            ┆ ---    ┆ ---    ┆ ---   ┆ --- ┆ ---    ┆ ---     ┆ ---    ┆ ---    ┆ ---   ┆ ---        ┆ ---       │
+# │ str            ┆ cat    ┆ cat    ┆ i64   ┆ i64 ┆ i64    ┆ i64     ┆ i64    ┆ i64    ┆ i64   ┆ enum       ┆ bool      │
+# ╞════════════════╪════════╪════════╪═══════╪═════╪════════╪═════════╪════════╪════════╪═══════╪════════════╪═══════════╡
+# │ Bulbasaur      ┆ Grass  ┆ Poison ┆ 318   ┆ 45  ┆ 49     ┆ 49      ┆ 65     ┆ 65     ┆ 45    ┆ 1          ┆ false     │
+# │ Ivysaur        ┆ Grass  ┆ Poison ┆ 405   ┆ 60  ┆ 62     ┆ 63      ┆ 80     ┆ 80     ┆ 60    ┆ 1          ┆ false     │
+# │ Venusaur       ┆ Grass  ┆ Poison ┆ 525   ┆ 80  ┆ 82     ┆ 83      ┆ 100    ┆ 100    ┆ 80    ┆ 1          ┆ false     │
+# │ VenusaurMega   ┆ Grass  ┆ Poison ┆ 625   ┆ 80  ┆ 100    ┆ 123     ┆ 122    ┆ 120    ┆ 80    ┆ 1          ┆ false     │
+# │ Venusaur       ┆        ┆        ┆       ┆     ┆        ┆         ┆        ┆        ┆       ┆            ┆           │
+# │ Charmander     ┆ Fire   ┆ null   ┆ 309   ┆ 39  ┆ 52     ┆ 43      ┆ 60     ┆ 50     ┆ 65    ┆ 1          ┆ false     │
+# └────────────────┴────────┴────────┴───────┴─────┴────────┴─────────┴────────┴────────┴───────┴────────────┴───────────┘
 
-print(df_pokemon.schema)
+print(lf_pokemon.collect().schema)
 # Schema({... 'Type_1': Categorical, 'Type_2': Categorical, 'Generation': Enum, 'Legendary': Boolean})
 
 
 #-------------------------------------------------------------------------------------------------------------#
-#------------------------------------ 1. Single Condition Examples -------------------------------------------#
+#------------------------------------- 1. Single Condition Examples ------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 
 #######################################################
@@ -118,15 +106,16 @@ print(df_pokemon.schema)
 #-------------
 
 # HP greater than 200.
-print(df_pokemon.filter(c.HP > 200))
+print(lf_pokemon.filter(c.HP > 200).collect())
 # Expected rows include Chansey and Blissey.
 
 # Sp_Atk greater than double Attack.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Sp_Atk > c.Attack * 2)
     .select("Name", "Type_1", "Attack", "Sp_Atk", "Generation", "Legendary")
     .head(8)
+    .collect()
 )
 # Expected rows include Abra, Kadabra, Alakazam, Mega Alakazam, Magnemite, etc.
 
@@ -136,18 +125,20 @@ print(
 
 # Speed less than 15.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Speed < 15)
     .select("Name", "Type_1", "Type_2", "Speed", "Generation", "Legendary")
+    .collect()
 )
 # Expected rows include Shuckle, Trapinch, Bonsly, Munchlax, Ferroseed.
 
 # Defense less than half of Attack.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Defense < c.Attack * 0.5)
     .select("Name", "Type_1", "Attack", "Defense", "Generation", "Legendary")
     .head()
+    .collect()
 )
 
 '''
@@ -174,16 +165,18 @@ closed = "right" : (left, right] or left < x <= right
 
 # Speed between 5 and 10, inclusive.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Speed.is_between(5, 10))
     .select("Name", "Type_1", "Type_2", "Speed", "Generation", "Legendary")
+    .collect()
 )
 
 # Speed between 5 and 10, excluding the right endpoint.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Speed.is_between(5, 10, closed="left"))
     .select("Name", "Speed")
+    .collect()
 )
 # The value 10 is excluded because the right endpoint is not closed.
 
@@ -193,15 +186,16 @@ print(
 
 # Type_1 equal to Fire.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Type_1 == "Fire")
     .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
     .head(8)
+    .collect()
 )
 
 # Legendary equal to True.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Legendary)
     .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
     .head()
@@ -209,10 +203,11 @@ print(
 
 # You can also write the boolean comparison explicitly.
 print(
-    df_pokemon
-    .filter(c.Legendary == True)
+    lf_pokemon
+    .filter(c.Legendary) # equivalent to ``c.Legendary == True``
     .select("Name", "Legendary")
     .head()
+    .collect()
 )
 
 #-------------
@@ -223,31 +218,34 @@ print(
 # Important: null comparisons evaluate to null in Polars, and filter() discards null predicates.
 # Therefore this drops rows where Type_2 is null.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Type_2 != "Flying")
     .select("Name", "Type_1", "Type_2", "Generation")
     .head()
+    .collect()
 )
 
 # If you want pandas-like "not Flying OR missing" behavior, explicitly keep nulls.
 print(
-    df_pokemon
+    lf_pokemon
     .filter((c.Type_2 != "Flying") | c.Type_2.is_null())
     .select("Name", "Type_1", "Type_2", "Generation")
     .head()
+    .collect()
 )
 
 # Generation not equal to 1.
 # Generation was cast to String then Enum, so compare with string labels.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Generation != "1")
     .select("Name", "Type_1", "Type_2", "Generation", "Legendary")
     .head()
+    .collect()
 )
 
 ##############################
-##          .is_in()         ##
+##          .is_in()        ##
 ##############################
 '''
 Pandas:
@@ -258,17 +256,19 @@ Polars:
 '''
 
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Type_1.is_in(["Fire", "Water"]))
     .select("Name", "Type_1", "Type_2", "Generation", "Legendary")
     .tail()
+    .collect()
 )
 
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Generation.is_in(["4", "6"]))
     .select("Name", "Type_1", "Type_2", "Generation", "Legendary")
     .tail()
+    .collect()
 )
 
 ##############################
@@ -286,24 +286,27 @@ Important:
 
 # Name contains "Mega".
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Name.str.contains("Mega", literal=True))
     .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
     .head()
+    .collect()
 )
 
 # Name starts with "Tor".
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Name.str.starts_with("Tor"))
     .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
+    .collect()
 )
 
 # Name ends with "saur".
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Name.str.ends_with("saur"))
     .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
+    .collect()
 )
 
 ##############################
@@ -319,24 +322,24 @@ Polars often uses datetime expressions instead:
 Some temporal boolean methods, such as .dt.is_leap_year(), are available directly.
 '''
 
-df_emp = pl.read_csv(
+lf_emp = pl.scan_csv(
     data_dir / "emp.csv",
     try_parse_dates=True,
 )
 
-print(df_emp.schema)
+print(lf_emp.collect().schema)
 # Schema({'id': Int64, 'name': String, 'salary': Float64, 'start_date': Date, 'dept': String})
 
 # start_date is month start.
-print(df_emp.filter(c.start_date == c.start_date.dt.month_start()))
+print(lf_emp.filter(c.start_date == c.start_date.dt.month_start()).collect())
 # Expected row: Rick, 2012-01-01.
 
 # start_date is in a leap year.
-print(df_emp.filter(c.start_date.dt.is_leap_year()))
+print(lf_emp.filter(c.start_date.dt.is_leap_year()).collect())
 # Expected row: Rick, 2012-01-01.
 
 # start_date is after 2014-01-01.
-print(df_emp.filter(c.start_date > dt.date(2014, 1, 1)))
+print(lf_emp.filter(c.start_date > dt.date(2014, 1, 1)).collect())
 
 
 #-------------------------------------------------------------------------------------------------------------#
@@ -350,27 +353,30 @@ Always wrap complex expressions in parentheses before applying ~.
 
 # Type_1 is NOT Fire.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(~(c.Type_1 == "Fire"))
     .select("Name", "Type_1", "Type_2", "Generation", "Legendary")
     .head()
+    .collect()
 )
 
 # Type_2 is NOT in Ground/Ghost.
 # Again, null predicates are discarded by filter().
 print(
-    df_pokemon
+    lf_pokemon
     .filter(~c.Type_2.is_in(["Ground", "Ghost"]))
     .select("Name", "Type_1", "Type_2", "Generation", "Legendary")
     .head()
+    .collect()
 )
 
 # Keep rows where Type_2 is NOT Ground/Ghost OR Type_2 is null.
 print(
-    df_pokemon
+    lf_pokemon
     .filter((~c.Type_2.is_in(["Ground", "Ghost"])) | c.Type_2.is_null())
     .select("Name", "Type_1", "Type_2", "Generation", "Legendary")
     .head()
+    .collect()
 )
 
 
@@ -391,29 +397,32 @@ Important:
 
 # Type_1 equal to Fire AND Generation equal to 1.
 print(
-    df_pokemon
+    lf_pokemon
     .filter((c.Type_1 == "Fire") & (c.Generation == "1"))
     .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
+    .collect()
 )
 
 # Type_2 equal to Flying AND Speed greater than 100.
 print(
-    df_pokemon
+    lf_pokemon
     .filter((c.Type_2 == "Flying") & (c.Speed > 100))
     .select("Name", "Type_1", "Type_2", "Speed", "Generation", "Legendary")
     .head(10)
+    .collect()
 )
 
 # The same AND logic can also be written as multiple filter predicates.
 # Multiple predicates are implicitly joined with &.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(
         c.Type_2 == "Flying",
         c.Speed > 100,
     )
     .select("Name", "Type_2", "Speed")
     .head(10)
+    .collect()
 )
 
 ###########################
@@ -425,18 +434,20 @@ Use | when at least one condition must be True.
 
 # HP less than 30 OR HP greater than 100.
 print(
-    df_pokemon
+    lf_pokemon
     .filter((c.HP < 30) | (c.HP > 100))
     .select("Name", "Type_1", "Type_2", "HP", "Generation", "Legendary")
     .head(12)
+    .collect()
 )
 
 # Attack greater than Defense OR Sp_Atk less than or equal to Sp_Def.
 print(
-    df_pokemon
+    lf_pokemon
     .filter((c.Attack > c.Defense) | (c.Sp_Atk <= c.Sp_Def))
     .select("Name", "Attack", "Defense", "Sp_Atk", "Sp_Def")
     .head()
+    .collect()
 )
 
 ###############################
@@ -448,240 +459,24 @@ When combining & and |, use parentheses to make the logic explicit.
 
 # Type_1 is Fire or Water, AND Generation is greater than 4.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(((c.Type_1 == "Fire") | (c.Type_1 == "Water")) & (c.Generation > "4"))
     .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
     .head(10)
+    .collect()
 )
 
 # Legendary AND (Type_1 is Psychic OR Type_2 is Dragon).
 print(
-    df_pokemon
+    lf_pokemon
     .filter(c.Legendary & ((c.Type_1 == "Psychic") | (c.Type_2 == "Dragon")))
     .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
+    .collect()
 )
 
 
 #-------------------------------------------------------------------------------------------------------------#
-#--------------------------- 4. c("column_name") and c.column_name expressions -------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
-'''
-The imported object c comes from:
-    from polars import col as c
-
-Two common styles:
-
-1. c("column_name")
-   + Works for all column names.
-   + Best for names with spaces, dots, punctuation, leading digits, etc.
-
-2. c.column_name
-   + Convenient for simple names that are valid Python identifiers.
-   + Good for quick interactive work.
-
-In this file, both styles are demonstrated.
-'''
-
-#######################
-## c("column_name")  ##
-#######################
-
-print(
-    df_pokemon
-    .filter((c("HP") < 30) | (c("HP") > 100))
-    .select("Name", "HP", "Type_1", "Type_2", "Generation")
-    .head()
-)
-
-print(
-    df_pokemon
-    .filter(c("Type_2").is_in(["Ground", "Ghost"]) & (c("HP") > 100))
-    .select("Name", "Type_1", "Type_2", "HP", "Generation", "Legendary")
-)
-
-####################
-## c.column_name  ##
-####################
-
-print(
-    df_pokemon
-    .filter((c.HP < 30) | (c.HP > 100))
-    .select(c.Name, c.HP, c.Type_1, c.Type_2, c.Generation)
-    .head()
-)
-
-print(
-    df_pokemon
-    .filter(c.Type_2.is_in(["Ground", "Ghost"]) & (c.HP > 100))
-    .select(c.Name, c.Type_1, c.Type_2, c.HP, c.Generation, c.Legendary)
-)
-
-#########################################
-## Special-character column names      ##
-#########################################
-'''
-The raw pokemon file contains column names such as:
-+ "Type 1"    -> contains a space
-+ "Type 2"    -> contains a space
-+ "Sp. Atk"   -> contains a dot and a space
-+ "Sp. Def"   -> contains a dot and a space
-
-For names like these, use c("...").
-You cannot write c.Type 1 or c.Sp. Atk as attribute syntax.
-'''
-
-print(df_pkm_raw.columns)
-# ['#', 'Name', 'Type 1', 'Type 2', 'Total', 'HP', 'Attack', 'Defense', 'Sp. Atk', 'Sp. Def', 'Speed', 'Generation', 'Legendary']
-
-print(
-    df_pkm_raw
-    .filter((c("Type 1") == "Fire") & (c("Sp. Atk") < 60))
-    .select("Name", "Type 1", "Sp. Atk", "Generation", "Legendary")
-)
-
-
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------- 5. pandas .loc[] equivalent: filter(...).select(...) --------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
-'''
-Pandas:
-    df.loc[row_condition, ["Name", "Type_1", "Type_2"]]
-
-Polars:
-    df.filter(row_condition).select("Name", "Type_1", "Type_2")
-
-filter(...) handles rows.
-select(...) handles columns.
-'''
-
-# HP less than 30 OR HP greater than 100; only selected columns.
-print(
-    df_pokemon
-    .filter((c.HP < 30) | (c.HP > 100))
-    .select("Name", "Type_1", "Type_2")
-    .head()
-)
-
-# Type_2 not in Ground/Ghost; only selected columns.
-print(
-    df_pokemon
-    .filter((~c.Type_2.is_in(["Ground", "Ghost"])) | c.Type_2.is_null())
-    .select("Name", "Type_2", "Generation")
-    .tail()
-)
-
-# You can also transform or rename selected columns after filtering.
-print(
-    df_pokemon
-    .filter((c.HP < 30) | (c.HP > 100))
-    .select(
-        c.Name,
-        c.Type_1,
-        c.HP.alias("hit_points"),
-        (c.Attack + c.Sp_Atk).alias("combined_attack"),
-    )
-    .head()
-)
-
-
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------ 6. pandas .query(...) equivalent ---------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
-'''
-Polars usually does NOT use pandas-style string query expressions.
-Instead, write normal expression syntax inside df.filter(...).
-
-Pandas:
-    df.query('HP > 200')
-
-Polars:
-    df.filter(c.HP > 200)
-
-Pandas external variables:
-    df.query('Attack >= @atk_threshold')
-
-Polars external variables:
-    df.filter(c.Attack >= atk_threshold)
-'''
-
-############################################
-## df.query("condition_expression") style ##
-############################################
-
-print(
-    df_pokemon
-    .filter(c.HP > 200)
-    .select("Name", "Type_1", "Type_2", "HP", "Generation", "Legendary")
-)
-
-print(
-    df_pokemon
-    .filter((c.Sp_Atk > c.Attack * 2) & (c.Type_1 == "Psychic"))
-    .select("Name", "Type_1", "Sp_Atk", "Attack", "Generation", "Legendary")
-    .tail()
-)
-
-print(
-    df_pokemon
-    .filter((c.Speed < 15) | (c.Speed > 150))
-    .select("Name", "Type_1", "Type_2", "Speed", "Generation", "Legendary")
-)
-
-############################################
-## String methods inside filter()          ##
-############################################
-
-print(
-    df_pokemon
-    .filter(c.Name.str.contains("Mega", literal=True))
-    .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
-    .head(5)
-)
-
-############################################
-## Negated query-style condition           ##
-############################################
-
-print(
-    df_pokemon
-    .filter(~(c.Type_2 == "Flying"))
-    .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
-    .head()
-)
-
-############################################
-## Special-character column names          ##
-############################################
-
-print(
-    df_pkm_raw
-    .filter((c("Type 1") == "Fire") & (c("Sp. Atk") < 60))
-    .select("Name", "Type 1", "Sp. Atk")
-)
-
-############################################
-## Python variables                         ##
-############################################
-
-atk_threshold = 180
-selected_types = ["Fire", "Water"]
-
-print(
-    df_pokemon
-    .filter(c.Attack >= atk_threshold)
-    .select("Name", "Attack", "Legendary")
-)
-
-print(
-    df_pokemon
-    .filter(c.Type_1.is_in(selected_types) & (c.Generation >= "5"))
-    .select("Name", "Type_1", "Generation", "Legendary")
-    .head()
-)
-
-
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------- 7. df.remove(condition): drop matching rows ---------------------------------#
+#------------------------------- 4. df.remove(condition): drop matching rows ---------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 '''
 df.filter(condition)
@@ -702,102 +497,91 @@ But they are NOT exactly identical when the predicate can be null:
 
 # Remove Fire-type rows.
 print(
-    df_pokemon
+    lf_pokemon
     .remove(c.Type_1 == "Fire")
     .select("Name", "Type_1", "Type_2", "Generation")
     .head()
+    .collect()
 )
 
 # Similar result for this non-null column.
 print(
-    df_pokemon
+    lf_pokemon
     .filter(~(c.Type_1 == "Fire"))
     .select("Name", "Type_1", "Type_2", "Generation")
     .head()
+    .collect()
 )
 
 # Remove rows that match any of these conditions.
 print(
-    df_pokemon
+    lf_pokemon
     .remove((c.HP < 30) | (c.HP > 100))
     .select("Name", "HP", "Type_1", "Type_2", "Generation")
     .head()
+    .collect()
 )
 
 # Remove rows matching multiple predicates.
 # Multiple predicates are combined with &.
 print(
-    df_pokemon
+    lf_pokemon
     .remove(
         c.Type_2 == "Flying",
         c.Speed > 100,
     )
     .select("Name", "Type_2", "Speed", "Generation")
     .head()
+    .collect()
 )
 
 ###############################
 ## Null behavior difference  ##
 ###############################
 
-df_null_demo = pl.DataFrame(
+lf_null_demo = pl.LazyFrame(
     {
         "name": ["a", "b", "c", "d"],
         "score": [1, 2, None, 4],
     }
 )
 
-print(df_null_demo)
+print(lf_null_demo.collect())
 # shape: (4, 2)
-# score row c is null.
+# ┌──────┬───────┐
+# │ name ┆ score │
+# │ ---  ┆ ---   │
+# │ str  ┆ i64   │
+# ╞══════╪═══════╡
+# │ a    ┆ 1     │
+# │ b    ┆ 2     │
+# │ c    ┆ null  │
+# │ d    ┆ 4     │
+# └──────┴───────┘
 
 # Keep rows where NOT(score > 2).
 # The null row is discarded because ~(null) is still null, and filter() only keeps True.
-print(df_null_demo.filter(~(c.score > 2)))
-# Keeps rows a and b.
+print(lf_null_demo.filter(~(c.score > 2)).collect())
+# shape: (2, 2)
+# ┌──────┬───────┐
+# │ name ┆ score │
+# │ ---  ┆ ---   │
+# │ str  ┆ i64   │
+# ╞══════╪═══════╡
+# │ a    ┆ 1     │
+# │ b    ┆ 2     │
+# └──────┴───────┘
 
 # Drop rows where score > 2.
 # The null row is retained because remove() only removes rows where the predicate is True.
-print(df_null_demo.remove(c.score > 2))
-# Keeps rows a, b, and c.
-
-'''
-Compatibility note:
-If you use an older Polars version without DataFrame.remove(), write the explicit filter version:
-    df.filter(~condition)
-
-Just remember that null-predicate behavior can differ, as shown above.
-'''
-
-
-#-------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 8. LazyFrame filtering ------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
-'''
-LazyFrame uses the same expression syntax.
-The query is planned first and executed only when .collect() is called.
-
-This is useful when reading from scan_csv(), scan_parquet(), scan_ndjson(), etc.
-'''
-
-lf_pokemon = df_pokemon.lazy()
-
-result = (
-    lf_pokemon
-    .filter((c.Type_1 == "Fire") & (c.Generation == "1"))
-    .select("Name", "Type_1", "Type_2", "HP", "Attack", "Generation")
-    .collect()
-)
-
-print(result)
-# Same result shape as the eager filter/select pipeline.
-
-# A lazy "remove" style can be written as a negated filter.
-result = (
-    lf_pokemon
-    .filter(~((c.HP < 30) | (c.HP > 100)))
-    .select("Name", "HP", "Type_1", "Generation")
-    .collect()
-)
-
-print(result.head())
+print(lf_null_demo.remove(c.score > 2).collect())
+# shape: (3, 2)
+# ┌──────┬───────┐
+# │ name ┆ score │
+# │ ---  ┆ ---   │
+# │ str  ┆ i64   │
+# ╞══════╪═══════╡
+# │ a    ┆ 1     │
+# │ b    ┆ 2     │
+# │ c    ┆ null  │
+# └──────┴───────┘
