@@ -1,5 +1,5 @@
 '''
-"lambda" enables concise, anonymous, single-expression functions 
+"lambda" enables concise, anonymous, single-expression functions
 that shine when passed inline to higher-order utilities (map, filter, sorted, etc.)
 
 Use "lambda" for quick, short and throwaway functions.
@@ -69,7 +69,7 @@ print(evens)
 
 words = ['lambda', 'is', 'handy']
 
-print(sorted(words, key=lambda w: len(w))) 
+print(sorted(words, key=lambda w: len(w)))
 # ['is', 'handy', 'lambda']
 
 #---------------
@@ -87,7 +87,7 @@ demo_dict = {
 
 sorted_dict_key = dict(
     sorted(
-        demo_dict.items(), 
+        demo_dict.items(),
         key=lambda x: x[0], # sort by keys
         reverse=False # sort ascending
     )
@@ -108,7 +108,7 @@ for key, value in sorted_dict_key.items():
 
 sorted_dict_value = dict(
     sorted(
-        demo_dict.items(), 
+        demo_dict.items(),
         key=lambda x: x[1], # sort by values
         reverse=True # sort descending
     )
@@ -121,7 +121,7 @@ for key, value in sorted_dict_value.items():
 # B: 5
 # F: 4
 # C: 3
-# D: 1  
+# D: 1
 
 #########################################
 ## use lambda for currying / factories ##
@@ -157,3 +157,11 @@ print(sign_check(-15.3))
 exponential = lambda x: (lambda y: x**y)
 print(exponential(2)(3))  # 2^3 = 8
 print(exponential(5)(2))  # 5^2 = 25
+
+##########################################################
+## result = (lambda x, y, z: x*y + z)(arg1, arg2, arg3) ##
+##########################################################
+
+result = (lambda x, y, z: x*y + z)(2, 3.5, 7)
+print(result)
+# 14.0 = 2*3.5 + 7
