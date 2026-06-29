@@ -6,13 +6,14 @@ This file is adapted from the pandas workflow:
 1. Changing Column Names:
    + pandas df.set_axis(new_names, axis=1)       -> Polars df.columns = new_names, or df.rename(dict(zip(...)))
    + pandas df.columns = new_names               -> Polars df.columns = new_names
-   + pandas df.columns.str.replace(...)          -> Polars df.rename(function) or pl.all().name.replace(...)
-   + pandas df.columns.map(function)             -> Polars df.rename(function) or pl.all().name.map(function)
+   + pandas df.columns.str.replace(...)          -> Polars df.rename(function) or df.select(pl.all().name.replace(...))
+   + pandas df.columns.map(function)             -> Polars df.rename(function) or df.select(pl.all().name.map(function))
    + pandas df.rename(columns={...})             -> Polars df.rename({...})
    + pandas df.rename(columns=lambda col: ...)   -> Polars df.rename(lambda col: ...)
    + pandas df.add_prefix('pre_')                -> Polars df.select(pl.all().name.prefix('pre_'))
    + pandas df.add_suffix('_suf')                -> Polars df.select(pl.all().name.suffix('_suf'))
    + pandas MultiIndex columns                   -> Polars uses normal flat names or Struct columns.
+   + Example: clean Pokemon dataframe column names (lazyframe implementation)
 
 2. Changing Row Names / Index:
    + Polars does NOT have pandas-style custom row indexes or MultiIndex.
@@ -487,9 +488,44 @@ print(df_struct_like)
 # │ Brazil    ┆ 2019 ┆ {43.76}   ┆ {89.18}     │
 # └───────────┴──────┴───────────┴─────────────┘
 
+############################################################################################
+##        Example: clean Pokemon dataframe column names (lazyframe implementation)        ##
+############################################################################################
+
+lf_pokemon = (
+    pl.scan_csv(data_dir/"pokemon.csv")
+    .rename(lambda name: name.strip()) # remove trailing space characters
+    .select(
+        pl.all()
+        .name.replace(r"\s+", "_") # replace " " or "  " (or more consecutive space characters) with just one "_"
+        .name.replace(".", "", literal=True) # replace "." with empty string (remove it), literal=True to deactive regex
+    )
+)
+
+print(lf_pokemon.collect())
+# shape: (800, 13)
+# ┌─────┬───────────────────────┬─────────┬────────┬───┬────────┬───────┬────────────┬───────────┐
+# │ #   ┆ Name                  ┆ Type_1  ┆ Type_2 ┆ … ┆ Sp_Def ┆ Speed ┆ Generation ┆ Legendary │
+# │ --- ┆ ---                   ┆ ---     ┆ ---    ┆   ┆ ---    ┆ ---   ┆ ---        ┆ ---       │
+# │ i64 ┆ str                   ┆ str     ┆ str    ┆   ┆ i64    ┆ i64   ┆ i64        ┆ bool      │
+# ╞═════╪═══════════════════════╪═════════╪════════╪═══╪════════╪═══════╪════════════╪═══════════╡
+# │ 1   ┆ Bulbasaur             ┆ Grass   ┆ Poison ┆ … ┆ 65     ┆ 45    ┆ 1          ┆ false     │
+# │ 2   ┆ Ivysaur               ┆ Grass   ┆ Poison ┆ … ┆ 80     ┆ 60    ┆ 1          ┆ false     │
+# │ 3   ┆ Venusaur              ┆ Grass   ┆ Poison ┆ … ┆ 100    ┆ 80    ┆ 1          ┆ false     │
+# │ 3   ┆ VenusaurMega Venusaur ┆ Grass   ┆ Poison ┆ … ┆ 120    ┆ 80    ┆ 1          ┆ false     │
+# │ 4   ┆ Charmander            ┆ Fire    ┆ null   ┆ … ┆ 50     ┆ 65    ┆ 1          ┆ false     │
+# │ …   ┆ …                     ┆ …       ┆ …      ┆ … ┆ …      ┆ …     ┆ …          ┆ …         │
+# │ 719 ┆ Diancie               ┆ Rock    ┆ Fairy  ┆ … ┆ 150    ┆ 50    ┆ 6          ┆ true      │
+# │ 719 ┆ DiancieMega Diancie   ┆ Rock    ┆ Fairy  ┆ … ┆ 110    ┆ 110   ┆ 6          ┆ true      │
+# │ 720 ┆ HoopaHoopa Confined   ┆ Psychic ┆ Ghost  ┆ … ┆ 130    ┆ 70    ┆ 6          ┆ true      │
+# │ 720 ┆ HoopaHoopa Unbound    ┆ Psychic ┆ Dark   ┆ … ┆ 130    ┆ 80    ┆ 6          ┆ true      │
+# │ 721 ┆ Volcanion             ┆ Fire    ┆ Water  ┆ … ┆ 90     ┆ 70    ┆ 6          ┆ true      │
+# └─────┴───────────────────────┴─────────┴────────┴───┴────────┴───────┴────────────┴───────────┘
+
+
 
 #--------------------------------------------------------------------------------------------------------------#
-#----------------------------------- 2. Changing Row Names / Index --------------------------------------------#
+#--------------------------------------- 2. Changing Row Names / Index ----------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 '''
 The most important Polars concept in this section:

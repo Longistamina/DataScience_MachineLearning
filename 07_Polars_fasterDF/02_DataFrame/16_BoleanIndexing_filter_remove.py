@@ -73,17 +73,28 @@ data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 # Keep a raw version too, because later we demonstrate special-character column names.
 df_pkm_raw = pl.read_csv(data_dir / "pokemon.csv")
 
+s_col_names = pl.Series(df_pkm_raw.columns)
+print(
+    s_col_names
+    .str.strip_chars()
+    .str.replace(r"\s+", "_")
+    .str.replace(".", "", literal=True)
+)
+
 # Cleaned version for most examples.
 df_pokemon = (
     df_pkm_raw
     .drop("#")
-    .rename(clean_column_name)
+    .rename(lambda name: name.strip())
+    .select(pl.all().name.replace(r"\s+", "_").name.replace(".", "", literal=True))
     .with_columns(
         c("Type_1").cast(pl.Categorical),
         c("Type_2").cast(pl.Categorical),
-        c("Generation").cast(pl.String).cast(pl.Enum(["1", "2", "3", "4", "5", "6"])),
         c("Legendary").cast(pl.Boolean),
     )
+    .pipe(lambda f: f.with_columns(
+        c("Generation").cast(pl.String).cast(pl.Enum(f["Generation"].unique().sort().cast(pl.String).to_list())),
+    ))
 )
 
 print(df_pokemon.head())
