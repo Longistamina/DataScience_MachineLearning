@@ -4,6 +4,7 @@
 
 name = "Le Anh Thu"
 l = len(name)
+print(l) # 10
 
 first_element = name[0] # L
 fourth_element = name[3] # A
@@ -26,7 +27,7 @@ name[7] = "T"
 
 ''' Python considers 0 as the index of the first element of an iterator '''
 
-family_name = name[0:2] # stop at element of index 2, but not include it 
+family_name = name[0:2] # stop at element of index 2, but not include it
 family_name = name[:2]
 
 middle_name = name[3:6]
@@ -79,7 +80,7 @@ print("-" * 50) # print character '-' 50 times
 
 normal_string = "Hello\nWorld"  # Normal string with escape sequences
 
-print(normal_string)  
+print(normal_string)
 # Output: Hello
 #         World
 
@@ -91,7 +92,7 @@ print(normal_string)
 
 raw_string = r"Hello\nWorld"  # Raw string, no escape sequences
 
-print(raw_string)  
+print(raw_string)
 # Output: Hello\nWorld
 
 #####################

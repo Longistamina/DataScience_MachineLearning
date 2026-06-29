@@ -6,6 +6,7 @@ from pathlib import Path
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
+
 #-----------------------------------------------------------------------------------------------------------#
 #------------------------------------------- Step-by-step workflow -----------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
@@ -29,8 +30,8 @@ df_bac = (
 print(df_bac.info())
 # RangeIndex: 34826 entries, 0 to 34825
 # Data columns (total 6 columns):
-#  #   Column         Non-Null Count  Dtype 
-# ---  ------         --------------  ----- 
+#  #   Column         Non-Null Count  Dtype
+# ---  ------         --------------  -----
 #  0   ID             34826 non-null  object
 #  1   FULL_NAME      34826 non-null  object
 #  2   BIRTHDAY       34826 non-null  object
@@ -108,14 +109,14 @@ print(df_bac.info())
 # <class 'pandas.DataFrame'>
 # RangeIndex: 34826 entries, 0 to 34825
 # Data columns (total 6 columns):
-#  #   Column         Non-Null Count  Dtype         
-# ---  ------         --------------  -----         
-#  0   ID             34826 non-null  str           
-#  1   FULL_NAME      34826 non-null  str           
+#  #   Column         Non-Null Count  Dtype
+# ---  ------         --------------  -----
+#  0   ID             34826 non-null  str
+#  1   FULL_NAME      34826 non-null  str
 #  2   BIRTHDAY       34806 non-null  datetime64[us]
-#  3   EXAM_LOCATION  34826 non-null  category      
-#  4   GENDER         34826 non-null  category      
-#  5   SCORE          34826 non-null  str           
+#  3   EXAM_LOCATION  34826 non-null  category
+#  4   GENDER         34826 non-null  category
+#  5   SCORE          34826 non-null  str
 # dtypes: category(2), datetime64[us](1), str(3)
 # memory usage: 4.5 MB
 # None
@@ -202,7 +203,7 @@ df_subjects_score = (
 
 print(df_subjects_score.head())
 #                FULL_NAME  GENDER  Math  Literature  Geography  History  English  Biology  Physics  Chemistry
-# ID                                                                                                          
+# ID
 # 018000001  DƯƠNG VIỆT AN    Male  2.00        5.50       5.00      3.0      NaN      NaN      NaN        NaN
 # 018000002      ĐỖ VĂN AN    Male  5.50        5.25       5.50      NaN     3.68      NaN      NaN        NaN
 # 018000003     ĐỖ XUÂN AN    Male  4.50        5.50       3.75      NaN     2.25      NaN      NaN        NaN
@@ -273,7 +274,7 @@ df_bac = (
     )
     .pipe(lambda df: # Split SCORE column into multiple subject columns
           df.assign(**{subj: df['SCORE'].str.extract(fr'{subj}:\s*(\d+\.\d+)', expand=False).astype(float) for subj in dict_subjects.values()})
-    ) 
+    )
     .drop(columns=['SCORE', 'BIRTHDAY', 'EXAM_LOCATION'])
     .set_index('ID')
     .pipe(lambda df: df.assign(**{col: df[col].fillna('not_attend') for col in dict_subjects.values()})) # Dummy pipe to end the chain
@@ -281,7 +282,7 @@ df_bac = (
 
 print(df_bac.head())
 #                FULL_NAME  GENDER  Math Literature Geography     History     English     Biology     Physics   Chemistry
-# ID                                                                                                                     
+# ID
 # 018000001  DƯƠNG VIỆT AN    Male   2.0        5.5       5.0         3.0  not_attend  not_attend  not_attend  not_attend
 # 018000002      ĐỖ VĂN AN    Male   5.5       5.25       5.5  not_attend        3.68  not_attend  not_attend  not_attend
 # 018000003     ĐỖ XUÂN AN    Male   4.5        5.5      3.75  not_attend        2.25  not_attend  not_attend  not_attend

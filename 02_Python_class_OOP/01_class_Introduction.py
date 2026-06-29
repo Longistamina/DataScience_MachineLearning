@@ -32,7 +32,7 @@ print(item1_name.upper()) # PHONE
 class Item:
     pass
 
-item1 = Item()       
+item1 = Item()
 item1.name = "Phone" # Assign the attribute .name of item1 as "Phone"
 item1.price = 100    # Assign the attribute .price of item1 as 100
 item1.quantity = 5   # Assign the attribute .quantity of item1 as 5
@@ -67,10 +67,10 @@ class ItemMethod:
 '''
 # "self" argument in "def method_name(self,....)" helps refer to the current instance of the class itself
 # It is the way an instance method accesses the attributes (variables) and other methods of the same object
-# When you define a method in a class, you explicitly include "self" as the first parameter, 
+# When you define a method in a class, you explicitly include "self" as the first parameter,
 # which allows you to refer to the instance calling the method.
 '''
-    
+
 
 item3 = ItemMethod()   # Create the object item1 which belongs to class Item()
 item3.name = "Car"
