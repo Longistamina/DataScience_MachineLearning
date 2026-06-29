@@ -15,7 +15,7 @@ PART 1: pl.Categorical (Unordered)
 
 PART 2: pl.Enum (Ordered)
 4. Creation and Ordering
-5. Fast trick to convert Categorical to Enum without specifying list of categories
+5. Fast trick to convert to Enum without specifying list of categories
 6. Meaningful Sorting, Min, and Max
 7. Reordering and Renaming (via Enum schema)
 '''
@@ -154,19 +154,21 @@ print(s_enum)
 print(isinstance(s_enum.dtype, pl.Enum))
 # True
 
-########################################################################################
-## 5. Fast trick to convert Categorical to Enum without specifying list of categories ##
-########################################################################################
+############################################################################
+## 5. Fast trick to convert to Enum without specifying list of categories ##
+############################################################################
 
-s_level_categ = pl.Series(name="level", values=[2, 1, 3, 3, 1, 4, 6, 2, 5, 3, 1, 5, 4], dtype=pl.Categorical, strict=False)
+s_level= pl.Series(name="level", values=[2, 1, 3, 3, 1, 4, 6, 2, 5, 3, 1, 5, 4])
+print(s_level.dtype) # Int64
 
 # convert from pl.Categorical to pl.Enum without specifying list of categories
 s_level_enum = (
-    s_level_categ
+    s_level
+    .cast(pl.String) # MUST cast to String first (if the original Series is already a String or Categorical, can skip this)
     .cast(
         pl.Enum(
-            s_level_categ
-            .cast(pl.String) # MUST cast the original pl.Categorical to pl.String first
+            s_level
+            .cast(pl.String) # MUST also need a cast here (can only skip if it is a String already)
             .unique()        # Then call unique() to get unique levels
             .sort()          # Then sort() the unique levels to get the order
             # => This list of sorted unique levels will be fed into pl.Enum() to create a corresponding Enum type
@@ -174,8 +176,11 @@ s_level_enum = (
     )
 )
 
-# One-liner version: here we use ```lambda s: ...``` to avoid typing the long series name repeatedly
-s_level_enum = (lambda s: s.cast(pl.Enum(s.cast(pl.String).unique().sort())))(s_level_categ)
+# One-liner version 1
+s_level_enum = s_level.cast(pl.String).cast(pl.Enum(s_level.cast(pl.String).unique().sort()))
+
+# One-liner version 2: here we use ```(lambda s: ...)(s_level_categ)``` to avoid typing the long series name repeatedly
+s_level_enum = (lambda s: s.cast(pl.String).cast(pl.Enum(s.cast(pl.String).unique().sort())))(s_level)
 print(s_level_enum)
 # shape: (13,)
 # Series: 'level' [enum]
