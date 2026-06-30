@@ -123,7 +123,7 @@ print(f"Shape: {lu.shape}") # (3, 3)
 
 # Solve using LU factors
 x_lu = lu.solve(b)
-print(f"\nSolution using LU: {x_lu}") 
+print(f"\nSolution using LU: {x_lu}")
 # [0.17857143 0.28571429 0.67857143]
 
 # Access L and U factors
@@ -152,8 +152,8 @@ n = 100
 # Tridiagonal matrix: -1, 2, -1
 main_diag = np.ones(n) * 2
 off_diag = np.ones(n-1) * -1
-A_large = diags_array([off_diag, main_diag, off_diag], 
-                       offsets=[-1, 0, 1], 
+A_large = diags_array([off_diag, main_diag, off_diag],
+                       offsets=[-1, 0, 1],
                        format='csc')
 '''
 A_large looks like:
@@ -334,7 +334,7 @@ print(f"\nFirst eigenpair residual: {residual:.2e}") # 1.90e-15
 
 # Compute largest eigenvalues
 eigenvalues_large, _ = eigsh(A_sym, k=k, which='LM') # LM means Largest Magnitude
-print(f"\nLargest {k} eigenvalues: {eigenvalues_large}") 
+print(f"\nLargest {k} eigenvalues: {eigenvalues_large}")
 # [3.97586088 3.98453974 3.9912987  3.99613119 3.99903256]
 
 ##################################
@@ -381,7 +381,7 @@ k = 5
 U, s, Vt = svds(A_rect, k=k, which='LM')
 
 print(f"Matrix shape: {A_rect.shape}") # (100, 50)
-print(f"Singular values: {s[::-1]}")  # [4.13844787 3.00104187 2.90801928 2.75496175 2.64393314] 
+print(f"Singular values: {s[::-1]}")  # [4.13844787 3.00104187 2.90801928 2.75496175 2.64393314]
                                       # svds returns in ascending order
 print(f"U shape: {U.shape}") # (100, 5)
 print(f"Vt shape: {Vt.shape}") # (5, 50)
@@ -447,7 +447,7 @@ print(f"Ill-conditioned matrix condition number: {cond_bad:.2e}") # 3.00e+05
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 5. Matrix Decompositions -----------------------------------------#
+#---------------------------------------- 5. Matrix Decompositions --------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
 ######################
@@ -467,7 +467,7 @@ lu_factors = splu(A_lu)
 # Access factors
 L = lu_factors.L
 U = lu_factors.U
-P = sparse.csr_array((np.ones(A_lu.shape[0]), 
+P = sparse.csr_array((np.ones(A_lu.shape[0]),
                       (lu_factors.perm_r, np.arange(A_lu.shape[0]))))
 
 print(L.toarray())
@@ -542,7 +542,7 @@ iterations_no_prec = []
 def callback_no_prec(xk):
     iterations_no_prec.append(len(iterations_no_prec))
 
-x_no_prec, info1 = cg(A_difficult, b_difficult, rtol=1e-6, 
+x_no_prec, info1 = cg(A_difficult, b_difficult, rtol=1e-6,
                       callback=callback_no_prec, maxiter=500)
 
 # Solve with ILU preconditioner

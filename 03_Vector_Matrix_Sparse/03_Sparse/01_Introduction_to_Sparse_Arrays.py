@@ -29,7 +29,6 @@ from scipy.sparse import csr_array, coo_array
 #--------------------------------------------------------------------------------------------------------------#
 #--------------------------------- 1. What are Sparse Arrays? ---------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
-
 '''
 Sparse arrays are special arrays where most locations contain zeros.
 Instead of storing all values (including zeros), sparse arrays only store non-zero values
@@ -41,8 +40,8 @@ Example: A 1000x1000 array with only 50 non-zero values
 '''
 
 # Create a dense array with mostly zeros
-dense = np.array([[1, 0, 0, 2], 
-                  [0, 4, 1, 0], 
+dense = np.array([[1, 0, 0, 2],
+                  [0, 4, 1, 0],
                   [0, 0, 5, 0]])
 
 print(dense)
@@ -111,7 +110,7 @@ print("Number of dimensions:", sparse_csr.ndim)  # 2
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#--------------------------- 3. Converting Back to Dense Arrays -----------------------------------------------#
+#---------------------------------- 3. Converting Back to Dense Arrays ----------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 
 ######################
@@ -234,7 +233,7 @@ print(sparse_csr.sum(axis=0))
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#-------------------------------- 6. Memory Efficiency Demonstration ------------------------------------------#
+#----------------------------------- 6. Memory Efficiency Demonstration ---------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 '''Sparse arrays are most beneficial for large arrays with low density'''
 
@@ -249,7 +248,7 @@ rows = np.random.randint(0, large_size, n_nonzero)
 cols = np.random.randint(0, large_size, n_nonzero)
 data = np.random.randn(n_nonzero)
 
-large_sparse = coo_array((data, (rows, cols)), shape=(large_size, large_size))
+large_sparse = csr_array((data, (rows, cols)), shape=(large_size, large_size))
 
 print("\n--- Memory Efficiency ---")
 print(f"Array shape: {large_sparse.shape}") # (1000, 1000)
@@ -258,9 +257,9 @@ print(f"Stored elements: {large_sparse.nnz:,}") # 10,000
 print(f"Density: {100 * large_sparse.nnz / (large_sparse.shape[0] * large_sparse.shape[1]):.2f}%") # 1.00%
 
 # Memory comparison (approximate)
-dense_memory_mb = (large_size * large_size * 8) / (1024**2)  # 8 bytes per float64
-sparse_memory_mb = (large_sparse.nnz * (8 + 4 + 4)) / (1024**2)  # data + row + col indices
+dense_memory_mb = large_sparse.toarray().nbytes / (1024**2)  # 8 bytes per float64
+sparse_memory_mb = (large_sparse.data.nbytes + large_sparse.indices.nbytes + large_sparse.indptr.nbytes) / (1024**2)  # data + row + col indices
 
-print(f"\nApproximate dense memory: {dense_memory_mb:.1f} MB") # 7.6 MB
-print(f"Approximate sparse memory: {sparse_memory_mb:.1f} MB") # 0.2 MB
-print(f"Memory savings: {100 * (1 - sparse_memory_mb/dense_memory_mb):.1f}%") # 98.0%
+print(f"\nApproximate dense memory: {dense_memory_mb:.2f} MB") # 7.63 MB
+print(f"Approximate sparse memory: {sparse_memory_mb:.2f} MB") # 0.16 MB
+print(f"Memory savings: {100 * (1 - sparse_memory_mb/dense_memory_mb):.2f}%") # 97.91%
