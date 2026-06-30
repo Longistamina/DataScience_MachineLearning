@@ -36,7 +36,7 @@ scipy.sparse - Advanced Sparse Operations
 
 import numpy as np
 from scipy import sparse
-from scipy.sparse import (csr_array, csc_array, coo_array, lil_array,
+from scipy.sparse import (csr_array, coo_array, lil_array,
                           diags_array, eye_array, random_array)
 from scipy.sparse.csgraph import (connected_components, shortest_path,
                                   minimum_spanning_tree, depth_first_order,
@@ -108,7 +108,7 @@ row_unsorted = [2, 0, 1, 0]
 col_unsorted = [1, 2, 0, 0]
 data_unsorted = [1, 2, 3, 4]
 
-coo_unsorted = coo_array((data_unsorted, (row_unsorted, col_unsorted)), 
+coo_unsorted = coo_array((data_unsorted, (row_unsorted, col_unsorted)),
                          shape=(3, 3))
 
 print(f"Unsorted COO canonical format: {coo_unsorted.has_canonical_format}") # False
@@ -334,7 +334,7 @@ Graph represented as sparse adjacency matrix
 
 #################
 
-A connected component is a maximal subset of nodes 
+A connected component is a maximal subset of nodes
 where every node can reach every other node through some path.
 '''
 
@@ -366,7 +366,7 @@ print("Component 1: nodes", np.where(labels == 1)[0]) # [3 4 5]
 Component 0: Nodes {0, 1, 2} form a triangle where all three nodes are interconnected
 Component 1: Nodes {3, 4, 5} also form a triangle with mutual connections
 
-Since there are no edges connecting any node in {0,1,2} to any node in {3,4,5}, 
+Since there are no edges connecting any node in {0,1,2} to any node in {3,4,5},
 these form two distinct connected components.
 '''
 
@@ -406,7 +406,7 @@ print(weights_graph.toarray())
 #  [inf inf  2. inf inf inf  6.  7.  0.]]
 
 # Compute shortest paths from node 0
-dist_matrix, predecessors = shortest_path(weights_graph, 
+dist_matrix, predecessors = shortest_path(weights_graph,
                                           method='auto',
                                           directed=False,
                                           return_predecessors=True,
@@ -554,7 +554,7 @@ print(f"Shape: {A_kron.shape} ⊗ {B_kron.shape} = {kron_prod.shape}")
 # Shape: (2, 2) ⊗ (2, 2) = (4, 4)
 
 ###########################################
-## Practical: 2D Laplacian via Kronecker ## 
+## Practical: 2D Laplacian via Kronecker ##
 ###########################################
 '''
 Build 2D Laplacian using Kronecker products

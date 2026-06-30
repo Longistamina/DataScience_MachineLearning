@@ -41,12 +41,12 @@ scipy.sparse - Sparse Array Formats
 '''
 
 import numpy as np
-from scipy.sparse import (coo_array, csr_array, csc_array, 
+from scipy.sparse import (coo_array, csr_array, csc_array,
                           bsr_array, dia_array, dok_array, lil_array)
 
 # Create a sample dense array for demonstrations
-dense = np.array([[1, 0, 0, 2], 
-                  [0, 4, 1, 0], 
+dense = np.array([[1, 0, 0, 2],
+                  [0, 4, 1, 0],
                   [0, 0, 5, 0]])
 
 print("Original dense array:")
@@ -57,12 +57,12 @@ print(dense)
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#--------------------------------- 1. COO (Coordinate) Format -------------------------------------------------#
+#--------------------------------------- 1. COO (Coordinate) Format -------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 '''
 COO format stores three arrays:
 - row: row indices of non-zero elements
-- col: column indices of non-zero elements  
+- col: column indices of non-zero elements
 - data: values of non-zero elements
 
 Best for:
@@ -353,7 +353,7 @@ print(bsr.data)
 
 
 #--------------------------------------------------------------------------------------------------------------#
-#--------------------------------- 5. DIA (Diagonal) Format ---------------------------------------------------#
+#--------------------------------------- 5. DIA (Diagonal) Format ---------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 '''
 DIA format stores values along diagonals
