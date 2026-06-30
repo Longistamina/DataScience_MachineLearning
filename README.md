@@ -189,3 +189,12 @@
       * 2D and nD array: chainning methods
       * 2D and nD array: convert to other data structures
       * 2D and nD array: save arrays to files
+  + [03_Vector_Matrix_Sparse_part_08](https://youtu.be/_IQ_XJZIbhg): 30th/06/2026
+      * Sparse Array: introduction
+      * Sparse Array: different formats (COO, CSR, CSC, DOK, LIL, ...)
+      * Sparse Array: building, creating
+      * Sparse Array: operations
+      * Sparse Array: indexing, slicing
+      * Sparse Array: linear algebra
+      * Sparse Array: save and load
+      * Sparse Array: advanced operations (not explain in details)
