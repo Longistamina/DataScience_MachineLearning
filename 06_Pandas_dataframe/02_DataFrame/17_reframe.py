@@ -80,13 +80,13 @@ print(
 #######################
 
 '''
-The cumulative distribution function (CDF) takes a value and returns the probability 
-that a random variable is less than or equal to that value; 
+The cumulative distribution function (CDF) takes a value and returns the probability
+that a random variable is less than or equal to that value;
 
-The percent-point function (PPF), also called the inverse CDF or quantile function, 
-takes a probability and returns the corresponding value whose CDF equals that probability. 
+The percent-point function (PPF), also called the inverse CDF or quantile function,
+takes a probability and returns the corresponding value whose CDF equals that probability.
 
-In short: CDF input is a value and output is a probability in ; 
+In short: CDF input is a value and output is a probability in ;
 PPF input is a probability in and output is a value on the distribution's scale.
 
 ########################
@@ -122,7 +122,7 @@ print(df_ppf)
 # ppf_100th       inf          inf         inf
 
 '''
-rm_norm: the value 5.810 is the 25th percentile of a normal distribution, 
+rm_norm: the value 5.810 is the 25th percentile of a normal distribution,
          meaning it higher than 25% of the data points.
 
 lstat_expon: the value 3.640 is the 25th percentile of an exponential distribution,
