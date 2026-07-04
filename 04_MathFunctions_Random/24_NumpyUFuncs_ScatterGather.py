@@ -260,7 +260,7 @@ print("casting='safe' (int+float):", res_safe, res_safe.dtype)
 # 'unsafe': float64 → int32 (truncates)
 out_int = np.empty(3, dtype=np.int32)
 np.add(a_int, b_f64, out=out_int, casting='unsafe')
-print("casting='unsafe' (truncated):", out_int)   
+print("casting='unsafe' (truncated):", out_int)
 # casting='unsafe' (truncated): [1 3 5]
 
 # 'no': fails if dtypes differ
@@ -1357,7 +1357,7 @@ print("x > 3 (out=):", result_bool)   # [F F F T T]
 
 # equal: all elements equal (manual np.all equivalent)
 same = np.array([5, 5, 5, 5])
-is_all_fives = np.all(np.equal(same, same[0])) 
+is_all_fives = np.all(np.equal(same, same[0]))
 print("Are all elements equal? (using np.equal + np.all):", is_all_fives)  # True
 
 ##########################################################
@@ -1578,7 +1578,7 @@ print("custom_op(x, 2):", custom_op_uf(x_bin, 2.0))
 # It does: _custom_add(_custom_add(10, 4), 2)
 # Step 1: 10 + (4/2) = 12
 # Step 2: 12 + (2/2) = 13
-print("custom_op.reduce:", float(custom_op_uf.reduce(x_bin))) 
+print("custom_op.reduce:", float(custom_op_uf.reduce(x_bin)))
 # 13.0
 
 # Binary ufunc: clamp(x, lo, hi) = max(lo, min(hi, x))
