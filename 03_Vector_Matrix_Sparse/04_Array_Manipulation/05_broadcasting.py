@@ -46,7 +46,7 @@ Flow of contents:
    + 2D op 3D
    + 2D op 4D
    + 3D op 4D
-   
+
 6. NumPy broadcasting functions:
    + np.broadcast_to
    + np.broadcast_arrays
@@ -62,13 +62,10 @@ Flow of contents:
 
 import numpy as np
 
-np.random.seed(42)
-
 
 #--------------------------------------------------------------------------------------------------------#
 #---------------------------- 0. The Broadcasting Rules — shape alignment  ------------------------------#
 #--------------------------------------------------------------------------------------------------------#
-
 '''
 NumPy compares shapes right-to-left and applies the two rules:
   Rule A: if lengths differ, pad the shorter shape on the LEFT with 1s.
@@ -252,6 +249,7 @@ row_2d = np.array([[100, 200, 300]]) # shape (1, 3)
 # [[100 200 300]
 #  [100 200 300]
 #  [100 200 300]
+#  [100 200 300]
 
 print(matrix + col_2d)
 # [[ 2  3  4]
@@ -311,6 +309,7 @@ v_1d = np.array([1, 2, 3, 4])   # shape (4,)
 # [[[1 2 3 4]
 #   [1 2 3 4]
 #  [1 2 3 4]]
+#
 # [[1 2 3 4]
 #  [1 2 3 4]
 #  [1 2 3 4]]]
@@ -571,7 +570,7 @@ print(np.array_equal(F2342 + block_3d,
 
 
 #--------------------------------------------------------------------------------------------------------#
-#------------------------------- 6. NumPy broadcasting functions  ---------------------------------------#
+#-------------------------------- 6. NumPy broadcasting functions  --------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
 
 #######################
@@ -636,9 +635,10 @@ print(b2)
 ###########################
 '''Determine the shape of the broadcast result from multiple shapes.'''
 
-shape1 = (3,)
-shape2 = (4, 1)
-shape3 = (2, 4, 1)
+shape1 = (3,)      # -> (1, 1, 3)
+shape2 = (4, 1)    # -> (1, 4, 1)
+shape3 = (2, 4, 1) # -> (2, 4, 1)
+                   # => (2, 4, 3) MAX
 
 print(np.broadcast_shapes(shape1, shape2, shape3))
 # (2, 4, 3)

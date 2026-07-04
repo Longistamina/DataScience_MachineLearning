@@ -33,7 +33,7 @@ print(tensor)
 #--------------------------------- 1. np.moveaxis() ---------------------------------#
 #------------------------------------------------------------------------------------#
 '''
-np.moveaxis(a, source, destination): moves axes of an array to new positions 
+np.moveaxis(a, source, destination): moves axes of an array to new positions
                                      while other axes remain in their original order.
                                      Source: the original positions of the axes to move. These must be unique.
                                      Destination: the destination positions for each of the original axes. These must also be unique.
@@ -75,7 +75,7 @@ print(moved)
 #------------------------------- 2. np.rollaxis() ----------------------------------#
 #-----------------------------------------------------------------------------------#
 '''
-np.rollaxis(a, axis, start): Rolls the specified axis backwards until it lies in a given position. 
+np.rollaxis(a, axis, start): Rolls the specified axis backwards until it lies in a given position.
                             The other axes remain in their original order.
                             Axis: the axis to roll. This must be an integer.
                             Start: the position to roll the axis to. This must be an integer.
@@ -102,13 +102,13 @@ print(rolled)
 
 #  [[10 11 12 13 14]
 #   [25 26 27 28 29]]]
-# axis 0 rolled to position 2, so (2, 3, 5) -> (3, 5, 2)
+# axis 0 rolled to position 2, so (2, 3, 5) -> (3, 5, 2) -> (3, 2, 5)
 
 tensor_4d = np.arange(0, 120).reshape(2, 3, 4, 5)
 print(np.rollaxis(tensor_4d, 0, 3).shape) # (3, 4, 2, 5)
 '''
 The roll happens like this:
-(2, 3, 4, 5) -> (3, 2, 4, 5) -> (3, 4, 2, 5)
+(2, 3, 4, 5) -> (3, 4, 5, 2) -> (3, 4, 2, 5)
 
 It stops at position 3-1 = 2, not position 3, because start > axis
 '''
@@ -160,7 +160,7 @@ print(swapped)
 '''np.transpose(a, axes=None): Permute the dimensions of an array.'''
 '''ndarray.T: same as np.transpose() with axes reversed.'''
 
-'''np.transpose() gives more control over the order of the axes, 
+'''np.transpose() gives more control over the order of the axes,
 while ndarray.T simply reverses the order of the axes.'''
 
 transposed = np.transpose(matrix)
@@ -305,35 +305,30 @@ print(permuted)
 #-------------------------------------------------------------------------------------------#
 '''
 np.matrix_tranpose(x, /): Transposes a matrix (or a stack of matrices)
-=> This works like ndarray.T
+
+(..., M, N) -> (..., N, M)
 '''
 
-mtr_transposed = np.matrix.transpose(matrix)
-print("\nMatrix Transposed using np.matrix.transpose():")
+mtr_transposed = np.matrix_transpose(matrix)
+print("\nMatrix Transposed using np.matrix_transpose():")
 print(mtr_transposed)
 # [[ 1  4  7 10]
 #  [ 2  5  8 11]
 #  [ 3  6  9 12]]
+# (4, 3) -> (3, 4)
 
-mtr_transposed = np.matrix.transpose(tensor)
+mtr_transposed = np.matrix_transpose(tensor)
 print("\nTensor Transposed using np.matrix.transpose():")
 print(mtr_transposed)
-# [[[ 0 15]
-#   [ 5 20]
-#   [10 25]]
-
-#  [[ 1 16]
-#   [ 6 21]
-#   [11 26]]
-
-#  [[ 2 17]
-#   [ 7 22]
-#   [12 27]]
-
-#  [[ 3 18]
-#   [ 8 23]
-#   [13 28]]
-
-#  [[ 4 19]
-#   [ 9 24]
-#   [14 29]]]
+# [[[ 0  5 10]
+#   [ 1  6 11]
+#   [ 2  7 12]
+#   [ 3  8 13]
+#   [ 4  9 14]]
+#
+#  [[15 20 25]
+#   [16 21 26]
+#   [17 22 27]
+#   [18 23 28]
+#   [19 24 29]]]
+# (2, 3, 5) -> (2, 5, 3)

@@ -11,7 +11,7 @@ vector = np.array([1, 2, 3])
 
 matrix = np.array([[1, 2, 3], [4, 5, 6]])
 # [[1, 2, 3],
-#  [4, 5, 6]] 
+#  [4, 5, 6]]
 
 tensor = np.array([[[1, 2, 3, 4], [5, 6, 7, 8]], [[9, 10, 11, 12], [13, 14, 15, 16]]])
 # [[[ 1,  2,  3,  4],
@@ -25,8 +25,8 @@ tensor = np.array([[[1, 2, 3, 4], [5, 6, 7, 8]], [[9, 10, 11, 12], [13, 14, 15, 
 #--------------------------------------- 1. np.atleast_1d() ---------------------------------------------#
 #--------------------------------------------------------------------------------------------------------#
 '''
-np.atleast_1d() converts the input to an array with at least one dimension. 
-If the input is a scalar, it will be converted to a 1D array. 
+np.atleast_1d() converts the input to an array with at least one dimension.
+If the input is a scalar, it will be converted to a 1D array.
 If the input is already an array with one or more dimensions, it will be returned unchanged.
 '''
 
