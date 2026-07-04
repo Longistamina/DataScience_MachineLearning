@@ -198,3 +198,9 @@
       * Sparse Array: linear algebra
       * Sparse Array: save and load
       * Sparse Array: advanced operations (not explain in details)
+  + [03_Vector_Matrix_Sparse_part_09](https://youtu.be/sFx_hM_cTvA): 4th/07/2026
+      * Array Manipulation: coptyto, ndim, shape, size
+      * Array Manipulation: shape changing
+      * Array Manipulation: transpose-like operations
+      * Array Manipulation: atleast_1d, atleast_2d, atleast_3d
+      * Array Manipulation: broadcasting
