@@ -16,11 +16,23 @@ PART 1: pl.Categorical (Unordered)
 PART 2: pl.Enum (Ordered)
 4. Creation and Ordering
 5. Fast trick to convert to Enum without specifying list of categories
-6. Meaningful Sorting, Min, and Max
-7. Reordering and Renaming (via Enum schema)
+6. Convert a LazyFrame categorical Column to Enum (Pokemon dataframe example)
+7. Meaningful Sorting, Min, and Max
+8. Reordering and Renaming (via Enum schema)
 '''
 
 import polars as pl
+from polars import selectors as cs
+from polars import col as c
+from pathlib import Path
+
+# Optional display settings
+pl.Config.set_tbl_rows(10)
+pl.Config.set_tbl_cols(20)
+pl.Config.set_float_precision(6)
+pl.Config.set_tbl_width_chars(120)
+
+data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 
 
 #----------------------------------------------------------------------------------------------------------------#
@@ -198,8 +210,42 @@ print(s_level_enum)
 # 	"4"
 # ]
 
+###################################################################################
+## 6. Convert a LazyFrame categorical Column to Enum (Pokemon dataframe example) ##
+###################################################################################
+
+lf_pokemon = (
+    pl.scan_csv(data_dir / "pokemon.csv")
+    .drop('#')
+    .rename(lambda name: name.strip()) # remove trailing space characters
+    .select(
+        pl.all()
+        .name.replace(r"\s+", "_") # replace " " or "  " (or more consecutive space characters) with just one "_"
+        .name.replace(".", "", literal=True) # replace "." with empty string (remove it), literal=True to deactive regex
+    )
+    .with_columns(cs.string().exclude("Name").cast(pl.Categorical))
+    .pipe(lambda lf: lf.with_columns(
+        c.Generation.cast(pl.String).cast(pl.Enum(lf.select("Generation").collect().to_series().cast(pl.String).unique().sort())))
+    )
+)
+
+print(lf_pokemon.head(5).collect())
+# shape: (5, 12)
+# ┌────────────────┬────────┬────────┬───────┬─────┬────────┬─────────┬────────┬────────┬───────┬────────────┬───────────┐
+# │ Name           ┆ Type_1 ┆ Type_2 ┆ Total ┆ HP  ┆ Attack ┆ Defense ┆ Sp_Atk ┆ Sp_Def ┆ Speed ┆ Generation ┆ Legendary │
+# │ ---            ┆ ---    ┆ ---    ┆ ---   ┆ --- ┆ ---    ┆ ---     ┆ ---    ┆ ---    ┆ ---   ┆ ---        ┆ ---       │
+# │ str            ┆ cat    ┆ cat    ┆ i64   ┆ i64 ┆ i64    ┆ i64     ┆ i64    ┆ i64    ┆ i64   ┆ enum       ┆ bool      │
+# ╞════════════════╪════════╪════════╪═══════╪═════╪════════╪═════════╪════════╪════════╪═══════╪════════════╪═══════════╡
+# │ Bulbasaur      ┆ Grass  ┆ Poison ┆ 318   ┆ 45  ┆ 49     ┆ 49      ┆ 65     ┆ 65     ┆ 45    ┆ 1          ┆ false     │
+# │ Ivysaur        ┆ Grass  ┆ Poison ┆ 405   ┆ 60  ┆ 62     ┆ 63      ┆ 80     ┆ 80     ┆ 60    ┆ 1          ┆ false     │
+# │ Venusaur       ┆ Grass  ┆ Poison ┆ 525   ┆ 80  ┆ 82     ┆ 83      ┆ 100    ┆ 100    ┆ 80    ┆ 1          ┆ false     │
+# │ VenusaurMega   ┆ Grass  ┆ Poison ┆ 625   ┆ 80  ┆ 100    ┆ 123     ┆ 122    ┆ 120    ┆ 80    ┆ 1          ┆ false     │
+# │ Venusaur       ┆        ┆        ┆       ┆     ┆        ┆         ┆        ┆        ┆       ┆            ┆           │
+# │ Charmander     ┆ Fire   ┆ null   ┆ 309   ┆ 39  ┆ 52     ┆ 43      ┆ 60     ┆ 50     ┆ 65    ┆ 1          ┆ false     │
+# └────────────────┴────────┴────────┴───────┴─────┴────────┴─────────┴────────┴────────┴───────┴────────────┴───────────┘
+
 #########################################
-## 6. Meaningful Sorting, Min, and Max ##
+## 7. Meaningful Sorting, Min, and Max ##
 #########################################
 '''
 Because pl.Enum has a defined order, sorting, min(), and max() respect that order,
@@ -227,7 +273,7 @@ print(s_enum.min()) # "LGBTQ"
 print(s_enum.max()) # "M"
 
 ###########################################
-## 7. Reordering and Renaming (via Enum) ##
+## 8. Reordering and Renaming (via Enum) ##
 ###########################################
 '''
 To reorder or rename categories in Polars, you simply define a NEW `pl.Enum`
