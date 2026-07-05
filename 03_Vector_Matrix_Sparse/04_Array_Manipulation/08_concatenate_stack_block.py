@@ -53,7 +53,7 @@ t2 = np.array([[[9, 10],           # 3D, shape (2, 2, 2)
 #-----------------------------------------------------------------------------------------------------------#
 '''
 np.concatenate(arrays, axis=0)
-- Joins a sequence of arrays along an EXISTING axis.
+- Joins a sequence of arrays along an EXISTING axis (not generate new dimension)
 - All arrays must have the same shape except along the concatenation axis.
 - axis=None flattens all arrays before joining.
 '''
