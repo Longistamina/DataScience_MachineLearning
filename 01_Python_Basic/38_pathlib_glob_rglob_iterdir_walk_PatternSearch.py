@@ -1,7 +1,7 @@
 '''
 Pathlib provides iterdir, glob, rglob, and walk methods for file system operations.
 
-These methods allow you to iterate over directory contents, 
+These methods allow you to iterate over directory contents,
 search for files matching patterns, and traverse directories recursively.
 
 #################################################################
@@ -77,10 +77,10 @@ txt_pattern = r".*txt.*"
 for entry in demo_path.iterdir():
     if re.match(json_pattern, str(entry)): # convert the Path object to string for regex matching
         print(f"JSON directory: {entry.name}")
-    
+
     elif re.match(txt_pattern, str(entry)):
         print(f"TXT directory: {entry.name}")
-    
+
     else:
         continue
 
@@ -121,7 +121,7 @@ glob patterns:
 ###############
 
 # search for all .md files in the current directory
-for entry in Path.cwd().glob("*.md"): 
+for entry in Path.cwd().glob("*.md"):
     print(entry.name)
 # README.md
 
@@ -239,7 +239,7 @@ print(non_py_count) # 1383
 #------------------------------------- 3. path_object.rglob() ------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------------#
 '''
-.rglob(pattern) is similar to .glob() 
+.rglob(pattern) is similar to .glob()
 but it recursively searches for files matching the specified pattern in the directory and all its subdirectories.
 (so it works like glob() with '**' )
 '''
@@ -290,7 +290,7 @@ for entry in Path.cwd().rglob("*.py"):
 # The non-python elements:
 for entry in Path.cwd().joinpath("01_Python_Basic").rglob("*[!.py|!.json]"):  # Exclude all .py OR .json files
     print(entry.name)
-    
+
 # demo_package
 # demo_data
 # food.xml
@@ -395,7 +395,7 @@ print(non_py_json_count) # 951
 #------------------------------------- 4. path_object.walk() --------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
 '''
-path_object.walk() is a method that recursively walks through the directory tree, 
+path_object.walk() is a method that recursively walks through the directory tree,
 yielding tuples of directory paths and file names.
 (like os.walk() but returns Path objects)
 '''
@@ -409,7 +409,7 @@ target_path = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/"
 for dirpath, dirnames, filenames in Path(target_path).walk():
     if ".git" in dirpath.parts:  # skip directories related to '.git'
         continue
-    
+
     print(f'Current Directory: {dirpath}')
     for dirname in dirnames:
         print(f'Directory: {dirname}')
@@ -453,7 +453,7 @@ for dirpath, dirnames, filenames in Path(target_path).joinpath("01_Python_Basic"
 from glob import glob
 
 """
-NOTE: glob only accepts string paths and returns string paths, 
+NOTE: glob only accepts string paths and returns string paths,
 
 while pathlib's glob accepts Path objects and returns Path objects.
 """
