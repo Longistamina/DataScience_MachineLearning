@@ -171,7 +171,7 @@ print(tensor_split)
 NOTE: np.array_split() allows unequal splits using sections
 
 Given an array with length L, and number of sections N.
-It returns I%N subarrays of size = (L // N + 1).
+It returns L%N subarrays of size = (L // N + 1).
 And the rest of size = (L // N).
 '''
 
@@ -351,7 +351,7 @@ print(unstack)
 #         [20, 21, 22, 23, 24],
 #         [25, 26, 27, 28, 29]])]
 # Each is a (3, 5) array
-# (2, 3, 5) -> (1, 3, 5) -> (2, 3, 5)
+# (2, 3, 5) -> 2 * (1, 3, 5) -> 2 * (3, 5)
 
 unstack = np.unstack(tensor, axis=1)
 print(unstack)
@@ -362,7 +362,7 @@ print(unstack)
 #  array([[10, 11, 12, 13, 14],
 #         [25, 26, 27, 28, 29]])]
 # Each is a (2, 5) array
-# (2, 3, 5) -> (2, 1, 5) -> (2, 5)
+# (2, 3, 5) -> 3 * (2, 1, 5) -> 3 * (2, 5)
 
 unstack = np.unstack(tensor, axis=2)
 print(unstack)
@@ -377,4 +377,4 @@ print(unstack)
 #  array([[ 4,  9, 14],
 #         [19, 24, 29]])]
 # Each is a (2, 3) array
-# (2, 3, 5) -> (2, 3, 1) -> (2, 3)
+# (2, 3, 5) -> 5 * (2, 3, 1) -> 5 * (2, 3)

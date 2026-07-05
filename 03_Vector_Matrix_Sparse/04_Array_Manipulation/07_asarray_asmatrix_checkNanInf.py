@@ -11,8 +11,8 @@ import numpy as np
 #----------------------------------------- 1. np.asarray() --------------------------------------------------#
 #------------------------------------------------------------------------------------------------------------#
 '''
-np.asarray() is used to convert the input to an array. 
-It is similar to np.array(), but it does not copy the data if the input is already an array. 
+np.asarray() is used to convert the input to an array.
+It is similar to np.array(), but it does not copy the data if the input is already an array.
 This can be more efficient in terms of memory and performance.
 
 BUT: when the new created array is modified, the original array will also be modified, since they share the same memory location.

@@ -204,3 +204,8 @@
       * Array Manipulation: transpose-like operations
       * Array Manipulation: atleast_1d, atleast_2d, atleast_3d
       * Array Manipulation: broadcasting
+  + [03_Vector_Matrix_Sparse_part_10](https://youtu.be/eToTeNdauzY): 5th/07/2026
+      * Array Manipulation: expanddims, newaxis, squeeze
+      * Array Manipulation: asarray, asmatrix, checkfinite
+      * Array Manipulation:: concatenate, stack, block
+      * Array Manipulation: split, unstack
