@@ -30,6 +30,7 @@ from datetime import datetime # from datetime: this datetime is a module, a .py 
                               # import datetime: this datetime is a class or a function inside the datetime module
 from datetime import date
 
+
 #---------------------------------------------------------------------------------------------------------------#
 #------------------------------------ 1. datetime object's attributes ------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
@@ -114,6 +115,9 @@ print(day2)
 day3 = datetime.strptime('2/18/2024','%m/%d/%Y') # datetime.datetime(2024, 2, 18, 0, 0)
 print(day3)
 
+day4 = datetime.strptime('2182024','%m%d%Y') # datetime.datetime(2024, 2, 18, 0, 0)
+print(day3)
+
 # day1 day2 day3 will share the same value as datetime.datetime(2024, 2, 18, 0, 0)
 
 #############################################################
@@ -124,7 +128,7 @@ day4 = day1.strftime('%d-%m-%Y')    # '18-02-2024'
 day5 = day2.strftime('%A %d/%m/%Y') # 'Sunday 18/02/2024' (return a string object)
 day6 = day3.strftime('%a %m/%d/%Y') # 'Sun 02/18/2024'
 
-week_day = day1.strftime('%A')  # Return the day of the week as string, 
+week_day = day1.strftime('%A')  # Return the day of the week as string,
 print(week_day) # 'Sunday'
 
 index_week_day = day1.weekday() # Return the day of the week as index, return  6 = Sunday
@@ -326,7 +330,7 @@ print(dt_UTC.astimezone(pytz.timezone('Asia/Ho_Chi_Minh'))) # 2024-06-18 15:35:1
 '''
 ------------------------------
 
-Daylight Saving Time (DST) Transitions are when clocks change between Standard Time and Daylight Saving Time, 
+Daylight Saving Time (DST) Transitions are when clocks change between Standard Time and Daylight Saving Time,
 happening twice per year:
 
 Spring Forward
@@ -340,28 +344,28 @@ Fall (Autumn) Back
 # Day is 25 hours long
 
 Why It Matters for Code
-When datetime arithmetic crosses these boundaries, you can get non-existent times (spring) or ambiguous times (fall), 
+When datetime arithmetic crosses these boundaries, you can get non-existent times (spring) or ambiguous times (fall),
 and the UTC offset changes (e.g., -05:00 → -04:00). This is why normalize() is needed to fix the resulting datetime.
 
 ------------------------------
 
-When you do datetime arithmetic (like adding hours) with pytz timezone-aware datetimes, 
-the offset might not automatically update if you've crossed a daylight saving time (DST) boundary. 
-This can leave you with a datetime that shows the wrong local time or offset, 
+When you do datetime arithmetic (like adding hours) with pytz timezone-aware datetimes,
+the offset might not automatically update if you've crossed a daylight saving time (DST) boundary.
+This can leave you with a datetime that shows the wrong local time or offset,
 even though it represents the correct instant in absolute time.
 
-normalize() fixes this by recalculating which UTC offset should apply at the new moment in local time. 
+normalize() fixes this by recalculating which UTC offset should apply at the new moment in local time.
 It ensures that your datetime matches real-world clocks after any addition or subtraction that might span a DST change.
 
 ------------------------------
 
 Bottom line:
-Call normalize() after any arithmetic on pytz-aware datetimes to get the correct wall clock time, 
+Call normalize() after any arithmetic on pytz-aware datetimes to get the correct wall clock time,
 especially when crossing DST transitions.
 
 ------------------------------
 
-Use: 
+Use:
 # timezone_object.normalize(datetime_object)
 # pytz.timezone('Your/Timezone').normalize(your_datetime_object)
 '''
@@ -393,4 +397,3 @@ print(naive_dt.tzinfo) # None
 
 localized_dt = pytz.timezone('Asia/Seoul').localize(naive_dt) # Localized datetime object
 print(localized_dt.tzinfo) # Asia/Seoul
-

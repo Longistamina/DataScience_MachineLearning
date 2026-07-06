@@ -1,5 +1,5 @@
 '''
-1. Current Timestamp: 
+1. Current Timestamp:
    + time.time(): Returns the current timestamp in seconds since the epoch as a floating-point number.
    + time.time_ns(): Returns the current timestamp in nanoseconds as an integer.
 
