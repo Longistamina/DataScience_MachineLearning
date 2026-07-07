@@ -11,7 +11,7 @@
 3. Drop missing values along columns:
    + df.dropna(axis=1, how=...)
    + df.dropna(axis=1, thresh=...): drop columns having too much missing values
-  
+
 4. Drop missing values along rows:
    + df.dropna(axis=0, how=...)
    + df.dropna(axis=0, subset=...)
@@ -37,7 +37,6 @@
 '''
 
 import pandas as pd
-from pandas import col as c
 import numpy as np
 from pathlib import Path
 
@@ -51,7 +50,7 @@ df_mkt = (
     )
     .pipe(
         lambda df: df.set_axis(
-            df.columns.str.lower().str.strip().str.replace(r"[^a-zA-Z]", "_", regex=True), 
+            df.columns.str.lower().str.strip().str.replace(r"[^a-zA-Z]", "_", regex=True),
             axis = 1
         )
     )
@@ -60,34 +59,34 @@ df_mkt = (
 print(df_mkt.info())
 # RangeIndex: 156 entries, 0 to 155
 # Data columns (total 26 columns):
-#  #   Column                     Non-Null Count  Dtype   
-# ---  ------                     --------------  -----   
+#  #   Column                     Non-Null Count  Dtype
+# ---  ------                     --------------  -----
 #  0   week                       156 non-null    category
 #  1   year                       156 non-null    category
-#  2   market_share               156 non-null    float64 
-#  3   av_price_per_kg            156 non-null    float64 
-#  4   non_promo_price_per_kg     156 non-null    float64 
-#  5   promo_vol_share            156 non-null    float64 
-#  6   total_weigh                156 non-null    int64   
-#  7   share_of_ean_weigh         156 non-null    float64 
-#  8   avg_price_vs_plb           156 non-null    float64 
-#  9   non_promo_price_vs_plb     156 non-null    float64 
-#  10  promo_vol_sh_index_vs_plb  156 non-null    float64 
-#  11  total_cm_shelf             156 non-null    float64 
-#  12  shelf_share                156 non-null    float64 
-#  13  top_of_mind                123 non-null    float64 
-#  14  spontaneous                123 non-null    float64 
-#  15  aided                      123 non-null    float64 
-#  16  penetration                123 non-null    float64 
-#  17  competitor                 111 non-null    float64 
-#  18  grp_radio                  14 non-null     float64 
-#  19  reach_radio                14 non-null     float64 
-#  20  grp_tv                     52 non-null     float64 
-#  21  reach_tv                   52 non-null     float64 
-#  22  reach_cinema               18 non-null     float64 
-#  23  grp_outdoor                1 non-null      float64 
-#  24  grp_print                  22 non-null     float64 
-#  25  share_of_spend             116 non-null    float64 
+#  2   market_share               156 non-null    float64
+#  3   av_price_per_kg            156 non-null    float64
+#  4   non_promo_price_per_kg     156 non-null    float64
+#  5   promo_vol_share            156 non-null    float64
+#  6   total_weigh                156 non-null    int64
+#  7   share_of_ean_weigh         156 non-null    float64
+#  8   avg_price_vs_plb           156 non-null    float64
+#  9   non_promo_price_vs_plb     156 non-null    float64
+#  10  promo_vol_sh_index_vs_plb  156 non-null    float64
+#  11  total_cm_shelf             156 non-null    float64
+#  12  shelf_share                156 non-null    float64
+#  13  top_of_mind                123 non-null    float64
+#  14  spontaneous                123 non-null    float64
+#  15  aided                      123 non-null    float64
+#  16  penetration                123 non-null    float64
+#  17  competitor                 111 non-null    float64
+#  18  grp_radio                  14 non-null     float64
+#  19  reach_radio                14 non-null     float64
+#  20  grp_tv                     52 non-null     float64
+#  21  reach_tv                   52 non-null     float64
+#  22  reach_cinema               18 non-null     float64
+#  23  grp_outdoor                1 non-null      float64
+#  24  grp_print                  22 non-null     float64
+#  25  share_of_spend             116 non-null    float64
 # dtypes: category(2), float64(23), int64(1)
 # memory usage: 32.2 KB
 
@@ -188,34 +187,34 @@ print(df_mkt.isnull().sum())
 print(df_mkt.info())
 # RangeIndex: 156 entries, 0 to 155
 # Data columns (total 26 columns):
-#  #   Column                     Non-Null Count  Dtype   
-# ---  ------                     --------------  -----   
+#  #   Column                     Non-Null Count  Dtype
+# ---  ------                     --------------  -----
 #  0   week                       156 non-null    category
 #  1   year                       156 non-null    category
-#  2   market_share               156 non-null    float64 
-#  3   av_price_per_kg            156 non-null    float64 
-#  4   non_promo_price_per_kg     156 non-null    float64 
-#  5   promo_vol_share            156 non-null    float64 
-#  6   total_weigh                156 non-null    int64   
-#  7   share_of_ean_weigh         156 non-null    float64 
-#  8   avg_price_vs_plb           156 non-null    float64 
-#  9   non_promo_price_vs_plb     156 non-null    float64 
-#  10  promo_vol_sh_index_vs_plb  156 non-null    float64 
-#  11  total_cm_shelf             156 non-null    float64 
-#  12  shelf_share                156 non-null    float64 
-#  13  top_of_mind                123 non-null    float64 
-#  14  spontaneous                123 non-null    float64 
-#  15  aided                      123 non-null    float64 
-#  16  penetration                123 non-null    float64 
-#  17  competitor                 111 non-null    float64 
-#  18  grp_radio                  14 non-null     float64 
-#  19  reach_radio                14 non-null     float64 
-#  20  grp_tv                     52 non-null     float64 
-#  21  reach_tv                   52 non-null     float64 
-#  22  reach_cinema               18 non-null     float64 
-#  23  grp_outdoor                1 non-null      float64 
-#  24  grp_print                  22 non-null     float64 
-#  25  share_of_spend             116 non-null    float64 
+#  2   market_share               156 non-null    float64
+#  3   av_price_per_kg            156 non-null    float64
+#  4   non_promo_price_per_kg     156 non-null    float64
+#  5   promo_vol_share            156 non-null    float64
+#  6   total_weigh                156 non-null    int64
+#  7   share_of_ean_weigh         156 non-null    float64
+#  8   avg_price_vs_plb           156 non-null    float64
+#  9   non_promo_price_vs_plb     156 non-null    float64
+#  10  promo_vol_sh_index_vs_plb  156 non-null    float64
+#  11  total_cm_shelf             156 non-null    float64
+#  12  shelf_share                156 non-null    float64
+#  13  top_of_mind                123 non-null    float64
+#  14  spontaneous                123 non-null    float64
+#  15  aided                      123 non-null    float64
+#  16  penetration                123 non-null    float64
+#  17  competitor                 111 non-null    float64
+#  18  grp_radio                  14 non-null     float64
+#  19  reach_radio                14 non-null     float64
+#  20  grp_tv                     52 non-null     float64
+#  21  reach_tv                   52 non-null     float64
+#  22  reach_cinema               18 non-null     float64
+#  23  grp_outdoor                1 non-null      float64
+#  24  grp_print                  22 non-null     float64
+#  25  share_of_spend             116 non-null    float64
 # dtypes: category(2), float64(23), int64(1)
 # memory usage: 32.2 KB
 

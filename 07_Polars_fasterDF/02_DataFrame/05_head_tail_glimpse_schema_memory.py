@@ -27,6 +27,7 @@ Instead, use a combination of:
    + df.shrink_to_fit(): Shrink capacity to fit the exact data size.
 5. LazyFrame inspection:
    + lf.collect_schema(): Inspect schema without collecting the full data.
+   + lf.collect_schema().names(): Retrieve the list of LazyFrame column names
    + lf.head(n).collect() / lf.tail(n).collect(): Preview lazy data.
    + lf.explain(): Inspect the lazy query plan.
 '''
@@ -208,6 +209,14 @@ print(schema.dtypes())
 
 print(schema.len())
 # 8
+
+#################################
+## df.collect_schema().names() ##
+#################################
+'''Retrieve the list of DataFrame column names'''
+
+print(df_medals.collect_schema().names())
+# ['Year', 'City', 'Sport', 'Discipline', 'NOC', 'Event', 'Event gender', 'Medal']
 
 ##################
 ## df.glimpse() ##
@@ -497,6 +506,14 @@ lf_medals = pl.scan_csv(
 print(lf_medals.collect_schema())
 # Schema({'Year': Int64, 'City': String, ...})
 # Schema inspection can be done without collecting the full data.
+
+########################################
+## LazyFrame.collect_schema().names() ##
+########################################
+'''Retrieve the list of LazyFrame column names'''
+
+print(lf_medals.collect_schema().names())
+# ['Year', 'City', 'Sport', 'Discipline', 'NOC', 'Event', 'Event gender', 'Medal']
 
 ######################
 ## LazyFrame.head() ##
