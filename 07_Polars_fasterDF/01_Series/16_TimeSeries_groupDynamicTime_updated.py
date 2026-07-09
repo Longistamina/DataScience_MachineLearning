@@ -9,13 +9,14 @@ In Polars, time series data is handled fundamentally differently than in pandas:
 ######################################################
 1. Scalars: Standard Python datetime & timedelta
 2. Creating Time Series: pl.date_range(), pl.datetime_range(), pl.duration()
-3. The `.dt` Namespace (Properties & Extraction)
-4. Datetime to String
-5. Time Rounding and Normalization (truncate, round)
-6. Timezone Handling (replace_time_zone, convert_time_zone)
-7. Timedelta / Duration Handling (Arithmetic & Components)
-8. Time-Based Grouping: group_by_dynamic() (Equivalent to pd.Grouper)
-9. Rolling Window by Time (rolling_*_by)
+3. String to Datetime: .str.strptime()
+4. The `.dt` Namespace (Properties & Extraction)
+5. Datetime to String: .dt.strftime()
+6. Time Rounding and Normalization (truncate, round)
+7. Timezone Handling (replace_time_zone, convert_time_zone)
+8. Timedelta / Duration Handling (Arithmetic & Components)
+9. Time-Based Grouping: group_by_dynamic() (Equivalent to pd.Grouper)
+10. Rolling Window by Time (rolling_*_by)
 '''
 
 import polars as pl
@@ -122,9 +123,95 @@ print(s_durations)
 # 	3d 5h
 # ]
 
+#-----------------------------------------------------------------------------------------------------------------#
+#----------------------------------------- 3. String to Datetime -------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------#
+'''
+String columns can be parsed into Polars Date or Datetime columns with `.str.strptime()`.
+This is the Polars equivalent of pandas `pd.to_datetime(...)`.
+
+Use `strict=False` when invalid strings should become null instead of raising an error.
+This is similar to pandas `errors="coerce"`.
+'''
+
+#-----------------------
+## Parse string Series into Date
+#-----------------------
+
+s_str = pl.Series("date_str", ["01/01/2023", "15/03/2023", "31/12/2024", "not a date"])
+
+s_date = s_str.str.strptime(pl.Date, format="%d/%m/%Y", strict=False)
+print(s_date)
+# shape: (4,)
+# Series: 'date_str' [date]
+# [
+# 	2023-01-01
+# 	2023-03-15
+# 	2024-12-31
+# 	null
+# ]
+
+#------------------------
+## Parse strings into Date
+#------------------------
+
+df_date_str = pl.DataFrame({
+    "date_str": ["01/01/2023", "15/03/2023", "31/12/2024", "not a date"]
+})
+
+lf_date_parsed = df_date_str.lazy().with_columns(
+    pl.col("date_str")
+    .str.strptime(pl.Date, format="%d/%m/%Y", strict=False)
+    .alias("date")
+)
+
+print(lf_date_parsed.collect())
+# shape: (4, 2)
+# ┌────────────┬────────────┐
+# │ date_str   ┆ date       │
+# │ ---        ┆ ---        │
+# │ str        ┆ date       │
+# ╞════════════╪════════════╡
+# │ 01/01/2023 ┆ 2023-01-01 │
+# │ 15/03/2023 ┆ 2023-03-15 │
+# │ 31/12/2024 ┆ 2024-12-31 │
+# │ not a date ┆ null       │
+# └────────────┴────────────┘
+
+#----------------------------
+## Parse strings into Datetime
+#----------------------------
+
+df_datetime_str = pl.DataFrame({
+    "datetime_str": [
+        "2023-01-01 08:30:15",
+        "2023-03-15 14:45:30",
+        "2024-12-31 23:59:59",
+    ]
+})
+
+lf_datetime_parsed = df_datetime_str.lazy().with_columns(
+    pl.col("datetime_str")
+    .str.strptime(pl.Datetime, format="%Y-%m-%d %H:%M:%S", strict=False)
+    .alias("datetime")
+)
+
+print(lf_datetime_parsed.collect())
+# shape: (3, 2)
+# ┌─────────────────────┬─────────────────────┐
+# │ datetime_str        ┆ datetime            │
+# │ ---                 ┆ ---                 │
+# │ str                 ┆ datetime[μs]        │
+# ╞═════════════════════╪═════════════════════╡
+# │ 2023-01-01 08:30:15 ┆ 2023-01-01 08:30:15 │
+# │ 2023-03-15 14:45:30 ┆ 2023-03-15 14:45:30 │
+# │ 2024-12-31 23:59:59 ┆ 2024-12-31 23:59:59 │
+# └─────────────────────┴─────────────────────┘
+
+
 
 #-----------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 3. The `.dt` Namespace --------------------------------------------------#
+#--------------------------------------- 4. The `.dt` Namespace --------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 '''
 Just like pandas `.dt`, Polars uses the `.dt` namespace for vectorized datetime operations.
@@ -165,29 +252,58 @@ To achieve this, you typically compare the date to its truncated version or use 
 
 
 #-----------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 4. String Representation ------------------------------------------------#
+#----------------------------------------- 5. Datetime to String -------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 '''
-Instead of .strftime() or .day_name(), Polars uses .dt.to_string() with standard chrono format codes.
+Polars converts Date/Datetime values back to strings with `.dt.strftime()`.
+The format strings follow standard chrono/strftime-style format codes.
 https://docs.rs/chrono/latest/chrono/format/strftime/index.html
 '''
 
 s_dt = pl.datetime_range(dt.datetime(2023, 1, 1), dt.datetime(2023, 1, 3), "1d", eager=True)
 
 # Custom formatting
-print(s_dt.dt.to_string("%Y-%m-%d"))
+print(s_dt.dt.strftime("%Y-%m-%d"))
 # ["2023-01-01", "2023-01-02", "2023-01-03"]
 
-print(s_dt.dt.to_string("%A, %B %d, %Y"))
+print(s_dt.dt.strftime("%A, %B %d, %Y"))
 # ["Sunday, January 01, 2023", "Monday, January 02, 2023", "Tuesday, January 03, 2023"]
 
 # Day and Month names
-print(s_dt.dt.to_string("%A")) # Day names ["Sunday", "Monday", "Tuesday"]
-print(s_dt.dt.to_string("%B")) # Month names ["January", "January", "January"]
+print(s_dt.dt.strftime("%A")) # Day names ["Sunday", "Monday", "Tuesday"]
+print(s_dt.dt.strftime("%B")) # Month names ["January", "January", "January"]
+
+# LazyFrame example: parse first, then format back to strings
+lf_datetime_to_string = (
+    pl.DataFrame({
+        "datetime_str": ["2023-01-01 08:30:15", "2023-03-15 14:45:30"]
+    })
+    .lazy()
+    .with_columns(
+        pl.col("datetime_str")
+        .str.strptime(pl.Datetime, format="%Y-%m-%d %H:%M:%S", strict=False)
+        .alias("datetime")
+    )
+    .with_columns(
+        pl.col("datetime").dt.strftime("%d/%m/%Y").alias("date_label"),
+        pl.col("datetime").dt.strftime("%H:%M:%S").alias("time_label"),
+    )
+)
+
+print(lf_datetime_to_string.collect())
+# shape: (2, 4)
+# ┌─────────────────────┬─────────────────────┬────────────┬────────────┐
+# │ datetime_str        ┆ datetime            ┆ date_label ┆ time_label │
+# │ ---                 ┆ ---                 ┆ ---        ┆ ---        │
+# │ str                 ┆ datetime[μs]        ┆ str        ┆ str        │
+# ╞═════════════════════╪═════════════════════╪════════════╪════════════╡
+# │ 2023-01-01 08:30:15 ┆ 2023-01-01 08:30:15 ┆ 01/01/2023 ┆ 08:30:15   │
+# │ 2023-03-15 14:45:30 ┆ 2023-03-15 14:45:30 ┆ 15/03/2023 ┆ 14:45:30   │
+# └─────────────────────┴─────────────────────┴────────────┴────────────┘
 
 
 #-----------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 5. Time Rounding & Normalization ----------------------------------------#
+#--------------------------------------- 6. Time Rounding & Normalization ----------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 '''
 Pandas: .dt.round(), .dt.floor(), .dt.ceil(), .dt.normalize()
@@ -211,7 +327,7 @@ print(s_dt.dt.truncate("1d")) # Equivalent to pandas .dt.normalize() (midnight)
 
 
 #-----------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 6. Timezone Handling ----------------------------------------------------#
+#--------------------------------------- 7. Timezone Handling ----------------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 '''
 Pandas: .dt.tz_localize(), .dt.tz_convert()
@@ -237,7 +353,7 @@ print(s_naive_again)
 
 
 #-----------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 7. Timedelta / Duration Handling ----------------------------------------#
+#--------------------------------------- 8. Timedelta / Duration Handling ----------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 '''
 Polars handles durations via the `pl.Duration` type.
@@ -319,7 +435,7 @@ print(s_dates.dt.offset_by("1mo")) # Adds exactly 1 calendar month
 
 
 #-----------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 8. Time-Based Grouping ---------------------------------------------#
+#-------------------------------------------- 9. Time-Based Grouping ---------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 '''
 Pandas: df.groupby(pd.Grouper(key="date", freq="3D"))
@@ -356,7 +472,7 @@ print(df_grouped)
 
 
 #-----------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 9. Rolling Window by Time -----------------------------------------------#
+#--------------------------------------- 10. Rolling Window by Time ----------------------------------------------#
 #-----------------------------------------------------------------------------------------------------------------#
 '''
 Pandas: s.rolling(window="2s").mean()
