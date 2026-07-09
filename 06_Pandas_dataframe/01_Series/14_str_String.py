@@ -1,9 +1,9 @@
 '''
-The pandas.Series.str accessor provides vectorized string operations 
-for Series and Index objects containing string data. 
+The pandas.Series.str accessor provides vectorized string operations
+for Series and Index objects containing string data.
 
-It's one of pandas' most powerful features for text processing, 
-offering over 50 methods that mirror Python's built-in string methods 
+It's one of pandas' most powerful features for text processing,
+offering over 50 methods that mirror Python's built-in string methods
 while handling missing values automatically and operating efficiently on entire Series at once.
 
 ######################################################
@@ -29,7 +29,7 @@ while handling missing values automatically and operating efficiently on entire 
    - Spliting: .split(delimiter), .rsplit(delimiter)
    - SPLIT INDEXING:.str.split()[i], .str.split().str[i]
    - Partioning: .partition(separator), .rpartition(separator)
-   
+
 5. Joinning: .join(delimiter)
 
 6. Replacement, Removal, Repeat, Wrap:
@@ -71,10 +71,10 @@ import numpy as np
 #--------------------------------------------------------------------------------------------------------#
 
 '''
-The pandas.Series.str accessor provides a convenient way to apply string manipulation methods 
+The pandas.Series.str accessor provides a convenient way to apply string manipulation methods
 to each element of a Pandas Series containing string data.
 
- It acts as a specialized namespace, allowing you to use methods that are similar to Python's built-in string methods 
+ It acts as a specialized namespace, allowing you to use methods that are similar to Python's built-in string methods
  (like lower(), upper(), contains(), split(), replace(), etc.) directly on the Series.
 '''
 
@@ -466,7 +466,7 @@ print(s_check.str.isalnum())
 # 0     True ('Hello')
 # 1     True ('WORLD')
 # 2     True ('123')
-# 3    False 
+# 3    False
 # 4     True ('⅕')
 # 5     True ('³')
 # 6     True ('Hello123')
@@ -582,7 +582,7 @@ print(s_end.str.endswith('t'))
 
 print(s_end.str.endswith(pat=('t', 'T'), na=False)) # Treat NaN as False
 # 0     True ('bat')
-# 1    False 
+# 1    False
 # 2     True ('caT')
 # 3    False
 # dtype: bool
@@ -761,7 +761,7 @@ print(s_partition.str.partition(sep='a'))  # Split at first 'a'
 #                     0    1                   2
 # 0                        a  pple-banana-cherry
 # 1               dog-c    a                   t
-# 2  one-two-three-four                         
+# 2  one-two-three-four
 # 3                 NaN  NaN                 NaN
 
 print(s_partition.str.partition(sep='-', expand=False)) # Return as tuples, not expanded DataFrame
@@ -1010,7 +1010,7 @@ s_index = pd.Series(["cow_", "duck_", "do_v_e"])
 
 print(s_find.str.find('_'))  # Find the first occurrence of '_'
 # 0    3.0 ('cow_' has '_' at index 3 as the lowest)
-# 1    4.0 
+# 1    4.0
 # 2    2.0 ('do_v_e' has '_' at index 2 as the lowest)
 # 3   -1.0 ('abcxyz' does not contain '_', returns -1)
 # 4    NaN
@@ -1052,7 +1052,7 @@ print(s_find.str.index(sub='_'))
 """Raise  ValueError because s_find contains NaN and 'abcxyz' which does not contain '_' """
 
 print(s_index.str.index(sub='_'))  # Find the first occurrence of '_' in s_index
-# 0    3 
+# 0    3
 # 1    4
 # 2    2 ('do_v_e' has '_' at index 2 as the lowest)
 # dtype: int64
@@ -1119,7 +1119,7 @@ s_extall = pd.Series(["a2a4", "b63", "ccc"], index=["A", "B", "C"])
 
 print(s_extall.str.extractall(r'[ab](\d)'))  # Extract all occurrences of letter-digit pairs with one group
 #          0
-#   match   
+#   match
 # A 0      2 (match 0: 'a2')
 #   1      4 (match 1: 'a4')
 # B 0      6 (match 0: 'b6')
@@ -1130,7 +1130,7 @@ The "ccc" in index "C" does not contain 'a' or 'b' or any digits '\d', so no mat
 
 print(s_extall.str.extractall(r'([ab])(\d)'))  # Extract all occurrences of letter-digit pairs with two groups
 #          0  1
-#   match      
+#   match
 # A 0      a  2 (match 0: 'a2')
 #   1      a  4 (match 1: 'a4')
 # B 0      b  6 (match 0: 'b6')
