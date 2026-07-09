@@ -10,7 +10,7 @@ In Polars, time series data is handled fundamentally differently than in pandas:
 1. Scalars: Standard Python datetime & timedelta
 2. Creating Time Series: pl.date_range(), pl.datetime_range(), pl.duration()
 3. The `.dt` Namespace (Properties & Extraction)
-4. String Representation and Formatting
+4. Datetime to String
 5. Time Rounding and Normalization (truncate, round)
 6. Timezone Handling (replace_time_zone, convert_time_zone)
 7. Timedelta / Duration Handling (Arithmetic & Components)

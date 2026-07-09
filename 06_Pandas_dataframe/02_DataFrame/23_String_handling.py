@@ -2,7 +2,6 @@ import pandas as pd
 from pandas import col as c
 from pathlib import Path
 
-
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
@@ -56,12 +55,7 @@ dict_subjects = {
     'Hóa học':'Chemistry',
 }
 
-def rename_subjects(subjects_str):
-    for viet, eng in dict_subjects.items():
-        subjects_str = subjects_str.replace(viet, eng)
-    return subjects_str
-
-df_bac['SCORE'] = df_bac['SCORE'].apply(rename_subjects)
+df_bac['SCORE'] = df_bac["SCORE"].replace(dict_subjects, regex=True)
 
 print(df_bac['SCORE'].head(3))
 # 0    Math:   2.00   Literature:   5.50   History:  ...
@@ -79,7 +73,7 @@ print(df_bac['GENDER'].unique())
 print(df_bac['EXAM_LOCATION'].unique())
 # ['Sở GDĐT Bắc Giang' 'Sở GDĐT Hoà Bình' 'Sở GDĐT Thừa Thiên -Huế', 'Trường Đại học Công nghiệp Tp. HCM']
 
-dict_translate = {
+dict_locations = {
     'Nam': 'Male',
     'Nữ': 'Female',
     'Sở GDĐT Bắc Giang': 'Bac Giang DET', # DET: Dept of Education and Training
@@ -89,7 +83,7 @@ dict_translate = {
 }
 
 df_bac = (
-    df_bac.replace(to_replace=dict_translate) # Translate values into English
+    df_bac.replace(to_replace=dict_locations) # Translate values into English
     .assign(
         BIRTHDAY = lambda df: pd.to_datetime(df['BIRTHDAY'], format='%d/%m/%Y', errors='coerce'), # Convert BIRTHDAY to datetime
         EXAM_LOCATION = c('EXAM_LOCATION').astype('category'), # Convert EXAM_LOCATION to category
@@ -248,11 +242,6 @@ dict_translate = {
     'Trường Đại học Công nghiệp Tp. HCM': 'IUH' # IUH: Industrial University of Ho Chi Minh City
 }
 
-def rename_subjects(subjects_str):
-    for viet, eng in dict_subjects.items():
-        subjects_str = subjects_str.replace(viet, eng)
-    return subjects_str
-
 #######################
 
 df_bac = (
@@ -265,7 +254,7 @@ df_bac = (
         "GIOI_TINH": "GENDER",
         "DIEM_THI": "SCORE",
     })
-    .assign(SCORE=c('SCORE').apply(rename_subjects)) # Change subject names into English
+    .assign(SCORE=c('SCORE').replace(dict_subjects, regex=True)) # Change subject names into English
     .replace(to_replace=dict_translate) # Translate other values into English
     .assign(
         BIRTHDAY = lambda df: pd.to_datetime(df['BIRTHDAY'], format='%d/%m/%Y', errors='coerce'), # Convert BIRTHDAY to datetime
