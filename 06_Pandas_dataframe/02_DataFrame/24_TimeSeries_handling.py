@@ -1,7 +1,5 @@
 import pandas as pd
-from pandas import col as c
 from pathlib import Path
-
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -26,16 +24,17 @@ print(df_aq.head())
 print(df_aq.info())
 # RangeIndex: 2068 entries, 0 to 2067
 # Data columns (total 7 columns):
-#  #   Column     Non-Null Count  Dtype  
-# ---  ------     --------------  -----  
-#  0   city       2068 non-null   object 
-#  1   country    2068 non-null   object 
-#  2   date       2068 non-null   object 
-#  3   location   2068 non-null   object 
-#  4   parameter  2068 non-null   object 
+#  #   Column     Non-Null Count  Dtype
+# ---  ------     --------------  -----
+#  0   city       2068 non-null   object
+#  1   country    2068 non-null   object
+#  2   date       2068 non-null   object
+#  3   location   2068 non-null   object
+#  4   parameter  2068 non-null   object
 #  5   value      2068 non-null   float64
-#  6   unit       2068 non-null   object 
+#  6   unit       2068 non-null   object
 # dtypes: float64(1), object(6)
+'''date is still str, not datetime datatype yet'''
 
 #########################################
 ## Convert the date column to datetime ##
@@ -57,7 +56,7 @@ print(df_aq.dtypes)
 ## df["date"].min() and df["date"].max() ##
 ###########################################
 '''
-The df["date"].min() returns the earliest date in the "date" column, 
+The df["date"].min() returns the earliest date in the "date" column,
     df["date"].max() returns the latest date.
 '''
 
@@ -111,7 +110,7 @@ df_aq_grouped = (
 
 print(df_aq_grouped.head())
 #                              value
-# date location                     
+# date location
 # 0    BETR801             27.875000
 #      FR04014             24.856250
 #      London Westminster  23.969697
@@ -155,7 +154,7 @@ df_aq_paris = (
 
 print(df_aq_paris.head())
 #                             city country location parameter  value   unit  month
-# date                                                                            
+# date
 # 2019-05-07 01:00:00+00:00  Paris      FR  FR04014       no2   25.0  µg/m³      5
 # 2019-05-07 02:00:00+00:00  Paris      FR  FR04014       no2   27.7  µg/m³      5
 # 2019-05-07 03:00:00+00:00  Paris      FR  FR04014       no2   50.4  µg/m³      5
@@ -175,7 +174,7 @@ print(df_aq_paris["value"].rolling(window='2h').mean())
 
 print(df_aq_paris["value"].rolling(window='3h').mean())
 # date
-# 2019-05-07 01:00:00+00:00    25.000000 
+# 2019-05-07 01:00:00+00:00    25.000000
 # 2019-05-07 02:00:00+00:00    26.350000
 # 2019-05-07 03:00:00+00:00    34.366667
 # 2019-05-07 04:00:00+00:00    46.666667
@@ -200,7 +199,7 @@ print(df_aq_paris["value"].expanding(min_periods=5).mean())
 # 2019-05-07 03:00:00+00:00          NaN
 # 2019-05-07 04:00:00+00:00          NaN
 # 2019-05-07 05:00:00+00:00    47.480000
-#                                ...    
+#                                ...
 # 2019-06-20 20:00:00+00:00    27.758300
 # 2019-06-20 21:00:00+00:00    27.755445
 
