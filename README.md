@@ -209,3 +209,8 @@
       * Array Manipulation: asarray, asmatrix, checkfinite
       * Array Manipulation:: concatenate, stack, block
       * Array Manipulation: split, unstack
+  + [03_Vector_Matrix_Sparse_part_11](https://youtu.be/E0RCoX37RQA): 10th/07/2026
+      * Array Manipulation: tile, repeat, unique
+      * Array Manipulation: insert, append, delete, trim_zeros
+      * Array Manipulation: pad, resize
+      * Array Manipulation: flip, roll, rot90

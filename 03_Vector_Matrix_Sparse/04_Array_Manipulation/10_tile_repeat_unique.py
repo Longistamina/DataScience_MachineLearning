@@ -34,7 +34,7 @@ if A.ndim < d, the result will have dimension of d, example:
 + A.ndim = (2, 3) = 2 dimensions
 + reps = (2, 2, 3) = 3 dimensions
 + A.ndim is treated as (1, 2, 3) by prepending new axes to make it 3-dimensional
-+ A.ndim x reps = (1, 2, 3) x (2, 2, 3) = (2, 4, 9) = 4 dimensions
++ A.ndim x reps = (1, 2, 3) x (2, 2, 3) = (2, 4, 9) = 3 dimensions
 '''
 
 #####################
@@ -100,7 +100,7 @@ print(result)
 
 
 #---------------------------------------------------------------------------------------------------------------#
-#--------------------------------------------- 2. np.repeat() --------------------------------------------------#
+#----------------------------------------------- 2. np.repeat() ------------------------------------------------#
 #---------------------------------------------------------------------------------------------------------------#
 '''
 np.repeat(a, repeats, axis=None)
@@ -125,6 +125,10 @@ print(vector)
 result = np.repeat(vector, 3)
 print(result)
 # [1 1 1 2 2 2 3 3 3]
+
+result = np.repeat(vector, (2, 3, 4))
+print(result)
+# [1 1 2 2 2 3 3 3 3]
 
 result = np.repeat(matrix, 2, axis=0)
 print(result)
@@ -160,6 +164,14 @@ result = np.repeat(matrix, 2, axis=1)
 print(result)
 # [[4 4 5 5 6 6]
 #  [7 7 8 8 9 9]]
+
+result = np.repeat(matrix, (2, 3), axis=0)
+print(result)
+# [[4 5 6]
+#  [4 5 6]
+#  [7 8 9]
+#  [7 8 9]
+#  [7 8 9]]
 
 
 #---------------------------------------------------------------------------------------------------------------#
