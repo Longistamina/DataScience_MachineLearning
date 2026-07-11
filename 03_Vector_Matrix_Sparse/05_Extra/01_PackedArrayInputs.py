@@ -67,9 +67,8 @@ from scipy import optimize, integrate
 
 
 #-------------------------------------------------------------------------------------------------------#
-#----------------------------------- 0. The Core Pattern -----------------------------------------------#
+#--------------------------------------- 0. The Core Pattern -------------------------------------------#
 #-------------------------------------------------------------------------------------------------------#
-
 '''
 NORMAL multi-argument function:
     def f(a, b, c):
@@ -100,6 +99,8 @@ def f_packed(params):
 p = np.array([1.0, 2.0, 3.0])
 print(f_packed(p))   # 7.0   (1 + 2*3)
 
+########################################################
+
 # Compare with normal form — identical result
 def f_normal(a, b, c):
     return a + b * c
@@ -125,7 +126,7 @@ def area_of_ellipse(lw):
     return np.pi * a * b
 
 lw = np.array([5.0, 3.0])
-print(area_of_ellipse(np.array(lw)))   # 47.1239...
+print(area_of_ellipse(lw))   # 47.1239...
 
 #-------#
 
@@ -139,7 +140,7 @@ abc = np.array([1.0, -3.0, 2.0])
 print(quadratic_at_x2(abc))   # 0.0  (roots at x=1 and x=2)
 
 '''
-NOTE: "lw" and "abc" are just variable names — they could be anything. 
+NOTE: "lw" and "abc" are just variable names — they could be anything.
        The unpacking pattern is the same: a, b = params or a, b, c = params.
 '''
 
@@ -161,7 +162,7 @@ def weighted_sum(params, n_vals):
     weights = params[n_vals:]
     return np.dot(values, weights)
 
-p2 = np.array([1.0, 2.0, 3.0,     # values
+p2 = np.array([1.0, 2.0, 3.0,      # values
                0.5, 0.3, 0.2])     # weights
 print(weighted_sum(p2, n_vals=3))  # 1*0.5 + 2*0.3 + 3*0.2 = 1.7
 
@@ -241,7 +242,7 @@ print(exponential_decay(np.array([10.0, 0.5]), t_vals).round(4))
 
 
 #------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 2. Return Shapes ---------------------------------------------------#
+#------------------------------------------- 2. Return Shapes -----------------------------------------------#
 #------------------------------------------------------------------------------------------------------------#
 
 ###################
@@ -360,7 +361,6 @@ print(f"value={val}, grad={grad}")   # value=14.0, grad=[2. 4. 6.]
 #------------------------------------------------------------------------------------------------------------#
 #------------------------ 3. Handling Variable-Length Inputs (n variables, not fixed) -----------------------#
 #------------------------------------------------------------------------------------------------------------#
-
 '''
 When the number of variables is not known at definition time, you use
 len(params), loops, or slicing arithmetic to handle any length.
@@ -394,7 +394,7 @@ def named_groups(params, group_sizes):
         cursor += size
     return result
 
-flat_params = np.array([0.1, 0.2, 0.3,    # weights (3)
+flat_params = np.array([0.1, 0.2, 0.3,     # weights (3)
                         0.5, 0.6,          # biases  (2)
                         2.0])              # scale   (1)
 
@@ -405,9 +405,8 @@ print("scale  :", groups['scale'])     # [2.0]
 
 
 #------------------------------------------------------------------------------------------------------------#
-#----------------------------- 4. Vectorised Form — single point vs batch -----------------------------------#
+#------------------------------- 4. Vectorised Form — single point vs batch ---------------------------------#
 #------------------------------------------------------------------------------------------------------------#
-
 '''
 A function written for ONE packed input can be extended to handle a
 BATCH of packed inputs by changing how it unpacks.
@@ -523,7 +522,7 @@ except ValueError as e:
 
 
 #------------------------------------------------------------------------------------------------------------#
-#---------------------------------- 6. Real scipy Use-Cases -------------------------------------------------#
+#--------------------------------------- 6. Real scipy Use-Cases --------------------------------------------#
 #------------------------------------------------------------------------------------------------------------#
 
 #############################
