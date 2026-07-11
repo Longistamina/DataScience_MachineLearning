@@ -214,3 +214,9 @@
       * Array Manipulation: insert, append, delete, trim_zeros
       * Array Manipulation: pad, resize
       * Array Manipulation: flip, roll, rot90
+  + [03_Vector_Matrix_Sparse_part_12](https://youtu.be/Ucdo5miqTdw): 11th/07/2026
+      * Extra: packed array inputs, f(abc) instead of f(a, b, c)
+      * Extra: NumPy low-level manipulations
+      * Extra: CuPy - NumPy and SciPy on GPU
+      * Extra: PyTorch - NumPy and SciPy on GPU with autograd engine (for Deep Learning)
+      * NumPy options and settings
