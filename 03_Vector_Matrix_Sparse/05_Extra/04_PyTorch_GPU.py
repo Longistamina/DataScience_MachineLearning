@@ -1,4 +1,9 @@
-'''PyTorch also supports GPU acceleration for tensor computations using CUDA.'''
+'''
+PyTorch also supports GPU acceleration for tensor computations using CUDA.
+
+The difference between PyTorch and CuPy is that PyTorch supports autograd engine for back progapation
+(CuPy does not).
+'''
 
 import torch
 
@@ -22,6 +27,9 @@ print(tensor)
 
 print(tensor.device)
 # cuda:0
+
+print(tensor.requires_grad)
+# False
 
 ######################
 ## Demo calculation ##

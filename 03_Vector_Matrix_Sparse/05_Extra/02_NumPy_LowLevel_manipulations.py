@@ -37,6 +37,10 @@ print(vector)
 print(vector.base)
 # None
 
+vector_view = vector.view()
+print(vector_view.base)
+# [5.49 7.15 6.03 5.45 4.24 6.46 4.38 8.92 9.64 3.83]
+
 ##############
 ## arr.data ##
 ##############

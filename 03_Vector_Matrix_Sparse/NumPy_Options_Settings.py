@@ -44,16 +44,16 @@ print(arr_small.shape) # (5, 5)
 '''Use np.get_printoptions() to see all available print options in numpy.'''
 
 print(np.get_printoptions())
-# {'edgeitems': 3, 
-#  'threshold': 1000, 
-#  'floatmode': 'maxprec', 
-#  'precision': 8, 
-#  'suppress': False, 
-#  'linewidth': 75, 
-#  'nanstr': 'nan', 
-#  'infstr': 'inf', 
-#  'sign': '-', 
-#  'formatter': None, 
+# {'edgeitems': 3,
+#  'threshold': 1000,
+#  'floatmode': 'maxprec',
+#  'precision': 8,
+#  'suppress': False,
+#  'linewidth': 75,
+#  'nanstr': 'nan',
+#  'infstr': 'inf',
+#  'sign': '-',
+#  'formatter': None,
 #  'legacy': False,
 #  'override_repr': None}
 
@@ -153,7 +153,7 @@ print(arr_large)
 #  [-0.31487046 -0.40836298 -0.69456197 ...
 #   -0.302127   -0.3843384   0.24684914]]
 
-np.set_printoptions(linewidth=200)  # Increase linewidth 
+np.set_printoptions(linewidth=200)  # Increase linewidth
 print(arr_large)
 # [[ 0.37710159 -1.93120108 -0.50635607 ...  0.42398111  0.01647996  0.54036692]
 #  [-0.89900563  0.36683676 -1.14387012 ...  2.03092065  0.03458387  2.03011815]
@@ -191,7 +191,7 @@ print(arr_small)
 #  [ 0.15982805 -0.57092792  1.11825228 -0.72542611 -2.04426633]
 #  [-1.4502758   0.23669499 -2.01157522 -0.01651778  1.25162587]]
 '''
-Even though arr_small has 25 elements, it is displayed in full 
+Even though arr_small has 25 elements, it is displayed in full
 because it does not exceed the threshold of 10 elements per dimension.
 '''
 
