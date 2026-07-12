@@ -256,7 +256,7 @@ Includes time elapsed during sleep, monotonic (cannot go backward)
 start = time.perf_counter()
 
 # Simulate work
-result = sum(range(1000000))
+result = sum(range(1_000_000))
 time.sleep(2)
 
 end = time.perf_counter()
