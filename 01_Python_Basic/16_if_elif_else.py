@@ -15,8 +15,9 @@ if (score >= 5.0) and (score >= 8.0):
 if not (score >= 5.0):
     print("Fail")
 
+
 #----------------------------------#
-#----------- if else --------------#
+#------------ if else -------------#
 #----------------------------------#
 
 score = float(input("Input a score: "))
@@ -43,7 +44,6 @@ elif score >= 5.0:
     print("Average")
 else:
     print("Fail")
-
 
 ############## WRONG LOGIC CASE ################
 

@@ -1,5 +1,5 @@
 '''
-The match-case statement was introduced in Python 3.10 as a powerful alternative to lengthy if-elif-else chains, 
+The match-case statement was introduced in Python 3.10 as a powerful alternative to lengthy if-elif-else chains,
 similar to switch-case statements in other programming languages.
 
 This feature enables structural pattern matching and makes code more readable and maintainable
@@ -15,6 +15,7 @@ match expression:
 
 "case _" works like "else", it catches all the remaining situations
 '''
+
 
 #----------------------------------------------------------#
 #----------------- Example 1: input operator --------------#
@@ -84,7 +85,7 @@ def classify_grade(grade):
         case _:
             return "Invalid grade"
 
-print(classify_grade(10))  # Output: Excellent
+print(classify_grade(9))  # Output: Excellent
 print(classify_grade(7))   # Output: Good
 
 

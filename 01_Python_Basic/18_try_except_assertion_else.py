@@ -68,8 +68,7 @@ except AssertionError:
 else:
     print("Your input is right!")
 
-
-#########################    
+#########################
 ## multiple Assertions ##
 #########################
 
@@ -88,5 +87,3 @@ except AssertionError as e:
     print(f">>> {e}")
 else:
     print(f"Your input {number} passes all Assertions")
-
-    

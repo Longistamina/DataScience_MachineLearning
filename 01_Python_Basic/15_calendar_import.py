@@ -12,10 +12,10 @@ import calendar
 ## .isleap(): Check leap year (nam nhuan) ##
 ############################################
 
-check_leap_year_1 = calendar.isleap(2000) 
+check_leap_year_1 = calendar.isleap(2000)
 print(check_leap_year_1) # True
 
-check_leap_year_2 = calendar.isleap(1999) 
+check_leap_year_2 = calendar.isleap(1999)
 print(check_leap_year_2) # False
 
 #########################################
@@ -39,7 +39,7 @@ month_days_1 = calendar.monthrange(2019, 11)[1] # Get the 2nd element in tuple M
 print(month_days_1) # 30
 
 tuple_MR = calendar.monthrange(2019, 11)
-month_days_2 = tuple_MR[1] 
+month_days_2 = tuple_MR[1]
 print(month_days_2) # 30
 
 #--------------
@@ -50,7 +50,7 @@ index_weekday_1 = calendar.monthrange(2019, 11)[0]
 print(index_weekday_1) # 4 (means Friday)
 
 tuple_MR = calendar.monthrange(2019, 11)
-index_weekday_2 = tuple_MR[0] 
+index_weekday_2 = tuple_MR[0]
 print(index_weekday_1) # 4 (means Friday)
 
 #--------------
