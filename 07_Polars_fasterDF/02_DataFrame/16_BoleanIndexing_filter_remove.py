@@ -65,8 +65,7 @@ lf_pokemon = (
     .rename(lambda name: name.strip())
     .select(pl.all().name.replace(r"\s+", "_").name.replace(".", "", literal=True))
     .with_columns(
-        c("Type_1").cast(pl.Categorical),
-        c("Type_2").cast(pl.Categorical),
+        c("Type_1", "Type_2").cast(pl.Categorical),
         c("Legendary").cast(pl.Boolean),
     )
     .pipe(lambda f: f.with_columns(
