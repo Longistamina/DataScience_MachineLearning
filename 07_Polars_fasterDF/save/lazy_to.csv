@@ -1,0 +1,5 @@
+Name,Age,City,Salary,Date
+Alice,25.0,New York,50000.75,2023-01-31
+Bob,30.0,Paris,60000.5,2023-02-28
+Charlie,35.0,Berlin,75000.25,2023-03-31
+David,NaN,Tokyo,90000.0,2023-04-30

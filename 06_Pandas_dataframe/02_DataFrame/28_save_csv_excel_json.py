@@ -11,7 +11,7 @@ from pandas import col as c
 import numpy as np
 from pathlib import Path
 
-save_dir = Path("/home").rglob("*/06_Pandas_DataR_dataframe/save")
+save_dir = Path("/home").rglob("*/06_Pandas_dataframe/save")
 save_dir = next(save_dir)
 
 df = pd.DataFrame(
