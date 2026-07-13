@@ -1,0 +1,30 @@
+[
+    {
+        "Name": "Alice",
+        "Age": 25.0,
+        "City": "New York",
+        "Salary": 50000.75,
+        "Date": "2023-01-31"
+    },
+    {
+        "Name": "Bob",
+        "Age": 30.0,
+        "City": "Paris",
+        "Salary": 60000.5,
+        "Date": "2023-02-28"
+    },
+    {
+        "Name": "Charlie",
+        "Age": 35.0,
+        "City": "Berlin",
+        "Salary": 75000.25,
+        "Date": "2023-03-31"
+    },
+    {
+        "Name": "David",
+        "Age": null,
+        "City": "Tokyo",
+        "Salary": 90000.0,
+        "Date": "2023-04-30"
+    }
+]
