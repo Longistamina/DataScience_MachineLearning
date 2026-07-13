@@ -149,11 +149,11 @@ print(programmer_life.index("eating")) # 1
 
 ###############
 ## .insert() ##
-############### 
+###############
 '''.insert() to insert new element at a specified index'''
 
 programmer_life.insert(0, "dreaming")
-print(programmer_life) 
+print(programmer_life)
 # ['dreaming', 'waking', 'eating', 'debugging', 'crying', 'hoping', 'crying']
 
 '''
@@ -212,7 +212,7 @@ print(programmer_life) # ['dreaming', 'waking', 'eating', 'hoping', 'crying', 4]
 ## .clear() ##
 ##############
 '''.clear() will remove all the elements from a list and return an empty list []'''
- 
+
 programmer_life.clear()
 print(programmer_life) # []
 print(id(programmer_life)) # still has the id, meaning the variable still exists
@@ -226,7 +226,7 @@ print(id(programmer_life)) ## raise NameError because the variable does not exis
 ## .copy() ##
 #############
 '''.copy() to copy a list (resulting an object having DIFFERENT ID)'''
- 
+
 list_original = [1, "a", 2.0, "c", "b", False]
 print(f"list_original   : {list_original}")
 print(f"list_original id: {id(list_original)}\n")
@@ -263,7 +263,7 @@ print(f"list_raw_backup : {list_raw_backup}")  # [10, 20, 30, 40, 50]
 ## .sort() ##
 #############
 '''.sort() to sort a list in ascending or descending, A-Z or Z-A'''
- 
+
 names = ["Kitana", "Bruce", "Zealot", "Anna", "Nina"]
 names.sort() # sort Ascending
 print(names) # ['Anna', 'Bruce', 'Kitana', 'Nina', 'Zealot']
@@ -288,8 +288,8 @@ list_mix.sort()
 ################
 ## .reverse() ##
 ################
-'''.reverse() to reverse the current order of a list "180 degrees"''' 
- 
+'''.reverse() to reverse the current order of a list "180 degrees"'''
+
 from datetime import date
 list_mix = ["Lentani", 35.5, 20, date(1885, 12, 21), False]
 
@@ -305,7 +305,7 @@ lst1 = [1, 3, 5]
 lst2 = [2, 4, 6, 8]
 lst3 = ['A', 'B', 'C']
 
-lst_add = lst1 + lst2 
+lst_add = lst1 + lst2
 print(lst_add) # [1, 3, 5, 2, 4, 6, 8]
 
 print(lst1 + lst3) # [1, 3, 5, 'A', 'B', 'C']
@@ -423,7 +423,7 @@ print(sum(["A", "b", "c"])) #=> TypeError
 
 list_bools = [True, False, True, True, False]
 
-print(np.sum(list_bools))   
+print(np.sum(list_bools))
 # 3 | True = 1, False = 0
 
 
