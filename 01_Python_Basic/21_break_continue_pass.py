@@ -1,7 +1,7 @@
 import time
 
 #----------------------------#
-#--------- break ------------#
+#---------- break -----------#
 #----------------------------#
 
 for i in range(10):
@@ -30,7 +30,7 @@ for i in range(10):
 
 
 #-------------------------------#
-#--------- continue ------------#
+#---------- continue -----------#
 #-------------------------------#
 
 for i in range(10):
@@ -40,7 +40,7 @@ for i in range(10):
         time.sleep(0.5)
         continue  # Skip even numbers
         print(str(i).center(15)) # This line will not be executed
-        
+
     print(str(i).center(15))
     time.sleep(0.5)
 
@@ -58,7 +58,7 @@ for i in range(5):
         time.sleep(0.5)
         pass  # Do nothing when i is 3
         print("Let's pass!") # Still executes this line
-    
+
     print(str(i).center(12))
     time.sleep(0.5)
 
@@ -70,4 +70,3 @@ for i in range(5):
 
 if 2 > 1:
     pass  # Placeholder for future code
-
