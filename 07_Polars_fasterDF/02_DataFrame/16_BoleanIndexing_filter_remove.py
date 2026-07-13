@@ -69,7 +69,7 @@ lf_pokemon = (
         c("Legendary").cast(pl.Boolean),
     )
     .pipe(lambda f: f.with_columns(
-        c("Generation").cast(pl.String).cast(pl.Enum(f.collect()["Generation"].cast(pl.String).unique().sort())),
+        c("Generation").cast(pl.String).cast(pl.Enum(f.select("Generation").collect().to_series().cast(pl.String).unique().sort())),
     ))                                               # Must use .collect() to realize the dataframe, to access the values for Enum casting
 )
 
