@@ -18,7 +18,7 @@ import datetime as dt
 from pathlib import Path
 import polars as pl
 
-save_dir = next(Path("/home").rglob("*/07_Polars_fasterDF"))
+save_dir = next(Path("/home").rglob("*/07_Polars_fastDF_SQL"))
 save_dir = save_dir.joinpath("save")
 save_dir.mkdir(parents=True, exist_ok=True)
 
