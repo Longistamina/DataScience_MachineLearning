@@ -308,7 +308,7 @@ np.float64(inf)
 #----- Check for small values -----#
 small_v1 = v1 / 100
 small_v2 = v2 / 100
-print(np.allclose(np.logaddexp(small_v1, small_v2), 
+print(np.allclose(np.logaddexp(small_v1, small_v2),
                   np.log(np.exp(small_v1) + np.exp(small_v2))))
 # True
 
@@ -336,14 +336,14 @@ print(np.logaddexp2(large_values[0], large_values[1]))
 # 1001.5849625007212
 
 #----- Check: relationship with logaddexp -----#
-print(np.allclose(np.logaddexp2(v1, v2), 
+print(np.allclose(np.logaddexp2(v1, v2),
                   np.logaddexp(v1 * np.log(2), v2 * np.log(2)) / np.log(2)))
 # True
 
 #----- Check for small values -----#
 small_v1 = v1 / 10
 small_v2 = v2 / 10
-print(np.allclose(np.logaddexp2(small_v1, small_v2), 
+print(np.allclose(np.logaddexp2(small_v1, small_v2),
                   np.log2(np.exp2(small_v1) + np.exp2(small_v2))))
 # True
 
@@ -382,6 +382,6 @@ print(np.allclose(np.exp(v1 - v2), np.exp(v1) / np.exp(v2)))
 
 # Change of base formula: log_b(x) = log(x) / log(b)
 base = 5
-print(np.allclose(np.log(v1) / np.log(base), 
+print(np.allclose(np.log(v1) / np.log(base),
                   np.log10(v1) / np.log10(base)))
 # True

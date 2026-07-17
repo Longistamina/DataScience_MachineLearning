@@ -89,6 +89,9 @@ np.add() adds arrays element-wise.
 => Equivalent to the + operator: array1 + array2
 '''
 
+print(np.add(v1, 5))
+# [0 6 7 3 4]
+
 print(np.add(v1, v2))
 # [-4 -3 -2 -5  2]
 
@@ -109,6 +112,9 @@ np.subtract() subtracts arrays element-wise.
 
 => Equivalent to the - operator: array1 - array2
 '''
+
+print(np.subtract(v1, 5))
+# [-10  -4  -3  -7  -6]
 
 print(np.subtract(v1, v2))
 # [-6  5  6  1 -4]
@@ -217,7 +223,7 @@ np.remainder() or np.mod() computes the element-wise remainder of division (modu
 
 NOTE: the result has the same sign as the divisor (second array v2).
 
-Use np.remainder() and np.mod() when you need Python-consistent modulo behavior 
+Use np.remainder() and np.mod() when you need Python-consistent modulo behavior
 where results stay within [0, divisor) for positive divisors (v2 sign).
 '''
 
@@ -292,10 +298,10 @@ print(v1 == quotient * v2 + fmod)
 #------------------------------------------------------------------------------------------------#
 '''np.modf() returns the fractional and integral parts of an array.'''
 
-print(v1 * 1.5) 
+print(v1 * 1.5)
 # [-7.5  1.5  3.  -3.  -1.5]
 
-print(np.modf(v1 * 1.5)) 
+print(np.modf(v1 * 1.5))
 # (array([-0.5,  0.5,  0. , -0. , -0.5]), array([-7.,  1.,  3., -3., -1.]))
 
 print(np.modf(M1 / 2))
@@ -338,7 +344,7 @@ print(np.pow(v1, v2))
 #---------------------------------- 14. np.float_power() ----------------------------------------#
 #------------------------------------------------------------------------------------------------#
 '''
-np.float_power() raises elements of one array to the powers of another array element-wise, 
+np.float_power() raises elements of one array to the powers of another array element-wise,
 using float precision.
 
 => Similar to np.power(), but always converts inputs to float for computation.
@@ -399,7 +405,7 @@ print(np.fabs(M1))
 complex_array = np.array([-3+4j, 1-1j, -2-2j])
 print(np.fabs(complex_array))
 '''
-TypeError: ufunc 'fabs' not supported for the input types, 
+TypeError: ufunc 'fabs' not supported for the input types,
 and the inputs could not be safely coerced to any supported types according to the casting rule ''safe''
 '''
 
