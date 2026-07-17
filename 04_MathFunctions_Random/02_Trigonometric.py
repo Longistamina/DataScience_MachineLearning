@@ -17,7 +17,7 @@
 import numpy as np
 
 np.random.seed(3)
-v1 = np.random.uniform(-np.pi, np.pi, 5) 
+v1 = np.random.uniform(-np.pi, np.pi, 5)
 # array([ 0.31917264,  1.30783134, -1.31378427,  0.06803185,  2.46895853])
 
 np.random.seed(3)
