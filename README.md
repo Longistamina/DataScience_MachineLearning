@@ -5,6 +5,7 @@
 - [01_Python_Basic](#01_python_basic)
 - [02_Python_class_OOP](#02_python_class_oop)
 - [03_Vector_Matrix_Sparse](#03_vector_matrix_sparse)
+- [04_MathFunctions_Random](#04_mathfunctions_random)
 
 ## 00_Course_Intro
 + [00_Course_Intro_part_01](https://www.youtube.com/watch?v=v1ZxYlfbZ9o): 1st/11/2025
@@ -220,3 +221,10 @@
       * Extra: CuPy - NumPy and SciPy on GPU
       * Extra: PyTorch - NumPy and SciPy on GPU with autograd engine (for Deep Learning)
       * NumPy options and settings
+
+## 04_MathFunctions_Random
+  + [04_MathFunctions_Random_part_01](https://youtu.be/Y5osyriljVU): 17th/07/2026
+      * Arithmetic
+      * Trigonometric
+      * Exponential and Logarithm
+      * Hyperbolic
