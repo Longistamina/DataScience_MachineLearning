@@ -147,4 +147,3 @@ print(np.real(np.conj(v1)) == np.real(v1))
 
 print(np.imag(np.conj(v1)) == -np.imag(v1))
 # [ True  True  True  True  True]
-

@@ -17,7 +17,7 @@
 import numpy as np
 
 np.random.seed(5)
-v1 = np.random.randint(-10, 11, 5) 
+v1 = np.random.randint(-10, 11, 5)
 # array([-7,  4,  5, -4,  6])
 
 np.random.seed(6)
@@ -99,14 +99,14 @@ Unlike np.maximum(), it propagates non-NaN values.
 If one element is NaN, fmax returns the non-NaN value.
 '''
 
-v1_with_nan = np.array([4.0, np.nan, 2.0, -5.0, 3.0])
+v1_with_nan = np.array([4.0, np.nan, np.nan, -5.0, 3.0])
 v2_with_nan = np.array([-7.0, 9.0, np.nan, 7.0, 3.0])
 
 print(np.maximum(v1_with_nan, v2_with_nan))
 # [ 4. nan nan  7.  3.]
 
 print(np.fmax(v1_with_nan, v2_with_nan))
-# [4. 9. 2. 7. 3.]
+# [4. 9. nan 7. 3.]
 # Notice: fmax ignores NaNs and returns the non-NaN value
 
 
@@ -207,7 +207,7 @@ print(np.minimum(v1_with_nan, v2_with_nan))
 # [-7. nan nan -5.  3.]
 
 print(np.fmin(v1_with_nan, v2_with_nan))
-# [-7.  9.  2. -5.  3.]
+# [-7.  9.  nan -5.  3.]
 # Notice: fmin ignores NaNs and returns the non-NaN value
 
 

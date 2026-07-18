@@ -29,7 +29,7 @@
 import numpy as np
 
 np.random.seed(5)
-v1 = np.random.randint(1, 10, 5) 
+v1 = np.random.randint(1, 10, 5)
 # array([4, 7, 7, 1, 9])
 
 np.random.seed(5)
@@ -108,7 +108,7 @@ print(np.nanprod(v_with_nan)) # 24.0
 
 ##############
 
-M_with_nan = np.array([[1.0, 2.0, np.nan], 
+M_with_nan = np.array([[1.0, 2.0, np.nan],
                        [4.0, np.nan, 6.0]])
 
 print(np.nanprod(M_with_nan))
@@ -139,7 +139,7 @@ print(np.nansum(v_with_nan))
 
 ###############
 
-M_with_nan = np.array([[1.0, 2.0, np.nan], 
+M_with_nan = np.array([[1.0, 2.0, np.nan],
                        [4.0, np.nan, 6.0]])
 
 print(np.nansum(M_with_nan))
@@ -231,7 +231,7 @@ print(np.nancumsum(v_with_nan))
 
 ################################
 
-M_with_nan = np.array([[1.0, 2.0, np.nan], 
+M_with_nan = np.array([[1.0, 2.0, np.nan],
                        [4.0, np.nan, 6.0]])
 
 print(np.nancumsum(M_with_nan, axis=0))
@@ -258,7 +258,7 @@ print(np.nancumprod(v_with_nan))
 
 ################################
 
-M_with_nan = np.array([[1.0, 2.0, np.nan], 
+M_with_nan = np.array([[1.0, 2.0, np.nan],
                        [4.0, np.nan, 6.0]])
 
 print(np.nancumprod(M_with_nan, axis=0))
@@ -334,6 +334,7 @@ print(np.ediff1d(v1, to_begin=0, to_end=[100, 200]))
 100, 200 = appended values
 '''
 
+
 #----------------------------------------------------------------------------------------------------#
 #-------------------------------------- 11. np.gradient() -------------------------------------------#
 #----------------------------------------------------------------------------------------------------#
@@ -347,6 +348,7 @@ and either first or second order accurate one-sides (forward or backwards) diffe
 f = np.array([1, 2, 4, 7, 11, 16])
 print(np.gradient(f))
 # [1.  1.5 2.5 3.5 4.5 5. ]
+
 '''
 1.0 = (2 - 1)
 1.5 = (4 - 1) / 2
@@ -366,7 +368,7 @@ default spacing h=1
 print(np.gradient(M1))
 # (array([[-2. ,  0. ,  1. ,  7. ],            # Gradient along axis 0 (vertical)
 #        [-0.5,  0. ,  1. ,  2. ],
-#        [ 1. ,  0. ,  1. , -3. ]]), 
+#        [ 1. ,  0. ,  1. , -3. ]]),
 # array([[ 1. , -1.5, -1.5,  1. ],             # Gradient along axis 1 (horizontal)
 #        [ 3. ,  0. ,  2. ,  7. ],
 #        [ 2. ,  0. ,  0.5,  3. ]]))
@@ -380,6 +382,16 @@ y = x**2  # y = [0, 1, 4, 9, 16, 25]
 print(np.gradient(y, x))  # Should approximate dy/dx = 2x
 # [1. 2. 4. 6. 8. 9.]
 
+# f'[0] = (1 - 0) / (1 - 0) = dy/dx = 1
+# f'[1] = (4 - 0) / (2 - 0)         = 2
+# f'[2] = (9 - 1) / (3 - 1)         = 4
+# f'[-1] = (25 - 16) / (5 - 4)      = 9
+'''
+first element: (y[1] - y[0]) / (x[1] - x[0])
+last element: (y[-1] - y[-2]) / (x[-1] - x[-2])
+middle elements: (y[i+1] - y[i-1]) / (x[i+1] - x[i-1])
+'''
+
 
 #----------------------------------------------------------------------------------------------------#
 #--------------------------------------- 12. np.cross() ---------------------------------------------#
@@ -392,7 +404,7 @@ The cross product is only defined for 3D vectors (or 2D vectors treated as 3D wi
 
 DEFINITION:
 -----------
-The cross product (also called vector product) of two 3D vectors produces 
+The cross product (also called vector product) of two 3D vectors produces
 a NEW vector that is PERPENDICULAR to both input vectors.
 
 Given vectors a and b in 3D space (ℝ³):
@@ -418,7 +430,7 @@ FORMULA BREAKDOWN:
 Component by component:
 
     x-component (i): a₂b₃ - a₃b₂
-    y-component (j): a₃b₁ - a₁b₃ 
+    y-component (j): a₃b₁ - a₁b₃
     z-component (k): a₁b₂ - a₂b₁
 '''
 
@@ -484,7 +496,7 @@ print(np.trapezoid(y))  # Default spacing dx=1
 x = np.array([3, 2, 5, 1, 7])
 y = np.array([2, 4, 6, 8, 10])
 print(np.trapezoid(y, x))
-# 38.0  
+# 38.0
 '''
 38 = (2+4)/2 * (2-3) + (4+6)/2 * (5-2) + (6+8)/2 * (1-5) + (8+10)/2 * (7-1)
 '''
