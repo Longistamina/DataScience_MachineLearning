@@ -228,3 +228,8 @@
       * Trigonometric
       * Exponential and Logarithm
       * Hyperbolic
+  + [04_MathFunctions_Random_part_02](https://youtu.be/dgLiPWBlh8M): 18th/07/2026
+      * Rational, Rounding, Floating-point routines
+      * Sum, Prod, Diff, Grad, Integral (trapezoid)
+      * Extrema finding: min, max, argmin, argmax, ...
+      * Complex number routines
