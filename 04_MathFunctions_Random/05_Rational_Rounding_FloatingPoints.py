@@ -152,7 +152,7 @@ print(np.rint(M_float))
 ################
 '''
 np.floor() returns the floor of the input, element-wise.
-The floor is the largest integer less than or equal to the input.
+The floor is the smallest integer less than or equal to the input.
 '''
 
 print(np.floor(v_float))
@@ -167,7 +167,7 @@ print(np.floor(M_float))
 ###############
 '''
 np.ceil() returns the ceiling of the input, element-wise.
-The ceiling is the smallest integer greater than or equal to the input.
+The ceiling is the largest integer greater than or equal to the input.
 '''
 
 print(np.ceil(v_float))
@@ -368,7 +368,7 @@ values = np.array([1.0, 10.0, 100.0, 1000.0])
 print(np.spacing(values))
 # [2.22044605e-16 1.77635684e-15 1.42108547e-14 1.13686838e-13]
 '''
-That is why in machine learning, we often normalize data to a smaller range 
+That is why in machine learning, we often normalize data to a smaller range
 to avoid issues with floating-point precision, i.e to get better precision.
 '''
 
@@ -400,4 +400,3 @@ print(f"rint:      {np.rint(test_val_neg)}")   # -3.0 (rounds to nearest even)
 print(f"floor:     {np.floor(test_val_neg)}")  # -3.0 (rounds down)
 print(f"ceil:      {np.ceil(test_val_neg)}")   # -2.0 (rounds up)
 print(f"trunc:     {np.trunc(test_val_neg)}")  # -2.0 (rounds towards zero)
-
