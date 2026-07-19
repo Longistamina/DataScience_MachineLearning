@@ -200,6 +200,13 @@ duplicate_list = ["A", "B", "C", "A", "D", "A"]
 duplicate_list.remove("A")
 print(duplicate_list) # ['B', 'C', 'A', 'D', 'A'] | only the first "A" is removed
 
+'''
+If it cannot find the value to be removed
+=> Raise error
+
+ValueError: list.remove(x): x not in list
+'''
+
 ############
 ## .pop() ##
 ############
@@ -353,8 +360,8 @@ while i < len(philosophes):
 
 lst_customers = [
     ['Lucy', 'Rashford', 2000],
-    ['Marcus', 'Aurelius', 300000],
-    ['Hamazuki', 'Sento', 500000000]
+    ['Marcus', 'Aurelius', 300_000],
+    ['Hamazuki', 'Sento', 500_000_000]
 ]
 
 # Method 1:

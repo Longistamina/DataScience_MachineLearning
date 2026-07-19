@@ -66,7 +66,7 @@ print(fruits[2:]) # from fruits[2] to the last element fruits[-1] (and also incl
 print(fruits[2:5]) # from fruits[2] to fruits[5] but excluded fruits[5]
                    # ('cherry', 'orange', 'kiwi')
 
-print(fruits[1:6:2]) # from fruits[1] to fruits[6] but excluded fruits[6]  
+print(fruits[1:6:2]) # from fruits[1] to fruits[6] but excluded fruits[6]
                      # ('banana', 'orange', 'melon')
 
 print(fruits[-1:-4]) # ()
@@ -107,7 +107,7 @@ predators_tup[2] = "wolf"
 Again, Tuple DOES NOT allow modifying its elements
 So, if we still need to make modifications => convert to list first using list(tuple_name)
 
-After that, we can apply list modifying methods: 
+After that, we can apply list modifying methods:
       insert, append, extend, remove, pop, clear, copy, sort, reverse
 '''
 
@@ -145,7 +145,7 @@ print(float_tup.count(0.49)) # 3 (value 0.49 shows up 3 times)
 ## .index() ##
 ##############
 '''.index() returns the index of the first element with the specified value'''
- 
+
 print(float_tup.index(0.49)) # 2 (index of the first 0.49 is 2)
 
 
@@ -160,10 +160,9 @@ tuple2 = (1, 2, 3)
 tuple_add = tuple1 + tuple2
 print(tuple_add) # ('a', 'b', 'c', 1, 2, 3)
 
-
 # duplicate tuple using "*"
 tuple_dup = tuple1*2 + tuple2*3
-print(tuple_dup) 
+print(tuple_dup)
 # ('a', 'b', 'c', 'a', 'b', 'c', 1, 2, 3, 1, 2, 3, 1, 2, 3)
 
 
@@ -261,15 +260,15 @@ print(samurais_upper)
 
 import numpy as np
 
-lst_floats = (213.0, 321.5, 56198.99, 65489.55, 213.68)
+tup_floats = (213.0, 321.5, 56198.99, 65489.55, 213.68)
 
-print(np.sum(lst_floats))
-print(np.mean(lst_floats))
-print(np.median(lst_floats))
-print(np.min(lst_floats))
-print(np.max(lst_floats))
-print(np.var(lst_floats))
-print(np.std(lst_floats))
+print(np.sum(tup_floats))
+print(np.mean(tup_floats))
+print(np.median(tup_floats))
+print(np.min(tup_floats))
+print(np.max(tup_floats))
+print(np.var(tup_floats))
+print(np.std(tup_floats))
 
 # string_tup = ("A", "b", "c")
 # print(sum(string_tup)) #=> TypeError
@@ -322,22 +321,23 @@ while True:
     try:
         solar_year = int(input('Please input a solar year: '))
         assert (solar_year >= 1) and (solar_year <= 9999), '>>>Error: a solar year must range from 1 to 9999, please try again!!!'
-    
+
     except ValueError:
         print(">>Error: your input must be a number, please try again!!!")
-    
+
     except AssertionError as e:
         print(e)
-    
+
     else:
         stem_index   = solar_year % 10 # The remainer of solar_year%10 will be the index value of tup_Heavenly_Stems
         branch_index = solar_year % 12 # The remainer of solar_year%12 will be the index value of tup_Earthly_Branches
-        
+
         print(f'The corresponding Lunar Year is: {tup_Heavenly_Stems[stem_index]} {tup_Earthly_Branches[branch_index]}')
-    
+
     continue_program = input('If you want to continue press [y], otherwise press any key to exit: ')
     if continue_program == 'y':
-        print() 
+        print()
         continue
-    else: break
+    else:
+        break
 print('\n--Program End--')
