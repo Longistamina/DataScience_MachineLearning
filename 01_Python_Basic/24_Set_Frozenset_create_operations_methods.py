@@ -9,7 +9,7 @@ Set:
 Frozenset:
     ## Like set but not allowing modifying or changing (meaning no .add() or no .remove() ...)
     ## In other words, fronzeset is immutable
-=> use frozenset when you need an immutable set that can be used as a dictionary key 
+=> use frozenset when you need an immutable set that can be used as a dictionary key
 => or when you want to ensure the set remains constant throughout your program
 
 Set and Fronzeset do not support indexing, slicing, or other sequence-like behavior.
@@ -17,12 +17,13 @@ Set and Fronzeset do not support indexing, slicing, or other sequence-like behav
 
 # Table of contents:
 #### Create set and frozenset: {}, set(), frozenset()
-#### Check if element exists 
+#### Check if element exists
 #### Add and Remove elements for SET: .add(), .update(), .remove(), .discard(), .pop(), .clear()
 #### Loop through elements
 #### Set Operations: .union(), .intersection(), .difference(), .symmetric_difference(), .issubset(), .issuperset(), .isdisjoint()
 #### .copy() method and sorted() set
 '''
+
 
 #------------------------------------------------------------------#
 #-------------------- Create set and frozenset --------------------#
@@ -109,7 +110,7 @@ print(set_1)  # {1, 2, 3, 4}
 ##################
 '''.update(): adds elements from another set or iterable to the current set (like list.extend())'''
 
-set_1.update({25, 49})  # adds "Air" and "Space" to set_demo
+set_1.update({25, 49})  # adds 25 and 49 to set_1
 print(set_1)  # {1, 2, 3, 4, 49, 25}
 
 #################
@@ -133,7 +134,7 @@ print(set_1)     # {1, 4, 49, 25}
 ###############
 '''
 set.pop() removes a random element from the set (and returns it if that element exists in the set)
-NOTE: set.pop() will raise KeyError if the set is empty 
+NOTE: set.pop() will raise KeyError if the set is empty
 '''
 
 set_1 = {1, 2, 3}
@@ -178,9 +179,9 @@ NOTE: cannot use enumerate() with set or frozenset directly because they are uno
 
 
 #---------------------------------------------------------------------------------------------------------#
-#---------------------------------------- Set Operations -------------------------------------------------#
+#----------------------------------------- Set Operations ------------------------------------------------#
 #---------------------------------------------------------------------------------------------------------#
- 
+
 set_a = {1, 2, 3, 4}
 set_b = {3, 4, 5, 6}
 
