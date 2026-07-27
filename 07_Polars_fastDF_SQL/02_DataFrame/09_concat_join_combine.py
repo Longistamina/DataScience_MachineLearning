@@ -22,6 +22,7 @@ are usually pl.concat(), DataFrame.join(), and expression-based horizontal opera
    + df.join(other, left_on="key1", right_on="key2"): join on different key names.
    + Polars has no custom row index; use an explicit column for pandas left_index/right_index logic.
    + df.join(other, how="cross"): Cartesian product.
+   + df.join_where(): non-equi joins
    + Polars has no pd.merge() top-level function; use the DataFrame .join() method.
    + Polars also supports how="semi" and how="anti" joins.
 
@@ -732,6 +733,63 @@ print(
     )
 )
 # Same as the previous inner join examples.
+
+###########################
+##    df.join_where()    ##
+###########################
+'''
+Polars `join_where()` is used for "non-equi" joins.
+Unlike standard joins that require strict equality on specific keys (on="key"),
+`join_where()` allows you to join DataFrames based on ANY arbitrary boolean expression,
+such as inequalities (<, >), range overlaps, or complex custom logic.
+
+This is incredibly powerful for tasks like:
++ Finding overlapping time ranges / events.
++ Matching records within a certain tolerance or distance.
++ As-of style inequality matching.
+
+NOTE: Multiple expressions passed to join_where() are implicitly combined with AND (&).
+'''
+# Example: Finding overlapping events
+events_a = pl.DataFrame({
+    "event_a": ["A1", "A2", "A3"],
+    "start_a": [1, 5, 20],
+    "end_a": [10, 15, 30]
+})
+events_b = pl.DataFrame({
+    "event_b": ["B1", "B2", "B3"],
+    "start_b": [2, 12, 25],
+    "end_b": [8, 20, 35]
+})
+
+# Two events overlap if: start_a < end_b AND start_b < end_a
+df_overlaps = events_a.join_where(
+    events_b,
+    pl.col("start_a") < pl.col("end_b"),
+    pl.col("start_b") < pl.col("end_a")
+)
+print(df_overlaps)
+# shape: (4, 6)
+# ┌─────────┬─────────┬───────┬─────────┬─────────┬───────┐
+# │ event_a ┆ start_a ┆ end_a ┆ event_b ┆ start_b ┆ end_b │
+# │ ---     ┆ ---     ┆ ---   ┆ ---     ┆ ---     ┆ ---   │
+# │ str     ┆ i64     ┆ i64   ┆ str     ┆ i64     ┆ i64   │
+# ╞═════════╪═════════╪═══════╪═════════╪═════════╪═══════╡
+# │ A1      ┆ 1       ┆ 10    ┆ B1      ┆ 2       ┆ 8     │
+# │ A2      ┆ 5       ┆ 15    ┆ B1      ┆ 2       ┆ 8     │
+# │ A2      ┆ 5       ┆ 15    ┆ B2      ┆ 12      ┆ 20    │
+# │ A3      ┆ 20      ┆ 30    ┆ B3      ┆ 25      ┆ 35    │
+# └─────────┴─────────┴───────┴─────────┴─────────┴───────┘
+
+'''
+NOTE ON OVERLAPPING COLUMN NAMES:
+If both DataFrames share column names (e.g., both have "value"), Polars applies
+the suffix (default "_right") to the right DataFrame's columns in the evaluation context.
+To avoid ambiguity in your expressions, it is highly recommended to either:
+1. Use distinct column names before joining (as shown above).
+2. Reference the right-side columns using the suffix in your expression:
+   `pl.col("value") < pl.col("value_right")`
+'''
 
 #######################################
 ##    Optional: lazy join pattern    ##
