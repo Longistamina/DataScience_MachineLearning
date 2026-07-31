@@ -144,10 +144,9 @@ print(np.any(M_bool, axis=1))
 #------------------------------------ 2. Array contents ------------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
-##################
+###################
 ## np.isfinite() ##
-##################
-
+###################
 '''
 np.isfinite() tests element-wise for finiteness (not infinity and not NaN).
 Returns True for finite numbers, False for inf, -inf, and NaN.
@@ -165,7 +164,6 @@ print(np.isfinite(M_special))
 ################
 ## np.isinf() ##
 ################
-
 '''
 np.isinf() tests element-wise for positive or negative infinity.
 Returns True for inf or -inf, False otherwise.
@@ -181,7 +179,6 @@ print(np.isinf(M_special))
 ################
 ## np.isnan() ##
 ################
-
 '''
 np.isnan() tests element-wise for NaN and returns result as a boolean array.
 Returns True for NaN values, False otherwise.
@@ -197,7 +194,6 @@ print(np.isnan(M_special))
 ################
 ## np.isnat() ##
 ################
-
 '''
 np.isnat() tests element-wise for NaT (not a time) and returns result as a boolean array.
 This is specifically for datetime64 and timedelta64 types.
@@ -211,10 +207,9 @@ timedeltas = np.array([1, np.timedelta64('NaT'), 3], dtype='timedelta64[D]')
 print(np.isnat(timedeltas))
 # [False  True False]
 
-##################
+###################
 ## np.isneginf() ##
-##################
-
+###################
 '''
 np.isneginf() tests element-wise for negative infinity, returns result as bool array.
 Returns True only for -inf, False otherwise.
@@ -228,10 +223,9 @@ np.isneginf(v_special, out=out)
 print(out)
 # [False False  True False False]
 
-##################
+###################
 ## np.isposinf() ##
-##################
-
+###################
 '''
 np.isposinf() tests element-wise for positive infinity, returns result as bool array.
 Returns True only for +inf, False otherwise.
@@ -245,8 +239,9 @@ np.isposinf(v_special, out=out)
 print(out)
 # [False  True False False False]
 
+
 #-------------------------------------------------------------------------------------------------#
-#---------------------------- 3. Array type testing ----------------------------------------------#
+#--------------------------------- 3. Array type testing -----------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 ####################
@@ -462,7 +457,7 @@ print(np.logical_xor(bool1, bool2))
 # [False  True  True False]
 
 '''
-The first element is True in OR because at least one is True, 
+The first element is True in OR because at least one is True,
 but False in XOR because both are True.
 
 (XOR requires that only exact one of the inputs is True, while OR allows for both to be True.)
@@ -470,8 +465,31 @@ but False in XOR because both are True.
 
 
 #-------------------------------------------------------------------------------------------------#
-#--------------------------------- 5. Comparison -------------------------------------------------#
+#-------------------------------------- 5. Comparison --------------------------------------------#
 #-------------------------------------------------------------------------------------------------#
+
+##################
+## np.isclose() ##
+##################
+'''
+np.isclose() returns a boolean array where two arrays are element-wise equal within a tolerance.
+Returns an array of booleans (element-wise comparison).
+Default tolerances: rtol=1e-5, atol=1e-8
+'''
+
+a = np.array([1.0, 2.0, 3.0])
+b = np.array([1.0, 2.0, 3.000001])
+c = np.array([1.0, 2.0, 3.1])
+
+print(np.isclose(a, b))
+# [ True  True  True]
+
+print(np.isclose(a, c))
+# [ True  True False]
+
+# With tolerance adjustment
+print(np.isclose(a, c, atol=0.2))
+# [ True  True  True]
 
 ###################
 ## np.allclose() ##
@@ -482,13 +500,9 @@ Returns a single boolean value.
 Default tolerances: rtol=1e-5, atol=1e-8
 '''
 
-a = np.array([1.0, 2.0, 3.0])
-b = np.array([1.0, 2.0, 3.000001])
-
 print(np.allclose(a, b))
 # True
 
-c = np.array([1.0, 2.0, 3.1])
 print(np.allclose(a, c))
 # False
 
@@ -502,24 +516,6 @@ print(np.allclose(a_nan, b_nan))
 print(np.allclose(a_nan, b_nan, equal_nan=True))
 # True
 '''set equal_nan=True to consider NaNs as equal for the purpose of closeness.'''
-
-##################
-## np.isclose() ##
-##################
-'''
-np.isclose() returns a boolean array where two arrays are element-wise equal within a tolerance.
-Returns an array of booleans (element-wise comparison).
-'''
-
-print(np.isclose(a, b))
-# [ True  True  True]
-
-print(np.isclose(a, c))
-# [ True  True False]
-
-# With tolerance adjustment
-print(np.isclose(a, c, atol=0.2))
-# [ True  True  True]
 
 ######################
 ## np.array_equal() ##

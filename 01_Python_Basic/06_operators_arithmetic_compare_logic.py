@@ -45,6 +45,7 @@ a *= b is equivalent to a = a * b
 not -  : negation
 and - &: return True only when all are True
 or  - |: return False only when all are False
+xor - ^: return True only when exactly one x1 or x2 is True
 
 Logic Precedence Order: not -> and -> or
 (menaing NOT logic has the highest precedence, AND logic is next, OR logic has the lowest precedence)
