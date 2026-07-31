@@ -65,13 +65,12 @@ M_nan = np.array([[1.0, np.nan, 3.0],
 
 
 #-------------------------------------------------------------------------------------------------#
-#-------------------------------------- 1. Order statistics --------------------------------------#
+#----------------------------------- 1. Order statistics -----------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 ##############
 ## np.ptp() ##
 ##############
-
 '''
 np.ptp() returns the range of values (maximum - minimum) along an axis.
 "ptp" stands for "peak to peak".
@@ -84,10 +83,10 @@ print(np.ptp(M1))
 # 15 (18 - 3 = 15)
 
 print(np.ptp(M1, axis=0))
-# [14 3 5 14]  (range of horizontally, each column)
+# [14 3 5 14]  (calculate ranges along axis=0)
 
 print(np.ptp(M1, axis=1))
-# [15 13 15]  (range of vertically, each row)
+# [15 13 15]  (calculate ranges along axis=1)
 
 #####################
 ## np.percentile() ##
@@ -109,10 +108,10 @@ print(np.percentile(v1, [25, 50, 75]))
 
 # Along a specific axis
 print(np.percentile(M1, 50, axis=0))
-# [12.  6. 14.  3.]  (median of each column)
+# [12.  6. 14.  3.]  (median along axis=0)
 
 print(np.percentile(M1, 50, axis=1))
-# [ 9.5  8.5 10. ]  (median of each row)
+# [ 9.5  8.5 10. ]  (median along axis=1)
 
 # keepdims=True preserves the reduced axis as a dimension of size 1
 print(np.percentile(M1, 50, axis=1, keepdims=True))
@@ -178,7 +177,7 @@ print(np.quantile(v_nan, 0.5))
 
 
 #-------------------------------------------------------------------------------------------------#
-#---------------------------------- 2. Averages and variances ------------------------------------#
+#--------------------------------- 2. Averages and variances -------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 #################
@@ -197,10 +196,10 @@ print(np.median(M1))
 # 9.5 (median of flattened array)
 
 print(np.median(M1, axis=0))
-# [12.  6. 14.  3.]  (median of each column)
+# [12.  6. 14.  3.]  (median along axis=1)
 
 print(np.median(M1, axis=1))
-# [ 9.5  8.5 10. ]  (median of each row; rows have 4 elements so avg of middle two)
+# [ 9.5  8.5 10. ]  (median along axis=0; rows have 4 elements so avg of middle two)
 
 # keepdims=True to preserve the reduced axis
 print(np.median(M1, axis=1, keepdims=True))
@@ -230,7 +229,7 @@ print(np.average(M1))
 # 9.9167  (average of all elements in M1; same as np.mean(M1))
 
 print(np.average(M1, axis=0))
-# [11.3333  5.6667 15.      7.6667]  (column averages; same as np.mean here)
+# [11.3333  5.6667 15.      7.6667]  (averages along axis=0; same as np.mean here)
 
 # returned=True also returns the sum of weights alongside the average
 avg, wsum = np.average(v1, weights=weights, returned=True)
@@ -253,10 +252,10 @@ print(np.mean(M1))
 # 9.9167  (average of all elements in M1)
 
 print(np.mean(M1, axis=0))
-# [11.3333  5.6667 15.      7.6667]  (mean of each column)
+# [11.3333  5.6667 15.      7.6667]  (mean along axis=0)
 
 print(np.mean(M1, axis=1))
-# [10.    9.5  10.25]  (mean of each row)
+# [10.    9.5  10.25]  (mean along axis=1)
 
 ##############
 ## np.std() ##
@@ -279,10 +278,10 @@ print(np.std(M1))
 # 5.78011 (std of all elements in M1)
 
 print(np.std(M1, axis=0))
-# [5.7349 1.2472 2.1602 6.5997]  (std of each column)
+# [5.7349 1.2472 2.1602 6.5997]  (std along axis=0)
 
 print(np.std(M1, axis=1))
-# [5.6125 5.6789 6.0156]  (std of each row)
+# [5.6125 5.6789 6.0156]  (std along axis=1)
 
 ##############
 ## np.var() ##
@@ -303,10 +302,10 @@ print(np.var(M1))
 # 33.40972 (variance of all elements in M1)
 
 print(np.var(M1, axis=0))
-# [32.8889  1.5556  4.6667 43.5556]  (variance of each column)
+# [32.8889  1.5556  4.6667 43.5556]  (variance along axis=0)
 
 print(np.var(M1, axis=1))
-# [31.5    32.25   36.1875]  (variance of each row)
+# [31.5    32.25   36.1875]  (variance along axis=1)
 
 ####################
 ## np.nanmedian() ##
@@ -320,13 +319,13 @@ print(np.nanmedian(M_nan))
 # 4.0 (median of flattened array, NaN ignored)
 
 print(np.nanmedian(M_nan, axis=0))
-# [2.5 5.  4.5]  (NaN treated as missing in column 1)
+# [2.5 5.  4.5]  (NaN treated as missing in axis=0)
 
 print(np.nanmedian(M_nan, axis=1))
 # [2. 5.]  (NaN excluded from row 0; median of [1., 3.] = 2.0)
 
 print(np.median(M_nan, axis=1))
-# [nan 5.]  (NaN propagates when using np.median instead of
+# [nan 5.]  (NaN propagates when using np.median instead of ignoring nan)
 
 ##################
 ## np.nanmean() ##
@@ -363,7 +362,7 @@ print(np.nanstd(M_nan))
 # 1.7205  (std of all elements, NaN ignored)
 
 print(np.nanstd(M_nan, axis=0))
-# [1.5 0.  1.5]  (std of each column; column 1 has only one value, so std=0)
+# [1.5 0.  1.5]  (std along axis=1; column 1 has only one value, so std=0)
 
 print(np.std(M_nan, axis=1))
 # [       nan 0.81649658] (NaN propagates in row 0; std of row 1 is std of [4., 5., 6.])
@@ -383,14 +382,14 @@ print(np.nanvar(M_nan))
 # 2.96  (var of all elements, NaN ignored)
 
 print(np.nanvar(M_nan, axis=0))
-# [2.25 0.   2.25]  (var of each column; column 1 has only one value, so var=0)
+# [2.25 0.   2.25]  (var along axis=1; column 1 has only one value, so var=0)
 
 print(np.var(M_nan, axis=1))
 # [       nan 0.66666667] (NaN propagates in row 0; var of row 1 is var of [4., 5., 6.])
 
 
 #-------------------------------------------------------------------------------------------------#
-#---------------------------------------- 3. Correlating -----------------------------------------#
+#------------------------------------- 3. Correlating --------------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 ###################
@@ -419,7 +418,7 @@ print(np.corrcoef(M1))
 #  [ 0.8071 -0.4427  1.    ]]
 # Row 0 and row 2 are strongly positively correlated (r = 0.8071)
 
-# rowvar=False: treat each column as a variable instead of each row
+# rowvar=False: treat each column as a variable instead along axis=0
 print(np.corrcoef(M1, rowvar=False))
 # [[ 1.          0.71457523  0.269061   -0.90419443]
 #  [ 0.71457523  1.          0.8660254  -0.94491118]
@@ -479,7 +478,7 @@ Position 3  (partial overlap)
 
 Position 4  (partial overlap, right edge)
   x:   [1,  2,  3]
-  y:             [0,  1, 0.5]
+  y:            [0,  1, 0.5]
                   x[2]*y[0] = 3*0
   result → 0.0
 '''
@@ -518,7 +517,7 @@ print(np.cov(M1, rowvar=False))
 
 
 #-------------------------------------------------------------------------------------------------#
-#----------------------------------------- 4. Histograms -----------------------------------------#
+#--------------------------------------- 4. Histograms -------------------------------------------#
 #-------------------------------------------------------------------------------------------------#
 
 ####################
