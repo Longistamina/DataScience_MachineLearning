@@ -233,3 +233,8 @@
       * Sum, Prod, Diff, Grad, Integral (trapezoid)
       * Extrema finding: min, max, argmin, argmax, ...
       * Complex number routines
+  + [04_MathFunctions_Random_part_03](https://youtu.be/VDzkfwfcmNM): 31th/07/2026
+      * Logic functions
+      * Stats Numpy
+      * Stats Scipy
+      * Linear Algebra
