@@ -635,7 +635,7 @@ print("L_0(x):", L0.round(5))
 
 # Useful difference: H_v(x) - Y_v(x)   (arises in antenna theory)
 diff_HY = struve(0, x_sv) - yv(0, x_sv)
-print("H_0 - Y_0:", diff_HY.round(5))   
+print("H_0 - Y_0:", diff_HY.round(5))
 # [0.75407 0.4804  0.28048 0.1233 ]
 # stays bounded; Y_0 diverges at 0, H_0 does too
 
