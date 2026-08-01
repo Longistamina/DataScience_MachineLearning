@@ -238,3 +238,8 @@
       * Stats Numpy
       * Stats Scipy
       * Linear Algebra
+  + [04_MathFunctions_Random_part_04](https://youtu.be/HFsEuIXIcjk): 01st/08/2026
+      * Fourrier Transform
+      * Random distributions, RNG
+      * Scipy Special
+      * Scipy Cluster
