@@ -56,11 +56,11 @@ elif score >= 6.5:
 elif score >= 8.0:
     print("Very good")
 elif score >= 9.0:
-    print("Execellent")
+    print("Excellent")
 else:
     print("Fail")
 
-# Input 9.5 => Output "Average", not "Execellent"
+# Input 9.5 => Output "Average", not "Excellent"
 
 ############## WRONG LOGIC CASE ################
 
