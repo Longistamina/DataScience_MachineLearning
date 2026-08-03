@@ -56,6 +56,7 @@ print(rest)   # Output: [3, 4, 5]
 nested_list = ["han", (20, 4000), "developer", "single", "NYC"]
 
 name, (age, salary), profession, *other_info = nested_list
+
 print(name)        # han
 print(age)         # 20
 print(salary)      # 4000
@@ -101,6 +102,7 @@ data = [
 ]
 
 names, scores, locations = zip(*data)
+
 '''
 This works like:
 # names = list(data[i][0] for i in range(len(data)))
@@ -123,9 +125,9 @@ chars = [*string]
 print(chars)  # Output: ['H', 'e', 'l', 'l', 'o']
 
 
-#---------------------------------------------------------#
-#---------- Unpacking with double asterisks (**) ---------#
-#---------------------------------------------------------#
+#---------------------------------------------------------------------------------------------#
+#-------------------------- Unpacking with double asterisks (**) -----------------------------#
+#---------------------------------------------------------------------------------------------#
 
 ############################################################
 ## Unpacking a dictionary into individual key-value pairs ##
@@ -155,7 +157,7 @@ additional_info = {'hobby': 'reading', 'profession': 'engineer'}
 
 combined_info = {**person, **additional_info}
 
-print(combined_info)  
+print(combined_info)
 # Output: {'name': 'Alice', 'age': 30, 'city': 'New York', 'hobby': 'reading', 'profession': 'engineer'}
 
 ##################################################################
@@ -177,6 +179,6 @@ final_config = {**default_config, **user_config} # Merging dictionaries
 print(final_config)  # {'host': 'localhost', 'port': 3000, 'debug': True}
                      # The user_config overrides the default_config for 'port' and 'debug'
 '''
-When merging dictionaries using the ** unpacking operator, 
+When merging dictionaries using the ** unpacking operator,
 the right-side dictionary has higher priority and will override any duplicate keys from the left-side dictionary.
 '''

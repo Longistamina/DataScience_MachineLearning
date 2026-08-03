@@ -32,7 +32,6 @@ empty_dict_2 = dict()  # {}
 print(type(empty_dict_1))  # <class 'dict'>
 print(type(empty_dict_2))  # <class 'dict'>
 
-
 ##############################################
 ## Create a dictionary with key-value pairs ##
 ##############################################
@@ -70,12 +69,11 @@ dict_4 = {
 print(dict_4)  # {'ID': [1, 2, 3], 'Name': ['Alice', 'Bob', 'Charlie'], 'Age': [30, 25, 35]}
 
 dict_5 = dict(
-    ID=(4, 5, 6), 
-    Name=('Alien', 'Anna', 'Chalker-chalk'), 
+    ID=(4, 5, 6),
+    Name=('Alien', 'Anna', 'Chalker-chalk'),
     Age=(32, 52, 55)
 )
 print(dict_5) # {'ID': (4, 5, 6), 'Name': ('Alien', 'Anna', 'Chalker-chalk'), 'Age': (32, 52, 55)}
-
 
 ###############################################
 ## Create a dictionary with mixed data types ##
@@ -88,7 +86,7 @@ dict_6 = {
     'grades': [90, 85, 88],
     'address': {'city': 'Miami', 'state': 'FL'}
 }
-print(dict_6)  
+print(dict_6)
 # {'name': 'David', 'age': 40, 'is_student': False, 'grades': [90, 85, 88], 'address': {'city': 'Miami', 'state': 'FL'}}
 
 
@@ -210,6 +208,16 @@ print('country' in dict_check)  # False
 print(dict_check.get('age') is not None)  # True
 print(dict_check.get('country') is not None)  # False
 
+'''
+This method will not work properly in this case:
+
+dict_check = {
+    'name': None,
+    'age': None,
+    'city': None
+}
+'''
+
 #############################
 ## Using the keys() method ##
 #############################
@@ -245,6 +253,7 @@ print(dict_add)  # {'name': 'Hannah', 'age': 26, 'city': 'Austin', 'country': 'U
 '''
 NOTE .update(): if you have a list of dictionary like below, must use for loop to update one by one
 '''
+
 dict_gotham_villain = dict()
 
 list_of_dicts = [
@@ -268,6 +277,20 @@ for villain, info in dict_gotham_villain.items():
 '''
 END NOTE
 '''
+
+#-------------- Another way --------------#
+
+dict_gotham_villain = dict()
+
+dict_of_dicts = {
+    "Harley": {"Gender": "F", "Age": 23},
+    "Joker": {"Gender": "M", "Age": 535},
+    "Scarface": {"Gender": "Unknown", "Age": "Unknown"}
+}
+
+dict_gotham_villain.update(dict_of_dicts)
+for villain, info in dict_gotham_villain.items():
+    print(f"{villain}: {info}")
 
 #######################################
 ## Update an existing key-value pair ##
@@ -302,7 +325,7 @@ print(dict_add)  # {}
 
 
 #--------------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------------- Dictionary Methods --------------------------------------------------#
+#-------------------------------------------------- Dictionary Methods ----------------------------------------------------#
 #--------------------------------------------------------------------------------------------------------------------------#
 
 # Create a sample dictionary for demonstration
@@ -402,7 +425,7 @@ demo_dict = {
 
 sorted_dict_key = dict(
     sorted(
-        demo_dict.items(), 
+        demo_dict.items(),
         key=lambda x: x[0], # sort by keys
         reverse=False # sort ascending
     )
@@ -424,7 +447,7 @@ for key, value in sorted_dict_key.items():
 
 sorted_dict_value = dict(
     sorted(
-        demo_dict.items(), 
+        demo_dict.items(),
         key=lambda x: x[1], # sort by values
         reverse=True # sort descending
     )
@@ -459,7 +482,7 @@ sample_loop_dict = {
 
 for key in sample_loop_dict:
     print(f"Key: {key}")
-# Key: name 
+# Key: name
 # Key: age
 # Key: city
 # Key: country
@@ -510,13 +533,12 @@ for index, (key, value) in enumerate(sample_loop_dict.items()):
 
 
 #--------------------------------------------------------------------------------------------------#
-#------------------------------------- Dictionary Comprehension -----------------------------------#
+#----------------------------------- Dictionary Comprehension -------------------------------------#
 #--------------------------------------------------------------------------------------------------#
 
 # Create a dictionary using dictionary comprehension
 dict_comp = {x: x**2 for x in range(5)}
 print(dict_comp)  # {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}
-
 
 # Create a dictionary with conditional logic
 dict_comp_cond = {x: x**2 for x in range(10) if x % 2 == 0}
