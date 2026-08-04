@@ -300,7 +300,7 @@ for item in alive_it(my_generator(), total=50, title='Generator'):
 
 data = range(75)
 
-bar = alive_it(data, 
+bar = alive_it(data,
                title='Custom Style',
                spinner='dots_waves',
                bar='bubbles',
@@ -392,7 +392,7 @@ with alive_bar(50, theme='classic') as bar:
 ## Multiple customizations ##
 #############################
 
-with alive_bar(100, 
+with alive_bar(100,
                title='Custom Task',
                spinner='dots_waves',
                bar='bubbles',
@@ -478,7 +478,7 @@ with alive_bar(100, dual_line=True, title='Processing') as bar:
         time.sleep(0.05)
         bar()
 
-# Output: 
+# Output:
 # Processing |████████████████████████████| 100/100 [100%] in 2.0s
 # Item 100
 
@@ -522,7 +522,7 @@ import os
 def process_files(directory):
     '''Process all files in a directory with progress bar'''
     files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
-    
+
     with alive_bar(len(files), title='Processing Files') as bar:
         for filename in files:
             bar.text(f'-> {filename}')
@@ -539,7 +539,7 @@ process_files('.') # Uncomment to run
 def download_files(urls):
     '''Simulate downloading files with progress tracking'''
     total_size = len(urls) * 1024 * 1024 # Simulate 1MB per file
-    
+
     with alive_bar(total_size, title='Downloading', dual_line=True) as bar:
         downloaded = 0
         for url in urls:
@@ -560,7 +560,7 @@ download_files(urls)
 def batch_process(items, batch_size=10):
     '''Process items in batches with progress tracking'''
     total_batches = (len(items) + batch_size - 1) // batch_size
-    
+
     with alive_bar(total_batches, title='Batch Processing') as bar:
         for i in range(0, len(items), batch_size):
             batch = items[i:i + batch_size]
@@ -585,9 +585,9 @@ def multi_stage_task():
         'Validation': 25,
         'Saving': 15
     }
-    
+
     total_work = sum(stages.values())
-    
+
     with alive_bar(total_work, title='Multi-Stage Task', dual_line=True) as bar:
         for stage_name, work_units in stages.items():
             bar.text(f'==> {stage_name}')
@@ -603,7 +603,7 @@ multi_stage_task()
 
 def query_database(record_ids):
     '''Query database records with progress tracking'''
-    with alive_bar(len(record_ids), 
+    with alive_bar(len(record_ids),
                    title='Querying Database',
                    spinner='dots_waves',
                    bar='smooth') as bar:

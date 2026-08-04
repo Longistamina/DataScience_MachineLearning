@@ -197,7 +197,7 @@ pbar.close()
 
 with tldm(desc='Streaming') as pbar:
     count = 0
-    
+
     while count < 75:
         pbar.set_postfix_str(f'chunk {count+1}')
         time.sleep(0.03)
@@ -565,7 +565,7 @@ for i in trange(3, desc='Outer', position=0):
 pbar = tldm(range(100))
 
 for i in pbar:
-    pbar.set_postfix(loss=0.5/(i+1), accuracy=i/100) 
+    pbar.set_postfix(loss=0.5/(i+1), accuracy=i/100)
     time.sleep(0.02)
 # Output: 100%|██████████| 100/100 [00:02<00:00, 50.00it/s, loss=0.005, accuracy=0.99]
 
@@ -893,7 +893,7 @@ def read_large_file(filename, total_size):
                   unit='B',
                   unit_scale=True,
                   desc=filename) as pbar:
-            
+
             chunk_size = 8192
             while True:
                 chunk = f.read(chunk_size)

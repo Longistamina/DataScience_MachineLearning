@@ -1,9 +1,9 @@
 '''
-CSV (Comma-Separated Values) files are plain text files that store tabular data 
-using specific delimiters to separate values and newlines to indicate new rows. 
+CSV (Comma-Separated Values) files are plain text files that store tabular data
+using specific delimiters to separate values and newlines to indicate new rows.
 
-Each line represents a row of data, with values typically separated by commas, 
-though other delimiters like semicolons, tabs, or pipes can be used. 
+Each line represents a row of data, with values typically separated by commas,
+though other delimiters like semicolons, tabs, or pipes can be used.
 
 The first row often contains column headers, making the data structure self-documenting
 
@@ -18,7 +18,7 @@ these are called "dialect"
 
 ##############################
 
-Python offers "csv" built-in module for working with comma-separated values files (and also other dialects), 
+Python offers "csv" built-in module for working with comma-separated values files (and also other dialects),
 providing robust functionality for reading, writing, and manipulating tabular data.
 
 Another package is Pandas also very powerful for handling .csv file, but we will deal with it later
@@ -26,17 +26,16 @@ Another package is Pandas also very powerful for handling .csv file, but we will
 ##############################
 
 Table of Contents:
-1. Read .csv and .tsv files
+1. Read .csv and .tsv files (use ``list(csv_read_object)`` to store contents into a list)
 2. Write .csv and .tsv files
 3. "quoting" parameter in csv.writer
 '''
 
+parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/csv_tsv_files"
 
 #-------------------------------------------------------------------------------#
 #----------------------- Read .csv and .tsv files ------------------------------#
 #-------------------------------------------------------------------------------#
-
-parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/csv_tsv_files"
 
 import csv
 
@@ -75,8 +74,7 @@ NOTE: everything must be indented inside the "with" block, otherwise it will not
 
 with open(file=f"{parent_dir}/drinks.csv", mode="r", newline="", encoding="utf-8") as file_pointer:
     csv_read_object = csv.reader(file_pointer)
-    _ = next(csv_read_object)  # This will skip the first row (header row)
-                               # Assign to _ (underscore) to indicate that we don't need this value (first row)
+    next(csv_read_object)  # This will skip the first row (header row)
     for row in csv_read_object:
         print(row)  # Now it will print only the data rows, without the header row
 
@@ -173,6 +171,22 @@ for chunk in process_csv_chunks(f"{parent_dir}/weather.tsv", chunk_size=chunk_si
     for row in chunk:
         print(row)  # Or whatever processing you need
 
+############################################################################
+## Store .csv file's contents into a list using ``list(csv_read_object)`` ##
+############################################################################
+
+with open(file=f"{parent_dir}/drinks.csv", mode="r", newline="", encoding="utf-8") as file_pointer:
+    csv_read_object = csv.reader(file_pointer)
+    next(csv_read_object)
+    csv_content = list(csv_read_object)
+
+for row in csv_content:
+    print(row)
+    # ['0', 'Afghanistan', '0', '0', '0', '0.0', 'AS']
+    # ['1', 'Albania', '89', '132', '54', '4.9', 'EU']
+    # ['2', 'Algeria', '25', '0', '14', '0.7', 'AF']
+    # ['3', 'Andorra', '245', '138', '312', '12.4', 'EU']
+    # ['4', 'Angola', '217', '57', '45', '5.9', 'AF']
 
 #--------------------------------------------------------------------------------#
 #----------------------- Write .csv and .tsv files ------------------------------#
