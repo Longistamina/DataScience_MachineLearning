@@ -18,6 +18,9 @@ All file modes:
 'x+' - Exclusive creation and read. Opens a file for both writing and reading, creates a new file, and raises an error if the file already exists.
 'a+' - Append and read. Opens a file for both appending and reading (e.g., 'a+').
 
+file_pointer.seek(position_index): changes the position of the file pointer to a specific location in the file.
+=> file_pointer.seek(0): brings the pointer back to the beginning of the file
+
 ######################################
 
 Table of Contents:
@@ -34,11 +37,9 @@ Table of Contents:
    - file_pointer.writable()
 
 3. Write with append mode
-
 '''
 
 parent_dir = '/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/txt_files'
-
 
 #---------------------------------------------------------------------------------------------#
 #------------------------------------- Read a file -------------------------------------------#
@@ -127,7 +128,7 @@ with open(file=f'{parent_dir}/HumptyDumpty.txt', mode='r') as file_pointer:
     list_lines = file_pointer.readlines()  # Read all lines into a list
                                            # Read the line as raw string, including the newline character at the end of the line
 
-print(list_lines)  
+print(list_lines)
 # ['Humpty Dumpty sat on a wall,\n', 'Humpty Dumpty had a great fall.\n', "All the king's horses\n", "And all the king's men\n", 'Couldn\'t put Humpty together again.\n']
 
 #----
@@ -167,7 +168,7 @@ print(is_readable)  # True
 
 with open(file=f'{parent_dir}/JohnnyJohnny.txt', mode='a') as file_pointer:
     is_readable = file_pointer.readable()  # Check if the file is readable
-    content = file_pointer.read()  # Try to read the file (will raise an error)
+    # content = file_pointer.read()  # Try to read the file (will raise an error)
 
 print(is_readable) # False
 
@@ -201,7 +202,7 @@ with open(file=f'{parent_dir}/StudentScores.txt', mode='w') as file_pointer:
 
 # Check the content of the file
 with open(file=f'{parent_dir}/StudentScores.txt', mode='r') as file_pointer:
-    content = file_pointer.read()   
+    content = file_pointer.read()
 
 print(content)
 # Student scores:
@@ -276,7 +277,7 @@ with open(file=f'{parent_dir}/StudentScores.txt', mode='r') as file_pointer:
 print(is_writable)  # False
 
 '''
-NOTE: if the file has previous contents, then when you open it in write mode ('w'), 
+NOTE: if the file has previous contents, then when you open it in write mode ('w'),
       it will truncate the file to zero length before writing.
       Even if you write nothing to the file, it will still create an empty file !!!!
 => That's why in this part, we use append mode ('a') to avoid truncating the file to zero length.
@@ -284,17 +285,21 @@ NOTE: if the file has previous contents, then when you open it in write mode ('w
 
 
 #---------------------------------------------------------------------------------------------------#
-#---------------------------------- Write with append mode -----------------------------------------#
+#------------------- Write with append mode - file_pointer.seek(position) --------------------------#
 #---------------------------------------------------------------------------------------------------#
 '''
 file_pointer.write() and file_pointer.writelines() can also be used to append to a file without truncating it.
 If the file does not exist, it creates a new file.
 '''
 
+##############
+## mode="a" ##
+##############
+
 # using append mode 'a' or 'a+' (append and read)
 with open(file=f'{parent_dir}/StudentScores.txt', mode='a') as file_pointer:
     file_pointer.write("Ivy: 89\n")  # Append a string to the file
-    file_pointer.writelines(["Jack: 91\n", "Kathy: 84\n"])  # Append a list of strings to the file  
+    file_pointer.writelines(["Jack: 91\n", "Kathy: 84\n"])  # Append a list of strings to the file
 
 # Check the content of the file again
 with open(file=f'{parent_dir}/StudentScores.txt', mode='r') as file_pointer:
@@ -308,3 +313,23 @@ print(content)
 # Ivy: 89
 # Jack: 91
 # Kathy: 84
+
+#####################################################
+## mode="a+" and file_pointer.seek(position_index) ##
+#####################################################
+
+# mode="a+" supports appending and reading
+with open(file=f'{parent_dir}/StudentScores.txt', mode='a+') as file_pointer:
+    file_pointer.write("Linen: 95\n")  # Append a string to the file
+    file_pointer.seek(0) # Move the pointer back to the beginning of the file
+    content = file_pointer.read()
+
+print(content)
+# New Student scores:
+# Frank: 80
+# Grace: 87
+# Hannah: 93
+# Ivy: 89
+# Jack: 91
+# Kathy: 84
+# Linen: 95

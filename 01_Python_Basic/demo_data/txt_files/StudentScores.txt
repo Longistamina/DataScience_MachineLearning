@@ -5,3 +5,4 @@ Hannah: 93
 Ivy: 89
 Jack: 91
 Kathy: 84
+Linen: 95
