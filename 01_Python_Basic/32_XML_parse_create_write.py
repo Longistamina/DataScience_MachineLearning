@@ -12,7 +12,7 @@ XML is similar to HTML, but it is more flexible and allows users to define their
 XML is structured as a tree, with elements represented by tags.
 Python provides several libraries to work with XML, including `xml.etree.ElementTree`, `lxml`, and `minidom`.
 
-The `xml.etree.ElementTree` module is part of the Python standard library 
+The `xml.etree.ElementTree` module is part of the Python standard library
 and provides a simple and efficient way to parse and create XML documents.
 
 ###################################
@@ -100,10 +100,10 @@ print(f"Root Element: {root_food.tag}") # "tag" is the name of that element: bre
 print(f"Root Element Attributes: {root_food.attrib}") # Root Element Attributes: {} (empty dictionary means no attributes)
 print(f"Root Element Text: {root_food.text}") # Text (like value in dict): None (no text content directly under the root element)
 print(f"Root Element Tail: {root_food.tail}") # Root Element Tail: None (no tail text after the root element)
-print(f"Root Element Children: {list(root_food)}") # Root Element Children: 
+print(f"Root Element Children: {list(root_food)}") # Root Element Children:
                                                    # [
-                                                   # <Element 'food' at 0x7fb027162d60>, 
-                                                   # <Element 'food' at 0x7fb027162db0>, 
+                                                   # <Element 'food' at 0x7fb027162d60>,
+                                                   # <Element 'food' at 0x7fb027162db0>,
                                                    # ...]
 
 # Get the number of child elements of the root element
@@ -209,7 +209,7 @@ for food_element in root_food:
       if food_subelement.tag == "description": # Ignore an unwanted subelement
           continue
       string_out += f"{food_subelement.tag}: {food_subelement.text} ||| "
-    print(string_out.rstrip(" |||"))   
+    print(string_out.rstrip(" |||"))
 # name: Belgian Waffles ||| price: $5.95 ||| calories: 650
 # name: Strawberry Belgian Waffles ||| price: $7.95 ||| calories: 900
 # name: Berry-Berry Belgian Waffles ||| price: $8.95 ||| calories: 900
@@ -231,7 +231,7 @@ import xml.etree.ElementTree as ET
 root_starwars = ET.Element("STARWARS")
 
 
-# Add the first child element with the tag "CHARACTER" 
+# Add the first child element with the tag "CHARACTER"
 # (as well as the first observation, like the first row in a dataframe)
 character_1 = ET.SubElement(root_starwars, "CHARACTER")
 ET.SubElement(character_1, "Name").text = "Padmé Amidala" # Add subelement "Name" for the character_1 element
@@ -241,7 +241,7 @@ ET.SubElement(character_1, "Job").text = "Queen of Naboo" # Add subelement "Job"
 ET.SubElement(character_1, "Income", currency="$").text = "45000" # Add subelement "Income" for the character_1 element with currency
 
 
-# Add the second child element also with the tag "CHARACTER" 
+# Add the second child element also with the tag "CHARACTER"
 # (as well as the second observation, like the second row in a dataframe)
 character_2 = ET.SubElement(root_starwars, "CHARACTER")
 ET.SubElement(character_2, "Name").text = "Anakin Skywalker"
@@ -280,7 +280,7 @@ ET.indent(tree_starwars, space="  ", level=0)
 
 # tree.write() to save a xml tree to a .xml file
 tree_starwars.write(
-    f"{parent_dir}/new_written_starwars.xml", 
-    encoding='utf-8', 
+    f"{parent_dir}/new_written_starwars.xml",
+    encoding='utf-8',
     xml_declaration=True
 )
