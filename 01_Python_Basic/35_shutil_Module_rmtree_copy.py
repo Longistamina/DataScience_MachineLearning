@@ -1,8 +1,8 @@
 '''
-The shutil module (short for "shell utilities") is a powerful Python standard library module 
-that provides high-level file and directory operations. 
+The shutil module (short for "shell utilities") is a powerful Python standard library module
+that provides high-level file and directory operations.
 
-It offers a comprehensive set of functions for copying, moving, renaming, and deleting files and directories, 
+It offers a comprehensive set of functions for copying, moving, renaming, and deleting files and directories,
 making it an essential tool for file management tasks in Python applications.
 
 ############################################
@@ -72,7 +72,7 @@ shutil.copytree('./02_Python_class_OOP',  # source directory
 #------------------------------------- 2. Moving files and directories ---------------------------------#
 #-------------------------------------------------------------------------------------------------------#
 '''
-shutil.move(src, dst) is used to move a file or directory from the source path (src) 
+shutil.move(src, dst) is used to move a file or directory from the source path (src)
 to the destination path (dst).
 '''
 
@@ -137,10 +137,11 @@ root_dir is the root directory to archive, and base_dir is the directory within 
 shutil.make_archive('/home/longdpt/Documents/Academic/DataScience_MachineLearning/demo_archive',  # base name (destination archive file name)
                     'zip',  # format (extension will be .zip)
                     root_dir='./02_Python_class_OOP',  # root directory to archive (source directory)
-                    base_dir='')  # base directory within root_dir to archive (set to '' to include all files in root_dir)
+                    # base_dir='rectangle_project' # base directory within root_dir to archive
+                    base_dir='')  # set to '' to include all files in root_dir
 
 # List the contents of the created archive
-os.system('unzip -l /home/longdpt/Documents/Academic/DataScience_MachineLearning/demo_archive.zip') 
+os.system('unzip -l /home/longdpt/Documents/Academic/DataScience_MachineLearning/demo_archive.zip')
 #   Length      Date    Time    Name
 # ---------  ---------- -----   ----
 #      3104  06-09-2025 17:30   01_class_self_Introduction.py

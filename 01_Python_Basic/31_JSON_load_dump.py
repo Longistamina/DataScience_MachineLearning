@@ -65,8 +65,8 @@ print(type(json_string))  #  <class 'str'>
 python_dict = json.loads(json_string)
 
 print(python_dict)
-# {'People': [{'Name': 'John', 'Age': 30, 'City': 'New York'}, 
-#             {'Name': 'Anna', 'Age': 22, 'City': 'London'}, 
+# {'People': [{'Name': 'John', 'Age': 30, 'City': 'New York'},
+#             {'Name': 'Anna', 'Age': 22, 'City': 'London'},
 #              {'Name': 'Mike', 'Age': 32, 'City': 'Chicago'}]}
 
 print(type(python_dict))  # <class 'dict'>
@@ -92,16 +92,16 @@ with open(f"{parent_dir}/emps.json", "r") as file: # Open the JSON file in read 
     python_dict_from_file = json.load(file) # Convert the JSON file into a Python dictionary
 
 print(python_dict_from_file)
-# {'ID': ['1', '2', '3', '4', '5', '6', '7', '8'], 
-# 'Name': ['Rick', 'Dan', 'Michelle', 'Ryan', 'Gary', 'Nina', 'Simon', 'Guru'], 
-# 'Salary': ['623.3', '515.2', '611', '729', '843.25', '578', '632.8', '722.5'], 
-# 'StartDate': ['1/1/2012', '9/23/2013', '11/15/2014', '5/11/2014', '3/27/2015', '5/21/2013', '7/30/2013', '6/17/2014'], 
+# {'ID': ['1', '2', '3', '4', '5', '6', '7', '8'],
+# 'Name': ['Rick', 'Dan', 'Michelle', 'Ryan', 'Gary', 'Nina', 'Simon', 'Guru'],
+# 'Salary': ['623.3', '515.2', '611', '729', '843.25', '578', '632.8', '722.5'],
+# 'StartDate': ['1/1/2012', '9/23/2013', '11/15/2014', '5/11/2014', '3/27/2015', '5/21/2013', '7/30/2013', '6/17/2014'],
 # 'Dept': ['IT', 'Operations', 'IT', 'HR', 'Finance', 'IT', 'Operations', 'Finance']}
 
 
-#------------------------------------------------------------#
-#------------ json.dumps() and json.dump() ------------------#
-#------------------------------------------------------------#
+#-------------------------------------------------------------#
+#------------- json.dumps() and json.dump() ------------------#
+#-------------------------------------------------------------#
 
 ##################
 ## json.dumps() ##
@@ -128,7 +128,7 @@ json_string_converted = json.dumps(python_dict_to_convert)
 print(json_string_converted)  # {"Name": "Alice", "Age": 28, "City": "Los Angeles"}
 
 # Custom separators
-json_string_converted = json.dumps(python_dict_to_convert, indent=4, separators=(';', '__')) 
+json_string_converted = json.dumps(python_dict_to_convert, indent=4, separators=(';', '__'))
 print(json_string_converted)
 # {
 #     "Name"__"Alice";

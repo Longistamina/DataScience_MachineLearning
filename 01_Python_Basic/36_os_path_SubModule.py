@@ -1,7 +1,7 @@
 '''
-The os.path module is an essential tool for data scientists working with file systems in Python. 
-It provides platform-independent functions for manipulating file and directory paths, 
-making your code portable across different operating systems. 
+The os.path module is an essential tool for data scientists working with file systems in Python.
+It provides platform-independent functions for manipulating file and directory paths,
+making your code portable across different operating systems.
 
 ####################################################################
 
@@ -72,6 +72,10 @@ os.path.isdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/')
 
 # Check if a non-directory path
 os.path.isdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_termcolor.py')
+# False
+
+# Returns False if the path does not exist
+os.path.isdir("dir1/dir2")
 # False
 
 
@@ -195,7 +199,7 @@ NOTE: It does so by appending the current working directory to the given path if
 '''
 
 absolute_path = os.path.abspath('dir_1/dir_2/file.txt')
-print(absolute_path)  
+print(absolute_path)
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/dir_1/dir_2/file.txt
 
 
@@ -207,7 +211,7 @@ print(absolute_path)
 relative_path = os.path.relpath('dir_1/dir_2/dir_3/file.txt',
                                  start='dir_1/dir_2')
 
-print(relative_path)  
+print(relative_path)
 # dir_3/file.txt
 
 
@@ -284,12 +288,12 @@ print(is_link)  # True
 
 
 #----------------------------------------------------------------------------------------------------#
-#------------------------ 17. Using os.walk() to traverse directories -------------------------------#  
+#------------------------ 17. Using os.walk() to traverse directories -------------------------------#
 #----------------------------------------------------------------------------------------------------#
 '''
 os.path.walk() is used to traverse directories. However, it is deprecated in Python 3.x.
 
-Instead, you can use os.walk() which is a generator that yields a tuple of (dirpath, dirnames, filenames) 
+Instead, you can use os.walk() which is a generator that yields a tuple of (dirpath, dirnames, filenames)
 for each directory in the tree rooted at the specified directory.
 '''
 
@@ -401,7 +405,7 @@ print(creation_time_human)  # 2025-12-18 16:03:08.235511
 # os.path.samefile() checks if two paths point to the same file.
 same_file = os.path.samefile('./01_Python_Basic/01_print_end_sep_termcolor.py',
                              '/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_end_sep_termcolor.py')
-print(same_file)  
+print(same_file)
 # True (if both paths point to the same file)
 
 

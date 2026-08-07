@@ -6,7 +6,7 @@ This module allows you to interact with the underlying operating system in a pla
 It includes functions to work with files and directories, manage processes, and perform other system-related tasks.
 It is commonly used for tasks such as file manipulation, environment variable access, and executing system commands.
 
-The "os" module is part of the Python Standard Library, 
+The "os" module is part of the Python Standard Library,
 so it is available in any Python installation without needing to install anything extra.
 '''
 
@@ -16,8 +16,8 @@ so it is available in any Python installation without needing to install anythin
 Flow of contents:
 1. Basic Inspection: os.name, os.uname(), os.cpu_count()
 2. Working Directory Navigation: os.getcwd(), os.chdir()
-3. File and Directory Operations: os.listdir(), os.scandir(), 
-                                  os.mkdir(), os.makedirs(), os.rmdir(), shutil.rmtree(), os.remove(), 
+3. File and Directory Operations: os.listdir(), os.scandir(),
+                                  os.mkdir(), os.makedirs(), os.rmdir(), shutil.rmtree(), os.remove(),
                                   os.rename()
 4. Running System Commands: os.system(), os.popen(), os.execv() os.execvp(), os.execvpe()
 5. Working with file permissions: os.chmod()
@@ -41,7 +41,7 @@ It can return 'posix', 'nt', 'os2', 'ce', 'java', or 'riscos'.
 This can be useful to determine the platform your code is running on.
 '''
 
-print(os.name)  # posix 
+print(os.name)  # posix
 # (Linux, macOS)
 
 
@@ -64,7 +64,7 @@ It includes the system name, node name (hostname), release, version, and machine
 '''
 
 print(os.uname())
-# posix.uname_result(sysname='Linux', nodename='zbook', release='6.18.7-061807-generic', 
+# posix.uname_result(sysname='Linux', nodename='zbook', release='6.18.7-061807-generic',
 # version='#202601231045 SMP PREEMPT_DYNAMIC Fri Jan 23 11:25:00 UTC 2026', machine='x86_64')
 
 
@@ -103,7 +103,7 @@ print(os.getcwd())  # /home/longdpt/Documents/Academic/DataScience_MachineLearni
 '''os.chdir(path) changes the current working directory to the specified path. (like "cd" command in Linux)'''
 
 # Change to a different directory
-os.chdir('/home/longdpt/Documents/Academic')  
+os.chdir('/home/longdpt/Documents/Academic')
 
 # Change to the parent directory
 os.chdir('..')  # The '..' means the parent directory of the current working directory
@@ -122,7 +122,7 @@ print(os.getcwd())  # /home/longdpt/Documents
 '''os.listdir(path) returns a list of the entries in the directory given by path.'''
 
 # List files in the current directory ('.' means current directory)
-print(os.listdir('.'))  
+print(os.listdir('.'))
 # ['01_Python_Basic', 'merge_mp4.sh', 'Unrar_file.txt', '.git', 'Python_Important_packages.txt', 'vscode_install_settings.txt', 'Calculus_ConvexOptimization', '.gitignore', '02_Python_class_OOP']
 
 
@@ -227,7 +227,7 @@ except Exception as e:
 ## os.makedirs() ##
 ###################
 '''
-os.makedirs(path) creates a directory recursively, 
+os.makedirs(path) creates a directory recursively,
 meaning it will create all intermediate-level directories needed to contain the leaf directory.
 '''
 
@@ -330,8 +330,8 @@ os.system('echo "forsaken i am awakened"')  # Execute the shell command and disp
 
 
 ## Store the exit status in a variable ##d
-exit_status = os.system('echo "forsaken i am awakened"') 
-# forsaken i am awakened 
+exit_status = os.system('echo "forsaken i am awakened"')
+# forsaken i am awakened
 # (not return exit status)
 
 print(exit_status)  # 0
@@ -382,7 +382,7 @@ with os.popen('ls -l .', "r") as wrap_object:
 
 ## Open a pipe to the 'sort' command and WRITE to its input ##
 fruits = "orange\napple\nbanana"
-with os.popen("sort", "w") as wrap_object: 
+with os.popen("sort", "w") as wrap_object:
     wrap_object.writelines(fruits) # Write the fruits to the sort command
     # apple
     # banana
@@ -439,7 +439,7 @@ print("This line will not be executed if os.execvp() is called")  # This line wi
 ## os.execvpe() with current os.environ ##
 ##########################################
 '''
-os.execvpe(file, args, env) is similar to os.execvp() 
+os.execvpe(file, args, env) is similar to os.execvp()
 but allows you to specify a custom environment for the new process.
 '''
 
@@ -468,20 +468,20 @@ def get_conda_env(env_name):
     """Get environment variables from a conda environment"""
     # Run a command in the conda environment to dump its environment
     result = subprocess.run(
-        ['conda', 'run', '-n', env_name, 'python', '-c', 
+        ['conda', 'run', '-n', env_name, 'python', '-c',
          'import os; import json; print(json.dumps(dict(os.environ)))'],
         capture_output=True,
         text=True,
         check=True
     )
-    
+
     import json
     return json.loads(result.stdout.strip())
 
 # Get the environment for your conda environment
 conda_env = get_conda_env('base')
 print(conda_env)  # Display the environment variables of the conda environment
-# {'SHELL': '/bin/bash', 'SESSION_MANAGER': 'local/unix:@/tmp/.ICE-unix/2578,unix/unix:/tmp/.ICE-unix/2578', 'COLORTERM': 'truecolor', 'VSCODE_DEBUGPY_ADAPTER_ENDPOINTS': 
+# {'SHELL': '/bin/bash', 'SESSION_MANAGER': 'local/unix:@/tmp/.ICE-unix/2578,unix/unix:/tmp/.ICE-unix/2578', 'COLORTERM': 'truecolor', 'VSCODE_DEBUGPY_ADAPTER_ENDPOINTS':
 
 # Use it with execvpe
 os.execvpe(
@@ -501,7 +501,7 @@ print("This line will not be executed if os.execvp() is called")  # This line wi
 #------------------------------------- 5. Working with file permissions ------------------------------------#
 #-----------------------------------------------------------------------------------------------------------#
 '''
-os.chmod(path, mode) is used to change the file permissions 
+os.chmod(path, mode) is used to change the file permissions
 at the specified path (path) to the given mode (mode).
 '''
 
@@ -535,7 +535,7 @@ Octal    Symbolic     Common Use
 0o555    r-xr-xr-x    Read and execute files for everyone
 0o333    -wx-wx-wx    Write and execute files for everyone
 0o666    -rw-rw-rw-    Read and write files for everyone
-0o777    rwxrwxrwx    Read, write, and execute files for everyone  
+0o777    rwxrwxrwx    Read, write, and execute files for everyone
 '''
 
 
@@ -597,7 +597,7 @@ os.putenv('MY_ENV_VAR', 'my_value')
 print("Current process:", os.getenv('MY_ENV_VAR')) # None
 
 # This shows the variable exists in child processes
-result = subprocess.run(['python', '-c', 'import os; print("Child process:", os.getenv("MY_ENV_VAR"))'], 
+result = subprocess.run(['python', '-c', 'import os; print("Child process:", os.getenv("MY_ENV_VAR"))'],
                        capture_output=True, text=True)
 
 print(result.stdout.strip()) # my_value
