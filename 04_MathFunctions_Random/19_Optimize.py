@@ -957,13 +957,13 @@ CONVERGENCE RATES (per function evaluation):
   halley   : 1.44 — needs fprime and fprime2; fastest per iter
 '''
 
-def f_root(x):    
+def f_root(x):
     return x**3 - x - 2       # root near x = 1.5214
 
-def f_root_d(x):  
+def f_root_d(x):
     return 3*x**2 - 1
 
-def f_root_d2(x): 
+def f_root_d2(x):
     return 6*x
 
 # brentq: default bracketing method (guaranteed, superlinear)
@@ -1014,7 +1014,7 @@ print([round(r, 6) for r in roots_sin])
 from scipy.optimize import brentq, bisect, newton
 root_bq_direct = brentq(f_root, 1., 2.)
 print(round(root_bq_direct, 10))
-# 1.5213797068   
+# 1.5213797068
 # same as root_scalar with method='brentq'
 
 root_newton_direct = newton(f_root, x0=1.5, fprime=f_root_d, fprime2=f_root_d2)
@@ -1444,7 +1444,7 @@ print(rosen(x_min_rosen))               # 0.0  at the minimum
 print(rosen_der(x_min_rosen))           # [0. 0. 0. 0. 0.]  gradient=0 at minimum
 
 # Eigenvalues of Hessian confirm it is a positive definite minimum
-print(np.linalg.eigvalsh(rosen_hess(x_min_rosen)).round(2))   
+print(np.linalg.eigvalsh(rosen_hess(x_min_rosen)).round(2))
 # [5.00000e-01 3.54630e+02 7.54590e+02 1.24910e+03 1.64918e+03]
 # all positive
 
@@ -1540,7 +1540,7 @@ residuals_sol = residuals_exp(popt_lsq, t_data, y_data)
 sigma2 = (residuals_sol**2).sum() / (len(t_data) - len(popt_lsq))
 if cov_x is not None:
     perr_lsq = np.sqrt(np.diag(cov_x) * sigma2)
-    print(perr_lsq.round(5))   
-# [0.05801 0.03112]    
+    print(perr_lsq.round(5))
+# [0.05801 0.03112]
 # parameter standard errors
 # Note: curve_fit handles this automatically and is preferred.
