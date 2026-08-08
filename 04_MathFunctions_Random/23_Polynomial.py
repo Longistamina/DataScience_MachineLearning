@@ -205,7 +205,7 @@ print(p_natural.coef.round(4))
 
 # Comparison: np.polyfit returns bare array; harder to use safely
 coef_legacy = np.polyfit(x_data, y_data, deg=5)
-print(coef_legacy.round(4))   
+print(coef_legacy.round(4))
 # [ 1.399   0.0494 -4.1704  0.0531  2.8182 -0.0499]
 # [cN, ..., c0] descending — error-prone
 

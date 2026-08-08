@@ -998,7 +998,7 @@ for name, sos_cmp in [("Butterworth", butter(4, 100., fs=fs, output='sos')),
     w_cmp, H_cmp = freqz_sos(sos_cmp, worN=1000, fs=fs)
     atten_cmp = -20*np.log10(np.abs(H_cmp[150:]).max() + 1e-16)
     print(f"  {name:15s}: attenuation at 150+ Hz = {atten_cmp:.1f} dB")
-    
+
 # === Order 4, lowpass 100 Hz, stopband at 150 Hz ===
 #   Butterworth    : attenuation at 150+ Hz = 0.4 dB
 #   Cheby1 1dB     : attenuation at 150+ Hz = 0.0 dB
@@ -1354,7 +1354,7 @@ for beta, sll_approx in [(0, 13), (5, 40), (8.6, 60), (14, 100)]:
 
 # DPSS: optimal concentration of energy in a bandwidth of NW/N Hz (per half-sample)
 print(f"DPSS tapers: {w_dpss.shape}")   # (7, 64) — 7 tapers of length 64
-print(f"Concentration ratios: {dpss_ratios.round(6)}")   
+print(f"Concentration ratios: {dpss_ratios.round(6)}")
 # Concentration ratios: [1.       1.       0.999999 0.99997  0.999437 0.99271  0.937469]
 # near 1 for first few
 
@@ -1948,7 +1948,7 @@ print(f"Zoom FFT peak near 50 Hz: {freqs_zoom[np.argmax(np.abs(X_zoom))]:.2f} Hz
 
 # Resolve 50.0 vs 50.3 Hz (0.3 Hz separation) — not possible with standard FFT (1 Hz resolution)
 peak_idx = np.argsort(np.abs(X_zoom))[-4:]
-print(f"Zoom peaks at: {freqs_zoom[np.sort(peak_idx)].round(2)}")  
+print(f"Zoom peaks at: {freqs_zoom[np.sort(peak_idx)].round(2)}")
 # Zoom peaks at: [50.14 50.15 50.16 50.16]
 # shows fine structure
 
