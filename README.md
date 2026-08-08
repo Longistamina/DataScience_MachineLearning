@@ -243,3 +243,11 @@
       * Random distributions, RNG
       * Scipy Special
       * Scipy Cluster
+  + [04_MathFunctions_Random_part_05](https://youtu.be/Kef7OLxw3vY): 08th/08/2026
+      * Interpolate
+      * Differentiate, Integrate
+      * Optimize
+      * Signal
+      * NDImage
+      * Spatial
+      * Polynomial
