@@ -1,5 +1,5 @@
 '''
-Pathlib is a module in Python that provides an object-oriented approach to handle filesystem paths. 
+Pathlib is a module in Python that provides an object-oriented approach to handle filesystem paths.
 The `glob` method in the `pathlib` module allows you to search for files and directories matching a specified pattern.
 
 Unlike the traditional `os` module, `pathlib` provides a more intuitive and readable way to work with paths.
@@ -13,7 +13,7 @@ Flow of contents:
 4. Checking path properties: exists(), is_file(), is_dir(), is_symlink(), is_absolute(), is_relative_to()
 5. Get Absolute Path - Path Resolution: resolve(), absolute()
 
-6. Directory and File operations: mkdir(), rmdir(), touch(), symlink_to(), 
+6. Directory and File operations: mkdir(), rmdir(), touch(), symlink_to(),
                                   unlink() [remove a file or symlink],
                                   replace() [move and rename a file or directory],
                                   shutil.copy() and shutil.copy2() [copy file or directory - file 31_...py]
@@ -23,9 +23,9 @@ Flow of contents:
 8. Change file permissions: chmod()
 '''
 
-from os import symlink
 from loguru import logger
- 
+
+
 #--------------------------------------------------------------------------------------------------------------------#
 #--------------------------- 1. Create Path object: PurePath, Concrete Path, slash / --------------------------------#
 #--------------------------------------------------------------------------------------------------------------------#
@@ -35,7 +35,7 @@ from loguru import logger
 ##################################
 '''
 Concrete Path classes represent actual filesystem paths and allow for file system operations.
-They inherit from PurePath and provide methods to interact with the file system, 
+They inherit from PurePath and provide methods to interact with the file system,
 such as reading and writing files, checking existence, and more.
 '''
 
@@ -101,7 +101,7 @@ They do not allow for any file system operations like reading or writing files, 
 from pathlib import PurePath, PurePosixPath, PureWindowsPath
 
 
-# Create a PurePath object using PurePath. 
+# Create a PurePath object using PurePath.
 # It will automatically handle the path separator based on the operating system.
 pure_path = PurePath('parent_dir', 'child_dir', 'example.txt') # Works like os.path.join()
 print(pure_path) # parent_dir/child_dir/example.txt
@@ -238,11 +238,13 @@ print(dir_suffixes)  # [] (empty list, since directories don't have suffixes)
 
 file_parent = demo_file_path.parent
 print(file_parent)  # parent_dir/child_dir
-print(file_parent.parent)
+print(file_parent.parent) # parent_dir
+print(demo_file_path.parent.parent) # parent_dir
 
 dir_parent = demo_dir_path.parent
 print(dir_parent)  # /home/longdpt/Documents/Academic/DataScience_MachineLearning
 print(dir_parent.parent)  # /home/longdpt/Documents/Academic/
+print(demo_dir_path.parent.parent) # /home/longdpt/Documents/Academic
 
 '''
                BE CAREFUL parent_1
@@ -250,6 +252,7 @@ The pathlib.Path().parent DOES NOT return a string !!!!!!
 '''
 print(type(demo_file_path.parent)) # <class 'pathlib.PosixPath'>
 print(type(file_parent.parent)) # <class 'pathlib.PosixPath'>
+
 
 '''
              BE CAREFUL parent_2
@@ -308,7 +311,7 @@ print(dir_parts)  # ('/', 'home', 'longdpt', 'Documents', 'Academic', 'DataScien
 ## path_object.root ##
 ######################
 '''
-The path_object.root property returns the root of the path, 
+The path_object.root property returns the root of the path,
 which is the top-level directory in the file system.
 '''
 
@@ -389,7 +392,7 @@ print(exist_file_path.is_symlink())  # False (since it's a file)
 ## path_object.is_absolute() ##
 ###############################
 '''
-The path_object.is_absolute() method checks if the path is an absolute path 
+The path_object.is_absolute() method checks if the path is an absolute path
 (starts from the root directory).
 '''
 
@@ -424,19 +427,18 @@ symlink_path = Path("symlink_to_curriculum.txt")
 ## path_object.resolve() ##
 ###########################
 '''
-The path_object.resolve() method returns the absolute path of the file or directory, 
+The path_object.resolve() method returns the absolute path of the file or directory,
 It also resolves any symbolic links and relative paths.
-NOTE: If the path does not exist, it will raise a FileNotFoundError.
 '''
 
 absolute_path = demo_relative_path_1.resolve()
-print(absolute_path)  
+print(absolute_path)
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP
 
 absolute_path_alternative = demo_relative_path_2.resolve()
 print(absolute_path_alternative)
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/DataScience_MachineLearning/02_Python_class_OOP
-''' 
+'''
 >> NOTE: there is a duplication of the path => this is because the path is relative to the current working directory,
 >> and the current working directory is already inside the 'DataScience_MachineLearning' directory.
 '''
@@ -478,7 +480,7 @@ print(relative_symlink_path.resolve())  # /home/longdpt/Documents/Academic/DataS
 print(relative_symlink_path.absolute())  # /home/longdpt/Documents/Academic/DataScience_MachineLearning/lmstudio_exe
 
 '''
->> NOTE: the absolute path is not the actual absolute path of the symlink target, 
+>> NOTE: the absolute path is not the actual absolute path of the symlink target,
 >> but rather the absolute path from the current working directory to the symlink itself.
 '''
 
@@ -494,7 +496,7 @@ from pathlib import Path
 ######################################
 
 # mkdir() basic use
-data_dir = Path('./data')
+data_dir = Path('./data0')
 data_dir.mkdir(exist_ok=True)  # Create 'data' directory (at existed parent dir) like os.mkdir()
                                # Don't fail if exists (not overwrite)
 
@@ -504,16 +506,15 @@ Path('/home/longdpt/Documents/Academic/DataScience_MachineLearning/').joinpath('
 # Add "new_dir" to the path with .joinpath() method
 # Then use .mkdir() to create the directory at the specified path
 
-
 # mkdir() with parents=True like os.makedirs()
-data_dir_with_parents = Path('./data/subdir')
+data_dir_with_parents = Path('./data0/subdir')
 data_dir_with_parents.mkdir(parents=True, exist_ok=True) # Don't fail if exists, and create all parent
 
 
 # Create a structured directory
 project_structure = [
     'project/data/raw',
-    'project/data/processed', 
+    'project/data/processed',
     'project/data/external',
     'project/models/trained',
     'project/models/checkpoints',
@@ -528,10 +529,10 @@ for path_str in project_structure:
 
 
 '''
-WRONG USAGE: 
+WRONG USAGE:
    Path.cwd().mkdir('new_dir')
    >>> Create nothing
-   
+
 TRUE USAGE:
    Path.cwd().joinpath('new_dir').mkdir()
    >>> Create 'new_dir' in the current working directory
@@ -572,7 +573,7 @@ path_cwd.joinpath('demo_file.txt').touch(exist_ok=True)  # Add "demo_file.txt" t
                                                          # then use .touch() to create the file
 
 '''
-WRONG USAGE: 
+WRONG USAGE:
     path_cwd.touch('demo_file.txt')
     >>> Create nothing
 '''
@@ -663,10 +664,10 @@ Path.cwd().joinpath('demo_dir').replace('./destination_dir/demo_dir')  # Move th
 #--------------------------
 
 # Move and rename the file
-Path('./destination_dir').joinpath('demo_file.txt').replace(Path.cwd() / 'renamed_file.txt')  
+Path('./destination_dir').joinpath('demo_file.txt').replace(Path.cwd() / 'renamed_file.txt')
 
 # Move and rename the directory
-Path('./destination_dir').joinpath('demo_dir').replace(Path.cwd() / 'renamed_dir')  
+Path('./destination_dir').joinpath('demo_dir').replace(Path.cwd() / 'renamed_dir')
 
 ##############################################################
 ## shuti.copy() and shutil.copy2() - Copy file or directory ##
@@ -703,7 +704,7 @@ print(f"File size: {file_size} bytes")  # File size: 624
 
 file_mtime = file_path.stat().st_mtime
 print(f"Last modification time: {file_mtime}")  # Last modification time: 1747632919.0
-# This is a timestamp in seconds since the epoch (January 1, 1970). 
+# This is a timestamp in seconds since the epoch (January 1, 1970).
 # You can convert it to a human-readable format using datetime or time module
 
 from datetime import datetime
@@ -718,7 +719,7 @@ print(f"Last modification time: {time.ctime(file_mtime)}")  # 'Mon May 19 14:35:
 
 file_ctime = file_path.stat().st_ctime
 print(f"Creation time: {file_ctime}")  # Creation time: 1748964340.0572999
-# This is a timestamp in seconds since the epoch (January 1, 1970). 
+# This is a timestamp in seconds since the epoch (January 1, 1970).
 # You can convert it to a human-readable format using datetime
 
 from datetime import datetime
@@ -733,7 +734,7 @@ print(f"Last modification time: {time.ctime(file_ctime)}") # Wed Jun  4 00:25:40
 
 file_atime = file_path.stat().st_atime
 print(f"Last access time: {file_atime}")  # Last access time: 1753340542.8413243
-# This is a timestamp in seconds since the epoch (January 1, 1970). 
+# This is a timestamp in seconds since the epoch (January 1, 1970).
 # You can convert it to a human-readable format using datetime
 
 from datetime import datetime
@@ -816,5 +817,5 @@ Octal    Symbolic     Common Use
 0o555    r-xr-xr-x    Read and execute files for everyone
 0o333    -wx-wx-wx    Write and execute files for everyone
 0o666    -rw-rw-rw-    Read and write files for everyone
-0o777    rwxrwxrwx    Read, write, and execute files for everyone  
+0o777    rwxrwxrwx    Read, write, and execute files for everyone
 '''
