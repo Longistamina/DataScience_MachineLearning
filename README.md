@@ -251,3 +251,10 @@
       * NDImage
       * Spatial
       * Polynomial
+  + [04_MathFunctions_Random_part_06](https://youtu.be/AJLnwYGsUbo): 09th/08/2026
+      * Numpy Ufuncs: out, where, casting, types, axes / axis / keepdims
+      * Numpy Ufuncs: ufunc(), ufunc.reduce(), ufunc.accumulate(), ufunc.reduceat(), ufunc.outer()
+      * Scatter: ufunc.at()
+      * Gather: fancy indexing
+      * List of all numpy ufuncs: add, subtract, multiply, ...
+      * Create custom ufuncs: np.frompyfunc(), np.vectorize()

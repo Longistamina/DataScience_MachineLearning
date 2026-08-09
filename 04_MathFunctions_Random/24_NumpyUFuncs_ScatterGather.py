@@ -99,8 +99,16 @@ rng = np.random.default_rng(42)
 # ── shared test arrays ─────────────────────────────────────────────────────────
 a   = np.array([1.0,  2.0,  3.0,  4.0,  5.0])
 b   = np.array([10.0, 20.0, 30.0, 40.0, 50.0])
-A   = np.arange(1, 7, dtype=float).reshape(2, 3)   # [[1,2,3],[4,5,6]]
-B   = np.arange(1, 7, dtype=float).reshape(3, 2)   # [[1,2],[3,4],[5,6]]
+
+A   = np.arange(1, 7, dtype=float).reshape(2, 3)
+# [[1, 2, 3],
+#  [4, 5, 6]]
+
+B   = np.arange(1, 7, dtype=float).reshape(3, 2)
+# [[1, 2],
+#  [3, 4],
+#  [5, 6]]
+
 i16 = np.array([0b1010, 0b1100, 0b0110], dtype=np.uint8)
 j16 = np.array([0b0110, 0b1010, 0b1100], dtype=np.uint8)
 
@@ -120,12 +128,26 @@ Every ufunc exposes a set of read-only informational attributes.
   ufunc.nargs      : total arguments = nin + nout.
   ufunc.ntypes     : number of type-resolution loops (one per dtype combo).
   ufunc.types      : list of type strings, each like 'ff->f' (float32 in/out).
-  ufunc.identity   : identity element used by .reduce() — 0 for add, 1 for
-                     multiply, None for ufuncs without a natural identity.
+  ufunc.identity   : identity element used by .reduce() — 0 for add, 1 for multiply,
+                     None for ufuncs without a natural identity.
   ufunc.signature  : for generalised ufuncs (gufuncs) only — the shape
                      signature string like '(m,n),(n,k)->(m,k)' for matmul.
                      None for element-wise ufuncs.
   ufunc.__name__   : string name.
+
+------------------------------
+
+Explanation of ``ufunc.identity``
+
+For addition: x + 0 = x
+=> identity = 0
+
+For multiplication: x * 1 = x
+=> identity = 1
+
+Given x = np.array([2, 3, 4])
+=> addition reduce = 0 + 2 + 3 + 4
+=> multiplication reduce = 1 × 2 × 3 × 4
 '''
 
 for uf, label in [(np.add,      'add'),
@@ -150,6 +172,9 @@ print("\nnp.add type loops (first 5):", np.add.types[:5])
 # np.matmul is a gufunc with a shape signature
 print("matmul signature:", np.matmul.signature)   # (n?,k),(k,m?)->(n?,m?)
 
+vec1 = np.array([1, 2, 3])
+vec2 = np.array([4., 5., 6.])
+
 
 #-------------------------------------------------------------------------------------------------#
 #══════════════════  PART B — OPTIONAL KEYWORD ARGUMENTS (apply to all ufuncs)  ══════════════════#
@@ -169,8 +194,8 @@ out : array or tuple of arrays, or None (default)
     • Shape must broadcast correctly against the inputs.
     • out can OVERLAP with an input: np.add(a, b, out=a) is safe — NumPy
       makes temporary copies when data dependency analysis requires it.
-    • Pass out=np.empty(...) to pre-allocate and reuse buffers (avoids GC
-      pressure in tight loops).
+    • Pass out=np.empty(...) to pre-allocate and reuse buffers
+      (avoids GC pressure in tight loops).
     • out=... (Ellipsis) forces a 0-D output to stay as a 0-D array instead
       of being converted to a Python scalar.
 '''
@@ -179,7 +204,7 @@ result = np.empty(5)
 np.add(a, b, out=result)
 print("add into pre-allocated:", result)   # [11. 22. 33. 44. 55.]
 
-# In-place (no extra allocation): a += b is sugar for np.add(a, b, out=a)
+# In-place (no extra allocation): ``a += b`` is sugar for ``np.add(a, b, out=a)``
 a_copy = a.copy()
 np.multiply(a_copy, 2.0, out=a_copy)
 print("multiply in-place:", a_copy)   # [ 2.  4.  6.  8. 10.]
@@ -187,13 +212,14 @@ print("multiply in-place:", a_copy)   # [ 2.  4.  6.  8. 10.]
 # Two-output ufunc: divmod
 q = np.empty(5)
 r = np.empty(5)
-np.divmod(b, np.array([3.,3.,3.,3.,3.]), out=(q, r))
+np.divmod(b, np.array([3., 3., 3., 3., 3.]), out=(q, r))
 print("divmod quotient:", q, "  remainder:", r)
 # divmod quotient: [ 3.  6. 10. 13. 16.]   remainder: [1. 2. 0. 1. 2.]
 
-# Scalar 0-D: without out= it converts to Python scalar
+# Scalar 0-D: without out=
 z0 = np.add(np.float64(1.0), np.float64(2.0))
 print(f"0-D without out: type={type(z0)}")           # <class 'numpy.float64'>
+
 z0e = np.add(np.float64(1.0), np.float64(2.0), out=np.empty(()))
 print(f"0-D with out=:   type={type(z0e)}, val={z0e}")  # ndarray, 3.0
 
@@ -227,7 +253,7 @@ print("Safe divide (where x≠0):", safe_div)   # [2.  1.  0.6667  1.  0.4]
 
 # Log of positive values only
 vals = np.array([-2.0, 1.0, 4.0, -1.0, np.e])
-log_out = np.full(5, np.nan)
+log_out = np.full(5, np.nan) # [np.nan, np.nan, np.nan, np.nan, np.nan]
 np.log(vals, out=log_out, where=(vals > 0))
 print("Masked log:", log_out)   # [nan  0.  1.386  nan  1.]
 
@@ -325,8 +351,8 @@ print(f"order='C' is C-contig: {res_C.flags['C_CONTIGUOUS']}")   # True
 ## axes / axis / keepdims  (gufunc only) ##
 ###########################################
 '''
-These three parameters only apply to generalised ufuncs (gufuncs), which
-operate on sub-arrays (core elements) rather than scalars.
+These three parameters only apply to generalised ufuncs (gufuncs),
+which operate on sub-arrays (core elements) rather than scalars.
 
 axis : int
   Shorthand for gufuncs with a single shared core dimension.
@@ -334,27 +360,67 @@ axis : int
   np.linalg internal gufuncs (e.g. _umath_linalg.solve) use axis.
 
 axes : list of tuples
-  Full control: specify which axis (axes) of each array argument is the
-  "core" dimension.  For matmul with signature (i,j),(j,k)->(i,k) on a
-  batch of matrices stored in first two dims:
+  Full control: specify which axis (axes) of each array argument is the "core" dimension.
+  For matmul with signature (i,j),(j,k)->(i,k) on a batch of matrices stored in first two dims:
     axes=[(-2,-1), (-2,-1), (-2,-1)]
 
 keepdims : bool  (default False)
-  If True, the reduced core dimensions are kept with size 1, so the result
-  broadcasts correctly back against the input.
+  If True, the reduced core dimensions are kept with size 1,
+  so the result broadcasts correctly back against the input.
   Only valid for gufuncs where all outputs have no core dimensions
   (signatures like (i),(i)->()).
 '''
 print("\n=== axes/axis/keepdims (matmul gufunc) ===")
 # Batch matmul: stack of (2,3) @ (3,2) -> stack of (2,2)
-batch_A = np.stack([A, A * 2])             # (2, 2, 3)
-batch_B = np.stack([B, B * 0.5])          # (2, 3, 2)
+
+batch_A = np.stack([A, A * 2])             # (2, 3) -> (2, 2, 3)
+print(batch_A)
+# [[[ 1.  2.  3.]
+#   [ 4.  5.  6.]]
+#
+#  [[ 2.  4.  6.]
+#   [ 8. 10. 12.]]]
+
+batch_B = np.stack([B, B * 0.5])          #  (3, 2) -> (2, 3, 2)
+print(batch_B)
+# [[[1.  2. ]
+#   [3.  4. ]
+#   [5.  6. ]]
+#
+#  [[0.5 1. ]
+#   [1.5 2. ]
+#   [2.5 3. ]]]
+
 batch_C = np.matmul(batch_A, batch_B)      # (2, 2, 2) — batched automatically
 print("Batch matmul shape:", batch_C.shape)   # (2, 2, 2)
 
 # Explicitly specify core axes (last two dims for each operand)
 batch_C2 = np.matmul(batch_A, batch_B,
                      axes=[(-2,-1), (-2,-1), (-2,-1)])
+
+'''
+-1 => last axis
+-2 => second-to-last axis
+
+What does axes=[(-2,-1), (-2,-1), (-2,-1)])
++ 1st (-2, -1) means: batch_A shape = (2, 2, 3) -> get axes (-2, -1) -> 2 matrices (2, 3)
++ 2nd (-2, -1) means: batch_B shape = (2, 3, 2) -> get axes (-2, -1) -> 2 matrices (3, 2)
+
+perfrom matrix multiplication on these: (2, 3) @ (3, 2) = (2, 2)
+since batch size is 2 (axis=0) => we have TWO matrices (2, 2)
+
+So:
++ 3rd (-2, -1) means: put these (2, 2) result matrices at the end
+=> batch_C shape = (TWO, 2, 2)
+'''
+
+print(batch_C)
+# [[[22. 28.]
+#   [49. 64.]]
+#
+#  [[22. 28.]
+#   [49. 64.]]]
+
 print("axes= explicit:", np.allclose(batch_C, batch_C2))   # True
 
 
@@ -409,10 +475,13 @@ print("add.reduce axis=0 (col sums):", np.add.reduce(M, axis=0))    # [5 7 9]
 print("add.reduce axis=1 (row sums):", np.add.reduce(M, axis=1))    # [6 15]
 print("add.reduce axis=None (total):", np.add.reduce(M, axis=None)) # 21
 
-# keepdims: shape stays (1, 3) instead of (3,)
-col_sums = np.add.reduce(M, axis=0, keepdims=True)
-print("keepdims=True shape:", col_sums.shape)   # (1, 3)
-print("Broadcasts back:", (M / col_sums).round(4))   # [[0.2    0.2857 0.3333] column normalisation
+# keepdims: shape stays (2, 1) instead of (3,)
+row_sums = np.add.reduce(M, axis=1, keepdims=True)
+print("keepdims=True:\n", row_sums)
+# keepdims=True:
+#  [[ 6]
+#  [15]]
+print("keepdims=True shape:", row_sums.shape)   # (2, 1)
 
 # initial: useful for empty arrays and injecting a head value
 print("add.reduce([], initial=100):", np.add.reduce(np.array([]), initial=100))  # 100
@@ -430,6 +499,7 @@ print(f"int16 reduce (overflows): {wrong}  |  int64 reduce: {right}")
 
 # Multi-axis reduction: reduce over axes (0, 1) simultaneously
 print("add.reduce axis=(0,1):", np.add.reduce(M, axis=(0, 1)))   # 21
+# ``np.add.reduce(M, axis=(1, 0))`` does the same thing
 
 
 #-------------------------------------------------------------------------------------------------#
@@ -461,10 +531,8 @@ x = np.array([1, 2, 3, 4, 5])
 
 print("add.accumulate      :", np.add.accumulate(x))         # [ 1  3  6 10 15]
 print("multiply.accumulate :", np.multiply.accumulate(x))    # [  1   2   6  24 120]
-print("maximum.accumulate  :", np.maximum.accumulate(np.array([3,1,4,1,5,9,2,6])))
-#                                                              [ 3  3  4  4  5  9  9  9]
-print("minimum.accumulate  :", np.minimum.accumulate(np.array([9,5,6,2,8,1,3])))
-#                                                              [9 5 5 2 2 1 1]
+print("maximum.accumulate  :", np.maximum.accumulate(np.array([3,1,4,1,5,9,2,6]))) # [ 3  3  4  4  5  9  9  9]
+print("minimum.accumulate  :", np.minimum.accumulate(np.array([9,5,6,2,8,1,3]))) # [9 5 5 2 2 1 1]
 
 # 2-D: accumulate along columns (axis=0) or rows (axis=1)
 M = np.array([[1, 2, 3],
@@ -700,8 +768,11 @@ src   = np.array([1., 2., 3., 4., 5., 6.])
 index = np.array([2,  0,  2,  1,  0,  2 ])
 # Mapping:  out[2]←1, out[0]←2, out[2]←3, out[1]←4, out[0]←5, out[2]←6
 # Expected sums:  out[0]=2+5=7, out[1]=4, out[2]=1+3+6=10
-K = 3  # output size
 
+# demo ``np.add.at()``
+out = np.zeros(3)
+np.add.at(out, index, src)
+print(out) # [ 7.  4. 10.]
 
 # ── scatter_sum  ──────────────────────────────────────────────────────────────
 print("\n--- scatter_sum ---")
@@ -716,24 +787,27 @@ numpy:
   np.add.at(out, index, src)  # accumulate src into out at index positions
 '''
 
-def scatter_sum(src, index, out_size, include_self=True, self_val=None):
+def scatter_sum(src, index, include_self=True, self_val=None):
     '''1-D scatter reduce with sum.  Returns a new array.'''
+
+    out_size = len(np.unique(index))
+
     if self_val is None:
         self_val = np.zeros(out_size)
     out = self_val.copy() if include_self else np.zeros(out_size)
     np.add.at(out, index, src)
     return out
 
-out_sum = scatter_sum(src, index, K)
+out_sum = scatter_sum(src, index)
 print(f"scatter_sum (include_self=True, self=0): {out_sum}")  # [7. 4. 10.]
 
 # include_self=True with non-zero self
 self_tensor = np.array([100., 200., 300.])
-out_sum_self = scatter_sum(src, index, K, include_self=True, self_val=self_tensor)
+out_sum_self = scatter_sum(src, index, include_self=True, self_val=self_tensor)
 print(f"scatter_sum (include_self=True, self=[100,200,300]): {out_sum_self}")
 # [100+2+5, 200+4, 300+1+3+6] = [107. 204. 310.]
 
-out_sum_noself = scatter_sum(src, index, K, include_self=False)
+out_sum_noself = scatter_sum(src, index, include_self=False)
 print(f"scatter_sum (include_self=False): {out_sum_noself}")  # [7. 4. 10.]
 
 
@@ -748,23 +822,26 @@ numpy:
   np.multiply.at(out, index, src)
 '''
 
-def scatter_prod(src, index, out_size, include_self=True, self_val=None):
+def scatter_prod(src, index, include_self=True, self_val=None):
+
+    out_size = len(np.unique(index))
+
     if self_val is None:
         self_val = np.ones(out_size)
     out = self_val.copy() if include_self else np.ones(out_size)
     np.multiply.at(out, index, src)
     return out
 
-out_prod = scatter_prod(src, index, K)
+out_prod = scatter_prod(src, index)
 print(f"scatter_prod (include_self=True, self=1): {out_prod}")
 # out[0] = 1*2*5=10, out[1] = 1*4=4, out[2] = 1*1*3*6=18  →  [10.  4. 18.]
 
-out_prod_self = scatter_prod(src, index, K, include_self=True,
+out_prod_self = scatter_prod(src, index, include_self=True,
                              self_val=np.array([2., 3., 4.]))
 print(f"scatter_prod (self=[2,3,4]): {out_prod_self}")
 # out[0]=2*2*5=20, out[1]=3*4=12, out[2]=4*1*3*6=72  →  [20. 12. 72.]
 
-out_prod_noself = scatter_prod(src, index, K, include_self=False)
+out_prod_noself = scatter_prod(src, index, include_self=False)
 print(f"scatter_prod (include_self=False): {out_prod_noself}")  # [10.  4. 18.]
 
 
@@ -784,7 +861,10 @@ numpy:
   # Step 3: out_mean = (self_sum + scatter_sum) / total_count
 '''
 
-def scatter_mean(src, index, out_size, include_self=True, self_val=None):
+def scatter_mean(src, index, include_self=True, self_val=None):
+
+    out_size = len(np.unique(index))
+
     if self_val is None:
         self_val = np.zeros(out_size)
 
@@ -799,15 +879,16 @@ def scatter_mean(src, index, out_size, include_self=True, self_val=None):
     # avoid division by zero (slots with count=0 stay at 0)
     return np.where(count > 0, out_s / count, 0.0)
 
-out_mean = scatter_mean(src, index, K, include_self=False)
+out_mean = scatter_mean(src, index, include_self=False)
 print(f"scatter_mean (include_self=False): {out_mean}")
 # out[0]=(2+5)/2=3.5, out[1]=4/1=4, out[2]=(1+3+6)/3=10/3≈3.333
 
-out_mean_self = scatter_mean(src, index, K, include_self=True,
+out_mean_self = scatter_mean(src, index, include_self=True,
                              self_val=np.array([10., 20., 30.]))
 print(f"scatter_mean (include_self=True, self=[10,20,30]): {out_mean_self.round(4)}")
 # out[0]=(10+2+5)/3=17/3≈5.667, out[1]=(20+4)/2=12, out[2]=(30+1+3+6)/4=40/4=10
 
+K = len(np.unique(index))
 count_check = np.zeros(K)
 np.add.at(count_check, index, 1)
 print(f"  count per slot: {count_check}")   # [2. 1. 3.]
@@ -827,7 +908,10 @@ numpy:
     the CURRENT value of out[index[i]], updating it if larger.
 '''
 
-def scatter_amax(src, index, out_size, include_self=True, self_val=None):
+def scatter_amax(src, index, include_self=True, self_val=None):
+
+    out_size = len(np.unique(index))
+
     if self_val is None:
         self_val = np.zeros(out_size)
     # include_self=True : start with self values
@@ -839,11 +923,11 @@ def scatter_amax(src, index, out_size, include_self=True, self_val=None):
     np.maximum.at(out, index, src)
     return out
 
-out_amax = scatter_amax(src, index, K, include_self=False)
+out_amax = scatter_amax(src, index, include_self=False)
 print(f"scatter_amax (include_self=False): {out_amax}")
 # out[0]=max(2,5)=5, out[1]=max(4)=4, out[2]=max(1,3,6)=6  →  [5. 4. 6.]
 
-out_amax_self = scatter_amax(src, index, K, include_self=True,
+out_amax_self = scatter_amax(src, index, include_self=True,
                              self_val=np.array([100., 0., 2.]))
 print(f"scatter_amax (self=[100,0,2]): {out_amax_self}")
 # out[0]=max(100,2,5)=100, out[1]=max(0,4)=4, out[2]=max(2,1,3,6)=6 → [100. 4. 6.]
@@ -874,7 +958,10 @@ numpy:
   Initialise with +∞ (include_self=False) or self values (include_self=True).
 '''
 
-def scatter_amin(src, index, out_size, include_self=True, self_val=None):
+def scatter_amin(src, index, include_self=True, self_val=None):
+
+    out_size = len(np.unique(index))
+
     if self_val is None:
         self_val = np.zeros(out_size)
     if include_self:
@@ -884,11 +971,11 @@ def scatter_amin(src, index, out_size, include_self=True, self_val=None):
     np.minimum.at(out, index, src)
     return out
 
-out_amin = scatter_amin(src, index, K, include_self=False)
+out_amin = scatter_amin(src, index, include_self=False)
 print(f"scatter_amin (include_self=False): {out_amin}")
 # out[0]=min(2,5)=2, out[1]=min(4)=4, out[2]=min(1,3,6)=1  →  [2. 4. 1.]
 
-out_amin_self = scatter_amin(src, index, K, include_self=True,
+out_amin_self = scatter_amin(src, index, include_self=True,
                              self_val=np.array([0., 10., 5.]))
 print(f"scatter_amin (self=[0,10,5]): {out_amin_self}")
 # out[0]=min(0,2,5)=0, out[1]=min(10,4)=4, out[2]=min(5,1,3,6)=1 → [0. 4. 1.]
@@ -941,9 +1028,11 @@ np.maximum.at(out_2d_max, (rows, index_2d), src_2d)
 print("2-D scatter_amax (dim=1):")
 print(out_2d_max)
 
+#--------------------------------------------------
+# ── Gather - fancy indexing  (torch.gather)  ───────────────────────────────────────────────────
+#--------------------------------------------------
 
-# ── Gather  (torch.gather)  ───────────────────────────────────────────────────
-print("\n--- Gather (torch.gather equivalent) ---")
+print("\n--- Gather - fancy indexing (torch.gather equivalent) ---")
 '''
 torch.gather(input, dim, index)
   Reads from input at positions specified by index.
@@ -1193,9 +1282,9 @@ print("lcm:", np.lcm(a_int, b_int))   # [24 75 72  0]
 
 print("\n=== Trigonometric ufuncs ===")
 
-##################################################
-## sin / cos / tan / arcsin / arccos / arctan / arctan2 / hypot
-##################################################
+##################################################################
+## sin / cos / tan / arcsin / arccos / arctan / arctan2 / hypot ##
+##################################################################
 '''
 np.sin / np.cos / np.tan       : standard trig (input in RADIANS)
 np.arcsin / np.arccos / np.arctan : inverse trig (output in RADIANS)
