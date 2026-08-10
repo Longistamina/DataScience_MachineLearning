@@ -14,8 +14,8 @@ Flow of contents:
 5. glob module (LEGACY) - A separate module for pattern matching and file searching, similar to path_object.glob() but returns strings instead of Path objects.
 '''
 
-from pathlib import Path
 import re
+from pathlib import Path
 
 demo_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data")
 
@@ -116,6 +116,7 @@ glob patterns:
 - [!a-z] matches any single character NOT in the range a-z
 - *[!.py|!.txt] matches any files whose extension is NOT ".py" or ".txt"
 '''
+
 ###############
 ## Basic use ##
 ###############
@@ -290,7 +291,6 @@ for entry in Path.cwd().rglob("*.py"):
 # The non-python elements:
 for entry in Path.cwd().joinpath("01_Python_Basic").rglob("*[!.py|!.json]"):  # Exclude all .py OR .json files
     print(entry.name)
-
 # demo_package
 # demo_data
 # food.xml
