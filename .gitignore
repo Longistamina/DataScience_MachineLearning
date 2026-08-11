@@ -98,3 +98,4 @@ demo.py
 
 *__marimo__
 *marimo.py
+*.ipynb_checkpoints
