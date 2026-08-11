@@ -61,8 +61,9 @@ tb_pokemon = dr.tibble(
     )
     .drop(columns=["#"])
     .pipe(lambda f: f.set_axis(f.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
-    .assign(Generation = lambda f: f['Generation'].cat.as_ordered())
+    .assign(Generation = pd.col('Generation').cat.as_ordered())
 )
+
 print(
     tb_pokemon
     >> dr.slice_head(n=5)
