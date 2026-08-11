@@ -7,7 +7,7 @@ Parameters: these are the variables defined in a function's signature that accep
 Arguments: these are the actual values passed to a function's parameters when it is called
 '''
 
-##########################################
+###################################################################################################
 
 '''
 def function_name(parameters):
@@ -50,11 +50,9 @@ def greet():
     """Simple greeting function."""
     print("Hello, World! This is a basic function without parameters.")
 
-
 # Call the function
 greet()
 # Hello, World! This is a basic function without parameters.
-
 
 ##############################
 ## Function with parameters ##
@@ -62,7 +60,7 @@ greet()
 
 def add_numbers(x, y):
     """Add two numbers."""
-    print(f"{x} + {y} = {x + y}")   
+    print(f"{x} + {y} = {x + y}")
 
 # Call the function with arguments
 add_numbers(
@@ -70,6 +68,10 @@ add_numbers(
     y=10 # 5 and 10 are arguments passed to the function's parameters
 )
 # 5 + 10 = 15
+
+# Call the function inline
+add_numbers(x=28.5, y=37.2)
+# 28.5 + 37.2 = 65.7
 
 # Call the function with positional arguments
 add_numbers(3, 7)
@@ -82,6 +84,7 @@ add_numbers(3, 7)
 def customer_info(name, age=30, job="Unknown"):
     """Display customer information with a default age and job"""
     print(f"Customer Name: {name}, Age: {age}", f"Job: {job}")
+
 
 # Call the function with default parameters
 customer_info("Alice")
@@ -127,7 +130,7 @@ def input_customer_info():
     name = input("Enter customer name: ")
     age = int(input("Enter customer age: "))
     job = input("Enter customer job: ")
-    
+
     return {"name": name, "age": age, "job": job}
 
 # Call the function and store the returned dictionary
@@ -144,12 +147,12 @@ def calculate_square_cubic(number, return_original=False):
     """Calculate and return both the square and cubic of a number."""
     square = number ** 2
     cubic = number ** 3
-    
+
     if return_original:
         return number, square, cubic  # Return original number along with square and cubic
     else:
         return square, cubic  # Return multiple values as a tuple
-    
+
 original, square, cubic = calculate_square_cubic(3, return_original=True)
 print(f"Original: {original}, Square: {square}, Cubic: {cubic}")
 # Original: 3, Square: 9, Cubic: 27
@@ -159,9 +162,9 @@ print(f"Square: {square}, Cubic: {cubic}")
 # Square: 25, Cubic: 125
 
 
-#------------------------------------------------------------------------------------------------------------#
-#--------------------------- 3. Constraint the data type of parameters using type hints ---------------------#
-#------------------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------#
+#--------------------------- 3. Constraint the data type of parameters using type hints (Typing) ------------------------#
+#------------------------------------------------------------------------------------------------------------------------#
 
 ###############
 ## Example 1 ##
@@ -244,8 +247,8 @@ person_info(name="John", age=30, city="New York")
 
 # Call the function with keyword arguments in a different order
 person_info(
-    city="Los Angeles", 
-    age=25, 
+    city="Los Angeles",
+    age=25,
     name="Alice"
 )
 # Name: Alice, Age: 25, City: Los Angeles
@@ -318,7 +321,6 @@ def sum_numbers(*nums): # Now *nums will work as *args to collect all positional
             total += num
         return total
 
-
 print(sum_numbers()) # No numbers provided.
 print(sum_numbers(1, 2, 3, 4, 5)) # 15
 print(sum_numbers(30)) # 30
@@ -330,7 +332,7 @@ print(sum_numbers(30)) # 30
 def sign_check(*nums):
     """Check the sign of the numbers, return: positive, negative or zero"""
     nums = list(nums) # Convert to list to enable modification
-    
+
     for idx, number in enumerate(nums):
         if number > 0:
             nums[idx] = "positive"
@@ -338,7 +340,7 @@ def sign_check(*nums):
             nums[idx] = "negative"
         else:
             nums[idx] = "zero"
-    
+
     return nums
 
 print(sign_check(2, 2.4, 3.5, -6, 1, -22.0, 0))
@@ -375,7 +377,6 @@ def demo_kwargs(**kwargs):
     print(kwargs.keys())  # dict_keys(['key1', 'key2', ...])
     print(kwargs.values())  # dict_values(['value1', 'value2', ...])
 
-
 # Call the function with multiple keyword arguments
 demo_kwargs(key1="value1", key2="value2", key3=42)
 # <class 'dict'>
@@ -391,7 +392,6 @@ def display_info(**info):  # Now **info will work as **kwargs to collect all key
     """Display information from keyword arguments."""
     for key, value in info.items():
         print(f"{key}: {value}")
-        
 
 # Call the function with keyword arguments
 display_info(name="Alice", age=30, city="New York")
@@ -407,17 +407,17 @@ from loguru import logger
 
 def calculate_salary(**info):
     """Calculate salary based on required and optional fields."""
-    
+
     if "name" not in info: # check if 'name' is in the dictionary info
         logger.error("Name is required.") # log an error message if 'name' is not provided
         return None # return None and exit the function
-    
+
     if 'salary_daily' not in info:
         return "Daily salary is required."
-    
+
     if "working_days" not in info:
         return "Working days are required."
-    
+
     # Extract information from the dictionary **info
     name = info['name']
     salary_daily = info['salary_daily']
@@ -428,7 +428,7 @@ def calculate_salary(**info):
 
     # Default bonus is 0 if not provided
     bonus = info.get('bonus', 0)
-    
+
     total_salary = base_salary + bonus
 
     logger.info(f"\nCalculating salary for {name}:\nBase Salary = {base_salary}\nBonus = {bonus}\n==> Total Salary = {total_salary}")
@@ -444,7 +444,7 @@ salary_info = calculate_salary(
     working_days=20,
     bonus=500
 )
-# 2026-01-10 15:58:31.838 | INFO     | __main__:calculate_salary:19 - 
+# 2026-01-10 15:58:31.838 | INFO     | __main__:calculate_salary:19 -
 # Calculating salary for Alice:
 # Base Salary = 2000
 # Bonus = 500
@@ -453,17 +453,16 @@ salary_info = calculate_salary(
 print(salary_info)
 # {'Name': 'Alice', 'Total Salary': 2500}
 
-
 #-----------------------
 ## Call the functionn lacking required fields
 #-----------------------
 
 salary_info = calculate_salary(
-    salary_daily = 100,
-    working_days = 20,
+    salary_daily=100,
+    working_days=20,
     bonus = 500
 )
 # | ERROR    | __main__:calculate_salary:4 - Name is required.
 
-print(salary_info)  
+print(salary_info)
 # None
