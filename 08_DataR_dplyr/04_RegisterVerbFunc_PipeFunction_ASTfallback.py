@@ -29,7 +29,7 @@ data_dir = next(data_dir)
 #######################
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer=data_dir / "baseball.csv",
+    filepath_or_buffer=data_dir/"baseball.csv",
     usecols=["Name", "Team", "Height", "Weight"],
     dtype={"Team": "category"},
 )
@@ -54,7 +54,9 @@ print(df_baseball >> dr.slice_head(4))
 dr.filter = register_verb(func=dr.filter_)
 
 """
-dr.filter_() to avoid conflict with Python built-in function filter()
+The original package names ``filter`` as ``dr.filter_()``
+to avoid conflict with Python built-in function ``filter()``
+
 => Use registter_verb to bring it back as dr.filter()
 """
 
