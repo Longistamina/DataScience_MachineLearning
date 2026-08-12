@@ -170,7 +170,7 @@ print(isinstance(s_enum.dtype, pl.Enum))
 ## 5. Fast trick to convert to Enum without specifying list of categories ##
 ############################################################################
 
-s_level= pl.Series(name="level", values=[2, 1, 3, 3, 1, 4, 6, 2, 5, 3, 1, 5, 4])
+s_level = pl.Series(name="level", values=[2, 1, 3, 3, 1, 4, 6, 2, 5, 3, 1, 5, 4])
 print(s_level.dtype) # Int64
 
 # convert from pl.Categorical to pl.Enum without specifying list of categories
