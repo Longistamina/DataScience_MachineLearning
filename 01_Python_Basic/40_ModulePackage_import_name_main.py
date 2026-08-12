@@ -8,6 +8,8 @@ __name__ is a special variable that indicates whether the script is being run di
 (if __name__ != "__main__") is False => the script is being imported as a module.
 '''
 
+from pathlib import Path
+working_dir = next(Path("/home").glob("**/01_Python_Basic/*.py")).parent
 
 #----------------------------------------------------------------------------------------------------#
 #----------------------------- Import the module in the same directory ------------------------------#
@@ -15,7 +17,7 @@ __name__ is a special variable that indicates whether the script is being run di
 
 ''' The current directory MUST be in the same path as the module to import it directly.'''
 import os
-os.chdir("/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic")
+os.chdir(str(working_dir))
 # demo_module_same_directory.py module is in this directory
 # => must move the current directory to this path to import the module directly
 
@@ -53,7 +55,7 @@ _ = add(5, 3)  # Assign to _ to avoid printing output in the console
 # | INFO     | demo_module_same_directory:add:7 - This module is being imported
 # 5 + 3 = 8
 
-_ = subtract(10, 4) 
+_ = subtract(10, 4)
 # | INFO     | demo_module_same_directory:subtract:15 - This module is being imported
 # 10 - 4 = 6
 
@@ -71,7 +73,7 @@ The contents of the __init__.py file can be empty, or it can contain initializat
 
 ''' The current directory MUST be in the same path as the package to import it. '''
 import os
-os.chdir("/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic")
+os.chdir(str(working_dir))
 # demo_package is in this directory
 # => must move the current directory to this path to import the demo_package
 
@@ -107,7 +109,7 @@ _ = divide(10, 2)
 #----------------------------------------------------------------------------------------------------#
 
 '''
-PEP8 (Python Enhancement Proposal 8) recommends against using "from package import *" 
+PEP8 (Python Enhancement Proposal 8) recommends against using "from package import *"
 
 Because it can lead to confusion and make the code less readable.
 

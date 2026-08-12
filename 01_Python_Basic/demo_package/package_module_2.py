@@ -6,7 +6,7 @@ def multiply(x, y):
     else:
         logger.info("This module is being imported")
     print(f"{x} * {y} = {x * y}")
-    return x + y
+    return x * y
 
 def divide(x, y):
     if __name__ == "__main__":
@@ -14,7 +14,7 @@ def divide(x, y):
     else:
         logger.info("This module is being imported")
     print(f"{x} / {y} = {x / y}")
-    return x - y
+    return x / y
 
 
 if __name__ == "__main__": # These codes will not be executed when being imported from other scripts
