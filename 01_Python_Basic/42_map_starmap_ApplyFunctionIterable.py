@@ -7,7 +7,7 @@ Flow of contents:
 #############################
 
 '''
-itertools.starmap() is similar to map(), 
+itertools.starmap() is similar to map(),
 but it unpacks the arguments from each tuple in the iterable(s) before applying the function.
 '''
 
@@ -15,15 +15,14 @@ but it unpacks the arguments from each tuple in the iterable(s) before applying 
 #-------------------------------------------------------------------------------------------------------#
 #------------------------------------------------ map() ------------------------------------------------#
 #-------------------------------------------------------------------------------------------------------#
-
 '''
-map() applies a function to every element in one or more iterables 
+map() applies a function to every element in one or more iterables
 and produces a lazy and memory-efficient iterator.
 
-map(function, iterable, *iterables) → map object creates an iterator that yields function(item1, item2, …) 
+``map(function, iterable, *iterables)`` → map object creates an iterator that yields function(item1, item2, …)
 for each parallel group of items drawn from the supplied iterable(s)
 
-map() returns a lazy map object, not a concrete collection. 
+map() returns a lazy map object, not a concrete collection.
 Values are computed only when the object is iterated, which keeps peak memory low for large streams.
 
 To materialize results you must wrap with list(), tuple(), set() or loop over the iterator.
@@ -43,7 +42,7 @@ print(map_object)  # <map object at 0x7f8f521fffa0>
 squared = list(map_object)
 print(squared)  # [1, 4, 9, 16, 25]
 
-print(list(map(lambda x: x ** 2, numbers))) # [1, 4, 9, 16, 25]
+print(list(map(lambda x: x**2, numbers))) # [1, 4, 9, 16, 25]
 
 print(list(map_object))  # [] (empty, as map object is exhausted after initial iteration)
 
@@ -110,7 +109,7 @@ widths = [5, 6, 7]
 
 areas = list(map(lambda l, w: l*w, lengths, widths))
 
-print(areas)  
+print(areas)
 # [10, 18, 28]
 
 
@@ -118,7 +117,7 @@ print(areas)
 #---------------------------------------- itertools.starmap() ------------------------------------------#
 #-------------------------------------------------------------------------------------------------------#
 """
-itertools.starmap() is similar to map(), 
+itertools.starmap() is similar to map(),
 but it unpacks the arguments from each tuple in the iterable(s) before applying the function.
 """
 
@@ -170,7 +169,7 @@ height_width = [(1.5, 2.0), (2.0, 3.0), (3.0, 4.0)]
 
 area = list(starmap(lambda h, w: h*w, height_width))
 
-print(area) # 1.5*2.0, 2.0*3.0, 3.0*4.0 
+print(area) # 1.5*2.0, 2.0*3.0, 3.0*4.0
             # [3.0, 6.0, 12.0]
 '''
 NOTE: startmap() takes no keyword arguments
