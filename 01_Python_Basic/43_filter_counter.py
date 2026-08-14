@@ -4,7 +4,7 @@
    + Basic use with lambda function
    + Using filter() with None
    + Other examples
-   
+
 2. collections.Counter (from collections import Counter)
    + Basic use with lists/strings
    + most_common() method
@@ -25,7 +25,7 @@ The filter() function creates an iterator from elements of an iterable for which
 
 Syntax: filter(function, iterable)
 
-Like map(), filter() returns an iterator, 
+Like map(), filter() returns an iterator,
 so you need to convert it to a list or another iterable type to see the materialized results.
 '''
 
@@ -65,14 +65,14 @@ print(angels_short) # ['Lilith', 'ADAM', 'Ramiel']
 samurais = ["Musashi", "Kojiro", "Hattori", "Yagyu", "Miyamoto"]
 
 # Filter out the samurais whose name does not contain "o"
-samurais_no_o = list(filter(lambda samurai: "o" not in samurai, samurais))
-print(samurais_no_o) # ['Musashi', 'Yagyu']
+samurais_without_o = list(filter(lambda samurai: "o" not in samurai, samurais))
+print(samurais_without_o) # ['Musashi', 'Yagyu']
 
 ####################################
 ##    Using filter() with None    ##
 ####################################
 '''
-When you pass None as the function argument, 
+When you pass None as the function argument,
 filter() removes all "falsy" values (0, empty strings '', empty iterables [] () {}, False, None, etc.)
 '''
 
@@ -105,7 +105,7 @@ print(company_emails)  # Output: ['john@company.com', 'bob@company.com']
 #-------------------- 2. collections.Counter (from collections import Counter) --------------------#
 #--------------------------------------------------------------------------------------------------#
 '''
-The Counter class from the collections module is a specialized dictionary subclass designed for 
+The Counter class from the collections module is a specialized dictionary subclass designed for
 counting hashable objects. It's incredibly useful for frequency analysis and tallying operations.
 
 Counter is a dict subclass where elements are stored as dictionary keys and their counts as values.
@@ -113,7 +113,7 @@ Counts can be zero or negative, making it flexible for various counting scenario
 
 Syntax: Counter(iterable or mapping or keyword args)
 
-Counter provides several powerful methods beyond standard dict operations, 
+Counter provides several powerful methods beyond standard dict operations,
 making it the go-to tool for counting operations in Python.
 '''
 
@@ -160,7 +160,7 @@ print(top_3)  # [(3, 4), (1, 3), (2, 2)] - returns list of (element, count) tupl
 chars = "aabbccddeeefffggghhhiii"
 char_counter = Counter(chars)
 
-print(char_counter.most_common())  
+print(char_counter.most_common())
 # [('e', 3), ('f', 3), ('g', 3), ('h', 3), ('i', 3), ('a', 2), ('b', 2), ('c', 2), ('d', 2)]
 
 print(char_counter.most_common(2))
@@ -182,9 +182,9 @@ print(combined)  # Counter({'b': 4, 'a': 3, 'd': 2, 'c': 1})
 difference = counter1 - counter2
 print(difference)  # Counter({'b': 2, 'a': 1, 'c': 1})
 
-print(counter2 - counter1) 
-# Counter({'d': 2}) 
-# - counter1 has no 'd', 
+print(counter2 - counter1)
+# Counter({'d': 2})
+# - counter1 has no 'd',
 # so it remains, while 'a' and 'b' are subtracted to zero or negative and thus removed.
 
 # Intersection: keep minimum counts

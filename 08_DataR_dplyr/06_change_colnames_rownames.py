@@ -168,9 +168,15 @@ print(tb_to_rownames.head())
 print(
     tb_emp
     >> dr.select(~f.id)
-    >> dr.mutate(emp_id = [f"employee_{i}" for i in range(1, len(tb_emp) + 1)])
+    >> dr.mutate(emp_id = pd.RangeIndex(1, len(tb_emp)+1).to_series().add_prefix("employee_").index)
+    # >> dr.mutate(emp_id = [f"employee_{i}" for i in range(1, len(tb_emp) + 1)])
     >> dr.column_to_rownames('emp_id')
 )
+'''
+# print(pd.RangeIndex(1, len(tb_emp)+1).to_series().add_prefix("employee_"))
+# print(pd.RangeIndex(1, len(tb_emp)+1).to_series().add_prefix("employee_").index)
+'''
+
 #                 name    salary  start_date        dept
 #             <object> <float64>    <object>    <object>
 # employee_1      Rick    623.30  2012-01-01          IT
