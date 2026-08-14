@@ -21,6 +21,8 @@ import pandas as pd
 from datar import f
 from pipda import register_func, register_verb
 
+pd.set_option("display.width", 200)
+
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 

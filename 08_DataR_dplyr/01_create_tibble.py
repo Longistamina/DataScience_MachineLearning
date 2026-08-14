@@ -12,6 +12,7 @@ compared to the traditional pandas DataFrame constructor.
 import datar.all as dr
 import pandas as pd
 
+pd.set_option("display.width", 200)
 
 #---------------------------------------------------------------------------------------------------------------------#
 #-------------------------------- 1. Create dataframe using datar.tibble.tibble() ------------------------------------#
