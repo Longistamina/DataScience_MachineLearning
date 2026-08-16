@@ -31,8 +31,8 @@ Always use nopython=True for maximum performance.
 @nb.jit(nopython=True)   # equivalent to @nb.jit
 def dot_product(a, b):
     result = 0.0
-    for i in range(len(a)):
-        result += a[i] * b[i]
+    for ai, bi in zip(a, b):
+        result += ai * bi
     return result
 
 x = np.array([1.0, 2.0, 3.0])
@@ -117,7 +117,7 @@ To use it effectively, replace `range` with `nb.prange` in loops you want to par
 @nb.jit(nopython=True, parallel=True)
 def sum_squares_parallel(arr):
     total = 0.0
-    # Use nb.prange instead of range for parallel loop
+    # Use ``nb.prange`` instead of range for parallel loop
     for i in nb.prange(len(arr)):
         total += arr[i] * arr[i]
     return total

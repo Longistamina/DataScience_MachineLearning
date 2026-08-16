@@ -6,6 +6,7 @@
 - [02_Python_class_OOP](#02_python_class_oop)
 - [03_Vector_Matrix_Sparse](#03_vector_matrix_sparse)
 - [04_MathFunctions_Random](#04_mathfunctions_random)
+- [05_Numba_PythonCompiler](#05_numba_pythoncompiler)
 
 ## 00_Course_Intro
 + [00_Course_Intro_part_01](https://www.youtube.com/watch?v=v1ZxYlfbZ9o): 1st/11/2025
@@ -258,3 +259,10 @@
       * Gather: fancy indexing
       * List of all numpy ufuncs: add, subtract, multiply, ...
       * Create custom ufuncs: np.frompyfunc(), np.vectorize()
+
+## 05_Numba_PythonCompiler
+  + [05_Numba_PythonCompiler_part_01](https://youtu.be/fNhbzHBFZds): 16th/08/2026
+      * Re-explain compiled language and interpreter language
+      * Overview: the main idea of Numba ~ compile Python code to machine code to run faster
+      * JIT (lazy) and AOT (eager) compilation, signatures (datatypes)
+      * Compilation options: nopython, nogil, cache, parallel
