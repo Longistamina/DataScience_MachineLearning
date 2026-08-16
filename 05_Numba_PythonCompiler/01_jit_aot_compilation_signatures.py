@@ -8,7 +8,7 @@ JIT = Just-in-time compilation
 Using this decorator, you can mark a function for optimization by Numba’s JIT compiler.
 Various invocation modes trigger differing compilation options and behaviours.
 
-##########################
+#################################################################################
 
 1. Lazy compilation
 2. Eager compilation
@@ -27,6 +27,8 @@ import math
 '''
 Lazy Compilation is that we let @numba.jit decide how and when to optimize.
 In this mode, the function will not be compiled until the first execution/call.
+
+(Just-in-Time compilation, JIT compilation)
 
 Numba will infer the argument types at call time,
 and generate optimized code based on this information.
@@ -59,6 +61,8 @@ Eager Compilation is when you specify the function's signatures (data types).
 By doing so, we tell numba which signatures/types of the function in advance
 -> It can compile right away at definition, before the first execution/call happens
 
+(Ahead-of-Time compilation, AOT compilation)
+
 For example:
 + @numba.jit(numba.float32(numba.int32, numba.int32)) -> takes two numba.int32 numbers as inputs, and returns a numba.float32
 + @numba.jit((numba.int8, numba.int8)) -> takes two numba.int8 as inputs, the output's signature will be infered
@@ -90,7 +94,7 @@ print(result)
 def sum(x, y, z):
     return x + y + z
 
-result = sum(2, -3.5, 6 -9j)
+result = sum(2, -3.5, 6-9j)
 print(result)
 # (4.5-9j)
 '''Here, numba automatically infer the signature of the output as complex'''
@@ -142,6 +146,7 @@ print(result)
 #  [42.99148676 30.34511026 20.55243526]
 #  [88.52901113 63.12757496 17.22315164]
 #  [78.75938154 57.22747258 71.00431107]]
+
 
 #------------------------------------------------------------------------------------------------------#
 #-------------------------------------- 3. Numba signatures -------------------------------------------#
