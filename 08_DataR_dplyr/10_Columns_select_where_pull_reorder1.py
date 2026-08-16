@@ -25,6 +25,8 @@ from datar import f
 import pandas as pd
 from pathlib import Path
 
+pd.set_option("display.width", 200)
+
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
@@ -316,6 +318,10 @@ print(
 #----------------------------------------------------------------------------------------------------------#
 #----------------- 2. Select columns based on datatype: dr.select(dr.where(dr.is_datatype)) ---------------#
 #----------------------------------------------------------------------------------------------------------#
+
+########################################
+## Read pokemon.csv for demonstration ##
+########################################
 
 tb_pokemon = dr.tibble(
     pd.read_csv(data_dir/"pokemon.csv")

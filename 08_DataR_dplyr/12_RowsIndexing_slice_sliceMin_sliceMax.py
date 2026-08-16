@@ -10,10 +10,10 @@
 
 import datar.all as dr
 from datar import f
-
 import pandas as pd
-
 from pathlib import Path
+
+pd.set_option("display.width", 200)
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -57,7 +57,7 @@ dr.slice_() to avoid conflict with Python built-in function slice()
 #################
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice(0)
 )
 #             Name       Team   Position  Height  Weight       Age PosCategory
@@ -65,7 +65,7 @@ print(
 # 0  Adam_Donachie        BAL    Catcher      74     180     22.99     Catcher
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice(0, 2, 5, 9)
 )
 #               Name       Team        Position  Height  Weight       Age PosCategory
@@ -76,7 +76,7 @@ print(
 # 9       Adam_Stern        BAL      Outfielder      71     180     27.05  Outfielder
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice(-1, -2)
 )
 #                Name       Team        Position  Height  Weight       Age PosCategory
@@ -89,7 +89,7 @@ print(
 ####################
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice(dr.c[0:4])
 )
 #               Name       Team       Position  Height  Weight       Age PosCategory
@@ -100,7 +100,7 @@ print(
 # 3     Kevin_Millar        BAL  First_Baseman      72     210     35.43   Infielder
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice(dr.c[:3])
 )
 #               Name       Team   Position  Height  Weight       Age PosCategory
@@ -110,7 +110,7 @@ print(
 # 2  Ramon_Hernandez        BAL    Catcher      72     210     30.78     Catcher
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice(dr.c[1010:])
 )
 #                 Name       Team        Position  Height  Weight       Age PosCategory
@@ -122,7 +122,7 @@ print(
 # 1014     Josh_Kinney        STL  Relief_Pitcher      73     195     27.92     Pitcher
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice(dr.c[0:10:2])
 )
 #               Name       Team       Position  Height  Weight       Age PosCategory
@@ -140,7 +140,7 @@ print(
 '''2. dr.slice_min(): allows selecting rows with the smallest values in a specified column.'''
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice_min(f.Age, n=3) # Select 3 rows with the smallest Age
 )
 #                 Name       Team          Position  Height  Weight       Age PosCategory
@@ -150,7 +150,7 @@ print(
 # 289  Ryan_Feierabend        SEA  Starting_Pitcher      75     190     21.52     Pitcher
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice_min(f.Age, n=5, with_ties=True) # Include ties
 )
 #                 Name       Team          Position  Height  Weight       Age PosCategory
@@ -168,7 +168,7 @@ print(
 '''3. dr.slice_max(): allows selecting rows with the largest values in a specified column.'''
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice_max(f.Height, n=3) # Select 3 rows with the largest Height
 )
 #               Name       Team          Position  Height  Weight       Age PosCategory
@@ -178,7 +178,7 @@ print(
 # 862    Chris_Young         SD  Starting_Pitcher      82     250     27.77     Pitcher
 
 print(
-    df_baseball 
+    df_baseball
     >> dr.slice_max(f.Height, n=5, with_ties=True) # Include ties
 )
 #                  Name       Team          Position  Height  Weight       Age PosCategory

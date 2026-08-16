@@ -23,6 +23,7 @@ Flow of contents:
 19. combinations_with_replacement(): Generates combinations of a specified length from an iterable, allowing repeated elements.
 '''
 
+
 #--------------------------------------------------------------------------------------------#
 #-------------------------------------- 1. count() ------------------------------------------#
 #--------------------------------------------------------------------------------------------#
@@ -68,9 +69,9 @@ from itertools import cycle
 
 colors = ['red', 'green', 'blue']
 
-cyler = cycle(colors)
+cycler = cycle(colors)
 
-for i, color in enumerate(cyler):
+for i, color in enumerate(cycler):
     print(f"{i} - {color}")
     if i == 8:  # Stop after 9 iterations to prevent infinite loop
         break
@@ -370,7 +371,6 @@ sliced_data = islice(data, 2, 8, 2)  # Get elements from index 2 to 8 with a ste
 print(list(sliced_data))
 # [2, 4, 6]
 
-
 ##############################################
 ## slice with no start, no stop and no step ##
 ##############################################
@@ -416,7 +416,7 @@ print(list(pairs))
 #---------------------------------------- 12.starmap() ------------------------------------------#
 #------------------------------------------------------------------------------------------------#
 """
-itertools.starmap() is similar to map(), 
+itertools.starmap() is similar to map(),
 but it unpacks the arguments from each tuple in the iterable(s) before applying the function.
 """
 
@@ -458,7 +458,7 @@ height_width = [(1.5, 2.0), (2.0, 3.0), (3.0, 4.0)]
 
 area = list(starmap(lambda h, w: h * w, height_width)) #NOTE: startmap() takes no keyword arguments
 
-print(area) # 1.5*2.0, 2.0*3.0, 3.0*4.0 
+print(area) # 1.5*2.0, 2.0*3.0, 3.0*4.0
             # [3.0, 6.0, 12.0]
 
 
