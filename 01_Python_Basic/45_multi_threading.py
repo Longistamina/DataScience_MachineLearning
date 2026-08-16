@@ -40,23 +40,23 @@ print("\nDone single-thread calculating in:", time.time() - t0) # Get the curren
 # GIL = Global Interpreter Lock
 
 '''
-Concept: Multiple threads run concurrently within the same process, 
+Concept: Multiple threads run concurrently within the same process,
 SHARING the SAME memory space (code, data, files) but each thread has its own register and stack.
 
-Use case: Best suited for I/O-bound tasks such as network operations, file reading, 
+Use case: Best suited for I/O-bound tasks such as network operations, file reading,
 or waiting for user input, where the program spends time waiting and can switch between threads efficiently.
 
-Performance: Due to Python's GIL, only one thread executes Python bytecode at a time, 
-so multithreading achieves concurrency but not true parallelism for CPU-bound tasks. 
+Performance: Due to Python's GIL, only one thread executes Python bytecode at a time,
+so multithreading achieves concurrency but not true parallelism for CPU-bound tasks.
 This means multithreading does not speed up CPU-intensive operations in pure Python code.
 
-Advantages: Lightweight, less overhead than multiprocessing, 
+Advantages: Lightweight, less overhead than multiprocessing,
 efficient for tasks that are I/O-bound, and allows sharing of memory and data easily among threads.
 
-Disadvantages: Requires careful synchronization to avoid race conditions, deadlocks, and data corruption 
+Disadvantages: Requires careful synchronization to avoid race conditions, deadlocks, and data corruption
 since threads share memory.
 
-Implementation: Python provides the "threading" module 
+Implementation: Python provides the "threading" module
 and higher-level interfaces like "concurrent.futures.ThreadPoolExecutor" to manage threads
 '''
 
@@ -93,7 +93,7 @@ thread2.start() # activate thread2 to execute calc_cube
 
 thread1.join() # tell the main program to wait until thread1 terminates its process.
 thread2.join() # tell the main program to wait until thread2 terminates its process.
-               # This ensures that the main program (or the next lines of code) will only proceed 
+               # This ensures that the main program (or the next lines of code) will only proceed
                # after the specified thread has completed its task.
 
 # 2² = 4 (the output of thread1 shows up first because it started first, slept first and finished the process first)
@@ -111,7 +111,7 @@ print("\nDone double-thread calculating in:", time.time() - t0)
 # In this example, the calc_square and calc_cube functions both have 0.2s sleeping time (time.sleep(0.2))
 # thread1 calc_square started first, but then encountered 0.2s sleeping time
 # while thread1 is sleeping, the program jumps into thread2 to execute calc_cube function
-# So, by jumping back and forth between thread1 and thread2 while the other is sleeping, 
+# So, by jumping back and forth between thread1 and thread2 while the other is sleeping,
 # multithreading helps accelerate the program
 # => faster and more EFFICIENT (not truely parrallel)
 
@@ -185,9 +185,9 @@ def multithread_process(input_blocks, max_threads=4, output_dir="outputs"):
     os.makedirs(output_dir, exist_ok=True)
 
     with ThreadPoolExecutor(max_workers=max_threads) as executor:
-        futures = [executor.submit(write_output_file, idx=index, single_block=block, output_dir=output_dir) 
+        futures = [executor.submit(write_output_file, idx=index, single_block=block, output_dir=output_dir)
                    for index, block in enumerate(input_blocks)]
-        
+
         for future in futures:
             future.result()  # Wait for all threads to finish
 
@@ -224,7 +224,7 @@ def square(x):
 def calculate(x, y, z):
     return x * y + z
 
-    
+
 # ✅ Multi-argument inputs using list comprehension
 multi_arg_inputs = [(i, i+1) for i in range(1, 7, 2)]  # [(1, 2), (3, 4), (5, 6)]
 with ThreadPoolExecutor(max_workers=4) as executor:

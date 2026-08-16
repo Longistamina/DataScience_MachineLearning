@@ -1,12 +1,12 @@
 '''
-warnings is a built-in Python module that provides a way to issue warning messages to users of your code. 
+warnings is a built-in Python module that provides a way to issue warning messages to users of your code.
 
-Warnings are typically used to indicate that something unexpected happened, 
+Warnings are typically used to indicate that something unexpected happened,
 but it is not severe enough to raise an exception and halt the program.
 
 ###########################################################################
 
-1. Issue a Warning: 
+1. Issue a Warning:
    + Basic usage: warnings.warn("warning message")
    + Specify Warning Category: warnings.warn("message", WarningCategory)
 
@@ -160,7 +160,7 @@ except RuntimeWarning as e:
 # Ignore warnings containing "deprecated"
 warnings.filterwarnings("ignore", message=r".*deprecated.*")
 
-warnings.warn("This feature is deprecated.", DeprecationWarning)  
+warnings.warn("This feature is deprecated.", DeprecationWarning)
 # No output (because its message matches the regex, having the "deprecated" word)
 
 warnings.warn("This is a future warning.", FutureWarning)
