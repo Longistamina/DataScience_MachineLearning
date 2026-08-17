@@ -1,7 +1,7 @@
 '''
 dr.slice_sample() allows randomly sampling rows (observations) from a DataFrame.
 
-####################
+################################################################################
 
 1. dr.slice_sample(n=..., random_state=...)
 
@@ -10,10 +10,10 @@ dr.slice_sample() allows randomly sampling rows (observations) from a DataFrame.
 
 import datar.all as dr
 from datar import f
-
 import pandas as pd
-
 from pathlib import Path
+
+pd.set_option("display.width", 200)
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -33,14 +33,14 @@ print(df_baseball.info())
 # <class 'pandas.core.frame.DataFrame'>
 # RangeIndex: 1015 entries, 0 to 1014
 # Data columns (total 7 columns):
-#  #   Column       Non-Null Count  Dtype   
-# ---  ------       --------------  -----   
-#  0   Name         1015 non-null   object  
+#  #   Column       Non-Null Count  Dtype
+# ---  ------       --------------  -----
+#  0   Name         1015 non-null   object
 #  1   Team         1015 non-null   category
 #  2   Position     1015 non-null   category
-#  3   Height       1015 non-null   int64   
-#  4   Weight       1015 non-null   int64   
-#  5   Age          1015 non-null   float64 
+#  3   Height       1015 non-null   int64
+#  4   Weight       1015 non-null   int64
+#  5   Age          1015 non-null   float64
 #  6   PosCategory  1015 non-null   category
 # dtypes: category(3), float64(1), int64(2), object(1)
 # memory usage: 36.5+ KB
@@ -49,7 +49,6 @@ print(df_baseball.info())
 #------------------------------------------------------------------------------------------------------------#
 #--------------------------------------- 1. dr.slice_sample(n=...) ------------------------------------------#
 #------------------------------------------------------------------------------------------------------------#
-
 '''
 The n=... argument specifies the number of rows to return in the sample.
 '''
@@ -70,7 +69,6 @@ print(
 #------------------------------------------------------------------------------------------------------------#
 #-------------------------------------- 2. dr.slice_sample(prop=...) ----------------------------------------#
 #------------------------------------------------------------------------------------------------------------#
-
 '''
 The frac=... argument specifies the fraction of rows to return in the sample.
 
