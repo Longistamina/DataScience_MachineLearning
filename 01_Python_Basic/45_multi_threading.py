@@ -5,14 +5,14 @@ import time
 def calc_square(numbers):
     print("Calculate square numbers:")
     for n in numbers:
-        time.sleep(0.2) # delay 0.2s in each loop
         print(f"{n}{chr(178)} = {n**2}")
+        time.sleep(0.2) # delay 0.2s in each loop
 
 def calc_cube(numbers):
     print("Calculate cube of numbers:")
     for n in numbers:
-        time.sleep(0.2) # delay 0.2s in each loop
         print(f"{n}{chr(179)} = {n**3}")
+        time.sleep(0.2) # delay 0.2s in each loop
 
 arr = [2, 3, 8, 9]
 
@@ -33,9 +33,9 @@ print("\nDone single-thread calculating in:", time.time() - t0) # Get the curren
 # => Make the total processing time delayed and cost upto 1.602s to finish
 
 
-#--------------------------------------------------#
-#----------------- Multithreading -----------------#
-#--------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
+#---------------------------------------------- Multithreading ----------------------------------------------#
+#------------------------------------------------------------------------------------------------------------#
 
 # GIL = Global Interpreter Lock
 
@@ -71,22 +71,22 @@ print("Number of logical CPUs (threads):", os.cpu_count()) # 16 threads ~ 8 core
 def calc_square(numbers):
     print("Calculate square numbers:")
     for n in numbers:
-        time.sleep(0.2) # delay 0.2s in each loop
         print(f"{n}{chr(178)} = {n**2}")
+        time.sleep(0.2) # delay 0.2s in each loop
 
 def calc_cube(numbers):
     print("Calculate cube of numbers:")
     for n in numbers:
-        time.sleep(0.2) # delay 0.2s in each loop
         print(f"{n}{chr(179)} = {n**3}")
+        time.sleep(0.2) # delay 0.2s in each loop
 
 arr = [2, 3, 8, 9]
 
 t0 = time.time() # Return the current time in second (before calculating)
 
-thread1 = threading.Thread(target=calc_square, args=(arr, )) # Create thread1 to handle calc_square function
-thread2 = threading.Thread(target=calc_cube, args=(arr, ))   # Create thread2 to handle calc_cube function
-                                                                 # (arr, ) means that this is a tuple, not just arr itself
+thread1 = threading.Thread(target=calc_square, args=(arr,)) # Create thread1 to handle calc_square function
+thread2 = threading.Thread(target=calc_cube, args=(arr,))   # Create thread2 to handle calc_cube function
+                                                            # (arr,) means that this is a tuple, not just arr itself
 
 thread1.start() # activate thread1 to execute calc_square
 thread2.start() # activate thread2 to execute calc_cube
@@ -138,14 +138,15 @@ def target_function(single_block):
     # For demonstration, this target_function return the reversed version of the input as single_block
     return single_block[::-1]
 
-def multithread_process(input_blocks, max_threads=4):
+def multithread_process(func, input_blocks, max_threads=4):
     """
+    func: target function to perform multithreading on
     input_blocks: List of input blocks (2D list, each element of this list is a single_block input list)
     max_threads: maximum number of concurrent threads
     Returns: List of output blocks corresponding to input blocks
     """
     with ThreadPoolExecutor(max_workers=max_threads) as executor:
-        futures = [executor.submit(target_function, single_block=block) for block in input_blocks]
+        futures = [executor.submit(func, block) for block in input_blocks]
         output_blocks = [future.result() for future in futures]
 
     return output_blocks
@@ -159,7 +160,7 @@ inputs = [
     ['x', 'y', 'z']
 ]
 
-outputs = multithread_process(input_blocks=inputs, max_threads=4)
+outputs = multithread_process(func=target_function, input_blocks=inputs, max_threads=4)
 print(outputs)
 # Output: [[3, 2, 1], ['c', 'b', 'a'], [40, 30, 20, 10], [200, 100], ['z', 'y', 'x']]
 
@@ -168,24 +169,24 @@ print(outputs)
 
 from concurrent.futures import ThreadPoolExecutor
 
-def target_function(single_block):
+def reversing(single_block):
     # Replace with your actual processing logic
     # For demonstration, return the reversed version of the input block as a string
     return str(single_block[::-1])
 
 def write_output_file(idx, single_block, output_dir):
     import os
-    result = target_function(single_block)
+    result = reversing(single_block)
     output_file = os.path.join(output_dir, f"output_{idx}.txt")
     with open(output_file, "w") as f:
         f.write(result)
 
-def multithread_process(input_blocks, max_threads=4, output_dir="outputs"):
+def multithread_process(func, input_blocks, max_threads=4, output_dir="outputs"):
     import os
     os.makedirs(output_dir, exist_ok=True)
 
     with ThreadPoolExecutor(max_workers=max_threads) as executor:
-        futures = [executor.submit(write_output_file, idx=index, single_block=block, output_dir=output_dir)
+        futures = [executor.submit(func, index, block, output_dir)
                    for index, block in enumerate(input_blocks)]
 
         for future in futures:
@@ -200,7 +201,7 @@ inputs = [
     ['x', 'y', 'z']
 ]
 
-multithread_process(input_blocks=inputs, max_threads=4, output_dir="output_files")
+multithread_process(func=write_output_file,input_blocks=inputs, max_threads=4, output_dir="output_files")
 
 # After running, you will find files output_0.txt, output_1.txt, ..., output_4.txt in the "output_files" folder,
 # each containing the reversed block as a string.
