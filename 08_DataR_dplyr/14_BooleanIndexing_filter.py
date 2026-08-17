@@ -359,7 +359,7 @@ print(
 
 print(
     tb_pokemon
-    >> dr.filter((f.Type_1 == 'Fire') & (f.Attack > 100) & (f.Generation == "5"))
+    >> dr.filter((f.Type_1 == 'Fire') & (f.Attack > 100) & (f.Generation == 5))
     >> dr.select(f.Name, f.Type_1, f.Attack, f.Generation, f.Legendary)
 )
 #                         Name     Type_1  Attack Generation  Legendary
