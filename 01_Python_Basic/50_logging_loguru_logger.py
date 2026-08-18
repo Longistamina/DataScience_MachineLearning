@@ -2,14 +2,14 @@
 # pip3 install loguru
 
 '''
-Log message is a text-based record of events that occur within a system, application, or service. 
-It provides a structured or unstructured way to track what happened, when it happened, and potentially why, 
+Log message is a text-based record of events that occur within a system, application, or service.
+It provides a structured or unstructured way to track what happened, when it happened, and potentially why,
 aiding in debugging, monitoring, and understanding system behavior.
-logging is a standard Python module that provides a flexible framework 
+logging is a standard Python module that provides a flexible framework
 for emitting log messages from Python programs.
 
-The Loguru library in Python is a modern, user-friendly logging library designed to simplify 
-and enhance the standard Python logging experience. 
+The Loguru library in Python is a modern, user-friendly logging library designed to simplify
+and enhance the standard Python logging experience.
 
 There are 5 standard levels of logging, each with a specific purpose:
 1. DEBUG: Detailed information, typically of interest only when diagnosing problems.
@@ -42,17 +42,17 @@ Flow of contents:
 import logging
 
 logger = logging.getLogger(__name__) # Get a logger for the current module
-                                     # This allows for module-specific logging configuration, 
+                                     # This allows for module-specific logging configuration,
                                      # and avoids conflicts with other modules.
-                                    
+
 def logging_with_level(log_level=None):
     if log_level is not None:
         logging.basicConfig(level=log_level) # Set the logging level to the specified log_level
         logger.setLevel(log_level) # Set the logger's level to the specified log_level
     else:
         logging.basicConfig(level=logging.WARNING) # Set the default logging level to WARNING
-        logger.setLevel(logging.WARNING) # Set the logger's level to WARNING               
-    
+        logger.setLevel(logging.WARNING) # Set the logger's level to WARNING
+
     logger.debug("This is a debug message.")
     logger.info("This is an info message.")
     logger.warning("This is a warning message.")
@@ -156,7 +156,7 @@ logger.critical("This is a critical message.")
 #############################################################
 
 # Add file sink while keeping the default console output
-logger.add("01_Python_Basic/terminal_logs.txt", 
+logger.add("01_Python_Basic/terminal_logs.txt",
            rotation="1 MB",  # Rotate when file reaches 1MB
            retention="10 days",  # Keep logs for 10 days
            level="INFO") # Only save the "INFO" level and above
