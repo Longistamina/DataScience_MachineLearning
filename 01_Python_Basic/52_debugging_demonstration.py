@@ -43,10 +43,10 @@ def rectangle_area(length, width):
 def save_results(out_message, filepath):
     """Save the results to a file."""
     if filepath == "": # The user don't want to save the results
-        return None  
+        return None
     elif Path(filepath).suffix == "": # The user didn't provide a file extension
-        logger.error(f"The {filepath} is not a file.") 
-        return None 
+        logger.error(f"The {filepath} is not a file.")
+        return None
     else:
         with open(filepath, 'w') as file: # Save the results to the specified file
             file.write(out_message)
@@ -83,7 +83,7 @@ def main():
 
             # Print the results to the console
             logger.info(out_message)
-            
+
             # Save the results to a file if the user provided a filepath
             save_results(out_message, filepath)
 
