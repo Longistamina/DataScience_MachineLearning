@@ -1,13 +1,13 @@
 '''
-1. dr.mutate(): 
+1. dr.mutate():
    + Modify existing columns
-   + Derive new cols from existing columns 
+   + Derive new cols from existing columns
    + Create completely new columns
    + Apply pandas methods inside dr.mutate()
    + Using dr.mutate(**{col_name: function}) syntax
 
 2. dr.if_else(): vectorized conditional function, similar to numpy.where
-   
+
 3. dr.case_when(): vectorized multiple dr.if_else() statements
 '''
 
@@ -16,6 +16,8 @@ from datar import f
 import pandas as pd
 import numpy as np
 from pathlib import Path
+
+pd.set_option("display.width", 200)
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -198,24 +200,6 @@ print(
 # 2  Ramon_Hernandez        BAL      72     210        182.88     95.238095
 # 3     Kevin_Millar        BAL      72     210        182.88     95.238095
 
-#---------
-## Apply for loop  **{col: dr.pipe(lambda df: ... for col in cols)}
-#---------
-
-print(
-    df_baseball
-    >> dr.mutate(
-        **{col: dr.pipe(lambda df: df[col].astype(float)) for col in ["Height", "Weight"]}
-    )
-    >> dr.slice_head(4)
-)
-#               Name       Team    Height    Weight
-#           <object> <category> <float64> <float64>
-# 0    Adam_Donachie        BAL     180.0     180.0
-# 1        Paul_Bako        BAL     215.0     215.0
-# 2  Ramon_Hernandez        BAL     210.0     210.0
-# 3     Kevin_Millar        BAL     210.0     210.0
-
 
 #------------------------------------------------------------------------------------------------------------------#
 #-------------------------------------------- 2. dr.if_else() -----------------------------------------------------#
@@ -246,8 +230,8 @@ print(
 ## Multi-branch condition ##
 ############################
 '''
-If condition1 is True, return x1; 
-    else if condition2 is True, return x2; 
+If condition1 is True, return x1;
+    else if condition2 is True, return x2;
     else return y
 '''
 
