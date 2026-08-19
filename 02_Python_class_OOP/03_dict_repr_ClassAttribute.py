@@ -14,15 +14,15 @@ class Item:
         self.name = name          # This is an instance attribute, which means it is unique to each instance of the class
         self.price = price        # This is also an instance attribute
         self.quantity = quantity  # This is also an instance attribute
-    
+
     def calculate_total_price(self):
         return self.price * self.quantity
-    
+
     def apply_discount_ClassAttribute(self):
         # Using the class attribute discount_rate to calculate the discounted price
         discount_amount = self.price * Item.discount_rate
         return self.price - discount_amount
-    
+
     def apply_discount_instanceAttribute(self):
         # Using the instance attribute discount_rate to calculate the discounted price
         # So when the discount_rate of a specific instance is changed, it will use that value
@@ -85,8 +85,8 @@ class ItemNoRepr:
         assert price >= 0, "Price must be greater than zero"
         assert quantity >= 0, "Quantity must be greater than or equal to zero"
 
-        self.name = name          
-        self.price = price        
+        self.name = name
+        self.price = price
         self.quantity = quantity
 
         ItemNoRepr.all_items.append(self) # Add a created instance to the all_items list
@@ -112,8 +112,8 @@ class ItemWithRepr:
         assert price >= 0, "Price must be greater than zero"
         assert quantity >= 0, "Quantity must be greater than or equal to zero"
 
-        self.name = name          
-        self.price = price        
+        self.name = name
+        self.price = price
         self.quantity = quantity
 
         ItemWithRepr.all_items.append(self) # Add a created instance to the all_items list
