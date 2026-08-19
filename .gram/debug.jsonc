@@ -1,0 +1,12 @@
+[
+  {
+    "adapter": "Debugpy",
+    "label": "Python: Debug Current File",
+    "request": "launch",
+    "python": "/home/longdpt/dl/bin/python",
+    "args": [],
+    "cwd": "$GRAM_WORKTREE_ROOT",
+    "program": "$GRAM_FILE",
+    "subProcess": false,
+  }
+]
