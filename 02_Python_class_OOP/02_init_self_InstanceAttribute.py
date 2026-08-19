@@ -1,7 +1,6 @@
-#--------------------------------------------#
-#-------- __init__ explanation --------------#
-#--------------------------------------------#
-
+#----------------------------------------------#
+#---------- __init__ explanation --------------#
+#----------------------------------------------#
 '''
 # __init__() method is a method that forces the definition of specific attributes when created an object from a class
 # Those attributes required by __init__() if somehow are not defined will result in unsucessful object creation
@@ -10,7 +9,7 @@
 
 # "self" argument in "def method_name(self,....)" helps refer to the current instance of the class itself
 # It is the way an instance method accesses the attributes (variables) and other methods of the same object
-# When you define a method in a class, you explicitly include "self" as the first parameter, 
+# When you define a method in a class, you explicitly include "self" as the first parameter,
 # which allows you to refer to the instance calling the method.
 '''
 
@@ -24,7 +23,7 @@ class Item:
                             # assign the value of argument "name" into attribute "self.name"
 
 item1 = Item("Phone") # "Phone" is passed into as the value of attribute 'self.name'
-                      # This is equivalent to "item1.name = 'Phone'" 
+                      # This is equivalent to "item1.name = 'Phone'"
                       # An instance is created: Phone
 
 print(item1.name)     # "Phone"
@@ -39,9 +38,11 @@ print(item2.name)     # "Laptop"
 
 
 item_no_name = Item()
+'''
 # => TypeError: Item.__init__() missing 1 required positional argument: 'name'
 # => This case raises error because the __init__() require us to define the value for attribute 'name'
 #                                                 (but we didn't)
+'''
 
 ####################################
 ## __init__() with default values ##
@@ -95,7 +96,7 @@ class ItemConcise:
         self.price = price
         self.quantity = quantity
 
-item_extend_2 = ItemConcise("Laptop", 1500, 3)
+item_extend_2 = ItemConcise("Laptop",1500, 3)
 
 print(item_extend_2.name)      # "Laptop"
 print(item_extend_2.price)     # 1500
@@ -125,10 +126,11 @@ class ItemWithConstraints:
         self.name = name
         self.price = price
         self.quantity = quantity
-    
+
     def calculate_total_price(self, discount=0): # no need to pass method(self, price, quantity) as the method is bound to the instance
         # Method to calculate total price of the item
         return (self.price * self.quantity) * (1 - discount)
+
 
 # Example usage
 item_with_constraints = ItemWithConstraints("Tablet", 300, 10)

@@ -32,12 +32,19 @@ print(item1_name.upper()) # PHONE
 class Item:
     pass
 
+################################
+
 item1 = Item()
 item1.name = "Phone" # Assign the attribute .name of item1 as "Phone"
 item1.price = 100    # Assign the attribute .price of item1 as 100
 item1.quantity = 5   # Assign the attribute .quantity of item1 as 5
+
 print(type(item1))   # <class '__main__.Item'>
 
+print(item1.name) # Phone
+print(item1.quantity) # 5
+
+################################
 
 item2 = Item()        # Create the object item1 which belongs to class Item()
 item2.name = "Laptop"
@@ -45,6 +52,8 @@ item2.price = 1000
 item2.quantity = 3
 print(type(item2))   # <class '__main__.Item'>
 
+print(item2.name) # Laptop
+print(item2.quantity) # 3
 
 # NOTE: the name of a class should be written uppercase the first charcter of each words:
 # => class Student:
@@ -71,7 +80,6 @@ class ItemMethod:
 # which allows you to refer to the instance calling the method.
 '''
 
-
 item3 = ItemMethod()   # Create the object item1 which belongs to class Item()
 item3.name = "Car"
 item3.price = 50_000 # 5e4
@@ -80,3 +88,5 @@ item3.quantity = 2
 # item3.calculate_total_price = item3.price * item3.quantity
 
 print(item3.calculate_total_price(item3.price, item3.quantity)) # 100000
+
+item3.calculate_total_price(3000, 20)
