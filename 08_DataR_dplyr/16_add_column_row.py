@@ -16,6 +16,9 @@ import datar.all as dr
 from datar import f
 import pandas as pd
 from pathlib import Path
+from loguru import logger
+
+pd.set_option("display.width", 200)
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -89,10 +92,14 @@ print(tb_emp_AddCols)
 ## Error: Non-unique column name ##
 ###################################
 
-print(
-    tb_emp
-    >> dr.add_column(salary = f.salary * 0.10)  # Error: 'salary' already exists
-)
+try:
+    print(
+        tb_emp
+        >> dr.add_column(salary = f.salary * 0.10)  # Error: 'salary' already exists
+    )
+except Exception as e:
+    logger.error(e)
+
 '''datar.core.names.NameNonUniqueError: Names must be unique: salary'''
 
 
@@ -216,14 +223,18 @@ print(tb_emp_AddRow_Missing)
 ## Error: Can't add new columns ##
 ##################################
 
-print(
-    tb_emp
-    >> dr.add_row(
-        id = 10,
-        fullname = "Sam",  # Error: 'fullname' does not match any existing column
-        salary = 600.00,
-        start_date = "2016-10-01",
-        dept = "IT"
+try:
+    print(
+        tb_emp
+        >> dr.add_row(
+            id = 10,
+            fullname = "Sam",  # Error: 'fullname' does not match any existing column
+            salary = 600.00,
+            start_date = "2016-10-01",
+            dept = "IT"
+        )
     )
-)
+except Exception as e:
+    logger.error(e)
+
 '''ValueError: New rows can't add columns: ['fullname']'''

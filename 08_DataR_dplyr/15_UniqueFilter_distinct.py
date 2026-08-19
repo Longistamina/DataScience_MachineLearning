@@ -1,8 +1,8 @@
 '''
-dr.distinct() function in DataR is used to filter out duplicate rows from a DataFrame, 
-returning only unique rows based on specified columns. 
+dr.distinct() function in DataR is used to filter out duplicate rows from a DataFrame,
+returning only unique rows based on specified columns.
 
-It is similar to the SQL DISTINCT keyword and is useful for data cleaning 
+It is similar to the SQL DISTINCT keyword and is useful for data cleaning
 and ensuring that analyses are performed on unique data points.
 '''
 
@@ -61,7 +61,7 @@ print(
 
 print(
     tb_duplicate
-    >> dr.distinct(f.y)  # Unique combinations of 'x'
+    >> dr.distinct(f.y)  # Unique combinations of 'y'
     >> dr.pull() # Extract the 'y' column as a Series
 )
 # 0     1
