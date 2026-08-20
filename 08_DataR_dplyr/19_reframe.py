@@ -21,6 +21,7 @@ from scipy import stats
 import numpy as np
 
 from pathlib import Path
+
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
@@ -56,14 +57,14 @@ print(
 #--------------------------------------------------------------------------------------------------------------#
 
 #####################################################
-## Example 2: calculate quantiles for some columns ##
+## Example 1: calculate quantiles for some columns ##
 #####################################################
 
 print(
     tb_pokemon
     >> dr.reframe(
-        HP_quantiles = np.quantile(f.HP, q=[0.25, 0.5, 0.75, 1]),            
-        Attack_quantiles = np.quantile(f['Attack'], q=[0.25, 0.5, 0.75, 1]),    
+        HP_quantiles = np.quantile(f.HP, q=[0.25, 0.5, 0.75, 1]),
+        Attack_quantiles = np.quantile(f['Attack'], q=[0.25, 0.5, 0.75, 1]),
         Defense_quantiles = np.quantile(f.Defense, q=[0.25, 0.5, 0.75, 1])
     )
     >> dr.pipe(lambda f: f.set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0)) # rename the index
@@ -76,16 +77,16 @@ print(
 # Q4         255.0             190.0              230.0
 
 #################################################################
-## Example 1: calculate the Shapiro-Wilk test for some columns ##
+## Example 2: calculate the Shapiro-Wilk test for some columns ##
 #################################################################
 
 print(
     tb_pokemon
     >> dr.reframe(
-        HP_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f.HP),            
-        Attack_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f.Attack),    
-        Defense_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f['Defense']),  
-        Speed_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f['Speed'])       
+        HP_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f.HP),
+        Attack_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f.Attack),
+        Defense_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f['Defense']),
+        Speed_normality = np.apply_along_axis(stats.shapiro, axis=0, arr=f['Speed'])
     )
     >> dr.pipe(lambda f: f.set_axis(["W-statistic", "p-value"], axis=0)) # rename the index
 )
@@ -108,7 +109,7 @@ print(
     tb_pokemon
     >> dr.reframe(
         dr.across(
-            dr.where(dr.is_numeric),
+            dr.where(dr.is_numeric) & ~dr.where(dr.is_logical), # exclude ``bool`` columns because np.quantile() does not support boolean values
             lambda col: np.quantile(col, q=[0.25, 0.5, 0.75, 1]),
             _names="{_col}_quantiles"
         )
@@ -146,15 +147,14 @@ print(
 #--------------------------------------------------------------------------------------------------------------#
 #-------------------------- 3. dr.reframe() with different reframing functions --------------------------------#
 #--------------------------------------------------------------------------------------------------------------#
-
 '''
-The cumulative distribution function (CDF) takes a value and returns the probability 
-that a random variable is less than or equal to that value; 
+The cumulative distribution function (CDF) takes a value and returns the probability
+that a random variable is less than or equal to that value;
 
-The percent-point function (PPF), also called the inverse CDF or quantile function, 
-takes a probability and returns the corresponding value whose CDF equals that probability. 
+The percent-point function (PPF), also called the inverse CDF or quantile function,
+takes a probability and returns the corresponding value whose CDF equals that probability.
 
-In short: CDF input is a value and output is a probability in; 
+In short: CDF input is a value and output is a probability in;
 PPF input is a probability in and output is a value on the distribution's scale.
 
 ########################
@@ -183,4 +183,3 @@ print(
 # ppf_50th   69.258750   54.759494      61.966669
 # ppf_75th   86.481623  109.518987      99.415433
 # ppf_100th        inf         inf            inf
-

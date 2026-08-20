@@ -99,9 +99,9 @@ print(ItemNoRepr.all_items) # Print out the list of all the items created
 # [<__main__.ItemNoRepr object at 0x7f9ef73979e0>, <__main__.ItemNoRepr object at 0x7f9ef7236c60>, <__main__.ItemNoRepr object at 0x7f9ef7237b30>]
 '''The output shows the memory address of each instance, which is not very "friendly" for our eyes'''
 
-##########################################
-######## Using __reper__() method ########
-##########################################
+#########################################
+######## Using __repr__() method ########
+#########################################
 
 class ItemWithRepr:
 
