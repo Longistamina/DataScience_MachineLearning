@@ -1,5 +1,5 @@
 '''
-Python magic methods, also known as dunder methods (due to their double underscore prefix and suffix), 
+Python magic methods, also known as dunder methods (due to their double underscore prefix and suffix),
 are special methods that allow you to define or customize the behavior of your classes in Python
 
 __new__()     Called a new instance of a class (subclass).
@@ -21,7 +21,7 @@ Difference between __repr__() and __str__():
    Purpose: Developer-oriented, unambiguous
    Output: 'Hello, world!' (with quotes ' ' or double quotes " ")
    When you print a list of objects, Python calls __repr()__ and NOT __str()__
-   
+
 ## __str__()
    Purpose: User-oriented, readable
    Ouput:   Hello, world! (no quotes)
@@ -387,7 +387,7 @@ __format__(self, format_spec): Defines behavior for the format() function and fo
 __getattr__(self, name): Called when an attribute is not found.
 __setattr__(self, name, value): Called when an attribute is set.
 __delattr__(self, name): Called when an attribute is deleted.
-__getattribute__(self, name): Called for every attribute access 
+__getattribute__(self, name): Called for every attribute access
 
 - Reflected versions: __radd__, __rsub__, __rmul__, __rtruediv__, etc.
 - In-place versions: __iadd__, __isub__, __imul__, __itruediv__, etc.

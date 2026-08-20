@@ -200,6 +200,24 @@ print(
 # 2  Ramon_Hernandez        BAL      72     210        182.88     95.238095
 # 3     Kevin_Millar        BAL      72     210        182.88     95.238095
 
+#---------
+## Apply for loop: >> dr.pipe(lambda f: f >> dr.mutate(**{col: f[col] ... for col in cols}))
+#---------
+
+print(
+    df_baseball
+    >> dr.pipe(lambda f: f >> dr.mutate(
+            **{col: f[col].astype(float) for col in ["Height", "Weight"]}
+        )
+    )
+    >> dr.slice_head(4)
+)
+#               Name       Team    Height    Weight
+#           <object> <category> <float64> <float64>
+# 0    Adam_Donachie        BAL     180.0     180.0
+# 1        Paul_Bako        BAL     215.0     215.0
+# 2  Ramon_Hernandez        BAL     210.0     210.0
+# 3     Kevin_Millar        BAL     210.0     210.0
 
 #------------------------------------------------------------------------------------------------------------------#
 #-------------------------------------------- 2. dr.if_else() -----------------------------------------------------#

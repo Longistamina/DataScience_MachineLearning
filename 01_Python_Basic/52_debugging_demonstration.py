@@ -1,6 +1,4 @@
-'''
-This script is created to demonstrate the debugging feature of the Visual Studio Code editor.
-'''
+'''This script is created to demonstrate the debugging feature of the Visual Studio Code editor.'''
 
 #----------------------------------------------------------------------------------------------------------#
 #-------------------------------------- Define functional modules -----------------------------------------#
