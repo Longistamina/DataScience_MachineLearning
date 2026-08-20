@@ -24,6 +24,8 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 
+pd.set_option("display.width", 200)
+
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
@@ -46,7 +48,6 @@ print(
     >> dr.slice_head(n=5)
 )
 #                     Name   Type_1   Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed  Generation  Legendary
-                                                                                                                          
 # #               <object> <object> <object> <int64> <int64> <int64>  <int64> <int64> <int64> <int64>     <int64>     <bool>
 # 1              Bulbasaur    Grass   Poison     318      45      49       49      65      65      45           1      False
 # 2                Ivysaur    Grass   Poison     405      60      62       63      80      80      60           1      False
@@ -80,33 +81,12 @@ print(
     >> dr.select(f.Name, f.Type_1, f.Type_2) # Only show modified columns
 )
 #                     Name   Type_1   Type_2
-                                          
 # #               <object> <object> <object>
 # 1              bulbasaur    grass   poison
 # 2                ivysaur    grass   poison
 # 3               venusaur    grass   poison
 # 3  venusaurmega venusaur    grass   poison
 # 4             charmander     fire      NaN
-
-################################################################
-
-print(tb_pokemon >> dr.where(dr.is_character))
-# ['Name', 'Type_1']
-'''Only "Name" and "Type_1" are character, because "Type_2" has NaN values, so dr does not consider it as character'''
-
-tb_pkm_chr = (
-    tb_pokemon
-    >> dr.mutate(
-        dr.across(
-            f.Name | f.Type_1 | f.Type_2, # Apply to specific columns
-            dr.as_character # Convert all these columns to character
-        )
-    )
-)
-
-print(tb_pkm_chr >> dr.where(dr.is_character))
-# ['Name', 'Type_1', 'Type_2']
-'''Now "Type_2" is also character'''
 
 #--------------------------------
 ## Use dr.across(f.col1 | f.col2) to convert to float
@@ -124,7 +104,6 @@ print(
     >> dr.select(f.HP, f.Attack, f.Defense) # Only show modified columns
 )
 #          HP    Attack   Defense
-                               
 # # <float64> <float64> <float64>
 # 1      45.0      49.0      49.0
 # 2      60.0      62.0      63.0
@@ -148,7 +127,6 @@ print(
     >> dr.select(f.Name, f.Generation, f.Legendary)
 )
 #                     Name Generation  Legendary
-                                              
 # #               <object> <category> <category>
 # 1              Bulbasaur          1      False
 # 2                Ivysaur          1      False
@@ -179,7 +157,6 @@ print(
     >> dr.slice_head(n=5)
 )
 #                     Name   Type_1   Type_2     Total        HP    Attack   Defense    Sp_Atk    Sp_Def     Speed  Generation  Legendary
-                                                                                                                                       
 # #               <object> <object> <object> <float64> <float64> <float64> <float64> <float64> <float64> <float64>     <int64>     <bool>
 # 1              Bulbasaur    Grass   Poison  0.230000  0.173228  0.237838  0.195556  0.298913  0.214286  0.228571           1      False
 # 2                Ivysaur    Grass   Poison  0.375000  0.232283  0.308108  0.257778  0.380435  0.285714  0.314286           1      False
@@ -202,15 +179,18 @@ print(
     >> dr.slice_head(n=5)
 )
 #                     Name   Type_1   Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed  Generation  Legendary
-                                                                                                                          
 # #               <object> <object> <object> <int64> <int64> <int64>  <int64> <int64> <int64> <int64>     <int64>     <bool>
 # 1              Bulbasaur    grass   poison     318      45      49       49      65      65      45           1      False
 # 2                Ivysaur    grass   poison     405      60      62       63      80      80      60           1      False
 # 3               Venusaur    grass   poison     525      80      82       83     100     100      80           1      False
 # 3  VenusaurMega Venusaur    grass   poison     625      80     100      123     122     120      80           1      False
-# 4             Charmander     fire      nan     309      39      52       43      60      50      65           1      False
-
-'''If use tb_pokemon instead of tb_pkm_chr, "Type_2" will not be modified because it has NaN values, not is_character'''
+# 4             Charmander     fire      NaN     309      39      52       43      60      50      65           1      False
+'''
+NOTICE: ``lambda col: col.str.lower()`` uses Pandas API.
+        In this case, since ``Type_2`` has NaN values, these NaN stay the same,
+        they are not converted to "nan".
+        (Because Pandas API does not handle that)
+'''
 
 print(
     tb_pokemon
@@ -223,14 +203,17 @@ print(
     >> dr.slice_head(n=5)
 )
 #                     Name   Type_1   Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed  Generation  Legendary
-                                                                                                                          
 # #               <object> <object> <object> <int64> <int64> <int64>  <int64> <int64> <int64> <int64>     <int64>     <bool>
 # 1              Bulbasaur    grass   Poison     318      45      49       49      65      65      45           1      False
 # 2                Ivysaur    grass   Poison     405      60      62       63      80      80      60           1      False
 # 3               Venusaur    grass   Poison     525      80      82       83     100     100      80           1      False
 # 3  VenusaurMega Venusaur    grass   Poison     625      80     100      123     122     120      80           1      False
 # 4             Charmander     fire      NaN     309      39      52       43      60      50      65           1      False
-
+'''
+NOTICE: ``dr.tolower`` uses DataR API.
+        In this case, NaN values in ``Type_2`` are now converted to "nan"
+        (Because DataR API can handle that)
+'''
 
 ######################################################
 ## dr.across(dr.everything()) to modify all columns ##
@@ -247,7 +230,6 @@ print(
     >> dr.slice_head(n=5)
 )
 #                     Name   Type_1   Type_2    Total       HP   Attack  Defense   Sp_Atk   Sp_Def    Speed Generation Legendary
-                                                                                                                              
 # #               <object> <object> <object> <object> <object> <object> <object> <object> <object> <object>   <object>  <object>
 # 1              Bulbasaur    Grass   Poison      318       45       49       49       65       65       45          1     False
 # 2                Ivysaur    Grass   Poison      405       60       62       63       80       80       60          1     False
