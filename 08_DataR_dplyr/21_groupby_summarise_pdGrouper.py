@@ -37,7 +37,6 @@ print(
     >> dr.slice_head(n=5)
 )
 #                     Name   Type_1   Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed  Generation  Legendary
-                                                                                                                          
 # #               <object> <object> <object> <int64> <int64> <int64>  <int64> <int64> <int64> <int64>     <int64>     <bool>
 # 1              Bulbasaur    Grass   Poison     318      45      49       49      65      65      45           1      False
 # 2                Ivysaur    Grass   Poison     405      60      62       63      80      80      60           1      False
@@ -89,7 +88,6 @@ print(
 ############################################
 
 '''Ascending order'''
-
 print(
     tb_pokemon
     >> dr.group_by(f.Type_2)
@@ -123,7 +121,6 @@ print(
 # 1         NaN     386   74.525907       230
 
 '''Descending order'''
-
 print(
     tb_pokemon
     >> dr.group_by(f.Type_2)
@@ -183,6 +180,10 @@ print(
 #------------------------------------------------------------------------------------------------------------#
 #-------------------------------------- 2. combine with pd.Grouper() ----------------------------------------#
 #------------------------------------------------------------------------------------------------------------#
+
+##########################################################
+## Read air_quality dataset to use as for demonstration ##
+##########################################################
 
 df_aq = (
     pd.read_csv(data_dir/"air_quality_no2_long.csv")

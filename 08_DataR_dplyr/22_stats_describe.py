@@ -8,11 +8,13 @@ f.describe(): Get summary statistics of DataFrame columns.
 import datar.all as dr
 from datar import f
 import pandas as pd
-
 from pipda import register_verb
+from pathlib import Path
+
 dr.filter = register_verb(func=dr.filter_)
 
-from pathlib import Path
+pd.set_option("display.width", 200)
+
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
@@ -66,13 +68,13 @@ print(
 # 75%    515.00000   80.000000  100.000000   90.000000   95.000000   90.000000   90.000000
 # max    780.00000  255.000000  190.000000  230.000000  194.000000  230.000000  180.000000
 
-###################################################
-## f.describe(include=[object, category, "all"]) ##
-###################################################
+################################################
+## f.describe(include=[str, category, "all"]) ##
+################################################
 
 print(
     tb_pokemon
-    >> dr.pipe(lambda f: f.describe(include=[object, "category"]))
+    >> dr.pipe(lambda f: f.describe(include=[str, "category"]))
 )
 #            Name   Type_1   Type_2  Generation
 #        <object> <object> <object>     <int64>

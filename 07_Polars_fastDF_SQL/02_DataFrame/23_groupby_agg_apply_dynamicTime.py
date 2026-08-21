@@ -26,7 +26,6 @@ pl.Config.set_tbl_rows(20)
 pl.Config.set_tbl_cols(20)
 pl.Config.set_tbl_width_chars(120)
 
-
 data_dir = next(Path('/home').rglob('*/DataScience_MachineLearning/data'))
 
 
