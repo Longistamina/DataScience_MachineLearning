@@ -48,6 +48,9 @@ class IntClass:
         self.value = value
 
 obj = IntClass(10)
+
+print(obj) # <__main__.IntClass object at 0x7fe2bc78f620>
+
 print(obj.value)  # Output: 10
 
 ####################
@@ -63,6 +66,7 @@ e = EvenIntClass(3)
 print(e)  # Output: 4
 
 '''This class ensures that any instance of EvenIntClass will always represent an even integer.'''
+
 
 #--------------------------------------#
 #-------- __str__() method ------------#
@@ -87,7 +91,7 @@ print(b)  # Output: <__main__.Book object at 0x...>
 class Book:
     def __init__(self, title):
         self.title = title
-    def __str__(self):
+    def __repr__(self):
         return f"Book: {self.title}"
 
 b = Book("Python 101")

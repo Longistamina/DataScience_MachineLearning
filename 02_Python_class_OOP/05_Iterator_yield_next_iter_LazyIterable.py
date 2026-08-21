@@ -1,35 +1,35 @@
 '''
-In Python, a lazy iterable (iterator) is an object that computes its elements one at a time only when requested, 
-rather than storing them all in memory upfront. 
-This behavior is known as lazy evaluation. 
+In Python, a lazy iterable (iterator) is an object that computes its elements one at a time only when requested,
+rather than storing them all in memory upfront.
+This behavior is known as lazy evaluation.
 
-While common iterables like lists and tuples are "eager" 
-(meaning they store all their data in RAM immediately), 
-lazy iterables (iterators) use a "just-in-time" approach. 
-This makes them essential for handling massive datasets or infinite sequences 
+While common iterables like lists and tuples are "eager"
+(meaning they store all their data in RAM immediately),
+lazy iterables (iterators) use a "just-in-time" approach.
+This makes them essential for handling massive datasets or infinite sequences
 that would otherwise crash your program due to memory limits.
 
 ######################
 
-1. yield and next()
+1. ``yield`` and next()
 2. iter() converts iterable to iterator
 3. use "class" to create custom Iterable and Iterator
 4. Example: loading big 3D shapes efficiently and batch-wise
 '''
 
 
-#-------------------------------------------------------------------------------#
-#--------------------------- 1. yield and next() -------------------------------#
-#-------------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------------#
+#--------------------------- 1. ``yield`` and next() -------------------------------#
+#-----------------------------------------------------------------------------------#
 '''
-In Python, yield is a keyword used to create generators. 
-Unlike a standard return statement, which exits a function and destroys its local state, 
-yield pauses the function, saves all of its variables, and sends a value back to the caller. 
+In Python, yield is a keyword used to create generators.
+Unlike a standard return statement, which exits a function and destroys its local state,
+yield pauses the function, saves all of its variables, and sends a value back to the caller.
 When the function is called again, it resumes exactly where it left off.
 
 ##########################
 
-The next() function is a built-in Python tool used to manually retrieve the subsequent item from an iterator 
+The next() function is a built-in Python tool used to manually retrieve the subsequent item from an iterator
 (like a generator, map object, or any object created with iter()
 '''
 
@@ -51,7 +51,7 @@ print(next(simple_gen))  # Output: Aloha
 print(next(simple_gen))  # Output: 3.14
 
 print(simple_gen[0])
-# TypeError: 'generator' object is not subscriptable
+'''TypeError: 'generator' object is not subscriptable'''
 
 #####################
 ## yield with loop ##
@@ -86,15 +86,17 @@ print(next(for_gen))  # Output: 1
 print(next(for_gen))  # Output: 2
 print(next(for_gen))  # Raises StopIteration, as there are no more items to yield
 
-###########################################
-## Use () expression to create generator ##
-###########################################
+###############################################
+## Use ``()`` expression to create generator ##
+###############################################
 
 # List comprehension — realized immediately, subscriptable
-squares_list = [x**2 for x in range(5)]   # [0, 1, 4, 9, 16]
+squares_list = [x**2 for x in range(5)]
+print(squares_list) # [0, 1, 4, 9, 16]
 
 # Generator expression — lazy, uses () instead of []
-squares_gen = (x**2 for x in range(5))    # <generator object>
+squares_gen = (x**2 for x in range(5))
+print(squares_gen) # <generator object <genexpr> at 0x7f7b083ba810>
 
 next(squares_gen)   # 0
 next(squares_gen)   # 1
@@ -113,6 +115,7 @@ def fibonacci_gen(n):
 fib_gen = fibonacci_gen(10)
 
 fib_series = list(fib_gen) # can be tuple(), set(), dict() etc. as well
+print(fib_series)
 # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
 
 
@@ -124,9 +127,9 @@ In Python, the iter() function is a built-in tool that takes an object and turns
 
 To understand iter(), it helps to know the difference between two key Python concepts:
 + Iterable: A collection of items you can loop over (like a list, string, dictionary, or tuple).
-+ Iterator: An engine that knows how to fetch items from an iterable one by one. 
++ Iterator: An engine that knows how to fetch items from an iterable one by one.
             (Note: All generators are iterators, but not all iterators are generators!)
-            It remembers its current state and uses the next() function to get the next item 
+            It remembers its current state and uses the next() function to get the next item
             until there are no items left.
 '''
 
@@ -175,7 +178,6 @@ print(f"Rolled a {n} - stopping.")
 NOTE: if the sentinel is not in the value domain of the callable, it will run forever
 '''
 
-
 ####################################################
 ## iter(callable, sentinel) with lambda (Pro-Tip) ##
 ####################################################
@@ -185,19 +187,19 @@ A common use case is reading a file in chunks until it hits an empty byte string
 
 with open('large_data.bin', 'rb') as f:
     # lambda f.read(1024) is the callable, b'' is the sentinel
-    for block in iter(lambda: f.read(1024), b''): 
+    for block in iter(lambda: f.read(1024), b''):
         process_block(block)
 '''
 
 """
-You rarely need to use this form of iter() manually 
-because Python's for loops do this under the hood automatically. 
+You rarely need to use this form of iter() manually
+because Python's for loops do this under the hood automatically.
 
 However, you should use it manually when:
-+ You need custom manual iteration: For example, if you want to extract the first item of a collection 
++ You need custom manual iteration: For example, if you want to extract the first item of a collection
                                     (like a header row in a CSV file) and then process the rest in a standard loop.
-+ You are sharing state across loops: Because an iterator remembers where it left off, 
-                                      you can pass it to different functions or loops, 
++ You are sharing state across loops: Because an iterator remembers where it left off,
+                                      you can pass it to different functions or loops,
                                       and it will continue exactly where the last one stopped.
 """
 
@@ -207,7 +209,7 @@ However, you should use it manually when:
 #-------------------------------------------------------------------------------#
 '''
 Can use "class" with "__iter__" and "__next__" methods to create a custom iterator.
-=> better control over the iteration process, 
+=> better control over the iteration process,
    and can maintain internal state across iterations.
 '''
 
@@ -219,10 +221,10 @@ class MyRange:
     def __init__(self, n):
         self.n = n
         self.i = 0
-        
+
     def __iter__(self): # This allows iter(instance)
         return self  # The object itself is the iterator
-    
+
     def __next__(self):
         if self.i < self.n:
             value = self.i # Store the current value to return
@@ -325,7 +327,7 @@ def plot_iterator_single(iterator):
     shared_range = [structure.min(), structure.max()]
 
     fig = go.Figure()
-    
+
     fig.add_trace(go.Scatter3d(
         x=structure[:, 0],
         y=structure[:, 1],
@@ -334,7 +336,7 @@ def plot_iterator_single(iterator):
         marker=dict(size=5, color='green'),
         line=dict(color='brown', width=2)
     ))
-    
+
     fig.update_layout(
         title=f'{path.stem}',
         # width=800,
@@ -348,7 +350,7 @@ def plot_iterator_single(iterator):
             zaxis=dict(range=shared_range)
         )
     )
-    
+
     fig.show()
 
 #--------------#
@@ -365,12 +367,12 @@ class StructureLoader():
     def __init__(self, entries: list[Path], batch_size: int = 1, shuffle: bool = False):
         if not isinstance(entries, list):
             entries = sorted(list(entries))
-        
+
         self.entries = entries
         self.shuffle = shuffle
         self.entries = entries
         self.batch_size = batch_size
-    
+
     def __iter__(self):
         if self.shuffle:
             random.shuffle(self.entries)
@@ -382,28 +384,28 @@ class StructureIterator():
         self.entries = entries
         self.n = len(entries)
         self.i = 0
-        
+
     def __iter__(self):
         return self
-    
+
     def __next__(self):
         if self.i >= self.n:
             raise StopIteration
-        
+
         start = self.i
         end = self.i + self.batch_size
         entries_batched = self.entries[start:end]
         # entries_batched = self.entries[self.i:self.i + self.batch_size]
-        
+
         self.i += self.batch_size # update iterator indices
-        
+
         # Load structures from entries_batched
         batch = []
         for entry in entries_batched:
             structure = np.load(entry)
             structure = structure - structure.mean(0)
             batch.append(structure)
-                
+
         return batch
 
 #-------------#
@@ -411,18 +413,18 @@ class StructureIterator():
 def plot_iterator_multi(iterator, colors):
     structures = next(iterator)
     num_structures = len(structures)
-    
+
     colors = colors[:num_structures]
-    
+
     fig = go.Figure()
     min_values = []
     max_values = []
-    
+
     for idx, (structure, color) in enumerate(zip(structures, colors), start=1):
-        
+
         min_values.append(structure.min())
         max_values.append(structure.max())
-        
+
         fig.add_trace(go.Scatter3d(
             x=structure[:, 0],
             y=structure[:, 1],
@@ -432,9 +434,9 @@ def plot_iterator_multi(iterator, colors):
             line=dict(color='black', width=2),
             name=f"Structure {idx}"
         ))
-    
+
     shared_range = [min(min_values), max(max_values)]
-    
+
     fig.update_layout(
         title=f'3D structure visualization',
         # width=800,
@@ -448,7 +450,7 @@ def plot_iterator_multi(iterator, colors):
             zaxis=dict(range=shared_range)
         )
     )
-    
+
     fig.show()
 
 #--------------#
@@ -470,7 +472,7 @@ plot_iterator_multi(structure_iterator, colors)
 
 class MiniLoader:
     def __init__(
-        self, data: list[np.ndarray], 
+        self, data: list[np.ndarray],
         batch_size: int = 1,
         n_subset=None,
         shuffle: bool = True,
@@ -479,34 +481,34 @@ class MiniLoader:
         self.batch_size = batch_size
         self.n_subset = n_subset
         self.shuffle = shuffle
-        
+
     def __iter__(self):
         data = self.data
         if self.shuffle:
             random.shuffle(data)
         return MiniIterator(data[:self.n_subset], self.batch_size)
-    
+
 class MiniIterator:
     def __init__(self, data: list[np.ndarray], batch_size: int = 1):
         self.data = data
         self.batch_size = batch_size
         self.n = len(data)
         self.i = 0
-        
+
     def __iter__(self):
         return self
-    
+
     def __next__(self):
         if self.i >= self.n:
             raise StopIteration
-        
+
         start = self.i
         end = self.i + self.batch_size
-            
+
         batch = self.data[start:end]
-        
+
         self.i += self.batch_size
-        
+
         return batch
 
 #--------------#
@@ -551,21 +553,21 @@ for entry in entries:
         "structure": np.load(entry)
     }
     data_list.append(data)
-    
+
 #-------------#
 
 class SourceContainer:
     def __init__(self, data: list[dict[Path, np.ndarray]]):
         self.data = data
-    
+
     def __len__(self):
         return len(self.data)
-    
+
     def __getitem__(self, idx):
         arr = self.data[idx]["structure"]
         arr = arr - arr.mean(axis=0)
         arr = arr.astype(np.float32)
-        
+
         shape_name = self.data[idx]["path"].stem
         return {"shape_name": shape_name, "coords": arr}
 
@@ -573,58 +575,58 @@ class SourceContainer:
 
 class TargetContainer:
     def __init__(
-        self, 
+        self,
         input_data: list[dict[Path, np.ndarray]],
         n_components: int = 50,
         random_state: int = None
     ):
         self.gmm = []
         self.gmm_paths = []
-        
+
         for data in input_data:
             coords = data["structure"].astype(np.float64)
-            
+
             path = data["path"]
             gmm_path = path.parent / f"{path.stem}.pkl"
             self.gmm_paths.append(gmm_path)
-            
+
             if gmm_path.is_file():
                 gmm = joblib.load(gmm_path)
             else:
                 gmm = GaussianMixture(n_components=n_components, max_iter=500, tol=1e-4, reg_covar=1e-4, random_state=random_state)
                 gmm = gmm.fit(coords)
                 joblib.dump(value=gmm, filename=gmm_path)
-            
+
             self.gmm.append(gmm)
-    
+
     def __len__(self):
         return len(self.gmm)
-    
+
     def __getitem__(self, idx):
         gmm = self.gmm[idx]
-        
+
         n_points = np.random.randint(300, 400)
         target, _ = gmm.sample(n_points)
-        
+
         target = target - target.mean(axis=0)
         target = target.astype(np.float32)
-        
+
         return {"gmm_path": self.gmm_paths[idx], "coords": target}
-    
+
 #-------------#
 
 class PairContainer:
     def __init__(self, source: SourceContainer, target: TargetContainer):
         self.source = source
         self.target = target
-    
+
     def __len__(self):
         return min(len(self.source), len(self.target))
-    
+
     def __getitem__(self, idx):
         source_item = self.source[idx]
         target_item = self.target[idx]
-        
+
         return source_item, target_item
 
 #-------------#
@@ -636,17 +638,17 @@ class DataLoader:
         self.n_subset = n_subset
         self.shuffle = shuffle
         self.collate_fn = collate_fn
-        
+
         self.indices = list(range(len(data)))
-        
+
     def __len__(self):
         n = len(self.indices) if self.n_subset is None else min(self.n_subset, len(self.indices))
         return (n + self.batch_size - 1) // self.batch_size
-    
+
     def __iter__(self):
         if self.shuffle:
             random.shuffle(self.indices)
-            
+
         data = [self.data[idx] for idx in self.indices[:self.n_subset]]
         return DataIterator(data, self.indices, self.batch_size, self.collate_fn)
        # [pair0, pair1, pair2, pair3, pair4] -> 0, 1, 2, 3, 4 -> 0, 3, 1, 2, 4 -> 0, 3, 1, 2 -> [pair0, pair3, pair1, pair2]
@@ -657,59 +659,59 @@ class DataIterator:
         self.indices = indices
         self.batch_size = batch_size
         self.collate_fn = collate_fn
-        
+
         self.n = len(self.indices)
         self.i = 0
-        
+
     def __iter__(self):
         return self
-    
+
     def __next__(self):
         if self.i >= self.n:
             raise StopIteration
-        
+
         batch_indices = self.indices[self.i:self.i + self.batch_size]
         batch = [self.data[idx] for idx in batch_indices] # [pair0, pair3], then [pair1, pair2]
-        
+
         self.i += self.batch_size
-        
+
         if self.collate_fn is not None:
             return self.collate_fn(batch) # collate_fn([pair0, pair3]), then collate_fn([pair1, pair2])
-        
+
         return batch
-    
+
 #-------------#
 
 def collate_fn_flat(batch):
     src_batch = []
     tgt_batch = []
-    
+
     src_counts = []
     tgt_counts = []
-    
+
     src_idx_list = []
     tgt_idx_list = []
-    
+
     for batch_idx, (source, target) in enumerate(batch): # pair = (source, target), pair0 <-> batch_idx=0, pair3 <-> batch_idx=1, ...
         src_len = len(source["coords"])
         tgt_len = len(target["coords"])
-        
+
         src_counts.append(src_len)
         tgt_counts.append(tgt_len)
-        
+
         src_idx_list.append(np.full((src_len,), batch_idx, dtype=np.int64))
         tgt_idx_list.append(np.full((tgt_len,), batch_idx, dtype=np.int64))
-        
+
         src_batch.append(source["coords"])
         tgt_batch.append(target["coords"])
-    
+
     return {
         "source": {
             "coords": np.concatenate(src_batch, axis=0),
             "batch_idx": np.concatenate(src_idx_list, axis=0),
             "counts": np.array(src_counts)
         },
-        
+
         "target": {
             "coords": np.concatenate(tgt_batch, axis=0),
             "batch_idx": np.concatenate(tgt_idx_list, axis=0),
