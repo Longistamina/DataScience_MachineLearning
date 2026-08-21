@@ -4,7 +4,7 @@ from pathlib import Path
 #--------------------------------------------------------------------------------------#
 #----------------------------- Decorator: @classmethod --------------------------------#
 #--------------------------------------------------------------------------------------#
-
+'''
 # Class methods are the methods that are bound to the class, not the instance of the class.
 # Class methods always require "cls" as the first argument, which refers to the class itself
 # Class methods also need a return value, otherwise it will return None by default
@@ -14,6 +14,7 @@ from pathlib import Path
 # When to use: we should use class methods to do something that is related to the class
 #              but does not need to be unique per instance
 #              and want to have access to class attributes or other class methods
+'''
 
 class Employee:
 
@@ -27,7 +28,7 @@ class Employee:
             print("This demo class method has been executed successfully!")
 
     @classmethod
-    def construct_from_csv(cls, file_path: str | Path): #A function to construct an instance of the class from a .csv file
+    def construct_from_csv(cls, file_path: str|Path): #A function to construct an instance of the class from a .csv file
         with open(file_path, 'r') as f:
             reader = csv.DictReader(f) # Read .csv file as a dictionary
             employees = list(reader)
@@ -61,7 +62,7 @@ print(lst_employees)
 #--------------------------------------------------------------------------------------#
 #------------------------------ Decorator: @staticmethod ------------------------------#
 #--------------------------------------------------------------------------------------#
-
+'''
 # Static methods are like class method, but they are not bound to the class
 # Static methods DO NOT require "cls" as the first argument, i.e not bound or refer to the class
 # => hence they cannot access class attributes or other class methods directly
@@ -71,6 +72,7 @@ print(lst_employees)
 # When to use: we should use static methods to do something that is related to the class
 #              but does not need to be unique per instance
 #              and does not require accessing other class atributes and class methods
+'''
 
 class DemoStatic:
 
