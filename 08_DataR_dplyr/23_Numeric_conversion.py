@@ -1,7 +1,7 @@
 '''
 1. dr.as_integer(): Convert to Integer
 
-2. dr.as_double(): Convert to Double
+2. dr.as_double(): Convert to Double (float64)
 
 3. dr.as_numeric(): Convert to Numeric
 
@@ -123,9 +123,10 @@ print(
 
 print(
     df_demo
-    >> dr.mutate(
-        A = dr.pipe(lambda f: pd.to_numeric(f.A, errors='raise')),
-        B = dr.pipe(lambda f: pd.to_numeric(f.B, errors='raise'))
+    >> dr.pipe(lambda f: f >> dr.mutate(
+            A = pd.to_numeric(f.A, errors='raise'),
+            B = pd.to_numeric(f.B, errors='raise')
+        )
     )
 )
 #         A         B
