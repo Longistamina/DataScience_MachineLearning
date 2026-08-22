@@ -1,7 +1,7 @@
 '''
 In dataR (as well as R), categorical variables are often represented as factors.
 
-#################################
+##################################################################################
 
 1. Create factor variable
    + dr.factor()
@@ -59,6 +59,8 @@ from datar import f
 import pandas as pd
 import numpy as np
 from pathlib import Path
+
+pd.set_option("display.width", 200)
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -303,7 +305,6 @@ print(dr.levels(dropped_degree)) # ['Bachelors' 'Masters' 'PhD' 'AscProf']
 dropped_degree = dr.fct_drop(ord_degree[ord_degree != "AscProf"], only=["AscProf"]) # Remove "AscProf" level, still keep "PostDoc"
 print(dr.levels(dropped_degree)) # ['Bachelors' 'Masters' 'PhD' 'PostDoc']
 
-
 #####################
 ## dr.droplevels() ##
 #####################
@@ -464,7 +465,7 @@ df_color = dr.tribble(
     "yellow", 5,   1
 ) >> dr.mutate(color=dr.as_factor(f.color))
 
-# Reorder gender by median salary
+# Reorder gender by median ``a``
 color_by_a = dr.fct_reorder(
     df_color['color'],
     df_color['a'],
@@ -475,7 +476,6 @@ color_by_a = dr.fct_reorder(
 print(color_by_a)
 # ['blue', 'green', 'purple', 'red', 'yellow']
 # Categories (5, object): ['blue', 'red', 'purple', 'yellow', 'green']
-
 
 ############################
 ##   dr.fct_reorder2()    ##
@@ -555,7 +555,7 @@ print(dr.levels(shifted_size))   # [37 38 39 40 41 42 36]
 
 shifted_size_left = dr.fct_shift(ord_size, n=-2) # Shift left by 2
 print(dr.levels(shifted_size_left))   # [41 42 36 37 38 39 40]
-                                 
+
 
 #------------------------------------------------------------------------------------------------------------#
 #--------------------------------- 6. Rename levels of factor variable --------------------------------------#
@@ -819,8 +819,8 @@ After unification, all three factors now share the same complete set of levels: 
 ## Before
 #------
 survey_response = dr.factor([
-    "Satisfied", "Very Satisfied", None, "Satisfied", 
-    "Dissatisfied", None, "Very Satisfied", np.nan, 
+    "Satisfied", "Very Satisfied", None, "Satisfied",
+    "Dissatisfied", None, "Very Satisfied", np.nan,
     "Satisfied", None, "Very Satisfied"
 ])
 
@@ -856,7 +856,7 @@ print(dr.table(explicit_na_response))
 ##    dr.fct_anon()    ##
 #########################
 '''
-Replace factor levels with anonymized values (typically random letters or numbers) 
+Replace factor levels with anonymized values (typically random letters or numbers)
 for privacy protection while preserving factor structure.
 '''
 
