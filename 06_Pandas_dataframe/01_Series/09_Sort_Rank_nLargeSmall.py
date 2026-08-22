@@ -15,13 +15,13 @@ import pandas as pd
 s_demo = pd.Series([5.8, 4.6, 2, np.nan, 14, 4.6, 25.2, np.nan, 9.3, 10.5])
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 1. Ranking and Sorting methods -------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Ranking and Sorting methods
+# =========================================================================================
 
-#############
+##---------##
 ## .rank() ##
-#############
+##---------##
 # .rank() returns the ranks of the values in the Series, with ties getting the average rank.
 print(s_demo.rank())
 # 0    4.0
@@ -74,9 +74,9 @@ print(s_demo.rank(method='max'))
 # dtype: float64
 
 
-####################
+##----------------##
 ## .sort_values() ##
-####################
+##----------------##
 # .sort_values() sorts the values in the Series in ascending order by default.
 print(s_demo.sort_values())
 # 2     2.0
@@ -105,9 +105,9 @@ print(s_demo.sort_values(ascending=False))
 # dtype: float64
 
 
-###################
+##---------------##
 ## .sort_index() ##
-###################
+##---------------##
 # .sort_index() sorts the Series by its index in ascending order by default.
 s_demo_indexed = pd.Series([5.8, 4.6, 2, 14, 4.6, 25.2],
                            index = [3, 1, 0, 4, 5, 2])
@@ -142,9 +142,9 @@ print(s_demo_indexed.sort_index(ascending=False))
 # dtype: float64
 
 
-################
+##------------##
 ## .argsort() ##
-################
+##------------##
 s_demo_default_index = pd.Series([5.8, 4.6, 2, 14, 4.6, 25.2]) 
 
 # .argsort() returns the indices that would sort the Series in ascending order.
@@ -166,12 +166,12 @@ This behavior is consistent with the default sorting behavior in Python.
 This is important to keep in mind when working with string data, as it can affect the order of the sorted values.
 '''
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 2. N-Largest and N-Smallest methods --------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
-#################
+# =========================================================================================
+# 2. N-Largest and N-Smallest methods
+# =========================================================================================
+##-------------##
 ## .nlargest() ##
-#################
+##-------------##
 # .nlargest(n) returns the n largest values in the Series.
 print(s_demo_default_index.nlargest(3))
 # 5    25.2
@@ -180,9 +180,9 @@ print(s_demo_default_index.nlargest(3))
 # dtype: float64
 
 
-##################
+##--------------##
 ## .nsmallest() ##
-##################
+##--------------##
 # .nsmallest(n) returns the n smallest values in the Series.
 print(s_demo_default_index.nsmallest(3))
 # 2    2.0

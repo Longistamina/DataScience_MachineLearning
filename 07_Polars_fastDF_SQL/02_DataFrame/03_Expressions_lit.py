@@ -11,7 +11,7 @@ Polars has two concepts that are worth learning early:
    + You build the plan first, then execute it with .collect().
    + It lets Polars optimize the whole query before reading/computing data.
 
-####################################################################################################
+##------------------------------------------------------------------------------------------------##
 
 Important mental model:
 
@@ -70,9 +70,9 @@ print(df_sales)
 # columns: order_id, customer, region, amount, quantity, date
 
 
-#--------------------------------------------------------------------------------------------------#
-#------------------------------- 1. What is a Polars Expression? ----------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. What is a Polars Expression?
+# =========================================================================================
 '''
 An expression is a symbolic instruction.
 It says WHAT should happen, but it does not run immediately by itself.
@@ -103,9 +103,9 @@ The expression object only stores the computation that Polars should perform lat
 '''
 
 
-#--------------------------------------------------------------------------------------------------#
-#----------------------------- 2. Expressions need execution contexts -----------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Expressions need execution contexts
+# =========================================================================================
 '''
 A context is where Polars knows how to apply expressions to data.
 
@@ -113,9 +113,9 @@ The same expression idea is used in both eager DataFrames and LazyFrames.
 This section uses eager DataFrames first because the results are easy to see immediately.
 '''
 
-#################
+##-------------##
 ## df.select() ##
-#################
+##-------------##
 '''
 df.select(...) creates a new DataFrame from the expressions you pass in.
 It is often used to choose columns and compute new output columns.
@@ -141,9 +141,9 @@ print(out)
 # │ 6        ┆ Evan     ┆ 1240.0  │
 # └──────────┴──────────┴─────────┘
 
-#######################
+##-------------------##
 ## df.with_columns() ##
-#######################
+##-------------------##
 '''
 df.with_columns(...) adds new columns or replaces existing columns.
 It keeps the original columns unless you overwrite them by using the same column name.
@@ -168,9 +168,9 @@ print(out)
 # │ 6        ┆ Evan     ┆ North  ┆ 310.0  ┆ 4        ┆ 2024-03-15 ┆ 1240.0  ┆ 2024-03-15  │
 # └──────────┴──────────┴────────┴────────┴──────────┴────────────┴─────────┴─────────────┘
 
-#################
+##-------------##
 ## df.filter() ##
-#################
+##-------------##
 '''
 df.filter(...) expects a boolean expression.
 Rows are kept where the expression evaluates to True.
@@ -193,9 +193,9 @@ shape: (4, 6)
 # └──────────┴──────────┴────────┴────────┴──────────┴────────────┘
 # keeps rows where amount >= 100 and region is East/North
 
-#########################
+##---------------------##
 ## df.group_by().agg() ##
-#########################
+##---------------------##
 '''
 group_by(...).agg(...) uses aggregation expressions.
 Each expression describes one output summary per group.
@@ -220,9 +220,9 @@ print(out)
 # one row per region, with aggregate columns
 
 
-#--------------------------------------------------------------------------------------------------#
-#------------------------------- 3. Expression chaining and aliasing ------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Expression chaining and aliasing
+# =========================================================================================
 '''
 Expressions are composable.
 Most expression methods return another expression, so you can chain them.
@@ -255,9 +255,9 @@ print(out)
 # customer transformed to uppercase, amount converted, unit price calculated
 
 
-#--------------------------------------------------------------------------------------------------#
-#---------------------------------- 4. Conditional expressions ------------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Conditional expressions
+# =========================================================================================
 '''
 Use pl.when(...).then(...).otherwise(...) for vectorized if/else logic.
 
@@ -291,9 +291,9 @@ print(out)
 # adds amount_band: low / medium / high
 
 
-#--------------------------------------------------------------------------------------------------#
-#----------------------------------- 5. Window expressions ----------------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Window expressions
+# =========================================================================================
 '''
 Window expressions calculate values over groups while keeping the original row count.
 
@@ -323,9 +323,9 @@ print(out)
 # original rows are preserved, with group-level values added to each row
 
 
-#--------------------------------------------------------------------------------------------------#
-#------------------------------- 6. Namespace expressions (.str, .dt, .list) ----------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Namespace expressions (.str, .dt, .list)
+# =========================================================================================
 '''
 Polars uses namespaces to organize type-specific expression methods.
 
@@ -384,9 +384,9 @@ print(out)
 # adds n_items and first_item
 
 
-#--------------------------------------------------------------------------------------------------#
-#------------------------- 7. Expression expansion: one expression, many columns ------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Expression expansion: one expression, many columns
+# =========================================================================================
 '''
 Expression expansion means one expression can expand to many output expressions.
 
@@ -414,9 +414,9 @@ print(out)
 # amount_mean plus sums of integer columns such as order_id and quantity
 
 
-#--------------------------------------------------------------------------------------------------#
-#----------------------------- 8. Reusing expressions as variables --------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Reusing expressions as variables
+# =========================================================================================
 '''
 Since expressions are just objects, you can store and reuse them.
 This is useful when the same business logic is needed in many pipelines.
@@ -445,9 +445,9 @@ print(out)
 # filters with one reusable expression and calculates another reusable expression
 
 
-#--------------------------------------------------------------------------------------------------#
-#---------------------------- 9. Categorized API list for Expressions -----------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. Categorized API list for Expressions
+# =========================================================================================
 '''
 The lists below are a categorized map of the Polars expression API.
 They are included for orientation, not for memorization.

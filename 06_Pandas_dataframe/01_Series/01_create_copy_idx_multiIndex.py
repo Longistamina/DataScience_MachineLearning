@@ -7,7 +7,7 @@ It is similar to a column in a spreadsheet or a SQL table.
 Sometimes, can consider it as a dictionary-like structure where each element has a unique label (index).
 Or like numpy 1D array with additional features like labels.
 
-################################################
+##--------------------------------------------##
 
 1. Creating a Series:
    + from a list, dictionary, ndarray or scalar value;
@@ -19,19 +19,17 @@ Or like numpy 1D array with additional features like labels.
 import pandas as pd
 import numpy as np
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 1. Creating a Series -----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Creating a Series
+# =========================================================================================
 
-#################
+##-------------##
 ## From a list ##
-#################
+##-------------##
 
-#---------------
-## Without index labels,
+# ## Without index labels,
 ## pandas will create a default integer index starting from 0.
-#----------------
-
+# 
 s = pd.Series(data=[1, 2, 3, 4, 5])
 
 print(s)
@@ -42,10 +40,8 @@ print(s)
 # 4    5
 # dtype: int64
 
-#----------------
-## With custom index labels
-#----------------
-
+# ## With custom index labels
+# 
 s = pd.Series(data=[1, 2, 3, 4, 5], index=['one', 'two', 'three', 'four', 'five'])
 
 print(s)
@@ -57,9 +53,9 @@ print(s)
 # dtype: int64
 
 
-####################
+##----------------##
 ## From a ndarray ##
-####################
+##----------------##
 
 s = pd.Series(data=np.random.rand(5), index=['a', 'b', 'c', 'd', 'e'])
 
@@ -72,9 +68,9 @@ print(s)
 # dtype: float64
 
 
-#######################
+##-------------------##
 ## From a dictionary ##
-#######################
+##-------------------##
 
 # The keys will be used as index labels, and the values will be the data in the Series.
 s = pd.Series(data={'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5})
@@ -88,9 +84,9 @@ print(s)
 # dtype: int64
 
 
-#########################
+##---------------------##
 ## From a scalar value ##
-#########################
+##---------------------##
 
 s = pd.Series(data=5, index=['a', 'b', 'c', 'd', 'e'])
 
@@ -103,9 +99,9 @@ print(s)
 # dtype: int64
 
 
-################################
+##----------------------------##
 ## Multi-Level Indexed Series ##
-################################
+##----------------------------##
 
 # Create a multi-level index object using pd.MultiIndex
 multi_index = pd.MultiIndex(
@@ -135,9 +131,9 @@ print(s_multi_index)
 # dtype: float64
 
 
-#----------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 2. Copy a Series ------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Copy a Series
+# =========================================================================================
 
 s_original = pd.Series(data=[10, 20, 30, 40, 50])
 
@@ -153,7 +149,7 @@ print(s_copy)
 print(np.shares_memory(s_original.to_numpy(), s_copy.to_numpy()))
 # False
 
-##################################
+##------------------------------##
 
 s_copy_index = s_original.copy(deep=True)  # Creating a deep copy of the Series
 print(s_copy_index)

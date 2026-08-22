@@ -2,7 +2,7 @@
 dr.summarise() is a transformation that aggregates data,
 by using aggregation functions like sum, mean, min, max, etc.
 
-############
+##--------##
 
 dr.summarise() with single column
 
@@ -23,7 +23,7 @@ pd.set_option("display.width", 200)
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-########################
+##--------------------##
 
 tb_pokemon = dr.tibble(
     pd.read_csv(data_dir/"pokemon.csv")
@@ -50,9 +50,9 @@ print(
 # 4             Charmander       Fire        NaN     309      39      52       43      60      50      65          1      False
 
 
-##########################################
+##--------------------------------------##
 ##       Summarise single column        ##
-##########################################
+##--------------------------------------##
 
 print(
     tb_pokemon
@@ -64,14 +64,12 @@ print(
 #   <float64>
 # 0  69.25875
 
-###########################################
+##---------------------------------------##
 ##        Summarise multiple cols        ##
-###########################################
+##---------------------------------------##
 
-#--------
-## Different agg func
-#--------
-
+# ## Different agg func
+# 
 print(
     tb_pokemon
     >> dr.summarise(
@@ -85,10 +83,8 @@ print(
 #   <float64>  <int64>  <int64>    <int64>
 # 0  69.25875      230        5      54622
 
-#--------
-## Same agg func (dr.across())
-#--------
-
+# ## Same agg func (dr.across())
+# 
 print(
     tb_pokemon
     >> dr.summarise(
@@ -103,10 +99,8 @@ print(
 #   <float64>   <float64>    <float64>   <float64>   <float64>  <float64>
 # 0  69.25875    79.00125      73.8425       72.82     71.9025    68.2775
 
-#--------
-## Same agg func (dr.across(dr.where()))
-#--------
-
+# ## Same agg func (dr.across(dr.where()))
+# 
 print(
     tb_pokemon
     >> dr.summarise(
@@ -124,10 +118,8 @@ print(
 # Median           450.0         65.0             75.0              70.0            65.00             70.0            65.0
 # Q3               515.0         80.0            100.0              90.0            95.00             90.0            90.0
 
-#------------------
-## Same agg func (dr.across(dr.everything()))
-#------------------
-
+# ## Same agg func (dr.across(dr.everything()))
+# 
 '''Count NA values in each column'''
 print(
     tb_pokemon

@@ -11,7 +11,7 @@ from pathlib import Path
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-########################
+##--------------------##
 
 tb_baseball = (
     pd.read_csv(data_dir/"baseball.csv")
@@ -28,9 +28,9 @@ print(tb_baseball >> dr.slice_head(4))
 # 2  Ramon_Hernandez        Catcher      72     210
 # 3     Kevin_Millar  First_Baseman      72     210
 
-##########################################################################
+##----------------------------------------------------------------------##
 ##           Use plotnine to draw scatter plot Height ~ Weight          ##
-##########################################################################
+##----------------------------------------------------------------------##
 
 (
     tb_baseball
@@ -41,9 +41,9 @@ print(tb_baseball >> dr.slice_head(4))
     + pln.ggtitle("Scatter plot Height ~ Weight colored by Position")
 ).show()
 
-#########################################################################
+##---------------------------------------------------------------------##
 ##           Use plotnine to draw boxplot Height ~ Position            ##
-#########################################################################
+##---------------------------------------------------------------------##
 
 (
     tb_baseball

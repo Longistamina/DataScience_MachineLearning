@@ -22,7 +22,7 @@ pd.set_option("display.width", 200)
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-########################
+##--------------------##
 
 df_baseball = pd.read_csv(
     filepath_or_buffer=data_dir/"baseball.csv",
@@ -39,19 +39,17 @@ print(df_baseball >> dr.slice_head(4))
 # 3     Kevin_Millar        BAL      72     210
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------------- 1. dr.mutate() ----------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. dr.mutate()
+# =========================================================================================
 
-#############################
+##-------------------------##
 ## Modify existing columns ##
-#############################
+##-------------------------##
 '''Use existing col names to modify them'''
 
-#---------------
-## Single column modification
-#---------------
-
+# ## Single column modification
+# 
 print(
     df_baseball
     >> dr.mutate(Height = f.Height * 2.54)  # inch to cm
@@ -64,10 +62,8 @@ print(
 # 2  Ramon_Hernandez        BAL    182.88     210
 # 3     Kevin_Millar        BAL    182.88     210
 
-#---------------
-## Multiple columns modification
-#---------------
-
+# ## Multiple columns modification
+# 
 print(
     df_baseball
     >> dr.mutate(
@@ -83,15 +79,13 @@ print(
 # 2  Ramon_Hernandez        BAL    182.88  95.238095
 # 3     Kevin_Millar        BAL    182.88  95.238095
 
-###########################################
+##---------------------------------------##
 ## Derive new columns from existing ones ##
-###########################################
+##---------------------------------------##
 '''Use existing col names to create new ones'''
 
-#---------------
-## Derive single new column
-#---------------
-
+# ## Derive single new column
+# 
 print(
     df_baseball
     >> dr.mutate(BMI = f.Weight / (f.Height**2))  # BMI formula
@@ -104,10 +98,8 @@ print(
 # 2  Ramon_Hernandez        BAL      72     210  0.040509
 # 3     Kevin_Millar        BAL      72     210  0.040509
 
-#---------------
-## Derive multiple new columns
-#---------------
-
+# ## Derive multiple new columns
+# 
 print(
     df_baseball
     >> dr.mutate(
@@ -124,9 +116,9 @@ print(
 # 2  Ramon_Hernandez        BAL      72     210     182.88  95.238095  0.002848
 # 3     Kevin_Millar        BAL      72     210     182.88  95.238095  0.002848
 
-###################################
+##-------------------------------##
 ## Create completely new columns ##
-###################################
+##-------------------------------##
 '''Do not use existing col names'''
 
 np.random.seed(0)
@@ -143,9 +135,9 @@ print(
 # 2  Ramon_Hernandez        BAL      72     210  False
 # 3     Kevin_Millar        BAL      72     210   True
 
-#############################################
+##-----------------------------------------##
 ## Apply pandas methods inside dr.mutate() ##
-#############################################
+##-----------------------------------------##
 
 print(
     df_baseball
@@ -159,14 +151,12 @@ print(
 # 2  Ramon_Hernandez      bal      72     210
 # 3     Kevin_Millar      bal      72     210
 
-#############################################
+##-----------------------------------------##
 ## Using dr.mutate(**{col_name: function}) ##
-#############################################
+##-----------------------------------------##
 
-#--------
-## Single column (name overlaps with Python's keyword)
-#--------
-
+# ## Single column (name overlaps with Python's keyword)
+# 
 print(
     df_baseball
     >> dr.mutate(**{"raise": np.random.choice([True, False], size=len(df_baseball))})
@@ -179,10 +169,8 @@ print(
 # 2  Ramon_Hernandez        BAL      72     210   True
 # 3     Kevin_Millar        BAL      72     210  False
 
-#--------
-## Multiple columns
-#--------
-
+# ## Multiple columns
+# 
 print(
     df_baseball
     >> dr.mutate(
@@ -200,10 +188,8 @@ print(
 # 2  Ramon_Hernandez        BAL      72     210        182.88     95.238095
 # 3     Kevin_Millar        BAL      72     210        182.88     95.238095
 
-#---------
-## Apply for loop: >> dr.pipe(lambda f: f >> dr.mutate(**{col: f[col] ... for col in cols}))
-#---------
-
+# ## Apply for loop: >> dr.pipe(lambda f: f >> dr.mutate(**{col: f[col] ... for col in cols}))
+# 
 print(
     df_baseball
     >> dr.pipe(lambda f: f >> dr.mutate(
@@ -219,13 +205,13 @@ print(
 # 2  Ramon_Hernandez        BAL     210.0     210.0
 # 3     Kevin_Millar        BAL     210.0     210.0
 
-#------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 2. dr.if_else() -----------------------------------------------------#
-#------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. dr.if_else()
+# =========================================================================================
 
-#############################
+##-------------------------##
 ## Single-branch condition ##
-#############################
+##-------------------------##
 '''If condition is True, return x; otherwise, return y'''
 
 print(
@@ -244,9 +230,9 @@ print(
 # 4      Chris_Gomez        BAL      73     188         Light
 # 5    Brian_Roberts        BAL      69     176         Light
 
-############################
+##------------------------##
 ## Multi-branch condition ##
-############################
+##------------------------##
 '''
 If condition1 is True, return x1;
     else if condition2 is True, return x2;
@@ -273,9 +259,9 @@ print(
 # 5    Brian_Roberts        BAL      69     176        Medium
 
 
-#------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 3. dr.case_when() -----------------------------------------------------#
-#------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. dr.case_when()
+# =========================================================================================
 '''Vectorise multiple dr.if_else() statements.'''
 
 print(

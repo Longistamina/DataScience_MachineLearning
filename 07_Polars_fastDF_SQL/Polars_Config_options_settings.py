@@ -30,7 +30,7 @@ Pandas -> Polars equivalents:
    + Polars: pl.Config.set_float_precision(), set_fmt_float(),
      set_thousands_separator(), set_decimal_separator()
 
-######################################################
+##--------------------------------------------------##
 1. All available Config options
 2. Getting, Setting, and Resetting options
 3. Temporary options with context manager and decorator
@@ -54,9 +54,9 @@ import sys
 import polars as pl
 
 
-#-------------------------------------------------------------------------------------------------------#
-#----------------------------------------- Data setup --------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# Data setup
+# =========================================================================================
 
 '''
 This guide is self-contained. It creates a small medals-like DataFrame instead
@@ -163,9 +163,9 @@ print(df_medals.schema)
 # Schema({'row_id': UInt32, 'Year': Int64, 'City': Categorical, 'Sport': Categorical, 'Discipline': Categorical, 'NOC': Categorical, 'Event': Categorical, 'Event gender': Categorical, 'Medal': Categorical, 'Score': Float64, 'Prize': Int64, 'Tags': List(String), 'Notes': String})
 
 
-#-------------------------------------------------------------------------------------------------------#
-#----------------------------------- 1. All available Config options -----------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. All available Config options
+# =========================================================================================
 '''
 Pandas has pd.describe_option().
 Polars does not have a direct describe_option() equivalent.
@@ -176,9 +176,9 @@ The closest runtime tools are:
 3. pl.Config.state(if_set=True): inspect only options explicitly set in this process.
 '''
 
-#####################
+##-----------------##
 ## Inspect methods ##
-#####################
+##-----------------##
 
 config_set_methods = sorted(name for name in dir(pl.Config) if name.startswith("set_"))
 print(config_set_methods)
@@ -191,9 +191,9 @@ print(config_set_methods)
 config_state_methods = ["state", "save", "save_to_file", "load", "load_from_file", "restore_defaults"]
 print(config_state_methods)
 
-###################
+##---------------##
 ## Current state ##
-###################
+##---------------##
 
 # Show all Config state values.
 print(pl.Config.state())
@@ -204,13 +204,13 @@ print(pl.Config.state(if_set=True))
 # Usually {} at the start of a clean session.
 
 
-#-------------------------------------------------------------------------------------------------------#
-#---------------------------- 2. Getting, Setting and Resetting options --------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Getting, Setting and Resetting options
+# =========================================================================================
 
-################################
+##----------------------------##
 ## Getting: pl.Config.state() ##
-################################
+##----------------------------##
 '''
 Polars has no pd.get_option("...") equivalent that fetches one option by a
 friendly pandas-style key.
@@ -225,9 +225,9 @@ pl.Config.restore_defaults()
 print(pl.Config.state(if_set=True))
 # {}
 
-################################
+##----------------------------##
 ## Setting: pl.Config.set_*() ##
-################################
+##----------------------------##
 
 # Equivalent idea to: pd.set_option("display.max_rows", 6)
 pl.Config.set_tbl_rows(6)
@@ -243,9 +243,9 @@ pl.Config.set_fmt_str_lengths(30)
 print(pl.Config.state(if_set=True))
 # Example output contains row, column, and string-length settings.
 
-####################################
+##--------------------------------##
 ## Resetting one option with None ##
-####################################
+##--------------------------------##
 '''
 To reset one Config option, call the related setter with None.
 This is the Polars equivalent idea of pd.reset_option("...").
@@ -255,22 +255,22 @@ pl.Config.set_tbl_rows(None)
 print(pl.Config.state(if_set=True))
 # The row-display setting is removed/reset, but other settings remain.
 
-###########################
+##-----------------------##
 ## Resetting all options ##
-###########################
+##-----------------------##
 
 pl.Config.restore_defaults()
 print(pl.Config.state(if_set=True))
 # {}
 
 
-#-------------------------------------------------------------------------------------------------------#
-#-------------------------- 3. Temporary options: context manager / decorator --------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Temporary options: context manager / decorator
+# =========================================================================================
 
-####################################
+##--------------------------------##
 ## Context manager: with Config() ##
-####################################
+##--------------------------------##
 '''
 Polars Config is often best used as a context manager.
 The settings are active only inside the with-block and are restored on exit.
@@ -288,9 +288,9 @@ with pl.Config(tbl_rows=4, tbl_cols=5, fmt_str_lengths=18):
 print(df_medals.head(8))
 # Outside the with-block, the previous display settings are restored.
 
-#######################################
+##-----------------------------------##
 ## Context manager with method calls ##
-#######################################
+##-----------------------------------##
 
 with pl.Config() as cfg:
     cfg.set_tbl_rows(5)
@@ -299,9 +299,9 @@ with pl.Config() as cfg:
     print(df_medals)
 # On scope exit, the previous settings are restored.
 
-#####################
+##-----------------##
 ## Decorator style ##
-#####################
+##-----------------##
 '''
 You can also create a reusable Config object and use it as a decorator.
 Use apply_on_context_enter=True when you want the settings applied when the
@@ -318,9 +318,9 @@ write_markdown_frame_to_stdout(df_medals.head(3))
 # The function prints the DataFrame using Markdown-style table formatting.
 
 
-#-------------------------------------------------------------------------------------------------------#
-#----------------------- 4. Setting startup options in Python/IPython environment ----------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Setting startup options in Python/IPython environment
+# =========================================================================================
 '''
 Polars does not require a dedicated startup-options file.
 The usual pattern is to put Config calls at the top of a notebook/script, or in
@@ -371,13 +371,13 @@ cfg_path.unlink(missing_ok=True)
 pl.Config.restore_defaults()
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------------------- 5. Frequently used options --------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Frequently used options
+# =========================================================================================
 
-########################
+##--------------------##
 ## tbl_rows: max rows ##
-########################
+##--------------------##
 '''
 Pandas:
     pd.set_option("display.max_rows", 5)
@@ -400,9 +400,9 @@ with pl.Config(tbl_rows=-1):
     print(df_medals.select("row_id", "Year", "City", "Medal"))
     # Displays all rows because tbl_rows is negative.
 
-###########################
+##-----------------------##
 ## tbl_cols: max columns ##
-###########################
+##-----------------------##
 '''
 Pandas:
     pd.set_option("display.max_columns", 5)
@@ -422,9 +422,9 @@ with pl.Config(tbl_cols=-1, tbl_width_chars=-1):
     print(df_medals.head(3))
     # Displays all columns and full table width.
 
-################################
+##----------------------------##
 ## tbl_width_chars: max width ##
-################################
+##----------------------------##
 '''
 Pandas:
     pd.set_option("display.width", 100)
@@ -455,9 +455,9 @@ with pl.Config(tbl_width_chars=-1, fmt_str_lengths=100):
     print(df_text)
     # Full width plus longer string cell display.
 
-#####################
+##-----------------##
 ## fmt_str_lengths ##
-#####################
+##-----------------##
 '''
 Pandas:
     pd.set_option("display.max_colwidth", 100)
@@ -475,9 +475,9 @@ with pl.Config(fmt_str_lengths=100):
     print(df_text)
     # Longer strings are displayed.
 
-#######################################
+##-----------------------------------##
 ## fmt_table_cell_list_len for lists ##
-#######################################
+##-----------------------------------##
 '''
 Controls how many list elements are displayed inside a List cell.
 
@@ -500,9 +500,9 @@ with pl.Config(fmt_table_cell_list_len=-1):
     print(df_lists)
     # Shows every element in the list cells.
 
-###########################################
+##---------------------------------------##
 ## Hide/show shape, dtypes, column names ##
-###########################################
+##---------------------------------------##
 '''
 Polars tables normally show:
 1. DataFrame shape.
@@ -537,9 +537,9 @@ with pl.Config(tbl_column_data_type_inline=True):
     print(df_medals.head(3))
     # Dtypes are displayed next to column names.
 
-############################
+##------------------------##
 ## Table formatting style ##
-############################
+##------------------------##
 '''
 Polars can change the table frame style.
 Common values include:
@@ -564,9 +564,9 @@ with pl.Config(tbl_formatting="MARKDOWN"):
 with pl.Config(ascii_tables=True):
     print(df_medals.head(3))
 
-####################
+##----------------##
 ## Cell alignment ##
-####################
+##----------------##
 '''
 Alignment options use strings:
     "LEFT", "CENTER", "RIGHT"
@@ -590,9 +590,9 @@ with pl.Config(tbl_cell_numeric_alignment="RIGHT"):
     print(df_align)
 
 
-#-------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 6. Number formatting ------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Number formatting
+# =========================================================================================
 '''
 Polars number formatting is controlled through pl.Config.
 These options affect DISPLAY only. They do not change the underlying values.
@@ -605,9 +605,9 @@ df_numbers = pl.DataFrame(
     }
 )
 
-#########################
+##---------------------##
 ## set_float_precision ##
-#########################
+##---------------------##
 
 with pl.Config(float_precision=3):
     print(df_numbers)
@@ -617,9 +617,9 @@ with pl.Config(float_precision=6):
     print(df_numbers)
     # Floating point values are displayed with 6 decimal places.
 
-###################
+##---------------##
 ## set_fmt_float ##
-###################
+##---------------##
 '''
 fmt_float controls the general float display mode.
 Common values:
@@ -633,9 +633,9 @@ with pl.Config(fmt_float="mixed", float_precision=4):
 with pl.Config(fmt_float="full"):
     print(df_numbers)
 
-######################################
+##----------------------------------##
 ## Thousands and decimal separators ##
-######################################
+##----------------------------------##
 '''
 Use thousands_separator to group large numbers.
 Use decimal_separator to change the decimal point character.
@@ -660,9 +660,9 @@ with pl.Config(
     print(df_numbers)
     # European-style display: 1.234.567,891
 
-############################
+##------------------------##
 ## Decimal trailing zeros ##
-############################
+##------------------------##
 '''
 set_trim_decimal_zeros applies to pl.Decimal display.
 It strips trailing zeros from Decimal values when active.
@@ -682,9 +682,9 @@ with pl.Config(trim_decimal_zeros=True):
     # Trailing decimal zeros are trimmed in display.
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------------------ 7. Unicode / ASCII formatting ------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Unicode / ASCII formatting
+# =========================================================================================
 '''
 Pandas has display.unicode.east_asian_width for aligning some East Asian
 characters.
@@ -730,17 +730,17 @@ with pl.Config(tbl_width_chars=60, fmt_str_lengths=20):
     # Width and string-length options can help with display readability.
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------------- 8. Less common global behavior options --------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Less common global behavior options
+# =========================================================================================
 '''
 The options below are not direct equivalents of pandas display options, but they
 are part of pl.Config and can affect execution, debugging, or advanced behavior.
 '''
 
-###########################
+##-----------------------##
 ## Verbose/debug logging ##
-###########################
+##-----------------------##
 
 with pl.Config(verbose=True):
     result = (
@@ -753,9 +753,9 @@ with pl.Config(verbose=True):
     print(result)
     # Depending on the query and Polars version, verbose mode may print extra debug information.
 
-##########################
+##----------------------##
 ## Streaming chunk size ##
-##########################
+##----------------------##
 '''
 Advanced: set_streaming_chunk_size can override the chunk size used by Polars'
 streaming engine. Most users do not need to change it.
@@ -765,9 +765,9 @@ pl.Config.set_streaming_chunk_size(100_000)
 print(pl.Config.state(if_set=True))
 pl.Config.set_streaming_chunk_size(None)
 
-####################
+##----------------##
 ## Auto structify ##
-####################
+##----------------##
 '''
 Advanced: set_auto_structify controls whether multi-output expressions are
 automatically turned into Struct columns. The current Polars docs mark this
@@ -779,9 +779,9 @@ with pl.Config(set_auto_structify=True):
     df_struct_demo = pl.DataFrame({"v": [1, 2, 3], "v2": [4, 5, 6]}).select(pl.all())
     print(df_struct_demo)
 
-#####################
+##-----------------##
 ## Engine affinity ##
-#####################
+##-----------------##
 '''
 Advanced: set_engine_affinity sets the preferred default execution engine.
 Most users should leave this unset and let Polars choose.

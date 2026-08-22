@@ -7,9 +7,9 @@
 import pandas as pd
 
 
-#---------------------------------------------------------------------------------------------------#
-#---------------------------------------- 1. Categorical Encoding ----------------------------------#
-#---------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Categorical Encoding
+# =========================================================================================
 
 '''
 Categorical Encoding is the process of converting categorical variables into numerical representations.
@@ -18,9 +18,9 @@ This is useful for machine learning algorithms that require numerical input.
 
 s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"])
 
-##########################################
+##--------------------------------------##
 ##            pd.factorize()            ##
-##########################################
+##--------------------------------------##
 
 '''
 pd.factorize() assigns a unique integer to each category in the Series.
@@ -37,10 +37,8 @@ The first unique category gets 0, the second gets 1, and so on.
 print(pd.factorize(s_gender))
 # (array([0, 0, 1, 0, 2, 1, 0, 1, 2, 0]), Index(['M', 'F', 'LGBTQ'], dtype='object'))
 
-#-----------------
-## Assign the result to separate variables
-#-----------------
-
+# ## Assign the result to separate variables
+# 
 s_gender_factorized, codes = pd.factorize(s_gender)
 
 print(s_gender_factorized)
@@ -51,9 +49,9 @@ print(codes)
 # Index(['M', 'F', 'LGBTQ'], dtype='object')
 
 
-############################################
+##----------------------------------------##
 ##            pd.get_dummies()            ##
-############################################
+##----------------------------------------##
 
 '''
 pd.get_dummies() creates a DataFrame with binary columns for each category in the Series.
@@ -62,10 +60,8 @@ Each column represents a category, and the values are 0 or 1 indicating the pres
 It is useful for one-hot encoding categorical variables.
 '''
 
-#-----------------
-## Without dropping the first category
-#-----------------
-
+# ## Without dropping the first category
+# 
 s_gender_dummmies = pd.get_dummies(s_gender, prefix="gender")
 print(s_gender_dummmies)
 #    gender_F  gender_LGBTQ  gender_M
@@ -94,10 +90,8 @@ print(s_gender_dummmies)
 # 8         0             1         0
 # 9         0             0         1
 
-#---------------------------------------
-## With dropping the first category (to avoid multicollinearity)
-#---------------------------------------
-
+# ## With dropping the first category (to avoid multicollinearity)
+# 
 '''
 In fact, if we have n categories, we just need n-1 columns to represent them.
 The last n-th category can be inferred from the other n-1 columns.
@@ -126,9 +120,9 @@ The 5-indexed person has LGBTQ = 0 and M = 0, which means they are F (the last c
 '''
 
 
-#----------------------------------------------------------------------------------------------------#
-#---------------------------------------- 2. Binning and Discretization -----------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Binning and Discretization
+# =========================================================================================
 
 '''
 Binning and Discretization are techniques to convert continuous data into discrete categories or bins.
@@ -164,14 +158,12 @@ print(s_quantitative)
 # dtype: float64
 
 
-####################################
+##--------------------------------##
 ##            pd.cut()            ##
-####################################
+##--------------------------------##
 
-#-----------------
-## bins = [0, 2, 4, 6, 8, 10]
-#-----------------
-
+# ## bins = [0, 2, 4, 6, 8, 10]
+# 
 s_bins = pd.cut(
     x = s_quantitative,
     bins = [0, 2, 4, 6, 8, 10],
@@ -204,10 +196,8 @@ print(s_bins)
 
 '''The last value (10.5) is NaN because it falls outside the specified bins.'''
 
-#-----------------
-## bins = 3 (equal-width bins)
-#-----------------
-
+# ## bins = 3 (equal-width bins)
+# 
 s_bins = pd.cut(
     x = s_quantitative,
     bins = 3,  # Create 3 equal-width bins
@@ -239,16 +229,14 @@ print(s_bins)
 # Categories (3, object): ['Low' < 'Medium' < 'High']
 
 
-#####################################
+##---------------------------------##
 ##            pd.qcut()            ##
-#####################################
+##---------------------------------##
 
 # Quantile-based discretization function
 
-#-----------------
-## bins = 4 (quartiles)
-#-----------------
-
+# ## bins = 4 (quartiles)
+# 
 s_bins = pd.qcut(
     x = s_quantitative,
     q = 4,  # Create 4 quantile-based bins
@@ -279,10 +267,8 @@ print(s_bins)
 # dtype: category
 # Categories (4, object): ['Q1' < 'Q2' < 'Q3' < 'Q4']
 
-#-----------------
-## bins = 10 (deciles)
-#-----------------
-
+# ## bins = 10 (deciles)
+# 
 s_bins = pd.qcut(
     x = s_quantitative,
     q = 10,

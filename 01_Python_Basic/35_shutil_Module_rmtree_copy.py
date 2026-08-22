@@ -5,7 +5,7 @@ that provides high-level file and directory operations.
 It offers a comprehensive set of functions for copying, moving, renaming, and deleting files and directories,
 making it an essential tool for file management tasks in Python applications.
 
-############################################
+##----------------------------------------##
 
 Flow of contents:
 1. Copying files and directories: shutil.copy(), shutil.copy2(), shutil.copytree()
@@ -18,16 +18,16 @@ Flow of contents:
 '''
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 1. Copying files and directories ------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. Copying files and directories
+# ==============================================================================================
 
 import shutil
 import os
 
-###########################
+##-----------------------##
 ## shutil.copy(src, dst) ##
-###########################
+##-----------------------##
 '''
 shutil.copy() is used to copy a file from the source path (src) to the destination path (dst).
 It copies the file's contents and permissions but not the metadata (like timestamps).
@@ -42,9 +42,9 @@ shutil.copy('./demo_file.txt', # source file
 os.system('ls -l ./demo_file.txt')
 os.system('ls -l /home/longdpt/Documents/Academic/DataScience_MachineLearning/demo_file_copy.txt')
 
-############################
+##------------------------##
 ## shutil.copy2(src, dst) ##
-############################
+##------------------------##
 '''shutil.copy2() is similar to shutil.copy(), but it also copies the file's metadata (like timestamps).'''
 
 os.system('echo "This is a demo file." > demo_file_2.txt')  # Create a demo file
@@ -56,9 +56,9 @@ shutil.copy2('./demo_file_2.txt', # source file
 os.system('ls -l ./demo_file_2.txt')
 os.system('ls -l /home/longdpt/Documents/Academic/DataScience_MachineLearning/demo_file_2_copy.txt')
 
-###############################
+##---------------------------##
 ## shutil.copytree(src, dst) ##
-###############################
+##---------------------------##
 '''
 shutil.copytree() is used to copy an entire directory tree from the source path (src) to the destination path (dst).
 It copies all files and subdirectories recursively.
@@ -68,9 +68,9 @@ shutil.copytree('./02_Python_class_OOP',  # source directory
                 '/home/longdpt/Documents/Academic/DataScience_MachineLearning/demo_dir_copy') # Destination copied directory
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------------------- 2. Moving files and directories ---------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. Moving files and directories
+# ==============================================================================================
 '''
 shutil.move(src, dst) is used to move a file or directory from the source path (src)
 to the destination path (dst).
@@ -87,9 +87,9 @@ shutil.move('./demo_dir_copy',  # source directory
             './empty_dest_dir/')  # Destination moved directory (now it will be ./empty_dest_dir/demo_dir_copy)
 
 
-#----------------------------------------------------------------------------------------------------------#
-#------------------------------------- 3. Renaming files and directories ----------------------------------#
-#----------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. Renaming files and directories
+# ==============================================================================================
 
 os.system('echo "This is a demo file." > demo_file.txt')  # Create a demo file
 os.makedirs('./original_name_dir/subdir')  # Create a directory for renaming demo
@@ -102,9 +102,9 @@ shutil.move('./original_name_dir',  # source directory
             './renamed_dir')  # Destination renamed directory
 
 
-#-----------------------------------------------------------------------------------------------------------#
-#------------------------------------- 4. Deleting files and directories -----------------------------------#
-#-----------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 4. Deleting files and directories
+# ==============================================================================================
 
 shutil.copytree('./02_Python_class_OOP',  # Create a directory with subdirectories to demonstrate deletion
                 '/home/longdpt/Documents/Academic/DataScience_MachineLearning/demo_dir_copy')
@@ -121,13 +121,13 @@ shutil.rmtree('/home/longdpt/Documents/Academic/DataScience_MachineLearning/demo
 os.remove('./demo_file.txt')  # Delete the demo file
 
 
-#------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 5. Creating and Extracting archives ----------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 5. Creating and Extracting archives
+# ==============================================================================================
 
-###########################
+##-----------------------##
 ## shutil.make_archive() ##
-###########################
+##-----------------------##
 '''
 shutil.make_archive(base_name, format, root_dir=None, base_dir=None) is used to create an archive file.
 base_name is the name of the archive file, format is the archive format (e.g, 'zip', 'tar', 'gztar', etc.),
@@ -148,9 +148,9 @@ os.system('unzip -l /home/longdpt/Documents/Academic/DataScience_MachineLearning
 #      9782  06-10-2025 17:37   04_other_magic_methods.py
 #      1944  06-10-2025 11:30   05_ClassMethod.py
 
-#############################
+##-------------------------##
 ## shutil.unpack_archive() ##
-#############################
+##-------------------------##
 '''
 shutil.unpack_archive(filename, extract_dir=None, format=None) is used to extract an archive file.
 filename is the path to the archive file, extract_dir is the directory to extract the contents,
@@ -162,13 +162,13 @@ shutil.unpack_archive('./demo_archive.zip',  # source archive file to extract
                       'zip')  # format (optional, inferred from the filename)
 
 
-#--------------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 6. Disk usage and Cmd Location -----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 6. Disk usage and Cmd Location
+# ==============================================================================================
 
-#############################
+##-------------------------##
 ## shutil.disk_usage(path) ##
-#############################
+##-------------------------##
 '''
 shutil.disk_usage(path) is used to get the disk usage statistics for the specified path (path). (in bytes)
 '''
@@ -181,9 +181,9 @@ print(f"Total: {disk_usage.total / (1024 ** 3):.2f} GB") # Convert bytes to GB b
 print(f"Used: {disk_usage.used / (1024 ** 3):.2f} GB")
 print(f"Free: {disk_usage.free / (1024 ** 3):.2f} GB")
 
-#######################
+##-------------------##
 ## shutil.which(cmd) ##
-#######################
+##-------------------##
 '''
 shutil.which(cmd) is used to find the path of an executable command (cmd) in the system's PATH environment variable.
 '''
@@ -197,13 +197,13 @@ else:
 # Python executable found at: /home/longdpt/miniconda3/envs/data/bin/python3
 
 
-#------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 7. Miscellaneous utilities -------------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 7. Miscellaneous utilities
+# ==============================================================================================
 
-################################
+##----------------------------##
 ## shutil.get_terminal_size() ##
-################################
+##----------------------------##
 '''
 shutil.get_terminal_size(fallback=(columns, lines)) is used to get the size of the terminal window.
 It returns a named tuple with the number of columns and lines in the terminal.
@@ -217,9 +217,9 @@ print(terminal_size)
 print(f"Terminal size: {terminal_size.columns} columns, {terminal_size.lines} lines")
 # Terminal size: 141 columns, 9 lines
 
-###############################################
+##-------------------------------------------##
 ## shutil.chown(path, user=None, group=None) ##
-###############################################
+##-------------------------------------------##
 '''
 shutil.chown(path, user=None, group=None) is used to change the ownership of a file or directory at the specified path (path).
 user is the new owner, and group is the new group (both optional).

@@ -32,9 +32,9 @@ import polars as pl
 pl.Config.set_tbl_width_chars(120)
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 0. Example Data -------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Example Data
+# =========================================================================================
 '''
 This guide uses the same idea as the pandas version:
     + life_expectancy.csv has messy column names, useful for column-name cleaning.
@@ -79,10 +79,8 @@ print(df_emp)
 # │ 8   ┆ Guru     ┆ 722.5  ┆ 2014-06-17 ┆ Finance    │
 # └─────┴──────────┴────────┴────────────┴────────────┘
 
-#----------------------
-## MultiIndex-like example in Polars
-#----------------------
-'''
+# ## MultiIndex-like example in Polars
+# '''
 Polars does not have pandas MultiIndex columns or MultiIndex rows.
 Use normal columns for row keys, and use flat column names or Struct columns for nested data.
 '''
@@ -110,13 +108,13 @@ print(df_country_year)
 # └───────────┴──────┴──────────────────────┴─────────────────────────────┘
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 1. Changing Column Names ----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Changing Column Names
+# =========================================================================================
 
-#################################
+##-----------------------------##
 ## df.columns = new_names_list ##
-#################################
+##-----------------------------##
 '''
 Polars DataFrame.columns can be used to get or set the full list of column names.
 
@@ -171,9 +169,9 @@ print(df_new_cols.head(3))
 print(df_new_cols.columns[:6])
 # ['country', 'year', 'status', 'life_expectancy', 'adult_mortality', 'infant_deaths']
 
-################################################
+##--------------------------------------------##
 ## df.rename(dict(zip(old_names, new_names))) ##
-################################################
+##--------------------------------------------##
 '''
 If you prefer a method-chaining style, build a mapping from old names to new names
 and pass it to df.rename(). This returns a new DataFrame.
@@ -200,9 +198,9 @@ print(df_new_cols.select("country", "year", "life_expectancy").head(3))
 # │ Afghanistan ┆ 2013 ┆ 59.9            │
 # └─────────────┴──────┴─────────────────┘
 
-#########################################
+##-------------------------------------##
 ## df.rename({'old_name': 'new_name'}) ##
-#########################################
+##-------------------------------------##
 '''
 Use df.rename({...}) to rename one or more specific columns.
 
@@ -230,9 +228,9 @@ print(df_new_cols.select("Country", "Year", "life_expectancy", "adult_mortality"
 # │ Afghanistan ┆ 2013 ┆ 59.9            ┆ 268             ┆ 66            │
 # └─────────────┴──────┴─────────────────┴─────────────────┴───────────────┘
 
-######################################
+##----------------------------------##
 ## df.rename(mapping, strict=False) ##
-######################################
+##----------------------------------##
 '''
 By default, Polars validates that every key in the rename mapping exists.
 Set strict=False if your mapping is shared across several datasets and some columns
@@ -259,9 +257,9 @@ print(df_safe.head(3))
 # │ 3   ┆ Michelle      ┆ 611.0          ┆ 2014-11-15 ┆ IT         │
 # └─────┴───────────────┴────────────────┴────────────┴────────────┘
 
-################################
+##----------------------------##
 ## df.rename(lambda col: ...) ##
-################################
+##----------------------------##
 '''
 Use a function when you want to clean every column name.
 This is the closest Polars equivalent to pandas patterns such as:
@@ -285,9 +283,9 @@ print(df_clean_cols.columns)
 #  'diphtheria', 'hiv_aids', 'gdp', 'population', 'thinness_1_19_years',
 #  'thinness_5_9_years', 'income_composition_of_resources', 'schooling']
 
-#############################################
+##-----------------------------------------##
 ## df.pipe(lambda df: df.rename(function)) ##
-#############################################
+##-----------------------------------------##
 '''
 Polars also has df.pipe(), so you can keep a long cleaning workflow readable.
 This is similar to pandas pipe-based method chaining.
@@ -300,9 +298,9 @@ print(df_clean_cols_pipe.select("country", "year", "bmi", "hiv_aids").head(3))
 # country      year  bmi   hiv_aids
 # Afghanistan  2015  19.1  0.1
 
-##############################################
+##------------------------------------------##
 ## df.select(pl.all().name.replace(r"...")) ##
-##############################################
+##------------------------------------------##
 '''
 The expression name namespace can rename selected output columns.
 
@@ -321,9 +319,9 @@ df_regex_cols = df_lifexp.select(
 print(df_regex_cols.columns)
 # ['Country', 'Year', 'Status', 'Life_expectancy', 'Adult_Mortality', ...]
 
-############################################
+##----------------------------------------##
 ## df.select(pl.all().name.map(function)) ##
-############################################
+##----------------------------------------##
 '''
 Expr.name.map applies a Python function to the root column name of an expression.
 This is useful for more customized naming inside a select expression.
@@ -337,9 +335,9 @@ print(df_mapped_names.columns[:8])
 # ['country', 'year', 'status', 'life_expectancy', 'adult_mortality',
 #  'infant_deaths', 'alcohol', 'percentage_expenditure']
 
-##########################################################
+##------------------------------------------------------##
 ## df.columns = [f'col_{i+1}' for i in range(df.width)] ##
-##########################################################
+##------------------------------------------------------##
 '''
 Programmatic column names are often useful when reading files without trustworthy
 headers, or when you want temporary positional names.
@@ -360,9 +358,9 @@ print(df_numbered.head(3))
 # │ Afghanistan ┆ 2013  ┆ Developing ┆ 59.9  ┆ … ┆ 17.7   ┆ 17.7   ┆ 0.47   ┆ 9.9    │
 # └─────────────┴───────┴────────────┴───────┴───┴────────┴────────┴────────┴────────┘
 
-#############################################################
+##---------------------------------------------------------##
 ## df.select(pl.col(old).alias(new) for old, new in pairs) ##
-#############################################################
+##---------------------------------------------------------##
 '''
 .alias() is the expression-level way to name outputs.
 It is useful when you are selecting a subset of columns and renaming them at the same time.
@@ -387,9 +385,9 @@ print(df_selected_alias.head(3))
 # │ Afghanistan ┆ 2013 ┆ 59.9            ┆ 268             │
 # └─────────────┴──────┴─────────────────┴─────────────────┘
 
-#########################################################
+##-----------------------------------------------------##
 ## Add prefix: df.select(pl.all().name.prefix('pre_')) ##
-#########################################################
+##-----------------------------------------------------##
 '''
 Polars does not have DataFrame.add_prefix().
 Use the expression name namespace instead.
@@ -409,9 +407,9 @@ print(df_prefixed.head(3))
 # │ 3      ┆ Michelle ┆ 611.0      ┆ 2014-11-15     ┆ IT         │
 # └────────┴──────────┴────────────┴────────────────┴────────────┘
 
-#########################################################
+##-----------------------------------------------------##
 ## Add suffix: df.select(pl.all().name.suffix('_suf')) ##
-#########################################################
+##-----------------------------------------------------##
 '''
 Polars does not have DataFrame.add_suffix().
 Use the expression name namespace instead.
@@ -431,9 +429,9 @@ print(df_suffixed.head(3))
 # │ 3      ┆ Michelle ┆ 611.0      ┆ 2014-11-15     ┆ IT         │
 # └────────┴──────────┴────────────┴────────────────┴────────────┘
 
-#############################################################
+##---------------------------------------------------------##
 ## MultiIndex-column equivalent: use flat names or Structs ##
-#############################################################
+##---------------------------------------------------------##
 '''
 Pandas can rename one level of MultiIndex columns.
 Polars does not have MultiIndex columns.
@@ -488,9 +486,9 @@ print(df_struct_like)
 # │ Brazil    ┆ 2019 ┆ {43.76}   ┆ {89.18}     │
 # └───────────┴──────┴───────────┴─────────────┘
 
-############################################################################################
+##----------------------------------------------------------------------------------------##
 ##        Example: clean Pokemon dataframe column names (lazyframe implementation)        ##
-############################################################################################
+##----------------------------------------------------------------------------------------##
 
 lf_pokemon = (
     pl.scan_csv(data_dir/"pokemon.csv")
@@ -524,9 +522,9 @@ print(lf_pokemon.collect())
 
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 2. Changing Row Names / Index ----------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Changing Row Names / Index
+# =========================================================================================
 '''
 The most important Polars concept in this section:
 
@@ -555,9 +553,9 @@ print(df_emp)
 # │ 8   ┆ Guru     ┆ 722.5  ┆ 2014-06-17 ┆ Finance    │
 # └─────┴──────────┴────────┴────────────┴────────────┘
 
-################################################
+##--------------------------------------------##
 ## df.with_row_index(name='row_id', offset=0) ##
-################################################
+##--------------------------------------------##
 '''
 Use with_row_index() when you need visible row positions.
 The result is an ordinary column, not a special index.
@@ -577,9 +575,9 @@ print(df_with_row_id.head(3))
 # │ 2      ┆ 3   ┆ Michelle ┆ 611.0  ┆ 2014-11-15 ┆ IT         │
 # └────────┴─────┴──────────┴────────┴────────────┴────────────┘
 
-###################################
+##-------------------------------##
 ## with_row_index(..., offset=1) ##
-###################################
+##-------------------------------##
 '''Use offset=1 if you want row numbers that start at 1.'''
 
 df_with_row_num = df_emp.with_row_index(name="row_num", offset=1)
@@ -596,9 +594,9 @@ print(df_with_row_num.head(3))
 # │ 3       ┆ 3   ┆ Michelle ┆ 611.0  ┆ 2014-11-15 ┆ IT         │
 # └─────────┴─────┴──────────┴────────┴────────────┴────────────┘
 
-#####################################
+##---------------------------------##
 ## Create custom row-label strings ##
-#####################################
+##---------------------------------##
 '''
 This is the Polars equivalent of assigning row names like:
     df.index = [f'row_{i+1}' for i in range(len(df))]
@@ -627,9 +625,9 @@ print(df_row_labels.head(3))
 # │ row_3    ┆ 3   ┆ Michelle ┆ 611.0  ┆ 2014-11-15 ┆ IT         │
 # └──────────┴─────┴──────────┴────────┴────────────┴────────────┘
 
-########################################################
+##----------------------------------------------------##
 ## Transform row-label column with string expressions ##
-########################################################
+##----------------------------------------------------##
 '''
 This replaces pandas examples such as:
     df.index = df.index.astype(str).str.replace(...)
@@ -674,9 +672,9 @@ print(df_row_label_centered.head(3))
 # │ _2_      ┆ 3   ┆ Michelle ┆ 611.0  ┆ 2014-11-15 ┆ IT         │
 # └──────────┴─────┴──────────┴────────┴────────────┴────────────┘
 
-###############################
+##---------------------------##
 ## pandas df.set_index('id') ##
-###############################
+##---------------------------##
 '''
 There is no df.set_index() in Polars because there is no special index.
 Keep the key as a normal column and use it explicitly.
@@ -724,9 +722,9 @@ print(df_emp.group_by("dept").agg(pl.col("salary").mean().alias("avg_salary")))
 # │ IT         ┆ 604.1      │
 # └────────────┴────────────┘
 
-######################################
+##----------------------------------##
 ## pandas df.reset_index(drop=True) ##
-######################################
+##----------------------------------##
 '''
 In pandas, filtering keeps the original index labels, so reset_index(drop=True)
 is often used to make row labels 0, 1, 2, ... again.
@@ -767,9 +765,9 @@ print(df_lifexp_2014_with_row_id.select("row_id", "Country", "Year", "Status").h
 # │ 4      ┆ Antigua and Barbuda ┆ 2014 ┆ Developing │
 # └────────┴─────────────────────┴──────┴────────────┘
 
-#######################################################
+##---------------------------------------------------##
 ## pandas df.rename(index={'old': 'new'}) equivalent ##
-#######################################################
+##---------------------------------------------------##
 '''
 To rename row labels in Polars, update an explicit row-label column.
 Use replace() for simple mapping, or when/then/otherwise for conditional logic.
@@ -819,9 +817,9 @@ print(df_row_labels_conditional.head(5))
 # │ row_5       ┆ 5   ┆ Gary     ┆ 843.25 ┆ 2015-03-27 ┆ Finance    │
 # └─────────────┴─────┴──────────┴────────┴────────────┴────────────┘
 
-#########################################################
+##-----------------------------------------------------##
 ## MultiIndex-row equivalent: use multiple key columns ##
-#########################################################
+##-----------------------------------------------------##
 '''
 Pandas MultiIndex rows often store several pieces of key information in the index,
 for example Country and Year.
@@ -881,9 +879,9 @@ print(df_country_year_label)
 # └────────────────┴───────────┴──────┴──────────────────────┴─────────────────────────────┘
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 3. LazyFrame Notes ------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. LazyFrame Notes
+# =========================================================================================
 '''
 The same naming ideas work in lazy pipelines.
 For lazy CSV scans, rename columns before collecting the query.
@@ -910,9 +908,9 @@ print(lf_clean.collect().head(3))
 # └────────┴─────┴──────────┴────────┴────────────┴────────────┘
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 4. Quick Pandas-to-Polars Map -----------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Quick Pandas-to-Polars Map
+# =========================================================================================
 '''
 Quick map:
 

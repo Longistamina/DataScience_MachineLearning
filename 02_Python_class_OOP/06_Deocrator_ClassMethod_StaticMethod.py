@@ -1,9 +1,9 @@
 import csv
 from pathlib import Path
 
-#--------------------------------------------------------------------------------------#
-#----------------------------- Decorator: @classmethod --------------------------------#
-#--------------------------------------------------------------------------------------#
+# =========================================================================================
+# Decorator: @classmethod
+# =========================================================================================
 '''
 # Class methods are the methods that are bound to the class, not the instance of the class.
 # Class methods always require "cls" as the first argument, which refers to the class itself
@@ -36,7 +36,7 @@ class Employee:
         cls.demo_class_method(attr=False) # Call another class method from this class method
         return employees
 
-########################################################
+##----------------------------------------------------##
 
 Employee.demo_class_method(attr=False)
 # This is a demo class method of the class Item
@@ -44,7 +44,7 @@ Employee.demo_class_method(attr=False)
 Employee.demo_class_method(attr=True)
 # This is a class attribute of Employee class
 
-########################################################
+##----------------------------------------------------##
 
 csv_path = next(Path("/home/").glob("**/Documents/**/class_method_employees.csv"))
 print(csv_path)
@@ -59,9 +59,9 @@ print(lst_employees)
 '''NOT RECOMMEND: class methods can be called from an instance, but should not do so'''
 
 
-#--------------------------------------------------------------------------------------#
-#------------------------------ Decorator: @staticmethod ------------------------------#
-#--------------------------------------------------------------------------------------#
+# =========================================================================================
+# Decorator: @staticmethod
+# =========================================================================================
 '''
 # Static methods are like class method, but they are not bound to the class
 # Static methods DO NOT require "cls" as the first argument, i.e not bound or refer to the class
@@ -93,7 +93,7 @@ class DemoStatic:
         '''cls.demo_static_method(attr=False) # This will raise an error'''
         return addend_1 + addend_2
 
-########################################################################
+##--------------------------------------------------------------------##
 
 DemoStatic.demo_static_method() # Execute a static method without "cls" or "self" arguments
 # This demo static method has been executed successfully!
@@ -101,7 +101,7 @@ DemoStatic.demo_static_method() # Execute a static method without "cls" or "self
 DemoStatic.demo_static_method(attr=True) # Execute a static method with "cls" or "self" arguments
 # I am a class attribute
 
-########################################################################
+##--------------------------------------------------------------------##
 
 # Execute a static method with return value without "cls" or "self" arguments
 add_result = DemoStatic.add_numbers(10, 35.5)

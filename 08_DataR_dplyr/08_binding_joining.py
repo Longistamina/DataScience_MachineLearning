@@ -20,9 +20,9 @@ import pandas as pd
 pd.set_option("display.width", 200)
 
 
-#-----------------------------------------------------------------------------------------------------------#
-#----------------------------------------------- 1. Binding ------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Binding
+# =========================================================================================
 
 # Create sample DataFrames
 df_origin = pd.DataFrame({
@@ -55,9 +55,9 @@ df_hor_2 = pd.DataFrame({
     'I': ['I0', 'I1', 'I2', 'I3']
 })
 
-####################
+##----------------##
 ## dr.bind_rows() ##
-####################
+##----------------##
 
 # Original DataFrame
 print(df_origin)
@@ -97,9 +97,9 @@ print(df_bind_rows)
 # 10      A10      B10      C10
 # 11      A11      B11      C11
 
-####################
+##----------------##
 ## dr.bind_cols() ##
-####################
+##----------------##
 
 # Original DataFrame
 print(df_origin)
@@ -128,9 +128,9 @@ print(df_bind_cols)
 # 3       A3       B3       C3       D3       E3       F3       G3       H3       I3
 
 
-#-----------------------------------------------------------------------------------------------------------#
-#----------------------------------------------- 2. Joining ------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Joining
+# =========================================================================================
 
 # Create sample DataFrames for merging
 customers = pd.DataFrame(
@@ -150,9 +150,9 @@ orders = pd.DataFrame(
     }
 )
 
-#####################
+##-----------------##
 ## dr.inner_join() ##
-#####################
+##-----------------##
 '''
 only keeps rows whose keys are present in both DataFrames/Tibbles
 
@@ -180,9 +180,9 @@ print(
 # 1            1    Alice  New York       103     320      NYC
 # 2            2      Bob    Boston       102     180      BOS
 
-####################
+##----------------##
 ## dr.left_join() ##
-####################
+##----------------##
 '''keeps all rows from the left DataFrame and matches from the right DataFrame'''
 
 print(
@@ -197,9 +197,9 @@ print(
 # 3            3  Charlie   Chicago       NaN       NaN      NaN
 # 4            4    Diana     Miami       NaN       NaN      NaN
 
-#####################
+##-----------------##
 ## dr.right_join() ##
-#####################
+##-----------------##
 '''keeps all rows from the right DataFrame and matches from the left DataFrame'''
 
 print(
@@ -213,9 +213,9 @@ print(
 # 2            1    Alice  New York       103     320      NYC
 # 3            5      NaN       NaN       105     150      MIA
 
-####################
+##----------------##
 ## dr.full_join() ##
-####################
+##----------------##
 '''keeps all rows from both DataFrames, filling in NaNs where there are no matches'''
 
 print(
@@ -231,9 +231,9 @@ print(
 # 4            4    Diana     Miami       NaN       NaN      NaN
 # 5            5      NaN       NaN     105.0     150.0      MIA
 
-####################
+##----------------##
 ## dr.semi_join() ##
-####################
+##----------------##
 '''
 # semi_join(x, y) return all rows from x with a match in y
 # (meaning the output only shows the information of x)
@@ -248,9 +248,9 @@ print(
 # 0            1    Alice  New York
 # 1            2      Bob    Boston
 
-####################
+##----------------##
 ## dr.anti_join() ##
-####################
+##----------------##
 '''
 # anti_join(x, y) return all rows from x without a match in y
 # (meaning the output only shows the information of x)
@@ -265,9 +265,9 @@ print(
 # 3            3  Charlie  Chicago
 # 4            4    Diana    Miami
 
-#####################
+##-----------------##
 ## dr.cross_join() ##
-#####################
+##-----------------##
 '''creates the Cartesian product of both DataFrames'''
 
 print(
@@ -293,9 +293,9 @@ print(
 # 14                4    Diana     Miami       103                1     320      NYC
 # 15                4    Diana     Miami       105                5     150      MIA
 
-####################
+##----------------##
 ## dr.nest_join() ##
-####################
+##----------------##
 '''
 # nest_join(x, y) leaves x almost unchanged, except that it adds a new list-column,
 # where each element contains the rows from y that match the corresponding row in x

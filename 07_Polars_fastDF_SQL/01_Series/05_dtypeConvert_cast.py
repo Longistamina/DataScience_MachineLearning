@@ -3,7 +3,7 @@ Converting and casting data types is a fundamental operation in Polars data mani
 Unlike Pandas, Polars is strictly typed and does not allow mixed-type Series (like [1, 'a', 3.0]).
 The primary method for type conversion in Polars is `.cast()`.
 
-##########################################
+##--------------------------------------##
 1. .cast(): pl.Int64, pl.Float64, pl.String, pl.Categorical, pl.Boolean
 2. Safe Numeric Conversion (strict=False equivalent to errors='coerce')
 3. Categorical & Enum Data Types (Ordered categories)
@@ -15,9 +15,9 @@ The primary method for type conversion in Polars is `.cast()`.
 import polars as pl
 
 
-#-------------------------------------------------------------------------------------------------#
-#---------------------------------------- 1. .cast() ---------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. .cast()
+# =========================================================================================
 '''
 NOTE: Polars enforces strict typing upon Series creation.
 A list like [1, 'a', 3.0] will either be cast to all Strings or raise an error upon creation.
@@ -30,9 +30,9 @@ s_str_float = pl.Series(['1.5', '2.3', '3.6', '4.2', '5.0'])
 
 s_mixed_str = pl.Series(['1', 'a', '3.0', '4.5', 'False'])
 
-#####################
+##-----------------##
 ## .cast(pl.Int64) ##
-#####################
+##-----------------##
 
 s_convert = s_str_int.cast(pl.Int64)
 print(s_convert)
@@ -49,9 +49,9 @@ print(s_convert)
 s_convert = s_str_float.cast(pl.Int64)
 """polars.exceptions.InvalidOperationError: conversion from `str` to `i64` failed in column '' for 5 out of 5 values"""
 
-#######################
+##-------------------##
 ## .cast(pl.Float64) ##
-#######################
+##-------------------##
 
 s_convert = s_nums.cast(pl.Float64)
 print(s_convert)
@@ -80,9 +80,9 @@ print(s_convert)
 s_convert = s_mixed_str.cast(pl.Float64)
 """polars.exceptions.InvalidOperationError: conversion from `str` to `f64` failed..."""
 
-######################
+##------------------##
 ## .cast(pl.String) ##
-######################
+##------------------##
 
 s_convert = s_nums.cast(pl.String)
 print(s_convert)
@@ -96,9 +96,9 @@ print(s_convert)
 # 	"5"
 # ]
 
-#######################
+##-------------------##
 ## .cast(pl.Boolean) ##
-#######################
+##-------------------##
 '''
 How Boolean conversion works in Polars:
 - Polars is much stricter than Pandas.
@@ -153,9 +153,9 @@ print(s_convert_multi)
 # ]
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------------- 2. Safe Numeric Conversion ------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Safe Numeric Conversion
+# =========================================================================================
 '''
 In Pandas, you use pd.to_numeric(errors='coerce').
 In Polars, you simply use .cast(dtype, strict=False).
@@ -164,16 +164,12 @@ When strict=False, any values that cannot be parsed are converted to `null` inst
 
 s_mixed_str = pl.Series(['1.5', 'a', '3.6', '4.2', 'False'])
 
-#------------------
-## Try with mixed data (will raise an error if strict=True, which is the default)
-#------------------
-s_mixed_str.cast(pl.Float64)
+# ## Try with mixed data (will raise an error if strict=True, which is the default)
+# s_mixed_str.cast(pl.Float64)
 """InvalidOperationError: conversion from `str` to `f64` failed..."""
 
-#------------------
-## Try with mixed data, but coerce errors to null (strict=False)
-#------------------
-
+# ## Try with mixed data, but coerce errors to null (strict=False)
+# 
 s_convert = s_mixed_str.cast(pl.Float64, strict=False)
 print(s_convert)
 # shape: (5,)
@@ -187,9 +183,9 @@ print(s_convert)
 # ]
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------- 3. Categorical & Enum Data Types --------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Categorical & Enum Data Types
+# =========================================================================================
 '''
 Polars has two distinct types for categorical data:
 1. pl.Categorical: Unordered, dictionary-encoded strings. Great for memory efficiency.
@@ -199,10 +195,8 @@ Polars has two distinct types for categorical data:
 lst_gender = ["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"]
 s_gender = pl.Series(lst_gender)
 
-#---------------
-## Unordered Categorical (pl.Categorical)
-#---------------
-
+# ## Unordered Categorical (pl.Categorical)
+# 
 s_cat = s_gender.cast(pl.Categorical)
 print(s_cat)
 # shape: (10,)
@@ -220,10 +214,8 @@ print(s_cat)
 # 	"M"
 # ]
 
-#---------------
-## Ordered Categories (pl.Enum)
-#---------------
-'''
+# ## Ordered Categories (pl.Enum)
+# '''
 To specify the exact order of categories (like Pandas' pd.Categorical(..., ordered=True, categories=[...])),
 Polars uses the `pl.Enum` data type.
 '''
@@ -249,9 +241,9 @@ shape: (10,)
 print(s_enum.dtype)
 # Enum(categories=['LGBTQ', 'F', 'M'])
 
-####################################################
+##------------------------------------------------##
 ##            numeric example with nulls          ##
-####################################################
+##------------------------------------------------##
 
 lst_price_levels = [1, 1, 3, 2, 5, 2, None, 4, 4, None, 3]
 s_price = pl.Series(lst_price_levels)
@@ -279,9 +271,9 @@ print(s_price_enum)
 # ]
 
 
-#--------------------------------------------------------------------------------------------------#
-#-------------------------------- 4. String to Datetime Conversion --------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. String to Datetime Conversion
+# =========================================================================================
 '''
 In Pandas, you use pd.to_datetime().
 In Polars, string parsing is accessed via the `.str` namespace using `.str.to_datetime()`.
@@ -290,10 +282,8 @@ In Polars, string parsing is accessed via the `.str` namespace using `.str.to_da
 s_dates = pl.Series(['2023-01-01', '2023-02-15', '2023-03-10', '2023-04-20'])
 s_dates_invalid = pl.Series(['2023-01-01', '2023-02-15', '2023-03-10', 'invalid_date'])
 
-#------------------
-## Convert valid date strings to datetime
-#------------------
-
+# ## Convert valid date strings to datetime
+# 
 s_dates_converted = s_dates.str.to_datetime(format="%Y-%m-%d")
 print(s_dates_converted)
 # shape: (4,)
@@ -305,17 +295,13 @@ print(s_dates_converted)
 # 	2023-04-20 00:00:00
 # ]
 
-#------------------
-## Convert invalid date strings (strict=True will raise an error)
-#------------------
-
+# ## Convert invalid date strings (strict=True will raise an error)
+# 
 s_dates_invalid.str.to_datetime(format="%Y-%m-%d")
 """polars.exceptions.ComputeError: conversion from `str` to `datetime[μs]` failed..."""
 
-#------------------
-## Coerce errors to null (strict=False)
-#------------------
-
+# ## Coerce errors to null (strict=False)
+# 
 s_dates_converted = s_dates_invalid.str.to_datetime(
     format="%Y-%m-%d",
     strict=False
@@ -331,9 +317,9 @@ print(s_dates_converted)
 # ]
 
 
-#--------------------------------------------------------------------------------------------------#
-#-------------------------------- 5. Timedelta / Duration Handling --------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Timedelta / Duration Handling
+# =========================================================================================
 '''
 In Pandas, pd.to_timedelta() can parse arbitrary strings like "2 days 3 hours".
 Polars handles durations via the `pl.Duration` type, but it DOES NOT have a built-in
@@ -344,10 +330,8 @@ Instead, Polars expects:
 2. Constructing durations programmatically using `pl.duration()` in an expression context.
 '''
 
-#---------------
-## 1. Casting numeric values to Duration
-#---------------
-# By default, casting integers to Duration assumes microseconds (us)
+# ## 1. Casting numeric values to Duration
+# # By default, casting integers to Duration assumes microseconds (us)
 
 s_microseconds = pl.Series([1000000, 2000000, 3000000])
 s_duration = s_microseconds.cast(pl.Duration)
@@ -360,10 +344,8 @@ print(s_duration)
 # 	3s
 # ]
 
-#---------------
-## 2. Creating durations from components (Days, Hours, Minutes)
-#---------------
-'''
+# ## 2. Creating durations from components (Days, Hours, Minutes)
+# '''
 If you have separate columns/series for days, hours, etc., you use `pl.duration()`
 inside a DataFrame context.
 '''
@@ -394,17 +376,17 @@ print(df_with_duration)
 # └──────┴───────┴─────────┴──────────────┘
 
 
-#---------------------------------------------------------------------------------------------------#
-#------------------------------------ 6. String conversion -----------------------------------------#
-#---------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. String conversion
+# =========================================================================================
 
 s_nums = pl.Series([1.3, 5.4, 2.7, 8.6, 10.0])
 print(s_nums.dtype)
 # Float64
 
-######################
+##------------------##
 ## .cast(pl.String) ##
-######################
+##------------------##
 '''
 In Polars, the ONLY idiomatic and vectorized way to convert a Series to strings is `.cast(pl.String)`.
 '''
@@ -421,9 +403,9 @@ print(s_str)
 # 	"10.0"
 # ]
 
-########################################
+##------------------------------------##
 ## NOTE on .map_elements() / .apply() ##
-########################################
+##------------------------------------##
 '''
 Pandas users often use .map(str) or .apply(str).
 In Polars, `.map_elements(str)` exists, but it is considered an ANTI-PATTERN.

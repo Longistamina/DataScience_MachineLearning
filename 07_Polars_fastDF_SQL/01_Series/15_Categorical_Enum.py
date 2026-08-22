@@ -6,7 +6,7 @@ In Polars, categorical data is handled using two distinct, strictly typed data t
 Unlike pandas, Polars does NOT have an extensive `.cat` accessor for mutating categories in-place.
 Instead, category manipulation is done by defining `pl.Enum` schemas or casting to/from `pl.String`.
 
-######################################################
+##--------------------------------------------------##
 PART 1: pl.Categorical (Unordered)
 0. Creation
 1. Core attributes (Categories, Codes)
@@ -35,15 +35,15 @@ pl.Config.set_tbl_width_chars(120)
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- PART 1: pl.Categorical (Unordered) -------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# PART 1: pl.Categorical (Unordered)
+# =========================================================================================
 
 lst_gender = ["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"]
 
-####################################
+##--------------------------------##
 ## 0. Create a Categorical Series ##
-####################################
+##--------------------------------##
 
 # Using dtype=pl.Categorical
 s_cat = pl.Series("gender", lst_gender, dtype=pl.Categorical)
@@ -59,9 +59,9 @@ print(s_cat)
 # Or using .cast()
 s_cat = pl.Series("gender", lst_gender).cast(pl.Categorical)
 
-########################
+##--------------------##
 ## 1. Core attributes ##
-########################
+##--------------------##
 
 # Get categories
 print(s_cat.cat.get_categories())
@@ -83,9 +83,9 @@ print(s_cat.to_physical())
 # 	1
 # ...
 
-################################
+##----------------------------##
 ## 2. Manipulating Categories ##
-################################
+##----------------------------##
 '''
 Polars Categoricals infer categories directly from the data.
 To add, remove, or rename categories, the idiomatic way is to cast to String,
@@ -108,9 +108,9 @@ s_cleaned = s_subset.cast(pl.String).cast(pl.Categorical)
 print(s_cleaned.cat.get_categories())
 # ["M", "F"]  (LGBTQ is gone)
 
-##############################
+##--------------------------##
 ## 3. Exploring Categorical ##
-##############################
+##--------------------------##
 
 # .unique() returns a Series of unique values
 print(s_cat.unique())
@@ -136,13 +136,13 @@ print(s_cat.value_counts())
 # └────────┴───────┘
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- PART 2: pl.Enum (Ordered) ----------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# PART 2: pl.Enum (Ordered)
+# =========================================================================================
 
-##############################
+##--------------------------##
 ## 4. Creation and Ordering ##
-##############################
+##--------------------------##
 '''
 To create an ordered categorical type in Polars, you MUST use `pl.Enum`.
 You define the exact order of categories in a list.
@@ -166,9 +166,9 @@ print(s_enum)
 print(isinstance(s_enum.dtype, pl.Enum))
 # True
 
-############################################################################
+##------------------------------------------------------------------------##
 ## 5. Fast trick to convert to Enum without specifying list of categories ##
-############################################################################
+##------------------------------------------------------------------------##
 
 s_level = pl.Series(name="level", values=[2, 1, 3, 3, 1, 4, 6, 2, 5, 3, 1, 5, 4])
 print(s_level.dtype) # Int64
@@ -210,9 +210,9 @@ print(s_level_enum)
 # 	"4"
 # ]
 
-###################################################################################
+##-------------------------------------------------------------------------------##
 ## 6. Convert a LazyFrame categorical Column to Enum (Pokemon dataframe example) ##
-###################################################################################
+##-------------------------------------------------------------------------------##
 
 lf_pokemon = (
     pl.scan_csv(data_dir / "pokemon.csv")
@@ -244,9 +244,9 @@ print(lf_pokemon.head(5).collect())
 # │ Charmander     ┆ Fire   ┆ null   ┆ 309   ┆ 39  ┆ 52     ┆ 43      ┆ 60     ┆ 50     ┆ 65    ┆ 1          ┆ false     │
 # └────────────────┴────────┴────────┴───────┴─────┴────────┴─────────┴────────┴────────┴───────┴────────────┴───────────┘
 
-#########################################
+##-------------------------------------##
 ## 7. Meaningful Sorting, Min, and Max ##
-#########################################
+##-------------------------------------##
 '''
 Because pl.Enum has a defined order, sorting, min(), and max() respect that order,
 NOT alphabetical order!
@@ -272,9 +272,9 @@ print(s_enum.sort())
 print(s_enum.min()) # "LGBTQ"
 print(s_enum.max()) # "M"
 
-###########################################
+##---------------------------------------##
 ## 8. Reordering and Renaming (via Enum) ##
-###########################################
+##---------------------------------------##
 '''
 To reorder or rename categories in Polars, you simply define a NEW `pl.Enum`
 schema and cast the existing string/categorical data to it.

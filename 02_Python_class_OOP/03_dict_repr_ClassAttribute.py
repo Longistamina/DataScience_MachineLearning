@@ -1,6 +1,6 @@
-#-----------------------------------------------------------#
-#-------- class attributes and instance attributes ---------#
-#-----------------------------------------------------------#
+# =========================================================================================
+# class attributes and instance attributes
+# =========================================================================================
 
 class Item:
 
@@ -57,18 +57,18 @@ print(item1.apply_discount_instanceAttribute()) # Applying discount_rate 0.3 on 
 print(item2.apply_discount_instanceAttribute()) # Applying discount_rate 0.25 on item2 => 750.0
 
 
-#---------------------------------------------#
-#-------- __dict__ to see attributes ---------#
-#---------------------------------------------#
+# =========================================================================================
+# __dict__ to see attributes
+# =========================================================================================
 
 # .__dict__ is a special attribute that stores the name of the attributes of both class and instance
 print(Item.__dict__)  # Show all the attributes of the class Item
 print(item1.__dict__) # Show all the attributes of the instance item1
 
 
-#-------------------------------------#
-#-------- __repr__() method  ---------#
-#-------------------------------------#
+# =========================================================================================
+# __repr__() method 
+# =========================================================================================
 '''
 # "repr" stands for "representation"
 # __repr__() method is used to define a string nickname for the class
@@ -99,9 +99,9 @@ print(ItemNoRepr.all_items) # Print out the list of all the items created
 # [<__main__.ItemNoRepr object at 0x7f9ef73979e0>, <__main__.ItemNoRepr object at 0x7f9ef7236c60>, <__main__.ItemNoRepr object at 0x7f9ef7237b30>]
 '''The output shows the memory address of each instance, which is not very "friendly" for our eyes'''
 
-#########################################
-######## Using __repr__() method ########
-#########################################
+##-------------------------------------##
+##----## Using __repr__() method ##----##
+##-------------------------------------##
 
 class ItemWithRepr:
 

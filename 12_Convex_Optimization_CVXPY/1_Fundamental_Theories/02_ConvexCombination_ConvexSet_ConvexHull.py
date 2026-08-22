@@ -1,9 +1,9 @@
     # https://www.youtube.com/watch?v=QV5qtTq1Tro&list=PL-DDW8QIRjNOVxrU2efygBw0xADVOgpmw&index=2
 
 '''
-#----------------------------------------------------------------#
-#------------------------ CONVEX SET ----------------------------#
-#----------------------------------------------------------------#
+# =========================================================================================
+# CONVEX SET
+# =========================================================================================
 
 A convex set is a subset where, for any two points in the set, 
 the entire line segment connecting them is also contained within the set.
@@ -22,9 +22,9 @@ Alternative formulation:
 A set C is convex if for any two points x,y ∈ C, the line segment connecting them lies entirely within C.
 
 
-#------------------------------------------------------------------------#
-#------------------------ CONVEX COMBINATION ----------------------------#
-#------------------------------------------------------------------------#
+# =========================================================================================
+# CONVEX COMBINATION
+# =========================================================================================
 
 A convex combination is a linear combination of points where all coefficients are non-negative and sum to 1. 
 More formally, given points x₁, x₂, ..., xₙ, a convex combination is:
@@ -40,9 +40,9 @@ Example: Consider two points A = (1, 2) and B = (5, 6).
          This point lies on the line segment between A and B.
          
 
-#-----------------------------------------------------------------#
-#------------------------ CONVEX HULL ----------------------------#
-#-----------------------------------------------------------------#
+# =========================================================================================
+# CONVEX HULL
+# =========================================================================================
 
 The convex hull is the smallest convex set that contains a given set of points.
 

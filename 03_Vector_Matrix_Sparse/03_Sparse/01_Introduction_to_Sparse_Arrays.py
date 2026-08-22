@@ -26,9 +26,9 @@ import numpy as np
 from scipy.sparse import csr_array, coo_array
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------- 1. What are Sparse Arrays? ---------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. What are Sparse Arrays?
+# =========================================================================================
 '''
 Sparse arrays are special arrays where most locations contain zeros.
 Instead of storing all values (including zeros), sparse arrays only store non-zero values
@@ -54,13 +54,13 @@ print("Number of non-zero elements:", np.count_nonzero(dense))  # 5
 print("Percentage of non-zeros: {:.1f}%".format(100 * np.count_nonzero(dense) / dense.size))  # 41.7%
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------- 2. Basic Sparse Array Creation from Dense Arrays ---------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Basic Sparse Array Creation from Dense Arrays
+# =========================================================================================
 
-###################################
+##-------------------------------##
 ## Create COO (Coordinate) array ##
-###################################
+##-------------------------------##
 '''
 COO (Coordinate) format is one of the simplest sparse formats.
 It stores row indices, column indices, and data values separately.
@@ -78,9 +78,9 @@ print(sparse_coo)
 #   (1, 2)        1
 #   (2, 2)        5
 
-########################################
+##------------------------------------##
 ## Create CSR (Compressed Sparse Row) ##
-########################################
+##------------------------------------##
 '''
 CSR format is optimized for row-based operations and arithmetic.
 It's the most commonly used format for numerical computations.
@@ -98,9 +98,9 @@ print(sparse_csr)
 #   (1, 2)        1
 #   (2, 2)        5
 
-#############################
+##-------------------------##
 ## Basic sparse properties ##
-#############################
+##-------------------------##
 
 print("\n--- Sparse Array Properties ---")
 print("Shape:", sparse_csr.shape)  # (3, 4)
@@ -109,13 +109,13 @@ print("Number of stored elements (.nnz):", sparse_csr.nnz)  # 5
 print("Number of dimensions:", sparse_csr.ndim)  # 2
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#---------------------------------- 3. Converting Back to Dense Arrays ----------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Converting Back to Dense Arrays
+# =========================================================================================
 
-######################
+##------------------##
 ## Using .toarray() ##
-######################
+##------------------##
 '''
 .toarray() returns a NumPy ndarray
 This is the preferred method for getting a dense array
@@ -131,9 +131,9 @@ print(dense_from_sparse)
 print("Type:", type(dense_from_sparse))  # <class 'numpy.ndarray'>
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#----------------------------- 4. Understanding Stored vs Implicit Elements -----------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Understanding Stored vs Implicit Elements
+# =========================================================================================
 '''
 Sparse arrays distinguish between:
 - Implicit zeros: zeros not stored in memory (most zeros)
@@ -169,9 +169,9 @@ print(sparse_with_explicit_zero.toarray())
 #  [0 4 1 0]
 #  [0 0 5 0]]
 
-##############################
+##--------------------------##
 ## Eliminate explicit zeros ##
-##############################
+##--------------------------##
 '''
 Use .eliminate_zeros() to remove explicit zeros
 This method modifies the array in-place
@@ -183,16 +183,16 @@ sparse_with_explicit_zero.eliminate_zeros()
 print("After eliminating zeros - stored elements:", sparse_with_explicit_zero.nnz)  # 5
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------- 5. Simple Operations on Sparse Arrays ---------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Simple Operations on Sparse Arrays
+# =========================================================================================
 '''Most reduction operations work similarly on sparse and dense arrays'''
 
 print("\n--- Basic Operations ---")
 
-##########################
+##----------------------##
 ## Reduction operations ##
-##########################
+##----------------------##
 
 print("Maximum value (.max()):", sparse_csr.max())  # 5
 print("Minimum value (.min()):", sparse_csr.min())  # 0
@@ -203,9 +203,9 @@ print("Mean of all elements (.mean()):", sparse_csr.mean())  # 1.0833...
 print("\nDense array max:", dense.max())  # 5
 print("Dense array sum:", dense.sum())  # 13
 
-#######################
+##-------------------##
 ## Argmax and Argmin ##
-#######################
+##-------------------##
 '''
 Returns the index of max/min in the flattened array
 Works the same as with dense arrays
@@ -214,9 +214,9 @@ Works the same as with dense arrays
 print("\nArgmax (flattened index):", sparse_csr.argmax())  # 10
 print("Dense argmax:", dense.argmax())  # 10
 
-###########################
+##-----------------------##
 ## Axis-based operations ##
-###########################
+##-----------------------##
 '''Reductions over an axis return dense NumPy arrays'''
 
 print("\nMean over axis 0 (column means):")
@@ -232,9 +232,9 @@ print(sparse_csr.sum(axis=0))
 # [1 4 6 2]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#----------------------------------- 6. Memory Efficiency Demonstration ---------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Memory Efficiency Demonstration
+# =========================================================================================
 '''Sparse arrays are most beneficial for large arrays with low density'''
 
 # Create a large sparse array

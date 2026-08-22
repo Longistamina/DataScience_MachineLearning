@@ -50,9 +50,9 @@ import polars as pl
 from pathlib import Path
 
 
-#------------------------------------------------------------------------------------------------------#
-#------------------------------------- 0. Example DataFrame -------------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Example DataFrame
+# =========================================================================================
 '''
 This guide uses the same baseball.csv dataset as the pandas attributes guide when available.
 If the teaching data directory is not found, a small fallback DataFrame is created so that
@@ -116,13 +116,13 @@ print(df_baseball.glimpse(return_type="string"))
 # $ PosCategory <cat> 'Catcher', 'Catcher', ...
 
 
-#------------------------------------------------------------------------------------------------------#
-#------------------------------- 1. Shape and size-like attributes ------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Shape and size-like attributes
+# =========================================================================================
 
-##############
+##----------##
 ## df.shape ##
-##############
+##----------##
 '''
 df.shape returns a tuple representing the dimensionality of the DataFrame:
     (number_of_rows, number_of_columns)
@@ -134,9 +134,9 @@ print(df_baseball.shape)
 # (1015, 7)
 # There are 1015 rows and 7 columns in the full baseball DataFrame.
 
-###############
+##-----------##
 ## df.height ##
-###############
+##-----------##
 '''
 df.height returns the number of rows only.
 
@@ -149,9 +149,9 @@ print(df_baseball.height)
 print(df_baseball.shape[0])
 # 1015
 
-###############
+##-----------##
 ## df.width  ##
-###############
+##-----------##
 '''
 df.width returns the number of columns only.
 
@@ -164,9 +164,9 @@ print(df_baseball.width)
 print(df_baseball.shape[1])
 # 7
 
-#######################
+##-------------------##
 ## No direct df.size ##
-#######################
+##-------------------##
 '''
 Pandas df.size returns the total number of elements:
     number_of_rows * number_of_columns
@@ -182,9 +182,9 @@ print(total_elements)
 print(hasattr(df_baseball, "size"))
 # False
 
-#######################
+##-------------------##
 ## No direct df.ndim ##
-#######################
+##-------------------##
 '''
 Pandas df.ndim returns 2 for DataFrames.
 
@@ -201,13 +201,13 @@ print(len(df_baseball.shape))
 # 2
 
 
-#------------------------------------------------------------------------------------------------------#
-#------------------------------- 2. Data types and structure attributes -------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Data types and structure attributes
+# =========================================================================================
 
-###############
+##-----------##
 ## df.dtypes ##
-###############
+##-----------##
 '''
 df.dtypes returns a list of Polars data types, in column order.
 
@@ -221,9 +221,9 @@ print(df_baseball.dtypes)
 print(list(zip(df_baseball.columns, df_baseball.dtypes)))
 # [('Name', String), ('Team', Categorical), ('Position', Categorical), ...]
 
-################
+##------------##
 ## df.columns ##
-################
+##------------##
 '''
 df.columns returns a Python list containing the column names in order.
 
@@ -245,9 +245,9 @@ df_renamed = df_baseball.head(3).rename({"Name": "Player", "Team": "Club"})
 print(df_renamed.columns)
 # ['Player', 'Club', 'Position', 'Height', 'Weight', 'Age', 'PosCategory']
 
-###############
+##-----------##
 ## df.schema ##
-###############
+##-----------##
 '''
 df.schema returns an ordered mapping from column names to Polars data types.
 
@@ -277,9 +277,9 @@ print(df_baseball.schema.dtypes())
 print(df_baseball.schema.len())
 # 7
 
-#########################
+##---------------------##
 ## df.collect_schema() ##
-#########################
+##---------------------##
 '''
 df.collect_schema() also returns a Schema object.
 
@@ -291,9 +291,9 @@ schema = df_baseball.collect_schema()
 print(schema)
 # Schema({'Name': String, 'Team': Categorical, ...})
 
-########################
+##--------------------##
 ## No direct df.index ##
-########################
+##--------------------##
 '''
 Polars does not have a pandas-style row index.
 
@@ -318,9 +318,9 @@ print(df_baseball.head(5).with_row_index(name="row_nr"))
 # │ 4      ┆ Chris_Gomez     ┆ BAL  ┆ First_Baseman ┆ 73     ┆ 188    ┆ 35.71 ┆ Infielder   │
 # └────────┴─────────────────┴──────┴───────────────┴────────┴────────┴───────┴─────────────┘
 
-#######################
+##-------------------##
 ## No direct df.axes ##
-#######################
+##-------------------##
 '''
 Pandas df.axes returns [row_index, column_index].
 
@@ -341,13 +341,13 @@ print(hasattr(df_baseball, "axes"))
 # False
 
 
-#------------------------------------------------------------------------------------------------------#
-#----------------------------- 3. Data access and conversion replacements -----------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Data access and conversion replacements
+# =========================================================================================
 
-#########################
+##---------------------##
 ## No direct df.values ##
-#########################
+##---------------------##
 '''
 Pandas df.values returns the underlying NumPy array.
 
@@ -379,9 +379,9 @@ arr_structured = df_baseball.select(["Height", "Weight", "Age"]).to_numpy(struct
 print(arr_structured.dtype)
 # [('Height', '<i8'), ('Weight', '<i8'), ('Age', '<f8')]
 
-#######################
+##-------------------##
 ## Other data access ##
-#######################
+##-------------------##
 '''
 When you need Python-native output, Polars provides several explicit methods.
 Use these only when you really need to leave Polars, because materializing data
@@ -408,9 +408,9 @@ print(df_baseball.head(2).to_dict(as_series=False))
 #     ...
 # }
 
-####################
+##----------------##
 ## No direct df.T ##
-####################
+##----------------##
 '''
 Pandas df.T is an attribute that returns the transpose.
 
@@ -453,9 +453,9 @@ print(df_small.transpose(include_header=True, header_name="original_column", col
 # │ b               ┆ 4     ┆ 5     ┆ 6     │
 # └─────────────────┴───────┴───────┴───────┘
 
-########################
+##--------------------##
 ## No direct df.empty ##
-########################
+##--------------------##
 '''
 Pandas df.empty is an attribute.
 
@@ -477,13 +477,13 @@ print(pl.DataFrame().is_empty())
 # True
 
 
-#------------------------------------------------------------------------------------------------------#
-#------------------------------------- 4. Advanced attributes -----------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Advanced attributes
+# =========================================================================================
 
-##############
+##----------##
 ## df.flags ##
-##############
+##----------##
 '''
 df.flags returns a dictionary mapping each column name to column flags.
 
@@ -500,9 +500,9 @@ df_by_age = df_baseball.sort("Age").set_sorted("Age")
 print(df_by_age.flags["Age"])
 # Example: {'SORTED_ASC': True, 'SORTED_DESC': False, ...}
 
-########################
+##--------------------##
 ## No direct df.attrs ##
-########################
+##--------------------##
 '''
 Pandas df.attrs stores custom metadata on the DataFrame object.
 
@@ -522,9 +522,9 @@ baseball_metadata = {
 print(baseball_metadata)
 # {'source': 'Baseball dataset', 'description': 'Player statistics including height, weight, age, team, and position.'}
 
-##############
+##----------##
 ## df.style ##
-##############
+##----------##
 '''
 Polars now has a df.style namespace for table styling.
 
@@ -546,9 +546,9 @@ except (ImportError, ModuleNotFoundError) as err:
 except AttributeError as err:
     print("Your Polars version does not expose df.style:", err)
 
-#############
+##---------##
 ## df.plot ##
-#############
+##---------##
 '''
 Polars also has a df.plot namespace for quick plotting.
 
@@ -571,9 +571,9 @@ except AttributeError as err:
     print("Your Polars version does not expose df.plot:", err)
 
 
-#------------------------------------------------------------------------------------------------------#
-#--------------------------- 5. Pandas-to-Polars attributes cheat sheet -------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Pandas-to-Polars attributes cheat sheet
+# =========================================================================================
 
 '''
 Pandas attribute / concept        Polars equivalent
@@ -597,9 +597,9 @@ df.plot                          df.plot, backed by optional Altair
 '''
 
 
-#------------------------------------------------------------------------------------------------------#
-#--------------------------- 6. Current Polars DataFrame attributes list ------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Current Polars DataFrame attributes list
+# =========================================================================================
 
 '''
 Categorized list of current Polars DataFrame attributes

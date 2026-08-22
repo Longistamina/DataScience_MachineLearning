@@ -3,7 +3,7 @@ datar does not support saving DataR dataframes to CSV or Excel files directly.
 
 However, can use dr.pipe() to apply Pandas methods for saving dataframes.
 
-############################
+##------------------------##
 
 1. Save to CSV: dr.pipe(lambda f: f.to_csv('file.csv'))
 
@@ -22,9 +22,9 @@ save_dir = Path("/home").rglob("*/06_Pandas_DataR_dataframe/save")
 save_dir = next(save_dir)
 
 
-#-----------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 1. Save to CSV --------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Save to CSV
+# =========================================================================================
 
 (
     pd.read_csv(data_dir/"baseball.csv")
@@ -39,14 +39,12 @@ save_dir = next(save_dir)
 )
 
 
-#-----------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 2. Save to EXCEL -------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Save to EXCEL
+# =========================================================================================
 
-#---------
-## Define dictionaries and functions
-#---------
-
+# ## Define dictionaries and functions
+# 
 dict_subjects = {
     'Toán':'Math',
     'Ngữ văn':'Literature',
@@ -72,10 +70,8 @@ def rename_subjects(subjects_str):
         subjects_str = subjects_str.replace(viet, eng)
     return subjects_str
 
-#---------
-## Load and process data, then save to Excel
-#---------
-
+# ## Load and process data, then save to Excel
+# 
 (
     pd.read_excel(data_dir/"Baccalaureate_2016.xlsx")
     >> dr.rename( # Rename columns from Vietnamese to English

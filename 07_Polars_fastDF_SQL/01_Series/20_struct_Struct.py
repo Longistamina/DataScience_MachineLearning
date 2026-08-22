@@ -20,7 +20,7 @@ Key Differences from pl.List and pl.Array:
 Covered commands from polars.Series.struct:
 field, json_encode, rename_fields, unnest, fields, schema
 
-######################################################
+##--------------------------------------------------##
 0. Creation: dictionaries, pl.Struct dtype, and pl.struct()
 1. Inspecting Struct Metadata (fields, schema)
 2. Field Extraction (field, struct[...] convenience)
@@ -34,9 +34,9 @@ field, json_encode, rename_fields, unnest, fields, schema
 import polars as pl
 pl.Config(fmt_str_lengths=1000)
 
-#-------------------------------------------------------------------------------------------------#
-#-------------------------------------- 0. Creation ----------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Creation
+# =========================================================================================
 '''
 Polars can infer a Struct dtype from dictionaries.
 The field order is inferred from the first dictionary and retained by the Struct dtype.
@@ -59,9 +59,9 @@ print(s_ratings)
 #     {"Snow White","IL",4.7}
 # ]
 
-##############################
+##--------------------------##
 ## Explicit pl.Struct dtype ##
-##############################
+##--------------------------##
 '''
 For production code, explicitly defining the struct schema can be clearer.
 A Struct schema is a mapping from field names to Polars dtypes.
@@ -92,9 +92,9 @@ print(s_typed)
 # ]
 # Same logical values, but the dtype/schema is explicitly controlled.
 
-##########################################
+##--------------------------------------##
 ## Creating Structs from DataFrame cols ##
-##########################################
+##--------------------------------------##
 '''
 Use pl.struct(...) to pack multiple columns into one Struct column.
 This is the most common DataFrame workflow.
@@ -124,9 +124,9 @@ print(df_packed)
 # │ {"Snow White","IL",4.7} │
 # └─────────────────────────┘
 
-##########################################
+##--------------------------------------##
 ## Handling missing / inconsistent keys ##
-##########################################
+##--------------------------------------##
 '''
 If later dictionaries are missing a field from the first dictionary, that field
 can become null. If types are inconsistent, Polars may raise unless strict=False
@@ -151,9 +151,9 @@ print(s_missing)
 # The second row has null for avg_rating.
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------- 1. Inspecting Struct Metadata -----------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Inspecting Struct Metadata
+# =========================================================================================
 
 s_ratings = pl.Series(
     "ratings",
@@ -164,9 +164,9 @@ s_ratings = pl.Series(
     ],
 )
 
-####################
+##----------------##
 ## .struct.fields ##
-####################
+##----------------##
 '''
 .struct.fields returns the field names as a Python list.
 This is an ATTRIBUTE, not a method, so do not add parentheses.
@@ -175,9 +175,9 @@ This is an ATTRIBUTE, not a method, so do not add parentheses.
 print(s_ratings.struct.fields)
 # ['movie', 'theatre', 'avg_rating']
 
-####################
+##----------------##
 ## .struct.schema ##
-####################
+##----------------##
 '''
 .struct.schema returns the full struct definition as a Polars Schema object.
 It maps field names to dtypes.
@@ -192,13 +192,13 @@ if "avg_rating" in s_ratings.struct.fields:
     print("avg_rating exists")
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------------- 2. Field Extraction -----------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Field Extraction
+# =========================================================================================
 
-#########################
+##---------------------##
 ## .struct.field(name) ##
-#########################
+##---------------------##
 '''
 .struct.field(name) extracts one named field from every struct row and returns
 a normal Series with that field's dtype.
@@ -222,9 +222,9 @@ print(s_ratings.struct.field("avg_rating"))
 #     4.7
 # ]
 
-########################################
+##------------------------------------##
 ## Convenience: .struct[...] indexing ##
-########################################
+##------------------------------------##
 '''
 Polars also supports convenient struct indexing on Series:
 + s.struct["field_name"] extracts by field name.
@@ -239,9 +239,9 @@ print(s_ratings.struct["theatre"])
 print(s_ratings.struct[0])
 # Same as s_ratings.struct.field("movie") because movie is field position 0.
 
-##########################################
+##--------------------------------------##
 ## Extracting in a DataFrame expression ##
-##########################################
+##--------------------------------------##
 '''
 Inside DataFrame workflows, use the expression namespace:
 pl.col("struct_col").struct.field("field_name")
@@ -267,13 +267,13 @@ print(
 # └─────────────────────────┴────────────┴────────┘
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------------- 3. Renaming Fields ------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Renaming Fields
+# =========================================================================================
 
-#############################
+##-------------------------##
 ## .struct.rename_fields() ##
-#############################
+##-------------------------##
 '''
 .rename_fields(names) renames the fields of the Struct Series.
 The new names must be given in the SAME ORDER as the current fields.
@@ -297,9 +297,9 @@ print(s_renamed.struct.field("title"))
 #     "Snow White"
 # ]
 
-#######################################
+##-----------------------------------##
 ## Rename before unnesting if needed ##
-#######################################
+##-----------------------------------##
 '''
 If a DataFrame already has columns with the same names as struct fields,
 renaming the struct fields before unnesting avoids name collisions.
@@ -331,13 +331,13 @@ print(df_no_conflict.unnest("ratings"))
 # └────────────┴──────────────┴────────────────┴──────────────┘
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------ 4. Expanding Structs ---------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Expanding Structs
+# =========================================================================================
 
-######################
+##------------------##
 ## .struct.unnest() ##
-######################
+##------------------##
 '''
 .struct.unnest() converts a Struct Series into a DataFrame with one column per field.
 This is the Series-level equivalent of DataFrame.unnest("struct_col").
@@ -355,9 +355,9 @@ print(s_ratings.struct.unnest())
 # │ Snow White ┆ IL      ┆ 4.7        │
 # └────────────┴─────────┴────────────┘
 
-####################################
+##--------------------------------##
 ## DataFrame.unnest() equivalent  ##
-####################################
+##--------------------------------##
 '''
 When the struct is a column in a DataFrame, use DataFrame.unnest().
 That operation expands the struct column in-place into its fields.
@@ -383,13 +383,13 @@ print(df_ratings.unnest("ratings"))
 # └────────┴────────────┴─────────┴────────────┘
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------ 5. Encoding Structs ----------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Encoding Structs
+# =========================================================================================
 
-###########################
+##-----------------------##
 ## .struct.json_encode() ##
-###########################
+##-----------------------##
 '''
 .struct.json_encode() serializes each struct value into a JSON string.
 This is useful for logging, exporting payload columns, or passing nested data
@@ -412,9 +412,9 @@ print(s_payload.struct.json_encode())
 # 	"{"id":2,"tags":["classic"],"score":null}"
 # ]
 
-##########################################
+##--------------------------------------##
 ## JSON encode after field manipulation ##
-##########################################
+##--------------------------------------##
 
 s_api_payload = s_ratings.struct.rename_fields(["title", "region", "rating"])
 print(s_api_payload.struct.json_encode())
@@ -429,18 +429,18 @@ print(s_api_payload.struct.json_encode())
 
 
 
-#-------------------------------------------------------------------------------------------------#
-#---------------------------------- 6. Common Struct Producers -----------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Common Struct Producers
+# =========================================================================================
 '''
 Several Polars operations produce Struct data because Polars expressions return
 one Series. Struct is how Polars can represent multiple output values inside
 that one Series.
 '''
 
-###################################
+##-------------------------------##
 ## value_counts() in expressions ##
-###################################
+##-------------------------------##
 
 df_theatres = pl.DataFrame(
     {
@@ -478,9 +478,9 @@ print(counts_as_struct["counts"].struct.unnest())
 # │ ME      ┆ 1     │
 # └─────────┴───────┘
 
-####################################
+##--------------------------------##
 ## str.extract_groups() -> Struct ##
-####################################
+##--------------------------------##
 
 s_codes = pl.Series("code", ["A-001", "B-014", "bad"])
 
@@ -509,9 +509,9 @@ print(s_groups.struct.unnest())
 # │ null   ┆ null   │
 # └────────┴────────┘
 
-#################################
+##-----------------------------##
 ## str.split_exact() -> Struct ##
-#################################
+##-----------------------------##
 
 s_names = pl.Series("name", ["Tony_Stark", "Steve_Rogers", "Cher"])
 
@@ -533,13 +533,13 @@ print(s_split.struct.rename_fields(["first", "last"]).struct.unnest())
 # └───────┴────────┘
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------ 7. Real applications ---------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Real applications
+# =========================================================================================
 
-#########################################
+##-------------------------------------##
 ## Pack nested payload, export as JSON ##
-#########################################
+##-------------------------------------##
 
 df_events = pl.DataFrame(
     {
@@ -568,9 +568,9 @@ print(api_ready)
 # │ 103      ┆ {"u1","purchase",39.99} ┆ {"user":"u1","action":"purchase","amount":39.99} │
 # └──────────┴─────────────────────────┴──────────────────────────────────────────────────┘
 
-######################################
+##----------------------------------##
 ## Multi-column duplicate detection ##
-######################################
+##----------------------------------##
 '''
 Structs are useful when you need to treat multiple columns as one composite key.
 Here, pl.struct("user", "action") lets Polars compare/hash both columns together.
@@ -591,9 +591,9 @@ print(df_dupes)
 # │ 103      ┆ u1   ┆ purchase ┆ 39.99  ┆ false                 │
 # └──────────┴──────┴──────────┴────────┴───────────────────────┘
 
-###########################################
+##---------------------------------------##
 ## Normalize nested records into columns ##
-###########################################
+##---------------------------------------##
 
 df_nested = pl.DataFrame(
     {

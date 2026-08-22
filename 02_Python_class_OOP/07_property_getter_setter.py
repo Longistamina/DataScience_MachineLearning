@@ -1,6 +1,6 @@
-#----------------------------------------------------------------#
-#---------------- @property Decorator: getter -------------------#
-#----------------------------------------------------------------#
+# =========================================================================================
+# @property Decorator: getter
+# =========================================================================================
 
 # Python has a decorator called @property that allows you to define a method as a property (or attribute)
 # This means you can access it like an attribute, but it behaves like a method.
@@ -37,9 +37,9 @@ item1.total_price = 5000
 '''This will raise an "AttributeError: can't set attribute'''
 
 
-#----------------------------------------------------------------#
-#---------------- @property Decorator: setter -------------------#
-#----------------------------------------------------------------#
+# =========================================================================================
+# @property Decorator: setter
+# =========================================================================================
 
 # To make a property writable, you can define a setter method using the @property decorator
 # and the @<property_name>.setter decorator.
@@ -87,10 +87,10 @@ print(item2.total_price)  # Output: 6000
 
 ## WARNING: though the _total_price changed, the price and quantity remain unchanged
 '''
-#--------------------------------------#
+# =========================================================================================
 
 # Python also has many other built-in decorators like @staticmethod, @classmethod, etc.
 # Explore yourself to learn more about them and enjoy Python OOP!
 
-#--------------------------------------#
+# =========================================================================================
 '''

@@ -15,13 +15,13 @@ import polars as pl
 s_demo = pl.Series([5.8, 4.6, 2.0, None, 14.0, 4.6, 25.2, None, 9.3, 10.5])
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 1. Ranking and Sorting methods -------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Ranking and Sorting methods
+# =========================================================================================
 
-#############
+##---------##
 ## .rank() ##
-#############
+##---------##
 '''
 .rank() returns the ranks of the values in the Series.
 Polars uses snake_case and supports the following methods:
@@ -76,9 +76,9 @@ print(s_demo.rank(method="ordinal")) # Equivalent to pandas' method="first"
 # 	6
 # ]
 
-#############
+##---------##
 ## .sort() ##
-#############
+##---------##
 '''
 In Pandas, you use .sort_values(). In Polars, you simply use .sort().
 By default, it sorts in ascending order.
@@ -117,9 +117,9 @@ print(s_demo.sort(descending=True)) # Descending
 # 	2.0
 # ]s
 
-#################
+##-------------##
 ## .arg_sort() ##
-#################
+##-------------##
 '''
 In Pandas, you use .argsort(). In Polars, you use .arg_sort().
 It returns the integer positions (indices) that would sort the Series.
@@ -147,17 +147,17 @@ meaning uppercase letters come before lowercase letters ('A' < 'a').
 '''
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 2. N-Largest and N-Smallest methods --------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. N-Largest and N-Smallest methods
+# =========================================================================================
 '''
 Polars does not have explicit .nlargest() and .nsmallest() methods directly on Series objects.
 Instead, the idiomatic Polars approach is to combine .sort() with .head(n).
 '''
 
-###################
+##---------------##
 ##   N-Largest   ##
-###################
+##---------------##
 
 # Equivalent to pandas' .nlargest(3)
 print(s_demo_no_nulls.sort(descending=True).head(3))
@@ -169,9 +169,9 @@ print(s_demo_no_nulls.sort(descending=True).head(3))
 # 	5.8
 # ]
 
-####################
+##----------------##
 ##   N-Smallest   ##
-####################
+##----------------##
 
 # Equivalent to pandas' .nsmallest(3)
 print(s_demo_no_nulls.sort().head(3))
@@ -183,9 +183,9 @@ print(s_demo_no_nulls.sort().head(3))
 # 	4.6
 # ]
 
-##########################################
+##--------------------------------------##
 ## NOTE: Getting original indices       ##
-##########################################
+##--------------------------------------##
 '''
 Pandas' .nlargest() and .nsmallest() return the values ALONG WITH their original custom index labels.
 Since Polars has no custom indices, it just returns the values.

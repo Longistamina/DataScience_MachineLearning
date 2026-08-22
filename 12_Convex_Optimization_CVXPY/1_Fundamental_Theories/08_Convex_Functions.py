@@ -5,9 +5,9 @@
 
 ============================================
 
-##################################
+##------------------------------##
 ## Definition and Basic Concept ##
-##################################
+##------------------------------##
 
 A real-valued function f: ℝⁿ → ℝ is called **convex** if its domain is a convex set 
 and for any two points x, y in its domain and any λ ∈ [0,1], the inequality holds:
@@ -21,9 +21,9 @@ Visually, convex functions are "cup-shaped" (∪) while concave functions are "c
 forms a convex set [1][3].
 
 
-##################################################
+##----------------------------------------------##
 ## EXTENDED-VALUE EXTENSION OF CONVEX FUNCTIONS ##
-##################################################
+##----------------------------------------------##
 
 The extended-value extension allows us to work with convex functions 
 that are naturally defined only on a subset of the space 
@@ -41,9 +41,9 @@ its extended-value extension f̃ : Rⁿ → R ∪ {∞} is defined as[3][4][6]:
                 }
 
 
-#########################################
+##-------------------------------------##
 ## First-Order Condition for Convexity ##
-#########################################
+##-------------------------------------##
 
 For a differentiable function f, convexity is equivalent to:
 
@@ -53,9 +53,9 @@ For a differentiable function f, convexity is equivalent to:
                     of the function. This means every tangent line lies entirely below the function graph [9][12][15].
 
 
-##########################################
+##--------------------------------------##
 ## Second-Order Condition for Convexity ##
-##########################################
+##--------------------------------------##
 
 For twice-differentiable functions, f is convex if and only if:
 
@@ -65,9 +65,9 @@ The Hessian matrix must be positive semidefinite everywhere in the domain.
 For single-variable functions, this reduces to f''(x) ≥ 0 [2][10][15].
 
 
-#####################
+##-----------------##
 ## Common Examples ##
-#####################
+##-----------------##
 
 **Single Variable**:
 - Linear: f(x) = ax + b (always convex)
@@ -86,9 +86,9 @@ For single-variable functions, this reduces to f''(x) ≥ 0 [2][10][15].
                        = exp((1/n) · (log x₁ + log x₂ + … + log xₙ))
 
 
-#####################################
+##---------------------------------##
 ## Operations Preserving Convexity ##
-#####################################
+##---------------------------------##
 
 **Nonnegative Linear Combinations**: If f₁, f₂ are convex and a₁, a₂ ≥ 0, then a₁f₁ + a₂f₂ is convex.
 
@@ -99,9 +99,9 @@ For single-variable functions, this reduces to f''(x) ≥ 0 [2][10][15].
 **Partial Minimization**: If g(x,y) is convex in both variables and C is convex, then f(x) = min_{y∈C} g(x,y) is convex [17][18][21].
 
 
-#########################
+##---------------------##
 ## Jensen's Inequality ##
-#########################
+##---------------------##
 
 For any convex function f and probability weights λᵢ ≥ 0 with ∑λᵢ = 1:
 
@@ -111,9 +111,9 @@ f(∑λᵢxᵢ) ≤ ∑λᵢf(xᵢ)
 This fundamental inequality underlies many important results in probability and analysis.
 
 
-##################
+##--------------##
 ## Sublevel Set ##
-##################
+##--------------##
 
 **Definition**: For a function f: ℝⁿ → ℝ and a real number α ∈ ℝ, the α-sublevel set (or simply sublevel set) is defined as:
 
@@ -133,9 +133,9 @@ f(θx + (1-θ)y) ≤ θf(x) + (1-θ)f(y) ≤ θα + (1-θ)α = α
 Therefore, θx + (1-θ)y ∈ C_α, proving the sublevel set is convex.
 
 
-###############
+##-----------##
 ## Epigraphs ##
-###############
+##-----------##
 
 **Definition**: The epigraph of a function f: ℝⁿ → ℝ is the set of all points lying on or above the graph of the function:
 

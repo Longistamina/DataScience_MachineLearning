@@ -9,9 +9,9 @@ import torch
 
 torch.set_printoptions(linewidth=1000)
 
-##########################
+##----------------------##
 ## Create Tensor on GPU ##
-##########################
+##----------------------##
 
 torch.manual_seed(0)
 tensor = torch.rand(10000, 10000, device='cuda:0')
@@ -31,9 +31,9 @@ print(tensor.device)
 print(tensor.requires_grad)
 # False
 
-######################
+##------------------##
 ## Demo calculation ##
-######################
+##------------------##
 
 # Pseudo-inverse
 print(torch.pinverse(tensor))

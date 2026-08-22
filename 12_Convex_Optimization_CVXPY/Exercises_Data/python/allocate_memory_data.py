@@ -9,8 +9,7 @@ def Cost1(P1,P2):
     return np.linalg.norm(np.array(P1)-np.array(P2),ord=1)
 def Cost2(P1,P2):
     return np.power(np.linalg.norm(np.array(P1)-np.array(P2),ord=1),3/2)
-#----------------------------------------------------------------------
-#Use problem the following problem data in your solution.
+# #Use problem the following problem data in your solution.
 m=256#number of banks
 n=8#number of cores
 C=np.ones((n,m))
@@ -21,8 +20,7 @@ for i in range(n):
         D[i,j]=0.01*Cost2(Cores[i],Banks[j])
 c=32*np.ones((m,))#capacity of bank j
 b=np.array([2048,1024,512,1024,1024,512,1024,512])#storage requirement of core i
-#----------------------------------------------------------------------
-#Use the following plotting function to plot your optimal memory allocation M
+# #Use the following plotting function to plot your optimal memory allocation M
 #You only need to input matrix an n-by-m matrix M.
 #Assuming you find optimal memory allocation M, you can plot it and visualize the grid as:
 #plot_memory(M)

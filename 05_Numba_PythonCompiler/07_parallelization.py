@@ -30,9 +30,9 @@
 import numba as nb
 import numpy as np
 
-#######################
+##-------------------##
 ## Example: 1D array ##
-#######################
+##-------------------##
 
 @nb.njit(parallel=True) # ``@njit`` is ``@jit(nopython=True)``
 def sum_vector(A):
@@ -46,9 +46,9 @@ print(vector)
 print(sum_vector(vector))
 # 12.0
 
-#######################
+##-------------------##
 ## Example: 2D array ##
-#######################
+##-------------------##
 
 @nb.njit(parallel=True)
 def prod_matrix(M, axis=None):
@@ -104,9 +104,9 @@ for i in nb.prange(something):
 ```
 '''
 
-##########################
+##----------------------##
 ## Caution on data race ##
-##########################
+##----------------------##
 '''
  If the elements specified by the slice or index are written to simultaneously by multiple parallel threads,
  the compiler may not detect such cases and then a race condition would occur.
@@ -132,9 +132,9 @@ def prange_wrong_result2(x):
         y[i % 4] += x[i]
     return y
 
-###########################
+##-----------------------##
 ## Unsuppoted Operations ##
-###########################
+##-----------------------##
 '''
 1. Mutating a list is not safe:
     @njit(parallel=True)

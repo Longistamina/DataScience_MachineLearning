@@ -2,7 +2,7 @@
 Boolean Indexing Boolean Filtering for 2D Matrices is a powerful technique
 that allows you to filter data based on specific conditions.
 
-###############################
+##---------------------------##
 
 Flow of contents:
 
@@ -40,9 +40,9 @@ print(matrix)
 #  [48 65 41 59 67 46 47 74]]
 
 
-#--------------------------------------------------------------------------------------------------------#
-#-------------------------- 0. Mask: a boolean array created using a condition --------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Mask: a boolean array created using a condition
+# =========================================================================================
 
 mask = matrix > 70
 print(mask)
@@ -69,13 +69,13 @@ NOTE: When used for indexing, it flattens the result into a 1D array.
 '''
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------ 1. Single Condition Examples: np.isin() ---------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Single Condition Examples: np.isin()
+# =========================================================================================
 
-######################
+##------------------##
 ## > (greater than) ##
-######################
+##------------------##
 
 mask_gt_70 = matrix > 70
 print(matrix[mask_gt_70])
@@ -84,9 +84,9 @@ print(matrix[mask_gt_70])
 print(matrix[matrix > 70])
 # [78 78 75 79 77 72 76 78 74]
 
-###################
+##---------------##
 ## < (less than) ##
-###################
+##---------------##
 
 print(matrix[matrix < 50])
 # [48 43 42 48 44 42 43 46 41]
@@ -98,23 +98,23 @@ print(matrix[matrix < 50])
 They work similarly to > and < but include equality.
 '''
 
-################
+##------------##
 ## == (equal) ##
-################
+##------------##
 
 print(matrix[matrix == 78])
 # [78 78 78]
 
-####################
+##----------------##
 ## != (not equal) ##
-####################
+##----------------##
 
 print(matrix[matrix != 51][:20])
 # [78 68 54 47 60 78 58 62 50 50 63 75 79 63 42 61 41 63 69 77]
 
-###############
+##-----------##
 ## np.isin() ##
-###############
+##-----------##
 '''
 np.isin() checks whether each element in your 2D matrix is present in a test array,
 returning a boolean 2D array with the same shape
@@ -145,9 +145,9 @@ print(matrix[np.isin(matrix, [51, 77, 70], invert=True)][:20])
 # [78 68 54 47 60 78 58 62 50 50 63 75 79 63 42 61 41 63 69 41]
 
 
-#--------------------------------------------------------------------------------------------------------#
-#--------------------------- 2. Negation of Condition: ~ (tilde) operator -------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Negation of Condition: ~ (tilde) operator
+# =========================================================================================
 
 print(matrix[~(matrix >= 60)])
 # [54 47 58 50 50 42 41 41 51 55 54 42 46 48 57 43 53 48 41 59 46 47]
@@ -158,35 +158,35 @@ print(matrix[~np.isin(matrix, [51, 72, 77])][:20])
 '''Values that are NOT in the list [51, 72, 77]'''
 
 
-#--------------------------------------------------------------------------------------------------------#
-#----------------------- 3. Combine Multiple Conditions: & (and), | (or) --------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Combine Multiple Conditions: & (and), | (or)
+# =========================================================================================
 
-######################
+##------------------##
 ## & (and) operator ##
-######################
+##------------------##
 
 print(matrix[(matrix > 60) & (matrix < 70)])
 # [68 62 63 63 61 63 69 61 64 66 67 64 65 67]
 
-#####################
+##-----------------##
 ## | (or) operator ##
-#####################
+##-----------------##
 
 print(matrix[(matrix < 45) | (matrix > 75)])
 # [78 78 79 42 41 77 41 42 76 78 43 41]
 
-#####################
+##-----------------##
 ## Combine & and | ##
-#####################
+##-----------------##
 
 print(matrix[((matrix >= 70) & (matrix <= 75)) | (matrix == 42)])
 # [75 42 72 42 74]
 
 
-#--------------------------------------------------------------------------------------------------------#
-#----------------------------- 4. Boolean Compression: arr.compress(mask) -------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Boolean Compression: arr.compress(mask)
+# =========================================================================================
 
 '''
 For 2D arrays, compress() works along a specified axis
@@ -197,18 +197,18 @@ axis=1: compress columns based on boolean array of length = number of columns
 NOTE: for 2D arrays, cannot use axis=None directly with compress(), but can flatten first
 '''
 
-#############################
+##-------------------------##
 ## Compress with axis=None ##
-#############################
+##-------------------------##
 
 matrix_flat = matrix.flatten()
 
 print(matrix_flat.compress(matrix_flat > 70, axis=None))
 # [78 78 75 79 77 72 76 78 74]
 
-##########################
+##----------------------##
 ## Compress with axis=1 ##
-##########################
+##----------------------##
 
 col_mask = matrix.mean(axis=0) > 60
 print("Column means:", matrix.mean(axis=0).round(2))
@@ -224,9 +224,9 @@ print(matrix.compress(col_mask, axis=1))
 #  [65 59 74]]
 '''These are the 3 columns where the vertical mean value is greater than 60.'''
 
-##########################
+##----------------------##
 ## Compress with axis=0 ##
-##########################
+##----------------------##
 
 row_mask = matrix.sum(axis=1) > 460
 print("Row sums:", matrix.sum(axis=1))
@@ -241,23 +241,21 @@ print(matrix.compress(row_mask, axis=0))
 '''These are the 4 rows where the horizontal sum is greater than 460.'''
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------- 5. Row and Column Filtering (np.any() and np.all()) --------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Row and Column Filtering (np.any() and np.all())
+# =========================================================================================
 '''
 Can youse np.any() and np.all() along specific axes to filter rows or columns
 => results in a 2D array with selected rows or columns based on the condition.
 '''
 
-#############################
+##-------------------------##
 ## Column Filtering axis=0 ##
-#############################
+##-------------------------##
 '''NOTE: must use matrix[:, condition] to get all the rows for selected columns, keep 2D structure'''
 
-#------
-## with np.any()
-#------
-
+# ## with np.any()
+# 
 col_condition = np.any(matrix < 45, axis=0) # Filter columns where ANY element < 45
 print("Column condition:", col_condition)
 # Column condition: [ True False  True False  True  True  True False]
@@ -278,10 +276,8 @@ print(matrix[:, np.any(matrix < 50, axis=0)]) # same outcome
 #  [46 48 78 57 43 64]
 #  [48 41 59 67 46 47]]
 
-#-----
-## with np.all()
-#-----
-
+# ## with np.all()
+# 
 col_condtion = np.all(matrix > 45, axis=0) # Filter columns where ALL elements > 45
 print("Column condition:", col_condtion)
 # Column condition: [False  True False  True False False False  True]
@@ -308,10 +304,8 @@ col_condition could be more complicated, like:
 # np.any((matrix < 50) | (matrix > 70), axis=0)
 '''
 
-#-----
-## With custom boolean array for column filtering
-#-----
-
+# ## With custom boolean array for column filtering
+# 
 custom_mask = np.array([True, False, True, False, True, False, True, False])
 
 print(matrix[:, custom_mask])
@@ -330,14 +324,12 @@ print(matrix[:, [True, False, True, False, True, False, True, False]]) # same ou
 #  [46 48 57 64]
 #  [48 41 67 47]]
 
-##########################
+##----------------------##
 ## Row Filtering axis=1 ##
-##########################
+##----------------------##
 
-#------
-## with np.any()
-#------
-
+# ## with np.any()
+# 
 row_condition = np.any(matrix >= 78, axis=1) # Filter rows where ANY element >= 78
 print("Row condition:", row_condition)
 # Row condition: [ True  True False False  True False]
@@ -352,10 +344,8 @@ print(matrix[np.any(matrix >= 78, axis=1)]) # Same outcome, no need to specify "
 #  [50 50 63 75 79 63 42 61]
 #  [46 60 48 78 57 43 64 53]]
 
-#-----
-## with np.all()
-#-----
-
+# ## with np.all()
+# 
 row_condition = np.all(matrix <= 76, axis=1) # Filter rows where ALL elements <= 76
 print("Row condition:", row_condition)
 # Row condition: [False False False  True False  True]
@@ -374,10 +364,8 @@ NOTE: row_condition could be more complicated, like:
 # np.any((matrix < 50) | (matrix > 75), axis=1
 '''
 
-#-----
-## With custom boolean array for row filtering
-#-----
-
+# ## With custom boolean array for row filtering
+# 
 custom_mask = np.array([True, False, True, False, True, False])
 
 print(matrix[custom_mask, :])
@@ -391,17 +379,17 @@ print(matrix[[True, False, True, False, True, False]]) # Same outcome, no need t
 #  [46 60 48 78 57 43 64 53]]
 
 
-#--------------------------------------------------------------------------------------------------------#
-#---------------------------- 6. Examples for 3D and 4D matrices ----------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Examples for 3D and 4D matrices
+# =========================================================================================
 '''
 Boolean indexing works similarly for higher-dimensional arrays,
 flattening the result into a 1D array when using element-wise conditions.
 '''
 
-################
+##------------##
 ## 3D Example ##
-################
+##------------##
 
 matrix_3d = np.random.randint(10, 50, size=(3, 4, 5))
 
@@ -434,9 +422,9 @@ print(matrix_3d[slice_means > 30])
 #   [43 42 32 33 46]
 #   [44 49 31 36 44]]]
 
-################
+##------------##
 ## 4D Example ##
-################
+##------------##
 
 matrix_4d = np.random.randint(5, 25, size=(2, 3, 3, 4))
 

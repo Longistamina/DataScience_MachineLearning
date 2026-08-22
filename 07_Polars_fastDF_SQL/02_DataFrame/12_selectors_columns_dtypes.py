@@ -44,9 +44,9 @@ pl.Config.set_float_precision(2)
 pl.Config.set_tbl_width_chars(200)
 
 
-#----------------------------------------------------------------------------------------------------#
-#---------------------------------------- 0. Example Data -------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Example Data
+# =========================================================================================
 '''
 The examples below are intentionally self-contained.
 
@@ -148,9 +148,9 @@ print(df_people.schema)
 # + binary columns: payload
 
 
-#----------------------------------------------------------------------------------------------------#
-#---------------------------- 1. What selectors are and when to use them ----------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. What selectors are and when to use them
+# =========================================================================================
 '''
 Selectors are not ordinary column expressions like pl.col("salary_usd").
 They are schema-aware objects that expand to one or more columns.
@@ -175,13 +175,13 @@ print(df_people.select(cs.temporal()))
 # Selects temporal columns, such as Date, Datetime, Duration, and Time columns.
 
 
-#-----------------------------------------------------------------------------------------------------#
-#---------------------------------- 2. Select columns by data type -----------------------------------#
-#-----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Select columns by data type
+# =========================================================================================
 
-##################
+##--------------##
 ## cs.numeric() ##
-##################
+##--------------##
 '''
 cs.numeric() selects all numeric columns.
 This includes integers, floats, and Decimal columns.
@@ -201,9 +201,9 @@ print(df_people.select(cs.numeric()))
 # └─────┴────────────┴───────────┴────────────┴────────────┴──────────────┴──────┘
 # columns include: id, salary_usd, bonus_usd, score_2023, score_2024, commission, 2024
 
-##################
+##--------------##
 ## cs.integer() ##
-##################
+##--------------##
 '''
 cs.integer() selects all integer columns, signed and unsigned.
 '''
@@ -222,10 +222,10 @@ print(df_people.select(cs.integer()))
 # └─────┴───────────┴──────┘
 # columns include: id, bonus_usd, 2024
 
-############################
+##------------------------##
 ## cs.signed_integer()    ##
 ## cs.unsigned_integer()  ##
-############################
+##------------------------##
 '''
 Use signed_integer() or unsigned_integer() when you care about integer signedness.
 Most small tutorial DataFrames infer signed integers by default.
@@ -248,9 +248,9 @@ print(df_people.select(cs.signed_integer()))
 print(df_people.select(cs.unsigned_integer()))
 # usually empty here unless your schema contains unsigned integer dtypes
 
-################
+##------------##
 ## cs.float() ##
-################
+##------------##
 '''
 cs.float() selects all floating-point columns.
 '''
@@ -269,9 +269,9 @@ print(df_people.select(cs.float()))
 # └────────────┴────────────┴────────────┘
 # columns include: salary_usd, score_2023, score_2024
 
-##################
+##--------------##
 ## cs.decimal() ##
-##################
+##--------------##
 '''
 cs.decimal() selects Decimal columns.
 Decimal is useful for exact fixed-scale values such as money or rates.
@@ -291,9 +291,9 @@ print(df_people.select(cs.decimal()))
 # └──────────────┘
 # columns include: commission
 
-##################
+##--------------##
 ## cs.boolean() ##
-##################
+##--------------##
 '''
 cs.boolean() selects Boolean columns.
 '''
@@ -312,9 +312,9 @@ print(df_people.select(cs.boolean()))
 # └────────────┘
 # columns include: is_manager
 
-#################
+##-------------##
 ## cs.string() ##
-#################
+##-------------##
 '''
 cs.string() selects String columns.
 
@@ -350,9 +350,9 @@ print(df_people.select(cs.string(include_categorical=True)))
 # └───────────────┴─────────┴───────────┴──────────┘
 # columns include string columns and categorical columns such as dept_cat
 
-######################
+##------------------##
 ## cs.categorical() ##
-######################
+##------------------##
 '''
 cs.categorical() selects Categorical columns.
 '''
@@ -371,9 +371,9 @@ print(df_people.select(cs.categorical()))
 # └──────────┘
 # columns include: dept_cat
 
-###############
+##-----------##
 ## cs.enum() ##
-###############
+##-----------##
 '''
 cs.enum() selects Enum columns.
 Enum columns have a fixed set of allowed categories and a defined order.
@@ -393,9 +393,9 @@ print(df_people.select(cs.enum()))
 # └──────────┘
 # columns include: priority
 
-#################
+##-------------##
 ## cs.binary() ##
-#################
+##-------------##
 '''
 cs.binary() selects Binary columns.
 '''
@@ -414,9 +414,9 @@ print(df_people.select(cs.binary()))
 # └─────────┘
 # columns include: payload
 
-###################
+##---------------##
 ## cs.temporal() ##
-###################
+##---------------##
 '''
 cs.temporal() selects temporal columns, such as Date, Datetime, Duration, and Time columns.
 '''
@@ -435,13 +435,13 @@ print(df_people.select(cs.temporal()))
 # └────────────┴─────────────────────┴────────────┴──────────────┘
 
 
-#----------------------------------------------------------------------------------------------------#
-#---------------------------- 3. Select columns by exact dtype and nested dtype ----------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Select columns by exact dtype and nested dtype
+# =========================================================================================
 
-#################
+##-------------##
 ## cs.by_dtype ##
-#################
+##-------------##
 '''
 cs.by_dtype(...) selects columns whose dtype matches the given dtype or dtypes.
 
@@ -478,9 +478,9 @@ print(df_people.select(cs.by_dtype(pl.Date, pl.Datetime)))
 print(df_people.select(cs.by_dtype([pl.Date, pl.Datetime])))
 # A list of dtypes is also accepted.
 
-#################
+##-------------##
 ## cs.temporal ##
-#################
+##-------------##
 '''
 Temporal selectors:
 + cs.date()      -> Date columns
@@ -496,9 +496,9 @@ print(df_people.select(cs.time()))
 print(df_people.select(cs.duration()))
 print(df_people.select(cs.temporal()))
 
-#################
+##-------------##
 ## cs.nested() ##
-#################
+##-------------##
 '''
 Nested selectors:
 + cs.list()   -> List columns
@@ -523,13 +523,13 @@ print(df_people.select(cs.nested()))
 # columns include: tags, rgb, pay_info
 
 
-#----------------------------------------------------------------------------------------------------#
-#------------------------------ 4. Select columns by name or name pattern ---------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Select columns by name or name pattern
+# =========================================================================================
 
-################
+##------------##
 ## cs.by_name ##
-################
+##------------##
 '''
 cs.by_name(...) selects columns by exact name.
 
@@ -543,9 +543,9 @@ print(df_people.select(cs.by_name("id", "dept", "salary_usd")))
 print(df_people.select(cs.by_name("id", "optional_missing_col", require_all=False)))
 # Selects id and silently ignores optional_missing_col.
 
-####################
+##----------------##
 ## cs.starts_with ##
-####################
+##----------------##
 '''
 cs.starts_with(...) selects columns whose names start with one or more prefixes.
 '''
@@ -556,9 +556,9 @@ print(df_people.select(cs.starts_with("score_")))
 print(df_people.select(cs.starts_with("salary", "bonus")))
 # columns: salary_usd, bonus_usd
 
-##################
+##--------------##
 ## cs.ends_with ##
-##################
+##--------------##
 '''
 cs.ends_with(...) selects columns whose names end with one or more suffixes.
 '''
@@ -569,9 +569,9 @@ print(df_people.select(cs.ends_with("_usd")))
 print(df_people.select(cs.ends_with("_2023", "_2024")))
 # columns: score_2023, score_2024
 
-#################
+##-------------##
 ## cs.contains ##
-#################
+##-------------##
 '''
 cs.contains(...) selects columns whose names contain a literal substring.
 This is not regex; use cs.matches(...) for regex patterns.
@@ -583,9 +583,9 @@ print(df_people.select(cs.contains("score")))
 print(df_people.select(cs.contains("date", "login")))
 # columns with names containing date or login
 
-################
+##------------##
 ## cs.matches ##
-################
+##------------##
 '''
 cs.matches(...) selects columns whose names match a regular expression.
 
@@ -600,9 +600,9 @@ print(df_people.select(cs.matches(r"^score_\d{4}$")))
 print(df_people.select(cs.matches(r".*_usd$")))
 # columns: salary_usd, bonus_usd
 
-###############################################
+##-------------------------------------------##
 ## cs.alpha(), cs.alphanumeric(), cs.digit() ##
-###############################################
+##-------------------------------------------##
 '''
 These selectors are about the characters in the column names:
 + cs.alpha()        -> names that contain only alphabetic characters
@@ -635,13 +635,13 @@ print(df_name_rules.select(cs.alpha(ignore_spaces=True)))
 # columns: abc, has space
 
 
-#----------------------------------------------------------------------------------------------------#
-#------------------------------------ 5. Select columns by position ----------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Select columns by position
+# =========================================================================================
 
-############
+##--------##
 ## cs.all ##
-############
+##--------##
 '''
 cs.all() selects all columns.
 It is similar in spirit to pl.all(), but it is a selector.
@@ -650,9 +650,9 @@ It is similar in spirit to pl.all(), but it is a selector.
 print(df_people.select(cs.all()))
 # all columns
 
-##############
+##----------##
 ## cs.first ##
-##############
+##----------##
 '''
 cs.first() selects the first column in the current schema/context.
 '''
@@ -660,9 +660,9 @@ cs.first() selects the first column in the current schema/context.
 print(df_people.select(cs.first()))
 # column: id
 
-#############
+##---------##
 ## cs.last ##
-#############
+##---------##
 '''
 cs.last() selects the last column in the current schema/context.
 '''
@@ -670,9 +670,9 @@ cs.last() selects the last column in the current schema/context.
 print(df_people.select(cs.last()))
 # column: pay_info
 
-#################
+##-------------##
 ## cs.by_index ##
-#################
+##-------------##
 '''
 cs.by_index(...) selects columns by their zero-based positions.
 It also accepts range objects.
@@ -688,9 +688,9 @@ print(df_people.select(cs.by_index(-1)))
 # last column by position
 
 
-#----------------------------------------------------------------------------------------------------#
-#------------------------------ 6. Combine selectors with set operations ----------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Combine selectors with set operations
+# =========================================================================================
 '''
 Selectors support set operations:
 
@@ -705,9 +705,9 @@ Selector results follow the original DataFrame schema order, not the order of th
 set expression you wrote.
 '''
 
-##################
+##--------------##
 ## Union: A | B ##
-##################
+##--------------##
 
 print(df_people.select(cs.string() | cs.boolean()))
 # all string columns plus boolean columns, in schema order
@@ -715,9 +715,9 @@ print(df_people.select(cs.string() | cs.boolean()))
 print(df_people.select(cs.temporal() | cs.starts_with("score_")))
 # temporal columns plus score columns
 
-#########################
+##---------------------##
 ## Intersection: A & B ##
-#########################
+##---------------------##
 
 print(df_people.select(cs.numeric() & cs.ends_with("_usd")))
 # numeric columns whose names end with _usd: salary_usd, bonus_usd
@@ -725,9 +725,9 @@ print(df_people.select(cs.numeric() & cs.ends_with("_usd")))
 print(df_people.select(cs.float() & cs.contains("score")))
 # float columns whose names contain score: score_2023, score_2024
 
-#######################
+##-------------------##
 ## Difference: A - B ##
-#######################
+##-------------------##
 
 print(df_people.select(cs.numeric() - cs.by_name("id")))
 # numeric columns except id
@@ -735,9 +735,9 @@ print(df_people.select(cs.numeric() - cs.by_name("id")))
 print(df_people.select(cs.all() - cs.nested()))
 # all columns except List, Array, and Struct columns
 
-#################################
+##-----------------------------##
 ## Symmetric difference: A ^ B ##
-#################################
+##-----------------------------##
 '''
 A ^ B means columns that are in A or B, but not both (exclusive OR).
 '''
@@ -745,9 +745,9 @@ A ^ B means columns that are in A or B, but not both (exclusive OR).
 print(df_people.select(cs.starts_with("score") ^ cs.ends_with("_2024")))
 # score_2023 is selected; score_2024 is in both sides, so it is removed
 
-####################
+##----------------##
 ## Complement: ~A ##
-####################
+##----------------##
 
 print(df_people.select(~cs.numeric()))
 # all non-numeric columns
@@ -756,13 +756,13 @@ print(df_people.select(~cs.by_name("id", "employee name")))
 # all columns except id and employee name
 
 
-#----------------------------------------------------------------------------------------------------#
-#------------------ 7. Use selectors with expressions in select(), with_columns(), group_by() --------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Use selectors with expressions in select(), with_columns(), group_by()
+# =========================================================================================
 
-##########################
+##----------------------##
 ## select() expressions ##
-##########################
+##----------------------##
 '''
 Selectors can broadcast expression methods over all matched columns.
 
@@ -783,9 +783,9 @@ print(
 )
 # Every numeric column is multiplied by 2 and renamed with a suffix.
 
-################################
+##----------------------------##
 ## with_columns() expressions ##
-################################
+##----------------------------##
 '''
 with_columns() keeps all original columns and adds/replaces transformed columns.
 
@@ -806,9 +806,9 @@ print(
 )
 # Adds salary_usd_thousands and bonus_usd_thousands.
 
-#######################
+##-------------------##
 ## group_by() + agg  ##
-#######################
+##-------------------##
 '''
 Selectors can be used in group_by() and agg().
 
@@ -831,9 +831,9 @@ print(
 )
 # Group by categorical columns and compute the mean of numeric columns.
 
-##################################
+##------------------------------##
 ## Selector.exclude(...) method ##
-##################################
+##------------------------------##
 '''
 Selector objects also have an .exclude(...) method.
 
@@ -846,9 +846,9 @@ print(df_people.select(cs.numeric().exclude("id")))
 print(df_people.select(cs.all().exclude("payload", "pay_info")))
 # all columns except payload and pay_info
 
-#####################
+##-----------------##
 ## cs.exclude(...) ##
-#####################
+##-----------------##
 '''
 cs.exclude(...) is a selector-level helper for selecting everything except the
 specified names, dtypes, or selectors.
@@ -864,9 +864,9 @@ print(df_people.select(cs.exclude(pl.Boolean)))
 # all columns except Boolean columns
 
 
-#----------------------------------------------------------------------------------------------------#
-#------------------------------ 8. Avoid operator ambiguity with as_expr() --------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Avoid operator ambiguity with as_expr()
+# =========================================================================================
 '''
 Some Python operators have different meanings for selectors and expressions.
 
@@ -912,7 +912,7 @@ print(df_flags.select((~cs.boolean().as_expr()).name.prefix("not_")))
 # │ false         ┆ true           │
 # └───────────────┴────────────────┘
 
-################################
+##----------------------------##
 
 # Another example: use OR on selector sets vs OR on expression values.
 print(df_flags.select(cs.starts_with("has_") | cs.by_name("score")))
@@ -926,13 +926,13 @@ print(
 # expression OR: Boolean logic applied to the values.
 
 
-#----------------------------------------------------------------------------------------------------#
-#--------------------------- 9. Debug selectors with utilities --------------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. Debug selectors with utilities
+# =========================================================================================
 
-####################
+##----------------##
 ## cs.is_selector ##
-####################
+##----------------##
 '''
 cs.is_selector(obj) checks whether an object is a selector.
 This is useful when code starts mixing selectors and normal expressions.
@@ -946,9 +946,9 @@ expr_numeric_no_id = selector_numeric_no_id.as_expr()
 print(cs.is_selector(expr_numeric_no_id))
 # False
 
-########################
+##--------------------##
 ## cs.expand_selector ##
-########################
+##--------------------##
 '''
 cs.expand_selector(target, selector) shows which columns a selector expands to
 for a particular DataFrame, LazyFrame, or schema.
@@ -967,9 +967,9 @@ print(cs.expand_selector(df_people, cs.all() - cs.nested()))
 # all non-nested column names
 
 
-#----------------------------------------------------------------------------------------------------#
-#---------------------------------- 10. Selectors in LazyFrame --------------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 10. Selectors in LazyFrame
+# =========================================================================================
 '''
 Selectors work naturally in LazyFrame pipelines because they resolve against the
 LazyFrame schema.
@@ -1011,9 +1011,9 @@ print(lazy_query.explain())
 # Shows the lazy query plan.
 
 
-#----------------------------------------------------------------------------------------------------#
-#------------------------------ 11. Categorized selector API list -----------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 11. Categorized selector API list
+# =========================================================================================
 '''
 Below is a categorized map of the selector APIs documented in Polars.
 This final section is a reference list, not a full demo of every function.

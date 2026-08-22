@@ -30,9 +30,9 @@ xtick_labels = (
     "12:00am",
 )
 
-#############################################
+##-----------------------------------------##
 # Price data generation - price values and intervals based off of PG&E Time Of Use plans
-#############################################
+##-----------------------------------------##
 partial_peak_start = 34  # 08:30
 peak_start = 48  # 12:00
 peak_end = 72  # 18:00 (6:00pm)
@@ -83,9 +83,9 @@ if PLOT_FIGURES:
     plt.show()
 
 
-#############################################
+##-----------------------------------------##
 # Solar data generation
-#############################################
+##-----------------------------------------##
 # Just something simple: a shifted cosine wave, squared to smooth edges, peak at noon
 shift = N / 2
 p_pv = np.power(np.cos((np.arange(N) - shift) * 2 * np.pi / N), 2)
@@ -106,9 +106,9 @@ if PLOT_FIGURES:
     plt.show()
 
 
-#############################################
+##-----------------------------------------##
 # Load Data Generation (using cvx)
-#############################################
+##-----------------------------------------##
 # Fit a curve to some handpicked points and constrain the end points
 # to match and the derivative at the end to be the same at the beginning
 
@@ -179,9 +179,9 @@ if PLOT_FIGURES:
     plt.show()
 
 
-#############################################
+##-----------------------------------------##
 # Battery and Grid Line Constraint Values
-#############################################
+##-----------------------------------------##
 # Max charge and discharge rates
 D = 10  # Max discharge rate (kW)
 C = 8  # Max charge rate (kW)

@@ -31,9 +31,9 @@ from datetime import datetime # from datetime: this datetime is a module, a .py 
 from datetime import date
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#------------------------------------ 1. datetime object's attributes ------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. datetime object's attributes
+# ==============================================================================================
 
 print(datetime.now())   # Current moment
 print(datetime.today()) # Current day
@@ -62,9 +62,9 @@ It means year 1, January, day 1st, at 0h 0m
 '''
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------ 2. datetime.date() and datetime.datetime() --------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. datetime.date() and datetime.datetime()
+# ==============================================================================================
 
 # date() is a class inside the datetime module, used to create date objects
 birthday1 = date(1890, 5, 19) # Generate a datetime object, year 1890, May, day 29th
@@ -81,9 +81,9 @@ Difference between date() and datetime():
 '''
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------ 3. datetime.strptime() and datetime.strftime() ----------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. datetime.strptime() and datetime.strftime()
+# ==============================================================================================
 
 '''
 %Y - Year with century (2025)
@@ -102,9 +102,9 @@ Difference between date() and datetime():
 %z - UTC offset (+HHMM or -HHMM)
 '''
 
-#############################################################
+##---------------------------------------------------------##
 ## datetime.strptime() convert string into datetime object ##
-#############################################################
+##---------------------------------------------------------##
 
 day1 = datetime.strptime('18/2/2024','%d/%m/%Y') # datetime.datetime(2024, 2, 18, 0, 0)
 print(day1)
@@ -120,9 +120,9 @@ print(day3)
 
 # day1 day2 day3 will share the same value as datetime.datetime(2024, 2, 18, 0, 0)
 
-#############################################################
+##---------------------------------------------------------##
 ## datetime.strftime() convert datetime object into string ##
-#############################################################
+##---------------------------------------------------------##
 
 day4 = day1.strftime('%d-%m-%Y')    # '18-02-2024'
 day5 = day2.strftime('%A %d/%m/%Y') # 'Sunday 18/02/2024' (return a string object)
@@ -137,17 +137,17 @@ print(index_week_day) # 6
 # (0: Monday, 1: Tuesday,....., 6: Sunday)
 
 
-#-----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------ 4. timedelta ---------------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 4. timedelta
+# ==============================================================================================
 
 # timedelta is a class inside the datetime module, used to represent a duration, the difference between two dates or times
 
 from datetime import date, datetime, timedelta
 
-###################################
+##-------------------------------##
 ## timedelta object's attributes ##
-###################################
+##-------------------------------##
 
 # Calculate timedelta as day and second
 day1 = datetime(2018, 6, 18, 7, 30, 00)
@@ -162,9 +162,9 @@ print(delta_days)
 delta_seconds = t1.seconds  # Timedelta in counted in seconds (excluding days)
 print(delta_seconds)
 
-##########################
+##----------------------##
 ## timedelta() function ##
-##########################
+##----------------------##
 
 tomorrow = date.today() + timedelta(days=1, seconds=0, microseconds=0)
 print(tomorrow)
@@ -177,9 +177,9 @@ print(yesterday2)
 
 # yesterday1 and yesterday2 will share the same value
 
-#################################
+##-----------------------------##
 ## Create a timedelta() object ##
-#################################
+##-----------------------------##
 
 t = timedelta(days=5, hours=1, minutes=10, seconds=30)
 
@@ -187,16 +187,16 @@ total_delta_seconds = t.total_seconds() # Convert all the timedelta into seconds
 print(total_delta_seconds)
 
 
-#-----------------------------------------------------------------------------------------------------------------------#
-#--------------------------------------------------- 5. pytz module ----------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 5. pytz module
+# ==============================================================================================
 
 import pytz
 import datetime
 
-###########################
+##-----------------------##
 ## Get a timezone object ##
-###########################
+##-----------------------##
 
 tz_UTC = pytz.timezone('UTC')  # Coordinated Universal Time
 print(tz_UTC) # UTC
@@ -210,17 +210,15 @@ print(tz_US_Eastern) # US/Eastern
 tz_Seoul = pytz.timezone('Asia/Seoul') # Seoul, South Korea
 print(tz_Seoul) # Asia/Seoul
 
-##########################################
+##--------------------------------------##
 ## Name of all timezones in pytz module ##
-##########################################
+##--------------------------------------##
 
 print(pytz.all_timezones) # Return a list of all timezone names supported in pytz module
 # ['Africa/Abidjan', 'Africa/Accra', 'Africa/Addis_Ababa', ....... 'UTC', 'US/Alaska', 'US/Aleutian', 'US/Arizona', ....... ]
 
-#----
-## Apply for loop
-#----
-
+# ## Apply for loop
+# 
 for i, tz_name in enumerate(pytz.all_timezones):
     print(i, tz_name)
     if i >= 10:
@@ -237,10 +235,8 @@ for i, tz_name in enumerate(pytz.all_timezones):
 # 9 Africa/Bissau
 # 10 Africa/Blantyre
 
-#----
-## Use if-else conditions to filter timezones
-#----
-
+# ## Use if-else conditions to filter timezones
+# 
 for i, tz_name in enumerate(pytz.all_timezones):
     if ('Asia' in tz_name) and (269 <= i <= 279):
         print(i, tz_name)
@@ -256,10 +252,8 @@ for i, tz_name in enumerate(pytz.all_timezones):
 # 278 Asia/Kamchatka
 # 279 Asia/Karachi
 
-#----
-## Use Regular Expression to filter timezones
-#----
-
+# ## Use Regular Expression to filter timezones
+# 
 import re
 
 for tz_name in pytz.all_timezones:
@@ -270,9 +264,9 @@ for tz_name in pytz.all_timezones:
 # Asia/Kamchatka
 # Asia/Ust-Nera
 
-################################
+##----------------------------##
 ## Localize a datetime object ##
-################################
+##----------------------------##
 '''Use timezone_object.localize(datetime_object) to localize a datetime object to a specific timezone.'''
 
 # Create a datetime object without timezone info (naive datetime)
@@ -302,9 +296,9 @@ So, at Seoul is 12:00 PM (noon) on June 18, 2024.
 At UTC, it will be 03:00 AM (9 hours behind).
 '''
 
-##################################################
+##----------------------------------------------##
 ## Convert between timezones of datetime object ##
-##################################################
+##----------------------------------------------##
 '''
 Use datetime_object.astimezone(timezone_object) to convert a datetime object to another timezone.
 NOTE: the datetime object must be timezone-aware (i.e., it has timezone info).
@@ -324,9 +318,9 @@ print(dt_UTC.astimezone(pytz.timezone('Asia/Seoul'))) # 2024-06-18 17:35:12+09:0
 # Convert to Ho Chi Minh City timezone
 print(dt_UTC.astimezone(pytz.timezone('Asia/Ho_Chi_Minh'))) # 2024-06-18 15:35:12+07:00
 
-#################################
+##-----------------------------##
 ## Normalize a datetime object ##
-#################################
+##-----------------------------##
 '''
 ------------------------------
 
@@ -387,9 +381,9 @@ Why from -05:00 to -04:00?
 - After DST starts, Eastern Time shifts to UTC-4.
 '''
 
-############################################
+##----------------------------------------##
 ## Check timezone info of datetime object ##
-############################################
+##----------------------------------------##
 '''Use datetime_object.tzinfo to check the timezone info of a datetime object.'''
 
 naive_dt = datetime.datetime(2024, 6, 18, 12, 0, 0) # Naive datetime object (no timezone info)

@@ -21,7 +21,7 @@ Key Differences from Pandas:
    .dt.month(), and normal comparisons.
 6. In Polars, False and null values in a filter predicate are discarded.
 
-###############################
+##---------------------------##
 
 1. Series Filtering with One Condition
    + Logic Operators: >, <, >=, <=, .is_between(), ==, !=
@@ -43,9 +43,9 @@ import datetime as dt
 import polars as pl
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 0. Polars .filter() Basics ----------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Polars .filter() Basics
+# =========================================================================================
 '''
 Series.filter(predicate) takes a Boolean Series or list of booleans.
 Rows/elements where the predicate is True are kept.
@@ -58,7 +58,7 @@ mask_basic = pl.Series("mask", [True, False, True, False])
 print(s_basic.filter(mask_basic).to_list())
 # [1, 3]
 
-#########################
+##---------------------##
 
 # Boolean masks can contain nulls; null is treated like "not True" and is discarded.
 s_null_mask = pl.Series("values", [10, 20, 30])
@@ -68,9 +68,9 @@ print(s_null_mask.filter(mask_with_null).to_list())
 # [10]
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 1. Single Condition Examples -----------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Single Condition Examples
+# =========================================================================================
 
 s1_nums = pl.Series("s1_nums", [13.75, 19.51, 17.32, 15.99, 11.56, 11.56, 10.58, 18.66, 16.01, 17.08])
 s2_nums = pl.Series("s2_nums", [13.21, 13.66, 17.10, 19.00, 15.34, 12.47, 16.72, 15.62, 15.43, 18.93])
@@ -85,14 +85,12 @@ print(s2_nums)
 # Series: 's2_nums' [f64]
 # [13.21, 13.66, 17.1, 19.0, 15.34, 12.47, 16.72, 15.62, 15.43, 18.93]
 
-##########################################################
+##------------------------------------------------------##
 ## Logic Operators: >, <, >=, <=, .is_between(), ==, != ##
-##########################################################
+##------------------------------------------------------##
 
-#-------------
-## > (greater than)
-#-------------
-
+# ## > (greater than)
+# 
 print((s1_nums > 15).to_list())
 # [False, True, True, True, False, False, False, True, True, True]
 
@@ -102,40 +100,32 @@ print(s1_nums.filter(s1_nums > 15).to_list())  # Returns values greater than 15 
 print(s2_nums.filter(s2_nums > s1_nums).to_list())  # Element-wise comparison by row position
 # [19.0, 15.34, 12.47, 16.72, 18.93]
 
-#-------------
-## < (less than)
-#-------------
-
+# ## < (less than)
+# 
 print(s1_nums.filter(s1_nums < 13).to_list())  # Returns values less than 13
 # [11.56, 11.56, 10.58]
 
 print(s2_nums.filter(s2_nums < s1_nums).to_list())  # Element-wise comparison by row position
 # [13.21, 13.66, 17.1, 15.62, 15.43]
 
-#-------------
-## >= (greater than or equal to)
-#-------------
-
+# ## >= (greater than or equal to)
+# 
 print(s1_nums.filter(s1_nums >= 15.99).to_list())
 # [19.51, 17.32, 15.99, 18.66, 16.01, 17.08]
 
 print(s2_nums.filter(s2_nums >= s1_nums).to_list())
 # [19.0, 15.34, 12.47, 16.72, 18.93]
 
-#-------------
-## <= (less than or equal to)
-#-------------
-
+# ## <= (less than or equal to)
+# 
 print(s1_nums.filter(s1_nums <= 11.56).to_list())
 # [11.56, 11.56, 10.58]
 
 print(s2_nums.filter(s2_nums <= s1_nums).to_list())
 # [13.21, 13.66, 17.1, 15.62, 15.43]
 
-#-------------
-## .is_between()
-#-------------
-'''
+# ## .is_between()
+# '''
 Pandas: s.between(left, right, inclusive="both")
 Polars: s.is_between(lower_bound, upper_bound, closed="both")
 
@@ -152,20 +142,16 @@ print(s1_nums.filter(s1_nums.is_between(10, 15.99, closed="left")).to_list())
 # [13.75, 11.56, 11.56, 10.58]
 '''The value 15.99 is excluded because the right endpoint is not closed.'''
 
-#-------------
-## == (equal to)
-#-------------
-
+# ## == (equal to)
+# 
 print(s1_nums.filter(s1_nums == 11.56).to_list())
 # [11.56, 11.56]
 
 print(s2_nums.filter(s2_nums == s1_nums).to_list())
 # []
 
-#-------------
-## != (not equal to)
-#-------------
-
+# ## != (not equal to)
+# 
 print(s1_nums.filter(s1_nums != 11.56).to_list())
 # [13.75, 19.51, 17.32, 15.99, 10.58, 18.66, 16.01, 17.08]
 
@@ -173,9 +159,9 @@ print(s2_nums.filter(s2_nums != s1_nums).to_list())
 # [13.21, 13.66, 17.1, 19.0, 15.34, 12.47, 16.72, 15.62, 15.43, 18.93]
 '''All values are returned because none of the values in s2_nums equal the corresponding row-position values in s1_nums.'''
 
-###############################
+##---------------------------##
 ##          .is_in()          ##
-###############################
+##---------------------------##
 
 s_mammals = pl.Series("mammals", ["llama", "cow", "llama", "beetle", "llama", "hippo"])
 
@@ -188,9 +174,9 @@ print(s_mammals.filter(s_mammals.is_in(["cow", "llama"])).to_list())
 print(s_mammals.filter(s_mammals.is_in(["llama"])).to_list())
 # ['llama', 'llama', 'llama']
 
-##################################
+##------------------------------##
 ##        String Boolean        ##
-##################################
+##------------------------------##
 '''
 Polars uses the .str namespace for string operations.
 By default, .str.contains() treats the pattern as regex.
@@ -236,9 +222,9 @@ print(s_timezones.filter(s_timezones.str.ends_with("lu")).to_list())
 print(s_timezones.filter(s_timezones == "Zulu").to_list())
 # ['Zulu']
 
-#################################
+##-----------------------------##
 ##      DateTime Boolean       ##
-#################################
+##-----------------------------##
 '''
 Polars does not use pandas-style DateTimeIndex logic.
 For Series, build a Boolean Series and call .filter(mask).
@@ -274,9 +260,9 @@ print(s_datetime.filter(mask_quarter_end).dt.strftime("%Y-%m-%d").to_list())
 # ['2023-03-31', '2023-06-30']
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#--------------------------------- 2. Negation of Condition: ~ (tilde) operator ---------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Negation of Condition: ~ (tilde) operator
+# =========================================================================================
 
 '''
 The tilde (~) operator negates a boolean condition in Polars.
@@ -301,13 +287,13 @@ print(s_datetime.filter(~mask_quarter_end).dt.strftime("%Y-%m-%d").to_list())
 # ['2023-01-01', '2023-01-31', '2023-02-28', '2023-04-30', '2023-05-31']
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 3. Combine Multiple Conditions ------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Combine Multiple Conditions
+# =========================================================================================
 
-###########################
+##-----------------------##
 ##       & (and)         ##
-###########################
+##-----------------------##
 '''True only when ALL conditions are True.'''
 
 print(s1_nums.filter((s1_nums > 12) & (s1_nums.round(0) % 2 == 0)).to_list())
@@ -324,9 +310,9 @@ mask_asia_ending_e_or_u = s_timezones.str.contains("Asia", literal=True) & (
 print(s_timezones.filter(mask_asia_ending_e_or_u).to_list())
 # ['Asia/Aqtau', 'Asia/Aqtobe', 'Asia/Baku', 'Asia/Dushanbe', 'Asia/Kathmandu', 'Asia/Macau', 'Asia/Singapore', 'Asia/Thimbu', 'Asia/Thimphu', 'Asia/Vientiane']
 
-###########################
+##-----------------------##
 ##       | (or)          ##
-###########################
+##-----------------------##
 '''False only when ALL conditions are False.'''
 
 print(s1_nums.filter((s1_nums < 12) | (s1_nums > 18)).to_list())
@@ -343,9 +329,9 @@ mask_korea_or_japan = (
 print(s_timezones.filter(mask_korea_or_japan).to_list())
 # ['Asia/Seoul', 'Asia/Tokyo']
 
-###############################
+##---------------------------##
 ##      Combine & and |      ##
-###############################
+##---------------------------##
 
 print(s1_nums.filter(((s1_nums < 12) | (s1_nums > 18)) & (s1_nums.round(0) % 2 == 0)).to_list())
 # [19.51, 11.56, 11.56]
@@ -362,9 +348,9 @@ it satisfies the second condition, so it is returned.
 '''
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#----------------------------------- 4. DataFrame Filtering with .filter() --------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. DataFrame Filtering with .filter()
+# =========================================================================================
 '''
 Most real Polars workflows filter DataFrames with expressions:
 
@@ -384,9 +370,9 @@ df_scores = pl.DataFrame(
     }
 )
 
-############################
+##------------------------##
 ## Basic DataFrame filter ##
-############################
+##------------------------##
 
 print(df_scores.filter(pl.col("score") > 80).to_dicts())
 # [{'name': 'Ada', 'city': 'Seoul', 'score': 91, 'passed': True}, {'name': 'Cara', 'city': 'Seoul', 'score': 85, 'passed': True}, {'name': 'Eli', 'city': 'Tokyo', 'score': 88, 'passed': True}]
@@ -394,9 +380,9 @@ print(df_scores.filter(pl.col("score") > 80).to_dicts())
 print(df_scores.filter(pl.col("city") == "Seoul").to_dicts())
 # [{'name': 'Ada', 'city': 'Seoul', 'score': 91, 'passed': True}, {'name': 'Cara', 'city': 'Seoul', 'score': 85, 'passed': True}, {'name': 'Fay', 'city': 'Seoul', 'score': 70, 'passed': False}]
 
-################################
+##----------------------------##
 ## .is_between() in DataFrame ##
-################################
+##----------------------------##
 
 print(df_scores.filter(pl.col("score").is_between(70, 88)).to_dicts())
 # [{'name': 'Ben', 'city': 'Tokyo', 'score': 78, 'passed': True}, {'name': 'Cara', 'city': 'Seoul', 'score': 85, 'passed': True}, {'name': 'Eli', 'city': 'Tokyo', 'score': 88, 'passed': True}, {'name': 'Fay', 'city': 'Seoul', 'score': 70, 'passed': False}]
@@ -404,16 +390,16 @@ print(df_scores.filter(pl.col("score").is_between(70, 88)).to_dicts())
 print(df_scores.filter(pl.col("score").is_between(70, 88, closed="left")).to_dicts())
 # [{'name': 'Ben', 'city': 'Tokyo', 'score': 78, 'passed': True}, {'name': 'Cara', 'city': 'Seoul', 'score': 85, 'passed': True}, {'name': 'Fay', 'city': 'Seoul', 'score': 70, 'passed': False}]
 
-###########################
+##-----------------------##
 ## .is_in() in DataFrame ##
-###########################
+##-----------------------##
 
 print(df_scores.filter(pl.col("city").is_in(["Seoul", "Busan"])).to_dicts())
 # [{'name': 'Ada', 'city': 'Seoul', 'score': 91, 'passed': True}, {'name': 'Cara', 'city': 'Seoul', 'score': 85, 'passed': True}, {'name': 'Dan', 'city': 'Busan', 'score': 62, 'passed': False}, {'name': 'Fay', 'city': 'Seoul', 'score': 70, 'passed': False}]
 
-##############################
+##--------------------------##
 ## Multiple DataFrame masks ##
-##############################
+##--------------------------##
 
 # AND: Seoul students who passed
 print(df_scores.filter((pl.col("city") == "Seoul") & pl.col("passed")).to_dicts()) # not recommend (pl.col("passed") == True)
@@ -427,9 +413,9 @@ print(df_scores.filter((pl.col("score") < 75) | (pl.col("city") == "Tokyo")).to_
 print(df_scores.filter(~(pl.col("city") == "Seoul")).to_dicts())
 # [{'name': 'Ben', 'city': 'Tokyo', 'score': 78, 'passed': True}, {'name': 'Dan', 'city': 'Busan', 'score': 62, 'passed': False}, {'name': 'Eli', 'city': 'Tokyo', 'score': 88, 'passed': True}]
 
-#######################################
+##-----------------------------------##
 ## Multiple predicates as *arguments ##
-#######################################
+##-----------------------------------##
 '''
 DataFrame.filter() can receive multiple predicates.
 Multiple predicates are implicitly combined with AND.
@@ -443,9 +429,9 @@ print(
 )
 # [{'name': 'Ada', 'city': 'Seoul', 'score': 91, 'passed': True}, {'name': 'Cara', 'city': 'Seoul', 'score': 85, 'passed': True}, {'name': 'Eli', 'city': 'Tokyo', 'score': 88, 'passed': True}]
 
-########################################
+##------------------------------------##
 ## Keyword constraints in df.filter() ##
-########################################
+##------------------------------------##
 '''
 Polars also supports keyword constraints in DataFrame.filter().
 For example, df.filter(city="Seoul") behaves like:

@@ -90,13 +90,13 @@ X, labels_true = make_blobs(n=30)   # 90 × 2, 3 clusters
 X_1d = rng.normal(0, 1, (60, 1))    # 1-D data for simple demos
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════  PART A — PREPROCESSING  (scipy.cluster.vq)  ═══════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-#############
+##---------##
 ## whiten() #
-#############
+##---------##
 '''
 whiten(obs, check_finite=True) -> ndarray
   Normalise each feature (column) of the observation matrix by dividing
@@ -136,13 +136,13 @@ X_ueq_w = whiten(X_unequal)
 print("Unequal scales, std after whiten:", X_ueq_w.std(axis=0).round(4))   # [1. 1.]
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════════  PART B — K-MEANS  (scipy.cluster.vq)  ══════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-##############
+##----------##
 ## kmeans() ##
-##############
+##----------##
 '''
 kmeans(obs, k_or_guess, iter=10, thresh=1e-05, check_finite=True, seed=None)
   -> (codebook, distortion)
@@ -201,9 +201,9 @@ print("Distortion by k:", [f"{d:.3f}" for d in distortions])
 # Distortion by k: ['1.391', '0.896', '0.325', '0.289', '0.257', '0.235', '0.224']
 # Large drop from k=1->2->3, then flattens — elbow at k=3
 
-###############
+##-----------##
 ## kmeans2() ##
-###############
+##-----------##
 '''
 kmeans2(data, k, iter=10, thresh=1e-05, minit='random',
         missing='warn', check_finite=True, seed=None)
@@ -275,9 +275,9 @@ init_mat = X_w[np.array([0, 30, 60])]   # one seed per true cluster
 centroid_m, label_m = kmeans2(X_w, init_mat, minit='matrix', iter=30)
 print(f"kmeans2 (matrix init) accuracy: {cluster_accuracy(labels_true, label_m):.2%}") # 100%
 
-##########
+##------##
 ## vq() ##
-##########
+##------##
 '''
 vq(obs, code_book, check_finite=True) -> (code, dist)
   Vector quantisation: assign each observation to its nearest centroid.
@@ -322,13 +322,13 @@ reconstruction_error = np.mean((X - X_reconstructed)**2)
 print(f"MSE reconstruction error: {reconstruction_error:.4f}") # 0.2650
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════  PART C — LINKAGE CONSTRUCTION  (scipy.cluster.hierarchy)  ══════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-###############
+##-----------##
 ## linkage() ##
-###############
+##-----------##
 '''
 linkage(y, method='single', metric='euclidean', optimal_ordering=False)
   -> Z  (ndarray of shape (N-1, 4))
@@ -399,9 +399,9 @@ print(f"Merge distances — min: {merge_dists.min():.4f}, "
       f"big gap at: {np.sort(np.diff(merge_dists))[-3:].round(4)}") # [ 1.0069  1.0397 20.9785]
 # Large jumps between natural clusters signal the right number of groups
 
-#########################################
+##-------------------------------------##
 ## from_mlab_linkage / to_mlab_linkage ##
-#########################################
+##-------------------------------------##
 '''
 MATLAB's linkage uses 1-based indexing; scipy uses 0-based.
 
@@ -419,13 +419,13 @@ print("MATLAB linkage first row:", Z_matlab[0])
 # indices are +1 vs scipy
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════  PART D — FLAT CLUSTER EXTRACTION  (scipy.cluster.hierarchy)  ═══════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-################
+##------------##
 ## fcluster() ##
-################
+##------------##
 '''
 fcluster(Z, t, criterion='inconsistent', depth=2, R=None, monocrit=None)
   -> labels  (ndarray of shape (N,), dtype int, 1-based)
@@ -489,9 +489,9 @@ for name, Z_m in [('single', Z_single), ('complete', Z_complete),
   # average    maxclust=3  accuracy=100.00%
   # ward       maxclust=3  accuracy=100.00%
 
-####################
+##----------------##
 ## fclusterdata() ##
-####################
+##----------------##
 '''
 fclusterdata(X, t, criterion='inconsistent', metric='euclidean',
              depth=2, method='single', R=None)
@@ -511,9 +511,9 @@ labels_fcd = fclusterdata(X, t=3, criterion='maxclust',
                           method='ward', metric='euclidean')
 print(f"\nfclusterdata accuracy: {cluster_accuracy(labels_true, labels_fcd - 1):.2%}") # 100%
 
-################
+##------------##
 ## cut_tree() ##
-################
+##------------##
 '''
 cut_tree(Z, n_clusters=None, height=None)
   -> (N, len(n_clusters)) int array of 0-based cluster labels
@@ -551,9 +551,9 @@ print(f"\nHeight cuts {h_vals} -> unique clusters per cut:",
       [len(np.unique(cuts_h[:, i])) for i in range(len(h_vals))])
 # Height cuts [1.0, 3.0, 8.0] -> unique clusters per cut: [18, 7, 3]
 
-###############
+##-----------##
 ## leaders() ##
-###############
+##-----------##
 '''
 leaders(Z, T) -> (L, M)
   Find the "leader" (root node index) of each flat cluster.
@@ -578,13 +578,13 @@ print(f"\nLeaders: node indices={L}, cluster labels={M}") # node indices=[175 17
 print(f"Internal nodes (>= N={N_obs}): {L[L >= N_obs]}") # Internal nodes (>= N=90): [175 176 174]
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════  PART E — DENDROGRAM & VISUALISATION  ═══════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-##################
+##--------------##
 ## dendrogram() ##
-##################
+##--------------##
 '''
 dendrogram(Z, p=30, truncate_mode=None, color_threshold=None,
            get_leaves=True, orientation='top', labels=None,
@@ -656,9 +656,9 @@ try:
 except Exception as e:
     print(f"Matplotlib plot skipped: {e}")
 
-###################
+##---------------##
 ## leaves_list() ##
-###################
+##---------------##
 '''
 leaves_list(Z) -> ndarray of shape (N,)
   Return the left-to-right ordering of leaves in the dendrogram.
@@ -684,13 +684,13 @@ print("First block (top-left 5x5):\n", D_reordered[:5, :5].round(3))
 #  [0.341 0.208 0.265 0.352 0.   ]]
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════════  PART F — LINKAGE STATISTICS  ═══════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-################
+##------------##
 ## cophenet() ##
-################
+##------------##
 '''
 cophenet(Z, Y=None) -> (c, coph_dists)   if Y provided
                     -> c                  if Y is None (only correlation)
@@ -734,9 +734,9 @@ print(f"  average : {c_average:.4f}") # 0.9458
 print(f"Cophenetic distances — min: {coph_w.min():.4f}, max: {coph_w.max():.4f}") # min: 0.0361, max: 26.3522
 print(f"# cophenetic distances: {len(coph_w)} = N*(N-1)/2 = {len(X)*(len(X)-1)//2}") # 4005 = N*(N-1)/2 = 4005
 
-####################
+##----------------##
 ## inconsistent() ##
-####################
+##----------------##
 '''
 inconsistent(Z, d=2) -> R  (ndarray of shape (N-1, 4))
 
@@ -779,9 +779,9 @@ print("R(d=1) last 3 rows:\n", R_d1[-3:].round(4))
 #  [25.3453  0.      1.      0.    ]
 #  [26.3522  0.      1.      0.    ]]
 
-###################
+##---------------##
 ## maxinconsts() ##
-###################
+##---------------##
 '''
 maxinconsts(Z, R) -> MI  (ndarray shape (N-1,))
 
@@ -804,9 +804,9 @@ print("\nmaxinconsts (last 5):", MI[-5:].round(4))
 labels_monocrit = fcluster(Z_ward, t=1.5, criterion='monocrit', monocrit=MI)
 print(f"monocrit (t=1.5) distribution: {np.bincount(labels_monocrit)[1:]}") # [90]
 
-################
+##------------##
 ## maxdists() ##
-################
+##------------##
 '''
 maxdists(Z) -> MD  (ndarray shape (N-1,))
 
@@ -831,9 +831,9 @@ labels_md = fcluster(Z_ward, t=MD[np.searchsorted(MD, 3.0)],
 print(f"maxdists monocrit distribution: {np.bincount(labels_md)[1:]}")
 # maxdists monocrit distribution: [14 16 12 18 16 14]
 
-################
+##------------##
 ## maxRstat() ##
-################
+##------------##
 '''
 maxRstat(Z, R, i) -> MS  (ndarray shape (N-1,))
 
@@ -857,13 +857,13 @@ print("maxRstat col=0 (max mean height) last 5:", MS_col0[-5:].round(4)) # [ 2.3
 print("maxRstat col=2 (max count) last 5:", MS_col2[-5:]) # [3. 3. 3. 3. 3.]
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════════  PART G — TREE STRUCTURE  ══════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-###############
+##-----------##
 ## to_tree() ##
-###############
+##-----------##
 '''
 to_tree(Z, rd=False) -> root  (or (root, node_list) if rd=True)
 
@@ -895,9 +895,9 @@ print(f"Leaf nodes: {len(leaves_nodes)}")   # 90
 internal_nodes = [n for n in node_list if not n.is_leaf()]
 print(f"Internal nodes: {len(internal_nodes)}")   # 89
 
-#################
+##-------------##
 ## ClusterNode ##
-#################
+##-------------##
 '''
 ClusterNode attributes and methods:
 
@@ -964,9 +964,9 @@ print(f"Leaf depths — min: {min(depth_vals)}, max: {max(depth_vals)}, "
       f"mean: {np.mean(depth_vals):.1f}")
 # Leaf depths — min: 4, max: 10, mean: 7.0
 
-#############################
+##-------------------------##
 ## optimal_leaf_ordering() ##
-#############################
+##-------------------------##
 '''
 optimal_leaf_ordering(Z, y, metric='euclidean')
   -> Z_ordered  (same shape as Z, (N-1, 4))
@@ -1001,13 +1001,13 @@ print(f"\nAdjacent-pair distance sum — standard: {sum_std:.4f}, OLO: {sum_olo:
 print(f"OLO improvement: {100*(sum_std - sum_olo)/sum_std:.1f}%")   # 23.0% (OLO <= standard)
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════════  PART H — VALIDATION  ═══════════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-########################
+##--------------------##
 ## is_valid_linkage() ##
-########################
+##--------------------##
 '''
 is_valid_linkage(Z, warning=False, throw=False, name=None) -> bool
 
@@ -1042,9 +1042,9 @@ except Exception as e:
     print(f"Exception raised: {type(e).__name__}: {e}")
 # Exception raised: ValueError: Linkage contains negative indices.
 
-###################
+##---------------##
 ## is_valid_im() ##
-###################
+##---------------##
 '''
 is_valid_im(R, warning=False, throw=False, name=None) -> bool
 
@@ -1062,9 +1062,9 @@ R_bad = R.copy()
 R_bad[0, 2] = 0   # invalid: count of 0
 print("is_valid_im(R_bad):", is_valid_im(R_bad))   # False
 
-#######################
+##-------------------##
 ## num_obs_linkage() ##
-#######################
+##-------------------##
 '''
 num_obs_linkage(Z) -> int
 
@@ -1077,9 +1077,9 @@ N_recovered = num_obs_linkage(Z_ward)
 print(f"\nnum_obs_linkage: {N_recovered} == len(X): {len(X)}")   # both 90
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #══════════════════════════  END-TO-END WORKFLOWS (putting it all together)  ═════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
 print("\n" + "="*70)
 print("WORKFLOW 1 — K-MEANS (vq module)")

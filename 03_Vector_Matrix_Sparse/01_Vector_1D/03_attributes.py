@@ -33,49 +33,49 @@ print(vector)
 #  52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 53. 53. 52. 52. 52. 52.
 #  52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52. 52.]
 
-##############
+##----------##
 ## arr.ndim ##
-##############
+##----------##
 
 print(vector.ndim)
 # 1
 # (1 dimension, i.e., 1D vector)
 
-###############
+##-----------##
 ## arr.shape ##
-###############
+##-----------##
 
 print(vector.shape)
 # (305,)
 # (305 elements along the only 1 dimension)
 
-##############
+##----------##
 ## arr.size ##
-##############
+##----------##
 
 print(vector.size)
 # 305
 # (Total number of elements in the array)
 
-###############
+##-----------##
 ## arr.dtype ##
-###############
+##-----------##
 
 print(vector.dtype)
 # float64
 # (Data type of the elements in the array)
 
-##################
+##--------------##
 ## arr.itemsize ##
-##################
+##--------------##
 
 print(vector.itemsize)
 # 8
 # (Each float64 element takes 8 bytes)
 
-################
+##------------##
 ## arr.nbytes ##
-################
+##------------##
 
 print(vector.nbytes)
 # 2440

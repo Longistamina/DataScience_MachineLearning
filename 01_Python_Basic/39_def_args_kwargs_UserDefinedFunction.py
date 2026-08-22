@@ -7,7 +7,7 @@ Parameters: these are the variables defined in a function's signature that accep
 Arguments: these are the actual values passed to a function's parameters when it is called
 '''
 
-###################################################################################################
+##-----------------------------------------------------------------------------------------------##
 
 '''
 def function_name(parameters):
@@ -23,7 +23,7 @@ def function_name(parameters):
 + return statement: Returns a value to the caller (optional)
 '''
 
-##########################################
+##--------------------------------------##
 
 '''
 Flow of contents:
@@ -38,13 +38,13 @@ Flow of contents:
 '''
 
 
-#------------------------------------------------------------------------------------------------------------#
-#----------------------------------- 1. Define a function using def -----------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. Define a function using def
+# ==============================================================================================
 
-#######################################
+##-----------------------------------##
 ## Basic function without parameters ##
-#######################################
+##-----------------------------------##
 
 def greet():
     """Simple greeting function."""
@@ -54,9 +54,9 @@ def greet():
 greet()
 # Hello, World! This is a basic function without parameters.
 
-##############################
+##--------------------------##
 ## Function with parameters ##
-##############################
+##--------------------------##
 
 def add_numbers(x, y):
     """Add two numbers."""
@@ -77,9 +77,9 @@ add_numbers(x=28.5, y=37.2)
 add_numbers(3, 7)
 # 3 + 7 = 10
 
-######################################
+##----------------------------------##
 ## Function with default parameters ##
-######################################
+##----------------------------------##
 
 def customer_info(name, age=30, job="Unknown"):
     """Display customer information with a default age and job"""
@@ -103,14 +103,14 @@ it will raise a SyntaxError.
 '''
 
 
-#------------------------------------------------------------------------------------------------------------#
-#------------------------------- 2. Return a value using "return" statement ---------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. Return a value using "return" statement
+# ==============================================================================================
 '''"return" statement is used to exit a function and return a value to the caller.'''
 
-###############
+##-----------##
 ## Example 1 ##
-###############
+##-----------##
 
 def square(number):
     """Return the square of a number."""
@@ -121,9 +121,9 @@ def square(number):
 result = square(4)
 print(f"The square of 4 is: {result}")
 
-###############
+##-----------##
 ## Example 2 ##
-###############
+##-----------##
 
 def input_customer_info():
     """Input customer information and return it as a dictionary."""
@@ -139,9 +139,9 @@ customer_data = input_customer_info()
 print(f"Customer Data: {customer_data}")
 #Customer Data: {'name': 'Zetharax', 'age': 150000, 'job': 'Creator of the world'}
 
-###############
+##-----------##
 ## Example 3 ##
-###############
+##-----------##
 
 def calculate_square_cubic(number, return_original=False):
     """Calculate and return both the square and cubic of a number."""
@@ -162,13 +162,13 @@ print(f"Square: {square}, Cubic: {cubic}")
 # Square: 25, Cubic: 125
 
 
-#------------------------------------------------------------------------------------------------------------------------#
-#--------------------------- 3. Constraint the data type of parameters using type hints (Typing) ------------------------#
-#------------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. Constraint the data type of parameters using type hints (Typing)
+# ==============================================================================================
 
-###############
+##-----------##
 ## Example 1 ##
-###############
+##-----------##
 
 def multiply(a: int, b: int) -> int:
     """Multiply two integers and return the result (also integer)."""
@@ -186,9 +186,9 @@ it will show you the expected data types for the parameters and return value.
 This is useful for documentation and code readability, but it does not enforce type checking at runtime.
 '''
 
-###############
+##-----------##
 ## Example 2 ##
-###############
+##-----------##
 
 def concatenate_strings(str1: str, str2: str) -> str:
     """Concatenate two strings and return the result."""
@@ -198,9 +198,9 @@ result_3 = concatenate_strings("Hello, ", "World!")
 print(result_3)  # Hello, World!
 
 
-#------------------------------------------------------------------------------------------------------------#
-#--------------------- 4. Positional arguments: passing arguments in the order of parameters ----------------#
-#------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 4. Positional arguments: passing arguments in the order of parameters
+# ==============================================================================================
 '''
 Positional arguments are passed to a function in the order of the parameters defined in the function signature.
 If the function has parameters `a`, `b`, and `c`, you can call it like this: `function_name(1, 2, 3)`.
@@ -227,9 +227,9 @@ This is because positional arguments are matched to parameters based on their po
 '''
 
 
-#------------------------------------------------------------------------------------------------------------#
-#------------- 5. Keyword arguments: passing arguments by explicitly specifying the parameter names ---------#
-#------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 5. Keyword arguments: passing arguments by explicitly specifying the parameter names
+# ==============================================================================================
 '''
 Keyword arguments allow you to pass arguments to a function by explicitly specifying the parameter names.
 This makes the code more readable and allows you to pass arguments in any order.
@@ -259,9 +259,9 @@ This is because keyword arguments explicitly specify which parameter each argume
 '''
 
 
-#------------------------------------------------------------------------------------------------------------#
-#------------------- 6. Default arguments: parameters with default values that can be omitted ---------------#
-#------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 6. Default arguments: parameters with default values that can be omitted
+# ==============================================================================================
 '''
 Default arguments allow you to define parameters with default values.
 If the caller does not provide a value for that parameter, the default value is used.
@@ -282,18 +282,18 @@ greet_user("Bob", "Bonjour")
 # Bonjour, Bob!
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#-------------------------------- 7. *args (Variable Positional Arguments) -----------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 7. *args (Variable Positional Arguments)
+# ==============================================================================================
 '''
 *args allows you to pass a variable number of positional arguments to a function.
 It collects all the extra positional arguments into a TUPLE.
 This is useful when you don't know in advance how many arguments will be passed.
 '''
 
-#####################################
+##---------------------------------##
 ## Example 1: print out all inputs ##
-#####################################
+##---------------------------------##
 
 def print_all(*args):
     """Print all positional arguments."""
@@ -307,9 +307,9 @@ print_all("Hello", "World", 42, True) # ("Hello", "World", 42, True) is collecte
 # 42
 # True
 
-#########################################
+##-------------------------------------##
 ## Example 2: change the name of *args ##
-#########################################
+##-------------------------------------##
 
 def sum_numbers(*nums): # Now *nums will work as *args to collect all positional arguments
     """Calculate the sum of all numbers passed as arguments."""
@@ -325,9 +325,9 @@ print(sum_numbers()) # No numbers provided.
 print(sum_numbers(1, 2, 3, 4, 5)) # 15
 print(sum_numbers(30)) # 30
 
-###############################################
+##-------------------------------------------##
 ## Example 3: combine *args with enumerate() ##
-###############################################
+##-------------------------------------------##
 
 def sign_check(*nums):
     """Check the sign of the numbers, return: positive, negative or zero"""
@@ -346,9 +346,9 @@ def sign_check(*nums):
 print(sign_check(2, 2.4, 3.5, -6, 1, -22.0, 0))
 # ['positive', 'positive', 'positive', 'negative', 'positive', 'negative', 'zero']
 
-###############################################
+##-------------------------------------------##
 ## Example 4: concatenate strings with *args ##
-###############################################
+##-------------------------------------------##
 
 def create_message(*strings): # now *strings will work as *args to collect all positional arguments
     """Create a message from multiple parts."""
@@ -358,17 +358,17 @@ print(create_message("Hello", "world", "from", "Python"))
 # "Hello world from Python"
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------- 8. **kwargs (Variable Keyword Arguments) ---------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 8. **kwargs (Variable Keyword Arguments)
+# ==============================================================================================
 '''
 **kwargs allows you to pass a variable number of keyword arguments to a function.
 It collects all the extra keyword arguments into a dictionary.
 '''
 
-##########################
+##----------------------##
 ## **kwargs explanation ##
-##########################
+##----------------------##
 
 def demo_kwargs(**kwargs):
     """Display all keyword arguments."""
@@ -384,9 +384,9 @@ demo_kwargs(key1="value1", key2="value2", key3=42)
 # dict_keys(['key1', 'key2', 'key3'])
 # dict_values(['value1', 'value2', 42])
 
-#################################
+##-----------------------------##
 ## Change the name of **kwargs ##
-#################################
+##-----------------------------##
 
 def display_info(**info):  # Now **info will work as **kwargs to collect all keyword arguments
     """Display information from keyword arguments."""
@@ -399,9 +399,9 @@ display_info(name="Alice", age=30, city="New York")
 # age: 30
 # city: New York
 
-########################################################################
+##--------------------------------------------------------------------##
 ## Example: calculate salary with required fields and optional fields ##
-########################################################################
+##--------------------------------------------------------------------##
 
 from loguru import logger
 
@@ -434,10 +434,8 @@ def calculate_salary(**info):
     logger.info(f"\nCalculating salary for {name}:\nBase Salary = {base_salary}\nBonus = {bonus}\n==> Total Salary = {total_salary}")
     return {"Name": name, "Total Salary": total_salary}
 
-#----------------------
-## Call the function with required and optional fields
-#----------------------
-
+# ## Call the function with required and optional fields
+# 
 salary_info = calculate_salary(
     name="Alice",
     salary_daily=100,
@@ -453,10 +451,8 @@ salary_info = calculate_salary(
 print(salary_info)
 # {'Name': 'Alice', 'Total Salary': 2500}
 
-#-----------------------
-## Call the functionn lacking required fields
-#-----------------------
-
+# ## Call the functionn lacking required fields
+# 
 salary_info = calculate_salary(
     salary_daily=100,
     working_days=20,

@@ -1,7 +1,7 @@
 '''
 Converting and casting data types is a fundamental operation in pandas data manipulation.
 
-##########################################
+##--------------------------------------##
 
 1. .astype(): .astype("int64"), .astype("float64"), .astype("str"), .astype("category"), .astype("bool")
 
@@ -19,18 +19,18 @@ Converting and casting data types is a fundamental operation in pandas data mani
 import pandas as pd
 
 
-#-------------------------------------------------------------------------------------------------#
-#---------------------------------------- 1. .astype() -------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. .astype()
+# =========================================================================================
 
 s_nums = pd.Series([1, 2, 3, 4, 5])
 s_str_int = pd.Series(['1', '2', '3', '4', '5'])
 s_str_float = pd.Series(['1.5', '2.3', '3.6', '4.2', '5.0'])
 s_mixed = pd.Series([1, 'a', 3.0, '4.5', False])
 
-####################
+##----------------##
 ## .astype(int64) ##
-####################
+##----------------##
 
 s_convert = s_str_int.astype('int64')
 print(s_convert)
@@ -45,9 +45,9 @@ s_convert = s_str_float.astype('int64')
 """ValueError: invalid literal for int() with base 10: '1.5'"""
 
 
-######################
+##------------------##
 ## .astype(float64) ##
-######################
+##------------------##
 
 s_convert = s_nums.astype('float64')
 print(s_convert)
@@ -80,9 +80,9 @@ s_convert = s_mixed.astype('float64')
 """ValueError: could not convert string to float: 'a'"""
 
 
-##################
+##--------------##
 ## .astype(str) ##
-##################
+##--------------##
 
 s_convert = s_nums.astype('str')
 print(s_convert)
@@ -106,9 +106,9 @@ print(s_convert[4])
 # 'False'
 
 
-#########################
+##---------------------##
 ## .astype('category') ##
-#########################
+##---------------------##
 
 s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"])
 
@@ -136,9 +136,9 @@ print(s_convert)
 # Categories (3, object): ['F', 'LGBTQ', 'M']
 
 
-###################
+##---------------##
 ## .astype(bool) ##
-###################
+##---------------##
 
 s_bool_demo = pd.Series([0, -1.1, 2, '', 'text', None, True, False])
 
@@ -163,9 +163,9 @@ print(s_convert)
 # dtype: bool
 
 
-#-------------------------------------------------------------------------------------------------#
-#---------------------------------------- 2. pd.to_numeric() -------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. pd.to_numeric()
+# =========================================================================================
 
 '''
 pd.to_numeric() works like .astype("int64") or .astype("float64"), but it is safer.
@@ -179,10 +179,8 @@ or errors='ignore' to return the original data without conversion.
 s_str_float = pd.Series(['1.5', '2.3', '3.6', '4.2', '5.0'])
 s_mixed = pd.Series([1, 'a', 3.0, '4.5', False])
 
-#------------------
-## Try with valid numeric strings
-#------------------
-
+# ## Try with valid numeric strings
+# 
 s_convert = pd.to_numeric(s_str_float)
 print(s_convert)
 # 0    1.5
@@ -192,17 +190,13 @@ print(s_convert)
 # 4    5.0
 # dtype: float64
 
-#------------------
-## Try with invalid mixed data (will raise an error)
-#------------------
-
+# ## Try with invalid mixed data (will raise an error)
+# 
 s_convert = pd.to_numeric(s_mixed)
 """ValueError: Unable to parse string "a" at position 1"""
 
-#------------------
-## Try with mixed data, but coerce errors to NaN
-#------------------
-
+# ## Try with mixed data, but coerce errors to NaN
+# 
 s_convert = pd.to_numeric(s_mixed, errors='coerce')
 print(s_convert)
 # 0    1.0
@@ -213,9 +207,9 @@ print(s_convert)
 # dtype: float64
 
 
-#-------------------------------------------------------------------------------------------------#
-#---------------------------------------- 3. pd.Categorical() ------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. pd.Categorical()
+# =========================================================================================
 
 '''
 pd.Categorical() is used to create categorical data from a Series.
@@ -238,16 +232,14 @@ NOTE: THIS WILL NOT CREATE A pd.Series OBJECT, IT CREATES A pd.Categorical OBJEC
 => MUST WRAP IT IN A pd.Series() TO GET A CATEGORICAL SERIES.
 '''
 
-#################################################
+##---------------------------------------------##
 ##            string gender example            ##
-#################################################
+##---------------------------------------------##
 
 lst_gender = ["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"]
 
-#---------------
-## With ordered = False
-#---------------
-
+# ## With ordered = False
+# 
 s_gender_categ = pd.Series(pd.Categorical(lst_gender, ordered=False))
 print(s_gender_categ)
 # 0        M
@@ -263,10 +255,8 @@ print(s_gender_categ)
 # dtype: category
 # Categories (3, object): ['F', 'LGBTQ', 'M']
 
-#---------------
-## With ordered = True
-#---------------
-
+# ## With ordered = True
+# 
 s_gender_categ = pd.Series(pd.Categorical(
     values = lst_gender,
     categories = ["LGBTQ", "F", "M"],  # Specify the order of categories
@@ -287,17 +277,15 @@ print(s_gender_categ)
 # Categories (3, object): ['LGBTQ' < 'F' < 'M']
 
 
-####################################################
+##------------------------------------------------##
 ##            numeric example with NaN            ##
-####################################################
+##------------------------------------------------##
 
 import numpy as np
 lst_price_levels = [1, 1, 3, 2, 5, 2, None, 4, 4, np.nan, 3]
 
-#---------------
-## With ordered = False
-#---------------
-
+# ## With ordered = False
+# 
 s_price_levels_categ = pd.Series(pd.Categorical(lst_price_levels, ordered=False))
 print(s_price_levels_categ)
 # 0       1
@@ -315,10 +303,8 @@ print(s_price_levels_categ)
 # Categories (5, int64): [1, 2, 3, 4, 5]
 '''Here, the NaN and None values are not included in the categories.'''
 
-#---------------
-## With ordered = True
-#---------------
-
+# ## With ordered = True
+# 
 s_price_levels_categ = pd.Series(pd.Categorical(
     values = lst_price_levels,
     categories = [1, 2, 3, 4, 5], # Define the level
@@ -340,9 +326,9 @@ print(s_price_levels_categ)
 # Categories (5, int64): [1 < 2 < 3 < 4 < 5]
 
 
-#--------------------------------------------------------------------------------------------------#
-#---------------------------------------- 4. pd.to_datetime() -------------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. pd.to_datetime()
+# =========================================================================================
 
 '''
 pd.to_datetime() is used to convert a Series or DataFrame column to datetime format.
@@ -357,10 +343,8 @@ or errors='raise' to raise an error for invalid parsing (default).
 s_dates = pd.Series(['2023-01-01', '2023-02-15', '2023-03-10', '2023-04-20'])
 s_dates_invalid = pd.Series(['2023-01-01', '2023-02-15', '2023-03-10', 'invalid_date'])
 
-#------------------
-## Convert valid date strings to datetime
-#------------------
-
+# ## Convert valid date strings to datetime
+# 
 s_dates_converted = pd.to_datetime(s_dates)
 print(s_dates_converted)
 # 0   2023-01-01
@@ -369,17 +353,13 @@ print(s_dates_converted)
 # 3   2023-04-20
 # dtype: datetime64[ns]
 
-#------------------
-## Convert invalid date strings to datetime (will raise an error)
-#------------------
-
+# ## Convert invalid date strings to datetime (will raise an error)
+# 
 s_dates_converted = pd.to_datetime(s_dates_invalid)
 """ValueError: time data "invalid_date" doesn't match format "%Y-%m-%d", at position 3"""
 
-#------------------
-## Convert invalid date strings to datetime, but coerce errors to NaT
-#------------------
-
+# ## Convert invalid date strings to datetime, but coerce errors to NaT
+# 
 s_dates_converted = pd.to_datetime(
     arg = s_dates_invalid,
     errors='coerce'
@@ -392,9 +372,9 @@ print(s_dates_converted)
 # dtype: datetime64[ns]
 
 
-#--------------------------------------------------------------------------------------------------#
-#---------------------------------------- 5. pd.to_timedelta() ------------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. pd.to_timedelta()
+# =========================================================================================
 
 '''
 pd.to_timedelta() is used to convert a Series or DataFrame column to timedelta format.
@@ -409,10 +389,8 @@ or errors='raise' to raise an error for invalid parsing (default).
 s_timedeltas = pd.Series(['2 days', '4 days 3 hours', '6 days 1 hours 15 minutes'])
 s_timedeltas_invalid = pd.Series(['1 days', '2 days 3 hours', '3 days 4 hours 5 minutes', 'invalid_time'])
 
-#------------------
-## Convert valid timedelta strings to timedelta
-#------------------
-
+# ## Convert valid timedelta strings to timedelta
+# 
 s_timedeltas_converted = pd.to_timedelta(s_timedeltas)
 print(s_timedeltas_converted)
 # 0   2 days 00:00:00
@@ -420,17 +398,13 @@ print(s_timedeltas_converted)
 # 2   6 days 01:15:00
 # dtype: timedelta64[ns]
 
-#------------------
-## Convert invalid timedelta strings to timedelta (will raise an error)
-#------------------
-
+# ## Convert invalid timedelta strings to timedelta (will raise an error)
+# 
 s_timedeltas_converted = pd.to_timedelta(s_timedeltas_invalid)
 """ValueError: Could not convert 'invalid_time' to NumPy timedelta"""
 
-#------------------
-## Convert invalid timedelta strings to timedelta, but coerce errors to NaT
-#------------------
-
+# ## Convert invalid timedelta strings to timedelta, but coerce errors to NaT
+# 
 s_timedeltas_converted = pd.to_timedelta(
     arg = s_timedeltas_invalid,
     errors='coerce'
@@ -443,18 +417,18 @@ print(s_timedeltas_converted)
 # dtype: timedelta64[ns]
 
 
-#---------------------------------------------------------------------------------------------------#
-#---------------------------------------- 6. String conversion -------------------------------------#
-#---------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. String conversion
+# =========================================================================================
 
 s_nums = pd.Series([1.3, 5.4, 2.7, 8.6, 10])
 
 print(s_nums.dtype)
 # float64
 
-##################
+##--------------##
 ## .astype(str) ##
-##################
+##--------------##
 
 s_str = s_nums.astype(str)
 print(s_str)
@@ -466,9 +440,9 @@ print(s_str)
 # dtype: object
 
 
-###############
+##-----------##
 ## .map(str) ##
-###############
+##-----------##
 
 s_str_map = s_nums.map(str)
 print(s_str_map)
@@ -480,9 +454,9 @@ print(s_str_map)
 # dtype: object
 
 
-#################
+##-------------##
 ## .apply(str) ##
-#################
+##-------------##
 
 s_str_apply = s_nums.apply(str)
 print(s_str_apply)
@@ -494,9 +468,9 @@ print(s_str_apply)
 # dtype: object
 
 
-##############################
+##--------------------------##
 ## .apply(lambda x: str(x)) ##
-##############################
+##--------------------------##
 
 s_str_lambda = s_nums.apply(lambda x: str(x))
 print(s_str_lambda)

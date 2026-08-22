@@ -5,7 +5,7 @@ AOT = ahead-of-time compilation
 
 This is the traditional kind of compilation known in languages such as C, C++ or Fortran.
 
-############################
+##------------------------##
 
 Benefits:
     + AOT compilation produces a compiled extension module which does not depend on Numba
@@ -31,18 +31,18 @@ current_dir = Path().cwd()
 print(current_dir)
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/05_Numba_PythonCompiler
 
-##################################################
+##----------------------------------------------##
 ## Step 1. Define ``CC`` object and module name ##
-##################################################
+##----------------------------------------------##
 
 cc = CC('aot_demo') # declare a module named ``aot_demo`` to contain the compiled functions
 
 # cc.verbose = True
 # Uncomment the this line to print out the compilation steps
 
-############################################
+##----------------------------------------##
 ## Step 2. Export functions to the module ##
-############################################
+##----------------------------------------##
 
 @cc.export('multf', 'f8(f8, f8)') # function `multf`, with float signatures
 @cc.export('multi', 'i4(i4, i4)') # function `multi` with int signatures
@@ -66,9 +66,9 @@ def centdiff_1d(u, dx):
         D[i] = (u[i+1] - 2 * u[i] + u[i-1]) / dx**2
     return D
 
-#######################
+##-------------------##
 ## Step 3. Compiling ##
-#######################
+##-------------------##
 
 cc.compile()
 # Start compiling
@@ -78,20 +78,20 @@ cc.compile()
 
 '''NOTE: only call ``cc.compile()`` only one time!!!'''
 
-#####################################################
+##-------------------------------------------------##
 ## Test out the compiled functions in ``aot_demo`` ##
-#####################################################
+##-------------------------------------------------##
 
 if __name__ == "__main__":
 
     import aot_demo # import compiled ``aot_demo``
 
-    #---- scalar outputs ----#
+    # scalar outputs
     print(aot_demo.multf(3.5, -2.4)) # -8.4
     print(aot_demo.multi(2, 3)) # 6
     print(aot_demo.square(-2.8)) # 7.839999999999999
 
-    #---- array output ----#
+    # array output
     in_arr = np.arange(10).astype(np.float64)
     dx = np.float64(3.5)
 

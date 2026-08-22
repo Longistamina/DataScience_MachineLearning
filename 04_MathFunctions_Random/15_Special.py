@@ -149,13 +149,13 @@ x_unit = np.linspace(0.01, 0.99, 5)              # (0, 1) for CDF queries
 x_real = np.array([-2.0, -1.0, 0.0, 1.0, 2.0])  # full real line
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #══════════════════════════════════  PART A — AIRY FUNCTIONS  ════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-############
+##--------##
 ## airy() ##
-############
+##--------##
 '''
 airy(z, out=None) -> (Ai, Aip, Bi, Bip)
   Airy functions Ai(z), Ai'(z), Bi(z), Bi'(z) for real or complex z.
@@ -197,9 +197,9 @@ print(f"z * Ai(2)         : {z0 * Ai0:.6f}")          # 0.069848
 Aie, Aipe, Bie, Bipe = airye(np.array([10.0, 50.0, 100.0]))
 print("Bie (scaled, large z):", Bie.round(4))   # [0.3183 0.2122 0.1784] stays O(1), unscaled Bi blows up
 
-#########################
+##---------------------##
 ## ai_zeros / bi_zeros ##
-#########################
+##---------------------##
 '''
 ai_zeros(nt) -> (a, ap, ai, aip)
   Returns the first nt zeros a[i] of Ai(x),
@@ -218,9 +218,9 @@ b_zeros, bp_zeros, _, _ = bi_zeros(3)
 print("Bi zeros (3):", b_zeros.round(4))
 # [-1.1737 -3.2716 -4.8301]
 
-##############
+##----------##
 ## itairy() ##
-##############
+##----------##
 '''
 itairy(x, out=None) -> (Apt, Bpt, Ant, Bnt)
   Integrals of Airy functions from 0 to x (Apt, Bpt)
@@ -234,13 +234,13 @@ print("∫₀ˣ Ai(t)dt :", Apt.round(5))   # [0.      0.23632 0.31253]
 print("∫₀ˣ Bi(t)dt :", Bpt.round(5))   # [0.      0.87277 2.87341]
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════  PART B — ELLIPTIC FUNCTIONS & INTEGRALS  ═══════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-##############
+##----------##
 ## ellipj() ##
-##############
+##----------##
 '''
 ellipj(u, m, out=None) -> (sn, cn, dn, ph)
   Jacobi elliptic functions.
@@ -269,9 +269,9 @@ sn0, cn0, dn0, _ = ellipj(u_vals, 0.0)
 print(np.allclose(sn0, np.sin(u_vals)))   # True
 print(np.allclose(cn0, np.cos(u_vals)))   # True
 
-############################################################
+##--------------------------------------------------------##
 ## ellipk / ellipkm1 / ellipkinc  —  first kind integrals ##
-############################################################
+##--------------------------------------------------------##
 '''
 ellipk(m)           : K(m) = ∫₀^(π/2) 1/sqrt(1 - m sin²θ) dθ
                       Complete elliptic integral of the first kind.
@@ -304,9 +304,9 @@ print(f"F(π/4 | 0.5) = {F_inc:.6f}")  # 0.826018
 # Verify: F(π/2 | m) == K(m)
 print(np.isclose(ellipkinc(np.pi/2, 0.5), ellipk(0.5)))   # True
 
-######################################
+##----------------------------------##
 ## ellipe / ellipeinc — second kind ##
-######################################
+##----------------------------------##
 '''
 ellipe(m)       : E(m) = ∫₀^(π/2) sqrt(1 - m sin²θ) dθ
                   Complete elliptic integral of the second kind.
@@ -325,9 +325,9 @@ print(f"E(π/4 | 0.5) = {E_inc:.6f}")   # 0.748187
 
 print(np.isclose(ellipeinc(np.pi/2, 0.5), ellipe(0.5))) # True
 
-##########################################
+##--------------------------------------##
 ## Carlson symmetric elliptic integrals ##
-##########################################
+##--------------------------------------##
 '''
 Carlson forms are alternative representations without the angle singularity.
 
@@ -361,13 +361,13 @@ print(f"RC(1, 5) = {rc_val:.6f}  vs arctan(2)/2 = {np.arctan(x_rc)/x_rc:.6f}")
 # RC(1, 5) = 0.553574  vs arctan(2)/2 = 0.553574
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════════  PART C — BESSEL FUNCTIONS  ════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-######################################
+##----------------------------------##
 ## jv / jve / j0 / j1  — first kind ##
-######################################
+##----------------------------------##
 '''
 jv(v, z)   : Bessel function of the first kind J_v(z), arbitrary real order v, complex z.
 jve(v, z)  : Exponentially scaled: jve(v,z) = jv(v,z) * exp(-|Im(z)|).  Avoids overflow.
@@ -400,9 +400,9 @@ v_check = 1
 recurrence = (2*v_check / x_fixed) * jv(v_check, x_fixed) - jv(v_check - 1, x_fixed)
 print(np.isclose(recurrence, jv(v_check + 1, x_fixed)))   # True
 
-###########################################
+##---------------------------------------##
 ## yn / yv / yve / y0 / y1 — second kind ##
-###########################################
+##---------------------------------------##
 '''
 yn(n, x)   : Bessel Y_n(x), integer order n, real x > 0. Singular at x = 0.
 yv(v, z)   : Real order, complex argument version.
@@ -432,9 +432,9 @@ print("Y_{0.5}(x):", Y_frac.round(5))
 Y_exact = -np.sqrt(2 / (np.pi * x_pos)) * np.cos(x_pos)
 print(np.allclose(Y_frac, Y_exact, atol=1e-10))   # True
 
-#################################################
+##---------------------------------------------##
 ## iv / ive / i0 / i0e / i1 / i1e — modified I ##
-#################################################
+##---------------------------------------------##
 '''
 iv(v, z)   : Modified Bessel function I_v(z) of the first kind. Always real for real v, x > 0.
              Grows exponentially as z -> +inf: I_v(z) ~ exp(z)/sqrt(2*pi*z).
@@ -461,9 +461,9 @@ print("I_1(x>0):", I1.round(4))
 # Relation: I_{-n}(x) = I_n(x) for integer n
 print(np.isclose(iv(-2, 3.0), iv(2, 3.0)))   # True
 
-######################################################
+##--------------------------------------------------##
 ## kn / kv / kve / k0 / k0e / k1 / k1e — modified K ##
-######################################################
+##--------------------------------------------------##
 '''
 kn(n, x)   : Modified Bessel function K_n(x) of the second kind, integer order, real x > 0.
 kv(v, z)   : Real-order, complex-argument version.
@@ -493,9 +493,9 @@ print(f"Wronskian: {lhs:.8f}, 1/x = {1/x_w:.8f}")   # both 0.5
 K0e_large = k0e(np.array([50.0, 100.0, 500.0]))
 print("K_0e (scaled):", K0e_large.round(5))   # [0.17681 0.12518 0.05604] stays O(0.1)
 
-################################
+##----------------------------##
 ## Hankel functions H1 and H2 ##
-################################
+##----------------------------##
 '''
 hankel1(v, z)  : H_v^(1)(z) = J_v(z) + i*Y_v(z)   (outgoing wave)
 hankel2(v, z)  : H_v^(2)(z) = J_v(z) - i*Y_v(z)   (incoming wave)
@@ -520,9 +520,9 @@ print(np.allclose(H1, J_check + 1j * Y_check)) # True
 # Verify: H1 * H2 is real and positive (|H|²)
 print(np.allclose((H1 * H2).imag, 0, atol=1e-10)) # True
 
-################################
+##----------------------------##
 ## Spherical Bessel functions ##
-################################
+##----------------------------##
 '''
 spherical_jn(n, z, derivative=False) : j_n(z) — spherical Bessel of the first kind.
 spherical_yn(n, z, derivative=False) : y_n(z) — spherical Bessel of the second kind.
@@ -553,9 +553,9 @@ dj0 = spherical_jn(0, x_sph, derivative=True)
 print("j_0'(x):", dj0.round(5))   # = -spherical_jn(1, x) = [-0.16254 -0.30117 -0.4354   0.09509]
 print(np.allclose(dj0, -spherical_jn(1, x_sph)))   # True
 
-#################################
+##-----------------------------##
 ## Bessel function derivatives ##
-#################################
+##-----------------------------##
 '''
 jvp(v, z, n=1) : nth derivative of J_v(z) w.r.t. z.
 yvp(v, z, n=1) : nth derivative of Y_v(z).
@@ -577,9 +577,9 @@ print(f"J_0'(2) via identity: {dJ0_identity:.6f}")   # same
 d2J1 = jvp(1, x_d, n=2)
 print(f"J_1''(2) = {d2J1:.6f}") # -0.400308
 
-###############################
+##---------------------------##
 ## Zeros of Bessel functions ##
-###############################
+##---------------------------##
 '''
 jn_zeros(n, nt)   : first nt positive zeros of J_n(x).
 jnp_zeros(n, nt)  : first nt positive zeros of J_n'(x).
@@ -602,13 +602,13 @@ print("First 4 zeros of J_1:", z_j1.round(4))
 # [3.8317 7.0156 10.1735 13.3237]
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #══════════════════════════════════  PART D — STRUVE FUNCTIONS  ══════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-########################
+##--------------------##
 ## struve / modstruve ##
-########################
+##--------------------##
 '''
 struve(v, x)    : Struve function H_v(x).
                   Particular solution to Bessel's non-homogeneous equation:
@@ -639,9 +639,9 @@ print("H_0 - Y_0:", diff_HY.round(5))
 # [0.75407 0.4804  0.28048 0.1233 ]
 # stays bounded; Y_0 diverges at 0, H_0 does too
 
-######################
+##------------------##
 ## Struve integrals ##
-######################
+##------------------##
 '''
 itstruve0(x)    : ∫₀^x H_0(t) dt
 it2struve0(x)   : ∫_x^∞ H_0(t)/t dt
@@ -658,13 +658,13 @@ print("∫ₓ^∞ H_0/t dt  :", int_H0t.round(5))   # [0.9572  0.46909 0.07955]
 print("∫₀ˣ L_0(t)dt   :", int_L0.round(5))    # [ 0.       0.33647  1.58828 30.03079]
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═════════════════════════════  PART E — GAMMA & RELATED FUNCTIONS  ══════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-####################################################
+##------------------------------------------------##
 ## gamma / gammaln / gammasgn / loggamma / rgamma ##
-####################################################
+##------------------------------------------------##
 '''
 gamma(z)    : Γ(z) — gamma function. Extends factorial: Γ(n+1) = n!
               Poles at 0, -1, -2, ...
@@ -710,9 +710,9 @@ print("sgn Γ(x<0):", gammasgn(x_neg))   # [-1.  1. -1.  1.]
 print("1/Γ(z):", rgamma(np.array([1.0, 2.0, 0.0, -1.0])).round(5))
 # [1.  1.  0.  0.]  ← automatically zero at poles
 
-#######################################################
+##---------------------------------------------------##
 ## gammainc / gammaincc / gammaincinv / gammainccinv ##
-#######################################################
+##---------------------------------------------------##
 '''
 gammainc(a, x)      : P(a, x) = γ(a,x)/Γ(a) — lower regularised incomplete gamma.
                       gammainc(a, 0) = 0, gammainc(a, ∞) = 1.
@@ -742,9 +742,9 @@ chi2_val, df = 9.0, 6
 pval = gammaincc(df/2, chi2_val/2)
 print(f"P(χ²={chi2_val}, df={df}) = {pval:.4f}")   # 0.1736
 
-#####################################################
+##-------------------------------------------------##
 ## beta / betaln / betainc / betaincc / betaincinv ##
-#####################################################
+##-------------------------------------------------##
 '''
 beta(a, b)          : B(a, b) = Γ(a)Γ(b)/Γ(a+b).  B(a,b) = B(b,a) (symmetric).
 betaln(a, b)        : log B(a, b). More stable than log(beta(a, b)).
@@ -769,9 +769,9 @@ print(f"Median of Beta(2,3) ≈ {median_beta:.4f}")   # 0.3856
 # Round-trip
 print(np.isclose(betainc(2, 3, median_beta), 0.5))  # True
 
-##############################################
+##------------------------------------------##
 ## digamma (psi) / polygamma / multigammaln ##
-##############################################
+##------------------------------------------##
 '''
 digamma(x)      : ψ(x) = Γ'(x)/Γ(x) — logarithmic derivative of gamma.
                   ψ(1) = -γ (Euler-Mascheroni constant ≈ -0.5772).
@@ -799,9 +799,9 @@ print(f"ψ₁(1) = {polygamma(1, 1.0):.6f},  π²/6 = {np.pi**2/6:.6f}")   # bot
 # Multivariate gamma (Wishart distribution)
 print(f"log Γ_3(5) = {multigammaln(5, 3):.4f}") # 9.1406
 
-###################
+##---------------##
 ## Combinatorics ##
-###################
+##---------------##
 '''
 factorial(n, exact=False) : n!. exact=True -> arbitrary precision integer.
 factorial2(n)             : n!! = n*(n-2)*(n-4)*...
@@ -825,13 +825,13 @@ C_arr = comb(n_arr, 3)
 print("C(n,3):", C_arr)   # [10.  120.  1140.  19600.]
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #══════════════════════════════════  PART F — ERROR FUNCTIONS  ═══════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-###############################
+##---------------------------##
 ## erf / erfc / erfcx / erfi ##
-###############################
+##---------------------------##
 '''
 erf(z)     : error function erf(z) = (2/√π) ∫₀^z exp(-t²) dt.
              erf(-z) = -erf(z).  erf(0) = 0.  erf(∞) = 1.
@@ -875,9 +875,9 @@ print("1/(x√π) :", (1/(x_large*np.sqrt(np.pi))).round(6))   # [0.112838  0.05
 x_erfi = np.array([0.0, 0.5, 1.0, 2.0])
 print("erfi(x):", erfi(x_erfi).round(5))   # [0.      0.61486  1.65043  18.56481]
 
-######################
+##------------------##
 ## erfinv / erfcinv ##
-######################
+##------------------##
 '''
 erfinv(y)   : x such that erf(x) = y.     y ∈ (-1, 1).
 erfcinv(y)  : x such that erfc(x) = y.    y ∈ (0, 2).
@@ -902,9 +902,9 @@ print("erfcinv(y):", x_ci.round(5))
 # [1.16309  0.47694  0.     -0.47694 -1.16309]
 print(np.allclose(erfc(x_ci), y_ci, atol=1e-12))    # True
 
-#############################
+##-------------------------##
 ## ndtr / ndtri / log_ndtr ##
-#############################
+##-------------------------##
 '''
 ndtr(x)      : Φ(x) = P(Z ≤ x) for Z ~ N(0,1). The normal CDF.
                ndtr(x) = erfc(-x/sqrt(2)) / 2.
@@ -931,9 +931,9 @@ print("log Φ(x):", log_ndtr(x_far))
 # log Φ(x): [ -53.23128515 -203.91715537 -454.32124396] — computable, whereas ndtr gives 0
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════════  PART G — ORTHOGONAL POLYNOMIALS  ═══════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 '''
 Orthogonal polynomials satisfy ∫ w(x) P_m(x) P_n(x) dx = 0 for m ≠ n.
 Two API styles are available:
@@ -949,9 +949,9 @@ The poly1d object supports:
 
 x_poly = np.linspace(-1, 1, 5)   # canonical domain for most polynomials
 
-##############
+##----------##
 ## Legendre ##
-##############
+##----------##
 '''
 eval_legendre(n, x)  : P_n(x), Legendre polynomial of degree n.
                        Orthogonal on [-1, 1] with weight w(x) = 1.
@@ -982,9 +982,9 @@ for m, n in [(0,1), (1,2), (2,3)]:
 P4 = legendre(4)
 print("P_4 roots:", P4.r.round(4))   # [ 0.8611 -0.8611  0.34   -0.34  ] Gauss-Legendre nodes of degree 4
 
-###############
+##-----------##
 ## Chebyshev ##
-###############
+##-----------##
 '''
 eval_chebyt(n, x)  : T_n(x), Chebyshev polynomial of the 1st kind.
                      Orthogonal on [-1, 1] with weight w(x) = 1/sqrt(1-x²).
@@ -1013,9 +1013,9 @@ cheb_nodes = np.sort(T5_poly.r)
 print("T_5 roots (Chebyshev nodes):", cheb_nodes.round(4)) # [-0.9511 -0.5878  0.      0.5878  0.9511]
 # [-0.9511 -0.5878  0.  0.5878  0.9511]
 
-#############
+##---------##
 ## Hermite ##
-#############
+##---------##
 '''
 eval_hermite(n, x)     : H_n(x), physicist Hermite polynomial.
                          H_n''- 2x H_n' + 2n H_n = 0
@@ -1046,9 +1046,9 @@ gh_nodes = np.sort(Hn_poly.r)
 print("Gauss-Hermite nodes (n=5):", gh_nodes.real.round(4))
 # [-2.0202 -0.9586  0.      0.9586  2.0202]
 
-##############
+##----------##
 ## Laguerre ##
-##############
+##----------##
 '''
 eval_laguerre(n, x)          : L_n(x), Laguerre polynomial.
                                Orthogonal on [0, ∞) with weight exp(-x).
@@ -1069,9 +1069,9 @@ GL3 = eval_genlaguerre(3, 1.5, x_lag) # α = 1.5
 print("L_3^(1.5)(x):", GL3.round(5)) # [ 6.5625   3.16667  0.77083 -1.52083  2.60417]
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════  PART H — RAW STATISTICAL (CDF / SF / INVERSE) FUNCTIONS  ═══════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 '''
 scipy.special provides low-level CDF, SF (survival function = 1-CDF), and inverse functions
 for common distributions. These are the primitives underlying scipy.stats distributions.
@@ -1081,9 +1081,9 @@ The naming convention is:
   <dist>tri : inverse of CDF (quantile function)
 '''
 
-##############
+##----------##
 ## Binomial ##
-##############
+##----------##
 '''
 bdtr(k, n, p)  : P(X ≤ k) for X ~ Binomial(n, p).  k can be non-integer.
 bdtrc(k, n, p) : P(X > k) — survival function.
@@ -1100,9 +1100,9 @@ print(np.isclose(P_binom + Q_binom, 1.0))            # True
 p_inv = bdtri(k_binom, n_binom, P_binom)
 print(f"bdtri round-trip: p = {p_inv:.5f}")          # 0.5
 
-#################
+##-------------##
 ## Chi-squared ##
-#################
+##-------------##
 '''
 chdtr(v, x)  : P(X ≤ x) for X ~ χ²(v).  = gammainc(v/2, x/2).
 chdtrc(v, x) : 1 - chdtr(v, x) = gammaincc(v/2, x/2).
@@ -1120,9 +1120,9 @@ print("χ²(4) CDF:", P_chi.round(5))
 print(f"χ²(4, 0.95) = {chdtri(df_chi, 0.95):.4f}")   # χ²(4, 0.95) = 0.7107
 print(f"χ²(4, 0.99) = {chdtri(df_chi, 0.99):.4f}")   # χ²(4, 0.99) = 0.2971
 
-####################
+##----------------##
 ## F-distribution ##
-####################
+##----------------##
 '''
 fdtr(dfn, dfd, x)  : CDF of F(dfn, dfd).
 fdtrc(dfn, dfd, x) : SF of F(dfn, dfd).
@@ -1138,9 +1138,9 @@ print(f"F_{{0.05}}(3, 20) = {F_crit_95:.4f}")   # 3.0984
 P_F = fdtr(dfn, dfd, F_crit_95)
 print(f"CDF at critical value: {P_F:.5f}")   # 0.95
 
-############################
+##------------------------##
 ## Student t-distribution ##
-############################
+##------------------------##
 '''
 stdtr(df, t)   : CDF of t(df). stdtr(df, 0) = 0.5 (symmetric about 0).
 stdtrit(df, p)  : Quantile. stdtri(df, 0.975) ≈ 1.96 as df → ∞.
@@ -1164,13 +1164,13 @@ p_two = 2 * (1 - stdtr(df_t, abs(t_obs)))
 print(f"Two-sided p-value (t={t_obs}, df=10): {p_two:.5f}")   # 0.01879
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #══════════════════════════════  PART I — INFORMATION THEORY  ════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-##############################
+##--------------------------##
 ## entr / rel_entr / kl_div ##
-##############################
+##--------------------------##
 '''
 entr(x)         : -x * log(x)  for x > 0, 0 for x = 0, -inf for x < 0.
                   Element-wise contribution to Shannon entropy H(p) = sum(entr(p)).
@@ -1206,9 +1206,9 @@ print(f"KL(q||p) = {KL_qp:.5f}") # 0.12178 ≠ KL(p||q)
 # KL divergence is non-negative
 print(KL_pq >= 0 and KL_qp >= 0) # True
 
-##########################
+##----------------------##
 ## huber / pseudo_huber ##
-##########################
+##----------------------##
 '''
 huber(delta, r)       : Huber loss = delta * (|r| - delta/2)  if |r| > delta
                                     = 0.5 * r²               if |r| ≤ delta.
@@ -1238,13 +1238,13 @@ print(f"L2={0.5*r_out**2:.1f},  L1={r_out:.1f},  Huber={huber(1.0, r_out):.1f}")
 # L2=12.5   L1=5.0   Huber=4.5   ← Huber penalises outlier less than L2
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════  PART J — ZETA, FRESNEL, EXPN, LOGIT, EXPIT, LOG HELPERS  ═══════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-##################
+##--------------##
 ## zeta / zetac ##
-##################
+##--------------##
 '''
 zeta(x, q=1)     : Hurwitz zeta ζ(x, q) = Σ_{n=0}^∞ 1/(n+q)^x.
                    zeta(x) == zeta(x, 1).
@@ -1268,9 +1268,9 @@ print(f"ζ(2, 2) = {Z_hurwitz:.6f},  π²/6 - 1 = {np.pi**2/6 - 1:.6f}")   # bot
 # zetac(x) = ζ(x) - 1
 print(np.allclose(zetac(x_zeta), zeta(x_zeta) - 1.0))   # True
 
-#######################
+##-------------------##
 ## Fresnel integrals ##
-#######################
+##-------------------##
 '''
 fresnel(z) -> (S, C)
   S(z) = ∫₀^z sin(π t²/2) dt   — Fresnel sine integral
@@ -1292,9 +1292,9 @@ t_cornu = np.linspace(0, 5, 500)
 S_c, C_c = fresnel(t_cornu)
 print(f"Cornu endpoint: C={C_c[-1]:.4f}, S={S_c[-1]:.4f}")   # Cornu endpoint: C=0.5636, S=0.4992
 
-#############################################
+##-----------------------------------------##
 ## Exponential integrals: expn, exp1, expi ##
-#############################################
+##-----------------------------------------##
 '''
 expn(n, x)  : E_n(x) = ∫₁^∞ exp(-x*t)/t^n dt   for integer n ≥ 0, x > 0.
               E_1(x) = exp1(x).  E_0(x) = exp(-x)/x.
@@ -1329,9 +1329,9 @@ print("Ei(x):", Ei.round(4))
 E2_recur = (np.exp(-x_exp) - x_exp * E1) / 1
 print(np.allclose(En2, E2_recur, atol=1e-10))   # True
 
-###################
+##---------------##
 ## logit / expit ##
-###################
+##---------------##
 '''
 logit(x)   : log(x / (1-x))  — log-odds function.  x ∈ (0, 1).
              Inverse of expit. Maps probability to real line.
@@ -1368,9 +1368,9 @@ print("σ'(x):", sig_grad.round(5))
 print("expit(1000):", expit(1000.0))     # exactly 1.0
 print("expit(-1000):", expit(-1000.0))   # exactly 0.0
 
-#################################
+##-----------------------------##
 ## xlogy / xlog1py / logsumexp ##
-#################################
+##-----------------------------##
 '''
 xlogy(x, y)     : x * log(y), but returns 0 when x == 0 (even if y == 0 or y < 0).
                   Avoids NaN in entropy computations where 0 * log(0) should be 0.

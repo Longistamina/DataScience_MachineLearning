@@ -2,7 +2,7 @@
 Boolean Indexing Boolean Filtering is a powerful technique
 that allows you to filter data based on specific conditions. 
 
-###############################
+##---------------------------##
 
 1. Single Condition Examples:
    + Logic Operators: >, <, >=, <=, .between(), ==, !=
@@ -54,18 +54,16 @@ print(s2_nums)
 # dtype: float64
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 1. Single Condition Examples -----------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Single Condition Examples
+# =========================================================================================
 
-#######################################################
+##---------------------------------------------------##
 ## Logic Operators: >, <, >=, <=, .between(), ==, != ##
-#######################################################
+##---------------------------------------------------##
 
-#-------------
-## > (greater than)
-#-------------
-
+# ## > (greater than)
+# 
 print(s1_nums > 15)
 # 0    False
 # 1     True
@@ -96,10 +94,8 @@ print(s2_nums[s2_nums > s1_nums]) # Returns values greater than corresponding va
 # 9    18.93 (> 17.08)
 # dtype: float64
 
-#-------------
-## < (less than)
-#-------------
-
+# ## < (less than)
+# 
 print(s1_nums[s1_nums < 13]) # Returns values less than 13 (True)
 # 4    11.56
 # 5    11.56
@@ -114,10 +110,8 @@ print(s2_nums[s2_nums < s1_nums]) # Returns values less than corresponding value
 # 8    15.43
 # dtype: float64
 
-#-------------
-## >= (greater than or equal to)
-#-------------
-
+# ## >= (greater than or equal to)
+# 
 print(s1_nums[s1_nums >= 15.99]) # Returns values greater than or equal to 15.99 (True)
 # 1    19.51
 # 2    17.32
@@ -135,10 +129,8 @@ print(s2_nums[s2_nums >= s1_nums]) # Returns values greater than or equal to cor
 # 9    18.93
 # dtype: float64
 
-#-------------
-## <= (less than or equal to)
-#-------------
-
+# ## <= (less than or equal to)
+# 
 print(s1_nums[s1_nums <= 11.56]) # Returns values less than or equal to 13 (True)
 # 4    11.56
 # 5    11.56
@@ -153,10 +145,8 @@ print(s2_nums[s2_nums <= s1_nums]) # Returns values less than or equal to corres
 # 8    15.43
 # dtype: float64
 
-#-------------
-## .between()
-#-------------
-'''
+# ## .between()
+# '''
 inclusive = "both" (default): [left, right] or left <= x <= right
 inclusive = "neither": (left, right) or left < x < right
 inclusive = "left": [left, right) or left <= x < right
@@ -179,10 +169,8 @@ print(s1_nums[s1_nums.between(10, 15.99, inclusive="left")]) # Returns values be
 # dtype: float64
 '''The value 15.99 is excluded because the right endpoint is not inclusive.'''
 
-#-------------
-## == (equal to)
-#-------------
-
+# ## == (equal to)
+# 
 print(s1_nums[s1_nums == 11.56]) # Returns values equal to 11.56 (True)
 # 4    11.56
 # 5    11.56
@@ -191,10 +179,8 @@ print(s1_nums[s1_nums == 11.56]) # Returns values equal to 11.56 (True)
 print(s2_nums[s2_nums == s1_nums]) # Returns values equal to corresponding values (same index) in s1_nums
 # Series([], dtype: float64)
 
-#-------------
-## != (not equal to)
-#-------------
-
+# ## != (not equal to)
+# 
 print(s1_nums[s1_nums != 11.56]) # Returns values not equal to 11.56 (True)
 # 0    13.75
 # 1    19.51
@@ -220,9 +206,9 @@ print(s2_nums[s2_nums != s1_nums]) # Returns values not equal to corresponding v
 # dtype: float64
 '''All values are returned because none of the values in s2_nums are equal to the corresponding values in s1_nums.'''
 
-###############################
+##---------------------------##
 ##          .isin()          ##
-###############################
+##---------------------------##
 
 s_mamals =  pd.Series(['llama', 'cow', 'llama', 'beetle', 'llama', 'hippo'])
 
@@ -249,9 +235,9 @@ print(s_mamals[s_mamals.isin(['llama'])]) # Returns values that are 'llama'
 # dtype: object
 
 
-##################################
+##------------------------------##
 ##        String Boolean        ##
-##################################
+##------------------------------##
 
 import pytz
 
@@ -297,9 +283,9 @@ print(s_timezones[s_timezones == "Zulu"]) # Returns values that are exactly equa
 # 596    Zulu
 # dtype: object
 
-#################################
+##-----------------------------##
 ##      DateTime Boolean       ##
-#################################
+##-----------------------------##
 
 s_datetime = pd.Series(pd.date_range(start='2023-01-31', end='2023-06-30', freq='ME')) # 'ME' means month end frequency
 first_january = pd.Series(['2023-01-01'], dtype='datetime64[ns]')
@@ -325,9 +311,9 @@ print(s_datetime[s_datetime.dt.is_quarter_end]) # Returns values that are the en
 # dtype: datetime64[ns]
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#--------------------------------- 2. Negation of Condition: ~ (tilde) operator ---------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Negation of Condition: ~ (tilde) operator
+# =========================================================================================
 
 '''
 The tilde (~) operator is used to negate a boolean condition in Pandas.
@@ -384,13 +370,13 @@ print(s_datetime[~s_datetime.dt.is_quarter_end]) # Returns values that are NOT t
 # dtype: datetime64[ns]
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 3. Combine Multiple Conditions ------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Combine Multiple Conditions
+# =========================================================================================
 
-###########################
+##-----------------------##
 ##       & (and)         ##
-###########################
+##-----------------------##
 '''True if only all the conditions (clauses) are True.'''
 
 print(s1_nums[(s1_nums > 12) & (s1_nums.round(0) % 2 == 0)]) # Returns values greater than 12 AND rounded value is even number
@@ -426,9 +412,9 @@ print(s_timezones[s_timezones.str.contains("Asia") & s_timezones.str.endswith(pa
 # 329    Asia/Vientiane
 # dtype: object
 
-###########################
+##-----------------------##
 ##       | (or)          ##
-###########################
+##-----------------------##
 '''False if only all the conditions (clauses) are False.'''
 
 print(s1_nums[(s1_nums < 12) | (s1_nums > 18)]) # Returns values less than 12 OR greater than 18
@@ -454,9 +440,9 @@ print(s_tzs[s_tzs.str.contains("Kyoto") | s_tzs.str.contains("Tokyo") | s_tzs.st
 # 322    Asia/Tokyo
 # dtype: object
 
-###############################
+##---------------------------##
 ##      Combine & and |      ##
-###############################
+##---------------------------##
 
 print(s1_nums[((s1_nums < 12) | (s1_nums > 18)) & (s1_nums.round(0) % 2 == 0)])
 # 1    19.51

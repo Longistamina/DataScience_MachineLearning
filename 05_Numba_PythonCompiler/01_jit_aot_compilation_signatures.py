@@ -8,7 +8,7 @@ JIT = Just-in-time compilation
 Using this decorator, you can mark a function for optimization by Numba’s JIT compiler.
 Various invocation modes trigger differing compilation options and behaviours.
 
-#################################################################################
+##-----------------------------------------------------------------------------##
 
 1. Lazy compilation
 2. Eager compilation
@@ -21,9 +21,9 @@ import numpy as np
 import math
 
 
-#------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 1. Lazy Compilation -------------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Lazy Compilation
+# =========================================================================================
 '''
 Lazy Compilation is that we let @numba.jit decide how and when to optimize.
 In this mode, the function will not be compiled until the first execution/call.
@@ -53,9 +53,9 @@ print(result)
 # (-3.2+2j)
 
 
-#-------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 2. Eager Compilation -------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Eager Compilation
+# =========================================================================================
 '''
 Eager Compilation is when you specify the function's signatures (data types).
 By doing so, we tell numba which signatures/types of the function in advance
@@ -70,9 +70,9 @@ For example:
 NOTE: if the input types are not the same as the given signatures, numba will force them into the signatures
 '''
 
-####################################
+##--------------------------------##
 ## Example (output(input, input)) ##
-####################################
+##--------------------------------##
 
 @nb.jit(nb.float32(nb.int64, nb.int64)) # Eager compilation right here, before the first execution
 def sum_square(x, y):
@@ -86,9 +86,9 @@ result = sum_square(-5.2, 1.6) # It will force -5.2 to -5, and 1.6 to 1, then ex
 print(result)
 # 26.0 (= 5**2 + 1**2)
 
-#####################################
+##---------------------------------##
 ## Example ((input, input, input)) ##
-#####################################
+##---------------------------------##
 
 @nb.jit((nb.int32, nb.float32, nb.complex64)) # MUST always wrap all the signatures into a TUPLE
 def sum(x, y, z):
@@ -99,9 +99,9 @@ print(result)
 # (4.5-9j)
 '''Here, numba automatically infer the signature of the output as complex'''
 
-############################################
+##----------------------------------------##
 ## Example (output(scalar, array, array)) ##
-############################################
+##----------------------------------------##
 
 @nb.jit(nb.float64[:, :](nb.float64, nb.int32[:, :], nb.float32[:, :])) # ``nb.int32[:, :]`` means a 2D array with int32 type
 def simple_array_operation(scalar, arr1, arr2):
@@ -118,7 +118,7 @@ the ``nb.float32[:, :]`` inside the ``@nb.jit()`` will be mismatched with the ty
 -> error
 '''
 
-#-------#
+# =========================================================================================
 
 np.random.seed(42)
 arr1 = np.random.randint(30, size=(4, 3)).astype(np.int32)
@@ -148,9 +148,9 @@ print(result)
 #  [78.75938154 57.22747258 71.00431107]]
 
 
-#------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 3. Numba signatures -------------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Numba signatures
+# =========================================================================================
 '''
 Explicit ``@jit`` signatures can use a number of types.  Here are some common ones:
 
@@ -170,16 +170,16 @@ Explicit ``@jit`` signatures can use a number of types.  Here are some common on
 * array types can be specified by indexing any numeric type, e.g. ``float32[:]`` for a one-dimensional single-precision array
                                                                 or ``int8[:,:]`` for a two-dimensional array of 8-bit integers.
 
-##############################
+##--------------------------##
 
 int64 wins int32 wints int16 ...
 float64 wins float32 wins float16 ...
 '''
 
 
-#-------------------------------------------------------------------------------------------------------#
-#----------------------------- 4. Calling and inlining other functions ---------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Calling and inlining other functions
+# =========================================================================================
 '''
 Numba-compiled functions can call other compiled functions,
 and can also be called by other compiled functions.

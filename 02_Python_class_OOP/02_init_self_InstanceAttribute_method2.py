@@ -1,11 +1,11 @@
-#----------------------------------------------#
-#---------- __init__ explanation --------------#
-#----------------------------------------------#
+# =========================================================================================
+# __init__ explanation
+# =========================================================================================
 '''
 # __init__() method is a method that forces the definition of specific attributes when created an object from a class
 # Those attributes required by __init__() if somehow are not defined will result in unsucessful object creation
 
-###########################################
+##---------------------------------------##
 
 # "self" argument in "def method_name(self,....)" helps refer to the current instance of the class itself
 # It is the way an instance method accesses the attributes (variables) and other methods of the same object
@@ -13,9 +13,9 @@
 # which allows you to refer to the instance calling the method.
 '''
 
-###########################
+##-----------------------##
 ## __init__() basic demo ##
-###########################
+##-----------------------##
 
 class Item:
     def __init__(self, name):
@@ -44,9 +44,9 @@ item_no_name = Item()
 #                                                 (but we didn't)
 '''
 
-####################################
+##--------------------------------##
 ## __init__() with default values ##
-####################################
+##--------------------------------##
 
 class Car:
     def __init__(self, name, color="Green"):
@@ -62,13 +62,13 @@ print(car2.name)   # "Audi"
 print(car2.color)  # "Green"
 
 
-#------------------------------------------------------------#
-#------------- __innit__ additional example -----------------#
-#------------------------------------------------------------#
+# =========================================================================================
+# __innit__ additional example
+# =========================================================================================
 
-######################
+##------------------##
 ## Explicit example ##
-######################
+##------------------##
 
 class ItemExplicit:
     def __init__(self, name_input, price_input, quantity_input):
@@ -86,9 +86,9 @@ print(item_extend_1.name)      # "Phone"
 print(item_extend_1.price)     # 1000
 print(item_extend_1.quantity)  # 5
 
-#####################
+##-----------------##
 ## Concise example ##
-#####################
+##-----------------##
 
 class ItemConcise:
     def __init__(self, name, price, quantity):
@@ -103,9 +103,9 @@ print(item_extend_2.price)     # 1500
 print(item_extend_2.quantity)  # 3
 
 
-#---------------------------------------------------------#
-#------------- __innit__ add constraints -----------------#
-#---------------------------------------------------------#
+# =========================================================================================
+# __innit__ add constraints
+# =========================================================================================
 
 DISCOUNT = 0.1
 

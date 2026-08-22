@@ -1,10 +1,10 @@
 '''
 Python has subprocess module which is used to spawn new processes, connect to their input/output/error pipes,
-and obtain their return codes. 
+and obtain their return codes.
 
 The subprocess module allows you to run external commands and programs from within Python.
 
-subprocess is the recommended way to run external commands in Python. 
+subprocess is the recommended way to run external commands in Python.
 It replaces older methods like os.system() and os.popen().
 
 The subprocess module provides several functions and classes to work with subprocesses:
@@ -26,7 +26,7 @@ Important parameters for subprocess.run():
 # cwd - Sets the working directory for the command.
 # env - Dictionary of environment variables for the subprocess.
 
-######################################
+##----------------------------------##
 
 Table of Contents:
 
@@ -67,22 +67,20 @@ import subprocess
 import sys
 import os
 
-#---------------------------------------------------------------------------------------------#
-#--------------------------- Basic subprocess usage - subprocess.run() -----------------------#
-#---------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Basic subprocess usage - subprocess.run()
+# ==============================================================================================
 
-##############################
+##--------------------------##
 ## Running a simple command ##
-##############################
+##--------------------------##
 '''
 subprocess.run() is the recommended way to run external commands
 It runs the command and waits for it to complete, then returns a CompletedProcess object
 '''
 
-#----
-## Example 1: Run 'echo' command (cross-platform example)
-#----
-
+# ## Example 1: Run 'echo' command (cross-platform example)
+# 
 result = subprocess.run(['echo', 'Hello, World!'])
 # Hello, World!
 
@@ -96,10 +94,8 @@ print(result.returncode)
 # 0
 # (Return code 0 means the command executed successfully)
 
-#----
-## Example 2: List directory contents (Linux/Mac)
-#----
-
+# ## Example 2: List directory contents (Linux/Mac)
+# 
 result = subprocess.run(['ls', '-l'])
 # (This will print directory contents to the terminal)
 '''
@@ -119,10 +115,8 @@ drwxr-xr-x 5 longdpt longdpt     4096 Nov  8 23:21 11_Convex_Optimization_CVXPY
 -rwxr-xr-x 1 longdpt longdpt     1777 Dec 18 17:23 vscode_install_settings.txt
 '''
 
-#----
-## Example 3: List directory contents (Windows)
-#----
-
+# ## Example 3: List directory contents (Windows)
+# 
 result = subprocess.run(['dir'], shell=True)  # Windows requires shell=True for 'dir'
 # (This will print directory contents to the terminal)
 '''
@@ -133,18 +127,16 @@ result = subprocess.run(['dir'], shell=True)  # Windows requires shell=True for 
 05_Pandas_DataR_dataframe  Python_Coding_Methodology.pdf
 '''
 
-#----
-## Example 4: Cross-platform directory listing using Python's sys module
-#----
-
+# ## Example 4: Cross-platform directory listing using Python's sys module
+# 
 if sys.platform.startswith('win'):
     result = subprocess.run(['dir'], shell=True)
 else:
     result = subprocess.run(['ls', '-l'])
 
-###############################################
+##-------------------------------------------##
 ## Capturing output with capture_output=True ##
-###############################################
+##-------------------------------------------##
 '''
 By default, subprocess.run() sends output directly to the terminal
 Use capture_output=True to capture stdout and stderr
@@ -161,10 +153,8 @@ print(result.stderr)
 # b''
 '''(No error output)'''
 
-#----
-## Decode bytes to string using .decode()
-#----
-
+# ## Decode bytes to string using .decode()
+# 
 result = subprocess.run(['echo', 'Hello, World!'], capture_output=True)
 output_string = result.stdout.decode('utf-8')
 print(output_string)
@@ -173,10 +163,8 @@ print(output_string)
 print(type(output_string))
 # <class 'str'>
 
-#----
-## Or use text=True to automatically decode output as string
-#----
-
+# ## Or use text=True to automatically decode output as string
+# 
 result = subprocess.run(['echo', 'Hello, World!'], capture_output=True, text=True)
 print(result.stdout)
 # Hello, World!
@@ -184,9 +172,9 @@ print(result.stdout)
 print(type(result.stdout))
 # <class 'str'>
 
-##############################################################################
+##--------------------------------------------------------------------------##
 ## Using shell=False vs shell=True (for pipe with "|", must use shell=True) ##
-##############################################################################
+##--------------------------------------------------------------------------##
 '''
 shell=False (default, RECOMMENDED):
 - Safer and more secure
@@ -201,44 +189,36 @@ shell=True (USE WITH CAUTION):
 - Security risk if command contains untrusted input
 '''
 
-#----
-## RECOMMENDED: shell=False with list arguments
-#----
-
+# ## RECOMMENDED: shell=False with list arguments
+# 
 result = subprocess.run(['echo', 'Hello, World!'], capture_output=True, text=True)
 print(result.stdout)
 # Hello, World!
 
-#----
-## shell=True with string command (be careful with user input!)
-#----
-
+# ## shell=True with string command (be careful with user input!)
+# 
 result = subprocess.run('echo Hello, World!', shell=True, capture_output=True, text=True)
 print(result.stdout)
 # Hello, World!
 
-#----
-## Using shell features like pipes (requires shell=True)
-#----
-
+# ## Using shell features like pipes (requires shell=True)
+# 
 result = subprocess.run("echo Hello world | awk '{print $1}'", shell=True, capture_output=True, text=True)
 print(result.stdout)
 # Hello
 '''(Without shell=True, pipes won't work)'''
 
-###########################
+##-----------------------##
 ## Checking return codes ##
-###########################
+##-----------------------##
 '''
 Return code (exit code) indicates if command succeeded:
 - 0: Success
 - Non-zero: Error or failure
 '''
 
-#----
-## Successful command (return code 0)
-#----
-
+# ## Successful command (return code 0)
+# 
 result = subprocess.run(['echo', 'Success'], capture_output=True, text=True)
 print(result.returncode)
 # 0
@@ -247,10 +227,8 @@ if result.returncode == 0:
     print("Command executed successfully!")
 # Command executed successfully!
 
-#----
-## Failed command (non-zero return code)
-#----
-
+# ## Failed command (non-zero return code)
+# 
 result = subprocess.run(['ls', 'nonexistent_file'], capture_output=True, text=True)
 print(result.returncode)
 # 2
@@ -259,26 +237,22 @@ print(result.returncode)
 print(result.stderr)
 # ls: cannot access 'nonexistent_file': No such file or directory
 
-#########################################
+##-------------------------------------##
 ## Using check=True for error handling ##
-#########################################
+##-------------------------------------##
 '''
 check=True raises CalledProcessError if command returns non-zero exit code
 This is useful when you want to treat non-zero exit as an exception
 '''
 
-#----
-## Successful command with check=True
-#----
-
+# ## Successful command with check=True
+# 
 result = subprocess.run(['echo', 'Success'], capture_output=True, text=True, check=True)
 print(result.stdout)
 # Success
 
-#----
-## Failed command with check=True (raises exception)
-#----
-
+# ## Failed command with check=True (raises exception)
+# 
 try:
     result = subprocess.run(['ls', 'nonexistent_file'], capture_output=True, text=True, check=True)
 except subprocess.CalledProcessError as e:
@@ -288,13 +262,13 @@ except subprocess.CalledProcessError as e:
 # Error output: ls: cannot access 'nonexistent_file': No such file or directory
 
 
-#---------------------------------------------------------------------------------------------#
-#-------------------------------- Working with input/output ----------------------------------#
-#---------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Working with input/output
+# ==============================================================================================
 
-###################################
+##-------------------------------##
 ## Redirecting stdout and stderr ##
-###################################
+##-------------------------------##
 '''
 You can redirect stdout and stderr separately:
 - subprocess.PIPE: Capture output to access in Python
@@ -303,18 +277,14 @@ You can redirect stdout and stderr separately:
 - File object: Write output to a file
 '''
 
-#----
-## Capture stdout only
-#----
-
+# ## Capture stdout only
+# 
 result = subprocess.run(['echo', 'Hello'], stdout=subprocess.PIPE, text=True)
 print(result.stdout)
 # Hello
 
-#----
-## Capture both stdout and stderr separately
-#----
-
+# ## Capture both stdout and stderr separately
+# 
 result = subprocess.run(['ls', 'file.txt', 'nonexistent'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
 print(result.stdout)
@@ -325,10 +295,8 @@ print(result.stderr)
 # ls: cannot access 'file.txt': No such file or directory
 # ls: cannot access 'nonexistent': No such file or directory
 
-#----
-## Redirect stderr to stdout (combine them)
-#----
-
+# ## Redirect stderr to stdout (combine them)
+# 
 result = subprocess.run(['ls', 'file.txt', 'nonexistent'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
 print(result.stdout)
 # (Both stdout and stderr appear in stdout)
@@ -341,10 +309,8 @@ result = subprocess.run(['echo', 'Hello'], stdout=subprocess.PIPE, stderr=subpro
 print(result.stdout)
 # Hello
 
-#----
-## Discard output using DEVNULL
-#----
-
+# ## Discard output using DEVNULL
+# 
 result = subprocess.run(['echo', 'This will not be captured'], stdout=subprocess.DEVNULL)
 # (No output captured or printed)
 
@@ -352,10 +318,8 @@ print(result.stdout)
 # None
 '''(stdout is None since it was discarded)'''
 
-#----
-## Write output to a file
-#----
-
+# ## Write output to a file
+# 
 with open('output.txt', 'w') as f:
     result = subprocess.run(['echo', 'Hello, File!'], stdout=f, text=True)
 
@@ -364,37 +328,33 @@ with open('output.txt', 'r') as f:
     print(f.read())
 # Hello, File!
 
-#############################################
+##-----------------------------------------##
 ## Providing input to a subprocess (stdin) ##
-#############################################
+##-----------------------------------------##
 '''
 You can provide input to a subprocess using the input parameter
 The input is sent to the process's stdin
 '''
 
-#----
-## Send input to a command (e.g., 'cat' reads from stdin)
-#----
-
+# ## Send input to a command (e.g., 'cat' reads from stdin)
+# 
 result = subprocess.run(['cat'], input='Hello from stdin\nLine 2\nLine 3', capture_output=True, text=True)
 print(result.stdout)
 # Hello from stdin
 # Line 2
 # Line 3
 
-#----
-## Send input to Python script
-#----
-
+# ## Send input to Python script
+# 
 # If you have a Python script that reads from stdin (e.g., input())
 result = subprocess.run([sys.executable, '-c', 'name = input("Enter name: "); print(f"Hello, {name}!")'],
                        input='Alice\n', capture_output=True, text=True)
 print(result.stdout)
 # Enter name: Hello, Alice!
 
-####################################
+##--------------------------------##
 ## Decoding output with text=True ##
-####################################
+##--------------------------------##
 '''
 text=True (or universal_newlines=True in older Python versions):
 - Automatically decodes stdout/stderr from bytes to strings
@@ -402,10 +362,8 @@ text=True (or universal_newlines=True in older Python versions):
 - Uses system default encoding (or specify with encoding parameter)
 '''
 
-#----
-## Without text=True (bytes)
-#----
-
+# ## Without text=True (bytes)
+# 
 result = subprocess.run(['echo', 'Hello'], capture_output=True)
 print(result.stdout)
 # b'Hello\n'
@@ -413,10 +371,8 @@ print(result.stdout)
 print(type(result.stdout))
 # <class 'bytes'>
 
-#----
-## With text=True (string)
-#----
-
+# ## With text=True (string)
+# 
 result = subprocess.run(['echo', 'Hello'], capture_output=True, text=True)
 print(result.stdout)
 # Hello
@@ -424,10 +380,8 @@ print(result.stdout)
 print(type(result.stdout))
 # <class 'str'>
 
-#----
-## Specify encoding explicitly
-#----
-
+# ## Specify encoding explicitly
+# 
 result = subprocess.run(['echo', 'Hello'], capture_output=True, encoding='utf-8')
 print(result.stdout)
 # Hello
@@ -435,9 +389,9 @@ print(result.stdout)
 print(type(result.stdout))
 # <class 'str'>
 
-#################################
+##-----------------------------##
 ## Reading output line by line ##
-#################################
+##-----------------------------##
 '''
 When you capture output, you get the entire output as a single string
 You can split it into lines for processing
@@ -470,10 +424,8 @@ File: test.py
 File: vscode_install_settings.txt
 '''
 
-#----
-## Process only lines matching a pattern
-#----
-
+# ## Process only lines matching a pattern
+# 
 result = subprocess.run(['ls', '-1'], capture_output=True, text=True)
 lines = result.stdout.splitlines()
 
@@ -482,9 +434,9 @@ print(txt_files)
 # ['Curriculum.txt', 'Libraries_Installation.txt', 'vscode_install_settings.txt']
 
 
-#---------------------------------------------------------------------------------------------#
-#------------------------------ Advanced subprocess.Popen() ----------------------------------#
-#---------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Advanced subprocess.Popen()
+# ==============================================================================================
 '''
 subprocess.Popen() provides more control than subprocess.run():
 - Non-blocking: process runs in background
@@ -497,9 +449,9 @@ subprocess.run(['sleep', '3'])  # Blocking version for comparison
 print("Waited for sleep to finish")
 
 
-#############################
+##-------------------------##
 ## Creating a Popen object ##
-#############################
+##-------------------------##
 '''Popen() starts a process and returns immediately (non-blocking)'''
 
 process = subprocess.Popen(['sleep', '3'])
@@ -513,10 +465,8 @@ return_code = process.wait()
 print(f"Process finished with return code: {return_code}")
 # Process finished with return code: 0
 
-#----
-## Popen with output capture
-#----
-
+# ## Popen with output capture
+# 
 process = subprocess.Popen(['echo', 'Hello from Popen'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 # Process is running, we can do other things here
 
@@ -529,9 +479,9 @@ print(stdout)
 print(stderr)
 # (No error output)
 
-#######################################################
+##---------------------------------------------------##
 ## Communicating with subprocess using communicate() ##
-#######################################################
+##---------------------------------------------------##
 '''
 communicate() does three things:
 1. Sends input to stdin (if provided)
@@ -539,10 +489,8 @@ communicate() does three things:
 3. Waits for process to finish
 '''
 
-#----
-## Send input and get output
-#----
-
+# ## Send input and get output
+# 
 process = subprocess.Popen(['cat'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
 stdout, stderr = process.communicate(input='Hello\nWorld\n')
@@ -550,10 +498,8 @@ print(stdout)
 # Hello
 # World
 
-#----
-## With timeout (raises TimeoutExpired if process takes too long)
-#----
-
+# ## With timeout (raises TimeoutExpired if process takes too long)
+# 
 process = subprocess.Popen(['sleep', '10'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 try:
@@ -564,9 +510,9 @@ except subprocess.TimeoutExpired:
     stdout, stderr = process.communicate()  # Clean up
 # Process timed out!
 
-#################################################
+##---------------------------------------------##
 ## Using poll() to check if process is running ##
-#################################################
+##---------------------------------------------##
 '''
 poll() checks if process has finished without blocking:
 - Returns None if process is still running
@@ -587,27 +533,23 @@ print(f"Process finished with return code: {process.poll()}")
 # Process is still running...
 # Process finished with return code: 0
 
-###############################
+##---------------------------##
 ## Using wait() with timeout ##
-###############################
+##---------------------------##
 '''
 wait() blocks until process finishes and returns the return code
 Can specify timeout to avoid waiting indefinitely
 '''
 
-#----
-## Wait without timeout
-#----
-
+# ## Wait without timeout
+# 
 process = subprocess.Popen(['sleep', '1'])
 return_code = process.wait()
 print(f"Process finished with return code: {return_code}")
 # Process finished with return code: 0
 
-#----
-## Wait with timeout
-#----
-
+# ## Wait with timeout
+# 
 process = subprocess.Popen(['sleep', '10'])
 
 try:
@@ -617,9 +559,9 @@ except subprocess.TimeoutExpired:
     process.kill()
 # Process did not finish in time!
 
-#####################################################
+##-------------------------------------------------##
 ## Sending signals to subprocess (terminate, kill) ##
-#####################################################
+##-------------------------------------------------##
 '''
 You can send signals to control subprocess:
 - terminate(): Sends SIGTERM (graceful shutdown)
@@ -627,10 +569,8 @@ You can send signals to control subprocess:
 - send_signal(signal): Sends custom signal
 '''
 
-#----
-## Terminate a long-running process
-#----
-
+# ## Terminate a long-running process
+# 
 process = subprocess.Popen(['sleep', '100'])
 print(f"Process PID: {process.pid}")
 # Process PID: 10279
@@ -641,34 +581,30 @@ time.sleep(1)
 
 process.terminate()  # Send SIGTERM
 
-process.wait()  
-# -15 
+process.wait()
+# -15
 # (means terminate gracefully, allowing it to perform cleanup tasks such as closing open files, sockets, and saving data before exiting.)
 
 print("Process terminated")
 # Process terminated
 
-#----
-## Kill a process that won't terminate
-#----
-
+# ## Kill a process that won't terminate
+# 
 process = subprocess.Popen(['sleep', '100'])
 print(f"Process PID: {process.pid}")
 # Process PID: 10279
 
 process.kill()  # Send SIGKILL (immediate termination)
 
-process.wait() 
-# -9 
+process.wait()
+# -9
 # (means killed forcefully, no cleanup, etc.)
 
 print("Process killed")
 # Process killed
 
-#----
-## Send custom signal (Unix/Linux only)
-#----
-
+# ## Send custom signal (Unix/Linux only)
+# 
 import signal
 
 process = subprocess.Popen(['sleep', '100'])
@@ -677,13 +613,13 @@ process.wait()
 print("Custom signal sent")
 
 
-#---------------------------------------------------------------------------------------------#
-#------------------------------- Error handling and security ---------------------------------#
-#---------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Error handling and security
+# ==============================================================================================
 
-#################################
+##-----------------------------##
 ## Handling CalledProcessError ##
-#################################
+##-----------------------------##
 '''
 CalledProcessError is raised when check=True and command returns non-zero exit code
 The exception contains useful information about the failure
@@ -698,12 +634,12 @@ except subprocess.CalledProcessError as e:
     print(f"Stderr: {e.stderr}")
 # Command: ['ls', 'nonexistent']
 # Return code: 2
-# Stdout: 
+# Stdout:
 # Stderr: ls: cannot access 'nonexistent': No such file or directory
 
-#############################
+##-------------------------##
 ## Handling TimeoutExpired ##
-#############################
+##-------------------------##
 '''TimeoutExpired is raised when process doesn't finish within specified timeout'''
 
 try:
@@ -716,9 +652,9 @@ except subprocess.TimeoutExpired as e:
 # Command: ['sleep', '10']
 # Output so far: None
 
-#############################################
+##-----------------------------------------##
 ## Security considerations with shell=True ##
-#############################################
+##-----------------------------------------##
 '''
 shell=True is DANGEROUS with untrusted input!
 It can lead to shell injection attacks.
@@ -735,20 +671,16 @@ result = subprocess.run(f'cat {user_input}', shell=True)  # DANGEROUS! DON'T DO 
 GOOD - Safe alternatives:
 '''
 
-#----
-## Use shell=False with list arguments (RECOMMENDED)
-#----
-
+# ## Use shell=False with list arguments (RECOMMENDED)
+# 
 user_input = "file.txt"
 result = subprocess.run(['cat', user_input], capture_output=True)  # Safe
 
 print(result.stdout)
 # b''
 
-#----
-## If you must use shell=True, validate/sanitize input
-#----
-
+# ## If you must use shell=True, validate/sanitize input
+# 
 import shlex
 
 user_input = "file with spaces.txt"
@@ -760,9 +692,9 @@ result = subprocess.run(safe_command, shell=True, capture_output=True)
 print(result.stdout)
 # b''
 
-##############################
+##--------------------------##
 ## Safely passing arguments ##
-##############################
+##--------------------------##
 '''
 Best practices for passing arguments:
 1. Use list format with shell=False
@@ -770,42 +702,34 @@ Best practices for passing arguments:
 3. Use shlex.quote() if you must use shell=True
 '''
 
-#----
-## RECOMMENDED: List format
-#----
-
+# ## RECOMMENDED: List format
+# 
 filename = "user file.txt"
 result = subprocess.run(['cat', filename], capture_output=True)  # Spaces handled correctly
 
-#----
-## BAD: String concatenation with shell=True
-#----
-
+# ## BAD: String concatenation with shell=True
+# 
 filename = "user file.txt"
 result = subprocess.run(f'cat {filename}', shell=True)  # BREAKS with spaces!
 
-#----
-## If shell=True is necessary, use shlex.quote()
-#----
-
+# ## If shell=True is necessary, use shlex.quote()
+# 
 import shlex
 filename = "user file.txt"
 result = subprocess.run(f'cat {shlex.quote(filename)}', shell=True, capture_output=True)  # Safe
 
 
-#---------------------------------------------------------------------------------------------#
-#---------------------------------- Advanced patterns ----------------------------------------#
-#---------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Advanced patterns
+# ==============================================================================================
 
-#####################################################
+##-------------------------------------------------##
 ## Running commands in a different directory (cwd) ##
-#####################################################
+##-------------------------------------------------##
 '''Use cwd parameter to run command in a specific directory'''
 
-#----
-## List files in a specific directory
-#----
-
+# ## List files in a specific directory
+# 
 result = subprocess.run(['ls', '-l'], cwd='/home/longdpt/Pictures', capture_output=True, text=True)
 print(result.stdout)
 '''
@@ -814,10 +738,8 @@ drwxr-xr-x 2 longdpt longdpt 4096 Jun 21  2025 Fedora_wallpapers
 drwxr-xr-x 2 longdpt longdpt 4096 Dec 30 22:35 Screenshots
 '''
 
-#----
-## Run Python script from different directory
-#----
-
+# ## Run Python script from different directory
+# 
 path = '/home/longdpt/Documents/Academic/DataScience_MachineLearning'
 
 result = subprocess.run([sys.executable, 'demo.py'], cwd=path, capture_output=True, text=True)
@@ -825,24 +747,22 @@ result = subprocess.run([sys.executable, 'demo.py'], cwd=path, capture_output=Tr
 
 print(result.stdout)
 '''
-         0.5               
-          ⌠                
-          ⎮     ________   
-√3   π    ⎮    /      2    
+         0.5
+          ⌠
+          ⎮     ________
+√3   π    ⎮    /      2
 ── + ─ =  ⎮  ╲╱  1 - x   dx
-8    2    ⌡                
+8    2    ⌡
           0
-'''          
+'''
 
-###################################
+##-------------------------------##
 ## Setting environment variables ##
-###################################
+##-------------------------------##
 '''Use env parameter to set environment variables for subprocess'''
 
-#----
-## Set custom environment variable
-#----
-
+# ## Set custom environment variable
+# 
 my_env = os.environ.copy()  # Copy current environment
 my_env['MY_VARIABLE'] = 'my_value'
 
@@ -851,10 +771,8 @@ result = subprocess.run([sys.executable, '-c', 'import os; print(os.environ.get(
 print(result.stdout)
 # my_value
 
-#----
-## Run with minimal environment (only specific variables)
-#----
-
+# ## Run with minimal environment (only specific variables)
+# 
 minimal_env = {'PATH': '/usr/bin:/bin', 'HOME': os.environ['HOME']}
 
 result = subprocess.run(['env'], env=minimal_env, capture_output=True, text=True)
@@ -862,18 +780,16 @@ print(result.stdout)
 # PATH=/usr/bin:/bin
 # HOME=/home/user
 
-######################################
+##----------------------------------##
 ## Piping between multiple commands ##
-######################################
+##----------------------------------##
 '''
 You can pipe output from one command to another
 Two approaches: using shell or chaining Popen objects
 '''
 
-#----
-## Method 1: Using shell=True with pipe (simple but less secure)
-#----
-
+# ## Method 1: Using shell=True with pipe (simple but less secure)
+# 
 result = subprocess.run('ls -l | grep .txt', shell=True, capture_output=True, text=True)
 print(result.stdout)
 # (Lists only .txt files)
@@ -883,10 +799,8 @@ print(result.stdout)
 -rwxr-xr-x 1 longdpt longdpt     1777 Dec 18 17:23 vscode_install_settings.txt
 '''
 
-#----
-## Method 2: Chaining Popen objects (RECOMMENDED - more secure)
-#----
-
+# ## Method 2: Chaining Popen objects (RECOMMENDED - more secure)
+# 
 # First command: ls -l
 process1 = subprocess.Popen(['ls', '-l'], stdout=subprocess.PIPE)
 
@@ -906,10 +820,8 @@ print(output)
 -rwxr-xr-x 1 longdpt longdpt     1777 Dec 18 17:23 vscode_install_settings.txt
 '''
 
-#----
-## Three-command pipeline example
-#----
-
+# ## Three-command pipeline example
+# 
 p1 = subprocess.Popen(['ls', '-l'], stdout=subprocess.PIPE)
 p2 = subprocess.Popen(['grep', '.py'], stdin=p1.stdout, stdout=subprocess.PIPE)
 p3 = subprocess.Popen(['wc', '-l'], stdin=p2.stdout, stdout=subprocess.PIPE, text=True)
@@ -921,18 +833,16 @@ output, _ = p3.communicate()
 print(f"Number of Python files: {output.strip()}")
 # Number of Python files: 2
 
-##################################
+##------------------------------##
 ## Running background processes ##
-##################################
+##------------------------------##
 '''
 Use Popen to start processes that run in the background
 You can continue working while process runs
 '''
 
-#----
-## Start a long-running process in background
-#----
-
+# ## Start a long-running process in background
+# 
 process = subprocess.Popen(['python', './test_GPU.py'],
                           stdout=subprocess.PIPE,
                           stderr=subprocess.PIPE)
@@ -949,10 +859,8 @@ if process.poll() is None:
 else:
     print(f"Process finished with return code: {process.poll()}")
 
-#----
-## Start multiple processes in parallel
-#----
-
+# ## Start multiple processes in parallel
+# 
 processes = []
 
 for i in range(5):
@@ -975,10 +883,8 @@ for i, p in enumerate(processes):
 # Process 3: Process 3 done
 # Process 4: Process 4 done
 
-#----
-## Detached background process (continues after Python exits)
-#----
-
+# ## Detached background process (continues after Python exits)
+# 
 # On Unix/Linux, you can detach a process completely
 process = subprocess.Popen(['nohup', 'python', 'daemon.py'],
                           stdout=subprocess.DEVNULL,

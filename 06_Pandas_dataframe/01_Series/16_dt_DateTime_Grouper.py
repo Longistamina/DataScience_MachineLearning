@@ -4,7 +4,7 @@ that provides access to datetime-like properties and methods for pandas Series.
 
 Supported Types: datetime64[ns], datetime64[ns, tz], Period, timedelta[ns]
 
-######################################################
+##--------------------------------------------------##
 
 0. Creating datetime data and index:
     + Datetime data: pd.to_datetime(), astype('datetime64[ns]'), pd.date_range(), pd.bdate_range()
@@ -68,7 +68,7 @@ Supported Types: datetime64[ns], datetime64[ns, tz], Period, timedelta[ns]
     + Used in groupby operations to group by specific time periods (e.g., month, year)
 '''
 
-###################################
+##-------------------------------##
 
 '''
 COMMON FREQUENCY CODES:
@@ -98,15 +98,13 @@ COMMON FREQUENCY CODES:
 import pandas as pd
 import numpy as np
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------ 0. Creating datetime data and index ------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Creating datetime data and index
+# =========================================================================================
 
 '''
-#--------------------------
-## Datetime data
-#--------------------------
-'''
+# ## Datetime data
+# '''
 
 s_original = pd.Series(['2023-01-01', '2023-02-15', '2023-03-20'])
 print(s_original.dtypes) # object
@@ -114,9 +112,9 @@ print(s_original.dtypes) # object
 s_dayfirst = pd.Series(['31/12/2023', '15/11/2023', '20/10/2023'])
 print(s_dayfirst.dtypes) # object
 
-######################
+##------------------##
 ## pd.to_datetime() ##
-######################
+##------------------##
 
 # Basic use
 s_datetime = pd.to_datetime(s_original)
@@ -134,9 +132,9 @@ print(s_datetime)
 # 2   2023-10-20
 # dtype: datetime64[ns]
 
-##############################
+##--------------------------##
 ## astype('datetime64[ns]') ##
-##############################
+##--------------------------##
 
 s_datetime = s_original.astype('datetime64[ns]')
 print(s_datetime)
@@ -152,9 +150,9 @@ print(s_datetime)
 # 2   2023-10-20
 # dtype: datetime64[ns]
 
-#####################
+##-----------------##
 ## pd.date_range() ##
-#####################
+##-----------------##
 # Create a DatetimeIndex with a specified frequency
 # Can use this DatetimeIndex as index for a Series or DataFrame
 '''Can wrap with pd.Series() to create a Series from this DatetimeIndex object'''
@@ -183,9 +181,9 @@ print(s_daterange)
 # 2023-01-10    87
 # Freq: D, dtype: int64
 
-######################
+##------------------##
 ## pd.bdate_range() ##
-######################
+##------------------##
 # Works like pd.date_range() but only includes business days (Monday to Friday)
 '''Can wrap with pd.Series() to create a Series from this DatetimeIndex object'''
 # https://pandas.pydata.org/docs/reference/api/pandas.bdate_range.html
@@ -203,17 +201,15 @@ print(bdate_range)
 
 
 '''
-#--------------------------
-## Timedelta data
-#--------------------------
-'''
+# ## Timedelta data
+# '''
 
 s_original = pd.Series(['1 days', '2 days 03:00:00', '4 days 05:30:00'])
 s_original_nums = pd.Series([1, 2.5, 4.25])
 
-#######################
+##-------------------##
 ## pd.to_timedelta() ##
-#######################
+##-------------------##
 
 # Basic use
 s_timedelta = pd.to_timedelta(s_original)
@@ -235,9 +231,9 @@ print(s_timedelta)
 Only specify "unit=" when the input is NUMERIC (not string or object).
 '''
 
-###############################
+##---------------------------##
 ## astype('timedelta64[ns]') ##
-###############################
+##---------------------------##
 
 s_timedelta = s_original.astype('timedelta64[ns]')
 print(s_timedelta)
@@ -260,9 +256,9 @@ print(s_timedelta)
 # 2   0 days 04:00:00
 # dtype: timedelta64[s]
 
-##########################
+##----------------------##
 ## pd.timedelta_range() ##
-##########################
+##----------------------##
 # Create a TimedeltaIndex with a specified frequency
 # Can use this TimedeltaIndex as index for a Series or DataFrame
 '''Can wrap with pd.Series() to create a Series from this TimedeltaIndex object'''
@@ -290,14 +286,12 @@ print(s_timedelta_range)
 
 
 '''
-#--------------------------
-## Period data
-#--------------------------
-'''
+# ## Period data
+# '''
 
-#################
+##-------------##
 ## pd.Period() ##
-#################
+##-------------##
 # Represents a period of time.
 
 period = pd.Period('2012-1-1', freq='D')
@@ -314,9 +308,9 @@ print(period.freq)
 print(period.day)
 # 1
 
-#########################
+##---------------------##
 ## .Series.to_period() ##
-#########################
+##---------------------##
 # Convert Series from DatetimeIndex to PeriodIndex.
 
 idx = pd.DatetimeIndex(['2023', '2024', '2025'])
@@ -332,9 +326,9 @@ print(s)
 print(s.index)
 # PeriodIndex(['2023', '2024', '2025'], dtype='period[Y-DEC]')
 
-#######################
+##-------------------##
 ## pd.period_range() ##
-#######################
+##-------------------##
 # Return a fixed frequency PeriodIndex (Can use this as Series or DataFrame index).
 # The day (calendar) is the default frequency.
 '''Can wrap with pd.Series() to create a Series from this PeriodIndex object'''
@@ -356,14 +350,12 @@ print(s_period_range)
 
 
 '''
-#--------------------------
-## Infer the most likely frequency given the input index.
-#--------------------------
-'''
+# ## Infer the most likely frequency given the input index.
+# '''
 
-#####################
+##-----------------##
 ## pd.infer_freq() ##
-#####################
+##-----------------##
 
 idx = pd.date_range(start='2020/12/01', end='2020/12/30', periods=30)
 
@@ -371,9 +363,9 @@ infered_freq = pd.infer_freq(idx)
 print(infered_freq) # D (daily frequency)
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 1. Basic properties ---------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Basic properties
+# =========================================================================================
 
 s_datetime = pd.Series(pd.date_range(start='2023-01-01 08:30:15', periods=5, freq='D'))
 print(s_datetime)
@@ -384,9 +376,9 @@ print(s_datetime)
 # 4   2023-01-05 08:30:15
 # dtype: datetime64[ns]
 
-##################################
+##------------------------------##
 ## .dt.year, .dt.month, .dt.day ##
-##################################
+##------------------------------##
 
 print(s_datetime.dt.year)
 # 0    2023
@@ -412,9 +404,9 @@ print(s_datetime.dt.day)
 # 4    5
 # dtype: int32
 
-######################################
+##----------------------------------##
 ## .dt.hour, .dt.minute, .dt.second ##
-######################################
+##----------------------------------##
 
 print(s_datetime.dt.hour)
 # 0    8
@@ -440,9 +432,9 @@ print(s_datetime.dt.second)
 # 4    15
 # dtype: int32
 
-#####################################
+##---------------------------------##
 ## .dt.microsecond, .dt.nanosecond ##
-#####################################
+##---------------------------------##
 
 print(s_datetime.dt.microsecond)
 # 0    0
@@ -461,9 +453,9 @@ print(s_datetime.dt.nanosecond)
 # dtype: int32
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 2. ISO Calendar properties -------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. ISO Calendar properties
+# =========================================================================================
 
 s_datetime = pd.Series(pd.date_range(start='2023-01-01', periods=5, freq='D'))
 print(s_datetime)
@@ -474,9 +466,9 @@ print(s_datetime)
 # 4   2023-01-05
 # dtype: datetime64[ns]
 
-#######################
+##-------------------##
 ## .dt.isocalendar() ##
-#######################
+##-------------------##
 # Returns a DataFrame with ISO components = year + week + day
 
 print(s_datetime.dt.isocalendar())
@@ -488,9 +480,9 @@ print(s_datetime.dt.isocalendar())
 # 3     2023        1        3
 # 4     2023        1        4
 
-############################
+##------------------------##
 ## .dt.isocalendar().year ##
-############################
+##------------------------##
 
 print(s_datetime.dt.isocalendar().year)
 # 0    2022
@@ -500,9 +492,9 @@ print(s_datetime.dt.isocalendar().year)
 # 4    2023
 # Name: year, dtype: UInt32
 
-############################
+##------------------------##
 ## .dt.isocalendar().week ##
-############################
+##------------------------##
 
 print(s_datetime.dt.isocalendar().week)
 # 0    52
@@ -512,9 +504,9 @@ print(s_datetime.dt.isocalendar().week)
 # 4     1
 # Name: week, dtype: UInt32
 
-###########################
+##-----------------------##
 ## .dt.isocalendar().day ##
-###########################
+##-----------------------##
 
 print(s_datetime.dt.isocalendar().day)
 # 0    7
@@ -525,9 +517,9 @@ print(s_datetime.dt.isocalendar().day)
 # Name: day, dtype: UInt32
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 3. Extended properties ----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Extended properties
+# =========================================================================================
 
 s_datetime = pd.Series(pd.date_range(start='2023-03-01', periods=5, freq='D'))
 print(s_datetime)
@@ -538,9 +530,9 @@ print(s_datetime)
 # 4   2023-03-05
 # dtype: datetime64[ns]
 
-###################
+##---------------##
 ## .dt.dayofyear ##
-###################
+##---------------##
 # The day of the year (1 to 365 or 366 in leap years)
 
 print(s_datetime.dt.dayofyear)
@@ -551,9 +543,9 @@ print(s_datetime.dt.dayofyear)
 # 4    64
 # dtype: int32
 
-################################
+##----------------------------##
 ## .dt.dayofweek, .dt.weekday ##
-################################
+##----------------------------##
 # The day of the week with Monday=0, Sunday=6
 
 print(s_datetime.dt.dayofweek)
@@ -572,9 +564,9 @@ print(s_datetime.dt.weekday)
 # 4    6
 # dtype: int32
 
-#################
+##-------------##
 ## .dt.quarter ##
-#################
+##-------------##
 # The quarter of the year (1 to 4)
 
 print(s_datetime.dt.quarter)
@@ -586,9 +578,9 @@ print(s_datetime.dt.quarter)
 # dtype: int32
 '''March is in the 1st quarter'''
 
-#######################
+##-------------------##
 ## .dt.days_in_month ##
-#######################
+##-------------------##
 # The number of days in the month
 
 print(s_datetime.dt.days_in_month)
@@ -602,9 +594,9 @@ print(s_datetime.dt.days_in_month)
 
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#----------------------------------- 4. Extract Python datetime objects --------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Extract Python datetime objects
+# =========================================================================================
 
 s_datetime = pd.Series(["1/1/2020 10:00:00+00:00", "2/1/2020 11:00:00+00:00"], dtype='datetime64[ns, UTC]')
 print(s_datetime)
@@ -612,9 +604,9 @@ print(s_datetime)
 # 1   2020-02-01 11:00:00+00:00
 # dtype: datetime64[ns, UTC]
 
-##############
+##----------##
 ## .dt.date ##
-##############
+##----------##
 # Returns datetime.date objects (date only)
 
 print(s_datetime.dt.date)
@@ -625,9 +617,9 @@ print(s_datetime.dt.date)
 print(type(s_datetime.dt.date[0]))
 # <class 'datetime.date'>
 
-##############
+##----------##
 ## .dt.time ##
-##############
+##----------##
 # Returns datetime.time objects (time only)
 
 print(s_datetime.dt.time)
@@ -638,9 +630,9 @@ print(s_datetime.dt.time)
 print(type(s_datetime.dt.time[0]))
 # <class 'datetime.time'>
 
-################
+##------------##
 ## .dt.timetz ##
-################
+##------------##
 # Returns datetime.time with timezone information
 
 print(s_datetime.dt.timetz)
@@ -652,13 +644,13 @@ print(type(s_datetime.dt.timetz[0]))
 # <class 'datetime.time'>
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 5. Boolean properties ----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Boolean properties
+# =========================================================================================
 
-##########################################
+##--------------------------------------##
 ## .dt.is_month_start, .dt.is_month_end ##
-##########################################
+##--------------------------------------##
 
 s_datetime = pd.Series(pd.date_range(start='2023-05-01', periods=7, freq='5D'))
 print(s_datetime)
@@ -695,9 +687,9 @@ print(s_datetime.dt.is_month_end) # Indicates whether the date is the last day o
 # 6     True (2023-05-31 is the last day of May)
 # dtype: bool
 
-##############################################
+##------------------------------------------##
 ## .dt.is_quarter_start, .dt.is_quarter_end ##
-##############################################
+##------------------------------------------##
 
 s_datetime = pd.Series(pd.date_range(start='2023-01-31', end='2023-06-30', freq='ME')) # 'ME' means month end frequency
 first_january = pd.Series(['2023-01-01'], dtype='datetime64[ns]')
@@ -732,9 +724,9 @@ print(s_datetime.dt.is_quarter_end) # Indicates whether the date is the last day
 # 6     True (2023-06-30 is the last day of the 2nd quarter)
 # dtype: bool 
 
-########################################
+##------------------------------------##
 ## .dt.is_year_start, .dt.is_year_end ##
-########################################
+##------------------------------------##
 
 s_datetime = pd.Series(pd.date_range(start='2023-01-31', end='2023-12-31', freq='QE'))
 first_january = pd.Series(['2023-01-01'], dtype='datetime64[ns]')
@@ -763,9 +755,9 @@ print(s_datetime.dt.is_year_end) # Indicates whether the date is the last day of
 # 4     True (2023-12-31 is the last day of the year)
 # dtype: bool
 
-######################
+##------------------##
 ## .dt.is_leap_year ##
-######################
+##------------------##
 
 s_datetime = pd.Series(pd.date_range(start='2020-01-01', end='2024-01-01', freq='YS')) # 'YS' means year start frequency
 print(s_datetime)
@@ -785,9 +777,9 @@ print(s_datetime.dt.is_leap_year) # Indicates whether the year is a leap year
 # dtype: bool
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------ 6. String Representation Methods ---------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. String Representation Methods
+# =========================================================================================
 
 s_datetime = pd.Series(pd.date_range(start='2023-01-01 08:30:15', periods=5, freq='D'))
 print(s_datetime)
@@ -798,9 +790,9 @@ print(s_datetime)
 # 4   2023-01-05 08:30:15
 # dtype: datetime64[ns]
 
-##########################
+##----------------------##
 ## .dt.strftime(format) ##
-##########################
+##----------------------##
 '''
 https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes
 '''
@@ -822,9 +814,9 @@ print(s_datetime.dt.strftime('%A, %B %d, %Y'))
 # 4     Thursday, January 05, 2023
 # dtype: object
 
-####################
+##----------------##
 ## .dt.day_name() ##
-####################
+##----------------##
 
 print(s_datetime.dt.day_name())
 # 0       Sunday
@@ -834,9 +826,9 @@ print(s_datetime.dt.day_name())
 # 4     Thursday
 # dtype: object
 
-######################
+##------------------##
 ## .dt.month_name() ##
-######################
+##------------------##
 # Return month names ("January", "February", etc.)
 
 print(s_datetime.dt.month_name())
@@ -848,9 +840,9 @@ print(s_datetime.dt.month_name())
 # dtype: object
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 7. Time Rounding Methods ---------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Time Rounding Methods
+# =========================================================================================
 
 s_datetime = pd.Series(pd.date_range(start='2023-01-01 08:45:23', periods=5, freq='D'))
 print(s_datetime)
@@ -861,9 +853,9 @@ print(s_datetime)
 # 4   2023-01-05 08:45:23
 # dtype: datetime64[ns]
 
-#################
+##-------------##
 ## .dt.round() ##
-#################
+##-------------##
 '''Round to nearest specified frequency'''
 
 print(s_datetime.dt.round('h')) # Round to nearest hour
@@ -882,9 +874,9 @@ print(s_datetime.dt.round('min')) # Round to nearest minute
 # 4   2023-01-05 08:45:00
 # dtype: datetime64[ns]
 
-#################
+##-------------##
 ## .dt.floor() ##
-#################
+##-------------##
 '''Round down to specified frequency'''
 
 print(s_datetime.dt.floor('h')) # Floor to hour
@@ -903,9 +895,9 @@ print(s_datetime.dt.floor('min')) # Floor to minute
 # 4   2023-01-05 08:45:00
 # dtype: datetime64[ns]
 
-################
+##------------##
 ## .dt.ceil() ##
-################
+##------------##
 '''Round up to specified frequency'''
 
 print(s_datetime.dt.ceil('h')) # Ceil to hour
@@ -924,9 +916,9 @@ print(s_datetime.dt.ceil('min')) # Ceil to minute
 # 4   2023-01-05 08:46:00
 # dtype: datetime64[ns]
 
-#####################
+##-----------------##
 ## .dt.normalize() ##
-#####################
+##-----------------##
 '''Convert times to midnight (00:00:00), useful when time does not matter'''
 
 print(s_datetime.dt.normalize())
@@ -938,9 +930,9 @@ print(s_datetime.dt.normalize())
 # dtype: datetime64[ns]
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 8. Timezone Handling -----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Timezone Handling
+# =========================================================================================
 
 s_datetime = pd.Series(pd.date_range(start='2023-01-01 08:30:15', periods=5, freq='D'))
 print(s_datetime)
@@ -971,9 +963,9 @@ print(s_datetime_HCM)
 # dtype: datetime64[ns, Asia/Ho_Chi_Minh]
 '''(The +07:00 indicates Asia/Ho_Chi_Minh timezone)'''
 
-########################
+##--------------------##
 ## pytz.all_timezones ##
-########################
+##--------------------##
 '''List all available timezones'''
 
 import pytz
@@ -997,9 +989,9 @@ for tz in pytz.all_timezones: # Print timezones containing 'Asia' line by line
 # Asia/Almaty
 # Asia/Amman
 
-############
+##--------##
 ## .dt.tz ##
-############
+##--------##
 '''Get current timezone information'''
 
 print(s_datetime.dt.tz)
@@ -1011,9 +1003,9 @@ print(s_datetime_UTC.dt.tz)
 print(s_datetime_HCM.dt.tz)
 # Asia/Ho_Chi_Minh
 
-#######################
+##-------------------##
 ## .dt.tz_localize() ##
-#######################
+##-------------------##
 '''Set timezone for timezone-naive datetime (i.e., datetime without timezone info)'''
 
 s_localized = s_datetime.dt.tz_localize('US/Samoa')
@@ -1030,9 +1022,9 @@ s_localized = s_datetime_HCM.dt.tz_localize('Zulu')
 # This will raise an error because s_datetime_HCM already has timezone info
 '''TypeError: Already tz-aware, use tz_convert to convert.'''
 
-######################
+##------------------##
 ## .dt.tz_convert() ##
-######################
+##------------------##
 '''Convert timezone for timezone-aware datetime (i.e., datetime with timezone info)'''
 
 s_converted = s_datetime_HCM.dt.tz_convert('Asia/Amman')
@@ -1050,9 +1042,9 @@ s_converted = s_datetime.dt.tz_convert('Zulu')
 '''TypeError: Cannot convert tz-naive timestamps, use tz_localize to localize'''
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 9. Timedelta handling ----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. Timedelta handling
+# =========================================================================================
 
 s_timedelta = pd.Series(pd.to_timedelta(['1 days 08:30:15', '2 days 12:45:30', '3 days 05:15:45']))
 print(s_timedelta)
@@ -1061,9 +1053,9 @@ print(s_timedelta)
 # 2   3 days 05:15:45
 # dtype: timedelta64[ns]
 
-####################
+##----------------##
 ## .dt.components ##
-####################
+##----------------##
 '''Returns DataFrame with timedelta components'''
 
 print(s_timedelta.dt.components)
@@ -1072,9 +1064,9 @@ print(s_timedelta.dt.components)
 # 1     2     12       45       30             0             0            0
 # 2     3      5       15       45             0             0            0
 
-##############
+##----------##
 ## .dt.days ##
-##############
+##----------##
 '''Days component'''
 
 print(s_timedelta.dt.days)
@@ -1083,9 +1075,9 @@ print(s_timedelta.dt.days)
 # 2    3
 # dtype: int64
 
-#################
+##-------------##
 ## .dt.seconds ##
-#################
+##-------------##
 '''Seconds component (0-86399) of ONE DAY'''
 
 print(s_timedelta.dt.seconds)
@@ -1094,9 +1086,9 @@ print(s_timedelta.dt.seconds)
 # 2    18945
 # dtype: int32
 
-#########################
+##---------------------##
 ## .dt.total_seconds() ##
-#########################
+##---------------------##
 '''Total duration in seconds (across ALL DAYS)'''
 
 print(s_timedelta.dt.total_seconds())
@@ -1110,9 +1102,9 @@ NOTE: since these are all numeric values (int or float), you can perform numeric
 '''
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#----------------------------------- 10. Grouper with datetime-like data -------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 10. Grouper with datetime-like data
+# =========================================================================================
 '''
 A Grouper allows the user to specify a groupby instruction for an object.
 https://pandas.pydata.org/docs/reference/api/pandas.Grouper.html#pandas.Grouper
@@ -1130,9 +1122,9 @@ print(s_price)
 # 2023-01-07    400
 # Freq: D, dtype: int64
 
-###############################################
+##-------------------------------------------##
 ## using pandas methods like pd.Series.sum() ##
-###############################################
+##-------------------------------------------##
 
 # Calculate sum for every 3 days
 sum_3_days = s_price.groupby(pd.Grouper(freq='3D')).sum()
@@ -1143,9 +1135,9 @@ print(sum_3_days)
 # 2023-01-07    400 (400)
 # Freq: 3D, dtype: int64
 
-##################
+##--------------##
 ## using .agg() ##
-##################
+##--------------##
 
 # Calculate mean for every 2 days
 mean_2_days = s_price.groupby(pd.Grouper(freq='2D')).agg('mean')
@@ -1157,9 +1149,9 @@ print(mean_2_days)
 # 2023-01-07    400.0
 # Freq: 2D, dtype: float64
 
-##########################################
+##--------------------------------------##
 ##  using external funciton with .agg() ##
-##########################################
+##--------------------------------------##
 
 # Calculate standard deviation for every 3 days
 std_3_days = s_price.groupby(pd.Grouper(freq='3D')).agg(np.std)
@@ -1170,9 +1162,9 @@ print(std_3_days)
 # 2023-01-07     NaN
 # Freq: 3D, dtype: float64
 
-########################################
+##------------------------------------##
 ##  using lambda funciton with .agg() ##
-########################################
+##------------------------------------##
 
 # Calculate max for every 4 days
 max_4_days = s_price.groupby(pd.Grouper(freq='4D')).agg(lambda x: x.max())

@@ -4,7 +4,7 @@ and summarize data in Polars.
 
 Polars naming is slightly different from pandas:
 
-###############################################################
+##-----------------------------------------------------------##
 
 1. Pivot: long to wide
    + df.pivot(on=..., index=..., values=...)
@@ -43,13 +43,13 @@ pl.Config.set_float_precision(3)
 pl.Config.set_tbl_width_chars(120)
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 1. Pivot: long to wide ----------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Pivot: long to wide
+# =========================================================================================
 
-####################################
+##--------------------------------##
 ## df.pivot(): basic long -> wide ##
-####################################
+##--------------------------------##
 '''
 The .pivot() method converts unique values from one column into multiple columns.
 
@@ -102,10 +102,8 @@ print(df_sales.head())
 # │ 5   ┆ 2024-01-11 ┆ North  ┆ Widget    ┆ 2        ┆ 11.770     ┆ 23.540  │
 # └─────┴────────────┴────────┴───────────┴──────────┴────────────┴─────────┘
 
-#--------
-## Basic usage
-#--------
-
+# ## Basic usage
+# 
 df_pivoted = df_sales.pivot(
     on="region",      # Values in this column become new column names.
     index="ID",       # This remains a normal column in Polars.
@@ -127,10 +125,8 @@ print(df_pivoted.head())
 # │ 5   ┆ null    ┆ 23.540  ┆ null  ┆ null │
 # └─────┴─────────┴─────────┴───────┴──────┘
 
-#--------
-## Restrict or order generated pivot columns with on_columns=
-#--------
-'''
+# ## Restrict or order generated pivot columns with on_columns=
+# '''
 If you know the desired output columns, use on_columns=.
 This is useful for stable column order and for lazy pivot examples later.
 '''
@@ -156,10 +152,8 @@ print(df_pivoted_ordered.head())
 # │ 5   ┆ 23.540  ┆ null  ┆ null    ┆ null │
 # └─────┴─────────┴───────┴─────────┴──────┘
 
-#--------
-## Using multiple variables for on=
-#--------
-'''
+# ## Using multiple variables for on=
+# '''
 Pandas can create MultiIndex columns after pivoting with multiple columns=.
 Polars does not create MultiIndex columns; it creates flat column names (cartesian product).
 
@@ -197,10 +191,8 @@ print(df_pivoted_multi_on.head())
 # └─────┴─────────┴─────────┴─────────┴─────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
 # columns look like: ID, East_Doochickey, East_Gadget, East_Widget, ...
 
-#--------
-## Using multiple variables for values=
-#--------
-'''
+# ## Using multiple variables for values=
+# '''
 Pandas may create MultiIndex columns when values=[...].
 Polars creates flat names using separator=.
 
@@ -230,9 +222,9 @@ print(df_pivoted_multi_values.head())
 # │ 5   ┆ null       ┆ 23.540      ┆ null        ┆ null       ┆ null       ┆ 2024-01-11 ┆ null       ┆ null      │
 # └─────┴────────────┴─────────────┴─────────────┴────────────┴────────────┴────────────┴────────────┴───────────┘
 
-#########################################################
+##-----------------------------------------------------##
 ##  df.pivot(..., aggregate_function=...): pivot table ##
-#########################################################
+##-----------------------------------------------------##
 '''
 Pandas:
     pd.pivot_table(..., aggfunc="mean")
@@ -275,10 +267,8 @@ print(df_duplicates)
 # │ two ┆ bar   ┆ large ┆ 7      ┆ 9            │
 # └─────┴───────┴───────┴────────┴──────────────┘
 
-#--------
-## Duplicate cells without aggregation raise an error
-#--------
-
+# ## Duplicate cells without aggregation raise an error
+# 
 try:
     df_duplicates.pivot(
         on="class",
@@ -289,10 +279,8 @@ except Exception as err:
     print(type(err).__name__)
     # Example: ComputeError / DuplicateError depending on Polars version.
 
-#-------------
-## Use aggregate_function= to handle duplicates
-#-------------
-
+# ## Use aggregate_function= to handle duplicates
+# 
 df_pivoted_tbl = df_duplicates.pivot(
     on="class",
     index="ID",
@@ -312,10 +300,8 @@ print(df_pivoted_tbl)
 # │ two ┆ 6.500 ┆ 3.000 │
 # └─────┴───────┴───────┘
 
-#-------------
-## Multiple values with the same aggregation
-#-------------
-
+# ## Multiple values with the same aggregation
+# 
 df_pivoted_tbl_multi_values = df_duplicates.pivot(
     on="size",
     index="ID",
@@ -336,10 +322,8 @@ print(df_pivoted_tbl_multi_values)
 # │ two ┆ 7.000        ┆ 4.000        ┆ 9.000              ┆ 6.667              │
 # └─────┴──────────────┴──────────────┴────────────────────┴────────────────────┘
 
-#-------------
-## Multiple aggregation functions: pre-aggregate, then pivot
-#-------------
-'''
+# ## Multiple aggregation functions: pre-aggregate, then pivot
+# '''
 Polars pivot accepts one aggregate_function at a time.
 To reproduce pandas aggfunc=["mean", "sum"], first build those summaries with
 GroupBy.agg(), then pivot the summary columns.
@@ -385,10 +369,8 @@ print(df_pivoted_tbl_multi_agg)
 # │ two ┆ 9.000                   ┆ 6.667                   ┆ 9                      ┆ 20                     │
 # └─────┴─────────────────────────┴─────────────────────────┴────────────────────────┴────────────────────────┘
 
-#-------------
-## Multiple grouping columns for the pivoted columns
-#-------------
-'''
+# ## Multiple grouping columns for the pivoted columns
+# '''
 Pandas:
     columns=["size", "class"]
 
@@ -422,10 +404,8 @@ print(df_pivoted_tbl_multi_on)
 # │ two ┆ null            ┆ null            ┆ null            ┆ 0.000           │
 # └─────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┘
 
-#-------------
-## LazyFrame pivot
-#-------------
-'''
+# ## LazyFrame pivot
+# '''
 LazyFrame.pivot() needs on_columns= because Polars must know the output schema
 before executing the lazy plan.
 '''
@@ -454,13 +434,13 @@ print(lf_pivoted.collect())
 # └─────┴───────┴───────┘
 
 
-#---------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 2. Unpivot: wide to long ----------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Unpivot: wide to long
+# =========================================================================================
 
-##############################
+##--------------------------##
 ## Create example DataFrame ##
-##############################
+##--------------------------##
 
 n_patients = 8
 patient_ids = [f"P{i:03d}" for i in range(1, n_patients + 1)]
@@ -497,9 +477,9 @@ print(df_measurements)
 # │ P008       ┆ 58  ┆ 133     ┆ 80      ┆ 124     ┆ 63      ┆ 116     ┆ 61      │
 # └────────────┴─────┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┘
 
-#################################
+##-----------------------------##
 ##  df.unpivot(): wide -> long ##
-#################################
+##-----------------------------##
 '''
 Pandas:
     pd.melt(frame=df, id_vars=[...], value_vars=[...])
@@ -537,10 +517,8 @@ print(df_unpivoted.head())
 # │ P005       ┆ 62  ┆ BP_day1         ┆ 133            │
 # └────────────┴─────┴─────────────────┴────────────────┘
 
-#--------
-## Selector-based unpivot
-#--------
-'''
+# ## Selector-based unpivot
+# '''
 Selectors are very useful in Polars.
 Here, cs.matches(...) selects all columns whose names look like BP_day1, HR_day2, etc.
 '''
@@ -566,10 +544,8 @@ print(df_unpivoted_selector.head())
 # │ P005       ┆ 62  ┆ BP_day1         ┆ 133            │
 # └────────────┴─────┴─────────────────┴────────────────┘
 
-#--------
-## Legacy df.melt() note
-#--------
-'''
+# ## Legacy df.melt() note
+# '''
 Polars still has df.melt(id_vars=..., value_vars=...), but it is deprecated.
 Use df.unpivot(index=..., on=...) for new code.
 
@@ -583,9 +559,9 @@ Legacy equivalent, not recommended for new code:
     )
 '''
 
-#######################################
+##-----------------------------------##
 ##  pandas wide_to_long() equivalent ##
-#######################################
+##-----------------------------------##
 '''
 pandas wide_to_long() can split columns like BP_day1, HR_day1, BP_day2, HR_day2
 into separate metric and day columns.
@@ -662,10 +638,8 @@ print(df_wtl.head(10))
 # │ P004       ┆ 34  ┆ 1   ┆ 120 ┆ 83  │
 # └────────────┴─────┴─────┴─────┴─────┘
 
-#-------------
-## LazyFrame unpivot
-#-------------
-
+# ## LazyFrame unpivot
+# 
 lf_unpivoted = (
     df_measurements
     .lazy()
@@ -692,9 +666,9 @@ print(lf_unpivoted.collect().head())
 # └────────────┴─────┴─────────────────┴────────────────┘
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 3. Cross-Table ------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Cross-Table
+# =========================================================================================
 '''
 A cross-tabulation, or contingency table, displays the frequency distribution
 of categorical variables.
@@ -708,9 +682,9 @@ Polars:
       .fill_null(0)
 '''
 
-##############################
+##--------------------------##
 ## Create example DataFrame ##
-##############################
+##--------------------------##
 
 n_resp = 250
 
@@ -749,9 +723,9 @@ print(df_survey.head())
 # │ 5             ┆ Male   ┆ Blue           ┆ Unlikely        │
 # └───────────────┴────────┴────────────────┴─────────────────┘
 
-#######################################
+##-----------------------------------##
 ## Helper: Polars crosstab as counts ##
-#######################################
+##-----------------------------------##
 
 def crosstab_counts(df, row, col, col_order=None):
     '''Create a pandas.crosstab-like count table in Polars.'''
@@ -830,9 +804,9 @@ def normalize_all(table, row, digits=3):
         [(pl.col(name) / grand_total).round(digits).alias(name) for name in value_cols]
     )
 
-#################################
+##-----------------------------##
 ## Basic cross-table of counts ##
-#################################
+##-----------------------------##
 
 color_order = ["Blue", "Green", "Purple", "Red", "Yellow"]
 
@@ -855,10 +829,8 @@ print(contingency_table)
 # │ Other  ┆ 1    ┆ 4     ┆ 2      ┆ 3   ┆ 0      │
 # └────────┴──────┴───────┴────────┴─────┴────────┘
 
-#----------
-## With margins=True equivalent
-#----------
-
+# ## With margins=True equivalent
+# 
 contingency_with_margins = add_margins(
     table=contingency_table,
     row="gender",
@@ -878,10 +850,8 @@ print(contingency_with_margins)
 # │ All    ┆ 60   ┆ 38    ┆ 58     ┆ 47  ┆ 47     ┆ 250 │
 # └────────┴──────┴───────┴────────┴─────┴────────┴─────┘
 
-#----------
-## normalize='index' equivalent: row percentages
-#----------
-
+# ## normalize='index' equivalent: row percentages
+# 
 intent_order = ["Definitely", "Maybe", "Never", "Probably", "Unlikely"]
 
 intent_counts = crosstab_counts(
@@ -906,10 +876,8 @@ print(row_percentages)
 # └────────┴────────────┴───────┴───────┴──────────┴──────────┘
 # Each row sums to approximately 1.0.
 
-#----------
-## normalize='columns' equivalent: column percentages
-#----------
-
+# ## normalize='columns' equivalent: column percentages
+# 
 column_percentages = normalize_columns(intent_counts, row="gender")
 
 print(column_percentages)
@@ -925,10 +893,8 @@ print(column_percentages)
 # └────────┴────────────┴───────┴───────┴──────────┴──────────┘
 # Each purchase_intent column sums to approximately 1.0.
 
-#----------
-## normalize='all' equivalent: share of all observations
-#----------
-
+# ## normalize='all' equivalent: share of all observations
+# 
 all_percentages = normalize_all(intent_counts, row="gender")
 
 print(all_percentages)
@@ -944,10 +910,8 @@ print(all_percentages)
 # └────────┴────────────┴───────┴───────┴──────────┴──────────┘
 # The entire numeric part sums to approximately 1.0.
 
-#----------
-## Multiple columns= equivalent
-#----------
-'''
+# ## Multiple columns= equivalent
+# '''
 Pandas crosstab can use multiple columns= and create MultiIndex columns.
 Polars does not create MultiIndex columns. A simple Polars approach is to
 combine the categorical columns into a single flat key, then crosstab that key.
@@ -974,10 +938,8 @@ print(contingency_multi_columns)
 # columns look like:
 # gender, Blue_Definitely, Blue_Maybe, ..., Yellow_Probably, Yellow_Unlikely
 
-#----------
-## Long-form frequency table: often better than a very wide crosstab
-#----------
-'''
+# ## Long-form frequency table: often better than a very wide crosstab
+# '''
 For statistical modeling and plotting, long-form counts are often more useful
 than a very wide crosstab.
 '''
@@ -1008,10 +970,8 @@ print(freq_long.head(10))
 # │ Female ┆ Green          ┆ Unlikely        ┆ 2     │
 # └────────┴────────────────┴─────────────────┴───────┘
 
-#----------
-## Lazy cross-table
-#----------
-'''
+# ## Lazy cross-table
+# '''
 For lazy crosstabs, build the counts lazily, then use LazyFrame.pivot().
 As with any lazy pivot, you must provide on_columns=.
 '''
@@ -1045,9 +1005,9 @@ print(lazy_crosstab.collect())
 # └────────┴────────────┴───────┴───────┴──────────┴──────────┘
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 4. Quick pandas -> Polars map ------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Quick pandas -> Polars map
+# =========================================================================================
 '''
 Pandas idea                                      Polars equivalent
 --------------------------------------------------------------------------------------

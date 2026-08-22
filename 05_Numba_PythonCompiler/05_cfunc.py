@@ -9,15 +9,15 @@ import numpy as np
 from scipy.integrate import quad
 
 
-#-----------------------------------------------------------------------------------------#
-#------------------------------- 1. @cfunc and ctypes ------------------------------------#
-#-----------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. @cfunc and ctypes
+# =========================================================================================
 '''
 The @cfunc decorator has a similar usage to @jit, but with an important difference:
 -> passing a single signature is mandatory
 -> It determines the visible signature of the C callback
 
-###################
+##---------------##
 
 In Python, an integer is a complex, heavy object with built-in methods and reference counting.
 In C, an integer is just a raw sequence of bits in memory.
@@ -64,9 +64,9 @@ print(quad(nb_integrand.ctypes, 1, np.inf))
 %timeit quad(nb_integrand.ctypes, 1, np.inf) # 5.56 μs ± 12.6 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------------- 2. Dealing with pointers and array ------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Dealing with pointers and array
+# =========================================================================================
 '''
 C does not understand Numpy arrays.
 
@@ -83,14 +83,14 @@ So, instead of passing a high-level array object, a C function signature usually
 
 So, the 1D memory line would require manual math like ``input[i * n + j]``
 
-############################
+##------------------------##
 
 Numba provides the ``nb.carray()`` function to solve this beautifully.
 It takes that "dumb" C pointer and slaps a pair of "NumPy glasses" onto it.
 
 C-order (Row-major): Reads left-to-right across rows. This is what carray assumes (and what NumPy defaults to).
 
-############################
+##------------------------##
 
 Fortran-order (Column-major): Reads top-to-bottom down columns.
 
@@ -113,7 +113,7 @@ def my_callback(in_, out, m, n):
         for j in range(n):
             out_array[i, j] = 2 * in_array[i, j]
 
-############ RUN IT ##############
+##--------## RUN IT ##----------##
 
 import ctypes
 

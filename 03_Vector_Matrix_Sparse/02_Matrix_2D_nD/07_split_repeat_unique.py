@@ -18,9 +18,9 @@
 import numpy as np
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 1. Split Operations -----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Split Operations
+# =========================================================================================
 
 np.random.seed(0)
 matrix = np.random.randint(1, 10, size=(4, 6))
@@ -31,9 +31,9 @@ print(matrix)
 #  [8 6 9 3 7 7]]
 # shape: (4, 6)
 
-###################################################
+##-----------------------------------------------##
 ## np.split(): Splitting by "number of sections" ##
-###################################################
+##-----------------------------------------------##
 
 # Split along axis 0 (vertical)
 split_matrices = np.split(ary=matrix, indices_or_sections=2, axis=0)
@@ -72,9 +72,9 @@ print(split_matrices)
 #         [7, 7]])]
 '''Returns a list of 3 arrays, each with shape (4, 2).'''
 
-########################################
+##------------------------------------##
 ## np.split(): Splitting by "indices" ##
-########################################
+##------------------------------------##
 
 split_matrices = np.split(ary=matrix, indices_or_sections=[1, 3], axis=0) # arr[:1], arr[1:3], arr[3:]
 print(split_matrices)
@@ -90,9 +90,9 @@ for i, mat in enumerate(split_matrices):
 # Matrix 3 shape: (1, 6)
 '''Using specified indices allows unequal splits.'''
 
-######################
+##------------------##
 ## np.array_split() ##
-######################
+##------------------##
 '''
 np.array_split() is similar to np.split(), but allows unequal splits.
 If the array cannot be split evenly, it will not raise an error.
@@ -120,9 +120,9 @@ for i, mat in enumerate(split_matrices):
 # [[8 2 8 1]]
 '''np.array_split() automatically handles unequal division.'''
 
-#################
+##-------------##
 ## np.hsplit() ##
-#################
+##-------------##
 '''
 np.hsplit() splits an array horizontally (column-wise).
 Equivalent to np.split(axis=1).
@@ -152,9 +152,9 @@ for i, mat in enumerate(hsplit_matrices):
 # Matrix 2 shape: (4, 2)
 # Matrix 3 shape: (4, 2)
 
-#################
+##-------------##
 ## np.vsplit() ##
-#################
+##-------------##
 '''
 np.vsplit() splits an array vertically (row-wise).
 Equivalent to np.split(axis=0).
@@ -176,9 +176,9 @@ for i, mat in enumerate(vsplit_matrices):
 # Matrix 2 shape: (2, 6)
 # Matrix 3 shape: (1, 6)
 
-#################
+##-------------##
 ## np.dsplit() ##
-#################
+##-------------##
 '''
 np.dsplit() splits an array along the third axis (depth).
 Requires a 3D array.
@@ -198,9 +198,9 @@ for i, mat in enumerate(dsplit_matrices):
 '''Splits the (2, 3, 6) matrix into 3 matrices of shape (2, 3, 2).'''
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 2. np.repeat() ----------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. np.repeat()
+# =========================================================================================
 
 matrix = np.array([[1, 2, 3],
                    [4, 5, 6]])
@@ -208,9 +208,9 @@ print(matrix)
 # [[1 2 3]
 #  [4 5 6]]
 
-###############################
+##---------------------------##
 ## Repeating with same count ##
-###############################
+##---------------------------##
 
 # Flatten and repeat each element
 print(matrix.repeat(repeats=2))
@@ -228,9 +228,9 @@ print(matrix.repeat(repeats=2, axis=1))
 # [[1 1 2 2 3 3]
 #  [4 4 5 5 6 6]]
 
-#####################################
+##---------------------------------##
 ## Repeating with different counts ##
-#####################################
+##---------------------------------##
 
 # Repeat each row different number of times
 print(matrix.repeat(repeats=[1, 3], axis=0))
@@ -254,9 +254,9 @@ the 3rd column is repeated three times.
 '''
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 3. np.unique() ----------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. np.unique()
+# =========================================================================================
 
 matrix = np.array([[5, 2, 8, 2],
                    [5, 7, 5, 8],
@@ -266,18 +266,18 @@ print(matrix)
 #  [5 7 5 8]
 #  [2 7 8 5]]
 
-#################
+##-------------##
 ## np.unique() ##
-#################
+##-------------##
 
 unique_elements = np.unique(matrix)
 print(unique_elements)
 # [2 5 7 8]
 '''Returns a sorted 1D array of unique elements from the matrix.'''
 
-###################################
+##-------------------------------##
 ## np.unique(return_counts=True) ##
-###################################
+##-------------------------------##
 
 unique_elements, counts = np.unique(matrix, return_counts=True)
 

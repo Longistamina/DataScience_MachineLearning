@@ -11,9 +11,9 @@ __name__ is a special variable that indicates whether the script is being run di
 from pathlib import Path
 working_dir = next(Path("/home").glob("**/01_Python_Basic/*.py")).parent
 
-#----------------------------------------------------------------------------------------------------#
-#----------------------------- Import the module in the same directory ------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Import the module in the same directory
+# ==============================================================================================
 
 ''' The current directory MUST be in the same path as the module to import it directly.'''
 import os
@@ -31,9 +31,9 @@ You can safely ignore this directory, as it is not necessary for the module to w
 NOTE: the module name must NOT start with a number.
 '''
 
-#########################################
+##-------------------------------------##
 ## import one function from the module ##
-#########################################
+##-------------------------------------##
 
 from demo_module_same_directory import add
 
@@ -44,9 +44,9 @@ print(f"Result of the imported function: {result}")
 # | INFO     | demo_module_same_directory:add:7 - This module is being imported
 # 5 + 3 = 8
 
-##################################################
+##----------------------------------------------##
 ## import all functions from the module using * ##
-##################################################
+##----------------------------------------------##
 ''' DEMO if __name__ == "__main__" '''
 
 from demo_module_same_directory import *
@@ -60,16 +60,16 @@ _ = subtract(10, 4)
 # 10 - 4 = 6
 
 
-#----------------------------------------------------------------------------------------------------#
-#-------------------- Import the module from a package (different directory) ------------------------#
-#----------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Import the module from a package (different directory)
+# ==============================================================================================
 '''
 Python package is a directory that contains an __init__.py file and can contain submodules.
 So, when creating a package, must create an __init__.py file in the package directory.
 
 The contents of the __init__.py file can be empty, or it can contain initialization code for the package.
 '''
-##################
+##--------------##
 
 ''' The current directory MUST be in the same path as the package to import it. '''
 import os
@@ -78,10 +78,8 @@ os.chdir(str(working_dir))
 # => must move the current directory to this path to import the demo_package
 
 
-#----------------
-## Import a module from module_1
-#----------------
-
+# ## Import a module from module_1
+# 
 from demo_package.package_module_1 import subtract
 
 _ = subtract(1255, 250)
@@ -89,10 +87,8 @@ _ = subtract(1255, 250)
 # 1255 - 250 = 1005
 
 
-#----------------
-## Import all modules from module_2
-#----------------
-
+# ## Import all modules from module_2
+# 
 from demo_package.package_module_2 import *
 
 _ = multiply(6, 2)
@@ -104,9 +100,9 @@ _ = divide(10, 2)
 # 10 / 2 = 5.0
 
 
-#----------------------------------------------------------------------------------------------------#
-#-------------------------------- Note about "from package import *" --------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Note about "from package import *"
+# ==============================================================================================
 
 '''
 PEP8 (Python Enhancement Proposal 8) recommends against using "from package import *"

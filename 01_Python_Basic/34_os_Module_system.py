@@ -10,7 +10,7 @@ The "os" module is part of the Python Standard Library,
 so it is available in any Python installation without needing to install anything extra.
 '''
 
-##########
+##------##
 
 '''
 Flow of contents:
@@ -28,13 +28,13 @@ import os
 from loguru import logger
 
 
-#----------------------------------------------------------------------------------------------------#
-#------------------------------------ 1. Basic Inspection -------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. Basic Inspection
+# ==============================================================================================
 
-#############
+##---------##
 ## os.name ##
-#############
+##---------##
 '''
 os.name returns the name of the operating system dependent module imported.
 It can return 'posix', 'nt', 'os2', 'ce', 'java', or 'riscos'.
@@ -55,9 +55,9 @@ else:
 
 # >>> Running on Unix-like OS (Linux, macOS)
 
-################
+##------------##
 ## os.uname() ##
-################
+##------------##
 '''
 os.uname() returns a tuple containing information about the operating system.
 It includes the system name, node name (hostname), release, version, and machine type
@@ -76,9 +76,9 @@ print(f"Release: {system_info.release}") # Release: 6.18.7-061807-generic
 print(f"Version: {system_info.version}") # Version: #202601231045 SMP PREEMPT_DYNAMIC Fri Jan 23 11:25:00 UTC 2026
 print(f"Machine: {system_info.machine}") # Machine: x86_64
 
-####################
+##----------------##
 ## os.cpu_count() ##
-####################
+##----------------##
 '''os.cpu_count() returns the number of CPUs in the system.'''
 
 print(os.cpu_count()) # 32
@@ -86,20 +86,20 @@ print(os.cpu_count()) # 32
 # 16 (cores)
 
 
-#---------------------------------------------------------------------------------------------#
-#------------------------------- 2. Working Directory Navigation -----------------------------#
-#---------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. Working Directory Navigation
+# ==============================================================================================
 
-#################
+##-------------##
 ## os.getcwd() ##
-#################
+##-------------##
 '''os.getcwd() returns the current working directory as a string. (like "pwd" command in Linux)'''
 
 print(os.getcwd())  # /home/longdpt/Documents/Academic/DataScience_MachineLearning
 
-################
+##------------##
 ## os.chdir() ##
-################
+##------------##
 '''os.chdir(path) changes the current working directory to the specified path. (like "cd" command in Linux)'''
 
 # Change to a different directory
@@ -112,13 +112,13 @@ os.chdir('..')  # The '..' means the parent directory of the current working dir
 print(os.getcwd())  # /home/longdpt/Documents
 
 
-#----------------------------------------------------------------------------------------------#
-#------------------------------- 3. File and Directory Operations -----------------------------#
-#----------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. File and Directory Operations
+# ==============================================================================================
 
-##################
+##--------------##
 ## os.listdir() ##
-##################
+##--------------##
 '''os.listdir(path) returns a list of the entries in the directory given by path.'''
 
 # List files in the current directory ('.' means current directory)
@@ -135,9 +135,9 @@ print(os.listdir('/home/longdpt/Documents/Academic'))
 dir_contents = os.listdir('/home/longdpt/Documents/Academic')
 print(dir_contents)
 
-##################
+##--------------##
 ## os.scandir() ##
-##################
+##--------------##
 '''
 os.scandir() is similar to os.listdir() but returns an iterator of DirEntry objects, which include file attributes.
 This is more efficient for large directories as it avoids multiple system calls.
@@ -199,9 +199,9 @@ for entry in os.scandir('.'):
     # .gitignore ./.gitignore True False
     # 02_Python_class_OOP ./02_Python_class_OOP False True
 
-################
+##------------##
 ## os.mkdir() ##
-################
+##------------##
 '''
 os.mkdir(path) creates a new directory at the specified path.
 NOTE: This will raise an error if the directory already exists.
@@ -223,9 +223,9 @@ except Exception as e:
 # | ERROR    | __main__:<module>:4 - [Errno 2] No such file or directory: 'parent_dir/child_dir'
 # => use os.makedirs()
 
-###################
+##---------------##
 ## os.makedirs() ##
-###################
+##---------------##
 '''
 os.makedirs(path) creates a directory recursively,
 meaning it will create all intermediate-level directories needed to contain the leaf directory.
@@ -243,9 +243,9 @@ except Exception as e:
     logger.error(e)
 # | ERROR    | __main__:<module>:4 - [Errno 17] File exists: 'parent_dir/child_dir/grandchild_dir'
 
-################
+##------------##
 ## os.rmdir() ##
-################
+##------------##
 '''os.rmdir(path) removes (deletes) the EMPTY directory at the specified path.
 NOTE: This will raise an error if the directory is not empty.
 '''
@@ -261,9 +261,9 @@ except Exception as e:
     logger.error(e)
 # | ERROR    | __main__:<module>:4 - [Errno 39] Directory not empty: 'parent_dir'
 
-#####################
+##-----------------##
 ## shutil.rmtree() ##
-#####################
+##-----------------##
 
 import shutil
 
@@ -277,9 +277,9 @@ This is useful for deleting non-empty directories.
 NOTE: Be careful with this command, as it will permanently delete files and directories without confirmation.
 '''
 
-#################
+##-------------##
 ## os.remove() ##
-#################
+##-------------##
 '''
 os.remove(path) removes (deletes) the FILE at the specified path.
 NOTE: This will raise an error if the file does not exist.
@@ -296,9 +296,9 @@ except Exception as e:
     logger.error(e)
 # | ERROR    | __main__:<module>:4 - [Errno 2] No such file or directory: './non_existing_file.txt'
 
-#################
+##-------------##
 ## os.rename() ##
-#################
+##-------------##
 '''
 os.rename(src, dst) renames the file or directory from src (source) to dst (destination).
 NOTE: If dst already exists, it will be replaced.
@@ -312,13 +312,13 @@ os.rename('./demo_os_remname.txt', './bury_the_light.txt')  # Rename the file to
 # os.remove('./bury_the_light.txt') ## remove after demo ##
 
 
-#----------------------------------------------------------------------------------------------#
-#------------------------------- 4. Running System Commands -----------------------------------#
-#----------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 4. Running System Commands
+# ==============================================================================================
 
-#################
+##-------------##
 ## os.system() ##
-#################
+##-------------##
 '''
 os.system(command) runs the command (a string) in a subshell.
 It returns the exit status of the command (0 for success, non-zero for failure).
@@ -355,9 +355,9 @@ _ = os.system(commands) # Assign to underscore to avoid displaying the exit stat
 ''' NOTE: the _ store the exit status, NOT the output of the commands. '''
 ## To capture the output of the commands, you can use os.popen() or subprocess module.
 
-################
+##------------##
 ## os.popen() ##
-################
+##------------##
 '''
 os.popen(command) opens a pipe to or from the command (a string) and returns a wrap object.
 This allows you to read the output of the command or write to its input.
@@ -391,9 +391,9 @@ with os.popen("sort", "w") as wrap_object:
 # This works like: printf "orange\napple\nbanana\n" | sort
 # or os.system('printf "orange\napple\nbanana\n" | sort')
 
-################
+##------------##
 ## os.execv() ##
-################
+##------------##
 '''
 os.execv(file, args) replaces the current process with a new process running the specified file.
 It does not return to the original process, so it is typically used in a child process
@@ -414,9 +414,9 @@ so the following lines or commands will not be executed.
 
 print("This line will not be executed if os.execvp() is called")  # This line will not be executed
 
-#################
+##-------------##
 ## os.execvp() ##
-#################
+##-------------##
 '''
 os.execvp(file, args) is similar to os.execv() but searches for the file in the directories listed in PATH environment variable.
 It is useful when you want to run a command without specifying the absolute path.
@@ -435,9 +435,9 @@ so the following lines or commands will not be executed.
 
 print("This line will not be executed if os.execvp() is called")  # This line will not be executed
 
-##########################################
+##--------------------------------------##
 ## os.execvpe() with current os.environ ##
-##########################################
+##--------------------------------------##
 '''
 os.execvpe(file, args, env) is similar to os.execvp()
 but allows you to specify a custom environment for the new process.
@@ -457,9 +457,9 @@ so the following lines or commands will not be executed.
 
 print("This line will not be executed if os.execvp() is called")  # This line will not be executed
 
-#########################################################
+##-----------------------------------------------------##
 ## os.execvpe() with customized or chosen environment ###
-#########################################################
+##-----------------------------------------------------##
 
 import os
 import subprocess
@@ -497,9 +497,9 @@ so the following lines or commands will not be executed.
 print("This line will not be executed if os.execvp() is called")  # This line will not be executed
 
 
-#-----------------------------------------------------------------------------------------------------------#
-#------------------------------------- 5. Working with file permissions ------------------------------------#
-#-----------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 5. Working with file permissions
+# ==============================================================================================
 '''
 os.chmod(path, mode) is used to change the file permissions
 at the specified path (path) to the given mode (mode).
@@ -539,15 +539,15 @@ Octal    Symbolic     Common Use
 '''
 
 
-#----------------------------------------------------------------------------------------------#
-#------------------------------- 6. Environment Variables -------------------------------------#
-#----------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 6. Environment Variables
+# ==============================================================================================
 
 import os
 
-################
+##------------##
 ## os.environ ##
-################
+##------------##
 '''
 os.environ is a mapping object representing the string environment.
 It contains the environment variables (informaiton) of the current process.
@@ -568,9 +568,9 @@ else:
     print("HOME environment variable does not exist")
 # HOME environment variable exists
 
-#################
+##-------------##
 ## os.getenv() ##
-#################
+##-------------##
 '''
 os.getenv(key, default=None) returns the value of the environment variable key if it exists, (like dict.get('key'))
 otherwise returns default (None if not specified).
@@ -583,9 +583,9 @@ print(os.getenv('NON_EXISTING_VAR', default='Not found'))  # Not found
 print(os.getenv('SHELL'))
 # '/bin/bash'
 
-#################
+##-------------##
 ## os.putenv() ##
-#################
+##-------------##
 '''os.putenv(key, value) sets the environment variable key to value. (CHILD PROCESSES ONLY)'''
 
 import os
@@ -602,9 +602,9 @@ result = subprocess.run(['python', '-c', 'import os; print("Child process:", os.
 
 print(result.stdout.strip()) # my_value
 
-##########################################
+##--------------------------------------##
 ## Update environment variable directly ##
-##########################################
+##--------------------------------------##
 
 os.environ['MY_ENV_VAR_2'] = 'my_value_2'
 os.environ['NCCL_P2P_DISABLE'] = '1'  # Example: setting NCCL_P2P_DISABLE to '1'

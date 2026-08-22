@@ -8,7 +8,7 @@ Main idea:
 
 This keeps the normal Polars expression/query style. Only the execution engine changes.
 
-########################################
+##------------------------------------##
 
 0. Installation
 1. Example: Lazy query executed on GPU
@@ -20,9 +20,9 @@ import polars as pl
 from polars import col as c
 
 
-#-----------------------------------------------------------------------------------------------#
-#------------------------------------- 0. Installation -----------------------------------------#
-#-----------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Installation
+# =========================================================================================
 '''
 Install Polars with GPU support in an environment that has a supported NVIDIA GPU:
 
@@ -36,9 +36,9 @@ Then use the LazyFrame API normally, and execute the query with:
 print(pl.__version__)
 
 
-#------------------------------------------------------------------------------------------------#
-#--------------------------- 1. Example: Lazy query executed on GPU -----------------------------#
-#------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Example: Lazy query executed on GPU
+# =========================================================================================
 '''
 The GPU engine is selected at collection time.
 The query construction remains normal Polars lazy code.

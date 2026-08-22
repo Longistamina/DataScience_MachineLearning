@@ -35,22 +35,22 @@ print(save_path)
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/03_Vector_Matrix_Sparse/02_Matrix_2D_nD/save
 
 
-#-----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------ 1. Using functions ---------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Using functions
+# =========================================================================================
 
-###############
+##-----------##
 ## np.save() ##
-###############
+##-----------##
 '''Save a single Numpy array to a binary file in .npy format.'''
 
 np.save(file=save_path/'matrix_1.npy', arr=matrix_1) # Full syntax
 
 np.save(save_path/'matrix_2.npy', matrix_2) # Shortcut syntax
 
-################
+##------------##
 ## np.savez() ##
-################
+##------------##
 '''Save multiple Numpy arrays to a single compressed .npz file.'''
 
 np.savez(file=save_path/'matrices.npz', mat1=matrix_1, mat2=matrix_2) # Full syntax (with named arrays as mat1 and mat2)
@@ -58,10 +58,8 @@ np.savez(file=save_path/'matrices.npz', mat1=matrix_1, mat2=matrix_2) # Full syn
 np.savez(save_path/'matrices.npz', matrix_1, matrix_2) # Shortcut syntax (with unnamed arrays)
                                                        # default names: arr_0, arr_1
 
-#----
-## Load .npz file again
-#----
-
+# ## Load .npz file again
+# 
 loaded = np.load(save_path/'matrices.npz')
 
 print(loaded.files)
@@ -79,9 +77,9 @@ print(loaded['mat2'])
 #  [79.17 52.89 56.8  92.56  7.1 ]
 #  [ 8.71  2.02 83.26 77.82 87.  ]]
 
-##########################
+##----------------------##
 ## np.save_compressed() ##
-##########################
+##----------------------##
 '''
 Save multiple Numpy arrays to a compressed .npz file.
 
@@ -93,9 +91,9 @@ np.savez_compressed(file=save_path/'matrix_compressed.npz', mat1=matrix_1, mat2=
 
 np.savez_compressed(save_path/'matrix_compressed.npz', matrix_1, matrix_2) # Shortcut syntax
 
-##################
+##--------------##
 ## np.savetxt() ##
-##################
+##--------------##
 '''Save a Numpy array to a text file, with options for formatting.'''
 
 np.savetxt(fname=save_path/'matrix_1.txt', X=matrix_1, fmt='%d', delimiter=', ') # Full syntax
@@ -103,22 +101,22 @@ np.savetxt(fname=save_path/'matrix_1.txt', X=matrix_1, fmt='%d', delimiter=', ')
 np.savetxt(save_path/'matrix_2.txt', matrix_2, fmt='%.2f', delimiter=', ') # Shortcut syntax
 
 
-#-----------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------------- 2. Using methods ---------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Using methods
+# =========================================================================================
 
-################
+##------------##
 ## arr.dump() ##
-################
+##------------##
 '''Save a Numpy array to a binary file using pickle serialization.'''
 
 matrix_1.dump(file=save_path/'matrix_1_dump.pkl') # Full syntax
 
 matrix_2.dump(save_path/'matrix_2_dump.pkl') # Shortcut syntax
 
-##################
+##--------------##
 ## arr.tofile() ##
-##################
+##--------------##
 '''Save a Numpy array to a text file with specified separator.'''
 
 matrix_1.tofile(file=save_path/'matrix_1_tofile.txt', sep=', ') # Full syntax

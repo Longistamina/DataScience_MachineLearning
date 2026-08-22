@@ -105,13 +105,13 @@ mat    = np.arange(12).reshape(3, 4)
 pop    = np.array(['a', 'b', 'c', 'd', 'e'])
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------ 1. RNG setup & infrastructure ------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. RNG setup & infrastructure
+# =========================================================================================
 
-#############################
+##-------------------------##
 ## np.random.default_rng() ##
-#############################
+##-------------------------##
 '''
 np.random.default_rng() is the recommended way to create a Generator instance.
 
@@ -143,9 +143,9 @@ print(rng_seeded.random())
 print(np.random.default_rng(42).random())
 # 0.7739560485559633  (fresh Generator with same seed → same first value)
 
-###########################
+##-----------------------##
 ## np.random.Generator() ##
-###########################
+##-----------------------##
 '''
 np.random.Generator wraps any BitGenerator to provide distribution methods.
 
@@ -170,9 +170,9 @@ print(rng_mt.random())    # 0.5419938930062744   (MT19937 with seed 42 — diffe
 print(rng_phi.random())   # 0.08607763073528474  (Philox)
 print(rng_sfc.random())   # 0.5299360452325557   (SFC64)
 
-############################
+##------------------------##
 ## np.random.SeedSequence ##
-############################
+##------------------------##
 '''
 np.random.SeedSequence converts an arbitrary seed into a high-quality state for any BitGenerator.
 
@@ -198,13 +198,13 @@ print([type(c).__name__ for c in children])
 # ['SeedSequence', 'SeedSequence', 'SeedSequence', 'SeedSequence']
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------------- 2. Simple random data -----------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Simple random data
+# =========================================================================================
 
-##################
+##--------------##
 ## rng.random() ##
-##################
+##--------------##
 '''
 rng.random() draws uniform floats from [0.0, 1.0).
 
@@ -230,9 +230,9 @@ print(rng.random((2, 3)))
 print(5 + 10 * rng.random(4))
 # values in [5, 15)
 
-####################
+##----------------##
 ## rng.integers() ##
-####################
+##----------------##
 '''
 rng.integers() draws uniform random integers from [low, high).
 
@@ -256,9 +256,9 @@ print(rng.integers(1, 7, size=(2, 3)))   # simulating 2×3 dice rolls
 print(rng.integers(0, 10, endpoint=True, size=5))   # [0, 10] inclusive
 # [2 4 7 7 9]
 
-#################
+##-------------##
 ## rng.bytes() ##
-#################
+##-------------##
 '''
 rng.bytes() returns a Python bytes object of length n filled with random bytes.
 
@@ -272,9 +272,9 @@ print(rng.bytes(8))
 print(len(rng.bytes(16)))
 # 16
 
-##################
+##--------------##
 ## rng.choice() ##
-##################
+##--------------##
 '''
 rng.choice() draws random samples from an array or range.
 
@@ -311,13 +311,13 @@ print(rng.choice(mat, size=2, axis=0))
 # picks 2 of the 3 rows at random
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------- 3. Permutations -------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Permutations
+# =========================================================================================
 
-###################
+##---------------##
 ## rng.shuffle() ##
-###################
+##---------------##
 '''
 rng.shuffle() randomly shuffles an array IN-PLACE along a given axis.
 
@@ -343,9 +343,9 @@ rng.shuffle(m, axis=1)   # shuffles columns within each row
 print(m)
 # each row is an independent column permutation
 
-#######################
+##-------------------##
 ## rng.permutation() ##
-#######################
+##-------------------##
 '''
 rng.permutation() returns a NEW randomly permuted copy (does NOT modify in-place).
 
@@ -365,9 +365,9 @@ print(arr)
 print(rng.permutation(mat, axis=0))
 # rows of mat in a new random order (column order preserved within each row)
 
-####################
+##----------------##
 ## rng.permuted() ##
-####################
+##----------------##
 '''
 rng.permuted() shuffles elements independently along a given axis.
 
@@ -398,13 +398,13 @@ print(rng.permutation(m))
 # e.g. row 2 is now row 0, but all 4 values in row 2 are together
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------- 4. Continuous distributions -------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Continuous distributions
+# =========================================================================================
 
-###################
+##---------------##
 ## rng.uniform() ##
-###################
+##---------------##
 '''
 rng.uniform() draws uniform floats from [low, high).
 
@@ -421,9 +421,9 @@ print(rng.uniform(-5, 5, size=4))
 print(rng.uniform(low=[0, 10], high=[1, 20]))
 # [0.52 14.7]  (vectorised bounds: first from [0,1), second from [10,20))
 
-###########################
+##-----------------------##
 ## rng.standard_normal() ##
-###########################
+##-----------------------##
 '''
 rng.standard_normal() draws samples from N(0, 1) — zero mean, unit variance.
 
@@ -441,9 +441,9 @@ print(rng.standard_normal((2, 3)))
 # [[-0.46  0.12  0.84]
 #  [ 1.07 -0.24 -0.63]]
 
-##################
+##--------------##
 ## rng.normal() ##
-##################
+##--------------##
 '''
 rng.normal() draws samples from N(loc, scale²) — Gaussian distribution.
 
@@ -463,9 +463,9 @@ print(rng.normal(loc=5, scale=2, size=4))
 print(rng.normal(loc=[0, 10, 100], scale=1))
 # [-0.3   9.8  99.7]
 
-################################
+##----------------------------##
 ## rng.standard_exponential() ##
-################################
+##----------------------------##
 '''
 rng.standard_exponential() draws from Exp(1): f(x) = exp(-x), x ≥ 0.
 
@@ -476,9 +476,9 @@ For Exp(λ), use rng.exponential(scale=1/λ).
 print(rng.standard_exponential(5))
 # [0.23  1.87  0.05  2.41  0.63]  (all positive; mean ≈ 1)
 
-#######################
+##-------------------##
 ## rng.exponential() ##
-#######################
+##-------------------##
 '''
 rng.exponential() draws from Exp(scale): f(x) = (1/scale)·exp(-x/scale), x ≥ 0.
 
@@ -496,9 +496,9 @@ arrival_times = np.cumsum(interarrival)
 print(arrival_times.round(3))
 # cumulative arrival times for 10 events
 
-#################
+##-------------##
 ## rng.gamma() ##
-#################
+##-------------##
 '''
 rng.gamma() draws from Gamma(shape, scale).
 
@@ -515,9 +515,9 @@ print(rng.gamma(shape=2, scale=1, size=5))
 print(rng.gamma(shape=1, scale=2, size=3))
 # same distribution as Exp(scale=2)
 
-################
+##------------##
 ## rng.beta() ##
-################
+##------------##
 '''
 rng.beta() draws from Beta(a, b) on [0, 1].
 
@@ -536,9 +536,9 @@ print(rng.beta(a=2, b=5, size=4))
 print(rng.beta(a=1, b=1, size=3))
 # [0.72  0.14  0.93]  (uniform — equivalent to rng.random())
 
-#####################
+##-----------------##
 ## rng.chisquare() ##
-#####################
+##-----------------##
 '''
 rng.chisquare() draws from χ²(df) distribution.
 
@@ -555,9 +555,9 @@ print(rng.chisquare(df=3, size=5))
 print(rng.chisquare(df=1, size=3))
 # equivalent to rng.standard_normal(3)**2  (one squared normal)
 
-######################
+##------------------##
 ## rng.standard_t() ##
-######################
+##------------------##
 '''
 rng.standard_t() draws from Student's t distribution with given degrees of freedom.
 
@@ -573,9 +573,9 @@ print(rng.standard_t(df=5, size=4))
 print(rng.standard_t(df=100, size=3))
 # ≈ standard normal (large df → tails shrink)
 
-#############
+##---------##
 ## rng.f() ##
-#############
+##---------##
 '''
 rng.f() draws from the F distribution with dfnum and dfden degrees of freedom.
 
@@ -588,9 +588,9 @@ Applications: F-test in ANOVA, comparing variances, regression model significanc
 print(rng.f(dfnum=5, dfden=20, size=4))
 # [0.8  1.4  0.3  2.1]  (values > 1 suggest larger numerator variance)
 
-#####################
+##-----------------##
 ## rng.lognormal() ##
-#####################
+##-----------------##
 '''
 rng.lognormal() draws from LogNormal(mean, sigma) — always positive.
 
@@ -606,9 +606,9 @@ print(rng.lognormal(mean=0, sigma=1, size=4))
 print(np.log(rng.lognormal(mean=2, sigma=0.5, size=1000)).mean().round(3))
 # ≈ 2.0  (log of samples is approximately normal with mean=2)
 
-####################
+##----------------##
 ## rng.logistic() ##
-####################
+##----------------##
 '''
 rng.logistic() draws from the Logistic(loc, scale) distribution.
 
@@ -619,9 +619,9 @@ Used in logistic regression (link function), Gumbel extreme value theory.
 print(rng.logistic(loc=0, scale=1, size=4))
 # [-1.7  0.3  2.1 -0.4]  (heavier tails than normal)
 
-###################
+##---------------##
 ## rng.laplace() ##
-###################
+##---------------##
 '''
 rng.laplace() draws from the Laplace(loc, scale) distribution — "double exponential".
 
@@ -634,9 +634,9 @@ Applications: sparse modelling, image processing, signal noise.
 print(rng.laplace(loc=0, scale=1, size=4))
 # [-0.3   2.1  -1.4   0.1]
 
-######################
+##------------------##
 ## rng.triangular() ##
-######################
+##------------------##
 '''
 rng.triangular() draws from the Triangular(left, mode, right) distribution.
 
@@ -647,9 +647,9 @@ Useful for project management (PERT estimates) and simple bounded simulations.
 print(rng.triangular(left=0, mode=3, right=5, size=4))
 # [2.7  1.4  3.1  2.9]  (bounded in [0, 5], peak near 3)
 
-################
+##------------##
 ## rng.wald() ##
-################
+##------------##
 '''
 rng.wald() draws from the Wald (Inverse Gaussian) distribution.
 
@@ -660,9 +660,9 @@ Always positive, right-skewed. Models first passage times in Brownian motion.
 print(rng.wald(mean=1, scale=3, size=4))
 # [0.6  1.2  0.8  2.1]
 
-####################
+##----------------##
 ## rng.rayleigh() ##
-####################
+##----------------##
 '''
 rng.rayleigh() draws from the Rayleigh distribution.
 
@@ -675,9 +675,9 @@ Applications: 2-D wind/wave speed magnitude, signal envelope, wireless propagati
 print(rng.rayleigh(scale=1, size=4))
 # [0.7  1.4  0.3  2.1]  (always positive)
 
-##################
+##--------------##
 ## rng.pareto() ##
-##################
+##--------------##
 '''
 rng.pareto() draws from the Pareto distribution with shape parameter a.
 
@@ -692,9 +692,9 @@ print(rng.pareto(a=2, size=4))
 print(1 + rng.pareto(a=3, size=4))
 # [1.1  2.3  1.4  1.6]
 
-##################
+##--------------##
 ## rng.gumbel() ##
-##################
+##--------------##
 '''
 rng.gumbel() draws from the Gumbel (Type I Extreme Value) distribution.
 
@@ -705,9 +705,9 @@ Applications: floods, financial risk, material strength, climate extremes.
 print(rng.gumbel(loc=0, scale=1, size=4))
 # [-0.3   2.7  -0.1   1.2]  (right-skewed)
 
-###################
+##---------------##
 ## rng.weibull() ##
-###################
+##---------------##
 '''
 rng.weibull() draws from the Weibull distribution with shape parameter a.
 
@@ -726,9 +726,9 @@ print(scale_w * rng.weibull(a=1.5, size=4))
 print(rng.weibull(a=1, size=3))
 # equivalent to standard exponential (a=1 → exponential)
 
-####################
+##----------------##
 ## rng.vonmises() ##
-####################
+##----------------##
 '''
 rng.vonmises() draws from the von Mises (circular normal) distribution on [-π, π].
 
@@ -745,13 +745,13 @@ print(rng.vonmises(mu=0, kappa=0, size=3).round(3))
 # [-2.4  1.1  0.7]  (kappa=0 → uniform on [-π, π])
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------------- 5. Discrete distributions -------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Discrete distributions
+# =========================================================================================
 
-####################
+##----------------##
 ## rng.binomial() ##
-####################
+##----------------##
 '''
 rng.binomial() draws from Binomial(n, p) — number of successes in n Bernoulli trials.
 
@@ -773,9 +773,9 @@ results = rng.binomial(n=100, p=0.25, size=1000) / 100
 print(results.mean().round(3), results.std().round(3))
 # ≈ 0.250  0.043
 
-###################
+##---------------##
 ## rng.poisson() ##
-###################
+##---------------##
 '''
 rng.poisson() draws from Poisson(lam) — number of events in a fixed interval.
 
@@ -794,9 +794,9 @@ print(rng.poisson(lam=0.5, size=5))
 print(rng.poisson(lam=[1, 5, 20], size=(3, 3)))
 # each column uses a different λ
 
-#####################
+##-----------------##
 ## rng.geometric() ##
-#####################
+##-----------------##
 '''
 rng.geometric() draws from Geometric(p) — number of trials until first success.
 
@@ -809,9 +809,9 @@ Applications: number of items tested before finding a defect; spam filter trials
 print(rng.geometric(p=0.3, size=6))
 # [3 1 5 1 2 4]  (always ≥ 1; mean ≈ 1/0.3 ≈ 3.3)
 
-##########################
+##----------------------##
 ## rng.hypergeometric() ##
-##########################
+##----------------------##
 '''
 rng.hypergeometric() draws from the Hypergeometric distribution.
 
@@ -828,9 +828,9 @@ Applications: quality control, card drawing, clinical trials.
 print(rng.hypergeometric(ngood=35, nbad=15, nsample=10, size=5))
 # [7 8 6 8 7]  (values in [0,10]; mean = 10*35/50 = 7)
 
-#############################
+##-------------------------##
 ## rng.negative_binomial() ##
-#############################
+##-------------------------##
 '''
 rng.negative_binomial() draws from the Negative Binomial distribution.
 
@@ -845,9 +845,9 @@ Applications: overdispersed count data (RNA-seq read counts, insurance claims).
 print(rng.negative_binomial(n=5, p=0.5, size=5))
 # [4 7 3 6 5]  (mean = 5*(0.5)/0.5 = 5)
 
-#######################
+##-------------------##
 ## rng.multinomial() ##
-#######################
+##-------------------##
 '''
 rng.multinomial() draws from the Multinomial(n, pvals) distribution.
 
@@ -872,9 +872,9 @@ print(rng.multinomial(n=100, pvals=[0.2, 0.3, 0.5], size=5))
 #  [20 31 49]
 #  [18 30 52]]  (each row sums to 100)
 
-################
+##------------##
 ## rng.zipf() ##
-################
+##------------##
 '''
 rng.zipf() draws from the Zipf (zeta) distribution.
 
@@ -892,13 +892,13 @@ print(rng.zipf(a=1.5, size=5))
 # [1 12 2 1 4]  (heavier tail for smaller a)
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------- 6. Multivariate distributions -----------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Multivariate distributions
+# =========================================================================================
 
-###############################
+##---------------------------##
 ## rng.multivariate_normal() ##
-###############################
+##---------------------------##
 '''
 rng.multivariate_normal() draws from a multivariate Gaussian distribution.
 
@@ -940,9 +940,9 @@ print(samples3.round(2))
 #  [-1.1   2.3  -3.2]
 #  [ 0.4  -0.7   0.9]]
 
-#######################################
+##-----------------------------------##
 ## rng.multivariate_hypergeometric() ##
-#######################################
+##-----------------------------------##
 '''
 rng.multivariate_hypergeometric() draws multivariate samples without replacement.
 
@@ -968,9 +968,9 @@ print(rng.multivariate_hypergeometric(colors, nsample=10, size=4))
 #  [4 4 2]
 #  [6 3 1]]
 
-#####################
+##-----------------##
 ## rng.dirichlet() ##
-#####################
+##-----------------##
 '''
 rng.dirichlet() draws from the Dirichlet(alpha) distribution.
 
@@ -1011,13 +1011,13 @@ print(rng.dirichlet(alpha_lda, size=5).round(3))
 # each row is a document's topic distribution; topic 2 (index 1) gets more weight
 
 
-#-------------------------------------------------------------------------------------------------#
-#---------------------------------- 7. Parallel generation ---------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Parallel generation
+# =========================================================================================
 
-##########################
+##----------------------##
 ## SeedSequence.spawn() ##
-##########################
+##----------------------##
 '''
 SeedSequence.spawn(n) creates n independent child SeedSequences from a parent.
 
@@ -1044,9 +1044,9 @@ for i, r in enumerate(worker_rngs):
 # Hierarchical spawning: workers can further spawn their own children
 sub_children = child_seeds[0].spawn(2)   # worker 0 spawns 2 sub-workers
 
-############################
+##------------------------##
 ## bit_generator.jumped() ##
-############################
+##------------------------##
 '''
 rng.bit_generator.jumped(n) advances the BitGenerator state by n * 2^128 steps.
 
@@ -1074,13 +1074,13 @@ print(base_check.random(3).round(4))
 # [0.7740 0.4359 0.0259]  — matches stream_0
 
 
-#------------------------------------------------------------------------------------------------#
-#------------------------ 8. scipy.stats — distributions with .rvs() ----------------------------#
-#------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. scipy.stats — distributions with .rvs()
+# =========================================================================================
 
-##############################
+##--------------------------##
 ## scipy.stats.<dist>.rvs() ##
-##############################
+##--------------------------##
 '''
 scipy.stats has 100+ parametric distributions; every one supports .rvs() for sampling.
 
@@ -1146,13 +1146,13 @@ print(norm_dist.cdf(1.96).round(4))                         # 0.975
 print(norm_dist.interval(0.95))                             # (-1.96, 1.96)
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------- 9. scipy.stats.qmc — Quasi-Monte Carlo ----------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. scipy.stats.qmc — Quasi-Monte Carlo
+# =========================================================================================
 
-#################
+##-------------##
 ## qmc.Sobol() ##
-#################
+##-------------##
 '''
 qmc.Sobol() generates a Sobol' low-discrepancy sequence in [0,1]^d.
 
@@ -1198,9 +1198,9 @@ next_8 = engine.random(n=8)
 print(next_8.shape)
 # (8, 2)  — same as sample[8:] (up to scrambling)
 
-##################
+##--------------##
 ## qmc.Halton() ##
-##################
+##--------------##
 '''
 qmc.Halton() generates a Halton low-discrepancy sequence in [0,1]^d.
 
@@ -1226,9 +1226,9 @@ print(sample_h[:4].round(4))
 print(round(qmc.discrepancy(sample_h), 4))
 # small value (well-distributed)
 
-##########################
+##----------------------##
 ## qmc.LatinHypercube() ##
-##########################
+##----------------------##
 '''
 qmc.LatinHypercube() (LHS) samples one point from each d-dimensional stratum.
 
@@ -1258,9 +1258,9 @@ sorted_col = np.sort(sample_lhs[:, 0])
 print(sorted_col.round(3))
 # [0.01  0.06  0.11  0.17  0.22 ... 0.96]  — one value per 1/20-width stratum
 
-#################
+##-------------##
 ## qmc.scale() ##
-#################
+##-------------##
 '''
 qmc.scale() transforms a QMC sample from [0,1]^d to arbitrary bounds [l, u]^d.
 
@@ -1289,9 +1289,9 @@ unit_recovered = qmc.scale(scaled, l_bounds, u_bounds, reverse=True)
 print(np.allclose(unit_recovered, unit_sample))
 # True
 
-#######################
+##-------------------##
 ## qmc.discrepancy() ##
-#######################
+##-------------------##
 '''
 qmc.discrepancy() measures how uniformly a sample covers [0,1]^d.
 
@@ -1334,9 +1334,9 @@ print(f"Sobol: {qmc_est:.6f}  (error {abs(qmc_est-true_val):.2e})")
 # Sobol error is typically 10–100× smaller than MC for the same n
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------- 10. Legacy API --------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 10. Legacy API
+# =========================================================================================
 
 '''
 numpy.random module-level functions are a LEGACY interface backed by a single global
@@ -1353,10 +1353,10 @@ For new code, prefer rng = np.random.default_rng(seed) (see section 1).
 
 np.random.seed(42)   # seed the global RandomState for reproducibility
 
-#########################
+##---------------------##
 ## np.random.rand()    ##
 ## np.random.random()  ##
-#########################
+##---------------------##
 '''
 np.random.rand(*shape)   : uniform floats in [0, 1); shape passed as positional args.
 np.random.random(size)   : identical output; shape passed as size keyword or tuple.
@@ -1374,10 +1374,10 @@ print(np.random.rand(2, 3))
 print(np.random.random(4))
 # [0.9699 0.8324 0.2123 0.1818]  (same distribution, size keyword)
 
-#################################
+##-----------------------------##
 ## np.random.randn()           ##
 ## np.random.standard_normal() ##
-#################################
+##-----------------------------##
 '''
 np.random.randn(*shape)          : N(0,1) samples; shape as positional args.
 np.random.standard_normal(size)  : identical; shape as size keyword or tuple.
@@ -1393,9 +1393,9 @@ print(np.random.randn(2, 3))
 print(np.random.standard_normal(4))
 # [-0.8541 -2.5530  0.6536  0.8644]
 
-#########################
+##---------------------##
 ## np.random.randint() ##
-#########################
+##---------------------##
 '''
 np.random.randint(low, high, size) : uniform integers in [low, high)  (high is exclusive).
 np.random.random_integers(low, high, size) : deprecated; [low, high] inclusive — avoid.
@@ -1408,9 +1408,9 @@ print(np.random.randint(1, 7, size=(2, 3)))   # simulating 2×3 dice rolls
 # [[4 3 6]
 #  [2 5 1]]
 
-########################
+##--------------------##
 ## np.random.choice() ##
-########################
+##--------------------##
 '''np.random.choice(a, size, replace, p) : same signature as rng.choice().'''
 
 print(np.random.choice([10, 20, 30, 40, 50], size=3))
@@ -1422,10 +1422,10 @@ print(np.random.choice([10, 20, 30, 40, 50], size=3, replace=False))
 print(np.random.choice(5, size=4))
 # [2 0 3 1]  (integer arg → samples from range(5))
 
-############################
+##------------------------##
 ## np.random.shuffle()    ##
 ## np.random.permutation()##
-############################
+##------------------------##
 '''
 np.random.shuffle(a)    : in-place shuffle; returns None. Same as rng.shuffle().
 np.random.permutation(a): returns a new shuffled copy. Same as rng.permutation().
@@ -1442,9 +1442,9 @@ print(np.random.permutation(8))
 print(np.random.permutation([10, 20, 30, 40]))
 # [30 40 10 20]
 
-########################
+##--------------------##
 ## np.random.normal() ##
-########################
+##--------------------##
 '''np.random.normal(loc, scale, size) : Gaussian N(loc, scale²). Same as rng.normal().'''
 
 print(np.random.normal(loc=0, scale=1, size=4).round(3))
@@ -1453,9 +1453,9 @@ print(np.random.normal(loc=0, scale=1, size=4).round(3))
 print(np.random.normal(loc=5, scale=2, size=4).round(3))
 # [4.232  7.181  3.907  5.474]
 
-#########################
+##---------------------##
 ## np.random.uniform() ##
-#########################
+##---------------------##
 '''np.random.uniform(low, high, size) : uniform floats on [low, high). Same as rng.uniform().'''
 
 print(np.random.uniform(0, 10, size=4).round(3))
@@ -1465,19 +1465,19 @@ print(np.random.uniform(-1, 1, size=(2, 3)).round(3))
 # [[-0.601  0.493 -0.143]
 #  [ 0.313 -0.854  0.627]]
 
-#############################
+##-------------------------##
 ## np.random.exponential() ##
-#############################
+##-------------------------##
 '''np.random.exponential(scale, size) : Exp(scale). Same as rng.exponential().'''
 
 print(np.random.exponential(scale=2, size=5).round(3))
 # [0.716 1.447 3.312 1.143 0.271]
 
-###########################
+##-----------------------##
 ## np.random.gamma()     ##
 ## np.random.beta()      ##
 ## np.random.chisquare() ##
-###########################
+##-----------------------##
 '''
 All continuous distributions have the same signature as their rng counterparts.
 np.random.gamma(shape, scale, size)
@@ -1507,9 +1507,9 @@ print(np.random.beta(a=2, b=5, size=4).round(3))
 print(np.random.chisquare(df=3, size=4).round(3))
 # [3.142 1.876 2.543 5.201]
 
-#########################
+##---------------------##
 ## np.random.poisson() ##
-#########################
+##---------------------##
 '''np.random.poisson(lam, size) : Poisson(lam). Same as rng.poisson().'''
 
 print(np.random.poisson(lam=3, size=6))
@@ -1518,18 +1518,18 @@ print(np.random.poisson(lam=3, size=6))
 print(np.random.poisson(lam=[1, 5, 20]))
 # [0 6 18]  (vectorised λ)
 
-##########################
+##----------------------##
 ## np.random.binomial() ##
-##########################
+##----------------------##
 '''np.random.binomial(n, p, size) : Binomial(n, p). Same as rng.binomial().'''
 
 print(np.random.binomial(n=10, p=0.3, size=5))
 # [2 3 4 2 3]
 
-#####################################
+##---------------------------------##
 ## np.random.multinomial()         ##
 ## np.random.multivariate_normal() ##
-#####################################
+##---------------------------------##
 '''
 np.random.multinomial(n, pvals, size)              : same as rng.multinomial().
 np.random.multivariate_normal(mean, cov, size)     : same as rng.multivariate_normal().
@@ -1553,9 +1553,9 @@ print(np.random.multivariate_normal(mean, cov, size=3).round(3))
 print(np.random.dirichlet([1., 1., 1., 1.]).round(3))
 # [0.214 0.381 0.147 0.258]  (sums to 1)
 
-#############################
+##-------------------------##
 ## np.random.RandomState() ##
-#############################
+##-------------------------##
 '''
 np.random.RandomState is the legacy class underlying all module-level functions above.
 It uses MT19937 and can be instantiated directly to avoid touching the global state,

@@ -65,10 +65,8 @@ Show how to formulate this problem as an LP.
 import cvxpy as cp
 import numpy as np
 
-#-----------
-## Define the constants
-#-----------
-
+# ## Define the constants
+# 
 # Define activity resource consumption matrix A
 A_rc = cp.Constant(
      name = "A_rc",
@@ -105,10 +103,8 @@ q = cp.Constant(
     value = [4, 10, 5, 10]
 )
 
-#-----------
-## Define the variables
-#-----------
-
+# ## Define the variables
+# 
 # Define activity levels vector x[i] 
 x = cp.Variable(name = "x", shape = (4))
 
@@ -120,15 +116,11 @@ x_above = cp.Variable(name = "x_above", shape = (4))
 
 ''' x = x_below + x_above '''
 
-#-----------
-## Define the objective function
-#-----------
-revenue_obj_func = cp.Maximize(x_below@p + p_disc@x_above)
+# ## Define the objective function
+# revenue_obj_func = cp.Maximize(x_below@p + p_disc@x_above)
 
-#-----------
-## Define the constraints
-#-----------
-# Define constraints of x_below and x_above (hence define the x implicitly)
+# ## Define the constraints
+# # Define constraints of x_below and x_above (hence define the x implicitly)
 opt_constraints = [
     x_below + x_above == x,
     -x_below <= 0, # x_below >= 0
@@ -142,10 +134,8 @@ opt_constraints.extend(
     for i, _ in enumerate(c_max)
 )
 
-#-----------
-## Define the problem and solve
-#-----------
-
+# ## Define the problem and solve
+# 
 problem = cp.Problem(
     objective = revenue_obj_func,
     constraints = opt_constraints

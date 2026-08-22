@@ -4,7 +4,7 @@ pd.Series.cat is an accessor object for categorical properties of the Series val
 When converted to the 'category' dtype, the memory usage of the Series is reduced (upto 90% less memory), 
 and operations on the Series can be performed more efficiently.
 
-######################################################
+##--------------------------------------------------##
 
 0. Creat a Categorical Series: pd.Series(dtype='category'), .astype('category'), pd.Categorical()
 
@@ -28,13 +28,13 @@ and operations on the Series can be performed more efficiently.
 import pandas as pd
 import numpy as np
 
-#---------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 0. Create a Categorical Series -----------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Create a Categorical Series
+# =========================================================================================
 
-#############################################
+##-----------------------------------------##
 ## Using pd.Series() with dtype='category' ##
-#############################################
+##-----------------------------------------##
 
 s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype='category')
 
@@ -53,9 +53,9 @@ print(s_gender)
 # Categories (3, object): ['F', 'LGBTQ', 'M']
 
 
-######################################
+##----------------------------------##
 ## Using .astype('category') method ##
-######################################
+##----------------------------------##
 
 s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"])
 
@@ -83,9 +83,9 @@ print(s_gender)
 # Categories (3, object): ['F', 'LGBTQ', 'M']
 
 
-####################################
+##--------------------------------##
 ## Using pd.Categorical() method  ##
-####################################
+##--------------------------------##
 
 '''
 pd.Categorical() is used to create categorical data from a Series.
@@ -108,10 +108,8 @@ NOTE: THIS WILL NOT CREATE A pd.Series OBJECT, IT CREATES A pd.Categorical OBJEC
 => MUST WRAP IT IN A pd.Series() TO GET A CATEGORICAL SERIES.
 '''
 
-#---------------------------
-## string gender example
-#---------------------------
-
+# ## string gender example
+# 
 lst_gender = ["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"]
 
 ## With ordered = False
@@ -151,10 +149,8 @@ print(s_gender_categ)
 # dtype: category
 # Categories (3, object): ['LGBTQ' < 'F' < 'M']
 
-#---------------------------
-## numeric example with NaN
-#---------------------------
-
+# ## numeric example with NaN
+# 
 lst_price_levels = [1, 1, 3, 2, 5, 2, None, 4, 4, np.nan, 3]
 
 ## With ordered = False
@@ -198,9 +194,9 @@ print(s_price_levels_categ)
 # Categories (5, int64): [1 < 2 < 3 < 4 < 5]
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 1. Core attributes -------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Core attributes
+# =========================================================================================
 
 s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype='category')
 
@@ -212,9 +208,9 @@ s_levels = pd.Series(
     )
 )
 
-#####################
+##-----------------##
 ## .cat.categories ##
-#####################
+##-----------------##
 # Returns the categories of the categorical Series.
 
 print(s_gender.cat.categories)
@@ -224,9 +220,9 @@ print(s_levels.cat.categories)
 # Index([1, 2, 3, 4, 5], dtype='int64')
 
 
-################
+##------------##
 ## .cat.codes ##
-################
+##------------##
 # Returns the category codes as a Series of integers.
 
 print(s_gender.cat.codes)
@@ -257,9 +253,9 @@ print(s_levels.cat.codes)
 # dtype: int8
 
 
-##################
+##--------------##
 ## .cat.ordered ##
-##################
+##--------------##
 # Returns True if the categories have an order, False otherwise
 
 print(s_gender.cat.ordered)
@@ -269,9 +265,9 @@ print(s_levels.cat.ordered)
 # True
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 2. Adding and Removing Categories ---------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Adding and Removing Categories
+# =========================================================================================
 
 s_fruits = pd.Series(["Apple", "Banana", "Orange", "Apple", "Banana", "Grapes"], dtype='category')
 s_degrees = pd.Series(
@@ -282,9 +278,9 @@ s_degrees = pd.Series(
     )
 )
 
-###########################
+##-----------------------##
 ## .cat.add_categories() ##
-###########################
+##-----------------------##
 # Adds new categories to the categorical Series.
 
 s_fruits = s_fruits.cat.add_categories(["Mango", "Pineapple"])
@@ -328,9 +324,9 @@ print(s_added)
 # Categories (4, object): ['Bachelor' < 'Master' < 'PhD' < 'PostDoc']
 
 
-##############################
+##--------------------------##
 ## .cat.remove_categories() ##
-##############################
+##--------------------------##
 # Removes specified categories from the categorical Series.
 
 s_removed = s_fruits.cat.remove_categories(["Orange", "Grapes"])
@@ -355,9 +351,9 @@ print(s_removed)
 # Categories (3, object): ['Bachelor' < 'PhD' < 'PostDoc']
 
 
-#####################################
+##---------------------------------##
 ## .cat.remove_unused_categories() ##
-#####################################
+##---------------------------------##
 # Removes categories that are not used in the categorical Series.
 
 s_removed_unused = s_fruits.cat.remove_unused_categories()
@@ -384,9 +380,9 @@ print(s_removed_unused)
 '''Here, 'PhD' and 'PostDoc' were removed as they were not used in the Series.'''
 
 
-###########################
+##-----------------------##
 ## .cat.set_categories() ##
-###########################
+##-----------------------##
 # Sets the categories of the categorical Series to the specified list of categories.
 # Can be used to reorder categories or add/remove categories.
 
@@ -419,9 +415,9 @@ print(s_degrees_set)
 # Categories (2, object): ['BSc' < 'MSc']
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 3. Renaming Categories ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Renaming Categories
+# =========================================================================================
 
 s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype='category')
 
@@ -440,9 +436,9 @@ print(s_gender)
 # Categories (3, object): ['F', 'LGBTQ', 'M']
 
 
-###########################
+##-----------------------##
 ## new_categories = list ##
-###########################
+##-----------------------##
 
 s_renamed_lst = s_gender.cat.rename_categories(
     new_categories = ["Female", "LGBTQ+", "Male"]
@@ -462,9 +458,9 @@ print(s_renamed_lst)
 # Categories (3, object): ['Female', 'LGBTQ+', 'Male']
 
 
-###########################
+##-----------------------##
 ## new_categories = dict ##
-###########################
+##-----------------------##
 
 s_renamed_dict = s_gender.cat.rename_categories(
     new_categories = {"F": "Female", "M": "Male", "LGBTQ": "Other"}
@@ -484,9 +480,9 @@ print(s_renamed_dict)
 # Categories (3, object): ['Female', 'Other', 'Male']
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 4. Reordering Categories ---------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Reordering Categories
+# =========================================================================================
 
 s_levels = pd.Series(
     pd.Categorical(
@@ -535,9 +531,9 @@ print(s_renamed)
 # Categories (5, object): ['1st' < '2nd' < '3rd' < '4th' < '5th']
 
 
-###############################
+##---------------------------##
 ## .cat.reorder_categories() ##
-###############################
+##---------------------------##
 
 s_reordered = s_renamed.cat.reorder_categories(
     new_categories = ["5th", "4th", "3rd", "2nd", "1st"], # New order of categories
@@ -557,9 +553,9 @@ print(s_reordered)
 # Categories (5, object): ['5th' < '4th' < '3rd' < '2nd' < '1st']
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 5. Ordered Categories ------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Ordered Categories
+# =========================================================================================
 
 '''
 Ordered categories have a meaningful order, allowing for comparisons and sorting.
@@ -584,9 +580,9 @@ print(s_sizes.cat.ordered)
 # False
 
 
-############################################################
+##--------------------------------------------------------##
 ## Use .cat.as_ordered() to convert to ordered categories ##
-############################################################
+##--------------------------------------------------------##
 
 s_sizes_ordered = s_sizes.cat.as_ordered()
 
@@ -641,9 +637,9 @@ print(s_sizes_ordered)
 # Categories (3, object): ['Small' < 'Medium' < 'Large']
 
 
-#########################################
+##-------------------------------------##
 ## Meaningful min(), max() and sorting ##
-#########################################
+##-------------------------------------##
 
 print(s_sizes_ordered.min()) # Small
 print(s_sizes_ordered.max()) # Large
@@ -669,9 +665,9 @@ print(s_sizes_ordered.sort_values(ascending=False))
 # Categories (3, object): ['Small' < 'Medium' < 'Large']
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 6. Unordered Categories -----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Unordered Categories
+# =========================================================================================
 
 '''
 Unordered categories do not have a meaningful order, treating categories as nominal.
@@ -705,9 +701,9 @@ print(s_gender.cat.ordered)
 # True
 
 
-################################################################
+##------------------------------------------------------------##
 ## Use .cat.as_unordered() to convert to unordered categories ##
-################################################################
+##------------------------------------------------------------##
 
 s_gender_unordered = s_gender.cat.as_unordered()
 
@@ -736,15 +732,15 @@ you can use .as_ordered() to change the Categorical to an ordered one
 '''
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 7. Exploring Categorical ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Exploring Categorical
+# =========================================================================================
 
 s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"], dtype='category')
 
-###############
+##-----------##
 ## .unique() ##
-###############
+##-----------##
 # Returns the unique categories in the categorical/object Series.
 
 uniques = s_gender.unique()
@@ -757,9 +753,9 @@ print(lst_uniques)
 # ['M', 'F', 'LGBTQ']
 
 
-#####################
+##-----------------##
 ## .value_counts() ##
-#####################
+##-----------------##
 # Returns a Series containing counts of unique categories
 
 print(s_gender.value_counts())

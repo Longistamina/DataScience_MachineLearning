@@ -63,17 +63,17 @@ M2 = np.random.randint(-10, 11, (3, 4))
 #        [-7, 10, -8,  4]])
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------- 1. Truth value testing ------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Truth value testing
+# =========================================================================================
 
 all_true = np.array([True, True, True])
 all_false = np.array([False, False, False])
 mix_bool = np.array([True, False, True])
 
-##############
+##----------##
 ## np.all() ##
-##############
+##----------##
 '''
 np.all() tests whether all array elements along a given axis evaluate to True.
 Returns True if all elements are True (or non-zero for numeric arrays).
@@ -108,9 +108,9 @@ print(np.all(M_bool, axis=0))
 print(np.all(M_bool, axis=1))
 # [ True False]
 
-##############
+##----------##
 ## np.any() ##
-##############
+##----------##
 '''
 np.any() tests whether any array element along a given axis evaluates to True.
 Returns True if at least one element is True (or non-zero for numeric arrays).
@@ -140,13 +140,13 @@ print(np.any(M_bool, axis=1))
 # [True True]
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------ 2. Array contents ------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Array contents
+# =========================================================================================
 
-###################
+##---------------##
 ## np.isfinite() ##
-###################
+##---------------##
 '''
 np.isfinite() tests element-wise for finiteness (not infinity and not NaN).
 Returns True for finite numbers, False for inf, -inf, and NaN.
@@ -161,9 +161,9 @@ print(np.isfinite(M_special))
 # [[ True False]
 #  [False  True]]
 
-################
+##------------##
 ## np.isinf() ##
-################
+##------------##
 '''
 np.isinf() tests element-wise for positive or negative infinity.
 Returns True for inf or -inf, False otherwise.
@@ -176,9 +176,9 @@ print(np.isinf(M_special))
 # [[False  True]
 #  [False False]]
 
-################
+##------------##
 ## np.isnan() ##
-################
+##------------##
 '''
 np.isnan() tests element-wise for NaN and returns result as a boolean array.
 Returns True for NaN values, False otherwise.
@@ -191,9 +191,9 @@ print(np.isnan(M_special))
 # [[False False]
 #  [ True False]]
 
-################
+##------------##
 ## np.isnat() ##
-################
+##------------##
 '''
 np.isnat() tests element-wise for NaT (not a time) and returns result as a boolean array.
 This is specifically for datetime64 and timedelta64 types.
@@ -207,9 +207,9 @@ timedeltas = np.array([1, np.timedelta64('NaT'), 3], dtype='timedelta64[D]')
 print(np.isnat(timedeltas))
 # [False  True False]
 
-###################
+##---------------##
 ## np.isneginf() ##
-###################
+##---------------##
 '''
 np.isneginf() tests element-wise for negative infinity, returns result as bool array.
 Returns True only for -inf, False otherwise.
@@ -223,9 +223,9 @@ np.isneginf(v_special, out=out)
 print(out)
 # [False False  True False False]
 
-###################
+##---------------##
 ## np.isposinf() ##
-###################
+##---------------##
 '''
 np.isposinf() tests element-wise for positive infinity, returns result as bool array.
 Returns True only for +inf, False otherwise.
@@ -240,13 +240,13 @@ print(out)
 # [False  True False False False]
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------------- 3. Array type testing -----------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Array type testing
+# =========================================================================================
 
-####################
+##----------------##
 ## np.iscomplex() ##
-####################
+##----------------##
 '''
 np.iscomplex() returns a bool array, where True if input element is complex.
 Returns True if the imaginary part is non-zero.
@@ -260,9 +260,9 @@ print(np.iscomplex(complex_array))
 print(np.iscomplex(3+0j))
 # False
 
-#######################
+##-------------------##
 ## np.iscomplexobj() ##
-#######################
+##-------------------##
 '''
 np.iscomplexobj() checks for a complex type or an array of complex numbers.
 Returns True if the array is of complex type, regardless of values.
@@ -280,9 +280,9 @@ all_real_complex = np.array([1+0j, 2+0j, 3+0j])
 print(np.iscomplexobj(all_real_complex))
 # True (because dtype is complex)
 
-####################
+##----------------##
 ## np.isfortran() ##
-####################
+##----------------##
 '''
 np.isfortran() checks if the array is Fortran contiguous.
 Fortran contiguous means column-major order (columns are contiguous in memory).
@@ -302,9 +302,9 @@ print(np.isfortran(f_array))
 print(np.isfortran(c_array.T))
 # True
 
-#################
+##-------------##
 ## np.isreal() ##
-#################
+##-------------##
 '''
 np.isreal() returns a bool array, where True if input element is real.
 Returns True if the imaginary part is zero.
@@ -320,9 +320,9 @@ mixed_array = np.array([1, 2+0j, 3+1j, 4.5])
 print(np.isreal(mixed_array))
 # [ True  True False  True]
 
-####################
+##----------------##
 ## np.isrealobj() ##
-####################
+##----------------##
 '''
 np.isrealobj() returns True if x is not a complex type or an array of complex numbers.
 Returns True if the array is of real type, regardless of values.
@@ -340,9 +340,9 @@ print(np.isrealobj(3 + 0j))
 print(np.isrealobj(3.14))
 # True
 
-###################
+##---------------##
 ## np.isscalar() ##
-###################
+##---------------##
 '''
 np.isscalar() returns True if the type of element is a scalar type.
 Scalars include numbers, strings, and other non-array types.
@@ -364,13 +364,13 @@ print(np.isscalar("hello"))
 # True
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------------- 4. Logical operations ---------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Logical operations
+# =========================================================================================
 
-######################
+##------------------##
 ## np.logical_and() ##
-######################
+##------------------##
 '''
 np.logical_and() computes the truth value of x1 AND x2 element-wise.
 Returns True where both x1 and x2 are True (or non-zero).
@@ -391,9 +391,9 @@ print(np.logical_and(M1 > 0, M2 > 0))
 #  [False False  True  True]
 #  [False  True False  True]]
 
-#####################
+##-----------------##
 ## np.logical_or() ##
-#####################
+##-----------------##
 '''
 np.logical_or() computes the truth value of x1 OR x2 element-wise.
 Returns True where at least one of x1 or x2 is True (or non-zero).
@@ -410,9 +410,9 @@ print(np.logical_or(M1 > 5, M2 > 5))
 #  [False False  True  True]
 #  [ True  True False False]]
 
-######################
+##------------------##
 ## np.logical_not() ##
-######################
+##------------------##
 '''
 np.logical_not() computes the truth value of NOT x element-wise.
 Returns True where x is False (or zero), and vice versa.
@@ -429,9 +429,9 @@ print(np.logical_not(M1 > 0))
 #  [ True  True False False]
 #  [False False  True False]]
 
-######################
+##------------------##
 ## np.logical_xor() ##
-######################
+##------------------##
 '''
 np.logical_xor() computes the truth value of x1 XOR x2, element-wise.
 Returns True where exactly one of x1 or x2 is True (or non-zero).
@@ -443,9 +443,9 @@ print(np.logical_xor(bool1, bool2))
 print(np.logical_xor(v1 > 0, v2 > 0))
 # [ True  True False  True  True]
 
-###################################
+##-------------------------------##
 ## Difference between OR and XOR ##
-###################################
+##-------------------------------##
 
 bool1 = np.array([True, True, False, False])
 bool2 = np.array([True, False, True, False])
@@ -464,13 +464,13 @@ but False in XOR because both are True.
 '''
 
 
-#-------------------------------------------------------------------------------------------------#
-#-------------------------------------- 5. Comparison --------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Comparison
+# =========================================================================================
 
-##################
+##--------------##
 ## np.isclose() ##
-##################
+##--------------##
 '''
 np.isclose() returns a boolean array where two arrays are element-wise equal within a tolerance.
 Returns an array of booleans (element-wise comparison).
@@ -491,9 +491,9 @@ print(np.isclose(a, c))
 print(np.isclose(a, c, atol=0.2))
 # [ True  True  True]
 
-###################
+##---------------##
 ## np.allclose() ##
-###################
+##---------------##
 '''
 np.allclose() returns True if two arrays are element-wise equal within a tolerance.
 Returns a single boolean value.
@@ -517,9 +517,9 @@ print(np.allclose(a_nan, b_nan, equal_nan=True))
 # True
 '''set equal_nan=True to consider NaNs as equal for the purpose of closeness.'''
 
-######################
+##------------------##
 ## np.array_equal() ##
-######################
+##------------------##
 '''
 np.array_equal() returns True if two arrays have the same shape and elements, False otherwise.
 This is an exact comparison (no tolerance).
@@ -549,9 +549,9 @@ print(np.array_equal(a_nan, b_nan))
 print(np.array_equal(a_nan, b_nan, equal_nan=True))
 # True
 
-######################
+##------------------##
 ## np.array_equiv() ##
-######################
+##------------------##
 '''
 np.array_equiv() returns True if input arrays are shape consistent and all elements equal.
 Allows broadcasting - shapes don't need to be identical.
@@ -572,9 +572,9 @@ print(np.array_equiv([1, 2], [[1, 2], [1, 2]]))
 print(np.array_equiv([1, 2], [[1, 2], [1, 3]]))
 # False
 
-##################
+##--------------##
 ## np.greater() ##
-##################
+##--------------##
 '''
 np.greater() returns the truth value of (x1 > x2) element-wise.
 Equivalent to the > operator.
@@ -591,9 +591,9 @@ print(np.greater(M1, M2))
 print(v1 > v2)
 # [False False  True False  True]
 
-########################
+##--------------------##
 ## np.greater_equal() ##
-########################
+##--------------------##
 '''
 np.greater_equal() returns the truth value of (x1 >= x2) element-wise.
 Equivalent to the >= operator.
@@ -610,9 +610,9 @@ print(np.greater_equal(M1, M2))
 print(v1 >= v2)
 # [False False  True False  True]
 
-###############
+##-----------##
 ## np.less() ##
-###############
+##-----------##
 '''
 np.less() returns the truth value of (x1 < x2) element-wise.
 Equivalent to the < operator.
@@ -629,9 +629,9 @@ print(np.less(M1, M2))
 print(v1 < v2)
 # [ True  True False  True False]
 
-#####################
+##-----------------##
 ## np.less_equal() ##
-#####################
+##-----------------##
 '''
 np.less_equal() returns the truth value of (x1 <= x2) element-wise.
 Equivalent to the <= operator.
@@ -648,9 +648,9 @@ print(np.less_equal(M1, M2))
 print(v1 <= v2)
 # [ True  True False  True False]
 
-################
+##------------##
 ## np.equal() ##
-################
+##------------##
 '''
 np.equal() returns (x1 == x2) element-wise.
 Equivalent to the == operator.
@@ -667,9 +667,9 @@ print(np.equal(M1, M2))
 print(v1 == v2)
 # [False False False False  True]
 
-####################
+##----------------##
 ## np.not_equal() ##
-####################
+##----------------##
 '''
 np.not_equal() returns (x1 != x2) element-wise.
 Equivalent to the != operator.
@@ -687,9 +687,9 @@ print(v1 != v2)
 # [ True  True  True  True False]
 
 
-#-----------------------------------------------------------------------------------------------------------#
-#---------------------------- 6. Application in boolean indexing and masking -------------------------------#
-#-----------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Application in boolean indexing and masking
+# =========================================================================================
 
 v1 = np.array([-1, -6, 5, -10, 7])
 v2 = np.array([6, 7, 3, 2, -9])
@@ -706,7 +706,7 @@ print(M2)
 #  [-4 -8 10  2]
 #  [-7 10 -8  4]]
 
-############################################
+##----------------------------------------##
 
 print(v1[v1 > 0])
 # [5 7]

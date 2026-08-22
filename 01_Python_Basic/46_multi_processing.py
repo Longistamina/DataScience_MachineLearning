@@ -1,4 +1,4 @@
-############ Example WITHOUT multithreading or multiprocessing ##############
+##--------## Example WITHOUT multithreading or multiprocessing ##----------##
 
 import time
 
@@ -33,9 +33,9 @@ print("\nDone single-thread calculating in:", time.time() - t0) # Get the curren
 # => Make the total processing time delayed and cost upto 1.602s to finish
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- Multiprocessing ----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Multiprocessing
+# ==============================================================================================
 
 # GIL = Global Interpreter Lock
 
@@ -57,7 +57,7 @@ Implementation: Python's "multiprocessing" module allows creation of processes s
 with APIs like "Process" and "Pool" for managing multiple processes
 '''
 
-############ Example WITH multiprocessing ##################
+##--------## Example WITH multiprocessing ##--------------##
 
 import time
 import multiprocessing
@@ -97,11 +97,11 @@ processor2.join() # tell the main program to wait until processor2 terminates it
 print("\nDone double-process calculating in:", time.time() - t0)
 
 
-###################### Dynamic Multitprocess using "Pool" from "multiprocessing"          #########################
-###################### Enable defining the maximum number of processors (cores) to use    #########################
-###################### Automatically create processor, start processor and join processor #########################
+##------------------## Dynamic Multitprocess using "Pool" from "multiprocessing"          ##---------------------##
+##------------------## Enable defining the maximum number of processors (cores) to use    ##---------------------##
+##------------------## Automatically create processor, start processor and join processor ##---------------------##
 
-###### Return an output list ######
+##--## Return an output list ##--##
 
 from multiprocessing import Pool
 
@@ -134,7 +134,7 @@ outputs = multicore_process(target_function, inputs, max_processes=4)
 print(outputs)
 # Output: [[3, 2, 1], ['c', 'b', 'a'], [40, 30, 20, 10], [200, 100], ['z', 'y', 'x']]
 
-####### save output to multiple files #######
+##---## save output to multiple files ##---##
 
 from multiprocessing import Pool
 import os
@@ -162,9 +162,9 @@ multicore_process(target_func, inputs, max_processes=3)
 # This creates files output_block_0.txt, output_block_1.txt, output_block_2.txt
 
 
-#-------------------------------------------------------------#
-#----------- using a list of tuples as argument --------------#
-#-------------------------------------------------------------#
+# ==============================================================================================
+# using a list of tuples as argument
+# ==============================================================================================
 
 import multiprocessing
 
@@ -211,9 +211,9 @@ print(f"Complex inputs: {complex_inputs[:3]}...")  # Show first 3
 print(f"Conditional inputs: {conditional_inputs}")
 
 
-#---------------------------------------------------------------------------------#
-#------------- difference between Multithreading and Multiprocessing -------------#
-#---------------------------------------------------------------------------------#
+# ==============================================================================================
+# difference between Multithreading and Multiprocessing
+# ==============================================================================================
 
 '''
 Aspect               | Multithreading                       | Multiprocessing

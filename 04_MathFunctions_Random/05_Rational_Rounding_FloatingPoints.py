@@ -39,13 +39,13 @@ print(M2)
 #  [46 54 50]]
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------------- 1. Rational routines ----------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Rational routines
+# =========================================================================================
 
-##############
+##----------##
 ## np.lcm() ##
-##############
+##----------##
 '''
 np.lcm() returns the lowest common multiple (LCM) of |x1| and |x2|.
 The LCM is the smallest positive integer that is divisible by both x1 and x2.
@@ -61,7 +61,7 @@ print(np.lcm(M1, M2))
 # [[ 52 861 882]
 #  [230  54 450]]
 
-#----- Check: LCM is divisible by both numbers -----#
+# Check: LCM is divisible by both numbers
 lcm_val = np.lcm(v1, v2)
 
 print(lcm_val % v1)  # Should be all zeros
@@ -70,9 +70,9 @@ print(lcm_val % v1)  # Should be all zeros
 print(lcm_val % v2)  # Should be all zeros
 # [0 0 0 0 0]
 
-##############
+##----------##
 ## np.gcd() ##
-##############
+##----------##
 '''
 np.gcd() returns the greatest common divisor (GCD) of |x1| and |x2|.
 The GCD is the largest positive integer that divides both x1 and x2.
@@ -88,7 +88,7 @@ print(np.gcd(M1, M2))
 # [[4 1 1]
 #  [2 6 1]]
 
-#----- Check: Relationship between GCD and LCM -----#
+# Check: Relationship between GCD and LCM
 
 # For positive integers: x1 * x2 = gcd(x1, x2) * lcm(x1, x2)
 
@@ -96,9 +96,9 @@ print(v1 * v2 == np.gcd(v1, v2) * np.lcm(v1, v2))
 # [ True  True  True  True  True]
 
 
-#---------------------------------------------------------------------------------------------------#
-#--------------------------------------- 2. Rounding -----------------------------------------------#
-#---------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Rounding
+# =========================================================================================
 
 # Create arrays with decimal values for rounding examples
 np.random.seed(9)
@@ -109,9 +109,9 @@ M_float = np.random.uniform(-10, 10, (2, 3))
 # array([[-5.62882649, -1.62983639, -5.03797663],
 #        [-8.31880698, -3.0900272 , -6.66447307]])
 
-###############################
+##---------------------------##
 ## np.around() or np.round() ##
-###############################
+##---------------------------##
 '''
 np.around() or np.round() evenly rounds to the given number of decimals.
 Rounds to the nearest even value when exactly halfway between two values.
@@ -132,9 +132,9 @@ halfway_values = np.array([0.5, 1.5, 2.5, 3.5, 4.5])
 print(np.around(halfway_values))
 # [0. 2. 2. 4. 4.]  # Note: 0.5->0, 1.5->2, 2.5->2, 3.5->4, 4.5->4
 
-###############
+##-----------##
 ## np.rint() ##
-###############
+##-----------##
 '''
 np.rint() rounds elements of the array to the nearest integer.
 Similar to np.around() with decimals=0, but returns a float type.
@@ -147,9 +147,9 @@ print(np.rint(M_float))
 # [[-6. -2. -5.]
 #  [-8. -3. -7.]]
 
-################
+##------------##
 ## np.floor() ##
-################
+##------------##
 '''
 np.floor() returns the floor of the input, element-wise.
 The floor is the smallest integer less than or equal to the input.
@@ -162,9 +162,9 @@ print(np.floor(M_float))
 # [[-6. -2. -6.]
 #  [-9. -4. -7.]]
 
-###############
+##-----------##
 ## np.ceil() ##
-###############
+##-----------##
 '''
 np.ceil() returns the ceiling of the input, element-wise.
 The ceiling is the largest integer greater than or equal to the input.
@@ -177,9 +177,9 @@ print(np.ceil(M_float))
 # [[-5. -1. -5.]
 #  [-8. -3. -6.]]
 
-################
+##------------##
 ## np.trunc() ##
-################
+##------------##
 '''
 np.trunc() rounds to nearest integer towards zero, element-wise.
 Positive values are rounded down, negative values are rounded up.
@@ -199,18 +199,18 @@ print(f"ceil:     {np.ceil(test_vals)}")   # [-2. -2.  3.  3.]
 # trunc rounds towards zero
 
 
-#-----------------------------------------------------------------------------------------------#
-#-------------------------------- 3. Floating point routines -----------------------------------#
-#-----------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Floating point routines
+# =========================================================================================
 
 v_signed = np.array([-3.5, 0.0, 2.8, -0.0, 5.1])
 
 M_signed = np.array([[-2.5, 3.1, -0.5],
                      [1.2, -4.8, 0.0]])
 
-##################
+##--------------##
 ## np.signbit() ##
-##################
+##--------------##
 '''
 np.signbit() returns element-wise True where signbit is set (less than zero).
 This correctly handles negative zero (-0.0) unlike simple comparison with 0.
@@ -230,9 +230,9 @@ print(np.signbit(-0.0))
 print(np.signbit(0.0))
 # False
 
-###################
+##---------------##
 ## np.copysign() ##
-###################
+##---------------##
 '''
 np.copysign() changes the sign of x1 to that of x2, element-wise.
 Returns values with the magnitude of x1 and the sign of x2.
@@ -256,9 +256,9 @@ print(np.copysign(v_signed, 1.0))
 print(np.copysign(v_signed, -1.0))
 # [-3.5 -0.  -2.8 -0.  -5.1]
 
-################
+##------------##
 ## np.frexp() ##
-################
+##------------##
 '''
 np.frexp() decomposes the elements of x into mantissa and twos exponent.
 Returns (mantissa, exponent) where x = mantissa * 2**exponent.
@@ -275,7 +275,7 @@ print(mantissa)
 print(exponent)
 # [1 2 3 4 2]
 
-#----- Check: reconstruct original values -----#
+# Check: reconstruct original values
 
 reconstructed = mantissa * 2**exponent
 print(reconstructed) # [1. 2. 4. 8. 3.]
@@ -291,9 +291,9 @@ print(exponent_M)
 # [[3 3 1]
 #  [2 3 4]]
 
-################
+##------------##
 ## np.ldexp() ##
-################
+##------------##
 '''
 np.ldexp() returns x1 * 2**x2, element-wise.
 This is the inverse operation of np.frexp().
@@ -305,7 +305,7 @@ exponent = np.array([2, 3, 4])
 print(np.ldexp(mantissa, exponent))
 # [ 2.  6. 10.]
 
-#----- Check: inverse of frexp -----#
+# Check: inverse of frexp
 original = np.array([2.0, 6.0, 10.0])
 m, e = np.frexp(original)
 reconstructed = np.ldexp(m, e)
@@ -319,9 +319,9 @@ print(np.ldexp(5.0, 3))  # 5 * 2^3 = 40
 print(np.ldexp(100.0, -2))  # 100 * 2^-2 = 25
 # 25.0
 
-####################
+##----------------##
 ## np.nextafter() ##
-####################
+##----------------##
 '''
 np.nextafter() returns the next floating-point value after x1 towards x2, element-wise.
 This is useful for understanding floating-point precision and machine epsilon.
@@ -346,9 +346,9 @@ print(f"Machine epsilon: {eps}") # 2.220446049250313e-16
 print(f"np.finfo(float).eps: {np.finfo(float).eps}") # 2.220446049250313e-16
 # They should be equal
 
-##################
+##--------------##
 ## np.spacing() ##
-##################
+##--------------##
 '''
 np.spacing() returns the distance between x and the nearest adjacent number.
 This shows the spacing between representable floating-point numbers at x.
@@ -382,9 +382,9 @@ print(f"Are they equal? {np.isclose(spacing, next_float - x)}")
 # True
 
 
-###################################
+##-------------------------------##
 ## Comparisons and Verifications ##
-###################################
+##-------------------------------##
 
 # Rounding comparison
 test_val = 2.7

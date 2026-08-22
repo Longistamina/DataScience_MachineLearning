@@ -10,9 +10,9 @@ import pandas as pd
 import numpy as np
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------------------- 1. Series.dtype  -----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Series.dtype 
+# =========================================================================================
 '''Dtype is the data type of the Series, which can be checked using the .dtype attribute.'''
 
 s_nums = pd.Series(data=[1, 2, 3, 4, 5])
@@ -37,13 +37,13 @@ s_mixed_nan = pd.Series(data=[1, np.nan, 3.0])
 print(s_mixed_nan.dtype)  # Output: float64
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 2. Some important Series attributes ----------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Some important Series attributes
+# =========================================================================================
 
-############
+##--------##
 ## .index ##
-############
+##--------##
 
 # .index: Returns the index labels of the Series. ##
 s = pd.Series(data=[1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
@@ -51,9 +51,9 @@ print(s.index)
 # Index(['a', 'b', 'c', 'd', 'e'], dtype='object')
 
 
-#############
+##---------##
 ## .values ##
-#############
+##---------##
 
 # .values: Returns the values of the Series as a numpy array
 s = pd.Series(data=[1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
@@ -64,9 +64,9 @@ print(type(s.values))
 # <class 'numpy.ndarray'>
 
 
-############
+##--------##
 ## .shape ##
-############
+##--------##
 
 # .shape: Returns a tuple representing the dimensions of the Series (number of elements).
 s = pd.Series(data=[1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
@@ -74,9 +74,9 @@ print(s.shape)
 # (5,)
 
 
-###########
+##-------##
 ## .size ##
-###########
+##-------##
 
 # .size: Returns the number of elements in the Series.
 s = pd.Series(data=[1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
@@ -84,9 +84,9 @@ print(s.size)
 # 5
 
 
-###########
+##-------##
 ## .ndim ##
-###########
+##-------##
 
 # .ndim: Returns the number of dimensions of the Series (always 1 for a Series).
 s = pd.Series(data=[1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
@@ -94,9 +94,9 @@ print(s.ndim)
 # 1
 
 
-################
+##------------##
 ## .is_unique ##
-################
+##------------##
 
 # .is_unique: Returns True if all elements in the Series are unique, otherwise False.
 
@@ -109,9 +109,9 @@ print(s_not_unique.is_unique)
 # False
 
 
-##############
+##----------##
 ## .hasnans ##
-##############
+##----------##
 
 # .hasnans: Returns True if the Series contains any NaN (Not a Number) values, otherwise False.
 s_with_nan = pd.Series(data=[1, 2, np.nan, 4, 5])
@@ -123,9 +123,9 @@ print(s_with_NA.hasnans) # True
 print(s_no_misisng.hasnans) # False
 
 
-############
+##--------##
 ## .empty ##
-############
+##--------##
 
 # .empty: Returns True if the Series is empty (contains no elements), otherwise False.
 s_empty = pd.Series(dtype='float64')
@@ -135,9 +135,9 @@ print(s_empty.empty)  # True
 print(s_not_empty.empty)  # False
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 3. 'name' attribute ------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. 'name' attribute
+# =========================================================================================
 
 # The 'name' attribute allows you to set or get the name of the Series.
 

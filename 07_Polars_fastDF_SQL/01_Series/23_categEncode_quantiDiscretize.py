@@ -32,7 +32,7 @@ Important differences from pandas:
 4. .cut() returns Enum by default; .qcut() returns Categorical by default.
 5. .cut() and .qcut() are currently documented as unstable Polars features.
 
-######################################################
+##--------------------------------------------------##
 1. Categorical Encoding
    + Factorize-style integer codes
    + One-hot / dummy encoding
@@ -54,9 +54,9 @@ import numpy as np
 import polars as pl
 
 
-#---------------------------------------------------------------------------------------------------#
-#------------------------------------ 1. Categorical Encoding --------------------------------------#
-#---------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Categorical Encoding
+# =========================================================================================
 '''
 Categorical Encoding is the process of converting categorical variables into numerical representations.
 This is useful for machine learning algorithms that require numerical input.
@@ -84,9 +84,9 @@ print(s_gender)
 # 	"M"
 # ]
 
-#######################################
+##-----------------------------------##
 ##  Factorize-style with Categorical ##
-#######################################
+##-----------------------------------##
 '''
 Pandas:
     pd.factorize(s_gender)
@@ -156,9 +156,9 @@ uniques = s_gender_cat.cat.get_categories()
 print(codes)
 print(uniques)
 
-#########################################################
+##-----------------------------------------------------##
 ##  Stable pandas-like factorize with first-appearance ##
-#########################################################
+##-----------------------------------------------------##
 '''
 Pandas pd.factorize() assigns integers in the order of first appearance.
 
@@ -210,9 +210,9 @@ print(factorized_df)
 # └────────┴─────────────┘
 
 
-#########################################
+##-------------------------------------##
 ##            .to_dummies()            ##
-#########################################
+##-------------------------------------##
 '''
 Pandas:
     pd.get_dummies(s_gender, prefix="gender")
@@ -224,10 +224,8 @@ Polars:
 Each column contains 1 if the row belongs to that category, otherwise 0.
 '''
 
-#-----------------
-## Without dropping the first category
-#-----------------
-
+# ## Without dropping the first category
+# 
 s_gender_dummies = s_gender.to_dummies()
 print(s_gender_dummies)
 # shape: (10, 3)
@@ -252,10 +250,8 @@ print(s_gender_dummies)
 print(s_gender.to_dummies(separator="__"))
 # Columns: gender__F, gender__LGBTQ, gender__M
 
-#-----------------
-## With dropping the first category
-#-----------------
-'''
+# ## With dropping the first category
+# '''
 If we have n categories, we often only need n-1 dummy columns.
 The omitted category can be inferred when all dummy columns are 0.
 
@@ -287,9 +283,9 @@ Rows where gender_LGBTQ = 0 and gender_M = 0 are the dropped category.
 In this example, the dropped category is F.
 '''
 
-################################################
+##--------------------------------------------##
 ##        DataFrame-level dummy encoding      ##
-################################################
+##--------------------------------------------##
 '''
 For real modeling datasets, you usually work with DataFrames rather than isolated Series.
 Use df.to_dummies(columns=[...]) to one-hot encode selected columns only.
@@ -351,9 +347,9 @@ print(df_people.to_dummies(columns=["gender", "city"], drop_first=True))
 # Drops the first generated dummy for each encoded column.
 
 
-#----------------------------------------------------------------------------------------------------#
-#---------------------------------- 2. Binning and Discretization -----------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Binning and Discretization
+# =========================================================================================
 '''
 Binning and Discretization convert continuous numerical data into discrete categories.
 This is useful for simplifying analysis, reporting, and feature engineering.
@@ -399,9 +395,9 @@ print(s_quantitative)
 # 	2.175393
 # ]
 
-####################################
+##--------------------------------##
 ##              .cut()            ##
-####################################
+##--------------------------------##
 '''
 Polars .cut() bins continuous values into categories using INTERNAL breakpoints.
 
@@ -415,10 +411,8 @@ Polars automatically creates the outer intervals:
 If labels are given, the number of labels must equal len(breaks) + 1.
 '''
 
-#-----------------
-## Custom breakpoints: [2, 4, 6, 8]
-#-----------------
-
+# ## Custom breakpoints: [2, 4, 6, 8]
+# 
 s_bins = s_quantitative.cut(
     breaks=[2, 4, 6, 8],
     labels=["Very Low", "Low", "Medium", "High", "Very High"],
@@ -465,10 +459,8 @@ print(s_bins.value_counts())
 # │ Very High ┆ 2     │
 # └───────────┴───────┘
 
-#-----------------
-## Without labels: Polars returns interval text as an Enum
-#-----------------
-
+# ## Without labels: Polars returns interval text as an Enum
+# 
 print(s_quantitative.cut(breaks=[2, 4, 6, 8]))
 # shape: (20,)
 # Series: 'score' [enum]
@@ -486,9 +478,9 @@ print(s_quantitative.cut(breaks=[2, 4, 6, 8]))
 # 	"(2, 4]"
 # ]
 
-#####################################################
+##-------------------------------------------------##
 ##  pandas-like bounded bins: values outside range ##
-#####################################################
+##-------------------------------------------------##
 '''
 Because Polars .cut() automatically uses -inf and inf for outer bins, it will NOT
 turn out-of-range values into null just because your pandas bin edges had a minimum
@@ -528,9 +520,9 @@ print(bounded_cut)
 # │ 10.5  ┆ null        │
 # └───────┴─────────────┘
 
-###################################################
+##-----------------------------------------------##
 ## Equal-width bins: pandas pd.cut(bins=3) style ##
-###################################################
+##-----------------------------------------------##
 '''
 Pandas:
     pd.cut(x=s_quantitative, bins=3, labels=["Low", "Medium", "High"])
@@ -594,9 +586,9 @@ print(s_equal_width.value_counts())
 # └────────┴───────┘
 # Frequency table for Low / Medium / High bins
 
-#############################################
+##-----------------------------------------##
 ##        .cut(include_breaks=True)        ##
-#############################################
+##-----------------------------------------##
 '''
 include_breaks=True returns a Struct containing:
 1. breakpoint: the right endpoint of the bin
@@ -625,9 +617,9 @@ print(df_cut_breaks)
 # │ ...      ┆ ...        ┆ ...        │
 # └──────────┴────────────┴────────────┘
 
-#######################################
+##-----------------------------------##
 ##          left_closed=True         ##
-#######################################
+##-----------------------------------##
 '''
 By default, Polars intervals are right-closed:
     (-inf, 2], (2, 4], (4, inf]
@@ -659,9 +651,9 @@ print(s_boundary.cut([2.0, 4.0], labels=["Low", "Medium", "High"], left_closed=T
 # ]
 
 
-######################################
+##----------------------------------##
 ##              .qcut()             ##
-######################################
+##----------------------------------##
 '''
 qcut means quantile-based discretization.
 
@@ -675,10 +667,8 @@ If quantiles is an integer, Polars creates bins with uniform probability.
 For q=4, the bins are quartiles.
 '''
 
-#-----------------
-## q = 4 (quartiles)
-#-----------------
-
+# ## q = 4 (quartiles)
+# 
 s_qcut = s_quantitative.qcut(
     4,
     labels=["Q1", "Q2", "Q3", "Q4"],
@@ -724,10 +714,8 @@ print(s_qcut.value_counts())
 # └───────┴───────┘
 # Each quartile should contain approximately the same number of values.
 
-#-----------------
-## Explicit quantile probabilities
-#-----------------
-'''
+# ## Explicit quantile probabilities
+# '''
 You can also pass explicit probabilities between 0 and 1.
 For two cut points [0.25, 0.75], you need three labels.
 '''
@@ -755,9 +743,9 @@ print(s_qcut_three_groups)
 # ]
 # Groups values by the 25th and 75th percentile boundaries.
 
-##########################################
+##--------------------------------------##
 ##       .qcut(include_breaks=True)     ##
-##########################################
+##--------------------------------------##
 '''
 include_breaks=True works with qcut too.
 It returns a Struct, so use .unnest() to see the breakpoint and category columns.
@@ -789,9 +777,9 @@ print(df_qcut_breaks)
 # │ 2.175393 ┆ 3.702557   ┆ (-inf, 3.70255675]      │
 # └──────────┴────────────┴─────────────────────────┘
 
-#######################################################
+##---------------------------------------------------##
 ##       Duplicate quantiles: allow_duplicates       ##
-#######################################################
+##---------------------------------------------------##
 '''
 When many values are repeated, different quantile cut points can become identical.
 By default, this may raise a DuplicateError.
@@ -817,9 +805,9 @@ print(s_repeated.qcut(4, allow_duplicates=True))
 # ]
 # Duplicate quantile breakpoints are dropped instead of raising an error.
 
-############################################################
+##--------------------------------------------------------##
 ##  DataFrame expression style: recommended in workflows  ##
-############################################################
+##--------------------------------------------------------##
 '''
 For actual feature engineering, use expressions inside .with_columns().
 This keeps the workflow lazy-compatible and scales naturally to multiple columns.
@@ -852,9 +840,9 @@ print(df_binned)
 # └──────────┴────────────┴────────────────┘
 
 
-#----------------------------------------------------------------------------------------------------#
-#--------------------------------------- 3. Real applications ---------------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Real applications
+# =========================================================================================
 '''
 A common machine-learning preprocessing workflow:
 1. Keep original numerical variables.
@@ -954,9 +942,9 @@ print(df_model_matrix)
 # A model-ready DataFrame with UInt8 dummy columns.
 
 
-#----------------------------------------------------------------------------------------------------#
-#--------------------------------------------- Summary ----------------------------------------------#
-#----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# Summary
+# =========================================================================================
 '''
 Summary:
 

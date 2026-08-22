@@ -19,7 +19,7 @@ could be applied universally to everyone, without contradiction.
 If the action cannot be universalized without causing a contradiction or harm, then it is immoral.
 '''
 
-###############
+##----------------------------------------------------------------------------------------------------------##
 
 """
 This is also a multiple-line comment.
