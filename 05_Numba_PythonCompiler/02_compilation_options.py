@@ -17,7 +17,7 @@ from threading import Thread
 
 
 # =========================================================================================
-# nopython (nonpython)
+# 1. nopython (nonpython)
 # =========================================================================================
 '''
 The `nopython` mode (also called "nonpython") is the most important performance option.
@@ -41,7 +41,7 @@ print(dot_product(x, y))  # 32.0
 
 
 # =========================================================================================
-# nogil
+# 2. nogil
 # =========================================================================================
 '''
 The Global Interpreter Lock (GIL) prevents multiple threads from executing Python bytecode at once.
@@ -81,7 +81,7 @@ print(f"Parallel nogil execution: {end - start:.3f} sec")
 
 
 # =========================================================================================
-# cache
+# 3. cache
 # =========================================================================================
 '''
 When `cache=True`, Numba saves the compiled machine code to a file on disk after the first call.
@@ -104,7 +104,7 @@ print(fibonacci(100))   # 3736710778780434371
 
 
 # =========================================================================================
-# parallel
+# 4. parallel
 # =========================================================================================
 '''
 The `parallel=True` option attempts to automatically parallelize supported operations,
@@ -135,7 +135,7 @@ print(f"Parallel execution time: {end - start:.3f} sec")
 
 
 # =========================================================================================
-# Combining options
+# 5. Combining options
 # =========================================================================================
 '''
 Options can be combined freely. For maximum performance and parallelism:

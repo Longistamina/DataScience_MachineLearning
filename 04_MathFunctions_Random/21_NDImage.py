@@ -81,7 +81,7 @@ vals_arr = rng.uniform(0, 10, (20, 20))   # values to measure over regions
 
 
 # =========================================================================================
-#════════════════════════════════════  PART A — FILTERS  ═════════════════════════════════════════#
+#  PART A — FILTERS 
 # =========================================================================================
 
 ##-------------------------##
@@ -541,7 +541,7 @@ print(np.allclose(local_rng, local_rng_vec, atol=1e-10))  # True — same result
 
 
 # =========================================================================================
-#═══════════════════════════════  PART B — FOURIER FILTERS  ══════════════════════════════════════#
+#  PART B — FOURIER FILTERS 
 # =========================================================================================
 '''
 Fourier filters operate in the frequency domain.
@@ -618,7 +618,7 @@ print(f"Fourier vs spatial shift max diff: {np.abs(img_fshift - img_sshift).max(
 
 
 # =========================================================================================
-#══════════════════════  PART C — INTERPOLATION / GEOMETRIC TRANSFORMS  ══════════════════════════#
+#  PART C — INTERPOLATION / GEOMETRIC TRANSFORMS 
 # =========================================================================================
 '''
 All geometric transforms use spline interpolation of the given order.
@@ -995,7 +995,7 @@ coeffs_both = ndi.spline_filter1d(coeffs_row, order=3, axis=1, mode='mirror')
 
 
 # =========================================================================================
-#════════════════════════════════  PART D — MEASUREMENTS  ════════════════════════════════════════#
+#  PART D — MEASUREMENTS 
 # =========================================================================================
 '''
 Measurement functions operate on labelled arrays (where each labelled region
@@ -1268,7 +1268,7 @@ print(f"Watershed labels: {np.unique(ws_result)}")   # [1 2]
 
 
 # =========================================================================================
-#════════════════════════════════  PART E — MORPHOLOGY  ══════════════════════════════════════════#
+#  PART E — MORPHOLOGY 
 # =========================================================================================
 '''
 Binary morphology operates on boolean arrays.

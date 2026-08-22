@@ -3,7 +3,6 @@
 using the signature of your choice.
 '''
 
-from dask.array import take
 import numba as nb
 import numpy as np
 from scipy.integrate import quad
@@ -60,7 +59,7 @@ print(quad(integrand, 1, np.inf))
 print(quad(nb_integrand.ctypes, 1, np.inf))
 # (0.14849550677592208, 3.8736750296130505e-10)
 
-%timeit quad(integrand, 1, np.inf) # 31 μs ± 54.2 ns per loop (mean ± std. dev. of 7 runs, 10,000 loops each)
+%timeit quad(integrand, 1, np.inf) # 31 μs ± 54.2 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 %timeit quad(nb_integrand.ctypes, 1, np.inf) # 5.56 μs ± 12.6 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 
 

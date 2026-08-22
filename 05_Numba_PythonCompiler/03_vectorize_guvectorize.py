@@ -5,7 +5,7 @@ supporting array broadcasting, type casting, and several other standard features
    and produces a fixed number of specific outputs.
 
 There are two type of ufunc:
-    + universal functions (ufunc): operate on scalars (@numba.vectorize)
+    + universal functions (ufunc): operate on scalars like 1D vectors (@numba.vectorize)
     + generalized universal functions (gufunc): operate on higher dimensional arrays and scalars (@numba.guvectorize)
 
 If we don't pass any signatures -> dynamic ufunc, dynamic gufunc
@@ -42,7 +42,7 @@ print(matrix_2)
 
 
 # =========================================================================================
-# ufunc - @numba.vectorzie
+# 1. ufunc - @numba.vectorzie
 # =========================================================================================
 '''
 ``@numba.vectorize`` allows Python functions that take scalar inputs behave as a vectorized function.
@@ -90,7 +90,7 @@ otherwise type-based dispatching will not work as expected
 def sum(x, y):
     return x + y
 
-# =========================================================================================
+# =========================================
 
 result = sum(
     (vector_1*10).astype(np.int32),
@@ -99,7 +99,7 @@ result = sum(
 print(result)
 # [ 8  2 11 16 -1  1 19  8 -4  6]
 
-# =========================================================================================
+# ========================================
 
 result = sum(
     (vector_1*3).astype(np.float64),
@@ -131,7 +131,7 @@ print(m1_accumulated)
 
 
 # =========================================================================================
-# gufunc - @numba.guvectorzie
+# 2. gufunc - @numba.guvectorzie
 # =========================================================================================
 '''
 The ``@numba.guvectorize()`` decorator takes the concept one step further,
@@ -165,7 +165,7 @@ No need to use return here since the `->(n)` already told numba that the third p
 numba will return it automatically
 '''
 
-# =========================================================================================
+# =========================================================
 
 vector_input = (vector_1*10).astype(np.int32)
 print(vector_input)
@@ -175,7 +175,7 @@ vector_filtered = filter_threshold(vector_input, 0)
 print(vector_filtered)
 # [ 4  0  6 15  0  0 15  7  0  5]
 
-# =========================================================================================
+# ==========================================================
 
 matrix_input = (matrix_2*10).astype(np.int32)
 print(matrix_input)
@@ -184,6 +184,12 @@ print(matrix_input)
 #  [-16   2   6  18]]
 
 '''Here, ``@numba.guvectorize`` automatically dispatches over more complicated inputs, depending on their shapes'''
+
+matrix_filterd = filter_threshold(matrix_input, 0)
+print(matrix_filterd)
+# [[13  0  0  0]
+#  [ 0  0  5  2]
+#  [ 0  2  6 18]]
 
 ##-----------------------------------##
 ## symbolic layout - return a scalar ##
@@ -199,8 +205,8 @@ To return a scalar value only, we do this:
 def aggregate(input, reduction, result):
     '''
     reduction = 0 -> sum
-    reduction = 1 -> means
-    reduction = 2 -> multiplication
+    reduction = 1 -> mean
+    reduction = 2 -> multiplication (or product)
     reduction = 3 -> min
     reduction = 4 -> max
     '''
@@ -212,28 +218,33 @@ def aggregate(input, reduction, result):
         for i in range(n):
             acc += input[i]
         result[0] = acc
+
     elif reduction == 1:     # mean
         acc = np.float32(0.0)
         for i in range(n):
             acc += input[i]
         result[0] = acc / n
+
     elif reduction == 2:     # product
         acc = np.float32(1.0)
         for i in range(n):
             acc *= input[i]
         result[0] = acc
+
     elif reduction == 3:     # min
         acc = input[0]
         for i in range(1, n):
             if input[i] < acc:
                 acc = input[i]
         result[0] = acc
+
     elif reduction == 4:     # max
         acc = input[0]
         for i in range(1, n):
             if input[i] > acc:
                 acc = input[i]
         result[0] = acc
+
     else:
         result[0] = np.nan
 
@@ -241,7 +252,7 @@ matrix_mean = aggregate(matrix_2.flatten().astype(np.float32), 0)
 print(matrix_mean)
 # -1.2359995
 
-matrix_sum = aggregate(matrix_2.astype(np.float32), 1) # No flatten -> perform on each ``matrix_2[i, :]``
+matrix_sum = aggregate(matrix_2.astype(np.float32), 1) # No flatten -> perform on each ``matrix_2[i, :]`` (column-wise, axis=1)
 print(matrix_sum)
 # [-0.187      -0.4125      0.29050002]
 
@@ -267,7 +278,7 @@ print(matrix_overwritten.round(2))
 
 
 # =========================================================================================
-# dufunc - dgufunc
+# 3. dufunc - dgufunc
 # =========================================================================================
 '''
 dufunc = dynamic ufunc = @vectorize without signatures
@@ -283,7 +294,7 @@ def f(x, y):
 
 print(f(2, -3)) # 5
 
-# =========================================================================================
+# ==================================
 
 @nb.guvectorize('(n),()->()')
 def g(x, y, out):
@@ -292,7 +303,7 @@ def g(x, y, out):
         acc += x[i] * y
     out[0] = acc
 
-out = np.zeros(1)
+out = np.zeros(1) # [0]
 out = g(vector_2, 3, out)
 print(out)
 # [17.442]
