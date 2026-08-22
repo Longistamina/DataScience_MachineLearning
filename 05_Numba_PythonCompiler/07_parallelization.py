@@ -108,8 +108,8 @@ for i in nb.prange(something):
 ## Caution on data race ##
 ##----------------------##
 '''
- If the elements specified by the slice or index are written to simultaneously by multiple parallel threads,
- the compiler may not detect such cases and then a race condition would occur.
+If the elements specified by the slice or index are written to simultaneously by multiple parallel threads,
+the compiler may not detect such cases and then a race condition would occur.
 '''
 
 @nb.njit(parallel=True)

@@ -107,7 +107,7 @@ pts_unit = pts_3d / np.linalg.norm(pts_3d, axis=1, keepdims=True)  # on unit sph
 
 
 # =========================================================================================
-#════════════════════════════  PART A — ROTATION  (scipy.spatial.transform)  ═════════════════════#
+#  PART A — ROTATION  (scipy.spatial.transform) 
 # =========================================================================================
 
 ##----------##
@@ -176,32 +176,32 @@ R_mat = np.array([
 r_mat = Rotation.from_matrix(R_mat)
 print(f"Matrix rotation (60° around z): {r_mat.as_euler('zxz', degrees=True)[0].round(4)}°")
 # Matrix rotation (60° around z): 60.0°
- 
+
 ## identity / random
 r_id  = Rotation.identity()                          # no rotation
 r_rnd = Rotation.random(5, random_state=rng)         # 5 uniformly random rotations
 print(f"Random rotation magnitudes: {r_rnd.magnitude().round(3)}")
 # Random rotation magnitudes: [1.427 2.02  1.288 2.918 2.887]
- 
- 
+
+
 # ── Conversion between representations ───────────────────────────────────────
- 
+
 r_test = Rotation.from_euler('xyz', [30, 45, 60], degrees=True)
- 
+
 q_out  = r_test.as_quat()           # (x, y, z, w)
 rv_out = r_test.as_rotvec()         # axis*angle vector
 M_out  = r_test.as_matrix()         # 3×3 matrix
 e_out  = r_test.as_euler('xyz', degrees=True)  # back to Euler
- 
+
 print("as_quat()  :", q_out.round(4))        # [0.0223 0.4397 0.3604 0.8224]
 print("as_rotvec():", rv_out.round(4))       # [0.0474 0.9354 0.7668] (axis*angle)
 print("as_euler() :", e_out.round(2))        # [30. 45. 60.]
- 
+
 # Round-trip: euler -> matrix -> euler should recover original angles
 r_rt = Rotation.from_matrix(r_test.as_matrix())
 print(np.allclose(r_rt.as_euler('xyz', degrees=True), [30, 45, 60]))   # True
- 
- 
+
+
 # ── Applying rotations ────────────────────────────────────────────────────────
 '''
 r.apply(vectors, inverse=False)
@@ -209,18 +209,18 @@ r.apply(vectors, inverse=False)
   If r is stacked (N rotations) and vectors is (N,3), applies each rotation
   to the corresponding vector (broadcast). If vectors is (3,), applies all N
   rotations to the same vector.
- 
+
 r.inv()  : returns the inverse rotation (= transpose of rotation matrix).
 '''
- 
+
 v = np.array([1.0, 0.0, 0.0])   # unit x-vector
 r_z90_result = r_z90.apply(v)
 print("Rotate x by 90° around z:", r_z90_result.round(6))   # [0. 1. 0.]
- 
+
 # Inverse rotation: un-rotate
 v_back = r_z90.inv().apply(r_z90_result)
 print("Inverse rotation back  :", v_back.round(6))   # [1. 0. 0.]
- 
+
 # Rotate multiple vectors at once
 vs = np.eye(3)   # [x, y, z] unit vectors
 rotated = r_z90.apply(vs)
@@ -228,13 +228,13 @@ print("Rotate all three axes by 90° around z:\n", rotated.round(6))
 # [[ 0  1  0]   <- x becomes y
 #  [-1  0  0]   <- y becomes -x
 #  [ 0  0  1]]  <- z unchanged
- 
+
 # Stacked: apply each rotation to one vector
 v_single = np.array([1.0, 0.0, 0.0])
 results = r_stack.apply(v_single)   # shape (3, 3): one result per rotation
 print("Stacked apply results shape:", results.shape)   # (3, 3)
- 
- 
+
+
 # ── Composition, magnitude, mean ─────────────────────────────────────────────
 '''
 r1 * r2           : compose rotations (apply r2 first, then r1).
@@ -243,56 +243,56 @@ r.magnitude()     : angle of rotation in radians. Scalar or array.
 r.mean(weights=None) : chordal L2 mean rotation (Fréchet mean on SO(3)).
 Rotation.concatenate([r1, r2, ...]) : stack multiple Rotation objects.
 '''
- 
+
 r_a = Rotation.from_euler('z', 45, degrees=True)
 r_b = Rotation.from_euler('x', 30, degrees=True)
- 
+
 r_composed = r_a * r_b   # first rotate by b (x 30°), then by a (z 45°)
 print(f"Composed magnitude: {r_composed.magnitude()*180/np.pi:.2f}°") # 53.65°
- 
+
 # Mean of a cluster of rotations
 r_cluster = Rotation.from_euler('z', [10, 12, 11, 9, 10], degrees=True)
 r_mean = r_cluster.mean()
 print(f"Mean angle: {r_mean.as_euler('zyx', degrees=True)[0]:.2f}°")   # ≈ 10.4°
- 
+
 # Concatenate stacked rotations
 r_all = Rotation.concatenate([r_a, r_b, r_composed])
 print(f"Concatenated length: {len(r_all)}")   # 3
- 
- 
+
+
 # =========================================================================================
-#═════════════════════  PART B — ROTATION INTERPOLATION  (scipy.spatial.transform)  ══════════════#
+#  PART B — ROTATION INTERPOLATION  (scipy.spatial.transform) 
 # =========================================================================================
- 
+
 ##-------##
 ## Slerp ##
 ##-------##
 '''
 Slerp(times, rotations)
   Spherical Linear intERPolation between a sequence of key-frame rotations.
- 
+
   times     : 1-D array of key-frame timestamps (monotonically increasing).
   rotations : stacked Rotation of the same length as times.
- 
+
   slerp(t)  : interpolate at new times t (must lie within [times[0], times[-1]]).
- 
+
   Slerp traces the shortest geodesic arc on SO(3) between each pair of key frames.
   The angular velocity is constant within each segment (unlike Euler spline).
   Use RotationSpline for C2-smooth interpolation.
 '''
- 
+
 key_times = np.array([0.0, 1.0, 2.0, 3.0])
 key_rots  = Rotation.from_euler('z', [0, 90, 0, -90], degrees=True)
- 
+
 slerp_fn = Slerp(key_times, key_rots)
- 
+
 # Evaluate at intermediate times
 t_interp = np.linspace(0, 3, 13)
 r_interp  = slerp_fn(t_interp)
 angles_interp = r_interp.as_euler('zyx', degrees=True)[:, 0]   # z component
 print("Slerp z-angles at t:", angles_interp.round(1))
 # [  0.  22.5  45.  67.5  90.  67.5  45.  22.5  0.  -22.5 -45.  -67.5 -90.]
- 
+
 # Verify key-frame values are exact
 r_at_keys = slerp_fn(key_times)
 print(np.allclose(r_at_keys.as_euler('zyx', degrees=True)[:, 0], [0, 90, 0, -90], atol=1e-10))
@@ -339,7 +339,7 @@ print(np.allclose(rs(key_times).as_euler('xyz', degrees=True),
 
 
 # =========================================================================================
-#══════════════════════════════  PART C — KD-TREE  (scipy.spatial)  ══════════════════════════════#
+#  PART C — KD-TREE  (scipy.spatial) 
 # =========================================================================================
 
 ##------------------------##
@@ -535,7 +535,7 @@ sp_csr = sp_dm.tocsr()
 
 
 # =========================================================================================
-#═══════════════════════════  PART D — DELAUNAY TRIANGULATION  ═══════════════════════════════════#
+#  PART D — DELAUNAY TRIANGULATION 
 # =========================================================================================
 
 ##----------##
@@ -630,7 +630,7 @@ def barycentric_coords(tri, point):
     bary = np.append(b, 1 - b.sum())
     return bary, si
 
-bary, si = barycentric_coords(tri, np.array([5.0, 5.0])) 
+bary, si = barycentric_coords(tri, np.array([5.0, 5.0]))
 print(f"Barycentric coords in simplex {si}: {bary.round(4)}") # [0.663  0.2405 0.0965]
 print(f"All non-negative: {np.all(bary >= -1e-10)}")   # True
 print(f"Sum = 1: {np.isclose(bary.sum(), 1.0)}")        # True
@@ -654,7 +654,7 @@ print("tsearch:", tsearch(tri, xi_test))   # [1, 6] same as find_simplex
 
 
 # =========================================================================================
-#════════════════════════════════  PART E — CONVEX HULL  ═════════════════════════════════════════#
+#  PART E — CONVEX HULL 
 # =========================================================================================
 
 ##------------##
@@ -727,7 +727,7 @@ print(f"Incremental hull area: {hull_incr.volume:.4f}")   # 59.6168
 
 
 # =========================================================================================
-#═══════════════════════════════  PART F — VORONOI DIAGRAMS  ═════════════════════════════════════#
+#  PART F — VORONOI DIAGRAMS 
 # =========================================================================================
 
 ##---------##
@@ -815,7 +815,7 @@ print(f"Mean cell area: {areas.mean():.4f} = 4π/{len(pts_unit)} = {4*np.pi/len(
 
 
 # =========================================================================================
-#═══════════════════════════  PART G — HALFSPACE INTERSECTION  ═══════════════════════════════════#
+#  PART G — HALFSPACE INTERSECTION 
 # =========================================================================================
 
 ##-----------------------##
@@ -870,7 +870,7 @@ print(f"Cube intersection vertices: {len(hs_3d.intersections)} (expect 8)") # 8
 
 
 # =========================================================================================
-#═══════════════════════════  PART H — UTILITY FUNCTIONS  (scipy.spatial)  ═══════════════════════#
+#  PART H — UTILITY FUNCTIONS  (scipy.spatial) 
 # =========================================================================================
 
 ##------------##
@@ -1009,7 +1009,7 @@ print("Squared L2      :", minkowski_distance_p(a_pairs, b_pairs, p=2).round(4))
 
 
 # =========================================================================================
-#══════════════════  PART I — PAIRWISE DISTANCE COMPUTATION  (scipy.spatial.distance)  ═══════════#
+#  PART I — PAIRWISE DISTANCE COMPUTATION  (scipy.spatial.distance) 
 # =========================================================================================
 
 ##-------##
@@ -1028,7 +1028,7 @@ cdist(XA, XB, metric='euclidean', *, out=None, **kwargs)
                      'chebyshev', 'correlation', 'mahalanobis',
                      'hamming', 'jaccard', 'dice', 'jensenshannon', ...
     - callable:      any function f(u, v) -> scalar distance.
-  
+
   Additional kwargs are forwarded to the metric (e.g. p=3 for minkowski,
   VI for mahalanobis inverse covariance).
 
@@ -1138,7 +1138,7 @@ print("Cluster labels:", labels) # [3 2 2 3 1 1]
 
 
 # =========================================================================================
-#══════════════════════════  PART J — CONTINUOUS VECTOR DISTANCES  ═══════════════════════════════#
+#  PART J — CONTINUOUS VECTOR DISTANCES 
 # =========================================================================================
 '''
 All functions below take two 1-D arrays u and v (same length) and return a scalar distance.
@@ -1287,7 +1287,7 @@ print(f"Random set Hausdorff: {d_AB:.4f}")
 
 
 # =========================================================================================
-#═══════════════════════════  PART K — BOOLEAN / SET DISTANCES  ══════════════════════════════════#
+#  PART K — BOOLEAN / SET DISTANCES 
 # =========================================================================================
 
 '''

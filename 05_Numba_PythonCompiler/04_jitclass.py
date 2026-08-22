@@ -22,7 +22,7 @@ from typing import List
 # =========================================================================================
 
 spec = [
-    ('value', nb.int32),  # a simple scalar field
+    ('value', nb.int32),     # a simple scalar field
     ('array', nb.float32[:]) # an array field
 ]
 '''
