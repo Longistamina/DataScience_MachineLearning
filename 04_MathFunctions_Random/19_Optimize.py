@@ -70,13 +70,13 @@ from scipy.optimize import elementwise
 from scipy.special import j1
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════════════  PART A — MINIMIZATION  ════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-#######################
+##-------------------##
 ## minimize_scalar() ##
-#######################
+##-------------------##
 '''
 minimize_scalar(fun, bracket=None, bounds=None, method='brent', tol=None, options=None)
 
@@ -121,9 +121,9 @@ res_golden = minimize_scalar(f_1d, method='golden')
 print(np.isclose(res_golden.x, res_brent.x, atol=1e-5))  # True
 
 
-################################
+##----------------------------##
 ## minimize() — unconstrained ##
-################################
+##----------------------------##
 '''
 minimize(fun, x0, args=(), method=None, jac=None, hess=None, hessp=None,
          bounds=None, constraints=(), tol=None, callback=None, options=None)
@@ -269,9 +269,9 @@ def cb(xk):
 minimize(rosen, x0_5, method='BFGS', jac=rosen_der, callback=cb)
 print(len(history), history[0] > history[-1])  # 25 True — objective decreases
 
-##############################
+##--------------------------##
 ## minimize() — constrained ##
-##############################
+##--------------------------##
 '''
 Constrained minimisation methods:
 
@@ -426,9 +426,9 @@ Decision guide:
 '''
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════════  PART B — GLOBAL OPTIMIZATION  ═════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
 # Common test function: eggholder — many local minima on [-512, 512]^2
 def eggholder(x):
@@ -446,9 +446,9 @@ def rastrigin(x):
 
 bounds_rast = [(-5.12, 5.12)] * 2
 
-##############################
+##--------------------------##
 ## differential_evolution() ##
-##############################
+##--------------------------##
 '''
 differential_evolution(func, bounds, strategy='best1bin', maxiter=1000,
                        popsize=15, tol=0.01, mutation=(0.5,1), recombination=0.7,
@@ -491,9 +491,9 @@ res_de_int = differential_evolution(lambda x: (x[0]-3)**2 + (x[1]-1.5)**2,
 print(res_de_int.x)   # x0 should be 3 (integer), x1 near 1.5
 
 
-####################
+##----------------##
 ## basinhopping() ##
-####################
+##----------------##
 '''
 basinhopping(func, x0, niter=100, T=1.0, stepsize=0.5, minimizer_kwargs=None,
              take_step=None, accept_test=None, callback=None, interval=50,
@@ -538,9 +538,9 @@ res_bh_custom = basinhopping(multiwell, [0., 0.], niter=100, seed=42,
 print(res_bh_custom.fun.round(4)) # -0.7946
 
 
-############
+##--------##
 ## shgo() ##
-############
+##--------##
 '''
 shgo(func, bounds, args=(), constraints=None, n=100, iters=1, callback=None,
      minimizer_kwargs=None, options=None, sampling_method='simplicial')
@@ -576,9 +576,9 @@ res_shgo_c = shgo(rastrigin, bounds_rast,
 print(res_shgo_c.x.round(4)) # [-0. -0.]
 
 
-######################
+##------------------##
 ## dual_annealing() ##
-######################
+##------------------##
 '''
 dual_annealing(func, bounds, args=(), maxiter=1000, minimizer_kwargs=None,
                initial_temp=5230, restart_temp_ratio=2e-5, visit=2.62, accept=-5.0,
@@ -603,9 +603,9 @@ print(res_da.success)  # True
 res_da_egg = dual_annealing(eggholder, bounds_egg, seed=42, maxiter=5000)
 print(res_da_egg.fun.round(4))   # ~-955 to -959 (near global -959.64)
 
-##############
+##----------##
 ## direct() ##
-##############
+##----------##
 '''
 direct(func, bounds, args=(), eps=1e-4, maxfun=None, maxiter=1000,
        locally_biased=True, f_min=-np.inf, f_min_rtol=1e-4,
@@ -636,9 +636,9 @@ res_dir_lb = direct(rastrigin, bounds_rast, f_min=0., f_min_rtol=1e-8)
 print(res_dir_lb.x.round(4)) # [0. 0.]
 
 
-#############
+##---------##
 ## brute() ##
-#############
+##---------##
 '''
 brute(func, ranges, args=(), Ns=20, full_output=False, finish=None, disp=False, workers=1)
 
@@ -682,13 +682,13 @@ brute                   *                     Yes            Very small n; exhau
 '''
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════  PART C — LEAST-SQUARES & CURVE FITTING  ═══════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-#####################
+##-----------------##
 ## least_squares() ##
-#####################
+##-----------------##
 '''
 least_squares(fun, x0, jac='2-point', bounds=(-inf,inf), method='trf',
               ftol=1e-8, xtol=1e-8, gtol=1e-8, x_scale=1.0,
@@ -769,9 +769,9 @@ print(res_enz.x.round(4))  # ~[0.1928, 0.1913, 0.1231, 0.1361]
 # Cost after fit
 print(f"Final cost: {res_enz.cost:.2e}")   # ~1.5e-4
 
-#################
+##-------------##
 ## curve_fit() ##
-#################
+##-------------##
 '''
 curve_fit(f, xdata, ydata, p0=None, sigma=None, absolute_sigma=False,
           check_finite=True, bounds=(-inf,inf), method=None,
@@ -839,9 +839,9 @@ print(popt_plane.round(3))   # ~[2.0, 0.5, 1.0]
                              #  [1.993 0.493 1.07 ]
 
 
-##################
+##--------------##
 ## lsq_linear() ##
-##################
+##--------------##
 '''
 lsq_linear(A, b, bounds=(-inf, inf), method='trf', tol=1e-10,
            lsq_solver=None, max_iter=None, verbose=0)
@@ -870,9 +870,9 @@ res_box = lsq_linear(A_lsq, b_lsq, bounds=(0, 2.))
 print((res_box.x >= 0).all() and (res_box.x <= 2).all())  # True
 
 
-############
+##--------##
 ## nnls() ##
-############
+##--------##
 '''
 nnls(A, b, maxiter=None, atol=None)
 
@@ -893,9 +893,9 @@ print(round(rnorm_nnls, 6)) # 0.503418 ||Ax - b||_2
 print(np.allclose(x_nnls, res_lsq_lin.x, atol=1e-4))  # True
 
 
-###########################
+##-----------------------##
 ## isotonic_regression() ##
-###########################
+##-----------------------##
 '''
 isotonic_regression(y, weights=None, increasing=True)
 
@@ -925,13 +925,13 @@ res_iso_w = isotonic_regression(y_noisy, weights=w, increasing=True)
 print(np.all(np.diff(res_iso_w.x) >= -1e-12))  # True still monotone ✓
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════════  PART D — ROOT FINDING  ════════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-###################
+##---------------##
 ## root_scalar() ##
-###################
+##---------------##
 '''
 root_scalar(f, args=(), method=None, bracket=None, fprime=None, fprime2=None,
             x0=None, x1=None, xtol=None, rtol=None, maxiter=None, options=None)
@@ -1021,9 +1021,9 @@ root_newton_direct = newton(f_root, x0=1.5, fprime=f_root_d, fprime2=f_root_d2)
 print(round(root_newton_direct, 10)) # 1.5213797068
 
 
-############
+##--------##
 ## root() ##
-############
+##--------##
 '''
 root(fun, x0, args=(), method='hybr', jac=None, tol=None, callback=None, options=None)
 
@@ -1076,9 +1076,9 @@ res_broyden = root(large_F, x0=np.zeros(10), method='broyden1')
 print(res_broyden.x.round(6))   # [0. 0. ... 0.] (trivial root sin(x)=0.5x at x=0)
 print(res_broyden.success) # True
 
-###################
+##---------------##
 ## fixed_point() ##
-###################
+##---------------##
 '''
 fixed_point(func, x0, args=(), xtol=1e-8, maxiter=500, method='del2')
 
@@ -1107,9 +1107,9 @@ print(fp_res.round(8))   # 1.5213797068 (root of x^3 - x - 2)
 res_fp_vec = fixed_point(np.cos, x0=np.array([0.5, 1.5]))
 print(res_fp_vec.round(8))  # [0.73908513, 0.73908513]
 
-#################
+##-------------##
 ## elementwise ##
-#################
+##-------------##
 '''
 scipy.optimize.elementwise  (new in SciPy 1.15)
 
@@ -1177,13 +1177,13 @@ res_fm2 = elementwise.find_minimum(lambda x, a: (x - a)**2,
 print(res_fm2.x.round(6))   # [1.  2.  3.]  ✓
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═════════════════════════  PART E — LINEAR PROGRAMMING & ASSIGNMENT  ════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-###############
+##-----------##
 ## linprog() ##
-###############
+##-----------##
 '''
 linprog(c, A_ub=None, b_ub=None, A_eq=None, b_eq=None,
         bounds=None, method='highs', callback=None, options=None, x0=None)
@@ -1238,9 +1238,9 @@ binding = np.array(A_ub) @ res_lp.x - np.array(b_ub)
 print(binding.round(8))    # [0. 0.], negative slack = room left; 0 = constraint is tight
 
 
-############
+##--------##
 ## milp() ##
-############
+##--------##
 '''
 milp(c, constraints=None, integrality=None, bounds=None, options=None)
 
@@ -1283,9 +1283,9 @@ print(res_mix.x)     # [4.  1.]
 print(-res_mix.fun)  # 22.0
 
 
-#############################
+##-------------------------##
 ## linear_sum_assignment() ##
-#############################
+##-------------------------##
 '''
 linear_sum_assignment(cost_matrix, maximize=False)
 
@@ -1338,9 +1338,9 @@ row_d, col_d = linear_sum_assignment(dist_mat)
 print(dist_mat[row_d, col_d].sum().round(4)) # 2.3414
 
 
-############################
+##------------------------##
 ## quadratic_assignment() ##
-############################
+##------------------------##
 '''
 quadratic_assignment(A, B, method='faq', options=None)
 
@@ -1376,13 +1376,13 @@ res_qa_2opt = quadratic_assignment(A_qa, B_qa, method='2opt',
 print(res_qa_2opt.fun) # 325.28359010373157
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═════════════════════════════════  PART F — UTILITIES & LEGACY  ═════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-################################
+##----------------------------##
 ## approx_fprime / check_grad ##
-################################
+##----------------------------##
 '''
 approx_fprime(xk, f, epsilon=sqrt(eps))
   Finite-difference approximation of the gradient of f at xk.
@@ -1424,9 +1424,9 @@ def my_grad(x):
 
 print(f"Custom gradient error: {check_grad(my_func, my_grad, [1., 0.5]):.2e}")  # 1.09e-08 small ✓
 
-##################
+##--------------##
 ## rosen family ##
-##################
+##--------------##
 '''
 rosen(x)          : Rosenbrock function. sum [100*(x[i+1]-x[i]^2)^2 + (1-x[i])^2].
                     Minimum = 0 at x = [1, 1, ..., 1].
@@ -1463,9 +1463,9 @@ for n in [2, 5, 10, 50]:
 # n=10  fun=1.29e-10  success=True
 # n=50  fun=4.17e-10  success=True
 
-###############
+##-----------##
 ## bracket() ##
-###############
+##-----------##
 '''
 bracket(func, xa=0.0, xb=1.0, args=(), grow_limit=110.0, maxiter=1000)
 
@@ -1490,9 +1490,9 @@ res_ms = minimize_scalar(f_bracket, bracket=(xa, xb, xc), method='brent')
 print(res_ms.x.round(6))   # 3.0  ✓
 
 
-################
+##------------##
 ## Legacy API ##
-################
+##------------##
 '''
 fsolve(func, x0, **)  : Legacy root-finding for F: R^n -> R^n (MINPACK HYBRD).
                         Returns x array directly (no result object).

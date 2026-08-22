@@ -18,9 +18,9 @@ from pathlib import Path
 
 data_dir = next(Path('/home/').glob("**/02_Matrix_2D_nD/data/"))
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------ Small helper for consistent inspection/printing --------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# Small helper for consistent inspection/printing
+# =========================================================================================
 
 def show_matrix_info(A, name="matrix", max_rows=8, max_cols=8):
     A = np.asarray(A)
@@ -36,13 +36,13 @@ def show_matrix_info(A, name="matrix", max_rows=8, max_cols=8):
         print(A)
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------- 1. np.load(): Read matrix from .npy file -------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. np.load(): Read matrix from .npy file
+# =========================================================================================
 
-###################
+##---------------##
 ## Basic example ##
-###################
+##---------------##
 
 matrix_npy = np.load(data_dir/'adjMat.npy')
 show_matrix_info(matrix_npy)
@@ -58,9 +58,9 @@ show_matrix_info(matrix_npy)
 #  [1. 0. 1. 1. 0. 0. 0. 0.]]
 # ... (showing top-left 8x8)
 
-################################
+##----------------------------##
 ## np.load(allow_pickle=True) ##
-################################
+##----------------------------##
 
 matrix_obj = np.load(data_dir/'landmark_embedding.npy')
 '''ValueError: Object arrays cannot be loaded when allow_pickle=False'''
@@ -94,13 +94,13 @@ show_matrix_info(static_lmk_bary_coords, "static_lmk_bary_coords")
 # ... (showing top-left 8x3)
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------- 2. np.loadtxt(): Read matrix from .txt and .csv files ------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. np.loadtxt(): Read matrix from .txt and .csv files
+# =========================================================================================
 
-##############################
+##--------------------------##
 ## From delimiter .txt file ##
-##############################
+##--------------------------##
 
 # Example: comma-separated txt (rows of numbers)
 matrix_txt = np.loadtxt(
@@ -115,7 +115,7 @@ show_matrix_info(matrix_txt, "matrix_txt")
 # ... (showing top-left 1x8)
 '''This is a vector, but with ndmin=2 it is treated as a 2D matrix with 1 row.'''
 
-#############################
+##-------------------------##
 
 # Example: whitespace-separated txt (delimiter can be omitted)
 matrix_txt_ws = np.loadtxt(
@@ -133,7 +133,7 @@ show_matrix_info(matrix_txt_ws, "matrix_txt_ws")
 #  [71. 72. 70. 72. 72. 73. 72. 74.]]
 # ... (showing top-left 5x8)
 
-#########################################
+##-------------------------------------##
 
 # Example with semicolon delimiter
 matrix_txt_semicolon = np.loadtxt(
@@ -152,9 +152,9 @@ show_matrix_info(matrix_txt_semicolon, "matrix_txt_semicolon")
 #  [71. 72. 70. 72. 72. 73. 72. 74.]]
 # ... (showing top-left 5x8)
 
-####################################################
+##------------------------------------------------##
 ## From multi-column .csv (select subset of cols) ##
-####################################################
+##------------------------------------------------##
 '''
 Example: keep only specific columns to form a matrix
 usecols can be list/tuple, range, or a single int (but single int gives 1D unless ndmin=2).
@@ -184,9 +184,9 @@ show_matrix_info(matrix_csv_usecols, "matrix_csv_usecols")
 # ... (showing top-left 8x3)
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------- 3. np.genfromtxt() for more control with TXT and CSV -------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. np.genfromtxt() for more control with TXT and CSV
+# =========================================================================================
 
 A = np.loadtxt(data_dir/"adjacency_matrix.txt", delimiter=",")
 '''
@@ -195,9 +195,9 @@ ValueError: could not convert string ' ' to float64 at row 0, column 52.
 => Use np.genfromtxt() to handle missing values.
 '''
 
-###############################################
+##-------------------------------------------##
 ## From .txt file with missing values filled ##
-###############################################
+##-------------------------------------------##
 
 A = np.genfromtxt(
     data_dir/"adjacency_matrix.txt",
@@ -223,15 +223,15 @@ show_matrix_info(A, "A")
 #  [  0.   0.   0.   0.   0.   0.   0.  70.]]
 # ... (showing top-left 8x8)
 
-#####################################################################
+##-----------------------------------------------------------------##
 ## From multi-column .csv with names=True (structured -> plain 2D) ##
-#####################################################################
+##-----------------------------------------------------------------##
 '''
 names=True returns a structured array, which is not a regular 2D float matrix.
 Convert it to a plain 2D matrix by stacking fields.
 '''
 
-############## Read only numeric columns without names=True ##############
+##----------## Read only numeric columns without names=True ##----------##
 
 table_struct = np.genfromtxt(
     fname=data_dir/'drinks.csv',
@@ -259,7 +259,7 @@ show_matrix_info(table_struct, "table_struct")
 #  ['193' '25' '221']]
 # ... (showing top-left 8x3
 
-############## Read named columns with names=True ##############
+##----------## Read named columns with names=True ##----------##
 
 table_struct = np.genfromtxt(
     fname=data_dir/'drinks.csv',
@@ -287,7 +287,7 @@ show_matrix_info(table_struct, "table_struct")
 #  [('Armenia',  21, 179)]]
 # ... (showing top-left 8x1)
 
-######## skip_header=1 to avoid reading header as data ########
+##----## skip_header=1 to avoid reading header as data ##----##
 
 table_struct = np.genfromtxt(
     fname=data_dir/'drinks.csv',

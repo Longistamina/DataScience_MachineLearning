@@ -12,7 +12,7 @@ JSON data is represented as key-value pairs, similar to Python dictionaries.
 In Python, the `json` module provides methods to work with JSON data.
 The `json` module can be used to convert Python objects into JSON strings and vice versa.
 
-#################################
+##-----------------------------##
 
 Table of Contents:
 1. json.loads() and json.load()
@@ -26,13 +26,13 @@ import json
 parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files"
 
 
-#------------------------------------------------------------#
-#------------ json.loads() and json.load() ------------------#
-#------------------------------------------------------------#
+# ==============================================================================================
+# json.loads() and json.load()
+# ==============================================================================================
 
-##################
+##--------------##
 ## json.loads() ##
-##################
+##--------------##
 '''
 json.loads() is used to parse a JSON string and convert it into a Python dictionary.
 The 's' in 'loads' stands for 'string'.
@@ -80,9 +80,9 @@ Though the JSON string represents numbers as strings, json.loads() converts them
 Check the data conversion table below for more details.
 '''
 
-#################
+##-------------##
 ## json.load() ##
-#################
+##-------------##
 '''
 json.load() is used to read a JSON file and convert it into a Python dictionary.
 The 'load' in 'json.load()' stands for 'load from file'.
@@ -99,13 +99,13 @@ print(python_dict_from_file)
 # 'Dept': ['IT', 'Operations', 'IT', 'HR', 'Finance', 'IT', 'Operations', 'Finance']}
 
 
-#-------------------------------------------------------------#
-#------------- json.dumps() and json.dump() ------------------#
-#-------------------------------------------------------------#
+# ==============================================================================================
+# json.dumps() and json.dump()
+# ==============================================================================================
 
-##################
+##--------------##
 ## json.dumps() ##
-##################
+##--------------##
 
 # json.dumps() is used to convert a Python object (like a dictionary) into a JSON string.
 python_dict_to_convert = {
@@ -136,9 +136,9 @@ print(json_string_converted)
 #     "City"__"Los Angeles"
 # }
 
-#################
+##-------------##
 ## json.dump() ##
-#################
+##-------------##
 
 # json.dump() is used to write a Python object (like a dictionary) into a JSON file.
 dictionary_to_write = {
@@ -152,9 +152,9 @@ with open(f"{parent_dir}/new_written_jsondump.json", "w") as json_pointer:
     json.dump(dictionary_to_write, json_pointer, indent=4)
 
 
-#---------------------------------------------#
-#------------ data conversion ----------------#
-#---------------------------------------------#
+# ==============================================================================================
+# data conversion
+# ==============================================================================================
 '''
 JSON         Python
 ----------------------------

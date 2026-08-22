@@ -6,7 +6,7 @@ It's one of pandas' most powerful features for text processing,
 offering over 50 methods that mirror Python's built-in string methods
 while handling missing values automatically and operating efficiently on entire Series at once.
 
-######################################################
+##--------------------------------------------------##
 
 0. pandas.Series.str accessor: "lazy" transform to string type
 
@@ -66,9 +66,9 @@ while handling missing values automatically and operating efficiently on entire 
 import pandas as pd
 import numpy as np
 
-#--------------------------------------------------------------------------------------------------------#
-#----------------------------------- 0. pandas.Series.str accessor --------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. pandas.Series.str accessor
+# =========================================================================================
 
 '''
 The pandas.Series.str accessor provides a convenient way to apply string manipulation methods
@@ -78,9 +78,9 @@ to each element of a Pandas Series containing string data.
  (like lower(), upper(), contains(), split(), replace(), etc.) directly on the Series.
 '''
 
-#############################
+##-------------------------##
 ## With string-type series ##
-#############################
+##-------------------------##
 
 s = pd.Series(['hello', 'world'])
 
@@ -93,9 +93,9 @@ print(s.str.upper())
 # dtype: object
 
 
-#######################################################
+##---------------------------------------------------##
 ## With numeric series, must convert to string first ##
-#######################################################
+##---------------------------------------------------##
 
 s_nums = pd.Series([1, 2, 3, np.nan, 5])
 
@@ -121,18 +121,18 @@ print(s_nums.astype(str).str.fullmatch(r"\d+\.\d+"))
 # dtype: bool
 
 
-#---------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 1. Slicing and Indexing -----------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Slicing and Indexing
+# =========================================================================================
 
 s_heroes = pd.Series(
     data = ["Tony_Stark", "Steve_Rogers", "Bruce_Banner", "Pietro_Maximoff"],
     index = ["Ironman", "CaptainAmerica", "Hulk", "Quicksilver"]
 )
 
-#####################
+##-----------------##
 ## .slice() method ##
-#####################
+##-----------------##
 
 '''
 .str.slice(start=None, stop=None, step=None)
@@ -167,9 +167,9 @@ print(s_heroes.str.slice(step=2))
 # dtype: object
 
 
-#############################
+##-------------------------##
 ## .slice_replace() method ##
-#############################
+##-------------------------##
 
 '''
 .str.slice_replace(start=None, stop=None, repl=None)
@@ -183,9 +183,9 @@ print(s_heroes.str.slice_replace(start=0, stop=4, repl="Dr"))
 # dtype: object
 
 
-###################
+##---------------##
 ## .get() method ##
-###################
+##---------------##
 
 '''
 .str.get(i) (works like .str[i] but handles out-of-bounds gracefully)
@@ -212,10 +212,8 @@ print(s_heroes.str.get(20))  # Out-of-bounds
 # Quicksilver      NaN
 # dtype: float64
 
-#----------
-## With dictionary-type series
-#----------
-
+# ## With dictionary-type series
+# 
 s_ff4_dict = pd.Series(
     data = [
          {"name": "Reed_Richards", "code": "MrFantastic"},
@@ -248,60 +246,50 @@ print(s_ff4_dict.str.get("code"))
 # Name: Fantastic Four, dtype: object
 
 
-#---------------------------------------------------------------------------------------------------------#
-#------------------------------------- 2. Basic Transformations ------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Basic Transformations
+# =========================================================================================
 
-##########################
+##----------------------##
 ## Case transformations ##
-##########################
+##----------------------##
 
 s_mixed = pd.Series(['Hello World', 'pandas is FUN', 'Data Science 101'])
 
-#-----------
-## .lower()
-#-----------
-
+# ## .lower()
+# 
 print(s_mixed.str.lower())
 # 0         hello world
 # 1       pandas is fun
 # 2    data science 101
 # dtype: object
 
-#-----------
-## .upper()
-#-----------
-
+# ## .upper()
+# 
 print(s_mixed.str.upper())
 # 0         HELLO WORLD
 # 1       PANDAS IS FUN
 # 2    DATA SCIENCE 101
 # dtype: object
 
-#-----------
-## .title()
-#-----------
-
+# ## .title()
+# 
 print(s_mixed.str.title())
 # 0         Hello World
 # 1       Pandas Is Fun
 # 2    Data Science 101
 # dtype: object
 
-#--------------
-## .capitalize()
-#--------------
-
+# ## .capitalize()
+# 
 print(s_mixed.str.capitalize())
 # 0         Hello world
 # 1       Pandas is fun
 # 2    Data science 101
 # dtype: object
 
-#--------------
-## .swapcase()
-#--------------
-
+# ## .swapcase()
+# 
 print(s_mixed.str.swapcase())
 # 0         hELLO wORLD
 # 1       PANDAS IS fun
@@ -311,24 +299,20 @@ print(s_mixed.str.swapcase())
 '''Swap case means converting uppercase letters to lowercase and vice versa.'''
 
 
-###########################
+##-----------------------##
 ## Information retrieval ##
-###########################
+##-----------------------##
 
-#-----------
-## .len()
-#-----------
-
+# ## .len()
+# 
 print(s_mixed.str.len())
 # 0    11
 # 1    13
 # 2    16
 # dtype: int64
 
-#--------------
-## .count(pattern)
-#--------------
-
+# ## .count(pattern)
+# 
 print(s_mixed.str.count('a'))
 # 0    0
 # 1    2
@@ -342,16 +326,14 @@ print(s_mixed.str.count(r'\d'))  # Count digits
 # dtype: int64
 
 
-######################
+##------------------##
 ##     Stripping    ##
-######################
+##------------------##
 
 s_spaced = pd.Series(['  hello  ', '  pandas  ', '  data science  '])
 
-#-----------
-## .strip()
-#-----------
-# Remove leading and trailing whitespace
+# ## .strip()
+# # Remove leading and trailing whitespace
 
 print(s_spaced.str.strip())
 # 0           hello
@@ -362,37 +344,31 @@ print(s_spaced.str.strip())
 print(s_spaced.str.strip().to_list())
 # ['hello', 'pandas', 'data science']
 
-#------------
-## .lstrip()
-#------------
-# Remove leading whitespace only
+# ## .lstrip()
+# # Remove leading whitespace only
 
 print(s_spaced.str.lstrip().to_list())
 # ['hello  ', 'pandas  ', 'data science  ']
 
-#------------
-## .rstrip()
-#------------
-# Remove trailing whitespace only
+# ## .rstrip()
+# # Remove trailing whitespace only
 
 print(s_spaced.str.rstrip().to_list())
 # ['  hello', '  pandas', '  data science']
 
 
-#---------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 3. Checking methods --------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Checking methods
+# =========================================================================================
 
-###########################
+##-----------------------##
 ## Character type checks ##
-###########################
+##-----------------------##
 
 s_check = pd.Series(['Hello', 'WORLD', '123', '225.2', '⅕', '³', 'Hello123', '   ', ''])
 
-#-----------
-## .isalpha()
-#-----------
-# Check if all characters are alphabetic
+# ## .isalpha()
+# # Check if all characters are alphabetic
 
 print(s_check.str.isalpha())
 # 0     True ('Hello')
@@ -406,10 +382,8 @@ print(s_check.str.isalpha())
 # 8    False
 # dtype: bool
 
-#-----------
-## .isdigit()
-#-----------
-# Check if all characters are digits
+# ## .isdigit()
+# # Check if all characters are digits
 
 print(s_check.str.isdigit())
 # 0    False
@@ -423,10 +397,8 @@ print(s_check.str.isdigit())
 # 8    False
 # dtype: bool
 
-#-----------
-## .isnumeric()
-#-----------
-# Check if all characters are numeric (includes digits and numeric characters like fractions)
+# ## .isnumeric()
+# # Check if all characters are numeric (includes digits and numeric characters like fractions)
 
 print(s_check.str.isnumeric())
 # 0    False
@@ -440,10 +412,8 @@ print(s_check.str.isnumeric())
 # 8    False
 # dtype: bool
 
-#-----------
-## .isdecimal()
-#-----------
-# Checks for characters used to form numbers in base 10
+# ## .isdecimal()
+# # Checks for characters used to form numbers in base 10
 
 print(s_check.str.isdecimal())
 # 0    False
@@ -457,10 +427,8 @@ print(s_check.str.isdecimal())
 # 8    False
 # dtype: bool
 
-#-----------
-## .isalnum()
-#-----------
-# Check if all characters are alphanumeric (letters and numbers)
+# ## .isalnum()
+# # Check if all characters are alphanumeric (letters and numbers)
 
 print(s_check.str.isalnum())
 # 0     True ('Hello')
@@ -474,10 +442,8 @@ print(s_check.str.isalnum())
 # 8    False
 # dtype: bool
 
-#-----------
-## .isspace()
-#-----------
-# Check if all characters are whitespace
+# ## .isspace()
+# # Check if all characters are whitespace
 
 print(s_check.str.isspace())
 # 0    False
@@ -492,16 +458,14 @@ print(s_check.str.isspace())
 # dtype: bool
 
 
-#####################
+##-----------------##
 ##   Case checks   ##
-#####################
+##-----------------##
 
 s_check = pd.Series(['Hello', 'WORLD', 'Hello World', 'hello123', '   ', ''])
 
-#-----------
-## .isupper()
-#-----------
-# Check if all characters are uppercase
+# ## .isupper()
+# # Check if all characters are uppercase
 
 print(s_check.str.isupper())
 # 0    False
@@ -512,10 +476,8 @@ print(s_check.str.isupper())
 # 5    False
 # dtype: bool
 
-#-----------
-## .islower()
-#-----------
-# Check if all characters are lowercase
+# ## .islower()
+# # Check if all characters are lowercase
 
 print(s_check.str.islower())
 # 0    False
@@ -526,10 +488,8 @@ print(s_check.str.islower())
 # 5    False
 # dtype: bool
 
-#-----------
-## .istitle()
-#-----------
-# Check if the string is titlecased (first letter of each word is uppercase)
+# ## .istitle()
+# # Check if the string is titlecased (first letter of each word is uppercase)
 
 print(s_check.str.istitle())
 # 0     True ('Hello')
@@ -541,14 +501,12 @@ print(s_check.str.istitle())
 # dtype: bool
 
 
-############################
+##------------------------##
 ##     Pattern checks     ##
-############################
+##------------------------##
 
-#-----------
-## .startswith(prefix)
-#-----------
-# Check if strings start with the specified prefix
+# ## .startswith(prefix)
+# # Check if strings start with the specified prefix
 
 s_start = s = pd.Series(['bat', 'Bear', 'cat', np.nan])
 
@@ -566,10 +524,8 @@ print(s_start.str.startswith(pat=('b', 'B'), na=False)) # Treat NaN as False
 # 3    False
 # dtype: bool
 
-#-----------
-## .endswith(suffix)
-#-----------
-# Check if strings end with the specified suffix
+# ## .endswith(suffix)
+# # Check if strings end with the specified suffix
 
 s_end = pd.Series(['bat', 'bear', 'caT', np.nan])
 
@@ -587,10 +543,8 @@ print(s_end.str.endswith(pat=('t', 'T'), na=False)) # Treat NaN as False
 # 3    False
 # dtype: bool
 
-#-----------
-## .contai(pattern)
-#-----------
-# Check if strings contain the specified pattern (can be a substring or regex)
+# ## .contai(pattern)
+# # Check if strings contain the specified pattern (can be a substring or regex)
 
 s_contain = pd.Series(['Mouse', 'dog', 'house and parrot', '23', np.nan])
 
@@ -627,20 +581,18 @@ print(s_contain.str.contains(pat=r"\d|parrot|Mo", regex=True, na=False)) # Regex
 # dtype: bool
 
 
-#---------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 4. Split and Partion --------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Split and Partion
+# =========================================================================================
 
-#######################
+##-------------------##
 ##     Splitting     ##
-#######################
+##-------------------##
 
 s_split = pd.Series(['apple_banana_cherry', 'dog_cat', 'one_two_three_four', np.nan])
 
-#-----------
-## .split(delimiter)
-#-----------
-# Split strings by the specified delimiter
+# ## .split(delimiter)
+# # Split strings by the specified delimiter
 # By default, pat='\s+' (whitespace) and n=-1 (all occurrences)
 
 print(s_split.str.split('_'))
@@ -664,10 +616,8 @@ print(s_split.str.split(pat='_', expand= True))  # Expand into separate columns
 # 2    one     two   three  four
 # 3    NaN     NaN     NaN   NaN
 
-#------------
-## .rsplit(delimiter)
-#------------
-# Split strings by the specified delimiter from the right
+# ## .rsplit(delimiter)
+# # Split strings by the specified delimiter from the right
 # By default, pat='\s+' (whitespace) and n=-1 (all occurrences)
 
 print(s_split.str.rsplit('_'))
@@ -696,9 +646,9 @@ print(s_split.str.rsplit(pat='_', n=2, expand= True))  # Expand into separate co
 # 2  one_two   three    four
 # 3      NaN     NaN     NaN
 
-############################
+##------------------------##
 ##     SPLIT INDEXING     ##
-############################
+##------------------------##
 
 s_split = pd.Series(['day1_sample1', 'day1_sample2', 'day1_sample3', 'day2_sample4', 'day2_sample5', np.nan])
 
@@ -738,16 +688,14 @@ print(s_split.str.split('_').str[1])
 print(s_split.str.split('_').str[0].unique())
 # ['day1' 'day2' nan]
 
-#########################
+##---------------------##
 ##     Partioning      ##
-#########################
+##---------------------##
 
 s_partition = pd.Series(['apple-banana-cherry', 'dog-cat', 'one-two-three-four', np.nan])
 
-#--------------
-## .partition(separator)
-#--------------
-# Split strings at the first occurrence of the specified separator
+# ## .partition(separator)
+# # Split strings at the first occurrence of the specified separator
 # By default, sep=' ' (whitespace)
 
 print(s_partition.str.partition('-'))
@@ -771,10 +719,8 @@ print(s_partition.str.partition(sep='-', expand=False)) # Return as tuples, not 
 # 3                          NaN
 # dtype: object
 
-#----------------
-## .rpartition(separator)
-#----------------
-# Split strings at the last occurrence of the specified separator
+# ## .rpartition(separator)
+# # Split strings at the last occurrence of the specified separator
 # By default, sep=' ' (whitespace)
 
 print(s_partition.str.rpartition('-'))
@@ -799,9 +745,9 @@ print(s_partition.str.rpartition(sep='-', expand=False)) # Return as tuples, not
 # dtype: object
 
 
-#---------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 5. Joinning --------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Joinning
+# =========================================================================================
 
 '''
 join(separator) - Join list elements with separator
@@ -824,13 +770,13 @@ print(s_join.str.join(sep=' || '))
 # dtype: object
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------------- 6. Replacement, Removal, Repeat, Wrap ----------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Replacement, Removal, Repeat, Wrap
+# =========================================================================================
 
-#########################
+##---------------------##
 ## .replace(pat, repl) ##
-#########################
+##---------------------##
 
 s_replace = pd.Series(['apple_banana_cherry', 'dog_cat', 'one_two_three_four', '1234', np.nan])
 
@@ -867,9 +813,9 @@ print(s_replace.str.replace(pat=r'\d+', repl='#', regex=True))  # Replace all di
 # dtype: object
 
 
-###########################
+##-----------------------##
 ## .removeprefix(prefix) ##
-###########################
+##-----------------------##
 
 s_prefix = pd.Series(['pre_apple', 'pre_banana', 'cat', np.nan])
 
@@ -881,9 +827,9 @@ print(s_prefix.str.removeprefix('pre_'))  # Remove 'pre_' if it exists at the st
 # dtype: object
 
 
-###########################
+##-----------------------##
 ## .removesuffix(suffix) ##
-###########################
+##-----------------------##
 
 s_suffix = pd.Series(['apple_suf', 'banana_suf', 'dog', np.nan])
 
@@ -895,9 +841,9 @@ print(s_suffix.str.removesuffix('_suf'))  # Remove '_suf' if it exists at the en
 # dtype: object
 
 
-################
+##------------##
 ## .repeat(n) ##
-################
+##------------##
 
 s_repeat = pd.Series(['ha', 'ho', 'he', np.nan])
 
@@ -909,9 +855,9 @@ print(s_repeat.str.repeat(3))  # Repeat each string 3 times
 # dtype: object
 
 
-##################
+##--------------##
 ## .wrap(width) ##
-##################
+##--------------##
 
 s_wrap = pd.Series(['This is a long string that needs to be wrapped.', 'Short string', np.nan])
 
@@ -930,20 +876,18 @@ print(s_wrap.str.wrap(width=10).get(0))
 # wrapped.
 
 
-#---------------------------------------------------------------------------------------------------------#
-#------------------------------- 7. RegEx, Matching, Finding, Extracting ---------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. RegEx, Matching, Finding, Extracting
+# =========================================================================================
 
-##########################################
+##--------------------------------------##
 ##               Matching               ##
-##########################################
+##--------------------------------------##
 
 s_match = pd.Series(['abc123', 'def456', 'ghi789', '123abc', np.nan])
 
-#-----------
-## .match(pattern)
-#-----------
-# Check if the BEGINNING of each string matches the regex pattern
+# ## .match(pattern)
+# # Check if the BEGINNING of each string matches the regex pattern
 
 print(s_match.str.match(r'^[a-z]{3}'))  # Starts with exactly 3 lowercase letters
 # 0     True
@@ -961,10 +905,8 @@ print(s_match.str.match(r'^[a-z]{3}', na=False))  # Treat NaN as False
 # 4    False (NaN treated as False)
 # dtype: bool
 
-#-------------------
-## .fullmatch(pattern)
-#-------------------
-# Check if the ENTIRE string matches the regex pattern
+# ## .fullmatch(pattern)
+# # Check if the ENTIRE string matches the regex pattern
 
 print(s_match.str.fullmatch(r'[a-z]{3}\d{3}'))  # Exactly 3 lowercase letters followed by exactly 3 digits
 # 0     True
@@ -982,10 +924,8 @@ print(s_match.str.fullmatch(r"\d{3}.*", na=False))  # Treat NaN as False, check 
 # 4    False (NaN treated as False)
 # dtype: bool
 
-#-------------------
-## .contains(pattern, regex=True)
-#-------------------
-# Check if each string contains the regex pattern
+# ## .contains(pattern, regex=True)
+# # Check if each string contains the regex pattern
 
 print(s_match.str.contains(r'\d{3}', regex=True, na=False))  # Contains a sequence of exactly 3 digits
 # 0    True ('abc123' contains digits '123')
@@ -996,17 +936,15 @@ print(s_match.str.contains(r'\d{3}', regex=True, na=False))  # Contains a sequen
 # dtype: object
 
 
-#########################################
+##-------------------------------------##
 ##               Finding               ##
-#########################################
+##-------------------------------------##
 
 s_find = pd.Series(["cow_", "duck_", "do_v_e", "abcxyz", np.nan])
 s_index = pd.Series(["cow_", "duck_", "do_v_e"])
 
-#-----------
-## .find(pattern)
-#-----------
-# Find the first occurrence of the substring pattern and return its LOWEST index
+# ## .find(pattern)
+# # Find the first occurrence of the substring pattern and return its LOWEST index
 
 print(s_find.str.find('_'))  # Find the first occurrence of '_'
 # 0    3.0 ('cow_' has '_' at index 3 as the lowest)
@@ -1016,10 +954,8 @@ print(s_find.str.find('_'))  # Find the first occurrence of '_'
 # 4    NaN
 # dtype: float64
 
-#-----------
-## .rfind(pattern)
-#-----------
-# Find the last occurrence of the substring pattern and return its HIGHEST index
+# ## .rfind(pattern)
+# # Find the last occurrence of the substring pattern and return its HIGHEST index
 
 print(s_find.str.rfind('_'))  # Find the last occurrence of '_'
 # 0    3.0
@@ -1029,10 +965,8 @@ print(s_find.str.rfind('_'))  # Find the last occurrence of '_'
 # 4    NaN
 # dtype: float64
 
-#-----------
-## .findall(pattern)
-#-----------
-# Find all occurrences of the regex pattern and return them as a list
+# ## .findall(pattern)
+# # Find all occurrences of the regex pattern and return them as a list
 
 print(s_find.str.findall(r'[a-z]{2}'))  # Find all occurrences of exactly 2 lowercase letters
 # 0            [co]
@@ -1042,10 +976,8 @@ print(s_find.str.findall(r'[a-z]{2}'))  # Find all occurrences of exactly 2 lowe
 # 4             NaN
 # dtype: object
 
-#-----------
-## .index(pattern)
-#-----------
-# Find the first occurrence of the substring pattern and return its LOWEST index
+# ## .index(pattern)
+# # Find the first occurrence of the substring pattern and return its LOWEST index
 # Raises ValueError if the pattern is not found (or encounters NaN)
 
 print(s_find.str.index(sub='_'))
@@ -1057,10 +989,8 @@ print(s_index.str.index(sub='_'))  # Find the first occurrence of '_' in s_index
 # 2    2 ('do_v_e' has '_' at index 2 as the lowest)
 # dtype: int64
 
-#-----------
-## .rindex(pattern)
-#-----------
-# Find the last occurrence of the substring pattern and return its HIGHEST index
+# ## .rindex(pattern)
+# # Find the last occurrence of the substring pattern and return its HIGHEST index
 # Raises ValueError if the pattern is not found (or encounters NaN)
 
 print(s_index.str.rindex(sub='_'))  # Find the last occurrence of '_' in s_index
@@ -1070,14 +1000,12 @@ print(s_index.str.rindex(sub='_'))  # Find the last occurrence of '_' in s_index
 # dtype: int64
 
 
-##########################################
+##--------------------------------------##
 ##              Extracting              ##
-##########################################
+##--------------------------------------##
 
-#-----------
-## .extract(pattern)
-#-----------
-# Extract capture groups from the first match of the regex pattern
+# ## .extract(pattern)
+# # Extract capture groups from the first match of the regex pattern
 # By default, expand=True (returns DataFrame)
 
 s_extract = pd.Series(['a1', 'b2', 'c3'])
@@ -1109,10 +1037,8 @@ print(s_extract.str.extract(r'([ab])?(\d)'))  # Make the first group optional
 # 1    b  2
 # 2  NaN  3 (the digit '3' is extracted, but no letter before it)
 
-#-----------
-## .extractall(pattern)
-#-----------
-# Extract all capture groups from all matches of the regex pattern
+# ## .extractall(pattern)
+# # Extract all capture groups from all matches of the regex pattern
 # By default, expand=True (returns DataFrame)
 
 s_extall = pd.Series(["a2a4", "b63", "ccc"], index=["A", "B", "C"])
@@ -1136,9 +1062,9 @@ print(s_extall.str.extractall(r'([ab])(\d)'))  # Extract all occurrences of lett
 # B 0      b  6 (match 0: 'b6')
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 8. Concatenation ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Concatenation
+# =========================================================================================
 
 '''
 .str.cat(others=None, sep='', na_rep=None)
@@ -1175,13 +1101,13 @@ print(s1.str.cat(s2, sep='_'))
 # dtype: object
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 9. Padding and Alignment -----------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. Padding and Alignment
+# =========================================================================================
 
-#################################
+##-----------------------------##
 ## .pad(width, side, fillchar) ##
-#################################
+##-----------------------------##
 
 s_pad = pd.Series(['cat', 'elephant', 'dog'])
 
@@ -1210,16 +1136,14 @@ print(s_pad.str.pad(width=5, side='left', fillchar='_'))
 # dtype: object
 
 
-#######################################
+##-----------------------------------##
 ##             Alignment             ##
-#######################################
+##-----------------------------------##
 
 s_align = pd.Series(['dog', 'bird', 'mouse'])
 
-#-----------
-## .ljust(width, fillchar)
-#-----------
-# Left-align strings, padding on the right
+# ## .ljust(width, fillchar)
+# # Left-align strings, padding on the right
 
 print(s_align.str.ljust(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 0    dog.....
@@ -1227,10 +1151,8 @@ print(s_align.str.ljust(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 2    mouse...
 # dtype: object
 
-#-----------
-## .rjust(width, fillchar)
-#-----------
-# Right-align strings, padding on the left
+# ## .rjust(width, fillchar)
+# # Right-align strings, padding on the left
 
 print(s_align.str.rjust(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 0    .....dog
@@ -1238,10 +1160,8 @@ print(s_align.str.rjust(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 2    ...mouse
 # dtype: object
 
-#-----------
-## .center(width, fillchar)
-#-----------
-# Center-align strings, padding on both sides
+# ## .center(width, fillchar)
+# # Center-align strings, padding on both sides
 
 print(s_align.str.center(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 0    ..dog...
@@ -1250,9 +1170,9 @@ print(s_align.str.center(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # dtype: object
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 10. Categorical Encoding -----------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 10. Categorical Encoding
+# =========================================================================================
 
 '''
 Categorical Encoding is the process of converting categorical variables into numerical representations.
@@ -1261,9 +1181,9 @@ This is useful for machine learning algorithms that require numerical input.
 
 s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"])
 
-##########################################
+##--------------------------------------##
 ##            pd.factorize()            ##
-##########################################
+##--------------------------------------##
 
 '''
 pd.factorize() assigns a unique integer to each category in the Series.
@@ -1280,10 +1200,8 @@ The first unique category gets 0, the second gets 1, and so on.
 print(pd.factorize(s_gender))
 # (array([0, 0, 1, 0, 2, 1, 0, 1, 2, 0]), Index(['M', 'F', 'LGBTQ'], dtype='object'))
 
-#-----------------
-## Assign the result to separate variables
-#-----------------
-
+# ## Assign the result to separate variables
+# 
 s_gender_factorized, codes = pd.factorize(s_gender)
 
 print(s_gender_factorized)
@@ -1294,9 +1212,9 @@ print(codes)
 # Index(['M', 'F', 'LGBTQ'], dtype='object')
 
 
-############################################
+##----------------------------------------##
 ##            pd.get_dummies()            ##
-############################################
+##----------------------------------------##
 
 '''
 pd.get_dummies() creates a DataFrame with binary columns for each category in the Series.
@@ -1305,10 +1223,8 @@ Each column represents a category, and the values are 0 or 1 indicating the pres
 It is useful for one-hot encoding categorical variables.
 '''
 
-#-----------------
-## Without dropping the first category
-#-----------------
-
+# ## Without dropping the first category
+# 
 s_gender_dummmies = pd.get_dummies(s_gender, prefix="gender")
 print(s_gender_dummmies)
 #    gender_F  gender_LGBTQ  gender_M
@@ -1337,10 +1253,8 @@ print(s_gender_dummmies)
 # 8         0             1         0
 # 9         0             0         1
 
-#---------------------------------------
-## With dropping the first category (to avoid multicollinearity)
-#---------------------------------------
-
+# ## With dropping the first category (to avoid multicollinearity)
+# 
 '''
 In fact, if we have n categories, we just need n-1 columns to represent them.
 The last n-th category can be inferred from the other n-1 columns.
@@ -1369,15 +1283,15 @@ The 5-indexed person has LGBTQ = 0 and M = 0, which means they are F (the last c
 '''
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 11. Unicode and Decoding -----------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 11. Unicode and Decoding
+# =========================================================================================
 
 s_raw = pd.Series(['café', 'naïve', 'résumé', 'coöperate', np.nan])
 
-######################
+##------------------##
 ## .normalize(form) ##
-######################
+##------------------##
 # .normalize() standardizes Unicode strings to a consistent form.
 # Common forms are 'NFC' (Normalization Form C) and 'NFD' (Normalization Form D).
 # All the forms: {‘NFC’, ‘NFKC’, ‘NFD’, ‘NFKD’}
@@ -1401,9 +1315,9 @@ print(s_normalized)
 # dtype: object
 
 
-###############################
+##---------------------------##
 ## .encode(encoding, errors) ##
-###############################
+##---------------------------##
 # .encode() encodes strings to bytes using the specified encoding.
 # Common encodings include 'utf-8', 'latin1', 'ascii', etc.
 # The errors parameter specifies how to handle encoding errors: 'strict', 'ignore', 'replace', etc.
@@ -1427,9 +1341,9 @@ print(s_encoded)
 # dtype: object
 
 
-###############################
+##---------------------------##
 ## .decode(encoding, errors) ##
-###############################
+##---------------------------##
 # .decode() decodes bytes back to strings using the specified encoding.
 # Common encodings include 'utf-8', 'latin1', 'ascii', etc.
 # The errors parameter specifies how to handle decoding errors: 'strict', 'ignore', 'replace', etc.
@@ -1444,13 +1358,13 @@ print(s_decoded)
 # dtype: object
 
 
-#---------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 12. Real applications -------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 12. Real applications
+# =========================================================================================
 
-###################
+##---------------##
 ## Data cleaning ##
-###################
+##---------------##
 
 # Clean messy name data
 messy_names = pd.Series(['  john doe  ', 'JANE SMITH', 'bob-johnson'])
@@ -1466,9 +1380,9 @@ print(clean_names)
 # 2    Bob Johnson
 # dtype: object
 
-######################
+##------------------##
 ## Email processing ##
-######################
+##------------------##
 
 emails = pd.Series(['user@example.com', 'ADMIN@SITE.ORG', 'invalid.email'])
 email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'

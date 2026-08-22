@@ -7,7 +7,7 @@ though other delimiters like semicolons, tabs, or pipes can be used.
 
 The first row often contains column headers, making the data structure self-documenting
 
-#############################
+##-------------------------##
 
 csv delimiter: ","
 tsv delimiter: "\t"
@@ -16,14 +16,14 @@ others: ';' or '|'
 
 these are called "dialect"
 
-##############################
+##--------------------------##
 
 Python offers "csv" built-in module for working with comma-separated values files (and also other dialects),
 providing robust functionality for reading, writing, and manipulating tabular data.
 
 Another package is Pandas also very powerful for handling .csv file, but we will deal with it later
 
-##############################
+##--------------------------##
 
 Table of Contents:
 1. Read .csv and .tsv files (use ``list(csv_read_object)`` to store contents into a list)
@@ -33,15 +33,15 @@ Table of Contents:
 
 parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/csv_tsv_files"
 
-#-------------------------------------------------------------------------------#
-#----------------------- Read .csv and .tsv files ------------------------------#
-#-------------------------------------------------------------------------------#
+# ==============================================================================================
+# Read .csv and .tsv files
+# ==============================================================================================
 
 import csv
 
-##############################
+##--------------------------##
 ## Read a classic .csv file ##
-##############################
+##--------------------------##
 
 with open(file=f"{parent_dir}/drinks.csv", mode="r", newline="", encoding="utf-8") as file_pointer:
     # newline="" parameter is crucial to prevent issues with line endings across different operating systems
@@ -68,9 +68,9 @@ NOTE: everything must be indented inside the "with" block, otherwise it will not
       because outside the "with" block, the file is already closed, and hence the reader object is no longer valid
 '''
 
-###########################################
+##---------------------------------------##
 ## Read .csv file without the header row ##
-###########################################
+##---------------------------------------##
 
 with open(file=f"{parent_dir}/drinks.csv", mode="r", newline="", encoding="utf-8") as file_pointer:
     csv_read_object = csv.reader(file_pointer)
@@ -84,9 +84,9 @@ with open(file=f"{parent_dir}/drinks.csv", mode="r", newline="", encoding="utf-8
 # ['3', 'Andorra', '245', '138', '312', '12.4', 'EU']
 # ['4', 'Angola', '217', '57', '45', '5.9', 'AF']
 
-#############################################
+##-----------------------------------------##
 ## Read a .tsv file (Tab-Separated Values) ##
-#############################################
+##-----------------------------------------##
 
 # The process is similar, just need to specify the delimiter as a tab character ("\t")
 
@@ -104,14 +104,12 @@ with open(file=f"{parent_dir}/weather.tsv", mode="r", newline="", encoding="utf-
 Can also set delimiter to other characters like ';' or '|', just specify it in the "delimiter" parameter
 '''
 
-####################################
+##--------------------------------##
 ## Read .csv file as a dictionary ##
-####################################
+##--------------------------------##
 
-#------
-## use csv.DictReader() to read a .csv file as a dictionary
-#------
-
+# ## use csv.DictReader() to read a .csv file as a dictionary
+# 
 with open(file=f"{parent_dir}/medals.csv", mode="r", newline="", encoding="utf-8") as file_pointer:
     csv_dict_reader = csv.DictReader(file_pointer)
     for row in csv_dict_reader:
@@ -122,10 +120,8 @@ with open(file=f"{parent_dir}/medals.csv", mode="r", newline="", encoding="utf-8
         # {'Year': '1998', 'City': 'Nagano', 'Sport': 'Skiing', 'Discipline': 'Freestyle Ski.', 'NOC': 'SUI', 'Event': 'aerials', 'Event gender': 'W', 'Medal': 'Bronze'}
         # {'Year': '1998', 'City': 'Nagano', 'Sport': 'Skiing', 'Discipline': 'Snowboard', 'NOC': 'SUI', 'Event': 'giant-slalom', 'Event gender': 'M', 'Medal': 'Bronze'}
 
-#------
-## Specify fieldnames using "fieldnames=[...]"
-#------
-'''If not specfiied, the first row of the .csv file will be used as the field names (keys) for the dictionary.'''
+# ## Specify fieldnames using "fieldnames=[...]"
+# '''If not specfiied, the first row of the .csv file will be used as the field names (keys) for the dictionary.'''
 
 with open(file=f"{parent_dir}/medals.csv", mode="r", newline="", encoding="utf-8") as file_pointer:
     csv_dict_reader = csv.DictReader(file_pointer, fieldnames=["Y", "C", "S", "D", "N", "E", "EG", "M"])
@@ -137,9 +133,9 @@ with open(file=f"{parent_dir}/medals.csv", mode="r", newline="", encoding="utf-8
         # {'Y': '1992', 'C': 'Albertville', 'S': 'Biathlon', 'D': 'Biathlon', 'N': 'EUN', 'E': '3x7.5km relay', 'EG': 'W', 'M': 'Bronze'}
         # {'Y': '1992', 'C': 'Albertville', 'S': 'Biathlon', 'D': 'Biathlon', 'N': 'EUN', 'E': '4x7.5km relay', 'EG': 'M', 'M': 'Silver'}
 
-#################################################
+##---------------------------------------------##
 ## (ADVANCED) Read .csv or .tsv file in chunks ##
-#################################################
+##---------------------------------------------##
 '''
 Can read large .csv files in chunks to avoid memory issues, especially with very large datasets.
 This is useful when dealing with large datasets that cannot fit into memory all at once.
@@ -171,9 +167,9 @@ for chunk in process_csv_chunks(f"{parent_dir}/weather.tsv", chunk_size=chunk_si
     for row in chunk:
         print(row)  # Or whatever processing you need
 
-############################################################################
+##------------------------------------------------------------------------##
 ## Store .csv file's contents into a list using ``list(csv_read_object)`` ##
-############################################################################
+##------------------------------------------------------------------------##
 
 with open(file=f"{parent_dir}/drinks.csv", mode="r", newline="", encoding="utf-8") as file_pointer:
     csv_read_object = csv.reader(file_pointer)
@@ -188,17 +184,17 @@ for row in csv_content:
     # ['3', 'Andorra', '245', '138', '312', '12.4', 'EU']
     # ['4', 'Angola', '217', '57', '45', '5.9', 'AF']
 
-#--------------------------------------------------------------------------------#
-#----------------------- Write .csv and .tsv files ------------------------------#
-#--------------------------------------------------------------------------------#
+# ==============================================================================================
+# Write .csv and .tsv files
+# ==============================================================================================
 
 parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/csv_tsv_files"
 
 import csv
 
-##################################
+##------------------------------##
 ## write a .csv file using list ##
-##################################
+##------------------------------##
 
 data = [
     ['Name', 'Age', 'City'],
@@ -210,9 +206,9 @@ with open(f'{parent_dir}/write_list.csv', 'w', newline='', encoding='utf-8') as 
     writer = csv.writer(file_pointer)
     writer.writerows(data)
 
-########################################
+##------------------------------------##
 ## write a .csv file using dictionary ##
-########################################
+##------------------------------------##
 
 fields = ['ID', 'Name', 'Gender', 'Age']
 data = [
@@ -226,9 +222,9 @@ with open(f'{parent_dir}/write_dictionary.csv', 'w', newline='') as file_pointer
     writer.writeheader() # Write the header row
     writer.writerows(data) # Write the data rows
 
-#######################
+##-------------------##
 ## write a .tsv file ##
-#######################
+##-------------------##
 
 data = [
     ['Name', 'Subject', 'Score'],
@@ -242,9 +238,9 @@ with open(f'{parent_dir}/write_tsv.tsv', 'w', newline='', encoding='utf-8') as f
     writer.writerows(data)  # Write the data rows
 
 
-#---------------------------------------------------------------------------#
-#----------------------- "quoting" parameter in csv.writer -----------------#
-#---------------------------------------------------------------------------#
+# ==============================================================================================
+# "quoting" parameter in csv.writer
+# ==============================================================================================
 
 # "quoting" means enclosing fields in quotes ("" or '') when writing to a .csv file.
 
@@ -267,9 +263,9 @@ data = [
     ['Chicago', 0.7, '20°C']
 ]
 
-#############################################################
+##---------------------------------------------------------##
 ## Example of using the "quoting" parameter with QUOTE_ALL ##
-#############################################################
+##---------------------------------------------------------##
 
 with open(f'{parent_dir}/write_quoting_all.csv', 'w', newline='', encoding='utf-8') as file_pointer:
     writer = csv.writer(file_pointer, quoting=csv.QUOTE_ALL)  # Quote all fields
@@ -280,9 +276,9 @@ with open(f'{parent_dir}/write_quoting_all.csv', 'w', newline='', encoding='utf-
 # "Los Angeles","0.5","30°C"
 # "Chicago","0.7","20°C"
 
-####################################################################
+##----------------------------------------------------------------##
 ## Example of using the "quoting" parameter with QUOTE_NONNUMERIC ##
-####################################################################
+##----------------------------------------------------------------##
 
 with open(f'{parent_dir}/write_quoting_non_numeric.csv', 'w', newline='', encoding='utf-8') as file_pointer:
     writer = csv.writer(file_pointer, quoting=csv.QUOTE_NONNUMERIC)  # Quote all non-numeric fields

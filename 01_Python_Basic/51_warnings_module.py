@@ -4,7 +4,7 @@ warnings is a built-in Python module that provides a way to issue warning messag
 Warnings are typically used to indicate that something unexpected happened,
 but it is not severe enough to raise an exception and halt the program.
 
-###########################################################################
+##-----------------------------------------------------------------------##
 
 1. Issue a Warning:
    + Basic usage: warnings.warn("warning message")
@@ -36,9 +36,9 @@ import warnings
 import numpy as np
 
 
-#----------------------------------------------------------------------------------------------------------#
-#------------------------------------ Exmaples of disabling a warning -------------------------------------#
-#----------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Exmaples of disabling a warning
+# ==============================================================================================
 
 np.sqrt(-1)
 # <stdin>:1: RuntimeWarning: invalid value encountered in sqrt
@@ -59,13 +59,13 @@ warnings.filterwarnings("ignore")
 '''
 
 
-#----------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 1. Issue a Warning ---------------------------------------------#
-#----------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. Issue a Warning
+# ==============================================================================================
 
-#################
+##-------------##
 ## Basic usage ##
-#################
+##-------------##
 
 warnings.warn("This is a basic warning message.")
 # <stdin>:1: UserWarning: This is a basic warning message.
@@ -76,9 +76,9 @@ UserWarning: -> Type of warning (by default, UserWarning is used)
 This is a basic warning message. -> The actual warning message
 '''
 
-##############################
+##--------------------------##
 ## Specify Warning Category ##
-##############################
+##--------------------------##
 
 warnings.warn("This is a deprecation warning.", DeprecationWarning)
 # <stdin>:1: DeprecationWarning: This is a deprecation warning.
@@ -87,9 +87,9 @@ warnings.warn("This is a runtime warning.", RuntimeWarning)
 # <stdin>:1: RuntimeWarning: This is a runtime warning
 
 
-#----------------------------------------------------------------------------------------------------------#
-#----------------------------------- 2. List of all Warning Categories ------------------------------------#
-#----------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. List of all Warning Categories
+# ==============================================================================================
 '''
 Warning: A base class for all warning categories.
 
@@ -115,9 +115,9 @@ ResourceWarning: Warns about resource usage issues, such as unclosed files.
 '''
 
 
-#----------------------------------------------------------------------------------------------------------#
-#------------------------------ 3. Create a Custom Warning using class ------------------------------------#
-#----------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. Create a Custom Warning using class
+# ==============================================================================================
 
 class DataQualityWarning(UserWarning):
     """Warning for data quality issues"""
@@ -127,15 +127,15 @@ warnings.warn("Data quality issue detected.", DataQualityWarning)
 # <stdin>:1: DataQualityWarning: Data quality issue detected.
 
 
-#----------------------------------------------------------------------------------------------------------#
-#------------------------------------ 4. Control Warning Behavior -----------------------------------------#
-#----------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 4. Control Warning Behavior
+# ==============================================================================================
 
 from loguru import logger
 
-###################
+##---------------##
 ## Simple filter ##
-###################
+##---------------##
 '''warnings.simplefilter(action, category=WarningCategory) gives simple control over warning behavior.'''
 
 # Ignore all DeprecationWarnings
@@ -152,9 +152,9 @@ except RuntimeWarning as e:
     logger.error(f"Caught an error: {e}")
 # 2025-11-18 15:11:27.898 | ERROR    | __main__:<module>:4 - Caught an error: This is a runtime warning.
 
-##################
+##--------------##
 ## RegEx filter ##
-##################
+##--------------##
 '''warnings.filterwarnings(action, message='', category=WarningCategory) allows more granular control using regex.'''
 
 # Ignore warnings containing "deprecated"
@@ -166,9 +166,9 @@ warnings.warn("This feature is deprecated.", DeprecationWarning)
 warnings.warn("This is a future warning.", FutureWarning)
 # <stdin>:1: FutureWarning: This is a future warning.
 
-#########################
+##---------------------##
 ## All warning actions ##
-#########################
+##---------------------##
 '''
 "error": Convert the warning into an exception.
 

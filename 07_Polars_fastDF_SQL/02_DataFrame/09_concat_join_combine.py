@@ -2,7 +2,7 @@
 In Polars, the closest equivalents to pandas pd.concat(), pd.merge(), and df.combine()
 are usually pl.concat(), DataFrame.join(), and expression-based horizontal operations.
 
-########################################################################################
+##------------------------------------------------------------------------------------##
 
 1. Concatenation:
    + pl.concat([...], how="vertical"): stack DataFrames vertically, row-wise.
@@ -41,9 +41,9 @@ Key Polars differences from pandas:
 import polars as pl
 
 
-#------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 1. Concatenation --------------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Concatenation
+# =========================================================================================
 
 # Create sample DataFrames
 # NOTE: Polars has no custom row index, so there is no ignore_index=True parameter.
@@ -77,9 +77,9 @@ df_hor_2 = pl.DataFrame({
     "I": ["I0", "I1", "I2", "I3"],
 })
 
-#####################################
+##---------------------------------##
 ##    pl.concat(how="vertical")    ##
-#####################################
+##---------------------------------##
 '''Concatenate DataFrames vertically (row-wise).'''
 
 # Original DataFrame
@@ -140,9 +140,9 @@ print(df_stack_ver)
 # │ A11 ┆ B11 ┆ C11 │
 # └─────┴─────┴─────┘
 
-#######################################
+##-----------------------------------##
 ##    pl.concat(how="horizontal")    ##
-#######################################
+##-----------------------------------##
 '''Concatenate DataFrames horizontally (column-wise by row position).'''
 
 # Equivalent to pandas pd.concat([df_origin, df_hor_1], axis=1)
@@ -201,9 +201,9 @@ print(pl.concat([df_short, df_long], how="horizontal"))
 # Use strict=True if you want horizontal concatenation to fail when heights differ.
 # pl.concat([df_short, df_long], how="horizontal", strict=True)  # raises an error
 
-#######################################
+##-----------------------------------##
 ##    pl.concat(how="diagonal")      ##
-#######################################
+##-----------------------------------##
 '''
 how="diagonal" is a very useful Polars-specific concat mode.
 It stacks DataFrames vertically while taking the union of all column names.
@@ -233,9 +233,9 @@ print(pl.concat([df_schema_1, df_schema_2], how="diagonal"))
 # │ A3  ┆ null ┆ C3   │
 # └─────┴──────┴──────┘
 
-################################################
+##--------------------------------------------##
 ##    how="vertical_relaxed" and dtype casts  ##
-################################################
+##--------------------------------------------##
 '''
 how="vertical" requires the same column names and compatible dtypes.
 how="vertical_relaxed" coerces compatible columns to a common supertype.
@@ -257,26 +257,26 @@ print(pl.concat([df_int, df_float], how="vertical_relaxed"))
 # │ 4.5 ┆ 40  │
 # └─────┴─────┘
 
-####################
+##----------------##
 ##    vstack()    ##
-####################
+##----------------##
 '''df.vstack(other) is a direct vertical stack method for two DataFrames.'''
 
 print(df_origin.vstack(df_ver_1))
 # Same result as pl.concat([df_origin, df_ver_1], how="vertical")
 
-####################
+##----------------##
 ##    hstack()    ##
-####################
+##----------------##
 '''df.hstack(other) is a direct horizontal stack method.'''
 
 print(df_origin.hstack(df_hor_1))
 # Same result as pl.concat([df_origin, df_hor_1], how="horizontal")
 
 
-#------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 2. Joining -----------------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Joining
+# =========================================================================================
 
 # Create sample DataFrames for joining.
 customers = pl.DataFrame(
@@ -296,9 +296,9 @@ orders = pl.DataFrame(
     }
 )
 
-#########################
+##---------------------##
 ##    df.join(on=)     ##
-#########################
+##---------------------##
 '''
 Join DataFrames based on a common column/key.
 
@@ -336,9 +336,9 @@ Polars keeps the left column name as "city" and appends the suffix to the right 
 The default suffix is "_right".
 '''
 
-##########################
+##----------------------##
 ##    df.join(suffix)   ##
-##########################
+##----------------------##
 '''Add a suffix to overlapping column names from the RIGHT DataFrame.'''
 
 # In pandas, suffixes=('_cst', '_odr') lets you suffix both left and right.
@@ -384,9 +384,9 @@ print(
 # │ 2           ┆ Bob   ┆ Boston   ┆ 102      ┆ 180    ┆ BOS      │
 # └─────────────┴───────┴──────────┴──────────┴────────┴──────────┘
 
-############################
+##------------------------##
 ##    df.join(inner)      ##
-############################
+##------------------------##
 '''
 how="inner": only keeps rows whose keys are present in both DataFrames.
 This is the default join strategy.
@@ -413,9 +413,9 @@ print(df_joined_inner)
 # └─────────────┴───────┴──────────┴──────────┴────────┴──────────┘
 '''Only customer_id 1 and 2 are returned, because only those keys exist in both DataFrames.'''
 
-###########################
+##-----------------------##
 ##    df.join(full)      ##
-###########################
+##-----------------------##
 '''
 Polars how="full" is the closest equivalent to pandas how="outer".
 It keeps all rows from both DataFrames and fills missing matches with null.
@@ -450,9 +450,9 @@ print(df_joined_full)
 # └─────────────┴─────────┴──────────┴──────────┴────────┴──────────┘
 '''Here, customer_id 3, 4, and 5 are included, although they are not present in both DataFrames.'''
 
-###########################
+##-----------------------##
 ##    df.join(left)      ##
-###########################
+##-----------------------##
 '''how="left": keeps all rows from the left DataFrame and matched rows from the right DataFrame.'''
 
 df_joined_left = customers.join(
@@ -477,9 +477,9 @@ print(df_joined_left)
 # │ 4           ┆ Diana   ┆ Miami    ┆ null     ┆ null   ┆ null     │
 # └─────────────┴─────────┴──────────┴──────────┴────────┴──────────┘
 
-############################
+##------------------------##
 ##    df.join(right)      ##
-############################
+##------------------------##
 '''how="right": keeps all rows from the right DataFrame and matched rows from the left DataFrame.'''
 
 df_joined_right = customers.join(
@@ -503,9 +503,9 @@ print(df_joined_right)
 # │ null  ┆ null     ┆ 5           ┆ 105      ┆ 150    ┆ MIA      │
 # └───────┴──────────┴─────────────┴──────────┴────────┴──────────┘
 
-######################################
+##----------------------------------##
 ##    df.join(left_on, right_on)    ##
-######################################
+##----------------------------------##
 '''Join DataFrames based on different key names from each DataFrame.'''
 
 customers_key = pl.DataFrame(
@@ -548,9 +548,9 @@ print(df_joined_diff_keys)
 # │ 2           ┆ Bob   ┆ Boston   ┆ 102      ┆ 2      ┆ 180    ┆ BOS      │
 # └─────────────┴───────┴──────────┴──────────┴────────┴────────┴──────────┘
 
-##############################################
+##------------------------------------------##
 ##    pandas left_index/right_index logic   ##
-##############################################
+##------------------------------------------##
 '''
 Polars has no custom row index, so there is no left_index=True or right_index=True.
 Use explicit columns instead.
@@ -613,9 +613,9 @@ print(
 )
 # This joins by row position, not by a custom index label.
 
-###########################
+##-----------------------##
 ##    df.join(cross)     ##
-###########################
+##-----------------------##
 '''
 how="cross": creates the Cartesian product of both DataFrames.
 Do not specify on=, left_on=, or right_on= with a cross join.
@@ -663,9 +663,9 @@ print(df_joined_cross)
 # │ bar  ┆ 8     │
 # └──────┴───────┘
 
-###########################
+##-----------------------##
 ##    df.join(semi)      ##
-###########################
+##-----------------------##
 '''
 how="semi": keep rows from the left DataFrame that have a match in the right DataFrame.
 Unlike inner joins, semi joins do NOT include columns from the right DataFrame.
@@ -689,9 +689,9 @@ print(df_joined_semi)
 # │ 2           ┆ Bob   ┆ Boston   │
 # └─────────────┴───────┴──────────┘
 
-###########################
+##-----------------------##
 ##    df.join(anti)      ##
-###########################
+##-----------------------##
 '''
 how="anti": keep rows from the left DataFrame that have NO match in the right DataFrame.
 Useful for finding unmatched records.
@@ -715,9 +715,9 @@ print(df_joined_anti)
 # │ 4           ┆ Diana   ┆ Miami   │
 # └─────────────┴─────────┴─────────┘
 
-#################################
+##-----------------------------##
 ##    DataFrame .join() only   ##
-#################################
+##-----------------------------##
 '''
 Polars does not have a top-level pl.merge() function like pandas pd.merge().
 Use DataFrame.join() directly.
@@ -734,9 +734,9 @@ print(
 )
 # Same as the previous inner join examples.
 
-###########################
+##-----------------------##
 ##    df.join_where()    ##
-###########################
+##-----------------------##
 '''
 Polars `join_where()` is used for "non-equi" joins.
 Unlike standard joins that require strict equality on specific keys (on="key"),
@@ -791,9 +791,9 @@ To avoid ambiguity in your expressions, it is highly recommended to either:
    `pl.col("value") < pl.col("value_right")`
 '''
 
-#######################################
+##-----------------------------------##
 ##    Optional: lazy join pattern    ##
-#######################################
+##-----------------------------------##
 '''
 Polars joins also work in LazyFrame pipelines.
 The query is executed only when you call .collect().
@@ -823,9 +823,9 @@ print(lf_joined.collect())
 # └─────────────┴───────┴──────────┴────────┘
 
 
-#------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 3. Combining -----------------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Combining
+# =========================================================================================
 '''
 Pandas df.combine(other, func=...) applies a function element-wise after aligning DataFrames.
 
@@ -863,9 +863,9 @@ print(df2)
 # │ 1   ┆ 3   │
 # └─────┴─────┘
 
-####################################
+##--------------------------------##
 ##    Element-wise max combine    ##
-####################################
+##--------------------------------##
 '''Equivalent idea to pandas df1.combine(df2, func=np.maximum).'''
 
 # Rename df2 columns so they do not collide with df1 columns during horizontal concatenation.
@@ -899,9 +899,9 @@ print(df_combined_max)
 # │ 1   ┆ 4   │
 # └─────┴─────┘
 
-#####################################
+##---------------------------------##
 ##    Element-wise mean combine    ##
-#####################################
+##---------------------------------##
 '''Equivalent idea to pandas df1.combine(df2, func=lambda s1, s2: (s1 + s2) / 2).'''
 
 
@@ -921,9 +921,9 @@ print(df_combined_mean)
 # │ 0.5 ┆ 3.5 │
 # └─────┴─────┘
 
-#########################################
+##-------------------------------------##
 ##    Custom combine with pl.when()    ##
-#########################################
+##-------------------------------------##
 '''
 Use pl.when().then().otherwise() for custom element-wise logic.
 
@@ -954,9 +954,9 @@ print(df_combined_custom)
 # │ 1   ┆ 4   │
 # └─────┴─────┘
 
-########################################
+##------------------------------------##
 ##    combine_first with coalesce()   ##
-########################################
+##------------------------------------##
 '''
 Pandas has df.combine_first(other), which fills null/missing values from another DataFrame.
 
@@ -1019,9 +1019,9 @@ print(df_combined_first)
 # │ 5   ┆ 50    │
 # └─────┴───────┘
 
-#######################################
+##-----------------------------------##
 ##    Multiple columns with a loop   ##
-#######################################
+##-----------------------------------##
 '''
 For many columns, build the Polars expressions programmatically.
 This is often cleaner than writing each expression by hand.
@@ -1070,9 +1070,9 @@ print(combined_multi)
 # └─────┴─────┴─────┘
 
 
-#------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 4. Quick Mapping Table ----------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Quick Mapping Table
+# =========================================================================================
 '''
 Pandas                              Polars
 ------------------------------------------------------------------------------------------

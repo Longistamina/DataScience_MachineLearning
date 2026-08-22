@@ -52,9 +52,9 @@ This fundamental property ensures that:
 EXAMPLE
 ================================================================================
 
-#######################
+##-------------------##
 #### WRONG example ####
-#######################
+##-------------------##
     minimize f₀(x) = x₁⁴ + x₂⁵
     subject to f₁(x) = x₁/(1 + x₂²) ≤ 0
             h₁(x) = (x₁ + x₂)² = 0
@@ -64,9 +64,9 @@ EXAMPLE
 • not a convex problem (according to our definition): f₁ is not convex, h₁ 
   is not affine
 
-#######################
+##-------------------##
 #### RIGHT example ####
-#######################
+##-------------------##
 
 Equivalent (but not identical) to the convex problem
 

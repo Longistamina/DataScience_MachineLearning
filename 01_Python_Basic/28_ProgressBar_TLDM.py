@@ -59,19 +59,19 @@ Tips and Best Practices
 """
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 1. Installation and Demo -------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. Installation and Demo
+# ==============================================================================================
 
-################
+##------------##
 ## Installing ##
-################
+##------------##
 
 # pip install -U tldm
 
-####################
+##----------------##
 ## Quick examples ##
-####################
+##----------------##
 
 from tldm import tldm
 import time
@@ -83,16 +83,16 @@ for i in tldm(range(100)):
 # Output: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 2. Basic Usage -----------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. Basic Usage
+# ==============================================================================================
 
 from tldm import tldm
 import time
 
-#########################
+##---------------------##
 ## Simple progress bar ##
-#########################
+##---------------------##
 
 items = range(100)
 
@@ -101,18 +101,18 @@ for item in tldm(items):  # Wrap iterable with tldm
 
 # Output: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
-###################################
+##-------------------------------##
 ## Progress bar with description ##
-###################################
+##-------------------------------##
 
 for i in tldm(range(50), desc='Processing'):
     time.sleep(0.05)
 
 # Output: Processing: 100%|██████████| 50/50 [00:02<00:00, 20.00it/s]
 
-#####################################
+##---------------------------------##
 ## Setting description dynamically ##
-#####################################
+##---------------------------------##
 
 pbar = tldm(range(100), desc='Downloading')
 
@@ -122,18 +122,18 @@ for i in pbar:
 
 # Output: Downloading file 100: 100%|██████████| 100/100 [00:02<00:00, 50.00it/s]
 
-##############################
+##--------------------------##
 ## Showing additional stats ##
-##############################
+##--------------------------##
 
 for i in tldm(range(50), desc='Processing', unit='items'):
     time.sleep(0.05)
 
 # Output: Processing: 100%|██████████| 50/50 items [00:02<00:00, 20.00items/s]
 
-########################
+##--------------------##
 ## Disabling progress ##
-########################
+##--------------------##
 
 # Useful for production/logging scenarios
 
@@ -142,9 +142,9 @@ for i in tldm(range(50), disable=True):
 
 # Output: No progress bar shown
 
-#########################
+##---------------------##
 ## With position/color ##
-#########################
+##---------------------##
 
 for i in tldm(range(50), desc='Task', colour='green'):
     time.sleep(0.05)
@@ -152,13 +152,13 @@ for i in tldm(range(50), desc='Task', colour='green'):
 # Output: Task: 100%|██████████| 50/50 [00:02<00:00, 20.00it/s] (in green)
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 3. Unknown Mode ----------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. Unknown Mode
+# ==============================================================================================
 
-###########################################
+##---------------------------------------##
 ## Progress bar without total (for loop) ##
-###########################################
+##---------------------------------------##
 '''Useful when you don't know how many items you'll process'''
 
 items_processed = 0
@@ -173,9 +173,9 @@ pbar.close()
 
 # Output: Processing: 50it [00:02, 20.00it/s]
 
-#############################################
+##-----------------------------------------##
 ## Progress bar without total (while loop) ##
-#############################################
+##-----------------------------------------##
 '''Continue processing until condition is met'''
 
 pbar = tldm(desc='Waiting')
@@ -190,9 +190,9 @@ pbar.close()
 
 # Output: Waiting: 50it [00:02, 20.00it/s]
 
-#######################################
+##-----------------------------------##
 ## Unknown mode with context manager ##
-#######################################
+##-----------------------------------##
 '''Using with statement for automatic cleanup'''
 
 with tldm(desc='Streaming') as pbar:
@@ -206,9 +206,9 @@ with tldm(desc='Streaming') as pbar:
 
 # Output: Streaming: 75it [00:02, 32.61it/s] chunk 75
 
-####################################
+##--------------------------------##
 ## Unknown mode with dynamic text ##
-####################################
+##--------------------------------##
 '''Show processing details without knowing total'''
 
 pbar = tldm(desc='Processing Stream')
@@ -222,9 +222,9 @@ pbar.close()
 
 # Output: Processing Stream: 60it [00:02, 25.00it/s, items=60, status=processing]
 
-#################################
+##-----------------------------##
 ## Unknown mode with generator ##
-#################################
+##-----------------------------##
 '''Process a generator of unknown length'''
 
 def my_generator():
@@ -239,9 +239,9 @@ for item in tldm(my_generator(), desc='Generator'):
 
 # Output: Generator: 50it [00:02, 20.00it/s]
 
-#################################
+##-----------------------------##
 ## Unknown to known transition ##
-#################################
+##-----------------------------##
 '''Start without total, then set it when known'''
 
 pbar = tldm(desc='Scanning')
@@ -268,13 +268,13 @@ pbar.close()
 # Output: Transitions from indefinite to definite progress
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 4. Manual Mode -----------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 4. Manual Mode
+# ==============================================================================================
 
-###########################
+##-----------------------##
 ## Manual initialization ##
-###########################
+##-----------------------##
 '''Create progress bar and update manually'''
 
 pbar = tldm(total=100)
@@ -287,9 +287,9 @@ pbar.close()  # Always close when done
 
 # Output: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
-##############################
+##--------------------------##
 ## Custom update increments ##
-##############################
+##--------------------------##
 
 pbar = tldm(total=1000)
 
@@ -301,9 +301,9 @@ pbar.close()
 
 # Output: 100%|██████████| 1000/1000 [00:01<00:00, 990.10it/s]
 
-###############################
+##---------------------------##
 ## Setting position directly ##
-###############################
+##---------------------------##
 
 pbar = tldm(total=100)
 
@@ -316,9 +316,9 @@ pbar.close()
 
 # Output: 100%|██████████| 100/100 [00:02<00:00, 50.00it/s]
 
-######################
+##------------------##
 ## Reset capability ##
-######################
+##------------------##
 
 pbar = tldm(total=50)
 
@@ -336,13 +336,13 @@ pbar.close()
 
 # Output: Resets and counts again from 0
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 5. Context Manager Usage -------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 5. Context Manager Usage
+# ==============================================================================================
 
-###################################
+##-------------------------------##
 ## Using tldm as context manager ##
-###################################
+##-------------------------------##
 '''Automatically handles cleanup'''
 
 with tldm(total=100) as pbar:
@@ -352,9 +352,9 @@ with tldm(total=100) as pbar:
 
 # Output: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
-###############################
+##---------------------------##
 ## With description and text ##
-###############################
+##---------------------------##
 
 with tldm(total=100, desc='Processing') as pbar:
     for i in range(100):
@@ -364,9 +364,9 @@ with tldm(total=100, desc='Processing') as pbar:
 
 # Output: Processing: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s] file_99.txt
 
-########################################
+##------------------------------------##
 ## Unknown total with context manager ##
-########################################
+##------------------------------------##
 '''When you don't know the total in advance'''
 
 with tldm(desc='Streaming') as pbar:
@@ -376,9 +376,9 @@ with tldm(desc='Streaming') as pbar:
 
 # Output: Streaming: 50it [00:02, 20.00it/s]
 
-##############################
+##--------------------------##
 ## Manual mode with context ##
-##############################
+##--------------------------##
 
 tasks = ['Init', 'Load', 'Process', 'Save', 'Done']
 
@@ -391,13 +391,13 @@ with tldm(total=len(tasks)) as pbar:
 # Output: Pipeline: Done: 100%|██████████| 5/5 [00:05<00:00, 1.00it/s]
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 6. Customization ---------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 6. Customization
+# ==============================================================================================
 
-#######################
+##-------------------##
 ## Custom bar format ##
-#######################
+##-------------------##
 '''Customize the progress bar appearance'''
 
 for i in tldm(range(50),
@@ -406,9 +406,9 @@ for i in tldm(range(50),
 
 # Output: 50/50| (simplified format)
 
-##################
+##--------------##
 ## Color themes ##
-##################
+##--------------##
 # Available colors: 'black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'
 
 for i in tldm(range(50), desc='Red Bar', colour='red'):
@@ -419,21 +419,21 @@ for i in tldm(range(50), desc='Blue Bar', colour='#0000FF'):
     time.sleep(0.05)
 # Output: Blue Bar: 100%|██████████| 50/50 [00:02<00:00, 20.00it/s] (in blue)
 
-###########################
+##-----------------------##
 ## Custom bar characters ##
-###########################
+##-----------------------##
 
 for i in tldm(range(50), ascii=True):  # Use ASCII characters
     time.sleep(0.05)
-# Output: 100%|##########| 50/50 [00:02<00:00, 20.00it/s]
+# Output: 100%|##------##| 50/50 [00:02<00:00, 20.00it/s]
 
 for i in tldm(range(50), ascii='>='):  # Custom ASCII characters
     time.sleep(0.05)
 # Output: 100%|>>>>>>>>>>| 50/50 [00:02<00:00, 20.00it/s]
 
-#######################
+##-------------------##
 ## Units and scaling ##
-#######################
+##-------------------##
 '''Use human-readable units'''
 
 for i in tldm(range(1000),
@@ -449,9 +449,9 @@ for i in tldm(range(1000000),
     pass
 # Output: 100%|██████████| 1.00M/1.00M [00:00<00:00, 999.00K/s]
 
-###################
+##---------------##
 ## Custom length ##
-###################
+##---------------##
 
 for i in tldm(range(50), ncols=100):  # 100 character width
     time.sleep(0.05)
@@ -461,9 +461,9 @@ for i in tldm(range(50), ncols=50):  # 50 character width
     time.sleep(0.05)
 # Output: Narrower progress bar
 
-####################
+##----------------##
 ## Leave or clear ##
-####################
+##----------------##
 
 # Leave the progress bar after completion
 for i in tldm(range(50), leave=True):
@@ -475,9 +475,9 @@ for i in tldm(range(50), leave=False):
     time.sleep(0.05)
 # Output: Bar disappears after completion
 
-####################
+##----------------##
 ## Smoothing rate ##
-####################
+##----------------##
 
 for i in tldm(range(100), smoothing=0.1):  # More responsive
     time.sleep(0.01)
@@ -488,13 +488,13 @@ for i in tldm(range(100), smoothing=0.9):  # More stable
 # Output: Speed changes slowly
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 7. Auto-detection with auto_tldm -------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 7. Auto-detection with auto_tldm
+# ==============================================================================================
 
-#####################################
+##---------------------------------##
 ## Automatic environment detection ##
-#####################################
+##---------------------------------##
 '''auto_tldm automatically chooses the best progress bar for your environment'''
 
 from tldm import auto_tldm  # Auto-detection import
@@ -510,9 +510,9 @@ for i in auto_tldm(range(100)):
 # Output (Terminal): 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 # Output (Notebook): Interactive HTML widget with colored bar
 
-########################
+##--------------------##
 ## Why use auto_tldm? ##
-########################
+##--------------------##
 '''
 auto_tldm automatically detects:
 - Jupyter Notebook/Lab → uses rich HTML widget
@@ -526,9 +526,9 @@ This is especially useful for:
 3. Avoiding manual environment detection
 '''
 
-#######################
+##-------------------##
 ## Using with trange ##
-#######################
+##-------------------##
 
 from tldm import trange  # Auto version of trange
 
@@ -538,13 +538,13 @@ for i in trange(50, desc='Processing'):
 # Output: Automatically adapts to environment
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 8. Advanced Features -----------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 8. Advanced Features
+# ==============================================================================================
 
-##########################
+##----------------------##
 ## Nested progress bars ##
-##########################
+##----------------------##
 '''Multiple progress bars at once'''
 
 from tldm import trange
@@ -557,9 +557,9 @@ for i in trange(3, desc='Outer', position=0):
 # Outer: 100%|██████████| 3/3 [00:04<00:00, 1.33s/it]
 # Inner: 100%|██████████| 50/50 [00:00<00:00, 99.00it/s]
 
-############################
+##------------------------##
 ## Postfix (dynamic text) ##
-############################
+##------------------------##
 '''Add dynamic metadata to the progress bar'''
 
 pbar = tldm(range(100))
@@ -576,9 +576,9 @@ for i in pbar:
     time.sleep(0.05)
 # Output: 100%|██████████| 50/50 [00:02<00:00, 20.00it/s, batch=49, learning_rate=0.001]
 
-##################################
+##------------------------------##
 ## Writing without interference ##
-##################################
+##------------------------------##
 '''Print messages without breaking the progress bar'''
 
 for i in tldm(range(100), desc='Processing'):
@@ -588,9 +588,9 @@ for i in tldm(range(100), desc='Processing'):
 
 # Output: Messages appear above the progress bar
 
-###########################
+##-----------------------##
 ## Disable conditionally ##
-###########################
+##-----------------------##
 '''Control visibility based on environment'''
 
 import sys
@@ -605,9 +605,9 @@ verbose = False
 for i in tldm(range(50), disable=not verbose):
     time.sleep(0.05)
 
-#####################
+##-----------------##
 ## Monitoring rate ##
-#####################
+##-----------------##
 '''Track rate of processing'''
 
 for i in tldm(range(100), miniters=1, mininterval=0):
@@ -618,9 +618,9 @@ for i in tldm(range(100), miniters=10, mininterval=1):
     time.sleep(0.02)
 # Output: Updates only every 10 iterations or 1 second
 
-###################
+##---------------##
 ## Initial value ##
-###################
+##---------------##
 
 pbar = tldm(total=100, initial=50)  # Start at 50%
 
@@ -633,13 +633,13 @@ pbar.close()
 # Output: Starts at 50/100 and goes to 100/100
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 9. Writing Custom Formats --------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 9. Writing Custom Formats
+# ==============================================================================================
 
-#########################
+##---------------------##
 ## Custom bar template ##
-#########################
+##---------------------##
 '''Create completely custom format strings'''
 
 # Available format parameters:
@@ -663,31 +663,31 @@ for i in tldm(range(50), bar_format='{l_bar}{bar:20}{r_bar}{bar:-20b}'):
     time.sleep(0.05)
 # Output: Custom two-part bar display
 
-#####################
+##-----------------##
 ## Minimal display ##
-#####################
+##-----------------##
 
 for i in tldm(range(50), bar_format='{n_fmt}/{total_fmt}'):
     time.sleep(0.05)
 
 # Output: 50/50
 
-######################
+##------------------##
 ## Detailed display ##
-######################
+##------------------##
 
 fortmat = '{desc}: {percentage:3.0f}%|{bar}| {n}/{total} [{elapsed}<{remaining}, {rate_fmt}{postfix}]'
 for i in tldm(range(50), bar_format=fortmat):
     time.sleep(0.05)
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 10. Real-world Examples --------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 10. Real-world Examples
+# ==============================================================================================
 
-#####################
+##-----------------##
 ## File processing ##
-#####################
+##-----------------##
 
 import os
 
@@ -700,9 +700,9 @@ def process_files(directory):
 
 process_files('.')  # Uncomment to run
 
-#########################
+##---------------------##
 ## Download simulation ##
-#########################
+##---------------------##
 
 def download_files(urls):
     '''Simulate downloading files with progress tracking'''
@@ -721,9 +721,9 @@ urls = ['file.zip', 'images.zip', 'music.zip']
 
 download_files(urls)
 
-######################
+##------------------##
 ## Batch operations ##
-######################
+##------------------##
 
 def batch_process(items, batch_size=10):
     '''Process items in batches with progress tracking'''
@@ -741,9 +741,9 @@ items = list(range(100))
 
 batch_process(items, batch_size=10)
 
-#########################
+##---------------------##
 ## Multi-stage process ##
-#########################
+##---------------------##
 
 def multi_stage_task():
     '''Complex task with multiple stages'''
@@ -762,9 +762,9 @@ def multi_stage_task():
 
 multi_stage_task()
 
-#############################
+##-------------------------##
 ## Database query tracking ##
-#############################
+##-------------------------##
 
 def query_database(record_ids):
     '''Query database records with progress tracking'''
@@ -788,18 +788,16 @@ for record in data[:5]:  # Print first 5 records
 # {'id': 4, 'data': 'data_4'}
 # {'id': 5, 'data': 'data_5'}
 
-########################
+##--------------------##
 ## Pandas Integration ##
-########################
+##--------------------##
 '''Use tldm with pandas operations'''
 
 import pandas as pd
 import numpy as np
 
-#--------
-## Method 1: Import pandas from tldm (recommended)
-#--------
-from tldm import pandas
+# ## Method 1: Import pandas from tldm (recommended)
+# from tldm import pandas
 
 pandas()  # Register with default settings
 # OR
@@ -824,10 +822,8 @@ result = df.groupby(0).progress_apply(lambda x: x**2)
 # Also works with other pandas operations
 result = df.progress_apply(lambda x: x.sum(), axis=1)
 
-#--------
-## Method 2: Traditional import from extensions
-#--------
-
+# ## Method 2: Traditional import from extensions
+# 
 from tldm.extensions.pandas import tldm_pandas
 
 tldm_pandas(desc="Processing")
@@ -839,9 +835,9 @@ result = df[0].progress_apply(lambda x: x ** 2)
 
 # Note: After registering once, progress_apply becomes available on all DataFrames
 
-#######################
+##-------------------##
 ## Stream processing ##
-#######################
+##-------------------##
 
 def process_stream(stream_generator):
     '''Process a stream of unknown length'''
@@ -859,9 +855,9 @@ def my_generator():
 
 result = process_stream(my_generator())
 
-###########################
+##-----------------------##
 ## Concurrent processing ##
-###########################
+##-----------------------##
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -882,9 +878,9 @@ with ThreadPoolExecutor(max_workers=4) as executor:
 
 # Output: Shows progress for parallel operations
 
-########################
+##--------------------##
 ## Large file reading ##
-########################
+##--------------------##
 
 def read_large_file(filename, total_size):
     '''Read large file with progress bar'''
@@ -904,13 +900,13 @@ def read_large_file(filename, total_size):
 # read_large_file('large_file.dat', 1024*1024*100)  # 100MB file
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------------- 11. Convenience Functions --------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 11. Convenience Functions
+# ==============================================================================================
 
-##############
+##----------##
 ## trange() ##
-##############
+##----------##
 '''Shortcut for tldm(range(*args), **kwargs)'''
 
 from tldm import trange
@@ -919,9 +915,9 @@ for i in trange(100, desc='Range Progress'):
 
 # Output: Range Progress: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
-##################
+##--------------##
 ## tenumerate() ##
-##################
+##--------------##
 '''Equivalent of builtin enumerate with progress bar'''
 
 from tldm import tenumerate
@@ -934,9 +930,9 @@ for idx, item in tenumerate(items, start=0, desc='Enumerating'):
 
 # Output: Enumerating: 100%|██████████| 4/4 [00:02<00:00, 2.00it/s]
 
-############
+##--------##
 ## tzip() ##
-############
+##--------##
 '''Equivalent of builtin zip with progress bar'''
 
 from tldm import tzip
@@ -950,9 +946,9 @@ for a, b, c in tzip(list1, list2, list3, desc='Zipping'):
 
 # Output: Zipping: 100%|██████████| 50/50 [00:02<00:00, 20.00it/s]
 
-############
+##--------##
 ## tmap() ##
-############
+##--------##
 '''Equivalent of builtin map with progress bar'''
 
 from tldm import tmap
@@ -967,9 +963,9 @@ results = list(tmap(square, numbers, desc='Mapping'))
 
 # Output: Mapping: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
-################
+##------------##
 ## tproduct() ##
-################
+##------------##
 '''Equivalent of itertools.product with progress bar'''
 
 from tldm import tproduct
@@ -979,9 +975,9 @@ for combo in tproduct(range(10), range(10), desc='Product'):
 
 # Output: Product: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
-################
+##------------##
 ## tbatched() ##
-################
+##------------##
 '''Process iterables in batches with progress bar'''
 
 from tldm import tbatched
@@ -995,9 +991,9 @@ for batch in tbatched(data, n=10, desc='Batching'):
 # Output: Batching: 100%|██████████| 10/10 [00:01<00:00, 9.90it/s]
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------ Tips and Best Practices ---------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Tips and Best Practices
+# ==============================================================================================
 
 '''
 1. Use tldm() directly on iterables for simplest usage

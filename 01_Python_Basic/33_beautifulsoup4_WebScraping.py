@@ -1,16 +1,16 @@
 '''
-BeautifulSoup4 (bs4) parses HTML/XML into a navigable tree so you can search, navigate, and extract data. 
+BeautifulSoup4 (bs4) parses HTML/XML into a navigable tree so you can search, navigate, and extract data.
 
 This script is organized in a learn-first order:
 - Parse a local HTML string (for sanity checks),
 - Immediately fetch HTML from a URL and replace the soup with live content,
-- Use that live soup for navigation/search/extraction patterns. 
+- Use that live soup for navigation/search/extraction patterns.
 
 Docs:
-- Beautiful Soup official docs: https://www.crummy.com/software/BeautifulSoup/bs4/doc/ 
-- urllib.request (built-in): https://docs.python.org/3/library/urllib.request.html 
+- Beautiful Soup official docs: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
+- urllib.request (built-in): https://docs.python.org/3/library/urllib.request.html
 
-###################################
+##-------------------------------##
 
 Flow of contents:
 
@@ -24,17 +24,17 @@ Flow of contents:
 8. Extraction loop pattern (optional CSV write)
 9. Common scraping gotchas (missing tags, encoding, timeouts)
 
-No def/class used, only built-in modules + bs4. 
+No def/class used, only built-in modules + bs4.
 '''
 
-from bs4 import BeautifulSoup  # bs4 docs: BeautifulSoup(markup, 'html.parser') 
+from bs4 import BeautifulSoup  # bs4 docs: BeautifulSoup(markup, 'html.parser')
 import requests                # Read HTLM documents from URLs
 import time                    # optional pacing
 
 
-#------------------------------------------------------------------------------------------------#
-#----------------------------------- 1. HTML structure basics -----------------------------------#
-#------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. HTML structure basics
+# ==============================================================================================
 
 '''
 Minimal expected HTML skeleton:
@@ -52,13 +52,13 @@ Minimal expected HTML skeleton:
 '''
 
 
-#------------------------------------------------------------------------------------------------#
-#-------------------------- 2. Parse html_string, then read from URL ----------------------------#
-#------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. Parse html_string, then read from URL
+# ==============================================================================================
 
-#############################
+##-------------------------##
 ## Parse local html_string ##
-#############################
+##-------------------------##
 
 html_string = """
 <html>
@@ -80,7 +80,7 @@ html_string = """
 </html>
 """
 
-# Initial parse from local string (for sanity checks) 
+# Initial parse from local string (for sanity checks)
 soup = BeautifulSoup(html_string, "html.parser")
 
 # Verify initial parse
@@ -96,7 +96,7 @@ print(soup)
 </html>
 '''
 
-#############
+##---------##
 
 print(soup.title) # <title>Sample Page</title>
 print(soup.title.text) # Sample Page (a string type)
@@ -104,9 +104,9 @@ print(soup.title.text) # Sample Page (a string type)
 print(soup.h1) # <h1>Welcome to Web Scraping</h1>
 print(soup.h1.string) # Welcome to Web Scraping (a 'bs4.element.NavigableString' type)
 
-###########################################
+##---------------------------------------##
 ## Read HTML from a URL (MOST IMPORTANT) ##
-###########################################
+##---------------------------------------##
 '''To open HTML contennt of a website, press F12 to inspect, choose "Elements"'''
 
 # Change this URL to your target.
@@ -143,9 +143,9 @@ print(soup)
 </html>
 '''
 
-#####################
+##-----------------##
 ## soup.prettify() ##
-#####################
+##-----------------##
 '''soup.prettify() formats the HTML with proper indentation for readability.'''
 
 pretty_html = soup.prettify()
@@ -175,15 +175,15 @@ print(soup.prettify()[:100])  # print first 100 chars of prettified HTML
 '''
 
 
-#------------------------------------------------------------------------------------------------#
-#------------------------------ 3. Inspect tags / text / attributes -----------------------------#
-#------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. Inspect tags / text / attributes
+# ==============================================================================================
 '''
 Core objects:
 - BeautifulSoup: whole document
 - Tag: element nodes like <head>, <a>, <div>, <p>
 - Text nodes: strings inside tags
-Docs: https://www.crummy.com/software/BeautifulSoup/bs4/doc/ 
+Docs: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 '''
 
 print(soup.head.meta) # <meta charset="utf-8"/>
@@ -202,17 +202,17 @@ print(soup.body.div.div.div.h1)
 print(soup.body.div.div.div.h1.a) # <a href="/" style="text-decoration: none">Quotes to Scrape</a>
 print(soup.body.div.div.div.h1.a['style']) # text-decoration: none
 
-##################
+##--------------##
 
 print(soup.name) # Usually '[document]' for the root
 # [document]
 
 # Find the first <a> tag (link)
-print(soup.find("a"))  
+print(soup.find("a"))
 '''
 <a href="/" style="text-decoration: none">Quotes to Scrape</a>
 
-NOTE: may be None if page has no links 
+NOTE: may be None if page has no links
 '''
 
 first_a = soup.find("a") # first_a here is a Tag object
@@ -224,15 +224,15 @@ print(first_a.get('style'))  # text-decoration: none
 print(first_a.get_text(strip=True))  # Quotes to Scrape
 
 
-#------------------------------------------------------------------------------------------------#
-#--------------------------------- 4. Navigate the parse tree -----------------------------------#
-#------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 4. Navigate the parse tree
+# ==============================================================================================
 
 body = soup.body  # may be None if HTML is fragment or unusual
 print("Has <body>:", body is not None)
 # Has <body>: True
 
-print(body.children) 
+print(body.children)
 # <generator object Tag.children.<locals>.<genexpr> at 0x7b905973b400>
 
 body_children = list(body.children)
@@ -247,7 +247,7 @@ print(body_children)
 print(body_children.count('\n')) # '\n' are text
 # 3
 
-######################
+##------------------##
 
 first_element_child = None
 for node in body_children: # get the first element child (skip text nodes)
@@ -266,7 +266,7 @@ print(f"First element child under <body>:\n{first_element_child.prettify()}")
 </div>
 '''
 
-######################
+##------------------##
 
 # Find next sibling of that first element child (skipping text nodes)
 next_sibling = first_element_child.find_next_sibling()
@@ -296,18 +296,18 @@ print(f"Next sibling of first element child:\n{next_sibling.prettify()}")
 '''
 
 
-#------------------------------------------------------------------------------------------------#
-#------------------------------ 5. Searching (find / find_all) safely ---------------------------#
-#------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 5. Searching (find / find_all) safely
+# ==============================================================================================
 
 '''
-- find(...) -> first match or None 
+- find(...) -> first match or None
 - find_all(...) -> list (possibly empty)
 '''
 
-#############
+##---------##
 ## .find() ##
-#############
+##---------##
 
 first_quote = soup.find(name="span", class_="text")  # Tag or None
 
@@ -320,27 +320,27 @@ print(first_quote.get('itemprop'))  # text
 
 print(first_quote.get_text(strip=True)) # strip=True removes surrounding whitespace
 '''
-“The world as we have created it is a process of our thinking. 
+“The world as we have created it is a process of our thinking.
 It cannot be changed without changing our thinking.”
 '''
 
-#################
+##-------------##
 ## .find_all() ##
-#################
+##-------------##
 
 all_links = soup.find_all("a")  # list
 
 print(all_links[:3])  # print first few <a> tags
 '''
-[<a href="/" style="text-decoration: none">Quotes to Scrape</a>, 
-<a href="/login">Login</a>, 
+[<a href="/" style="text-decoration: none">Quotes to Scrape</a>,
+<a href="/login">Login</a>,
 <a href="/author/Albert-Einstein">(about)</a>]
 '''
 
 print("Number of <a> tags:", len(all_links))
 # Number of <a> tags: 55
 
-######################
+##------------------##
 
 # Print first few links (safe)
 max_show = 5
@@ -360,22 +360,22 @@ Link: change => /tag/change/page/1/
 Link: deep-thoughts => /tag/deep-thoughts/page/1/
 '''
 
-######################
+##------------------##
 
 # Safe None-handling pattern
-maybe_title = soup.find("title")  # Tag or None 
+maybe_title = soup.find("title")  # Tag or None
 title_text = maybe_title.get_text(strip=True) if maybe_title else None # Get the text safely (if it is not None)
 
 print("Safe title_text:", title_text)
 # Safe title_text: Quotes to Scrape
 
 
-#------------------------------------------------------------------------------------------------#
-#----------------------------------- 6. Text extraction -----------------------------------------#
-#------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 6. Text extraction
+# ==============================================================================================
 '''
-- .string is only reliable when a tag has a single direct text node. 
-- .get_text(strip=True) is robust for “all text under this tag”. 
+- .string is only reliable when a tag has a single direct text node.
+- .get_text(strip=True) is robust for “all text under this tag”.
 '''
 
 h1 = soup.find("h1")
@@ -389,7 +389,7 @@ print(h1.prettify())
 </h1>
 '''
 
-#########################################
+##-------------------------------------##
 
 print(h1.string)
 # None
@@ -398,9 +398,9 @@ print(h1.string)
 print(h1.get_text(strip=True))
 # Quotes to Scrape
 
-###########################
+##-----------------------##
 ## Demo single text node ##
-###########################
+##-----------------------##
 
 first_a = soup.find("a")
 
@@ -416,20 +416,20 @@ print(first_a.string)
 '''Because <a> has only one direct text node, .string works here.'''
 
 
-#------------------------------------------------------------------------------------------------#
-#------------------------------ 7. CSS selectors (select / select_one) --------------------------#
-#------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 7. CSS selectors (select / select_one)
+# ==============================================================================================
 
 '''
 CSS selectors:
 - select("CSS") -> list
 - select_one("CSS") -> first match or None
-Docs: https://www.crummy.com/software/BeautifulSoup/bs4/doc/ 
+Docs: https://www.crummy.com/software/BeautifulSoup/bs4/doc/
 '''
 
-###############
+##-----------##
 ## .select() ##
-###############
+##-----------##
 
 all_paragraphs = soup.select("p")
 
@@ -447,9 +447,9 @@ print(all_paragraphs)
 print(len(all_paragraphs))
 # 3
 
-###################
+##---------------##
 ## .select_one() ##
-###################
+##---------------##
 
 first_p = soup.select_one("p")
 
@@ -466,12 +466,12 @@ print(first_p.get_text(strip=True))
 # Login
 
 
-#------------------------------------------------------------------------------------------------#
-#------------------------------ 8. Extraction loop pattern (+ CSV optional) ---------------------#
-#------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 8. Extraction loop pattern (+ CSV optional)
+# ==============================================================================================
 
 rows = []
-for a in soup.find_all("a"):  # list of Tag 
+for a in soup.find_all("a"):  # list of Tag
     rows.append({
         "text": a.get_text(" ", strip=True),
         "href": a.get("href")
@@ -490,9 +490,9 @@ Row 4: Text='change', Href='/tag/change/page/1/'
 Row 5: Text='deep-thoughts', Href='/tag/deep-thoughts/page/1/'
 '''
 
-#############################
+##-------------------------##
 ## Write to CSV (optional) ##
-#############################
+##-------------------------##
 
 '''
 import csv
@@ -505,19 +505,19 @@ with open(output_path, "w", newline="", encoding="utf-8") as f:
 '''
 
 
-#------------------------------------------------------------------------------------------------#
-#------------------------------ 9. Common gotchas (practical) -----------------------------------#
-#------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 9. Common gotchas (practical)
+# ==============================================================================================
 
 '''
 1) Missing elements are normal:
-   - Any find/select might return None (single) or [] (list). Guard before using .text/.get_text(). 
+   - Any find/select might return None (single) or [] (list). Guard before using .text/.get_text().
 
 2) Encoding:
-   - BS4 converts documents to Unicode internally; passing bytes assumes UTF-8 unless you decode yourself. 
+   - BS4 converts documents to Unicode internally; passing bytes assumes UTF-8 unless you decode yourself.
 
 3) Networking:
-   - Always set a timeout for urlopen to avoid indefinite hanging. 
+   - Always set a timeout for urlopen to avoid indefinite hanging.
 
 4) Rate limiting:
    - Use sleep between requests when scraping multiple pages.

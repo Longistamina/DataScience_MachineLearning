@@ -25,17 +25,13 @@ give the optimal set and the optimal value.
 import cvxpy as cp
 import numpy as np
 
-#--------------------------------
-## Define the variables
-#--------------------------------
-
+# ## Define the variables
+# 
 x1 = cp.Variable(name = "x1")
 x2 = cp.Variable(name = "x2")
 
-#--------------------------------
-## Define the constraints
-#--------------------------------
-
+# ## Define the constraints
+# 
 # Normal way
 opt_constraints = [
     -2*x1 - x2 <= -1, # 2x₁ + x₂ ≥ 1
@@ -60,10 +56,8 @@ opt_constraints_matrix = [
 ]
 
 
-#-----------------------------------
-## (a) f₀(x₁, x₂) = x₁ + x₂.
-#-----------------------------------
-
+# ## (a) f₀(x₁, x₂) = x₁ + x₂.
+# 
 # Define objective
 objective_a = cp.Minimize(x1 + x2)
 
@@ -113,10 +107,8 @@ print(
 # Optimal variables: (array(0.4), array(0.2))
 
 
-#-----------------------------------
-## (b) f₀(x₁, x₂) = -x₁ - x₂.
-#-----------------------------------
-
+# ## (b) f₀(x₁, x₂) = -x₁ - x₂.
+# 
 objective_b = cp.Minimize(-x1 - x2)
 
 problem_b = cp.Problem(
@@ -138,10 +130,8 @@ print(
 # Optimal variables: (None, None)
 
 
-#-----------------------------------
-## (c) f₀(x₁, x₂) = x₁.
-#-----------------------------------
-
+# ## (c) f₀(x₁, x₂) = x₁.
+# 
 objective_c = cp.Minimize(x1)
 
 problem_c = cp.Problem(
@@ -163,10 +153,8 @@ print(
 # Optimal variables: (array(-1.95729336e-11), array(1.69159744))
 
 
-#-----------------------------------
-## (d) f₀(x₁, x₂) = max{x₁, x₂}.
-#-----------------------------------
-
+# ## (d) f₀(x₁, x₂) = max{x₁, x₂}.
+# 
 objective_d = cp.Minimize(cp.max([x1, x2])) # NOT cp.max(x1, x2) because cp.max() takes one argument only
                                             # or can use cp.maximum(x1, x2)
 
@@ -189,10 +177,8 @@ print(
 # Optimal variables: (array(0.33333333), array(0.33333333))
 
 
-#-----------------------------------
-## (e) f₀(x₁, x₂) = x₁² + 9x₂².
-#-----------------------------------
-
+# ## (e) f₀(x₁, x₂) = x₁² + 9x₂².
+# 
 objective_e = cp.Minimize(x1**2 + 9*(x2**2))
 
 problem_e = cp.Problem(

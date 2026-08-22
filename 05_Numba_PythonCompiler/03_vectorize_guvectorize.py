@@ -41,9 +41,9 @@ print(matrix_2)
 #  [-1.626  0.22   0.679  1.889]]
 
 
-#--------------------------------------------------------------------------------------------------#
-#----------------------------------- ufunc - @numba.vectorzie -------------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# ufunc - @numba.vectorzie
+# =========================================================================================
 '''
 ``@numba.vectorize`` allows Python functions that take scalar inputs behave as a vectorized function.
 (Like numpy functions)
@@ -57,9 +57,9 @@ Numba will generate the surrounding loop (or kernel) allowing efficient iteratio
 ``@numba.vectorize`` also has 2 modes: eager and lazy
 '''
 
-######################
+##------------------##
 ## Single signature ##
-######################
+##------------------##
 
 @nb.vectorize([nb.float32(nb.float32, nb.float32)]) # Use ``[signature(signatures)]`` to make it iterable
 def add(x, y):
@@ -72,9 +72,9 @@ result = add(vector_1.astype(np.float32), vector_2.astype(np.float32))
 print(result.round(3))
 # [ 1.457  0.562  1.648  1.743  0.127  0.506  2.575  1.083 -0.332  0.927]
 
-#########################
+##---------------------##
 ## Multiple signatures ##
-#########################
+##---------------------##
 '''
 If you pass several signatures, beware that you have to pass most specific signatures before least specific ones
 (e.g., single-precision float32 before double-precision float64),
@@ -90,7 +90,7 @@ otherwise type-based dispatching will not work as expected
 def sum(x, y):
     return x + y
 
-#-----------------#
+# =========================================================================================
 
 result = sum(
     (vector_1*10).astype(np.int32),
@@ -99,7 +99,7 @@ result = sum(
 print(result)
 # [ 8  2 11 16 -1  1 19  8 -4  6]
 
-#-----------------#
+# =========================================================================================
 
 result = sum(
     (vector_1*3).astype(np.float64),
@@ -108,9 +108,9 @@ result = sum(
 print(result)
 # [ 5.331  2.386  5.944  5.449  0.742  2.258  8.721  3.565 -0.859  3.165]
 
-############################################
+##----------------------------------------##
 ## Other features of @vectorize functions ##
-############################################
+##----------------------------------------##
 
 m1_reduced = sum.reduce(matrix_1, axis=0)
 print(m1_reduced)
@@ -130,9 +130,9 @@ print(m1_accumulated)
 # [ 6 22 38]
 
 
-#-----------------------------------------------------------------------------------------------------#
-#----------------------------------- gufunc - @numba.guvectorzie -------------------------------------#
-#-----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# gufunc - @numba.guvectorzie
+# =========================================================================================
 '''
 The ``@numba.guvectorize()`` decorator takes the concept one step further,
 allows you to write ufuncs that will work on an arbitrary number of elements of input arrays,
@@ -143,9 +143,9 @@ The typical example is a running median or a convolution filter.
 ``@numba.guvectorize()`` also has two modes of operation: eager and lazy
 '''
 
-#######################################
+##-----------------------------------##
 ## symbolic layout - return nD array ##
-#######################################
+##-----------------------------------##
 
 @nb.guvectorize([(nb.int32[:], nb.int32, nb.int32[:])], '(n),()->(n)')
 def filter_threshold(input, threshold, result):
@@ -165,7 +165,7 @@ No need to use return here since the `->(n)` already told numba that the third p
 numba will return it automatically
 '''
 
-#--------------#
+# =========================================================================================
 
 vector_input = (vector_1*10).astype(np.int32)
 print(vector_input)
@@ -175,7 +175,7 @@ vector_filtered = filter_threshold(vector_input, 0)
 print(vector_filtered)
 # [ 4  0  6 15  0  0 15  7  0  5]
 
-#--------------#
+# =========================================================================================
 
 matrix_input = (matrix_2*10).astype(np.int32)
 print(matrix_input)
@@ -185,9 +185,9 @@ print(matrix_input)
 
 '''Here, ``@numba.guvectorize`` automatically dispatches over more complicated inputs, depending on their shapes'''
 
-#######################################
+##-----------------------------------##
 ## symbolic layout - return a scalar ##
-#######################################
+##-----------------------------------##
 '''
 To return a scalar value only, we do this:
     + in the signatures, declare the scalar return with [:] like a 1-dimensional array (eg. int64[:]),
@@ -249,9 +249,9 @@ matrix_min = aggregate(matrix_2.flatten().astype(np.float32), 3)
 print(matrix_min)
 # -1.626
 
-##############################
+##--------------------------##
 ## Overwriting input values ##
-##############################
+##--------------------------##
 
 @nb.guvectorize([(nb.float64[:], nb.float64, nb.float64[:])], '(),()->()')
 def overwrite(ins, replace, outs):
@@ -266,9 +266,9 @@ print(matrix_overwritten.round(2))
 #  [35.8 35.8 35.8 35.8]]
 
 
-#------------------------------------------------------------------------------------------#
-#----------------------------------- dufunc - dgufunc -------------------------------------#
-#------------------------------------------------------------------------------------------#
+# =========================================================================================
+# dufunc - dgufunc
+# =========================================================================================
 '''
 dufunc = dynamic ufunc = @vectorize without signatures
 dgufunc = dynamic gufunc = @guvectorize without signatures
@@ -283,7 +283,7 @@ def f(x, y):
 
 print(f(2, -3)) # 5
 
-#---------------#
+# =========================================================================================
 
 @nb.guvectorize('(n),()->()')
 def g(x, y, out):

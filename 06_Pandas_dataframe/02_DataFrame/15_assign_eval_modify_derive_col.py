@@ -43,13 +43,13 @@ print(df_baseball.dtypes)
 # dtype: object
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 1. Using df["col_name"] = ... ---------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Using df["col_name"] = ...
+# =========================================================================================
 
-#####################################
+##---------------------------------##
 ##     Modify existing columns     ##
-#####################################
+##---------------------------------##
 '''df["existing_col"] = ...'''
 
 df_demo = df_baseball.copy()
@@ -70,9 +70,9 @@ print(df_demo.head(3))
 # 1        Paul_Bako  bal  187.96     215
 # 2  Ramon_Hernandez  bal  182.88     210
 
-################################
+##----------------------------##
 ##     Derive new columns     ##
-################################
+##----------------------------##
 '''df["new_col"] = ...'''
 
 df_demo = df_baseball.copy()
@@ -89,19 +89,17 @@ print(df_demo.head(3))
 # 2  Ramon_Hernandez  BAL      72     210     1.8288   95.25432  28.480805
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 2. Using df.assign() -----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Using df.assign()
+# =========================================================================================
 
-#####################################
+##---------------------------------##
 ##     Modify existing columns     ##
-#####################################
+##---------------------------------##
 '''df = df.assign(existing_col = lambda df: ...)'''
 
-#-----------------
-## Modify a single column: Weight from lbs to kg
-#-----------------
-
+# ## Modify a single column: Weight from lbs to kg
+# 
 df_demo = df_baseball.copy().assign(Weight = lambda df: df["Weight"] * 0.453592)
 
 print(df_demo.head(3))
@@ -110,10 +108,8 @@ print(df_demo.head(3))
 # 1        Paul_Bako  BAL      74  97.52228
 # 2  Ramon_Hernandez  BAL      72  95.25432
 
-#-----------------
-## Modify multiple columns: Height from inches to cm, Weight from lbs to kg, Team to lowercase
-#-----------------
-
+# ## Modify multiple columns: Height from inches to cm, Weight from lbs to kg, Team to lowercase
+# 
 df_demo = df_baseball.copy().assign(
     Height = c("Height") * 2.54, # or use lambda df: df["Height"] * 2.54
     Weight = c("Weight") * 0.453592, # or use lambda df: df["Weight"] * 0.453592
@@ -126,15 +122,13 @@ print(df_demo.head(3))
 # 1        Paul_Bako  bal  187.96  97.52228
 # 2  Ramon_Hernandez  bal  182.88  95.25432
 
-################################
+##----------------------------##
 ##     Derive new columns     ##
-################################
+##----------------------------##
 '''df = df.assign(new_col = ...) OR df.assign(new_col = lambda df: ...)'''
 
-#-----------------
-## Derive single column
-#-----------------
-
+# ## Derive single column
+# 
 # Add Raise column with random True/False values
 np.random.seed(0)
 df_demo = df_baseball.copy().assign(Raise = np.random.choice([True, False], size=len(df_baseball)))
@@ -152,10 +146,8 @@ print(df_demo.head(3))
 # 1        Paul_Bako  BAL      74     215  0.039262
 # 2  Ramon_Hernandez  BAL      72     210  0.040509
 
-#-----------------
-## Derive multiple columns
-#-----------------
-
+# ## Derive multiple columns
+# 
 # Add Height in cm, Weight in kg, and BMI columns
 df_demo = df_baseball.copy().assign(
     Height_cm = c("Height") * 2.54,
@@ -169,15 +161,13 @@ print(df_demo.head(3))
 # 1        Paul_Bako  BAL      74     215     187.96   97.52228  0.002760
 # 2  Ramon_Hernandez  BAL      72     210     182.88   95.25432  0.002848
 
-#####################################################################
+##-----------------------------------------------------------------##
 ## Using df.assign(**kwargs) to avoid overlap with python keywords ##
-#####################################################################
+##-----------------------------------------------------------------##
 '''df = df.assign(**{keyword_col = ...}) OR df.assign(**{keyword_col = lambda df: ...})'''
 
-#--------------------
-## Add "raise" column (keyword conflict with Python)
-#--------------------
-
+# ## Add "raise" column (keyword conflict with Python)
+# 
 np.random.seed(0)
 df_demo = df_baseball.copy().assign(**{"raise": np.random.choice([True, False], size=len(df_baseball))})
 
@@ -187,10 +177,8 @@ print(df_demo.head(3))
 # 1        Paul_Bako  BAL      74     215  False
 # 2  Ramon_Hernandez  BAL      72     210  False
 
-#--------------------
-## Multiple columns
-#--------------------
-
+# ## Multiple columns
+# 
 # Add Height in cm, Weight in kg, and BMI columns
 # Also modify "Team" to lowercase
 
@@ -207,10 +195,8 @@ print(df_demo.head(3))
 # 1        Paul_Bako  bal      74     215     187.96   97.52228  0.002760
 # 2  Ramon_Hernandez  bal      72     210     182.88   95.25432  0.002848
 
-#------------------
-## Apply for loops **{col: lambda df: ... for col in cols}
-#------------------
-
+# ## Apply for loops **{col: lambda df: ... for col in cols}
+# 
 print(
     df_baseball
     .copy()
@@ -226,9 +212,9 @@ print(
 # 4      Chris_Gomez        BAL     188.0     188.0
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 3. Using df.eval() ------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Using df.eval()
+# =========================================================================================
 
 '''
 Support operators: +, -, *, /, //, %, ** and parentheses () for grouping.
@@ -241,15 +227,13 @@ Can use @ to reference variables outside the DataFrame like: @variable_name.
 inch_to_m = 0.0254
 lbs_to_kg = 0.453592
 
-#####################################
+##---------------------------------##
 ##     Modify existing columns     ##
-#####################################
+##---------------------------------##
 '''df.eval("existing_col = ...", inplace=True/False)'''
 
-#-----------------
-## Modify a single column: Weight from lbs to kg
-#-----------------
-
+# ## Modify a single column: Weight from lbs to kg
+# 
 df_demo = df_baseball.copy().eval("Weight = Weight * @lbs_to_kg", inplace=False)
 print(df_demo.head(3))
 #               Name Team  Height    Weight
@@ -257,10 +241,8 @@ print(df_demo.head(3))
 # 1        Paul_Bako  BAL      74  97.52228
 # 2  Ramon_Hernandez  BAL      72  95.25432
 
-#-----------------
-## Modify multiple columns
-#-----------------
-
+# ## Modify multiple columns
+# 
 df_demo = df_baseball.copy().eval(
     """
     Height = Height * @inch_to_m
@@ -275,15 +257,13 @@ print(df_demo.head(3))
 # 1        Paul_Bako  bal  1.8796  97.52228
 # 2  Ramon_Hernandez  bal  1.8288  95.25432
 
-################################
+##----------------------------##
 ##     Derive new columns     ##
-################################
+##----------------------------##
 '''df.eval("new_col = ...", inplace = True/False)'''
 
-#-----------------
-## Derive single column (apply ``)
-#-----------------
-
+# ## Derive single column (apply ``)
+# 
 df_demo = df_baseball.copy().eval("BMI = `Weight` / (`Height` ** 2)", inplace = False)
 print(df_demo.head(3))
 #               Name Team  Height  Weight       BMI
@@ -291,10 +271,8 @@ print(df_demo.head(3))
 # 1        Paul_Bako  BAL      74     215  0.039262
 # 2  Ramon_Hernandez  BAL      72     210  0.040509
 
-#-----------------
-## Derive multiple columns
-#-----------------
-
+# ## Derive multiple columns
+# 
 df_demo = df_baseball.copy().eval(
     """
     height_m = Height * @inch_to_m

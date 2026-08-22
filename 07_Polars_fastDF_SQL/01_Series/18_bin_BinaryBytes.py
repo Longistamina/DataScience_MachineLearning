@@ -7,7 +7,7 @@ cryptography, images, or low-level memory manipulation.
 The `.bin` namespace provides vectorized operations specifically for raw bytes.
 The `.str` namespace provides operations for text strings (including decoding text into bytes).
 
-######################################################
+##--------------------------------------------------##
 0. Creation: Byte strings (b"...") and casting
 1. Transfer Encodings: Hex and Base64 (.str.decode vs .bin.encode)
 2. UTF-8 String Conversion (Casting)
@@ -20,9 +20,9 @@ The `.str` namespace provides operations for text strings (including decoding te
 import polars as pl
 import struct
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------------------- 0. Creation ---------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Creation
+# =========================================================================================
 '''
 You can create a Binary Series by passing Python byte strings (prefixed with `b`),
 or by casting a standard String Series to `pl.Binary`.
@@ -51,9 +51,9 @@ print(s_bin)
 # 	b"data"
 # ]
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------- 1. Transfer Encodings (Hex & Base64) ------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Transfer Encodings (Hex & Base64)
+# =========================================================================================
 '''
 IMPORTANT: The namespace you use depends strictly on the CURRENT data type of the Series!
 - If you have a String Series (text) and want to decode it into raw Binary bytes,
@@ -85,9 +85,9 @@ print(s_base64_str)
 # ]
 
 
-#-------------------------------------------------------------------------------------------------#
-#-------------------------------- 2. UTF-8 String Conversion -------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. UTF-8 String Conversion
+# =========================================================================================
 '''
 To convert raw UTF-8 bytes to a Polars String (or vice versa), you simply use `.cast()`.
 Polars natively assumes `pl.Binary` <-> `pl.String` casting uses UTF-8.
@@ -110,9 +110,9 @@ print(s_bad_bytes.cast(pl.String))
 # To be safe with messy byte data, you can use map_elements or handle it at ingestion.
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------- 3. Searching & Matching -------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Searching & Matching
+# =========================================================================================
 '''
 You can search for specific byte substrings using `.bin.contains()`,
 `.bin.starts_with()`, and `.bin.ends_with()`.
@@ -134,9 +134,9 @@ print(s_bin.bin.ends_with(b"ld"))
 # [false, true, false, false]
 
 
-#-------------------------------------------------------------------------------------------------#
-#---------------------------------- 4. Slicing & Extraction --------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Slicing & Extraction
+# =========================================================================================
 '''
 Just like strings, binary data can be sliced. However, the operations are strictly
 byte-based, not character-based (which matters for multi-byte UTF-8 characters).
@@ -164,9 +164,9 @@ print(s_bin.bin.get(0))
 # [104, 119, 112]
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------ 5. Size & Information --------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Size & Information
+# =========================================================================================
 '''
 .bin.size() returns the exact number of bytes in each binary element.
 You can optionally pass a unit like "kb", "mb", etc., but "b" (bytes) is the default.
@@ -188,9 +188,9 @@ print(s_bin.filter(s_bin.bin.size() > 0))
 # [b"hello", b"\x00\x01\x02"]
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------- 6. Low-Level Memory Casting (.bin.reinterpret) --------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Low-Level Memory Casting (.bin.reinterpret)
+# =========================================================================================
 '''
 One of the most powerful features of the `.bin` namespace is `.reinterpret()`.
 It allows you to take raw, unstructured bytes and cast them directly into

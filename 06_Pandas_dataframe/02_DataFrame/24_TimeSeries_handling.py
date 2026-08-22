@@ -4,9 +4,9 @@ from pathlib import Path
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-##################################
+##------------------------------##
 ## Read the Air Quality dataset ##
-##################################
+##------------------------------##
 
 df_aq = (
     pd.read_csv(data_dir/"air_quality_no2_long.csv")
@@ -36,9 +36,9 @@ print(df_aq.info())
 # dtypes: float64(1), object(6)
 '''date is still str, not datetime datatype yet'''
 
-#########################################
+##-------------------------------------##
 ## Convert the date column to datetime ##
-#########################################
+##-------------------------------------##
 
 df_aq["date"] = pd.to_datetime(df_aq["date"], format="%Y-%m-%d %H:%M:%S%z")
 
@@ -52,9 +52,9 @@ print(df_aq.dtypes)
 # unit                      object
 # dtype: object
 
-###########################################
+##---------------------------------------##
 ## df["date"].min() and df["date"].max() ##
-###########################################
+##---------------------------------------##
 '''
 The df["date"].min() returns the earliest date in the "date" column,
     df["date"].max() returns the latest date.
@@ -63,9 +63,9 @@ The df["date"].min() returns the earliest date in the "date" column,
 print(df_aq["date"].min())  # 2019-05-07 01:00:00+00:00
 print(df_aq["date"].max())  # 2019-06-21 00:00:00+00:00
 
-################################################
+##--------------------------------------------##
 ## Extract some properties of the date column ##
-################################################
+##--------------------------------------------##
 
 print(df_aq["date"].dt.month)
 # 0       6
@@ -94,14 +94,12 @@ print(df_aq.head())
 # 3  Paris      FR 2019-06-20 21:00:00+00:00  FR04014       no2   24.9  µg/m³      6
 # 4  Paris      FR 2019-06-20 20:00:00+00:00  FR04014       no2   21.4  µg/m³      6
 
-############################################
+##----------------------------------------##
 ## Groupby statistics on time series data ##
-############################################
+##----------------------------------------##
 
-#----------------
-## Groupby weekday and location, compute the mean value
-#----------------
-
+# ## Groupby weekday and location, compute the mean value
+# 
 df_aq_grouped = (
     df_aq
     .groupby([df_aq["date"].dt.weekday, "location"])
@@ -117,10 +115,8 @@ print(df_aq_grouped.head())
 # 1    BETR801             22.214286
 #      FR04014             30.999359
 
-#----------------
-## Groupby using pd.Grouper, calculate the mean every 5 days, and by country
-#----------------
-
+# ## Groupby using pd.Grouper, calculate the mean every 5 days, and by country
+# 
 df_aq_grouped_5d = (
     df_aq.copy()
     .groupby([pd.Grouper(key="date", freq="5D"), "country"])
@@ -141,9 +137,9 @@ print(df_aq_grouped_5d)
 # 8  2019-05-17 00:00:00+00:00      GB  31.966667
 # 9  2019-05-22 00:00:00+00:00      BE  47.500000
 
-#####################################################################
+##-----------------------------------------------------------------##
 ## df.rolling(), df.expanding() and df.ewm() on time-serie indexed ##
-#####################################################################
+##-----------------------------------------------------------------##
 
 df_aq_paris = (
     df_aq
@@ -161,10 +157,8 @@ print(df_aq_paris.head())
 # 2019-05-07 04:00:00+00:00  Paris      FR  FR04014       no2   61.9  µg/m³      5
 # 2019-05-07 05:00:00+00:00  Paris      FR  FR04014       no2   72.4  µg/m³      5
 
-#----------------
-## df.rolling()
-#----------------
-
+# ## df.rolling()
+# 
 print(df_aq_paris["value"].rolling(window='2h').mean())
 # 2019-05-07 01:00:00+00:00    25.00
 # 2019-05-07 02:00:00+00:00    26.35
@@ -182,10 +176,8 @@ print(df_aq_paris["value"].rolling(window='3h').mean())
 
 '''Must have datetime-based index for time-based rolling windows like "2h", "3D", etc.'''
 
-#----------------
-## df.expanding()
-#----------------
-
+# ## df.expanding()
+# 
 print(df_aq_paris["value"].expanding(min_periods=2).mean())
 # 2019-05-07 01:00:00+00:00          NaN
 # 2019-05-07 02:00:00+00:00    26.350000
@@ -203,10 +195,8 @@ print(df_aq_paris["value"].expanding(min_periods=5).mean())
 # 2019-06-20 20:00:00+00:00    27.758300
 # 2019-06-20 21:00:00+00:00    27.755445
 
-#----------------
-## df.ewm()
-#----------------
-
+# ## df.ewm()
+# 
 print(df_aq_paris["value"].ewm(span=2, adjust=False).mean())
 # 2019-05-07 01:00:00+00:00    25.000000
 # 2019-05-07 02:00:00+00:00    26.800000

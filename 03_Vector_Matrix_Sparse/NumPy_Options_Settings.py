@@ -3,7 +3,7 @@ numpy has an options API to configure and customize global behavior related to a
 
 printing behavior, error handling and more.
 
-#########################################
+##-------------------------------------##
 
 1. All available print options: np.get_printoptions()
 
@@ -38,9 +38,9 @@ print(arr_small[:3])
 print(arr_small.shape) # (5, 5)
 
 
-#-------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 1. All available options ---------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. All available options
+# =========================================================================================
 '''Use np.get_printoptions() to see all available print options in numpy.'''
 
 print(np.get_printoptions())
@@ -67,13 +67,13 @@ Key options:
 '''
 
 
-#-------------------------------------------------------------------------------------------------------#
-#---------------------------- 2. Getting, Setting and Resetting options --------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Getting, Setting and Resetting options
+# =========================================================================================
 
-###########################
+##-----------------------##
 ## np.get_printoptions() ##
-###########################
+##-----------------------##
 '''Use np.get_printoptions() to get the current value of all print options.'''
 
 print(np.get_printoptions()['threshold'])  # 1000
@@ -82,9 +82,9 @@ print(np.get_printoptions()['linewidth'])  # 75
 print(np.get_printoptions()['suppress'])   # False
 print(np.get_printoptions()['edgeitems'])  # 3
 
-###########################
+##-----------------------##
 ## np.set_printoptions() ##
-###########################
+##-----------------------##
 '''Use np.set_printoptions() to set specific options to new values.'''
 
 np.get_printoptions()['threshold']  # 1000
@@ -95,9 +95,9 @@ np.set_printoptions(threshold=50)
 # Check the updated value
 np.get_printoptions()['threshold']  # 50
 
-###########################
+##-----------------------##
 ## Resetting to defaults ##
-###########################
+##-----------------------##
 '''Reset options by calling np.set_printoptions() with default values.'''
 
 print(np.get_printoptions()['suppress'])  # False
@@ -112,9 +112,9 @@ np.set_printoptions(suppress=False)
 print(np.get_printoptions()['suppress'])  # False
 
 
-#-------------------------------------------------------------------------------------------------------#
-#----------------------- 3. Setting startup options in Python/IPython environment ----------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Setting startup options in Python/IPython environment
+# =========================================================================================
 '''
 NumPy and Python support setting startup options via configuration files.
 So that you don't have to set them manually every time you start a new session.
@@ -129,13 +129,13 @@ https://numpy.org/doc/stable/reference/generated/numpy.set_printoptions.html
 '''
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------------------- 4. Frequently used options --------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Frequently used options
+# =========================================================================================
 
-######################
+##------------------##
 ## linewidth option ##
-######################
+##------------------##
 
 np.set_printoptions(linewidth=50)
 print(arr_large)
@@ -163,9 +163,9 @@ print(arr_large)
 #  [-0.75526221  0.57094993 -0.03856273 ...  1.43408794 -0.38952117 -0.56208319]
 #  [-0.31487046 -0.40836298 -0.69456197 ... -0.302127   -0.3843384   0.24684914]]
 
-######################
+##------------------##
 ## threshold option ##
-######################
+##------------------##
 
 np.set_printoptions(threshold=1000)  # Reset to default value
 print(np.get_printoptions()['threshold'])  # 1000
@@ -175,10 +175,8 @@ arr_1d = np.arange(20)
 print(arr_1d)
 # [ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]
 
-#--------------------
-## Change threshold
-#--------------------
-
+# ## Change threshold
+# 
 np.set_printoptions(threshold=10)
 print(arr_1d)
 # [ 0  1  2 ... 17 18 19]
@@ -211,9 +209,9 @@ each dimension exceeds the threshold of 10 elements, so it is summarized.
 np.set_printoptions(threshold=1000)  # Reset to default value
 print(arr_large)
 
-######################
+##------------------##
 ## precision option ##
-######################
+##------------------##
 
 print(np.get_printoptions()['precision'])  # 8
 
@@ -227,9 +225,9 @@ print(arr)
 
 np.set_printoptions(precision=8)  # Reset to default value
 
-#####################
+##-----------------##
 ## suppress option ##
-#####################
+##-----------------##
 
 print(np.get_printoptions()['suppress'])  # False
 
@@ -243,9 +241,9 @@ print(arr_small_vals)
 
 np.set_printoptions(suppress=False)  # Reset to default value
 
-######################
+##------------------##
 ## edgeitems option ##
-######################
+##------------------##
 
 print(np.get_printoptions()['edgeitems'])  # 3
 
@@ -261,9 +259,9 @@ print(arr_large)
 np.set_printoptions(threshold=1000, edgeitems=3)  # Reset to default value
 
 
-#-------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 5. Number formatting ------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Number formatting
+# =========================================================================================
 '''
 numpy allows you to set custom formatters for different data types.
 Use the formatter parameter in np.set_printoptions() to alter the formatting.
@@ -288,9 +286,9 @@ print(arr_sci)
 np.set_printoptions(formatter=None)
 
 
-#-------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 6. Error handling ---------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Error handling
+# =========================================================================================
 '''
 NumPy provides np.seterr() to control how floating-point errors are handled.
 This is separate from the print options but equally important for configuring NumPy behavior.
@@ -300,10 +298,8 @@ This is separate from the print options but equally important for configuring Nu
 print(np.geterr())
 # {'divide': 'warn', 'over': 'warn', 'under': 'ignore', 'invalid': 'warn'}
 
-#----------
-## Change error handling
-#----------
-
+# ## Change error handling
+# 
 # Ignore division by zero warnings
 np.seterr(divide='ignore')
 result = np.array([1, 2, 3]) / 0

@@ -6,7 +6,7 @@ Key Features:
 + Returns scalar, Series, or DataFrame depending on input
 + Supports both string function names and custom functions
 
-#################
+##-------------##
 
 + Single Function
 + Multiple Functions
@@ -38,9 +38,9 @@ print(df_baseball.head(3))
 # 1        Paul_Bako  BAL  187.96  97.52228
 # 2  Ramon_Hernandez  BAL  182.88  95.25432
 
-####################################
+##--------------------------------##
 ## Aggregate with Single Function ##
-####################################
+##--------------------------------##
 
 print(
     df_baseball[["Height", "Weight"]].agg("mean")
@@ -68,9 +68,9 @@ print(
 # Q3  190.50   97.522280
 # Q4  210.82  131.541680
 
-#######################################
+##-----------------------------------##
 ## Aggregate with Multiple Functions ##
-#######################################
+##-----------------------------------##
 
 print(
     df_baseball[["Height", "Weight"]]
@@ -81,9 +81,9 @@ print(
 # median  187.960000  90.718400
 # std       5.877387   9.445198
 
-############################
+##------------------------##
 ## Using dictionary style ##
-############################
+##------------------------##
 
 print(
     df_baseball
@@ -100,9 +100,9 @@ print(
 # var            NaN  89.211770
 # std            NaN   9.445198
 
-######################
+##------------------##
 ## Rename row-names ##
-######################
+##------------------##
 
 print(
     df_baseball[["Height", "Weight"]]

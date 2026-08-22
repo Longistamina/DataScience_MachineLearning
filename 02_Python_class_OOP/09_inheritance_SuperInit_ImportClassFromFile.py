@@ -23,9 +23,9 @@ class Item:
         return self.price * self.quantity
 
 
-#------------------------------------------------#
-#----------- why need Inheritance? --------------#
-#------------------------------------------------#
+# =========================================================================================
+# why need Inheritance?
+# =========================================================================================
 
 # Imagine our item list have many types of phones.
 # We want to determine whether the phone is broken or not for selling.
@@ -63,9 +63,9 @@ print(Phone.all_items)
 # Output: [Phone(iPhone 14, 1200, 5, True), Phone(iPhone 14, 1200, 5, Broken: True), Phone(Samsung Galaxy S23, 1000, 3, Broken: False)]
 
 
-#----------------------------------------------------------#
-#----------- Inheritance from other .py file --------------#
-#----------------------------------------------------------#
+# =========================================================================================
+# Inheritance from other .py file
+# =========================================================================================
 
 # We can also import the Item class from another file like item.py and inherit from it
 

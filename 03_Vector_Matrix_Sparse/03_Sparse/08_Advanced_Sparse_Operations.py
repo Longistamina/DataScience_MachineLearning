@@ -44,13 +44,13 @@ from scipy.sparse.csgraph import (connected_components, shortest_path,
 
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------- 1. Canonical Formats and Duplicates ----------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Canonical Formats and Duplicates
+# =========================================================================================
 
-######################
+##------------------##
 ## Canonical format ##
-######################
+##------------------##
 '''
 Canonical format requirements:
 - No duplicate entries
@@ -76,9 +76,9 @@ print(coo_dup.toarray())
 #  [0 3 4]
 #  [0 0 0]]
 
-######################
+##------------------##
 ## sum_duplicates() ##
-######################
+##------------------##
 '''
 Sum duplicate entries in-place
 Changes array to canonical format
@@ -95,9 +95,9 @@ print(f"Row indices: {coo_dup.row}") # [0 1 1]
 print(f"Col indices: {coo_dup.col}") # [0 1 2]
 print(f"Data values: {coo_dup.data}") # [8 3 4]
 
-####################
+##----------------##
 ## Sorted indices ##
-####################
+##----------------##
 '''
 Canonical format has sorted indices
 Important for efficient operations
@@ -122,13 +122,13 @@ print(f"CSR indices: {csr_sorted.indices}") # [0 2 0 1]
 print(f"CSR indptr: {csr_sorted.indptr}")   # [0 2 3 4]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 2. Zero Management -----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Zero Management
+# =========================================================================================
 
-#######################
+##-------------------##
 ## eliminate_zeros() ##
-#######################
+##-------------------##
 '''
 Remove explicit zeros from sparse array
 Reduces memory and improves performance
@@ -161,9 +161,9 @@ print(csr_zeros.toarray())
 #  [0 2 0]
 #  [0 0 3]]
 
-#############
+##---------##
 ## prune() ##
-#############
+##---------##
 '''
 Remove entries smaller than threshold
 Useful for removing numerical noise
@@ -195,9 +195,9 @@ print(A_pruned.toarray())
 
 print(f"Stored elements: {A_pruned.nnz}") # 5
 
-############################
+##------------------------##
 ## nnz vs count_nonzero() ##
-############################
+##------------------------##
 '''
 nnz: number of stored elements (including explicit zeros)
 count_nonzero(): actual non-zero elements
@@ -220,13 +220,13 @@ print(f"nnz (stored): {A_explicit.nnz}") # 5
 print(f"count_nonzero(): {A_explicit.count_nonzero()}") # 4
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 3. Reshape and Transpose -------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Reshape and Transpose
+# =========================================================================================
 
-#############
+##---------##
 ## Reshape ##
-#############
+##---------##
 '''
 Reshape sparse arrays
 Must preserve total number of elements
@@ -262,9 +262,9 @@ A_flat = A_reshape.reshape((-1,))
 print(A_flat.toarray())
 # [1 0 2 0 0 3 0 4 5 0 6 0]
 
-###############
+##-----------##
 ## Transpose ##
-###############
+##-----------##
 '''
 Transpose: swap rows and columns
 Very efficient in sparse formats
@@ -298,9 +298,9 @@ print(f"Type: {type(A_TT)}")  # Type: <class 'scipy.sparse._csr.csr_array'> (CSC
 A_transpose = A_trans.transpose()
 print(f"\nUsing .transpose() method: {type(A_transpose)}") # <class 'scipy.sparse._csc.csc_array'>
 
-#########################
+##---------------------##
 ## Conjugate transpose ##
-#########################
+##---------------------##
 '''
 For complex matrices
 .H or .conj().T
@@ -321,18 +321,18 @@ print(A_H.toarray())
 #  [0.+0.j 4.+0.j]]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 4. Graph Algorithms ---------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Graph Algorithms
+# =========================================================================================
 
-############################
+##------------------------##
 ## connected_components() ##
-############################
+##------------------------##
 '''
 Find connected components in a graph
 Graph represented as sparse adjacency matrix
 
-#################
+##-------------##
 
 A connected component is a maximal subset of nodes
 where every node can reach every other node through some path.
@@ -370,9 +370,9 @@ Since there are no edges connecting any node in {0,1,2} to any node in {3,4,5},
 these form two distinct connected components.
 '''
 
-#####################
+##-----------------##
 ## shortest_path() ##
-#####################
+##-----------------##
 '''
 Compute shortest paths between all pairs of nodes
 Various algorithms: Dijkstra, Bellman-Ford, Floyd-Warshall
@@ -427,9 +427,9 @@ path_0_to_4 = get_path(predecessors, 0, 4)
 print(f"\nPath from 0 to 4: {path_0_to_4}") # [np.int32(0), np.int32(7), np.int32(6), np.int32(5), 4]
 print(f"Distance: {dist_matrix[4]:.1f}") # 21.0
 
-#############################
+##-------------------------##
 ## minimum_spanning_tree() ##
-#############################
+##-------------------------##
 '''
 Find minimum spanning tree
 Connects all nodes with minimum total edge weight
@@ -454,9 +454,9 @@ print(mst.toarray())
 #  [0. 0. 0. 0. 0. 0. 0. 0. 0.]
 #  [0. 0. 0. 0. 0. 0. 0. 0. 0.]]
 
-###################################################
+##-----------------------------------------------##
 ## depth_first_order() and breadth_first_order() ##
-###################################################
+##-----------------------------------------------##
 '''
 Graph traversal orders
 Useful for tree algorithms
@@ -481,13 +481,13 @@ bfs_order, bfs_predecessors = breadth_first_order(tree, 0, directed=True)
 print(f"Breadth-first order: {bfs_order}") # [0 1 2 3 4]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 5. Advanced Construction --------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Advanced Construction
+# =========================================================================================
 
-###########################
+##-----------------------##
 ## bmat() - Block matrix ##
-###########################
+##-----------------------##
 '''
 Create block matrix from 2D list
 More flexible than block_array
@@ -519,9 +519,9 @@ print(block_diag.toarray())
 #  [0 0 1 2]
 #  [0 0 3 4]]
 
-################################
+##----------------------------##
 ## kron() - Kronecker product ##
-################################
+##----------------------------##
 '''
 Kronecker (tensor) product of two sparse arrays
 Useful in FEM, quantum mechanics, etc.
@@ -553,9 +553,9 @@ print(kron_prod.toarray())
 print(f"Shape: {A_kron.shape} ⊗ {B_kron.shape} = {kron_prod.shape}")
 # Shape: (2, 2) ⊗ (2, 2) = (4, 4)
 
-###########################################
+##---------------------------------------##
 ## Practical: 2D Laplacian via Kronecker ##
-###########################################
+##---------------------------------------##
 '''
 Build 2D Laplacian using Kronecker products
 Common in numerical PDEs
@@ -575,13 +575,13 @@ print(f"Non-zeros: {Laplacian_2D.nnz}") # 325
 print(f"Sparsity: {100 * Laplacian_2D.nnz / (n**4):.1f}%") # 52.0%
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 7. Performance Optimization ----------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Performance Optimization
+# =========================================================================================
 
-################################
+##----------------------------##
 ## Format conversion strategy ##
-################################
+##----------------------------##
 '''
 Choose format based on operation
 Convert strategically to minimize overhead
@@ -593,9 +593,9 @@ print("2. Convert to CSR for arithmetic and row operations")
 print("3. Convert to CSC for column operations")
 print("4. Reuse same format for multiple operations")
 
-#######################
+##-------------------##
 ## Memory management ##
-#######################
+##-------------------##
 '''
 Monitor memory usage
 Use appropriate dtypes
@@ -619,9 +619,9 @@ print(f"Float32 memory: {mem_32/1024:.1f} KB") # 117.2 KB
 print(f"Int32 memory: {mem_int/1024:.1f} KB") # 117.2 KB
 print(f"\nMemory savings (float32 vs float64): {100*(1-mem_32/mem_64):.0f}%") # 25%
 
-############################
+##------------------------##
 ## Best practices summary ##
-############################
+##------------------------##
 
 print("""
 1. FORMAT SELECTION:
@@ -653,9 +653,9 @@ print("""
    - Save/load with save_npz for efficiency
 """)
 
-#################################
+##-----------------------------##
 ## Example: Optimized workflow ##
-#################################
+##-----------------------------##
 
 # 1. Build in LIL (fast construction)
 n = 100

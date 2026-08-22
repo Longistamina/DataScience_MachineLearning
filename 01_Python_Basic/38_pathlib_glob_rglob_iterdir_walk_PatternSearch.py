@@ -4,7 +4,7 @@ Pathlib provides iterdir, glob, rglob, and walk methods for file system operatio
 These methods allow you to iterate over directory contents,
 search for files matching patterns, and traverse directories recursively.
 
-#################################################################
+##-------------------------------------------------------------##
 
 Flow of contents:
 1. path_object.iterdir() - Iterate over directory contents. (like os.scandir())
@@ -20,18 +20,18 @@ from pathlib import Path
 demo_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data")
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 1. path_object.iterdir() -------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. path_object.iterdir()
+# ==============================================================================================
 '''
 .iterdir() returns an iterator of Path objects for the entries in the directory.
 To access the entries, you can use a for loop or convert it to a list.
 (works like os.scandir())
 '''
 
-###############
+##-----------##
 ## Basic use ##
-###############
+##-----------##
 
 for entry in demo_path.iterdir():
     print(entry)
@@ -40,9 +40,9 @@ for entry in demo_path.iterdir():
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files
 
-#######################
+##-------------------##
 ## Filtering entries ##
-#######################
+##-------------------##
 
 for entry in demo_path.iterdir():
     if entry.is_file():
@@ -56,9 +56,9 @@ for entry in demo_path.iterdir():
 # Directory: json_files
 # Directory: xml_files
 
-###################################
+##-------------------------------##
 ## iter through its subdirectory ##
-###################################
+##-------------------------------##
 
 for entry in demo_path.joinpath("xml_files").iterdir():
     print(entry.name)
@@ -67,9 +67,9 @@ for entry in demo_path.joinpath("xml_files").iterdir():
 # music_cd.xml
 # new_written_starwars.xml
 
-#####################################################
+##-------------------------------------------------##
 ## combine with regular expression to filter files ##
-#####################################################
+##-------------------------------------------------##
 
 json_pattern = r".*json.*"
 txt_pattern = r".*txt.*"
@@ -88,19 +88,19 @@ for entry in demo_path.iterdir():
 # JSON directory: json_files
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 2. path_object.glob() -------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. path_object.glob()
+# ==============================================================================================
 
 '''
 # .glob(pattern) returns an iterator of Path objects matching the specified pattern in the directory.
 # It works like glob.glob() but returns Path objects instead of strings.
 
-################
+##------------##
 
 NOTE: glob DOES NOT allow regular expressions
 
-################
+##------------##
 
 glob patterns:
 - '*' matches everything
@@ -117,9 +117,9 @@ glob patterns:
 - *[!.py|!.txt] matches any files whose extension is NOT ".py" or ".txt"
 '''
 
-###############
+##-----------##
 ## Basic use ##
-###############
+##-----------##
 
 # search for all .md files in the current directory
 for entry in Path.cwd().glob("*.md"):
@@ -134,9 +134,9 @@ for entry in Path.cwd().glob("*.txt"):
 # Libraries_Installation.txt
 # Curriculum.txt
 
-########################
+##--------------------##
 ## Apply more pattern ##
-########################
+##--------------------##
 
 for entry in Path.cwd().joinpath("01_Python_Basic").glob("[1-2][0-9]_*.py"):
     print(entry.name)
@@ -161,9 +161,9 @@ for entry in Path.cwd().joinpath("01_Python_Basic").glob("[1-2][0-9]_*.py"):
 # 12_re_RegularExpression_regex.py
 # 16_if_elif_else.py
 
-################################
+##----------------------------##
 ## Exclusive glob() using "!" ##
-################################
+##----------------------------##
 
 # The non-python elements:
 for entry in Path.cwd().joinpath("01_Python_Basic").glob("*[!.py]"):  # Exclude all .py files
@@ -188,9 +188,9 @@ for entry in Path.cwd().joinpath("01_Python_Basic").glob("[!0-3]*"):  # Exclude 
 # 44_ArgumentParser_MainFunction.py
 # 40_filter.py
 
-#############################
+##-------------------------##
 ## ** for recursive search ##
-#############################
+##-------------------------##
 
 for entry in demo_path.glob("*.xml"): # Without '**', return nothing
     print(entry)
@@ -204,9 +204,9 @@ for entry in demo_path.glob("**/*.xml"):  # '**' for recursive search
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files/music_cd.xml
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files/new_written_starwars.xml
 
-#####################################################
+##-------------------------------------------------##
 ## combine with regular expression to filter files ##
-#####################################################
+##-------------------------------------------------##
 
 target_pattern = r"^0\d{1}_.*\.py$"
 
@@ -223,9 +223,9 @@ for entry in Path.cwd().joinpath("01_Python_Basic").glob("*.py"): # Glob for all
 # 01_print_end_sep_termcolor.py
 # 05_TypeConversion_isinstance.py
 
-#################################
+##-----------------------------##
 ## Count the number of matches ##
-#################################
+##-----------------------------##
 
 # Count the number of python files in the 01_Python_Basic using normal glob("*.py")
 py_count = sum(1 for _ in Path.cwd().joinpath("01_Python_Basic").glob("*.py")) # Use "_" as a looping factor to complete the for loop syntax, but not needed later
@@ -236,18 +236,18 @@ non_py_count = sum(1 for _ in Path.cwd().glob("**/*[!.py]"))
 print(non_py_count) # 1383
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 3. path_object.rglob() ------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. path_object.rglob()
+# ==============================================================================================
 '''
 .rglob(pattern) is similar to .glob()
 but it recursively searches for files matching the specified pattern in the directory and all its subdirectories.
 (so it works like glob() with '**' )
 '''
 
-###############
+##-----------##
 ## Basic use ##
-###############
+##-----------##
 
 for entry in demo_path.rglob("*.json"):  # rglob for recursive search
     print(entry)
@@ -264,9 +264,9 @@ for entry in demo_path.rglob("*.json"):  # rglob for recursive search
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files/women.json
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files/new_written_jsondump.json
 
-################################################
+##--------------------------------------------##
 ## Filter results with Path object attributes ##
-################################################
+##--------------------------------------------##
 
 for entry in Path.cwd().rglob("*.py"):
     if entry.parent.name == "02_Python_class_OOP":
@@ -284,9 +284,9 @@ for entry in Path.cwd().rglob("*.py"):
 # 08_Private_attrs_methods.py
 # 06_Deocrator_StaticMethod.py
 
-#################################
+##-----------------------------##
 ## Exclusive rglob() using "!" ##
-#################################
+##-----------------------------##
 
 # The non-python elements:
 for entry in Path.cwd().joinpath("01_Python_Basic").rglob("*[!.py|!.json]"):  # Exclude all .py OR .json files
@@ -350,9 +350,9 @@ for entry in Path.cwd().joinpath("01_Python_Basic").rglob("[!0-3]*[!.json]"):  #
 # write_quoting_all.csv
 # write_dictionary.csv
 
-############################################
+##----------------------------------------##
 ## filter results with regular expression ##
-############################################
+##----------------------------------------##
 
 expected_pattern = r"^1\d{1}_.*\.py$"
 
@@ -378,9 +378,9 @@ for entry in Path.cwd().rglob("*.py"):
 # 02_Convex_Optimization_CVXPY/13_OptimizationStandardForm_LocalOptimal_ImplicitConstraints.py
 # 02_Convex_Optimization_CVXPY/14_CvxOpt_StandardForm_LocalGlobalOptima.py
 
-#################################
+##-----------------------------##
 ## Count the number of matches ##
-#################################
+##-----------------------------##
 
 # Count the number of python files in the current directory using rglob("*.py")
 py_count = sum(1 for _ in Path.cwd().rglob("*.py")) # Use "_" as a looping factor to complete the for loop syntax, but not needed later
@@ -391,9 +391,9 @@ non_py_json_count = sum(1 for _ in Path.cwd().rglob("*[!.py|!.json]"))
 print(non_py_json_count) # 951
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 4. path_object.walk() --------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 4. path_object.walk()
+# ==============================================================================================
 '''
 path_object.walk() is a method that recursively walks through the directory tree,
 yielding tuples of directory paths and file names.
@@ -402,9 +402,9 @@ yielding tuples of directory paths and file names.
 
 target_path = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/"
 
-###############
+##-----------##
 ## Basic use ##
-###############
+##-----------##
 
 for dirpath, dirnames, filenames in Path(target_path).walk():
     if ".git" in dirpath.parts:  # skip directories related to '.git'
@@ -422,9 +422,9 @@ for dirpath, dirnames, filenames in Path(target_path).walk():
 # Directory: python
 # File: additional_exercises.pdf
 
-#######################################################
+##---------------------------------------------------##
 ## combine with joinpath() to specify a subdirectory ##
-#######################################################
+##---------------------------------------------------##
 
 for dirpath, dirnames, filenames in Path(target_path).joinpath("01_Python_Basic").walk():
     print(f'Current Directory: {dirpath}')
@@ -446,9 +446,9 @@ for dirpath, dirnames, filenames in Path(target_path).joinpath("01_Python_Basic"
 # File: 10_String_methods_Cell.py
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 5. glob module (LEGACY) ------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 5. glob module (LEGACY)
+# ==============================================================================================
 
 from glob import glob
 
@@ -458,9 +458,9 @@ NOTE: glob only accepts string paths and returns string paths,
 while pathlib's glob accepts Path objects and returns Path objects.
 """
 
-##################
+##--------------##
 ## Basic search ##
-##################
+##--------------##
 
 for entry in glob("./*.md"):  # search for all .md files in the current directory
     print(entry)
@@ -480,9 +480,9 @@ for entry in glob(path + "1[0-9]*.py"):  # search for all .py files in the given
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/12_re_RegularExpression_regex.py
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/16_if_elif_else.py
 
-######################
+##------------------##
 ## Recursive search ##
-######################
+##------------------##
 
 for entry in glob("**/*.txt", recursive=True): # search for all .txt files in the current directory and subdirectories
     print(entry)

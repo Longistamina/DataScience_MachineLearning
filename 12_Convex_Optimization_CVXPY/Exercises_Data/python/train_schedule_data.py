@@ -1,5 +1,5 @@
-##################################################################
-#### This data will be given, i.e. train_timetable_data.py #######
+##--------------------------------------------------------------##
+#### This data will be given, i.e. train_timetable_data.py ##---##
 import numpy as np
 
 import matplotlib.pyplot as plt
@@ -7,7 +7,7 @@ from matplotlib.patches import Rectangle
 import matplotlib.patches as mpatches
 from matplotlib.lines import Line2D
 
-######################### Problem data #########################
+##---------------------## Problem data ##---------------------##
 # Routes
 
 K = 15 # total number of trains
@@ -83,7 +83,7 @@ T_start = 0
 # given last arrival time vector (720 (min) refers to after 12 hours) 
 T_end = [716, 718, 716, 708, 720, 714, 714, 706, 714, 708, 706, 700, 710, 714, 710]
 
-################ schedule draw helper function ####################
+##------------## schedule draw helper function ##----------------##
 def scheduleDraw(A, D, C):
     f = plt.figure(figsize=(20, 5))
     for i in range(K):
@@ -143,9 +143,9 @@ def scheduleDraw(A, D, C):
                loc='upper center', bbox_to_anchor=(0.5, -0.15),
                fancybox=True, shadow=True, ncol=4)
     return f
-##################################################################
+##--------------------------------------------------------------##
 
-######### plot connection time histogram (distribution) ########
+##-----## plot connection time histogram (distribution) ##----##
 def get_hist(A, D, C):
     arr = []
     for c in C:

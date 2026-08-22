@@ -91,13 +91,13 @@ v2 = np.array([4., 5., 6.])   # 1D vector
 b  = np.array([1., 2., 3.])   # RHS vector for Ax = b
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------ 1. Matrix and vector products ------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Matrix and vector products
+# =========================================================================================
 
-##############
+##----------##
 ## np.dot() ##
-##############
+##----------##
 '''
 np.dot() computes the dot product of two arrays.
 
@@ -118,9 +118,9 @@ print(np.dot(A, G))
 #  [ 5. 10. 21.]]
 # matrix-matrix product (same as A @ G)
 
-################
+##------------##
 ## np.inner() ##
-################
+##------------##
 '''
 np.inner() computes the inner product of two arrays.
 
@@ -137,9 +137,9 @@ print(np.inner(A, G))
 #  [17. 28.  9.]]
 # 3x3 matrix: element [i,j] = dot(A[i,:], G[j,:])  (sum over columns)
 
-################
+##------------##
 ## np.outer() ##
-################
+##------------##
 '''
 np.outer() computes the outer product of two 1D vectors.
 
@@ -151,10 +151,10 @@ print(np.outer(v1, v2))
 #  [ 8. 10. 12.]
 #  [12. 15. 18.]]
 
-##################
+##--------------##
 ## np.matmul()  ##
 ## (@ operator) ##
-##################
+##--------------##
 '''
 np.matmul() performs matrix multiplication of two arrays.
 
@@ -174,9 +174,9 @@ print(A @ G)
 #  [ 5. 10. 21.]]
 # matrix-matrix product (A.shape=(3,3), G.shape=(3,3) → result.shape=(3,3))
 
-###############
+##-----------##
 ## np.kron() ##
-###############
+##-----------##
 '''
 np.kron() computes the Kronecker product of two arrays.
 
@@ -211,9 +211,9 @@ print(np.kron(K, I2))
 #  [3. 0. 4. 0.]
 #  [0. 3. 0. 4.]]  (different ordering)
 
-#################
+##-------------##
 ## np.einsum() ##
-#################
+##-------------##
 '''
 np.einsum() evaluates Einstein summation using a subscript string.
 
@@ -276,9 +276,9 @@ print(np.einsum('...i,...j->...ij', batch_v, batch_v))
 #  [2.  4.  6.]                                [20. 25. 30.]
 #  [3.  6.  9.]]                               [24. 30. 36.]]
 
-##############################
+##--------------------------##
 ## np.linalg.matrix_power() ##
-##############################
+##--------------------------##
 '''
 np.linalg.matrix_power() raises a square matrix to an integer power n.
 
@@ -303,9 +303,9 @@ print(np.linalg.matrix_power(G, -1))
 #  [-0.66666667  0.33333333  0.66666667]]
 # inverse of G  (same as np.linalg.inv(G))
 
-####################
+##----------------##
 ## np.tensordot() ##
-####################
+##----------------##
 '''
 np.tensordot() computes the tensor dot product by summing over specified axes.
 
@@ -331,13 +331,13 @@ print(np.tensordot(A, G, axes=[[1],[0]]))
 # standard matrix multiplication A @ G  (contract last axis of A with first axis of G)
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------------------- 2. Decompositions ---------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Decompositions
+# =========================================================================================
 
-##########################
+##----------------------##
 ## np.linalg.cholesky() ##
-##########################
+##----------------------##
 '''
 np.linalg.cholesky() performs Cholesky decomposition on a Symmetric Positive Definite (SPD) matrix.
 
@@ -363,9 +363,9 @@ U = np.linalg.cholesky(A, upper=True)
 print(U.T @ U)
 # [[2. 1. 1.]  ...  (same result)
 
-##########################################
+##--------------------------------------##
 ## spla.cho_factor() + spla.cho_solve() ##
-##########################################
+##--------------------------------------##
 '''
 spla.cho_factor() + spla.cho_solve(): factorize once, solve multiple RHS efficiently.
 
@@ -392,9 +392,9 @@ x2 = spla.cho_solve((c, low), b2)
 print(x2)
 # [0.1538 0.4615 1.2308]  (2 * x, as expected since b2 = 2 * b)
 
-####################
+##----------------##
 ## np.linalg.qr() ##
-####################
+##----------------##
 '''
 np.linalg.qr() performs QR factorization of a matrix.
 
@@ -433,9 +433,9 @@ Q_full, R_full = np.linalg.qr(M, mode='complete')
 print(Q_full.shape, R_full.shape)
 # (4, 4) (4, 2)
 
-#####################
+##-----------------##
 ## np.linalg.svd() ##
-#####################
+##-----------------##
 '''
 np.linalg.svd() performs Singular Value Decomposition: A = U @ diag(s) @ Vt
 
@@ -477,9 +477,9 @@ s_only = np.linalg.svd(M, compute_uv=False)
 print(s_only)
 # [14.2691  0.6268]
 
-###############
+##-----------##
 ## spla.lu() ##
-###############
+##-----------##
 '''
 spla.lu() performs LU decomposition with partial pivoting: A = P @ L @ U
 
@@ -519,9 +519,9 @@ x_lu   = spla.lu_solve(lu_piv, b)
 print(x_lu)
 # solution to Gx = b using pre-computed LU factorization
 
-##################
+##--------------##
 ## spla.schur() ##
-##################
+##--------------##
 '''
 spla.schur() computes the Schur decomposition: A = Z @ T @ Z.H
 
@@ -558,13 +558,13 @@ print(np.diag(T_c).round(4))
 # eigenvalues on diagonal: [0.9697+0.4953j, 0.9697-0.4953j, 5.0606+0.j]
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------- 3. Matrix eigenvalues -------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Matrix eigenvalues
+# =========================================================================================
 
-#####################
+##-----------------##
 ## np.linalg.eig() ##
-#####################
+##-----------------##
 '''
 np.linalg.eig() computes the eigenvalues and right eigenvectors of a general square matrix.
 
@@ -593,9 +593,9 @@ print(v[:, 2].real)
 print(np.allclose(G @ v, v * w))
 # True
 
-######################
+##------------------##
 ## np.linalg.eigh() ##
-######################
+##------------------##
 '''
 np.linalg.eigh() computes the eigenvalues and eigenvectors of a real symmetric or
 complex Hermitian matrix.
@@ -629,9 +629,9 @@ w_upper, _ = np.linalg.eigh(A, UPLO='U')
 print(np.allclose(w_h, w_upper))
 # True
 
-#########################
+##---------------------##
 ## np.linalg.eigvals() ##
-#########################
+##---------------------##
 '''
 np.linalg.eigvals() computes eigenvalues only (no eigenvectors) for a general matrix.
 
@@ -648,9 +648,9 @@ print(np.linalg.eigvals(A))
 print(np.linalg.eigvals(np.eye(3)))
 # [1. 1. 1.]  (identity matrix has all eigenvalues = 1)
 
-##########################
+##----------------------##
 ## np.linalg.eigvalsh() ##
-##########################
+##----------------------##
 '''
 np.linalg.eigvalsh() computes eigenvalues only for a symmetric / Hermitian matrix.
 
@@ -669,10 +669,10 @@ print(np.prod(np.linalg.eigvalsh(A)).round(4))
 print(np.sum(np.linalg.eigvalsh(A)).round(4))
 # 9.0   (== np.trace(A))
 
-##################
+##--------------##
 ## spla.eig()   ##
 ## (generalized) #
-##################
+##--------------##
 '''
 spla.eig(A, B) solves the GENERALIZED eigenvalue problem: Av = lambda * Bv
 
@@ -699,13 +699,13 @@ print(np.allclose(G @ v_gen[:, i], w_gen[i] * (B_gen @ v_gen[:, i])))
 # True
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------------- 4. Norms and other numbers ----------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Norms and other numbers
+# =========================================================================================
 
-######################
+##------------------##
 ## np.linalg.norm() ##
-######################
+##------------------##
 '''
 np.linalg.norm() computes the norm of a matrix or vector.
 
@@ -742,9 +742,9 @@ print(np.linalg.norm(A, 2))
 print(np.linalg.norm(A, axis=1).round(4))
 # [2.4495 3.7417 4.5826]
 
-######################
+##------------------##
 ## np.linalg.cond() ##
-######################
+##------------------##
 '''
 np.linalg.cond() computes the condition number of a matrix.
 
@@ -767,9 +767,9 @@ H5 = spla.hilbert(5)
 print(np.linalg.cond(H5).round(0))
 # ~476607  (extremely ill-conditioned — small errors in b → huge errors in x)
 
-#####################
+##-----------------##
 ## np.linalg.det() ##
-#####################
+##-----------------##
 '''
 np.linalg.det() computes the determinant of a square matrix.
 
@@ -791,9 +791,9 @@ print(np.linalg.det(np.eye(3)))
 print(np.linalg.det(2 * np.eye(3)))
 # 8.0  (det(c*I_n) = c^n)
 
-#############################
+##-------------------------##
 ## np.linalg.matrix_rank() ##
-#############################
+##-------------------------##
 '''
 np.linalg.matrix_rank() estimates the matrix rank using SVD.
 
@@ -812,9 +812,9 @@ M_rank1 = np.outer(v1, v2)  # rank-1 matrix: every row is a multiple of v2
 print(np.linalg.matrix_rank(M_rank1))
 # 1
 
-#########################
+##---------------------##
 ## np.linalg.slogdet() ##
-#########################
+##---------------------##
 '''
 np.linalg.slogdet() returns the sign and natural log of the absolute determinant.
 
@@ -839,9 +839,9 @@ log_det_sigma = np.linalg.slogdet(Sigma_cov)[1]
 print(log_det_sigma.round(4))
 # 2.5649  (log(det(A)) = log(13) ≈ 2.5649)
 
-################
+##------------##
 ## np.trace() ##
-################
+##------------##
 '''
 np.trace() returns the sum of the diagonal elements of a matrix (the trace).
 
@@ -863,13 +863,13 @@ print(np.trace(G @ A))
 # trace(G @ A) = trace(A @ G)  (cyclic invariance)
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------- 5. Solving equations and inverting matrices -----------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Solving equations and inverting matrices
+# =========================================================================================
 
-#######################
+##-------------------##
 ## np.linalg.solve() ##
-#######################
+##-------------------##
 '''
 np.linalg.solve() solves the linear system Ax = b for a square, non-singular matrix A.
 
@@ -890,9 +890,9 @@ X_multi = np.linalg.solve(A, B_rhs)
 print(X_multi.shape)
 # (3, 3)  (each column of X_multi is the solution for the corresponding column of B_rhs)
 
-#######################
+##-------------------##
 ## np.linalg.lstsq() ##
-#######################
+##-------------------##
 '''
 np.linalg.lstsq() finds the least-squares solution to Ax = b for overdetermined systems.
 
@@ -923,9 +923,9 @@ print(sv.round(4))
 print((M @ x_ls).round(4))
 # [ 1.  2.  3.  4.]  (fits well in this case)
 
-#####################
+##-----------------##
 ## np.linalg.inv() ##
-#####################
+##-----------------##
 '''
 np.linalg.inv() computes the (full) inverse of a square matrix.
 
@@ -955,9 +955,9 @@ x_via_solve = np.linalg.solve(A, b)
 print(np.allclose(x_via_inv, x_via_solve))
 # True  (same result, but solve is preferred)
 
-######################
+##------------------##
 ## np.linalg.pinv() ##
-######################
+##------------------##
 '''
 np.linalg.pinv() computes the Moore-Penrose pseudoinverse of a matrix.
 
@@ -982,9 +982,9 @@ x_pinv = M_pinv @ b_od
 print(x_pinv)
 # [0.  0.5]  (same result as lstsq)
 
-#############################
+##-------------------------##
 ## spla.solve_triangular() ##
-#############################
+##-------------------------##
 '''
 spla.solve_triangular() solves Lx = b where L is a lower (or upper) triangular matrix.
 
@@ -1013,9 +1013,9 @@ x_upper = spla.solve_triangular(U_tri, b, lower=False)
 print(np.allclose(U_tri @ x_upper, b))
 # True
 
-##################
+##--------------##
 ## spla.pinvh() ##
-##################
+##--------------##
 '''
 spla.pinvh() computes the pseudoinverse of a symmetric / Hermitian matrix.
 
@@ -1046,13 +1046,13 @@ print(spla.pinvh(A_sing).round(4))
 # pseudoinverse of rank-deficient symmetric matrix (np.linalg.inv would fail)
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------- 6. Matrix functions  (scipy.linalg) ---------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Matrix functions  (scipy.linalg)
+# =========================================================================================
 
-#################
+##-------------##
 ## spla.expm() ##
-#################
+##-------------##
 '''
 spla.expm() computes the matrix exponential e^A.
 
@@ -1081,9 +1081,9 @@ print(spla.expm(np.pi * A_skew).round(4))
 print(np.allclose(spla.expm(spla.logm(A)), A))
 # True
 
-#################
+##-------------##
 ## spla.logm() ##
-#################
+##-------------##
 '''
 spla.logm() computes the principal matrix logarithm log(A), the inverse of expm().
 
@@ -1108,9 +1108,9 @@ print(spla.logm(R).round(4))
 print(np.allclose(spla.expm(spla.logm(A)), A))
 # True
 
-##################
+##--------------##
 ## spla.sqrtm() ##
-##################
+##--------------##
 '''
 spla.sqrtm() computes the matrix square root S such that S @ S = A.
 
@@ -1132,9 +1132,9 @@ print(np.allclose(S @ S, A))
 # True  (S @ S = A)
 # Whitening: X_white = sqrtm(inv(Sigma)) @ X  so X_white has identity covariance
 
-##################
+##--------------##
 ## spla.funm()  ##
-##################
+##--------------##
 '''
 spla.funm(A, func) applies an arbitrary scalar function to a matrix via its Schur decomposition.
 
@@ -1156,13 +1156,13 @@ print(np.allclose(spla.funm(A, np.exp), spla.expm(A)))
 # True  (funm with np.exp reproduces expm)
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------- 7. Matrix equation solvers  (scipy.linalg) ------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Matrix equation solvers  (scipy.linalg)
+# =========================================================================================
 
-############################
+##------------------------##
 ## spla.solve_sylvester() ##
-############################
+##------------------------##
 '''
 spla.solve_sylvester(A, B, Q) solves the Sylvester equation: AX + XB = Q
 
@@ -1190,9 +1190,9 @@ print(A_s @ X_s + X_s @ B_s)
 # [[1. 1.]
 #  [1. 1.]]  (verifies AX + XB = Q)
 
-######################################
+##----------------------------------##
 ## spla.solve_continuous_lyapunov() ##
-######################################
+##----------------------------------##
 '''
 spla.solve_continuous_lyapunov(A, Q) solves the continuous Lyapunov equation: AX + XA^H = Q
 
@@ -1222,13 +1222,13 @@ print(A_l @ X_l + X_l @ A_l.T)
 # Interpretation: X_l is the steady-state covariance of dx = A_l @ x dt + dW
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------- 8. Special matrices  (scipy.linalg) ---------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Special matrices  (scipy.linalg)
+# =========================================================================================
 
-#######################
+##-------------------##
 ## spla.block_diag() ##
-#######################
+##-------------------##
 '''
 spla.block_diag(*arrs) constructs a block-diagonal matrix from the input arrays.
 
@@ -1255,9 +1255,9 @@ BD_eye = spla.block_diag(np.eye(2), np.eye(3))
 print(BD_eye.shape)
 # (5, 5)  (block identity)
 
-#####################
+##-----------------##
 ## spla.toeplitz() ##
-#####################
+##-----------------##
 '''
 spla.toeplitz(c, r) constructs a Toeplitz matrix.
 
@@ -1279,9 +1279,9 @@ print(spla.toeplitz(c=[1, 2, 3], r=[1, 4, 5]))
 #  [2 1 4]
 #  [3 2 1]]
 
-######################
+##------------------##
 ## spla.circulant() ##
-######################
+##------------------##
 '''
 spla.circulant(c) constructs a circulant matrix from the first column c.
 
@@ -1304,9 +1304,9 @@ evals_C = np.fft.fft(c_vec)  # eigenvalues are the DFT of the first column!
 
 print(np.allclose(np.linalg.eigvals(C), evals_C[[0, 3, 2, 1]]))  # (up to ordering)
 
-#####################
+##-----------------##
 ## spla.hilbert()  ##
-#####################
+##-----------------##
 '''
 spla.hilbert(n) constructs the nxn Hilbert matrix: H[i,j] = 1 / (i + j - 1)
 

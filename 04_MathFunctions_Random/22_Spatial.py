@@ -106,13 +106,13 @@ pts_3d  = rng.uniform(0, 10, (30, 3))     # 30 random 3-D points
 pts_unit = pts_3d / np.linalg.norm(pts_3d, axis=1, keepdims=True)  # on unit sphere
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════  PART A — ROTATION  (scipy.spatial.transform)  ═════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-##############
+##----------##
 ## Rotation ##
-##############
+##----------##
 '''
 Rotation is the central class in scipy.spatial.transform.
 It wraps one or more 3-D rotations and supports multiple representations:
@@ -260,13 +260,13 @@ r_all = Rotation.concatenate([r_a, r_b, r_composed])
 print(f"Concatenated length: {len(r_all)}")   # 3
  
  
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═════════════════════  PART B — ROTATION INTERPOLATION  (scipy.spatial.transform)  ══════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
  
-###########
+##-------##
 ## Slerp ##
-###########
+##-------##
 '''
 Slerp(times, rotations)
   Spherical Linear intERPolation between a sequence of key-frame rotations.
@@ -304,9 +304,9 @@ slerp_3d = Slerp(key_times, key_rots_3d)
 r_mid = slerp_3d(1.5)   # halfway between frame 1 and 2
 print(f"3-D slerp at t=1.5 magnitude: {r_mid.magnitude()*180/np.pi:.2f}°") # 70.53°
 
-####################
+##----------------##
 ## RotationSpline ##
-####################
+##----------------##
 '''
 RotationSpline(times, rotations)
   Cubic rotation spline with C2 continuity (smooth angular velocity and acceleration).
@@ -338,13 +338,13 @@ print(np.allclose(rs(key_times).as_euler('xyz', degrees=True),
                   key_rots_3d.as_euler('xyz', degrees=True), atol=1e-10))   # True
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #══════════════════════════════  PART C — KD-TREE  (scipy.spatial)  ══════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-############################
+##------------------------##
 ## KDTree / cKDTree build ##
-############################
+##------------------------##
 '''
 KDTree(data, leafsize=10, compact_nodes=True, copy_data=False,
        balanced_tree=True, boxsize=None)
@@ -369,9 +369,9 @@ print(f"KDTree: {len(pts_2d)} points, leafsize=10") # 20 points, leafsize=10
 # Periodic boundary (box = [10, 10])
 tree_periodic = cKDTree(pts_2d, boxsize=[10.0, 10.0])
 
-##############
+##----------##
 ## .query() ##
-##############
+##----------##
 '''
 tree.query(x, k=1, eps=0, p=2, distance_upper_bound=np.inf, workers=1)
   Find the k nearest neighbours of query point(s) x.
@@ -421,9 +421,9 @@ dd_ub, ii_ub = tree.query(query_pt, k=5, distance_upper_bound=2.0)
 valid = ii_ub < len(pts_2d)   # inf entries mark "no neighbour within bound"
 print(f"Neighbours within r=2: {valid.sum()}") # 0
 
-#########################
+##---------------------##
 ## .query_ball_point() ##
-#########################
+##---------------------##
 '''
 tree.query_ball_point(x, r, p=2, eps=0, workers=1, return_sorted=False)
   Find all points within distance r of query point(s) x.
@@ -452,9 +452,9 @@ for i, (q, r, idx) in enumerate(zip(queries, r_per_point, idx_multi)):
   # query [8. 8.], r=3.0: 6 neighbours
   # query [5. 0.], r=2.0: 3 neighbours
 
-####################
+##----------------##
 ## .query_pairs() ##
-####################
+##----------------##
 '''
 tree.query_pairs(r, p=2, eps=0, output_type='set')
   Find all pairs of points within distance r of each other.
@@ -480,9 +480,9 @@ if len(pairs_arr) > 0:
     print(f"All pair distances ≤ 2.0: max={dists_pairs.max():.4f}")   # ≤ 2.0
 # All pair distances ≤ 2.0: max=1.9765
 
-########################
+##--------------------##
 ## .count_neighbors() ##
-########################
+##--------------------##
 '''
 tree.count_neighbors(other, r, p=2, weights=None, cumulative=True)
   Count pairs (i from self, j from other) with dist(i,j) <= r.
@@ -509,9 +509,9 @@ cross_counts = tree.count_neighbors(tree2, radii)
 print("Cross pair counts:", cross_counts)
 # [  2  10  38  66 127]
 
-###############################
+##---------------------------##
 ## .sparse_distance_matrix() ##
-###############################
+##---------------------------##
 '''
 tree.sparse_distance_matrix(other, max_distance, p=2, output_type='dok_matrix')
   Compute a sparse matrix of distances, including only pairs within max_distance.
@@ -534,13 +534,13 @@ print(f"Density                     : {sp_dm.nnz / (len(pts_2d)**2):.3f}") # 0.1
 sp_csr = sp_dm.tocsr()
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════  PART D — DELAUNAY TRIANGULATION  ═══════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-##############
+##----------##
 ## Delaunay ##
-##############
+##----------##
 '''
 Delaunay(points, furthest_site=False, incremental=False, qhull_options='')
   Delaunay tessellation of a set of points in N dimensions.
@@ -581,9 +581,9 @@ print(f"Triangle 0 vertices:\n{verts.round(3)}")
 
 print(f"Triangle 0 neighbors: {tri.neighbors[i_tri]}") # [ 1 -1  2]
 
-#####################
+##-----------------##
 ## .find_simplex() ##
-#####################
+##-----------------##
 '''
 tri.find_simplex(xi, bruteforce=False, tol=None) -> int array
   Returns the index of the simplex that contains each query point in xi.
@@ -608,9 +608,9 @@ print(f"Outside -> simplex index: {s_out}")   # [-1, -1]
 s_all = tri.find_simplex(pts_tri)
 print("All original points found:", np.all(s_all >= 0))   # True
 
-#############################
+##-------------------------##
 ## Barycentric coordinates ##
-#############################
+##-------------------------##
 '''
 tri.transform  : (M, d+1, d) array.
   For simplex i: transform[i, :d, :] is the linear map and transform[i, d, :] is the offset.
@@ -640,9 +640,9 @@ verts_si = tri.points[tri.simplices[si]]
 reconstructed = (bary[:, None] * verts_si).sum(axis=0)
 print(f"Reconstructed: {reconstructed.round(4)}")   # [5. 5.]
 
-###############
+##-----------##
 ## tsearch() ##
-###############
+##-----------##
 '''
 tsearch(tri, xi) -> int array
   Functional wrapper around tri.find_simplex(xi).
@@ -653,13 +653,13 @@ xi_test = np.array([[4.0, 4.0], [6.0, 6.0]])
 print("tsearch:", tsearch(tri, xi_test))   # [1, 6] same as find_simplex
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════════  PART E — CONVEX HULL  ═════════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-################
+##------------##
 ## ConvexHull ##
-################
+##------------##
 '''
 ConvexHull(points, incremental=False, qhull_options='')
   Convex hull of a set of points in N dimensions.
@@ -701,9 +701,9 @@ print(hull_2d.equations[:3].round(4))
 #  [  0.3127   0.9498 -11.5189]]
 # Each row: [nx, ny, offset] where [nx,ny]@x + offset <= 0 for interior points
 
-##############################
+##--------------------------##
 ## Point-in-hull membership ##
-##############################
+##--------------------------##
 '''
 A point p is inside the convex hull iff it satisfies all half-space inequalities:
   (hull.equations[:, :-1] @ p + hull.equations[:, -1]) <= 0
@@ -726,13 +726,13 @@ hull_incr.add_points(pts_2d[10:])
 print(f"Incremental hull area: {hull_incr.volume:.4f}")   # 59.6168
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════════  PART F — VORONOI DIAGRAMS  ═════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-#############
+##---------##
 ## Voronoi ##
-#############
+##---------##
 '''
 Voronoi(points, furthest_site=False, incremental=False, qhull_options='')
   Voronoi diagram of a set of points in N dimensions.
@@ -783,9 +783,9 @@ for region_idx in vor.point_region:
 print(f"Finite Voronoi cells: {len(cell_areas)}, mean area: {np.mean(cell_areas):.3f}")
 # Finite Voronoi cells: 13, mean area: 9.436
 
-######################
+##------------------##
 ## SphericalVoronoi ##
-######################
+##------------------##
 '''
 SphericalVoronoi(points, radius=1, center=None, threshold=1e-06)
   Voronoi diagram restricted to the surface of a sphere.
@@ -814,13 +814,13 @@ print(f"Total area = {areas.sum():.6f}, 4π = {4*np.pi:.6f}") # should match
 print(f"Mean cell area: {areas.mean():.4f} = 4π/{len(pts_unit)} = {4*np.pi/len(pts_unit):.4f}") # Mean cell area: 0.4189 = 4π/30 = 0.4189
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════  PART G — HALFSPACE INTERSECTION  ═══════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-###########################
+##-----------------------##
 ## HalfspaceIntersection ##
-###########################
+##-----------------------##
 '''
 HalfspaceIntersection(halfspaces, interior_point, incremental=False, qhull_options='')
   Compute the intersection of a set of half-spaces in N dimensions.
@@ -869,13 +869,13 @@ hs_3d = HalfspaceIntersection(halfspaces_3d, np.array([0., 0., 0.]))
 print(f"Cube intersection vertices: {len(hs_3d.intersections)} (expect 8)") # 8
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════  PART H — UTILITY FUNCTIONS  (scipy.spatial)  ═══════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-################
+##------------##
 ## procrustes ##
-################
+##------------##
 '''
 procrustes(data1, data2) -> (mtx1, mtx2, disparity)
   Procrustes analysis: find the optimal similarity transform (translation, rotation,
@@ -912,9 +912,9 @@ shape2_noisy = shape2 + rng.normal(0, 0.1, shape2.shape)
 _, _, disp_noisy = procrustes(shape1, shape2_noisy)
 print(f"Noisy Procrustes disparity: {disp_noisy:.4f}") # > 0 (0.0076)
 
-#####################
+##-----------------##
 ## geometric_slerp ##
-#####################
+##-----------------##
 '''
 geometric_slerp(start, end, t, tol=1e-7)
   Spherical linear interpolation between two points on a unit n-sphere.
@@ -959,9 +959,9 @@ arc_2d   = geometric_slerp(start_2d, end_2d, t_sph)
 print("2-D arc angles:", np.degrees(np.arctan2(arc_2d[:, 1], arc_2d[:, 0])).round(1))
 # 2-D arc angles: [ 0.  18.  36.  54.  72.  90.]
 
-##########################################
+##--------------------------------------##
 ## distance_matrix / minkowski_distance ##
-##########################################
+##--------------------------------------##
 '''
 distance_matrix(x, y, p=2, threshold=1000000)
   Compute the full (M, N) pairwise distance matrix between rows of x and y.
@@ -1008,13 +1008,13 @@ print("Squared L2      :", minkowski_distance_p(a_pairs, b_pairs, p=2).round(4))
 # [1.  1.  4.]  -- no sqrt
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #══════════════════  PART I — PAIRWISE DISTANCE COMPUTATION  (scipy.spatial.distance)  ═══════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-###########
+##-------##
 ## cdist ##
-###########
+##-------##
 '''
 cdist(XA, XB, metric='euclidean', *, out=None, **kwargs)
   Compute pairwise distances between all (i, j) pairs with i in XA, j in XB.
@@ -1069,9 +1069,9 @@ VI = np.linalg.inv(np.cov(X_cov.T))   # inverse covariance
 D_maha = cdist(A, B, 'mahalanobis', VI=VI)
 print("Mahalanobis shape:", D_maha.shape)   # (5, 4)
 
-###########
+##-------##
 ## pdist ##
-###########
+##-------##
 '''
 pdist(X, metric='euclidean', *, out=None, **kwargs)
   Compute pairwise distances among all N*(N-1)/2 distinct pairs in X.
@@ -1103,9 +1103,9 @@ print("Cosine pdist:", Y_cos.round(4))
 # Cosine pdist: [0.0124 0.0496 0.0467 0.2849 0.3442 0.0125 0.1059 0.4036 0.4709 0.1878
 #  0.5377 0.6115 0.1072 0.1469 0.0033]
 
-################
+##------------##
 ## squareform ##
-################
+##------------##
 '''
 squareform(X, force='no', checks=True)
   Convert between condensed and square-form distance matrices.
@@ -1137,9 +1137,9 @@ labels = fcluster(Z, t=3, criterion='maxclust')   # 3 clusters
 print("Cluster labels:", labels) # [3 2 2 3 1 1]
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #══════════════════════════  PART J — CONTINUOUS VECTOR DISTANCES  ═══════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 '''
 All functions below take two 1-D arrays u and v (same length) and return a scalar distance.
 They are designed for use as callables in cdist/pdist, but also work standalone.
@@ -1148,9 +1148,9 @@ They are designed for use as callables in cdist/pdist, but also work standalone.
 u = np.array([1.0, 2.0, 3.0, 4.0])
 v = np.array([2.0, 3.0, 1.0, 4.0])
 
-#############################
+##-------------------------##
 ## euclidean / sqeuclidean ##
-#############################
+##-------------------------##
 '''
 euclidean(u, v)   : sqrt(Σ(uᵢ - vᵢ)²)  — L2 distance.
 sqeuclidean(u, v) : Σ(uᵢ - vᵢ)²         — squared L2, avoids sqrt.
@@ -1160,9 +1160,9 @@ print(f"euclidean   : {euclidean(u, v):.4f}")    # sqrt(1+1+4+0) = 2.4495
 print(f"sqeuclidean : {sqeuclidean(u, v):.4f}")  # 6.0
 print(np.isclose(euclidean(u, v)**2, sqeuclidean(u, v)))   # True
 
-#######################################
+##-----------------------------------##
 ## minkowski / cityblock / chebyshev ##
-#######################################
+##-----------------------------------##
 '''
 minkowski(u, v, p=2)  : (Σ|uᵢ - vᵢ|^p)^(1/p) — generalised Lp distance.
                          p=1 -> cityblock, p=2 -> euclidean, p=∞ -> chebyshev.
@@ -1177,9 +1177,9 @@ print(f"L∞  chebyshev : {chebyshev(u, v):.4f}")           # max(1,1,2,0) = 2.0
 # Verify Lp ordering: L∞ <= L2 <= L1 for vectors (when d >= 1)
 print(chebyshev(u,v) <= euclidean(u,v) <= cityblock(u,v)) # True
 
-##########################
+##----------------------##
 ## cosine / correlation ##
-##########################
+##----------------------##
 '''
 cosine(u, v)     : 1 - cos(∠u,v) = 1 - (u·v) / (|u||v|).
                    Range [0, 2]; 0 = same direction, 1 = orthogonal, 2 = opposite.
@@ -1205,9 +1205,9 @@ print(f"corr    (shifted): {correlation(u_shifted, v_shifted):.4f}")  # same as 
 # Pearson r = 1 - correlation
 print(f"Pearson r ≈ {1 - correlation(u_c, v_c):.4f}") # 1.0 (same direction)
 
-##############################
+##--------------------------##
 ## mahalanobis / seuclidean ##
-##############################
+##--------------------------##
 '''
 mahalanobis(u, v, VI)
   sqrt((u-v) @ VI @ (u-v)^T)  — Mahalanobis distance.
@@ -1238,9 +1238,9 @@ print(f"seuclidean   : {d_se:.4f}") # 1.3017
 print(f"seuclidean M : {d_se_manual:.4f}")   # same
 print(np.isclose(d_se, d_se_manual))          # True
 
-########################################
+##------------------------------------##
 ## jensenshannon / directed_hausdorff ##
-########################################
+##------------------------------------##
 '''
 jensenshannon(p, q, base=None)
   Jensen-Shannon divergence: JS(p||q) = (KL(p||m) + KL(q||m)) / 2  where m = (p+q)/2.
@@ -1286,9 +1286,9 @@ print(f"Random set Hausdorff: {d_AB:.4f}")
 # Random set Hausdorff: 0.8342
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════  PART K — BOOLEAN / SET DISTANCES  ══════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
 '''
 Boolean distance functions operate on binary (0/1 or True/False) vectors.
@@ -1313,9 +1313,9 @@ nft = (~u_b & v_b).sum()   # 2
 nff = (~u_b & ~v_b).sum()  # 2
 print(f"ntt={ntt}, ntf={ntf}, nft={nft}, nff={nff}")   # ntt=2, ntf=2, nft=2, nff=2
 
-##############################
+##--------------------------##
 ## hamming / jaccard / dice ##
-##############################
+##--------------------------##
 '''
 hamming(u, v) : fraction of positions where u and v disagree.
                 = (ntf + nft) / n.  Range [0, 1].
@@ -1349,9 +1349,9 @@ u_float = np.array([1.5, 0.0, 3.0, 0.0])
 v_float = np.array([0.0, 2.0, 1.0, 0.0])
 print(f"hamming (float) : {hamming(u_float, v_float):.4f}") # 0.7500 (3 of 4 disagree)
 
-###############################################################
+##-----------------------------------------------------------##
 ## rogerstanimoto / russellrao / sokalmichener / sokalsneath ##
-###############################################################
+##-----------------------------------------------------------##
 '''
 rogerstanimoto(u, v):
   (ntf + nft) / (ntt + nff + 2*(ntf+nft))
@@ -1401,9 +1401,9 @@ for name, fn in metrics_bool.items():
 # <stdin>:3: DeprecationWarning: The kulczynski1 metric is deprecated since SciPy 1.15.0 and will be removed in SciPy 1.17.0.  Replace usage of 'kulczynski1(u, v)' with '1/jaccard(u, v) - 1'.
 #   kulczynski1       : 0.5000
 
-########################
+##--------------------##
 ## yule / kulczynski1 ##
-########################
+##--------------------##
 '''
 yule(u, v):
   2*ntf*nft / (ntt*nff + ntf*nft)

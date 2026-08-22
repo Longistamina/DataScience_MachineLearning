@@ -3,9 +3,9 @@
 OPTIMIZATION PROBLEM STANDARD FORM (UPDATED)
 ================================================================================
 
-###########################
+##-----------------------##
 ## General Standard Form ##
-###########################
+##-----------------------##
 
 An optimization problem in standard form is expressed as:
 
@@ -32,9 +32,9 @@ Special cases:
 - p* = -∞ if problem is unbounded below
 
 
-#########################
+##---------------------##
 ## Key Characteristics ##
-#########################
+##---------------------##
 
 1. OBJECTIVE: Always expressed as a minimization problem
 2. INEQUALITIES: All written in "≤ 0" form (less than or equal to zero)
@@ -56,9 +56,9 @@ where:
 - x ∈ ℝⁿ are the decision variables
 
 
-#################################################
+##---------------------------------------------##
 ## Linear Programming Standard Form Properties ##
-#################################################
+##---------------------------------------------##
 
 1. ALL CONSTRAINTS ARE EQUALITIES (except non-negativity)
 2. ALL VARIABLES ARE NON-NEGATIVE (x ≥ 0)
@@ -66,9 +66,9 @@ where:
 4. OBJECTIVE CAN BE MIN OR MAX (by negating coefficients)
 
 
-#######################################
+##-----------------------------------##
 ## Convex Optimization Standard Form ##
-#######################################
+##-----------------------------------##
 
 For convex optimization problems, standard form requires:
 
@@ -82,9 +82,9 @@ Additional requirements:
 - The feasible set is convex
 
 
-#################################
+##-----------------------------##
 ## Converting to Standard Form ##
-#################################
+##-----------------------------##
 
 ### 1. Maximization → Minimization
    max f(x) becomes min(-f(x))
@@ -105,9 +105,9 @@ Additional requirements:
    - ax ≥ b: subtract surplus variable s ≥ 0, becomes ax - s = b
 
    
-########################
+##--------------------##
 ## Example Conversion ##
-########################
+##--------------------##
 
 Original problem:
     maximize    2x₁ + 3x₂
@@ -124,9 +124,9 @@ Standard form:
 where x₂ = x₂⁺ - x₂⁻, s₁ is slack variable, s₂ is surplus variable
 
 
-###############################
+##---------------------------##
 ## Why Standard Form Matters ##
-###############################
+##---------------------------##
 
 1. ALGORITHMIC EFFICIENCY: Most optimization algorithms expect standard form
 2. THEORETICAL ANALYSIS: Uniform framework for proving convergence properties
@@ -135,9 +135,9 @@ where x₂ = x₂⁺ - x₂⁻, s₁ is slack variable, s₂ is surplus variable
 5. SENSITIVITY ANALYSIS: Easier to analyze parameter changes
 
 
-#######################
+##-------------------##
 ## Alternative Forms ##
-#######################
+##-------------------##
 
 1. CANONICAL FORM: Uses only inequality constraints (≤ form)
 2. SLACK FORM: Explicit slack variables for simplex method
@@ -232,9 +232,9 @@ Examples (with n = 1, m = p = 0)
 IMPLICIT CONSTRAINTS IN OPTIMIZATION PROBLEMS
 ================================================================================
 
-################
+##------------##
 ## Definition ##
-################
+##------------##
 
 The standard form optimization problem has an implicit constraint:
 
@@ -257,9 +257,9 @@ Key Characteristics:
 - They cannot be violated during optimization (functions become undefined outside their domains)
 - They are often overlooked but are crucial for problem feasibility
 
-###########################################
+##---------------------------------------##
 ## Example: Logarithmic Barrier Function ##
-###########################################
+##---------------------------------------##
 
    minimize f_0(x) = -∑(i=1 to k) log(b_i - a_i^T x)
 
@@ -274,9 +274,9 @@ Explanation:
 - If x violates any of these constraints, the objective function becomes undefined (-∞)
 
 
-#######################
+##-------------------##
 ## Why This Matters: ##
-#######################
+##-------------------##
 
 1. Problem Formulation: Implicit constraints help identify the true feasible region, which may be smaller than initially apparent.
 
@@ -287,9 +287,9 @@ Explanation:
 4. Theoretical Analysis: Understanding implicit constraints is essential for proving convergence, optimality conditions, and feasibility analysis.
 
 
-#############################################
+##-----------------------------------------##
 ## Common Sources of Implicit Constraints: ##
-#############################################
+##-----------------------------------------##
 
 - Logarithmic functions: log(g(x)) requires g(x) > 0
 - Square roots: √g(x) requires g(x) ≥ 0

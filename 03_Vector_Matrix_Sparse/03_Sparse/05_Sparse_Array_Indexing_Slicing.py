@@ -35,13 +35,13 @@ import numpy as np
 from scipy.sparse import csr_array, csc_array, coo_array, lil_array, dok_array
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 1. Single Element Access ----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Single Element Access
+# =========================================================================================
 
-#############################
+##-------------------------##
 ## Getting single elements ##
-#############################
+##-------------------------##
 '''
 Most formats support single element access: A[i, j]
 Exceptions: COO and DIA formats do not support indexing
@@ -61,9 +61,9 @@ print("A[2, 2] =", A[2, 2])  # 6
 print("\nType of A[0, 0]:", type(A[0, 0]))  # numpy scalar or matrix
                                             # <class 'numpy.int64'>
 
-#######################################
+##-----------------------------------##
 ## COO arrays don't support indexing ##
-#######################################
+##-----------------------------------##
 '''
 COO format does not support element access
 Must convert to CSR, CSC, or other formats first
@@ -82,9 +82,9 @@ except TypeError as e:
 A_csr = A_coo.tocsr()
 print(f"After converting to CSR: A_csr[0, 0] = {A_csr[0, 0]}") # 1
 
-#############################
+##-------------------------##
 ## Setting single elements ##
-#############################
+##-------------------------##
 '''
 Some formats support element assignment
 LIL and DOK are best for element-wise construction
@@ -121,13 +121,13 @@ print(A_csr_set.toarray())
 #  [0 3 0]]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 2. Row and Column Slicing --------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Row and Column Slicing
+# =========================================================================================
 
-####################################
+##--------------------------------##
 ## Row slicing (efficient in CSR) ##
-####################################
+##--------------------------------##
 '''
 CSR format is optimized for row access
 Returns a sparse matrix (row vector)
@@ -156,9 +156,9 @@ print(rows_select.toarray())
 # [[1 0 2 0 3]
 #  [6 0 7 0 8]]
 
-#######################################
+##-----------------------------------##
 ## Column slicing (efficient in CSC) ##
-#######################################
+##-----------------------------------##
 '''
 CSC format is optimized for column access
 Convert CSR to CSC for efficient column operations
@@ -187,9 +187,9 @@ print(cols_select.toarray())
 #  [6 7 8]
 #  [0 0 0]]
 
-##########################
+##----------------------##
 ## Submatrix extraction ##
-##########################
+##----------------------##
 '''
 Extract rectangular submatrix
 Works with both row and column slices
@@ -206,9 +206,9 @@ print(submat_fancy.toarray())
 # [[0 0]
 #  [0 0]]
 
-########################################
+##------------------------------------##
 ## Comparison: CSR vs CSC performance ##
-########################################
+##------------------------------------##
 '''Demonstrate efficiency difference'''
 
 import time
@@ -218,10 +218,8 @@ from tldm import tldm
 n = 1000
 A_large = csr_array(np.random.rand(n, n) < 0.01)  # 1% density
 
-#-----
-## CSR benchmack
-#-----
-
+# ## CSR benchmack
+# 
 # Row access in CSR (fast)
 start = time.time()
 for i in tldm(range(100), desc="CSR benchmark"):
@@ -234,10 +232,8 @@ for i in tldm(range(100), desc="CSR benchmark"):
     col = A_large[:, i]
 csr_col_time = time.time() - start
 
-#-----
-## CSC benchmack
-#-----
-
+# ## CSC benchmack
+# 
 # Convert to CSC
 A_large_csc = A_large.tocsc()
 
@@ -253,13 +249,13 @@ print(f"CSC column access: {csc_col_time*1000:.2f} ms") # 12.76 ms
 print(f"\nSpeedup (CSR col vs CSC col): {csr_col_time/csc_col_time:.1f}x") # 1.3x
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 3. Fancy Indexing ------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Fancy Indexing
+# =========================================================================================
 
-############################
+##------------------------##
 ## Integer array indexing ##
-############################
+##------------------------##
 '''
 Use arrays of integers to select rows/columns
 Similar to NumPy fancy indexing but more limited
@@ -295,13 +291,13 @@ print(rows_bool.toarray())
 #  [5 0 6 0]]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------------------- 4. Boolean Indexing --------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Boolean Indexing
+# =========================================================================================
 
-###################
+##---------------##
 ## Boolean masks ##
-###################
+##---------------##
 '''
 Use boolean arrays to select rows or columns
 More limited than NumPy dense arrays
@@ -328,9 +324,9 @@ print(cols_masked.toarray())
 #  [0 0]
 #  [7 8]]
 
-###########################
+##-----------------------##
 ## Conditional selection ##
-###########################
+##-----------------------##
 '''
 Select elements based on conditions
 Returns sparse matrix with True/False (as 1/0)
@@ -359,9 +355,9 @@ print(rows_with_large.toarray())
 # [[5 0 6 0]
 #  [0 7 0 8]]
 
-#################
+##-------------##
 ## Limitations ##
-#################
+##-------------##
 '''
 Boolean indexing on elements (not rows/cols) usually produces dense output
 Avoid: A[A > 3] = 0  # This doesn't work as in NumPy
@@ -371,13 +367,13 @@ print("Element-wise boolean indexing is limited in sparse arrays")
 print("Use comparison operations to create boolean sparse matrices instead")
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 5. Assignment Operations ----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Assignment Operations
+# =========================================================================================
 
-###########################
+##-----------------------##
 ## Assigning to elements ##
-###########################
+##-----------------------##
 '''
 Best formats for assignment: DOK and LIL
 CSR/CSC allow assignment but may be slower
@@ -418,9 +414,9 @@ print(A_assign.toarray())
 #  [ 0.  0.  3.  0.]
 #  [ 0.  0.  0.  4.]]
 
-#########################
+##---------------------##
 ## Assigning to slices ##
-#########################
+##---------------------##
 '''LIL format is efficient for row slicing assignment'''
 
 A_slice = lil_array((4, 4), dtype=float)
@@ -449,9 +445,9 @@ print(A_slice.toarray())
 #  [ 0. 30. 50. 60.]
 #  [ 0. 40. 70. 80.]]
 
-##################################
+##------------------------------##
 ## Adding new non-zero elements ##
-##################################
+##------------------------------##
 '''
 Adding elements to sparse arrays
 Formats like DOK and LIL handle this efficiently
@@ -476,18 +472,16 @@ print(A_add.toarray())
 # Stored elements
 print(f"Number of stored elements: {A_add.nnz}")  # 4
 
-#############################
+##-------------------------##
 ## Assignment with CSR/CSC ##
-#############################
+##-------------------------##
 '''
 CSR and CSC support assignment but it's slower
 May need to convert format for many assignments
 '''
 
-#--------
-## CSR assignment
-#--------
-
+# ## CSR assignment
+# 
 A_csr_assign = csr_array(np.zeros((3, 3)))
 print(A_csr_assign.toarray())
 # [[0. 0. 0.]
@@ -513,13 +507,13 @@ print(A_csr_assign.toarray())
 #  [20.  0.  0.]]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 6. Best Practices ------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Best Practices
+# =========================================================================================
 
-#############################
+##-------------------------##
 ## When to convert formats ##
-#############################
+##-------------------------##
 '''
 Choose format based on access pattern:
 - Many row accesses -> CSR
@@ -534,9 +528,9 @@ print("2. Convert to CSR for row operations and arithmetic")
 print("3. Convert to CSC for column operations")
 print("4. Use COO for easy format conversion")
 
-#################################
+##-----------------------------##
 ## Efficient indexing patterns ##
-#################################
+##-----------------------------##
 
 '''
 Demonstrate efficient vs inefficient patterns

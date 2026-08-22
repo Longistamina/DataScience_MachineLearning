@@ -9,7 +9,7 @@ In Polars, reframing is achieved via:
 2. `.collect().pipe(...)` + Python/SciPy functions (simple fallback for external libraries).
 3. `.map_batches(...)` + Python/SciPy functions (keeps the step inside a LazyFrame pipeline, but needs schema).
 
-####################################
+##--------------------------------##
 1. Native LazyFrame Reframing: Quantiles as Rows
 2. External Function Fallback: SciPy Statistical Tests (Shapiro-Wilk)
    - `.collect().pipe(...)` version
@@ -29,9 +29,9 @@ pl.Config.set_tbl_rows(10)
 pl.Config.set_float_precision(6)
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 0. Setup Data ----------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Setup Data
+# =========================================================================================
 
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 
@@ -57,9 +57,9 @@ print(lf_boston.head().collect())
 # └─────────┴──────┴───────┴───────┴───────┴──────┴──────────┴──────┴─────────┴───────┴──────┘
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#----------------------------- 1. Native LazyFrame Reframing: Quantiles as Rows -------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Native LazyFrame Reframing: Quantiles as Rows
+# =========================================================================================
 '''
 Pandas:
 df[["rm", "lstat", "medv"]].apply(lambda col: np.quantile(col, q=[0.25, 0.5, 0.75, 1]), axis=0)
@@ -97,9 +97,9 @@ print(lf_quantiles.collect())
 # └───────┴──────────┴───────────┴──────────┘
 
 
-#---------------------------------------------------------------------------------------------------------------------#
-#-------------------- 2. External Function Fallback: SciPy Statistical Tests (Shapiro-Wilk) --------------------------#
-#---------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. External Function Fallback: SciPy Statistical Tests (Shapiro-Wilk)
+# =========================================================================================
 '''
 Pandas:
 df[["rm", "lstat", "medv"]].apply(stats.shapiro, axis=0)
@@ -114,10 +114,8 @@ Two practical Polars patterns are shown below:
 2. `.map_batches(...)`: keep the operation inside the LazyFrame chain, but specify the output schema.
 '''
 
-#-------------
-# 2A. `.collect().pipe(...)` version: simple and explicit.
-#-------------
-
+# # 2A. `.collect().pipe(...)` version: simple and explicit.
+# 
 lf_shapiro_pipe = (
     lf_boston
     .select("rm", "lstat", "medv")
@@ -144,10 +142,8 @@ print(lf_shapiro_pipe.collect())
 # │ p-value     ┆ 0.000000 ┆ 0.000000 ┆ 0.000000 │
 # └─────────────┴──────────┴──────────┴──────────┘
 
-#-------------
-# 2B. `.map_batches(...)` version: stays inside the LazyFrame chain.
-#-------------
-
+# # 2B. `.map_batches(...)` version: stays inside the LazyFrame chain.
+# 
 lf_shapiro_map_batches = (
     lf_boston
     .select("rm", "lstat", "medv")
@@ -180,9 +176,9 @@ print(lf_shapiro_map_batches.collect())
 # └─────────────┴──────────┴──────────┴──────────┘
 
 
-#-----------------------------------------------------------------------------------------------------------------------#
-#---------------------------- 3. External Function Fallback: SciPy Distribution PPFs -----------------------------------#
-#-----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. External Function Fallback: SciPy Distribution PPFs
+# =========================================================================================
 '''
 Pandas:
 df.pipe(lambda df: pd.DataFrame({
@@ -203,10 +199,8 @@ Note: `q=1` returns `inf` for these distributions because the 100th percentile i
 the upper bound of unbounded continuous distributions. Use `0.99` for a finite value.
 '''
 
-#-------------
-# 3A. `.collect().pipe(...)` version: simple and avoids manually specifying schema.
-#-------------
-
+# # 3A. `.collect().pipe(...)` version: simple and avoids manually specifying schema.
+# 
 lf_ppf_pipe = (
     lf_boston
     .select("rm", "lstat", "medv")
@@ -246,10 +240,8 @@ print(lf_ppf_pipe.collect())
 # │ ppf_100th ┆ inf      ┆ inf         ┆ inf        │
 # └───────────┴──────────┴─────────────┴────────────┘
 
-#-------------
-# 3B. `.map_batches(...)` version: stays inside the LazyFrame chain.
-#-------------
-
+# # 3B. `.map_batches(...)` version: stays inside the LazyFrame chain.
+# 
 lf_ppf_map_batches = (
     lf_boston
     .select("rm", "lstat", "medv")
@@ -295,9 +287,9 @@ print(lf_ppf_map_batches.collect())
 # └───────────┴──────────┴─────────────┴────────────┘
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 4. `.pipe(...)` vs `.map_batches(...)` ----------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. `.pipe(...)` vs `.map_batches(...)`
+# =========================================================================================
 '''
 Summary:
 

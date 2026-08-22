@@ -25,7 +25,7 @@ It is a SIGNATURE CONVENTION used whenever:
   • You want one function to handle both a single input and a batch
   • You group "related variables" into one logical unit
 
-###############################
+##---------------------------##
 
 Flow of contents:
 
@@ -66,9 +66,9 @@ import numpy as np
 from scipy import optimize, integrate
 
 
-#-------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 0. The Core Pattern -------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. The Core Pattern
+# =========================================================================================
 '''
 NORMAL multi-argument function:
     def f(a, b, c):
@@ -99,7 +99,7 @@ def f_packed(params):
 p = np.array([1.0, 2.0, 3.0])
 print(f_packed(p))   # 7.0   (1 + 2*3)
 
-########################################################
+##----------------------------------------------------##
 
 # Compare with normal form — identical result
 def f_normal(a, b, c):
@@ -108,13 +108,13 @@ def f_normal(a, b, c):
 print(f_normal(1.0, 2.0, 3.0))   # 7.0
 
 
-#------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 1. Unpacking Strategies --------------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Unpacking Strategies
+# =========================================================================================
 
-###########################
+##-----------------------##
 ## By name (most common) ##
-###########################
+##-----------------------##
 '''
 Use when the number of variables is small and each has a clear meaning.
 Python tuple unpacking: left-hand side must match length exactly.
@@ -128,7 +128,7 @@ def area_of_ellipse(lw):
 lw = np.array([5.0, 3.0])
 print(area_of_ellipse(lw))   # 47.1239...
 
-#-------#
+# =========================================================================================
 
 def quadratic_at_x2(abc):
     '''params = [a, b, c] — evaluate ax² + bx + c at x=2.'''
@@ -144,9 +144,9 @@ NOTE: "lw" and "abc" are just variable names — they could be anything.
        The unpacking pattern is the same: a, b = params or a, b, c = params.
 '''
 
-##################################
+##------------------------------##
 ## By slicing (variable groups) ##
-##################################
+##------------------------------##
 '''
 Use when params splits naturally into two or more groups,
 each with a different role, and the group size may vary.
@@ -166,7 +166,7 @@ p2 = np.array([1.0, 2.0, 3.0,      # values
                0.5, 0.3, 0.2])     # weights
 print(weighted_sum(p2, n_vals=3))  # 1*0.5 + 2*0.3 + 3*0.2 = 1.7
 
-#-------#
+# =========================================================================================
 
 def linear_model_residuals(params, x_data, y_data):
     '''
@@ -184,9 +184,9 @@ weights = np.array([0.6, 2.2])
 residuals = linear_model_residuals(weights, x, y)
 print("Residuals:", residuals.round(3))   # [-0.8  -0.4   0.   -1.2  -0.4]
 
-################
+##------------##
 ## By reshape ##
-################
+##------------##
 '''
 Use when the packed array represents a 2-D structure
 (e.g. a matrix, a list of coordinates, a weight tensor).
@@ -201,7 +201,7 @@ def frobenius_norm(params, shape):
 flat = np.array([1., 2., 3., 4., 5., 6.])
 print(frobenius_norm(flat, (2, 3)))   # sqrt(1+4+9+16+25+36) ≈ 9.539
 
-#------#
+# =========================================================================================
 
 def affine_transform(params, points):
     '''
@@ -224,9 +224,9 @@ print(affine_transform(R_flat, pts).round(4))
 #  [-0.7071  0.7071]
 #  [ 0.      1.4142]]
 
-##############
+##----------##
 ## By index ##
-##############
+##----------##
 '''
 Use for very short params (1-2 elements) or when only specific indices matter.
 Less readable than name-unpacking for > 3 elements.
@@ -241,13 +241,13 @@ print(exponential_decay(np.array([10.0, 0.5]), t_vals).round(4))
 # [10.      6.0653  3.6788  2.2313]
 
 
-#------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 2. Return Shapes -----------------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Return Shapes
+# =========================================================================================
 
-###################
+##---------------##
 ## Scalar return ##
-###################
+##---------------##
 '''
 f : R^n -> R
 Used as objective in minimize, as integrand in quad, as loss function.
@@ -260,7 +260,7 @@ def sum_of_squares(params):
 print(sum_of_squares(np.array([1., 2., 3.])))   # 14.0
 print(sum_of_squares(np.zeros(10)))              # 0.0
 
-#------#
+# =========================================================================================
 
 def log_likelihood_normal(params, data):
     '''
@@ -277,9 +277,9 @@ data_sample = np.array([2.1, 1.9, 2.0, 2.3, 1.8])
 print(log_likelihood_normal(np.array([2.0, np.log(0.2)]), data_sample).round(4))
 # -1.5775
 
-######################
+##------------------##
 ## 1-D array return ##
-######################
+##------------------##
 '''
 f : R^n -> R^m
 Used as residual in least_squares, as RHS in root, as dy/dt in solve_ivp.
@@ -300,7 +300,7 @@ res = polynomial_residuals(np.array([1., 2., 0.5]), x_d, y_d)
 print("Poly residuals:", res.round(4))   # small numbers near 0
 # Poly residuals: [ 0.0173  0.0411  0.0165 -0.0652  0.0453  0.0223]
 
-#-----#
+# =========================================================================================
 
 def system_of_equations(params):
     '''
@@ -317,9 +317,9 @@ def system_of_equations(params):
 print(system_of_equations(np.array([1., 0., 1.])))   # some nonzero residuals
 # [1. 0. 2.]
 
-######################
+##------------------##
 ## 2-D array return ##
-######################
+##------------------##
 '''
 f : R^n -> R^(n x n)
 Used as Jacobian in root/minimize, as covariance, as sensitivity matrix.
@@ -340,9 +340,9 @@ print(jacobian_of_system(np.array([0.5, 0.5, 0.5])))
 #  [1.  1. -1.]
 #  [1. -1.  2.]]
 
-##################
+##--------------##
 ## Tuple return ##
-##################
+##--------------##
 '''
 Some APIs accept a function that returns (value, gradient) together,
 saving one extra function call.
@@ -358,9 +358,9 @@ val, grad = with_gradient(np.array([1., 2., 3.]))
 print(f"value={val}, grad={grad}")   # value=14.0, grad=[2. 4. 6.]
 
 
-#------------------------------------------------------------------------------------------------------------#
-#------------------------ 3. Handling Variable-Length Inputs (n variables, not fixed) -----------------------#
-#------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Handling Variable-Length Inputs (n variables, not fixed)
+# =========================================================================================
 '''
 When the number of variables is not known at definition time, you use
 len(params), loops, or slicing arithmetic to handle any length.
@@ -379,7 +379,7 @@ def generalised_power_sum(params):
 print(generalised_power_sum(np.array([1., 2., 3., 2.])))         # 1+4+9=14   (exp=2)
 print(generalised_power_sum(np.array([1., 2., 3., 4., 5., 3.]))) # 1+8+27+64+125=225 (exp=3)
 
-#------#
+# =========================================================================================
 
 def named_groups(params, group_sizes):
     '''
@@ -404,9 +404,9 @@ print("biases :", groups['biases'])    # [0.5 0.6]
 print("scale  :", groups['scale'])     # [2.0]
 
 
-#------------------------------------------------------------------------------------------------------------#
-#------------------------------- 4. Vectorised Form — single point vs batch ---------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Vectorised Form — single point vs batch
+# =========================================================================================
 '''
 A function written for ONE packed input can be extended to handle a
 BATCH of packed inputs by changing how it unpacks.
@@ -417,9 +417,9 @@ Batch:         params shape (k, n)  →  extract columns by index
 The np.atleast_2d trick lets you write ONE function that handles both.
 '''
 
-###################################################
+##-----------------------------------------------##
 ## np.atleast_2d + column-slice = works for both ##
-###################################################
+##-----------------------------------------------##
 
 def gaussian_pdf(params):
     '''
@@ -444,9 +444,9 @@ batch_params = np.array([[0.0, 0.0, 1.0],
 print(gaussian_pdf(batch_params).round(6))
 # [0.398942  0.241971  0.797885  0.176033]
 
-##################################################
+##----------------------------------------------##
 ## Loop-based vectorisation (clear alternative) ##
-##################################################
+##----------------------------------------------##
 
 def apply_to_batch(f_single, batch):
     '''
@@ -471,9 +471,9 @@ print("Entropies:", entropies.round(4))
 # [1.3863  0.      1.0397  0.8018]
 
 
-#------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 5. Defensive Patterns -----------------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Defensive Patterns
+# =========================================================================================
 '''
 Two things to add when your packed function will be called by external code
 (library callbacks, user-facing APIs):
@@ -481,9 +481,9 @@ Two things to add when your packed function will be called by external code
   2. Shape check — fail early with a clear message
 '''
 
-######################################
+##----------------------------------##
 ## np.asarray — normalise the input ##
-######################################
+##----------------------------------##
 
 def safe_sum_of_squares(params):
     '''Accepts list, tuple, or ndarray — always converts first.'''
@@ -494,9 +494,9 @@ print(safe_sum_of_squares([1, 2, 3]))               # 14.0  (list)
 print(safe_sum_of_squares((1.0, 2.0, 3.0)))         # 14.0  (tuple)
 print(safe_sum_of_squares(np.array([1., 2., 3.])))  # 14.0  (ndarray)
 
-##############################
+##--------------------------##
 ## Shape check — fail early ##
-##############################
+##--------------------------##
 
 def validated_quadratic(params):
     '''
@@ -521,13 +521,13 @@ except ValueError as e:
 # ValueError: params must have shape (3,), got (2,). Expected [a, b, c].
 
 
-#------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 6. Real scipy Use-Cases --------------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Real scipy Use-Cases
+# =========================================================================================
 
-#############################
+##-------------------------##
 ## scipy.optimize.minimize ##
-#############################
+##-------------------------##
 '''
 minimize(fun, x0) calls fun(params) expecting a SCALAR return.
 jac(params) is called for the gradient — returns 1-D array same length as params.
@@ -548,9 +548,9 @@ print("\n--- scipy.optimize.minimize ---")
 print(f"minimum at : {res.x.round(8)}")   # [0. 0. 0.]
 print(f"value      : {res.fun:.2e}")       # ≈ 0
 
-#########################
+##---------------------##
 ## scipy.optimize.root ##
-#########################
+##---------------------##
 '''
 root(fun, x0) calls fun(params) expecting a 1-D RESIDUAL ARRAY.
 Both input and output have the same length (n equations, n unknowns).
@@ -574,9 +574,9 @@ print("\n--- scipy.optimize.root ---")
 print(f"solution : {sol.x.round(6)}") # [1.645751 1.645751 1.645751
 print(f"residual : {nonlinear_system(sol.x).round(10)}")   # [0. 0. 0.]
 
-###############################
+##---------------------------##
 ## scipy.integrate.solve_ivp ##
-###############################
+##---------------------------##
 '''
 solve_ivp(fun, t_span, y0) calls fun(t, state) where state is a 1-D array.
 The function returns d(state)/dt — same shape as state.
@@ -606,9 +606,9 @@ print(f"Time steps     : {len(sol_ode.t)}") # 152
 print(f"Final prey     : {sol_ode.y[0, -1]:.4f}") # 9.7800
 print(f"Final predators: {sol_ode.y[1, -1]:.4f}") # 17.1666
 
-##############################
+##--------------------------##
 ## scipy.optimize.curve_fit ##
-##############################
+##--------------------------##
 '''
 curve_fit(f, xdata, ydata) calls f(xdata, *params).
 Your function lists the parameters after x — the optimiser packs and

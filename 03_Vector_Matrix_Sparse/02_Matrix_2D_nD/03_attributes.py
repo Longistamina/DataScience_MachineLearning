@@ -26,17 +26,17 @@ print(matrix)
 #  [ 5.24   7.457  5.375  9.914]
 #  [10.63   4.836  8.914  6.29 ]]
 
-##############
+##----------##
 ## arr.ndim ##
-##############
+##----------##
 
 print(matrix.ndim)
 # 2
 # (2 dimensions, i.e., a 2D matrix)
 
-###############
+##-----------##
 ## arr.shape ##
-###############
+##-----------##
 
 print(matrix.shape)
 # (3, 4)
@@ -53,41 +53,41 @@ print(matrix.shape[0])  # n_rows
 print(matrix.shape[1])  # n_cols
 # 4
 
-##############
+##----------##
 ## arr.size ##
-##############
+##----------##
 
 print(matrix.size)
 # 12
 # (Total number of elements = 3 * 4 = 12)
 
-###############
+##-----------##
 ## arr.dtype ##
-###############
+##-----------##
 
 print(matrix.dtype)
 # float16
 # (Data type of the elements in the array)
 
-##################
+##--------------##
 ## arr.itemsize ##
-##################
+##--------------##
 
 print(matrix.itemsize)
 # 2
 # (Each float16 element takes 2 bytes)
 
-################
+##------------##
 ## arr.nbytes ##
-################
+##------------##
 
 print(matrix.nbytes)
 # 24
 # (Total bytes = 12 elements * 2 bytes/element = 24 bytes)
 
-#######################
+##-------------------##
 ## Transpose (arr.T) ##
-#######################
+##-------------------##
 
 print(matrix.T)
 # [[ 6.49   5.24  10.63 ]
@@ -98,9 +98,9 @@ print(matrix.T)
 print(matrix.T.shape)
 # (4, 3)
 
-#################
+##-------------##
 ## arr.strides ##
-#################
+##-------------##
 
 print(matrix.strides)
 # (8, 2)
@@ -113,9 +113,9 @@ Meaning:
 print(matrix.T.strides)
 # (2, 8)
 
-###############
+##-----------##
 ## arr.flags ##
-###############
+##-----------##
 
 print(matrix.flags)
 # Shows memory layout and other properties (C_CONTIGUOUS, F_CONTIGUOUS, WRITEABLE, etc.)
@@ -128,9 +128,9 @@ print(matrix.flags)
   WRITEBACKIFCOPY : False
 '''
 
-################################
+##----------------------------##
 ## Views vs copies (arr.base) ##
-################################
+##----------------------------##
 
 print(matrix.base)
 # None  (typically None because this is an owning array)

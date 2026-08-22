@@ -32,10 +32,8 @@ y = cp.Variable(name = "y")
 z = cp.Variable(name = "z")
 
 
-#--------------------------
-## (a) 1/x + 1/y ≤ 1,  x ≥ 0,  y ≥ 0.
-#--------------------------
-
+# ## (a) 1/x + 1/y ≤ 1,  x ≥ 0,  y ≥ 0.
+# 
 constraints_a = [
     cp.power(x, -1) + cp.power(y, -1) <= 1, # set 1/x + 1/y then the is_DCP() will return False
     -x <= 0, # x ≥ 0
@@ -49,10 +47,8 @@ for constraint in constraints_a:
 # -y <= 0.0 ___ True DCP
 
 
-#--------------------------
-## (b) xy ≥ 1,  x ≥ 0,  y ≥ 0.
-#--------------------------
-
+# ## (b) xy ≥ 1,  x ≥ 0,  y ≥ 0.
+# 
 constraints_b = [
     -cp.log(x) - cp.log(y) <= 0, # xy ≥ 1 (only when x and y are positive)
     -x <= 0,
@@ -66,10 +62,8 @@ for constraint in constraints_b:
 # -y <= 0.0 ___ True DCP
 
 
-#--------------------------
-## (c) (x + y)² / √y ≤ x - y + 5  (with implicit constraint y ≥ 0)
-#--------------------------
-
+# ## (c) (x + y)² / √y ≤ x - y + 5  (with implicit constraint y ≥ 0)
+# 
 '''
 (x + y)² / √y ≤ x - y + 5
 
@@ -95,11 +89,9 @@ for constraint in constraints_c:
 
 
 
-#--------------------------
-## (d) x + z ≤ 1 + √(xy - z²),  x ≥ 0,  y ≥ 0.  
+# ## (d) x + z ≤ 1 + √(xy - z²),  x ≥ 0,  y ≥ 0.  
 ## Hint.  √(xy - z²) = √( y(x - z²/y) ).
-#--------------------------
-
+# 
 '''
 x + z ≤ 1 + √(xy - z²)
 

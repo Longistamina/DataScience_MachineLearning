@@ -17,9 +17,9 @@ quadratic_equation = f"aX{chr(178)} + bX + c = 0" # quadratic equation = phươn
 print(quadratic_equation) # aX² + bX + c = 0
 
 
-################################################################
+##------------------------------------------------------------##
 ## Create a quadratic equation string using input() and chr() ##
-################################################################
+##------------------------------------------------------------##
 
 a = eval(input('Input coefficient  A: '))
 b = eval(input('Input coefficient  B: '))

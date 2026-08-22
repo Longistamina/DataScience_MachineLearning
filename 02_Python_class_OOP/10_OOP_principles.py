@@ -6,9 +6,9 @@ There are four main principles of Object-Oriented Programming (OOP):
 4. Polymorphism: Allowing different classes to be treated as instances of the same class through a common interface.
 '''
 
-#-------------------------------------------------------#
-#-------------------- Encapsulation --------------------#
-#-------------------------------------------------------#
+# =========================================================================================
+# Encapsulation
+# =========================================================================================
 
 '''
 Encapsulation in Python's object-oriented programming (OOP) is the concept of bundling data (attributes)
@@ -54,9 +54,9 @@ print(p.get_age())
 # helps ensure data security and integrity while providing a clean interface for interaction
 
 
-#-----------------------------------------------------#
-#-------------------- Abstraction --------------------#
-#-----------------------------------------------------#
+# =========================================================================================
+# Abstraction
+# =========================================================================================
 
 '''
 Abstraction in Python's object-oriented programming (OOP) is the concept of hiding the internal implementation details
@@ -106,7 +106,7 @@ email_demo.send_email()  # Output: Email sent successfully!
 # which provides a simplified interface for sending an email without needing to know the details of how it works.
 
 
-############# Other example of Abstraction #############
+##---------## Other example of Abstraction ##---------##
 
 from abc import ABC, abstractmethod
 
@@ -148,9 +148,9 @@ print(rectangle.area())   # Output: 35
 # Users interact with the shapes through the common interface defined by the abstract class
 
 
-#-----------------------------------------------------#
-#-------------------- Inheritance --------------------#
-#-----------------------------------------------------#
+# =========================================================================================
+# Inheritance
+# =========================================================================================
 
 '''
 Inheritance in Python's object-oriented programming (OOP) is a mechanism that allows one class (called the child or subclass)
@@ -162,9 +162,9 @@ This promotes code reuse, simplifies maintenance, and helps create a hierarchica
 # Refer to file 09_inheritance.py for detailed examples of inheritance
 
 
-#-----------------------------------------------------#
-#------------------- Polymorphism --------------------#
-#-----------------------------------------------------#
+# =========================================================================================
+# Polymorphism
+# =========================================================================================
 
 '''
 Polymorphism, derived from Greek meaning "many forms," is a feature in object-oriented programming (OOP)

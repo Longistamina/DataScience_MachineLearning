@@ -1,7 +1,7 @@
 '''
 Pandas offers many functions to read data from various file formats into DataFrames.
 
-##################################################################
+##--------------------------------------------------------------##
 
 1. pd.read_csv() - Read CSV files
    + Basic Usage: df = pd.read_csv('path/to/file.csv')
@@ -36,9 +36,9 @@ from pathlib import Path
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 1. pd.read_csv() ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. pd.read_csv()
+# =========================================================================================
 
 '''
 read_csv() is the most commonly used pandas I/O function, designed to read CSV files into DataFrames. 
@@ -72,9 +72,9 @@ Data Type Management
 + parse_dates: Parse date columns automatically
 '''
 
-#################
+##-------------##
 ## Basic Usage ##
-#################
+##-------------##
 
 df = pd.read_csv(data_dir/'emp.csv')
 
@@ -89,9 +89,9 @@ print(df)
 # 6   7     Simon  632.80  2013-07-30  Operations
 # 7   8      Guru  722.50  2014-06-17     Finance
 
-########################
+##--------------------##
 ## Specify index_col= ##
-########################
+##--------------------##
 
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp.csv', 
@@ -111,9 +111,9 @@ print(df)
 # 8       Guru  722.50  2014-06-17     Finance
 '''Now the 'id' column is set as the DataFrame index.'''
 
-######################
+##------------------##
 ## Specify usecols= ##
-######################
+##------------------##
 
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp.csv', 
@@ -131,8 +131,7 @@ print(df)
 # 6     Simon  632.80  Operations
 # 7      Guru  722.50     Finance
 
-#-------
-
+# 
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp.csv', 
     usecols=[1, 2, 4]
@@ -149,9 +148,9 @@ print(df)
 # 6     Simon  632.80  Operations
 # 7      Guru  722.50     Finance
 
-####################
+##----------------##
 ## Specify dtype= ##
-####################
+##----------------##
 
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp.csv', 
@@ -170,14 +169,12 @@ print(df.dtypes)
 # dept          category
 # dtype: object
 
-##########################
+##----------------------##
 ## Specify parse_dates= ##
-##########################
+##----------------------##
 
-#-----------
-## parse_dates = ['col1', 'col2'] or 'col1'
-#-----------
-
+# ## parse_dates = ['col1', 'col2'] or 'col1'
+# 
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp.csv', 
     dtype={
@@ -196,10 +193,8 @@ print(df.dtypes)
 # dept                category
 # dtype: object
 
-#-----------
-## parse_dates=True with index_col="date_col"
-#-----------
-
+# ## parse_dates=True with index_col="date_col"
+# 
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp.csv', 
     dtype={
@@ -224,9 +219,9 @@ print(df)
 # 2014-06-17   8      Guru  722.50     Finance
 '''The 'start_date' column is now the index and parsed as datetime.'''
 
-#############################
+##-------------------------##
 ## With header= and names= ##
-#############################
+##-------------------------##
 '''
 This is useful when the CSV file lacks a header row.
 Or when you want to override the existing header.
@@ -251,9 +246,9 @@ print(df)
 # 6   7     Simon  632.80  2013-07-30  Operations
 # 7   8      Guru  722.50  2014-06-17     Finance
 
-#################################
+##-----------------------------##
 ## Read TSV file with sep='\t' ##
-#################################
+##-----------------------------##
 
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp.tsv', 
@@ -271,8 +266,7 @@ print(df)
 # 6          7     Simon  632.80  2013-07-30  Operations
 # 7          8      Guru  722.50  2014-06-17     Finance
 
-#-------
-
+# 
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp.tsv', 
     sep='\t', # Tab-separated values
@@ -290,9 +284,9 @@ print(df)
 # 7     Simon  632.80  2013-07-30  Operations
 # 8      Guru  722.50  2014-06-17     Finance
 
-#######################
+##-------------------##
 ## Handle NA values  ##
-#######################
+##-------------------##
 '''
 By default the following values are interpreted as NaN: 
 
@@ -320,9 +314,9 @@ print(df)
 # 8.0      Guru  722.50  2014-06-17     Finance
 '''The '?' in the index column is now treated as NaN.'''
 
-####################################
+##--------------------------------##
 ## Read with skiprows= and nrows= ##
-####################################
+##--------------------------------##
 
 # No skip the rows
 df = pd.read_csv(
@@ -331,8 +325,7 @@ df = pd.read_csv(
 )
 '''pandas.errors.ParserError: Error tokenizing data. C error: Expected 1 fields in line 3, saw 5'''
 
-#-------
-
+# 
 # Skip the first 2 corrupted rows
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp_skiprows.tsv',
@@ -351,8 +344,7 @@ print(df)
 # 6          7     Simon  632.80  2013-07-30  Operations
 # 7          8      Guru  722.50  2014-06-17     Finance
 
-#-------
-
+# 
 # skiprows= and nrows=
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp_skiprows.tsv',
@@ -369,9 +361,9 @@ print(df)
 # 3  Michelle   611.0  2014-11-15          IT
 # 4      Ryan   729.0  2014-05-11          HR
 
-###########################
+##-----------------------##
 ## Read with skipfooter= ##
-###########################
+##-----------------------##
 
 # No skip the footer
 df = pd.read_csv(
@@ -391,8 +383,7 @@ print(df)
 # 8  # Footer to skip 1       NaN     NaN         NaN         NaN
 # 9  # Footer to skip 2       NaN     NaN         NaN         NaN
 
-#-------
-
+# 
 # Skip the last 2 footer rows
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp_skipfooter.csv',
@@ -415,9 +406,9 @@ print(df)
 # 8.0      Guru  722.50  2014-06-17     Finance
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 2. pd.read_excel() --------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. pd.read_excel()
+# =========================================================================================
 
 '''
 read_excel() handles Microsoft Excel files (.xlsx, .xls, .xlsb) 
@@ -442,9 +433,9 @@ Also supports many parameters similar to read_csv() for data control like:
 # conda install -c conda-forge openpyxl
 # pip3 install openpyxl
 
-#################
+##-------------##
 ## Basic Usage ##
-#################
+##-------------##
 
 df = pd.read_excel(data_dir/'emp_sheetname.xlsx')
 
@@ -461,9 +452,9 @@ print(df)
 
 '''By default, it reads the first sheet (indexed 0 or specific name).'''
 
-#########################
+##---------------------##
 ## Specify sheet_name= ##
-#########################
+##---------------------##
 
 df = pd.read_excel(
     io=data_dir/'emp_sheetname.xlsx', 
@@ -481,8 +472,7 @@ print(df)
 # 6     Simon   Mumbai
 # 7      Guru   Dallas
 
-#-------
-
+# 
 df = pd.read_excel(
     io=data_dir/'emp_sheetname.xlsx', 
     sheet_name=1 # Specify the sheet index (1 means the second sheet)
@@ -500,9 +490,9 @@ print(df)
 # 7      Guru   Dallas
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 3. pd.read_json() ---------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. pd.read_json()
+# =========================================================================================
 
 '''
 read_json() supports multiple JSON orientations and structures, 
@@ -518,9 +508,9 @@ Detailed documentation: https://pandas.pydata.org/docs/reference/api/pandas.read
 + "values": Array of arrays format
 '''
 
-#################
+##-------------##
 ## Basic Usage ##
-#################
+##-------------##
 
 '''
 { 
@@ -547,9 +537,9 @@ print(df)
 # 6   7     Simon  632.80   7/30/2013  Operations
 # 7   8      Guru  722.50   6/17/2014     Finance
 
-#####################################
+##---------------------------------##
 ## Normalize json object/dataframe ##
-#####################################
+##---------------------------------##
 
 df_corrupted = pd.read_json(
     path_or_buf=data_dir/"books.json",
@@ -590,9 +580,9 @@ print(df_processed)
 # [3 rows x 6 columns]
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 4. pd.read_xml() ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. pd.read_xml()
+# =========================================================================================
 
 '''
 read_xml() handles XML documents with XPath expressions and namespace support.
@@ -607,9 +597,9 @@ Core Parameters
 # conda install -c conda-forge lxml
 # pip3 install lxml
 
-###############
+##-----------##
 ## Example 1 ##
-###############
+##-----------##
 
 df_cd = pd.read_xml(data_dir/"cd.xml")
 
@@ -626,9 +616,9 @@ print(df_cd)
 # 8                    Romanza     Andrea Bocelli      EU         Polydor   10.8  1996
 # 9   When a man loves a woman       Percy Sledge     USA        Atlantic    8.7  1987
 
-###############
+##-----------##
 ## Example 2 ##
-###############
+##-----------##
 
 df_food = pd.read_xml(data_dir/"food.xml")
 
@@ -641,9 +631,9 @@ print(df_food)
 # 4          Homestyle Breakfast  $6.95  Two eggs, bacon or sausage, toast, and our eve...       950
 
 
-#---------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 5. pd.read_csv(url) ---------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. pd.read_csv(url)
+# =========================================================================================
 
 url = "https://raw.githubusercontent.com/laxmimerit/All-CSV-ML-Data-Files-Download/refs/heads/master/jamesbond.csv"
 

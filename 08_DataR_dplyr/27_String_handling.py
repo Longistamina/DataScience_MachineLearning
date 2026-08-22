@@ -67,7 +67,7 @@ from pathlib import Path
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-########################
+##--------------------##
 
 tb_pokemon = dr.tibble(
     pd.read_csv(data_dir/"pokemon.csv")
@@ -94,31 +94,29 @@ print(
 # 4             Charmander       Fire        NaN     309      39      52       43      60      50      65          1      False
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 1. String type checking -----------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. String type checking
+# =========================================================================================
 
-#######################
+##-------------------##
 ## dr.is_character() ##
-#######################
+##-------------------##
 
 print(dr.is_character(tb_pokemon.Name)) # True
 
 print(dr.is_character(tb_pokemon.Total)) # False
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 2. Converion ----------------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Converion
+# =========================================================================================
 
-#######################
+##-------------------##
 ## dr.as_character() ##
-#######################
+##-------------------##
 
-#-----
-## Demo
-#-----
-
+# ## Demo
+# 
 print(dr.as_character(tb_pokemon.Generation))
 # 0      1
 # 1      1
@@ -133,10 +131,8 @@ print(dr.as_character(tb_pokemon.Generation))
 # 799    6
 # Name: Generation, Length: 800, dtype: object
 
-#-----
-## Apply in pipeline
-#-----
-
+# ## Apply in pipeline
+# 
 print(
     tb_pokemon
     >> dr.mutate(Total = dr.as_character(f.Total))
@@ -151,9 +147,9 @@ print(
 # 3  VenusaurMega Venusaur      625
 # 4             Charmander      309
 
-#################
+##-------------##
 ## dr.strtoi() ##
-#################
+##-------------##
 '''
 Convert numeric strings to integers
 
@@ -168,13 +164,13 @@ print(s_str) # ['10', '20', '30', '45', '50']
 print(dr.strtoi(s_str)) # [10 20 30 45 50]
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------ 3. Get properties ---------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Get properties
+# =========================================================================================
 
-################
+##------------##
 ## dr.nchar() ##
-################
+##------------##
 '''Get the number of characters of each string element'''
 
 print(
@@ -191,19 +187,17 @@ print(
 # 3  VenusaurMega Venusaur           21
 # 4             Charmander           10
 
-#################
+##-------------##
 ## dr.nzchar() ##
-#################
+##-------------##
 '''Test if each string element is not empty'''
 
 s_nzchar = dr.c("Hello", "", "DataR", " ", "Pandas")
 print(dr.nzchar(s_nzchar)) 
 # [ True False  True  True  True]
 
-#-----
-## Apply in pipeline
-#-----
-
+# ## Apply in pipeline
+# 
 print(
     tb_pokemon
     >> dr.mutate(
@@ -222,10 +216,8 @@ print(
 # 789   Avalugg        Ice        NaN             True            False
 # 792   Xerneas      Fairy        NaN             True            False
 
-#-----
-## Cleaner way
-#-----
-
+# ## Cleaner way
+# 
 print(
     tb_pokemon
     >> dr.filter(dr.nzchar(f.Type_1) == False | dr.nzchar(f.Type_2) == False)
@@ -241,13 +233,13 @@ print(
 # 792   Xerneas      Fairy        NaN
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 4. Case transformation ------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Case transformation
+# =========================================================================================
 
-##################
+##--------------##
 ## dr.tolower() ##
-##################
+##--------------##
 '''Convert strings to lowercase'''
 
 print(
@@ -264,9 +256,9 @@ print(
 # 3  VenusaurMega Venusaur  venusaurmega venusaur
 # 4             Charmander             charmander
 
-##################
+##--------------##
 ## dr.toupper() ##
-##################
+##--------------##
 '''Convert strings to uppercase'''
 
 print(
@@ -284,13 +276,13 @@ print(
 # 4             Charmander             CHARMANDER
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 5. Pattern matching and searching -----------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Pattern matching and searching
+# =========================================================================================
 
-###############
+##-----------##
 ## dr.grep() ##
-###############
+##-----------##
 '''
 Test if pattern exists in strings
 Returns the INDICES of the elements that contain the pattern
@@ -298,19 +290,15 @@ Returns the INDICES of the elements that contain the pattern
 dr.grep(pattern, x)
 '''
 
-#-----
-## Demo
-#-----
-
+# ## Demo
+# 
 print(dr.grep(pattern="Mega", x=tb_pokemon.Name))
 # [  3   7   8  12  19  23  71  87 102 124 137 141 154 163 164 168 196 224
 #  229 232 248 268 275 279 283 306 327 329 333 336 339 349 354 366 387 393
 #  397 409 413 418 420 426 476 494 498 511 527 591 796]
 
-#-----
-## Slice using dr.grep()
-#-----
-
+# ## Slice using dr.grep()
+# 
 print(
     tb_pokemon
     >> dr.slice_(dr.grep("Mega", tb_pokemon.Name))
@@ -325,19 +313,17 @@ print(
 # 12    BlastoiseMega Blastoise
 # 19      BeedrillMega Beedrill
 
-################
+##------------##
 ## dr.grepl() ##
-################
+##------------##
 '''
 Like dr.grep(), but returns a boolean array
 
 dr.grepl(pattern, x)
 '''
 
-#-----
-## Demo
-#-----
-
+# ## Demo
+# 
 print(
     tb_pokemon
     >> dr.mutate(
@@ -354,10 +340,8 @@ print(
 # 3  VenusaurMega Venusaur      True
 # 4             Charmander     False
 
-#-----
-## Filter using dr.grepl()
-#-----
-
+# ## Filter using dr.grepl()
+# 
 print(
     tb_pokemon
     >> dr.filter(dr.grepl("Mega", f.Name))
@@ -372,9 +356,9 @@ print(
 # 12    BlastoiseMega Blastoise
 # 19      BeedrillMega Beedrill
 
-#####################
+##-----------------##
 ## dr.startswith() ##
-#####################
+##-----------------##
 '''
 Check if strings start with a specified prefix
 
@@ -395,9 +379,9 @@ print(
 # 792    Xerneas      Fairy        NaN
 # 799  Volcanion       Fire      Water
 
-###################
+##---------------##
 ## dr.endswith() ##
-###################
+##---------------##
 '''
 Check if strings end with a specified suffix
 
@@ -420,15 +404,15 @@ print(
 # 799   Volcanion       Fire      Water
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------------- 6. String replacement ---------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. String replacement
+# =========================================================================================
 
 names = ["John  Hans Smith", "Jane  Mary Doe", "Alice   Bob Johnson"]
 
-##############
+##----------##
 ## dr.sub() ##
-##############
+##----------##
 '''
 Replace first occurrence
 
@@ -440,9 +424,9 @@ print(dr.sub(r"\s+", "_", names))
 
 '''Only the first r"\s+" (space character) is replaced with "_" in each string element'''
 
-###############
+##-----------##
 ## dr.gsub() ##
-###############
+##-----------##
 '''
 Replace all occurrences
 
@@ -454,9 +438,9 @@ print(dr.gsub(r"\s+", "-", names))
 
 '''All r"\s+" (space character) are replaced with "-" in each string element'''
 
-#################
+##-------------##
 ## dr.chartr() ##
-#################
+##-------------##
 '''
 Character translation.
 
@@ -467,15 +451,15 @@ print(dr.chartr("aeiou", "12345", names))
 # ['J4hn  H1ns Sm3th' 'J1n2  M1ry D42' 'Al3c2   B4b J4hns4n']
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 7. Substring extraction -----------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Substring extraction
+# =========================================================================================
 
 names = ["John_Hans_Smith", "Jane_Mary_Doe", "Alice_Bob_Johnson"]
 
-#################
+##-------------##
 ## dr.substr() ##
-#################
+##-------------##
 '''
 Get substring from start to stop.
 
@@ -487,9 +471,9 @@ NOTE: stop is still INDCLUDED
 print(dr.substr(names, 0, 6))
 # ['John_H' 'Jane_M' 'Alice_']
 
-####################
+##----------------##
 ## dr.substring() ##
-####################
+##----------------##
 '''
 Get substring with a start only (to stop).
 
@@ -504,13 +488,13 @@ print(dr.substring(names, 5, 9))
 # ['Hans' 'Mary' '_Bob']
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------------- 8. String splitting --------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. String splitting
+# =========================================================================================
 
-###################
+##---------------##
 ## dr.strsplit() ##
-###################
+##---------------##
 
 names = ["John_Hans_Smith", "Jane_Mary_Doe", "Alice_Bob_Johnson"]
 
@@ -521,9 +505,9 @@ print(dr.strsplit(names, "_"))
 #   list(['Alice', 'Bob', 'Johnson'])
 # ]
 
-##############################
+##--------------------------##
 ## dr.strsplit() with RegEx ##
-##############################
+##--------------------------##
 
 names2 = ["John-Hans.Smith", "Jane_Mary-Doe", "Alice.Bob_Johnson"]
 
@@ -542,16 +526,16 @@ print(dr.strsplit(names2, r"\W+")) # \W+ matches any non-word character
 # ]
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 9. String concatenation -----------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. String concatenation
+# =========================================================================================
 
 firts = dr.c("John", "Jane", "Alice")
 lasts = dr.c("Smith", "Doe", "Johnson")
 
-################
+##------------##
 ## dr.paste() ##
-################
+##------------##
 '''
 Concatenate strings with a separator (default is space " ")
 
@@ -564,9 +548,9 @@ print(dr.paste(firts, lasts))
 print(dr.paste(firts, lasts, sep="_"))
 # ['John_Smith' 'Jane_Doe' 'Alice_Johnson']
 
-#################
+##-------------##
 ## dr.paste0() ##
-#################
+##-------------##
 '''
 Concatenate strings without any separator
 
@@ -577,44 +561,44 @@ print(dr.paste0(firts, lasts))
 # ['JohnSmith' 'JaneDoe' 'AliceJohnson']
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 10. Trimming whitespace -----------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 10. Trimming whitespace
+# =========================================================================================
 
 texts = ["   Hello World   ", "   DataR is great!   ", "   Pandas and DataR   "]
 
-#################
+##-------------##
 ## dr.trimws() ##
-#################
+##-------------##
 '''Trim whitespace from both sides (as default)'''
 
 print(dr.trimws(texts))
 # ['Hello World' 'DataR is great!' 'Pandas and DataR']
 
-#############################
+##-------------------------##
 ## dr.trimws(which='left') ##
-#############################
+##-------------------------##
 '''Trim whitespace from left side'''
 
 print(dr.trimws(texts, which="left"))
 # ['Hello World   ' 'DataR is great!   ' 'Pandas and DataR   ']
 
-##############################
+##--------------------------##
 ## dr.trimws(which='right') ##
-##############################
+##--------------------------##
 '''Trim whitespace from right side'''
 
 print(dr.trimws(texts, which="right"))
 # ['   Hello World' '   DataR is great!' '   Pandas and DataR']
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 11. Extract, Separate, and Unite ------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 11. Extract, Separate, and Unite
+# =========================================================================================
 
-##################
+##--------------##
 ## dr.extract() ##
-##################
+##--------------##
 '''
 Extract based on REGULAR EXPRESSIONS with capturing groups
 
@@ -632,10 +616,8 @@ print(df_extract)
 # 1    B-002
 # 2    C-003
 
-#-----
-## Extract into multiple columns
-#-----
-
+# ## Extract into multiple columns
+# 
 print(
     df_extract
     >> dr.extract(f.id, regex=r'([A-Z])-(\d+)', into=['prefix', 'number'])
@@ -646,10 +628,8 @@ print(
 # 1        B      002
 # 2        C      003
 
-#-----
-## remove=False to keep original column
-#-----
-
+# ## remove=False to keep original column
+# 
 print(
     df_extract
     >> dr.extract(f.id, regex=r'([A-Z])-(\d+)', into=['prefix', 'number'], remove=False)
@@ -660,9 +640,9 @@ print(
 # 1    B-002        B      002
 # 2    C-003        C      003
 
-###################
+##---------------##
 ## dr.separate() ##
-###################
+##---------------##
 '''
 Separate a single string column into multiple columns based on a specified SEPARATOR.
 
@@ -680,10 +660,8 @@ print(df_separate)
 # 1  Jane_30
 # 2   Bob_35
 
-#-----
-## Separate into multiple columns
-#-----
-
+# ## Separate into multiple columns
+# 
 print(
     df_separate
     >> dr.separate(f.name_age, into=['name', 'age'], sep='_')
@@ -694,10 +672,8 @@ print(
 # 1     Jane       30
 # 2      Bob       35
 
-#-----
-## remove=False to keep original column
-#-----
-
+# ## remove=False to keep original column
+# 
 print(
     df_separate
     >> dr.separate(f.name_age, into=['name', 'age'], sep='_', remove=False)
@@ -708,9 +684,9 @@ print(
 # 1  Jane_30     Jane       30
 # 2   Bob_35      Bob       35
 
-########################
+##--------------------##
 ## dr.separate_rows() ##
-########################
+##--------------------##
 '''
 Separate collapsed values into multiple rows
 
@@ -728,10 +704,8 @@ print(df_sep_rows)
 # 0       1    a,b,c
 # 1       2    x,y,z
 
-#-----
-## Separate into multiple rows
-#-----
-
+# ## Separate into multiple rows
+# 
 print(
     df_sep_rows
     >> dr.separate_rows(f.values, sep=',')
@@ -745,9 +719,9 @@ print(
 # 4       2        y
 # 5       2        z
 
-################
+##------------##
 ## dr.unite() ##
-################
+##------------##
 '''
 Unite multiple columns into one
 
@@ -765,10 +739,8 @@ print(df_unite)
 # 0     John      Doe
 # 1     Jane    Smith
 
-#-----
-## Unite into single column
-#-----
-
+# ## Unite into single column
+# 
 print(
     df_unite
     >> dr.unite('full_name', ['first', 'last'], sep=' ')
@@ -778,10 +750,8 @@ print(
 # 0    John Doe
 # 1  Jane Smith
 
-#-----
-## remove=False to keep original columns
-#-----
-
+# ## remove=False to keep original columns
+# 
 print(
     df_unite
     >> dr.unite('full_name', ['first', 'last'], sep='_', remove=False)
@@ -792,9 +762,9 @@ print(
 # 1  Jane_Smith     Jane    Smith
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 12. Apply Pandas f.str methods --------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 12. Apply Pandas f.str methods
+# =========================================================================================
 
 print(
     tb_pokemon
@@ -813,7 +783,7 @@ print(
 # 3  VenusaurMega Venusaur  venusaurmega venusaur           21
 # 4             Charmander             charmander           10
 
-###################
+##---------------##
 
 print(
     tb_pokemon
@@ -830,13 +800,13 @@ print(
 # 19      BeedrillMega Beedrill
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------ 13. Some applications -----------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 13. Some applications
+# =========================================================================================
 
-############################
+##------------------------##
 ## Data cleaning pipeline ##
-############################
+##------------------------##
 
 messy = ["  john_DOE  ", "JANE-smith", "  Bob JOHNSON  "]
 
@@ -851,9 +821,9 @@ cleaned = (
 print(cleaned)
 # ['john doe' 'jane smith' 'bob johnson']
 
-######################
+##------------------##
 ## Email validation ##
-######################
+##------------------##
 
 emails = ["user@example.com", "admin@site.org", "invalid.email"]
 
@@ -870,14 +840,12 @@ print(
 # 0  user@example.com     user  example.com
 # 1    admin@site.org    admin     site.org
 
-########################################################
+##----------------------------------------------------##
 ##            Apply with Baccalaureate 2016           ##
-########################################################
+##----------------------------------------------------##
 
-#---------
-## Load raw data
-#---------
-
+# ## Load raw data
+# 
 tb_bac_2016 = dr.tibble(pd.read_excel(data_dir/"Baccalaureate_2016.xlsx"))
 
 print(
@@ -892,10 +860,8 @@ print(
 # 3  018000004   ĐẶNG PHÚC AN  19/03/1998  Sở GDĐT Bắc Giang        Nữ  Toán:   3.00   Ngữ văn:   6.00   Địa lí:   5.5...
 # 4  018000005    ĐẶNG VĂN AN  25/10/1998  Sở GDĐT Bắc Giang       Nam  Toán:   2.25   Ngữ văn:   4.75   Địa lí:   5.2...
 
-#---------
-## Define dictionaries and functions
-#---------
-
+# ## Define dictionaries and functions
+# 
 dict_subjects = {
     'Toán':'Math',
     'Ngữ văn':'Literature',
@@ -921,10 +887,8 @@ def rename_subjects(subjects_str):
         subjects_str = subjects_str.replace(viet, eng)
     return subjects_str
 
-#---------
-## Data cleaning pipeline
-#---------
-
+# ## Data cleaning pipeline
+# 
 tb_bac_2016_clean = (
     tb_bac_2016
     >> dr.rename( # Rename columns from Vietnamese to English

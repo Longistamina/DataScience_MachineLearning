@@ -2,7 +2,7 @@
 pandas has an options API configure and customize global behavior related to DataFrame display,
 data behavior and more.
 
-#########################################
+##-------------------------------------##
 
 1. All available options: pd.describe_option()
 
@@ -60,9 +60,9 @@ df_medals.info()
 # memory usage: 24.8 KB
 
 
-#-------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 1. All available options ---------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. All available options
+# =========================================================================================
 
 '''
 Use pd.describe_option() to see all available options in pandas.
@@ -89,13 +89,13 @@ print(pd.describe_option())
 '''And more...'''
 
 
-#-------------------------------------------------------------------------------------------------------#
-#---------------------------- 2. Getting, Setting and Resetting options --------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Getting, Setting and Resetting options
+# =========================================================================================
 
-#####################
+##-----------------##
 ## pd.get_option() ##
-#####################
+##-----------------##
 '''Use pd.get_option() to get the current value of a specific option.'''
 
 print(pd.get_option("display.max_rows"))        # 60
@@ -104,9 +104,9 @@ print(pd.get_option("display.width"))           # 80
 print(pd.get_option("display.precision"))       # 6
 print(pd.get_option("mode.sim_interactive"))    # False
 
-#####################
+##-----------------##
 ## pd.set_option() ##
-#####################
+##-----------------##
 '''Use pd.set_option() to set a specific option to a new value.'''
 
 pd.get_option("display.max_rows") # 60
@@ -117,9 +117,9 @@ pd.set_option("display.max_rows", 30)
 # Check the updated value
 pd.get_option("display.max_rows") # 30
 
-#######################
+##-------------------##
 ## pd.reset_option() ##
-#######################
+##-------------------##
 '''Use pd.reset_option() to reset a specific option to its default value.'''
 
 print(pd.get_option("mode.sim_interactive"))    # False
@@ -134,9 +134,9 @@ pd.reset_option("mode.sim_interactive")
 print(pd.get_option("mode.sim_interactive"))    # False
 
 
-#-------------------------------------------------------------------------------------------------------#
-#----------------------- 3. Setting startup options in Python/IPython environment ----------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Setting startup options in Python/IPython environment
+# =========================================================================================
 
 '''
 Pandas and Python support setting startup options via configuration files.
@@ -147,13 +147,13 @@ https://pandas.pydata.org/docs/user_guide/options.html#setting-startup-options-i
 '''
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------------------- 4. Frequently used options --------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Frequently used options
+# =========================================================================================
 
-###########################
+##-----------------------##
 ##    max_rows option    ##
-###########################
+##-----------------------##
 
 print(pd.get_option("display.max_rows"))    # 30
 
@@ -173,10 +173,8 @@ print(df_medals)
 
 # [2311 rows x 8 columns]
 
-#--------------------
-## Change max_rows
-#--------------------
-
+# ## Change max_rows
+# 
 pd.set_option("display.max_rows", 5)
 
 print(df_medals)
@@ -191,9 +189,9 @@ print(df_medals)
 
 pd.reset_option("display.max_rows") # Reset to default value
 
-############################
+##------------------------##
 ##   max_columns option   ##
-############################
+##------------------------##
 
 print(pd.get_option("display.max_columns"))    # 0
 
@@ -210,9 +208,9 @@ print(df_medals)
 
 pd.reset_option("display.max_columns") # Reset to default value
 
-#############################
+##-------------------------##
 ##   display.width option  ##
-#############################
+##-------------------------##
 
 pd.set_option("display.width", 100)
 print(df_medals)
@@ -226,9 +224,9 @@ print(df_medals)
 # [2311 rows x 8 columns]
 
 
-#-------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 5. Number formatting ------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Number formatting
+# =========================================================================================
 
 '''
 pandas also allows you to set how numbers are displayed in the console.
@@ -261,9 +259,9 @@ print(s / 1.0e6)
 # dtype: float64
 
 
-#-------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 6. Unicode formatting -----------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Unicode formatting
+# =========================================================================================
 
 '''
 Some East Asian countries use Unicode characters whose width corresponds to two Latin characters.
@@ -278,10 +276,8 @@ print(df)
 # 0  UK  Alice
 # 1  日本    しのぶ
 
-#----------
-## Enable Unicode formatting
-#----------
-
+# ## Enable Unicode formatting
+# 
 pd.set_option("display.unicode.east_asian_width", True)
 
 print(df)

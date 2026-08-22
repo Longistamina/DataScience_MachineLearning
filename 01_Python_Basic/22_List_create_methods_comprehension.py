@@ -20,9 +20,9 @@ Last element has index = len(list) - 1 (or -1)
 '''
 
 
-#------------------------------------------------------#
-#------------------- Create a list --------------------#
-#------------------------------------------------------#
+# ==============================================================================================
+# Create a list
+# ==============================================================================================
 
 empty_list_1 = []      # => []
 empty_list_2 = list()  # => []
@@ -44,9 +44,9 @@ print(list_split)
 # ['What', 'can', 'I', 'do', 'for', 'you', '?']
 
 
-#-----------------------------------------------------------------------#
-#----------------- Index / Access list's elements ----------------------#
-#-----------------------------------------------------------------------#
+# ==============================================================================================
+# Index / Access list's elements
+# ==============================================================================================
 
 fruits = ["apple", "banana", "cherry", "orange", "kiwi", "melon", "mango"]
 
@@ -92,9 +92,9 @@ if "apple" in fruits:
     print("Yes, 'apple' is in the fruits list")
 
 
-#---------------------------------------------------------#
-#------------------ Update list item ---------------------#
-#---------------------------------------------------------#
+# ==============================================================================================
+# Update list item
+# ==============================================================================================
 
 predators = ["tiger", "lion", "leopard"]
 print(predators)
@@ -114,9 +114,9 @@ print(predators) # return ['bear', 'e', 'a', 'g', 'l', 'e']
 '''
 
 
-#-----------------------------------------------------#
-#------------------- List methods --------------------#
-#-----------------------------------------------------#
+# ==============================================================================================
+# List methods
+# ==============================================================================================
 
 # .count()
 # .index()
@@ -132,24 +132,24 @@ print(predators) # return ['bear', 'e', 'a', 'g', 'l', 'e']
 
 programmer_life = ["waking", "eating", "debugging", "crying", "hoping", "crying"]
 
-###############
+##-----------##
 ### .count() ##
-###############
+##-----------##
 '''.count() returns the number of a specified element within a list'''
 
 print(programmer_life.count("crying")) # 2
 
-##############
+##----------##
 ## .index() ##
-##############
+##----------##
 '''.index() returns the index of the first element with the specified value'''
 
 print(programmer_life.index("crying")) # 3 (index of the first "crying")
 print(programmer_life.index("eating")) # 1
 
-###############
+##-----------##
 ## .insert() ##
-###############
+##-----------##
 '''.insert() to insert new element at a specified index'''
 
 programmer_life.insert(0, "dreaming")
@@ -161,9 +161,9 @@ NOTE: print(programmer_life.insert(0, "dreaming")) will return None
       => because it modifies the original list directly (in-place) and doesn't create or return a new list.
 '''
 
-###############
+##-----------##
 ## .append() ##
-###############
+##-----------##
 '''.append() adds ONLY ONE element per run at the end of the list'''
 
 programmer_life.append(4)
@@ -174,9 +174,9 @@ animals = ["dog", "cat", "bird"]
 animals.append([4, 3])
 print(animals) # ["dog", "cat", "bird", [4, 3]]
 
-###############
+##-----------##
 ## .extend() ##
-###############
+##-----------##
 '''.extend() acts like .append() but can add any iterable object with separate elements'''
 
 moods = ["happy", "sad", "anxious"]
@@ -188,9 +188,9 @@ animals = ["dog", "cat", "bird"]
 animals.extend([4, 3])
 print(animals) #["dog", "cat", "bird", 4, 3]
 
-###############
+##-----------##
 ## .remove() ##
-###############
+##-----------##
 '''.remove() to remove ONLY ONE element from a list per run based its VALUE'''
 
 programmer_life.remove("debugging")
@@ -207,17 +207,17 @@ If it cannot find the value to be removed
 ValueError: list.remove(x): x not in list
 '''
 
-############
+##--------##
 ## .pop() ##
-############
+##--------##
 '''.pop() to remove ONLY ONE element from a list per run based its INDEX'''
 
 programmer_life.pop(3)
 print(programmer_life) # ['dreaming', 'waking', 'eating', 'hoping', 'crying', 4]
 
-##############
+##----------##
 ## .clear() ##
-##############
+##----------##
 '''.clear() will remove all the elements from a list and return an empty list []'''
 
 programmer_life.clear()
@@ -229,9 +229,9 @@ del programmer_life  ## This will erases the variable entirely, no more existenc
 print(id(programmer_life)) ## raise NameError because the variable does not exist (has been deleted)
 '''
 
-#############
+##---------##
 ## .copy() ##
-#############
+##---------##
 '''.copy() to copy a list (resulting an object having DIFFERENT ID)'''
 
 list_original = [1, "a", 2.0, "c", "b", False]
@@ -254,10 +254,8 @@ print(f"list_original: {list_original}") # [1, 'a', 2.0, 'c', 'b', False, 'Goodn
 print(f"list_copy_2: {list_copy_2}")     # [1, 'a', 2.0, 'c', 'b', False, 'Goodnight']
 print(f"list_copy_1: {list_copy_1}")     # [1, 'a', 2.0, 'c', 'b', False]
 
-#----
-## save original list before modification
-#---
-
+# ## save original list before modification
+# 
 list_raw = [10, 20, 30, 40, 50]
 
 list_raw_backup = list_raw.copy() # make a copy before modification
@@ -266,9 +264,9 @@ list_raw.append(60)
 print(f"list_raw        : {list_raw}")         # [10, 20, 30, 40, 50, 60]
 print(f"list_raw_backup : {list_raw_backup}")  # [10, 20, 30, 40, 50]
 
-#############
+##---------##
 ## .sort() ##
-#############
+##---------##
 '''.sort() to sort a list in ascending or descending, A-Z or Z-A'''
 
 names = ["Kitana", "Bruce", "Zealot", "Anna", "Nina"]
@@ -292,9 +290,9 @@ list_mix.sort()
 '''TypeError: '<' not supported between instances of 'float' and 'str'''
 # Cannot sort a list with heterogeneous data types
 
-################
+##------------##
 ## .reverse() ##
-################
+##------------##
 '''.reverse() to reverse the current order of a list "180 degrees"'''
 
 from datetime import date
@@ -304,9 +302,9 @@ list_mix.reverse()
 print(list_mix) # [False, datetime.date(1885, 12, 21), 20, 35.5, 'Lentani']
 
 
-#-----------------------------------------------------------------#
-#------------------- List concat and multiply --------------------#
-#-----------------------------------------------------------------#
+# ==============================================================================================
+# List concat and multiply
+# ==============================================================================================
 
 lst1 = [1, 3, 5]
 lst2 = [2, 4, 6, 8]
@@ -325,38 +323,38 @@ print(lst3*4) # ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C']
 print(lst1*2 + lst3*3) # [1, 3, 5, 1, 3, 5, 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C']
 
 
-#-------------------------------------------------------------------#
-#------------------ List and Loops and 2D list ---------------------#
-#-------------------------------------------------------------------#
+# ==============================================================================================
+# List and Loops and 2D list
+# ==============================================================================================
 
 philosophes = ["Voltaire", "Rousseau", "Montesquieu", "Diderot"]
 
-###############################
+##---------------------------##
 ## For loop through elements ##
-###############################
+##---------------------------##
 
 for homme in philosophes:
     print(homme)
 
-##############################
+##--------------------------##
 ## For loop through indices ##
-##############################
+##--------------------------##
 
 for index, element in enumerate(philosophes):
     print(f"{index} - {element}")
 
-################################
+##----------------------------##
 ## While loop through indices ##
-################################
+##----------------------------##
 
 i = 0
 while i < len(philosophes):
     print(f"{i} - {philosophes[i]}")
     i += 1
 
-##########################
+##----------------------##
 ## Loop through 2D list ##
-##########################
+##----------------------##
 
 lst_customers = [
     ['Lucy', 'Rashford', 2000],
@@ -384,9 +382,9 @@ it raises error because the number of iterators and the number of items are not 
 '''
 
 
-#-----------------------------------------------------------#
-#------------------- List comprehension --------------------#
-#-----------------------------------------------------------#
+# ==============================================================================================
+# List comprehension
+# ==============================================================================================
 
 samurais = ["Miyamoto Musashi", "Oda Nobunaga", "Sanada Yukimura", "Honda Tadakatsu"]
 
@@ -403,9 +401,9 @@ even_numbers = [number if (number % 2 == 0) else "odd" for number in range(10)]
 print(even_numbers) # [0, 'odd', 2, 'odd', 4, 'odd', 6, 'odd', 8, 'odd']
 
 
-#------------------------------------------------------------------------------------------#
-#------------------ Numeric List calculating with Aggregate Functions ---------------------#
-#------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Numeric List calculating with Aggregate Functions
+# ==============================================================================================
 '''
 For numeric list, can use math aggregate functions
 
@@ -434,9 +432,9 @@ print(np.sum(list_bools))
 # 3 | True = 1, False = 0
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------ map() and list comprehension for list element-wise calculation ---------------------#
-#-------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# map() and list comprehension for list element-wise calculation
+# ==============================================================================================
 
 import numpy as np
 
@@ -460,10 +458,8 @@ output_lst = list(map(lambda x: x/100, lst_floats)) # combine map() with lambda 
 print(output_lst)
 # [2.13, 3.215, 561.9899, 654.8955000000001, 2.1368]
 
-#----------
-## Use list comprehension to perform list element-wise transformation
-#----------
-
+# ## Use list comprehension to perform list element-wise transformation
+# 
 lst_complexes = [(3+2j), (4+5j), (9.5 + 10j)]
 
 output_lst = [complex**2 for complex in lst_complexes]

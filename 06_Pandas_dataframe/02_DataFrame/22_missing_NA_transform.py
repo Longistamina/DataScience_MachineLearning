@@ -91,13 +91,13 @@ print(df_mkt.info())
 # memory usage: 32.2 KB
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 1. Detect missing values --------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Detect missing values
+# =========================================================================================
 
-##############################
+##--------------------------##
 ## df.isna() or df.isnull() ##
-##############################
+##--------------------------##
 '''Returns a DataFrame of the same shape as df, with True for missing values'''
 
 print(df_mkt.isna().head())
@@ -116,9 +116,9 @@ print(df_mkt.isnull().head())
 # 3  False  False         False            False  ...          True         True       True            True
 # 4  False  False         False            False  ...          True         True       True            True
 
-##########################################
+##--------------------------------------##
 ## df.isna().sum() or df.isnull().sum() ##
-##########################################
+##--------------------------------------##
 '''Returns the count of missing values in each column'''
 
 print(df_mkt.isna().sum())
@@ -179,9 +179,9 @@ print(df_mkt.isnull().sum())
 # share_of_spend                40
 # dtype: int64
 
-###############
+##-----------##
 ## df.info() ##
-###############
+##-----------##
 '''Provides a summary of the DataFrame, including non-null counts'''
 
 print(df_mkt.info())
@@ -219,13 +219,13 @@ print(df_mkt.info())
 # memory usage: 32.2 KB
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 2. Detect non-missing values ------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Detect non-missing values
+# =========================================================================================
 
-#################################
+##-----------------------------##
 ## df.notna() or df.notnull()  ##
-#################################
+##-----------------------------##
 '''Returns a DataFrame of the same shape as df, with True for non-missing values'''
 
 print(df_mkt.notna().head())
@@ -244,9 +244,9 @@ print(df_mkt.notnull().head())
 # 3  True  True          True             True  ...         False        False      False           False
 # 4  True  True          True             True  ...         False        False      False           False
 
-############################################
+##----------------------------------------##
 ## df.notna().sum() or df.notnull().sum() ##
-############################################
+##----------------------------------------##
 '''Returns the count of non-missing values in each column'''
 
 print(df_mkt.notna().sum())
@@ -308,20 +308,18 @@ print(df_mkt.notnull().sum())
 # dtype: int64
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------- 3. Drop missing values along columns ----------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Drop missing values along columns
+# =========================================================================================
 
-################################
+##----------------------------##
 ## df.dropna(axis=1, how=...) ##
-################################
+##----------------------------##
 '''how='any' (default): Drop rows with any missing values
    how='all': Drop rows where all values are missing'''
 
-#----
-## how='all'
-#----
-
+# ## how='all'
+# 
 print(
     df_mkt
     .dropna(axis=1, how='all')
@@ -337,10 +335,8 @@ print(
 # [5 rows x 26 columns]
 '''No columns are dopped because no columns have all NA values'''
 
-#----
-## how='any'
-#----
-
+# ## how='any'
+# 
 print(
     df_mkt
     .dropna(axis=1, how='any')
@@ -356,9 +352,9 @@ print(
 # [5 rows x 13 columns]
 '''Any rows having at least one NA value are dropped.'''
 
-###################################
+##-------------------------------##
 ## df.dropna(axis=1, thresh=...) ##
-###################################
+##-------------------------------##
 
 print(
     df_mkt
@@ -375,9 +371,9 @@ print(
 # [5 rows x 19 columns]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------- 4. Drop missing values along rows ------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Drop missing values along rows
+# =========================================================================================
 
 df_mkt2 = df_mkt.dropna(axis=1, thresh=2/3 * df_mkt.shape[0]) # Keep columns with at least 2/3 non-missing values
 
@@ -392,16 +388,14 @@ print(df_mkt2.isna().sum().pipe(lambda x: x[x > 0])) # Count missing values, ret
 # share_of_spend    40
 # dtype: int64
 
-###########################
+##-----------------------##
 ## df.dropna(how=...)    ##
-###########################
+##-----------------------##
 '''how='any' (default): Drop rows with any missing values
    how='all': Drop rows where all values are missing'''
 
-#----
-## how='any'
-#----
-
+# ## how='any'
+# 
 print(
     df_mkt2
     .dropna(axis=0, how='any')
@@ -422,10 +416,8 @@ print(
 # [105 rows x 19 columns]
 '''Here, 51 rows are dropped because they have at least one missing value.'''
 
-#----
-## how='all'
-#----
-
+# ## how='all'
+# 
 print(
     df_mkt2
     .dropna(axis=0, how='all')
@@ -446,9 +438,9 @@ print(
 # [156 rows x 19 columns]
 '''No rows are dropped because no rows have all NA values.'''
 
-###########################
+##-----------------------##
 ## df.dropna(subset=...) ##
-###########################
+##-----------------------##
 '''subset=[col1, col2, ...]: Drop rows with missing values in the specified columns'''
 
 print(
@@ -470,16 +462,16 @@ print(
 '''Here 33 rows are dropped because they have missing values in the 'top_of_mind' or 'spontaneous' columns.'''
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 5. Fill missing values --------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Fill missing values
+# =========================================================================================
 
 # Drop "category" columns before filling NA with 0, avoid error
 df_missing = df_mkt.drop(["week", "year"], axis=1)
 
-#################
+##-------------##
 ## df.fillna() ##
-#################
+##-------------##
 '''Returns a DataFrame with missing values filled with the specified value'''
 
 print(
@@ -494,9 +486,9 @@ print(
 # 3         35.03             7.22                    7.76  ...          0.0        0.0             0.0
 # 4         32.37             7.70                    7.78  ...          0.0        0.0             0.0
 
-#############################
+##-------------------------##
 ## df.fillna({dictionary}) ##
-#############################
+##-------------------------##
 '''Fill different columns with different values'''
 
 print(
@@ -525,9 +517,9 @@ print(
 # 154    50.200000         83.7   99.5         71.6
 # 155    50.200000         83.7   99.5         71.6
 
-##########################
+##----------------------##
 ## df.fillna(df.mean()) ##
-##########################
+##----------------------##
 '''Fill missing values with the mean of each column'''
 
 print(
@@ -542,9 +534,9 @@ print(
 # 3         35.03             7.22                    7.76  ...       1127.0  14.904545       45.314027
 # 4         32.37             7.70                    7.78  ...       1127.0  14.904545       45.314027
 
-################
+##------------##
 ## df.ffill() ##
-################
+##------------##
 '''Fill missing values using forward fill method'''
 
 s_misisng = pd.Series([1, np.nan, np.nan, 4, 5, np.nan, 7])
@@ -559,9 +551,9 @@ print(s_misisng.ffill())
 # 6    7.0
 # dtype: float64
 
-################
+##------------##
 ## df.bfill() ##
-################
+##------------##
 '''Fill missing values using backward fill method'''
 
 s_misisng = pd.Series([1, np.nan, np.nan, 4, 5, np.nan, 7])
@@ -577,9 +569,9 @@ print(s_misisng.bfill())
 # dtype: float64
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 6. Interpolate missing values ----------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Interpolate missing values
+# =========================================================================================
 
 # Drop "category" columns before interpolation, avoid error
 df_missing = df_mkt.drop(["week", "year"], axis=1)
@@ -599,9 +591,9 @@ print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
 # grp_print                    134
 # share_of_spend                40
 
-####################################################
+##------------------------------------------------##
 ## df.interpolate(axis=0, limit_direction='both') ##
-####################################################
+##------------------------------------------------##
 '''linear interpolation'''
 
 df_interpolated = df_missing.interpolate(axis=0, inplace=False, limit_direction='both')
@@ -610,9 +602,9 @@ print(df_interpolated.isna().sum().pipe(lambda x: x[x > 0]))
 # Series([], dtype: int64)
 '''All missing values are filled'''
 
-##################################################
+##----------------------------------------------##
 ## df.interpolate(method="polynomial", order=n) ##
-##################################################
+##----------------------------------------------##
 '''
 polynomial interpolation of order n (the number of non-missing values must be greater than n)
 
@@ -641,9 +633,9 @@ print(df_interpolated_poly.isna().sum().pipe(lambda x: x[x > 0]))
 # dtype: int64
 '''Only fills missing values between two non-missing values, ignore the boundary missing values'''
 
-##############################################
+##------------------------------------------##
 ## df.interpolate(method="spline", order=n) ##
-##############################################
+##------------------------------------------##
 '''spline interpolation of order n'''
 
 df_interpolated_spline = (
@@ -656,9 +648,9 @@ print(df_interpolated_spline.isna().sum().pipe(lambda x: x[x > 0]))
 # Series([], dtype: int64)
 '''All missing values are filled'''
 
-###################################
+##-------------------------------##
 ## df.interpolate(method="time") ##
-###################################
+##-------------------------------##
 '''time-based interpolation (requires a datetime index)'''
 
 df_missing_time = (
@@ -674,9 +666,9 @@ print(df_interpolated_time.isna().sum().pipe(lambda x: x[x > 0]))
 # Series([], dtype: int64)
 '''All missing values are filled'''
 
-######################################
+##----------------------------------##
 ## df.interpolate(method="nearest") ##
-######################################
+##----------------------------------##
 '''
 nearest neighbor interpolation
 
@@ -703,9 +695,9 @@ print(df_interpolated_nearest.isna().sum().pipe(lambda x: x[x > 0]))
 '''Only fills missing values between two non-missing values, ignore the boundary missing values'''
 
 
-#--------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 7. Conditional filling ------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Conditional filling
+# =========================================================================================
 
 # Drop "category" columns before filling NA with mean, avoid error
 df_missing = df_mkt.drop(["week", "year"], axis=1)
@@ -741,9 +733,9 @@ print(df_filled.isna().sum())
 '''All missing values are filled'''
 
 
-#------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 8. Group-based filling, transform -----------------------------------------#
-#------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Group-based filling, transform
+# =========================================================================================
 
 df_missing = df_mkt.drop("year", axis=1)
 print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
@@ -761,13 +753,11 @@ print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
 # grp_print         134
 # share_of_spend     40
 
-#--------------------
-
+# 
 # FILL MISSING VALUES WITH THE MEAN OF EACH "week" GROUP
 df_group_filled = df_missing.fillna(df_missing.groupby("week").transform("mean"))
 
-#--------------------
-
+# 
 print(df_group_filled.isna().sum().pipe(lambda x: x[x > 0]))
 # grp_radio       114
 # reach_radio     114

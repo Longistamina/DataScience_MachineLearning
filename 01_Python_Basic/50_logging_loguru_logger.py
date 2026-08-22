@@ -18,7 +18,7 @@ There are 5 standard levels of logging, each with a specific purpose:
 4. ERROR: An indication that due to a more serious problem, the software has not been able to perform some function.
 5. CRITICAL: A very serious error, indicating that the program itself may be unable to continue running.
 
-###############################
+##---------------------------##
 
 Flow of contents:
 
@@ -35,9 +35,9 @@ Flow of contents:
    + Save the log information into a .txt file for reviewing
 '''
 
-#---------------------------------------------------------------------------------------------#
-#------------------------------------- 1. logging --------------------------------------------#
-#---------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. logging
+# ==============================================================================================
 
 import logging
 
@@ -59,18 +59,18 @@ def logging_with_level(log_level=None):
     logger.error("This is an error message.")
     logger.critical("This is a critical message.")
 
-####################################
+##--------------------------------##
 ## Run with default logging level ##
-####################################
+##--------------------------------##
 
 logging_with_level()
 # WARNING:__main__:This is a warning message.
 # ERROR:__main__:This is an error message.
 # CRITICAL:__main__:This is a critical message.
 
-##################################
+##------------------------------##
 ## Run with DEBUG logging level ##
-##################################
+##------------------------------##
 
 logging_with_level(logging.DEBUG)
 # DEBUG:__main__:This is a debug message.
@@ -79,9 +79,9 @@ logging_with_level(logging.DEBUG)
 # ERROR:__main__:This is an error message.
 # CRITICAL:__main__:This is a critical message.
 
-#################################
+##-----------------------------##
 ## Run with INFO logging level ##
-#################################
+##-----------------------------##
 
 logging_with_level(logging.INFO)
 # INFO:__main__:This is an info message.
@@ -89,26 +89,26 @@ logging_with_level(logging.INFO)
 # ERROR:__main__:This is an error message.
 # CRITICAL:__main__:This is a critical message.
 
-####################################
+##--------------------------------##
 ## Run with WARNING logging level ##
-####################################
+##--------------------------------##
 
 logging_with_level(logging.WARNING)
 # WARNING:__main__:This is a warning message.
 # ERROR:__main__:This is an error message.
 # CRITICAL:__main__:This is a critical message.
 
-##################################
+##------------------------------##
 ## Run with ERROR logging level ##
-##################################
+##------------------------------##
 
 logging_with_level(logging.ERROR)
 # ERROR:__main__:This is an error message.
 # CRITICAL:__main__:This is a critical message.
 
-#####################################
+##---------------------------------##
 ## Run with CRITICAL logging level ##
-#####################################
+##---------------------------------##
 
 logging_with_level(logging.CRITICAL)
 # CRITICAL:__main__:This is a critical message.
@@ -122,13 +122,13 @@ This the logging of loguru is already configured and ready to use.
 '''
 
 
-#---------------------------------------------------------------------------------------------#
-#----------------------- 2. loguru.logger (from loguru import logger) ------------------------#
-#---------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. loguru.logger (from loguru import logger)
+# ==============================================================================================
 
-###################
+##---------------##
 ## loguru.logger ##
-###################
+##---------------##
 
 from loguru import logger
 
@@ -151,9 +151,9 @@ logger.error("This is an error message.")
 logger.critical("This is a critical message.")
 # 2025-07-30 17:34:16.454 | CRITICAL | __main__:<module>:1 - This is a critical message.
 
-#############################################################
+##---------------------------------------------------------##
 ## Save the log information into a .txt file for reviewing ##
-#############################################################
+##---------------------------------------------------------##
 
 # Add file sink while keeping the default console output
 logger.add("01_Python_Basic/terminal_logs.txt",

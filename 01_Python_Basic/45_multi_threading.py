@@ -1,4 +1,4 @@
-############ Example WITHOUT multithreading or multiprocessing ##############
+##--------## Example WITHOUT multithreading or multiprocessing ##----------##
 
 import time
 
@@ -33,9 +33,9 @@ print("\nDone single-thread calculating in:", time.time() - t0) # Get the curren
 # => Make the total processing time delayed and cost upto 1.602s to finish
 
 
-#------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- Multithreading ----------------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Multithreading
+# ==============================================================================================
 
 # GIL = Global Interpreter Lock
 
@@ -60,7 +60,7 @@ Implementation: Python provides the "threading" module
 and higher-level interfaces like "concurrent.futures.ThreadPoolExecutor" to manage threads
 '''
 
-############ Example WITH multithreading ##################
+##--------## Example WITH multithreading ##--------------##
 
 import time
 import threading
@@ -124,11 +124,11 @@ print("\nDone double-thread calculating in:", time.time() - t0)
 # If we defined more threads like 6, then we have 6/2 = 3 CORES (can achive true parallelism)
 
 
-###################### Dynamic Multithread process using "threading" and "ThreadPoolExecutor" #########################
-###################### Enable defining the maximum number of threads (worker) to use          #########################
-###################### Automatically create thread, start thread and join thread              #########################
+##------------------## Dynamic Multithread process using "threading" and "ThreadPoolExecutor" ##---------------------##
+##------------------## Enable defining the maximum number of threads (worker) to use          ##---------------------##
+##------------------## Automatically create thread, start thread and join thread              ##---------------------##
 
-##### Return an output list #####
+##-## Return an output list ##-##
 
 import threading
 from concurrent.futures import ThreadPoolExecutor
@@ -165,7 +165,7 @@ print(outputs)
 # Output: [[3, 2, 1], ['c', 'b', 'a'], [40, 30, 20, 10], [200, 100], ['z', 'y', 'x']]
 
 
-##### Write outputs into  files #####
+##-## Write outputs into  files ##-##
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -207,9 +207,9 @@ multithread_process(func=write_output_file,input_blocks=inputs, max_threads=4, o
 # each containing the reversed block as a string.
 
 
-#-------------------------------------------------------------#
-#-------------- using a list of tuples as argument -----------#
-#-------------------------------------------------------------#
+# ==============================================================================================
+# using a list of tuples as argument
+# ==============================================================================================
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -245,9 +245,9 @@ with ThreadPoolExecutor(max_workers=4) as executor:
 print(f"Three-arg results: {results_three}")  # [4, 11, 22]
 
 
-#---------------------------------------------------------------------------------#
-#----------- difference between Multithreading and Multiprocessing ---------------#
-#---------------------------------------------------------------------------------#
+# ==============================================================================================
+# difference between Multithreading and Multiprocessing
+# ==============================================================================================
 
 '''
 Aspect               | Multithreading                       | Multiprocessing

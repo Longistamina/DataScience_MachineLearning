@@ -1,14 +1,18 @@
-#########################
+# ==============================================================================================
+# 1. ``print()`` function: all you need to know
+# ==============================================================================================
+
+##---------------------##
 ## Single-line print() ##
-#########################
+##---------------------##
 
 print("Hello world!")
 
 print('Hello world!')
 
-######################################
+##----------------------------------##
 ## Multiple-line print() [METHOD 1] ##
-######################################
+##----------------------------------##
 
 print("""
 Sir Isaac Newton was born on January 4, 1643, in Woolsthorpe, England.
@@ -21,8 +25,7 @@ Two his greatest contributions to science are:
 + The invention of calculus (integral and differential calculus)
 """)
 
-#--------------
-
+#
 print('''
 Sir Isaac Newton, a devout Christian, had a close friend who was an atheist.
 One day, Newton invited him over to his study.
@@ -40,9 +43,9 @@ came into existence without a Creator?"
 (This rhetoric skill is called "Socratic Elenchus")
 ''')
 
-######################################
+##----------------------------------##
 ## Multiple-line print() [METHOD 2] ##
-######################################
+##----------------------------------##
 
 print(
     (
@@ -55,10 +58,9 @@ print(
 # This is the second line.
 # This is the third line.
 
-
-##########################
+##----------------------##
 ## print() with "end =" ##
-##########################
+##----------------------##
 
 print("Happiness is simple", end=".")
 # Happiness is simple.>>>
@@ -67,9 +69,9 @@ print("Happiness is simple", end=" .\n")
 # Happiness is simple .
 # >>>
 
-#########################
+##---------------------##
 ## print() with "sep=" ##
-#########################
+##---------------------##
 
 print("Happiness", "is", "simple", sep=" - ")
 # Happiness - is - simple
@@ -78,9 +80,9 @@ print("Happiness", "is", "simple", sep="|")
 # Happiness|is|simple
 
 
-#------------------------------------------------------------------------------------------------------#
-#--------------------------------------- termcolor module ---------------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. ``termcolor`` module: create and print colored text
+# ==============================================================================================
 '''
 The termcolor module lets you add ANSI colors and text attributes (bold, underline, etc.) to console output.
 
@@ -94,10 +96,10 @@ It provides two primary functions:
 
 from termcolor import colored, cprint
 
-#########################################
+##-------------------------------------##
 ## create colored text using colored() ##
 ## and print it out using print()      ##
-#########################################
+##-------------------------------------##
 
 colored_text = colored(
     text="This text is so colorful!!!",
@@ -108,9 +110,9 @@ colored_text = colored(
 
 print(colored_text)
 
-#############################################################
+##---------------------------------------------------------##
 ## use RGB tuple to define text color and background color ##
-#############################################################
+##---------------------------------------------------------##
 
 # The RGB value must range from 0-255
 # Red:   0 - 255 (256 values)
@@ -131,9 +133,9 @@ colored_text = colored(
 
 print(colored_text)
 
-#################################################
+##---------------------------------------------##
 ## use cprint() to print colored text directly ##
-#################################################
+##---------------------------------------------##
 
 green_lantern_oath = '''
    In brightest day, in blackest night, no evil shall escape my sight.
@@ -147,9 +149,9 @@ cprint(
     attrs=['bold']
 )
 
-#############################################################
+##---------------------------------------------------------##
 ## Combine colored() with Multiple-line print() [METHOD 2] ##
-#############################################################
+##---------------------------------------------------------##
 
 print(
     colored("In brightest day, in blackest night, no evil shall escape my sight.", "green", attrs=["bold"]),

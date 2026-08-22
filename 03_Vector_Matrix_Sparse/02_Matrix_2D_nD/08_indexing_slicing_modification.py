@@ -46,9 +46,9 @@ print(matrix.shape)
 # (8 rows, 6 columns)
 
 
-#--------------------------------------------------------------------------------------------------------#
-#---------------------------------- 1. Basic indexing: matrix[row, col] ---------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Basic indexing: matrix[row, col]
+# =========================================================================================
 
 print(matrix[0, 0])
 # 10
@@ -81,9 +81,9 @@ print(matrix[:, 2])
 # (Entire column at index 2, i.e the 3rd column)
 
 
-#--------------------------------------------------------------------------------------------------------#
-#-------------------------- 2. Fancy indexing: matrix[list_of_rows, list_of_cols] -----------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Fancy indexing: matrix[list_of_rows, list_of_cols]
+# =========================================================================================
 
 row_indices = [0, 2, 4]
 col_indices = [1, 3, 5]
@@ -114,9 +114,9 @@ print(matrix[:, [0, 2, 4]])
 # (All rows with columns 0, 2, and 4)
 
 
-#---------------------------------------------------------------------------------------------------------#
-#--------------- 3. Slicing: matrix[row_start:row_stop:row_step, col_start:col_stop:col_step] ------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Slicing: matrix[row_start:row_stop:row_step, col_start:col_stop:col_step]
+# =========================================================================================
 
 print(matrix[0:3, 1:4])
 # [[11 12 13]
@@ -189,13 +189,13 @@ print(matrix[::-1, ::-1])
 #  [15 14 13 12 11 10]]
 
 
-#--------------------------------------------------------------------------------------------------------#
-#-------------------------------- 4. Advanced indexing (using methods) ----------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Advanced indexing (using methods)
+# =========================================================================================
 
-########################
+##--------------------##
 ## arr.item(row, col) ##
-########################
+##--------------------##
 
 print(matrix.item(0, 0))
 # 10
@@ -210,9 +210,9 @@ print(matrix.item(10))
 # 22
 # (Flat index 10 - treats matrix as 1D array)
 
-#############################
+##-------------------------##
 ## arr.take(indices, axis) ##
-#############################
+##-------------------------##
 
 print(matrix.take([0, 2, 4], axis=0))
 # [[10 11 12 13 14 15]
@@ -247,9 +247,9 @@ print(matrix.take(np.arange(matrix.shape[0] - 1, -1, -1), axis=0))
 #  [10 11 12 13 14 15]]
 # (Take all rows in reverse order using np.arange())
 
-################################
+##----------------------------##
 ## Using np.take_along_axis() ##
-################################
+##----------------------------##
 '''
 np.take_along_axis() takes values from an array by matching indices along a specified axis.
 Unlike np.take(), this function works with 2D index arrays and can select different indices
@@ -270,10 +270,8 @@ row_indices = np.array([[0, 2, 4],    # For row 0, take columns 0, 2, 4
 print(row_indices.shape)
 # (4, 3)
 
-#-----
-## Taking along axis=1 (columns)
-#-----
-
+# ## Taking along axis=1 (columns)
+# 
 result_axis1 = np.take_along_axis(matrix[:4], row_indices, axis=1)
 print(result_axis1)
 # [[10 12 14]
@@ -288,10 +286,8 @@ print(f"Result for row 0: {result_axis1[0]}")
 # Indices for row 0: [0 2 4]
 # Result for row 0: [10 12 14]
 
-#-----
-## Taking along axis=0 (rows)
-#-----
-
+# ## Taking along axis=0 (rows)
+# 
 col_indices = np.array([[0, 1, 2, 3, 4, 5],
                         [7, 6, 5, 4, 3, 2],
                         [2, 2, 2, 2, 2, 2]])
@@ -324,10 +320,8 @@ print(f"Result for col 0: {result_axis0[:, 0]}")
 # Indices for col 0: [0 7 2]
 # Result for col 0: [10 80 30]
 
-#-----
-## Using with custom index patterns
-#-----
-
+# ## Using with custom index patterns
+# 
 # Create indices to select specific elements from each row
 # For rows that have values > 40, select columns 0, 1, 2
 # For rows that don't, select column 0 three times
@@ -356,10 +350,8 @@ print(f"Indices [0, 1, 2]: {matrix[7][[0, 1, 2]]}")
 # Row 7 (matrix[7]): [80 81 82 83 84 85]
 # Indices [0, 1, 2]: [80 81 82]
 
-#-----
-## Practical example: combine with argsort to get sorted elements
-#-----
-
+# ## Practical example: combine with argsort to get sorted elements
+# 
 matrix_scores = np.array([
     [85, 92, 78, 95, 88],
     [76, 88, 91, 84, 79],
@@ -382,13 +374,13 @@ print(np.take_along_axis(matrix_scores, argmax_indices[np.newaxis, :], axis=0))
 '''np.newaxis is used to convert 1D array argmax_indices to 2D for proper broadcasting'''
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------- 5. Modifying elements: matrix[row, col] = new_value --------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Modifying elements: matrix[row, col] = new_value
+# =========================================================================================
 
-##################################
+##------------------------------##
 ## matrix[row, col] = new_value ##
-##################################
+##------------------------------##
 
 matrix_demo = matrix.copy() # Create a copy to avoid modifying the original matrix
 
@@ -421,9 +413,9 @@ print(f"Modified last 2x2 block:\n{matrix_demo[-2:, -2:]}\nOriginal last 2x2 blo
 # [[74 75]
 #  [84 85]]
 
-###############################################
+##-------------------------------------------##
 ## arr.put(flat_indices, list_of_new_values) ##
-###############################################
+##-------------------------------------------##
 
 matrix_demo = matrix.copy() # Create a copy to avoid modifying the original matrix
 
@@ -439,13 +431,13 @@ print(f"Modified slice (flat): {matrix_demo.flat[6:12]}\nOriginal slice (flat): 
 # Original slice (flat): [20 21 22 23 24 25]
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------- 6. Examples for 3D and 4D matrices ----------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Examples for 3D and 4D matrices
+# =========================================================================================
 
-########################
+##--------------------##
 ## 3D Matrix (Tensor) ##
-########################
+##--------------------##
 
 # Create a 3D array with shape (3, 4, 5) - 3 layers, 4 rows, 5 columns
 tensor_3d = np.arange(60).reshape(3, 4, 5)
@@ -469,10 +461,8 @@ print(tensor_3d)
 print(f"Shape: {tensor_3d.shape}")
 # Shape: (3, 4, 5)
 
-#------
-## Basic indexing: tensor_3d[layer, row, col]
-#------
-
+# ## Basic indexing: tensor_3d[layer, row, col]
+# 
 print(tensor_3d[0, 1, 2])
 # 7
 # (Layer 0, row 1, column 2)
@@ -535,10 +525,8 @@ print(tensor_3d.take([0, 2], axis=0))
 #   [55 56 57 58 59]]]
 # (Take layers 0 and 2)
 
-#------
-## Modifying 3D tensor
-#------
-
+# ## Modifying 3D tensor
+# 
 tensor_3d_demo = tensor_3d.copy()
 tensor_3d_demo[1, 2, 3] = 999
 
@@ -551,9 +539,9 @@ print(f"Modified column: {tensor_3d_demo[0, :, 2]}\nOriginal column: {tensor_3d[
 # Modified column: [0 0 0 0]
 # Original column: [ 2  7 12 17]
 
-########################
+##--------------------##
 ## 4D Matrix (Tensor) ##
-########################
+##--------------------##
 
 # Create a 4D array with shape (2, 3, 4, 5) - 2 batches, 3 channels, 4 rows, 5 columns
 tensor_4d = np.arange(120).reshape(2, 3, 4, 5)
@@ -562,10 +550,8 @@ print(tensor_4d)
 print(f"Shape: {tensor_4d.shape}")
 # Shape: (2, 3, 4, 5)
 
-#------
-## Basic indexing: tensor_4d[batch, channel, row, col]
-#------
-
+# ## Basic indexing: tensor_4d[batch, channel, row, col]
+# 
 print(tensor_4d[0, 0, 0, 0])
 # 0
 # (Batch 0, channel 0, row 0, column 0)
@@ -611,10 +597,8 @@ print(tensor_4d[::1, ::2, ::2, ::2])
 #    [110 112 114]]]]
 # (All batches, every 2nd channel, every 2nd row, every 2nd column)
 
-#------
-## Modifying 4D tensor
-#------
-
+# ## Modifying 4D tensor
+# 
 tensor_4d_demo = tensor_4d.copy()
 tensor_4d_demo[1, 1, 2, 3] = 777
 
@@ -637,13 +621,13 @@ print(tensor_4d.take([1, 3], axis=2).shape)
 # (Take rows 1 and 3 from all batches and channels)
 
 
-#---------------------------------------------------------------------------------------------------------#
-#---------------------- 7. Elipsis for skipping elements: arr[..., indices] ------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Elipsis for skipping elements: arr[..., indices]
+# =========================================================================================
 
-########################
+##--------------------##
 ## 3D Matrix (Tensor) ##
-########################
+##--------------------##
 
 # Create a 3D array with shape (3, 4, 5) - 3 layers, 4 rows, 5 columns
 tensor_3d = np.arange(60).reshape(3, 4, 5)

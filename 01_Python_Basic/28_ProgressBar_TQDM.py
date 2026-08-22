@@ -51,19 +51,19 @@ Tips and Best Practices
 """
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 1. Installation and Demo -------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. Installation and Demo
+# ==============================================================================================
 
-################
+##------------##
 ## Installing ##
-################
+##------------##
 
 # pip install tqdm
 
-####################
+##----------------##
 ## Quick examples ##
-####################
+##----------------##
 
 from tqdm import tqdm
 import time
@@ -75,16 +75,16 @@ for i in tqdm(range(100)):
 # Output: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 2. Basic Usage -----------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. Basic Usage
+# ==============================================================================================
 
 from tqdm import tqdm
 import time
 
-#########################
+##---------------------##
 ## Simple progress bar ##
-#########################
+##---------------------##
 
 items = range(100)
 for item in tqdm(items):  # Wrap iterable with tqdm
@@ -92,18 +92,18 @@ for item in tqdm(items):  # Wrap iterable with tqdm
 
 # Output: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
-###################################
+##-------------------------------##
 ## Progress bar with description ##
-###################################
+##-------------------------------##
 
 for i in tqdm(range(50), desc='Processing'):
     time.sleep(0.05)
 
 # Output: Processing: 100%|██████████| 50/50 [00:02<00:00, 20.00it/s]
 
-#####################################
+##---------------------------------##
 ## Setting description dynamically ##
-#####################################
+##---------------------------------##
 
 pbar = tqdm(range(100), desc='Downloading')
 for i in pbar:
@@ -112,18 +112,18 @@ for i in pbar:
 
 # Output: Downloading file 100: 100%|██████████| 100/100 [00:02<00:00, 50.00it/s]
 
-##############################
+##--------------------------##
 ## Showing additional stats ##
-##############################
+##--------------------------##
 
 for i in tqdm(range(50), desc='Processing', unit='items'):
     time.sleep(0.05)
 
 # Output: Processing: 100%|██████████| 50/50 items [00:02<00:00, 20.00items/s]
 
-########################
+##--------------------##
 ## Disabling progress ##
-########################
+##--------------------##
 
 # Useful for production/logging scenarios
 for i in tqdm(range(50), disable=True):
@@ -131,9 +131,9 @@ for i in tqdm(range(50), disable=True):
 
 # Output: No progress bar shown
 
-#########################
+##---------------------##
 ## With position/color ##
-#########################
+##---------------------##
 
 for i in tqdm(range(50), desc='Task', colour='green'):
     time.sleep(0.05)
@@ -141,13 +141,13 @@ for i in tqdm(range(50), desc='Task', colour='green'):
 # Output: Task: 100%|██████████| 50/50 [00:02<00:00, 20.00it/s] (in green)
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 3. Unknown Mode ----------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. Unknown Mode
+# ==============================================================================================
 
-###########################################
+##---------------------------------------##
 ## Progress bar without total (for loop) ##
-###########################################
+##---------------------------------------##
 '''Useful when you don't know how many items you'll process'''
 
 items_processed = 0
@@ -160,9 +160,9 @@ pbar.close()
 
 # Output: Processing: 50it [00:02, 20.00it/s]
 
-#############################################
+##-----------------------------------------##
 ## Progress bar without total (while loop) ##
-#############################################
+##-----------------------------------------##
 '''Continue processing until condition is met'''
 
 pbar = tqdm(desc='Waiting')
@@ -175,9 +175,9 @@ pbar.close()
 
 # Output: Waiting: 50it [00:02, 20.00it/s]
 
-#######################################
+##-----------------------------------##
 ## Unknown mode with context manager ##
-#######################################
+##-----------------------------------##
 '''Using with statement for automatic cleanup'''
 
 with tqdm(desc='Streaming') as pbar:
@@ -190,9 +190,9 @@ with tqdm(desc='Streaming') as pbar:
 
 # Output: Streaming: 75it [00:02, 32.61it/s] chunk 75
 
-####################################
+##--------------------------------##
 ## Unknown mode with dynamic text ##
-####################################
+##--------------------------------##
 '''Show processing details without knowing total'''
 
 pbar = tqdm(desc='Processing Stream')
@@ -204,9 +204,9 @@ pbar.close()
 
 # Output: Processing Stream: 60it [00:02, 25.00it/s, items=60, status=processing]
 
-#################################
+##-----------------------------##
 ## Unknown mode with generator ##
-#################################
+##-----------------------------##
 '''Process a generator of unknown length'''
 
 def my_generator():
@@ -221,9 +221,9 @@ for item in tqdm(my_generator(), desc='Generator'):
 
 # Output: Generator: 50it [00:02, 20.00it/s]
 
-#################################
+##-----------------------------##
 ## Unknown to known transition ##
-#################################
+##-----------------------------##
 '''Start without total, then set it when known'''
 
 pbar = tqdm(desc='Scanning')
@@ -246,13 +246,13 @@ pbar.close()
 # Output: Transitions from indefinite to definite progress
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 4. Manual Mode -----------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 4. Manual Mode
+# ==============================================================================================
 
-###########################
+##-----------------------##
 ## Manual initialization ##
-###########################
+##-----------------------##
 '''Create progress bar and update manually'''
 
 pbar = tqdm(total=100)
@@ -263,9 +263,9 @@ pbar.close()  # Always close when done
 
 # Output: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
-##############################
+##--------------------------##
 ## Custom update increments ##
-##############################
+##--------------------------##
 
 pbar = tqdm(total=1000)
 for i in range(10):
@@ -275,9 +275,9 @@ pbar.close()
 
 # Output: 100%|██████████| 1000/1000 [00:01<00:00, 990.10it/s]
 
-###############################
+##---------------------------##
 ## Setting position directly ##
-###############################
+##---------------------------##
 
 pbar = tqdm(total=100)
 for i in range(0, 101, 10):
@@ -288,9 +288,9 @@ pbar.close()
 
 # Output: 100%|██████████| 100/100 [00:02<00:00, 50.00it/s]
 
-######################
+##------------------##
 ## Reset capability ##
-######################
+##------------------##
 
 pbar = tqdm(total=50)
 for i in range(50):
@@ -305,13 +305,13 @@ pbar.close()
 # Output: Resets and counts again from 0
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 5. Context Manager Usage ---------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 5. Context Manager Usage
+# ==============================================================================================
 
-###################################
+##-------------------------------##
 ## Using tqdm as context manager ##
-###################################
+##-------------------------------##
 '''Automatically handles cleanup'''
 
 with tqdm(total=100) as pbar:
@@ -321,9 +321,9 @@ with tqdm(total=100) as pbar:
 
 # Output: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 
-###############################
+##---------------------------##
 ## With description and text ##
-###############################
+##---------------------------##
 
 with tqdm(total=100, desc='Processing') as pbar:
     for i in range(100):
@@ -333,9 +333,9 @@ with tqdm(total=100, desc='Processing') as pbar:
 
 # Output: Processing: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s] file_99.txt
 
-########################################
+##------------------------------------##
 ## Unknown total with context manager ##
-########################################
+##------------------------------------##
 '''When you don't know the total in advance'''
 
 with tqdm(desc='Streaming') as pbar:
@@ -345,9 +345,9 @@ with tqdm(desc='Streaming') as pbar:
 
 # Output: Streaming: 50it [00:02, 20.00it/s]
 
-##############################
+##--------------------------##
 ## Manual mode with context ##
-##############################
+##--------------------------##
 
 tasks = ['Init', 'Load', 'Process', 'Save', 'Done']
 with tqdm(total=len(tasks)) as pbar:
@@ -359,24 +359,24 @@ with tqdm(total=len(tasks)) as pbar:
 # Output: Pipeline: Done: 100%|██████████| 5/5 [00:05<00:00, 1.00it/s]
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 6. Customization ---------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 6. Customization
+# ==============================================================================================
 
-#######################
+##-------------------##
 ## Custom bar format ##
-#######################
+##-------------------##
 '''Customize the progress bar appearance'''
 
-for i in tqdm(range(50), 
+for i in tqdm(range(50),
               bar_format='{l_bar}{bar}| {n_fmt}/{total_fmt}'):
     time.sleep(0.05)
 
 # Output: 50/50| (simplified format)
 
-##################
+##--------------##
 ## Color themes ##
-##################
+##--------------##
 # Available colors: 'black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white'
 
 for i in tqdm(range(50), desc='Red Bar', colour='red'):
@@ -387,39 +387,39 @@ for i in tqdm(range(50), desc='Blue Bar', colour='#0000FF'):
     time.sleep(0.05)
 # Output: Blue Bar: 100%|██████████| 50/50 [00:02<00:00, 20.00it/s] (in blue)
 
-###########################
+##-----------------------##
 ## Custom bar characters ##
-###########################
+##-----------------------##
 
 for i in tqdm(range(50), ascii=True):  # Use ASCII characters
     time.sleep(0.05)
-# Output: 100%|##########| 50/50 [00:02<00:00, 20.00it/s]
+# Output: 100%|##------##| 50/50 [00:02<00:00, 20.00it/s]
 
 for i in tqdm(range(50), ascii='>='):  # Custom ASCII characters
     time.sleep(0.05)
 # Output: 100%|>>>>>>>>>>| 50/50 [00:02<00:00, 20.00it/s]
 
-#######################
+##-------------------##
 ## Units and scaling ##
-#######################
+##-------------------##
 '''Use human-readable units'''
 
-for i in tqdm(range(1000), 
+for i in tqdm(range(1000),
               unit='B',  # Bytes
               unit_scale=True):  # Auto-scale (KB, MB, etc.)
     time.sleep(0.001)
 # Output: 100%|██████████| 1.00K/1.00K B [00:01<00:00, 990B/s]
 
-for i in tqdm(range(1000000), 
+for i in tqdm(range(1000000),
               unit='',
               unit_scale=True,
               unit_divisor=1000):
     pass
 # Output: 100%|██████████| 1.00M/1.00M [00:00<00:00, 999.00K/s]
 
-###################
+##---------------##
 ## Custom length ##
-###################
+##---------------##
 
 for i in tqdm(range(50), ncols=100):  # 100 character width
     time.sleep(0.05)
@@ -429,9 +429,9 @@ for i in tqdm(range(50), ncols=50):  # 50 character width
     time.sleep(0.05)
 # Output: Narrower progress bar
 
-####################
+##----------------##
 ## Leave or clear ##
-####################
+##----------------##
 
 # Leave the progress bar after completion
 for i in tqdm(range(50), leave=True):
@@ -443,9 +443,9 @@ for i in tqdm(range(50), leave=False):
     time.sleep(0.05)
 # Output: Bar disappears after completion
 
-####################
+##----------------##
 ## Smoothing rate ##
-####################
+##----------------##
 
 for i in tqdm(range(100), smoothing=0.1):  # More responsive
     time.sleep(0.01)
@@ -456,13 +456,13 @@ for i in tqdm(range(100), smoothing=0.9):  # More stable
 # Output: Speed changes slowly
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 7. Auto-detection with tqdm.auto -------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 7. Auto-detection with tqdm.auto
+# ==============================================================================================
 
-#####################################
+##---------------------------------##
 ## Automatic environment detection ##
-#####################################
+##---------------------------------##
 '''tqdm.auto automatically chooses the best progress bar for your environment'''
 
 from tqdm.auto import tqdm  # Note: .auto instead of regular import
@@ -478,9 +478,9 @@ for i in tqdm(range(100)):
 # Output (Terminal): 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
 # Output (Notebook): Interactive HTML widget with colored bar
 
-########################
+##--------------------##
 ## Why use tqdm.auto? ##
-########################
+##--------------------##
 '''
 tqdm.auto automatically detects:
 - Jupyter Notebook/Lab → uses rich HTML widget
@@ -494,9 +494,9 @@ This is especially useful for:
 3. Avoiding manual environment detection
 '''
 
-#######################
+##-------------------##
 ## Using with trange ##
-#######################
+##-------------------##
 
 from tqdm.auto import trange  # Auto version of trange
 
@@ -506,13 +506,13 @@ for i in trange(50, desc='Processing'):
 # Output: Automatically adapts to environment
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 8. Advanced Features -----------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 8. Advanced Features
+# ==============================================================================================
 
-##########################
+##----------------------##
 ## Nested progress bars ##
-##########################
+##----------------------##
 '''Multiple progress bars at once'''
 
 from tqdm import trange
@@ -525,9 +525,9 @@ for i in trange(3, desc='Outer', position=0):
 # Outer: 100%|██████████| 3/3 [00:04<00:00, 1.33s/it]
 # Inner: 100%|██████████| 50/50 [00:00<00:00, 99.00it/s]
 
-############################
+##------------------------##
 ## Postfix (dynamic text) ##
-############################
+##------------------------##
 '''Add dynamic metadata to the progress bar'''
 
 pbar = tqdm(range(100))
@@ -543,9 +543,9 @@ for i in pbar:
     time.sleep(0.05)
 # Output: 100%|██████████| 50/50 [00:02<00:00, 20.00it/s, batch=49, learning_rate=0.001]
 
-##################################
+##------------------------------##
 ## Writing without interference ##
-##################################
+##------------------------------##
 '''Print messages without breaking the progress bar'''
 
 for i in tqdm(range(100), desc='Processing'):
@@ -555,9 +555,9 @@ for i in tqdm(range(100), desc='Processing'):
 
 # Output: Messages appear above the progress bar
 
-###########################
+##-----------------------##
 ## Disable conditionally ##
-###########################
+##-----------------------##
 '''Control visibility based on environment'''
 
 import sys
@@ -571,9 +571,9 @@ verbose = False
 for i in tqdm(range(50), disable=not verbose):
     time.sleep(0.05)
 
-#####################
+##-----------------##
 ## Monitoring rate ##
-#####################
+##-----------------##
 '''Track rate of processing'''
 
 for i in tqdm(range(100), miniters=1, mininterval=0):
@@ -584,9 +584,9 @@ for i in tqdm(range(100), miniters=10, mininterval=1):
     time.sleep(0.01)
 # Output: Updates only every 10 iterations or 1 second
 
-###################
+##---------------##
 ## Initial value ##
-###################
+##---------------##
 
 pbar = tqdm(total=100, initial=50)  # Start at 50%
 for i in range(50):
@@ -597,13 +597,13 @@ pbar.close()
 # Output: Starts at 50/100 and goes to 100/100
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 9. Writing Custom Formats --------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 9. Writing Custom Formats
+# ==============================================================================================
 
-#########################
+##---------------------##
 ## Custom bar template ##
-#########################
+##---------------------##
 '''Create completely custom format strings'''
 
 # Available format parameters:
@@ -619,69 +619,69 @@ pbar.close()
 # {postfix} - postfix dict
 # {desc} - description
 
-for i in tqdm(range(50), 
+for i in tqdm(range(50),
               bar_format='{desc}: {percentage:3.0f}%|{bar}| {n}/{total}'):
     time.sleep(0.05)
 # Output: Processing: 100%|██████████| 50/50
 
-for i in tqdm(range(50), 
+for i in tqdm(range(50),
               bar_format='{l_bar}{bar:20}{r_bar}{bar:-20b}'):
     time.sleep(0.05)
 # Output: Custom two-part bar display
 
-#####################
+##-----------------##
 ## Minimal display ##
-#####################
+##-----------------##
 
-for i in tqdm(range(50), 
+for i in tqdm(range(50),
               bar_format='{n_fmt}/{total_fmt}'):
     time.sleep(0.05)
 
 # Output: 50/50
 
-######################
+##------------------##
 ## Detailed display ##
-######################
+##------------------##
 
-for i in tqdm(range(50), 
+for i in tqdm(range(50),
               bar_format='{desc}: {percentage:3.0f}%|{bar}| {n}/{total} [{elapsed}<{remaining}, {rate_fmt}{postfix}]'):
     time.sleep(0.05)
 
 # Output: Full detailed information
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 10. Real-world Examples ---------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 10. Real-world Examples
+# ==============================================================================================
 
-#####################
+##-----------------##
 ## File processing ##
-#####################
+##-----------------##
 
 import os
 
 def process_files(directory):
     '''Process all files in a directory with progress bar'''
     files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
-    
+
     for filename in tqdm(files, desc='Processing Files'):
         # Process file here
         time.sleep(0.5)  # Simulate processing
 
 process_files('.')  # Uncomment to run
 
-#########################
+##---------------------##
 ## Download simulation ##
-#########################
+##---------------------##
 
 def download_files(urls):
     '''Simulate downloading files with progress tracking'''
     for url in tqdm(urls, desc='Downloading', unit='file'):
         chunk_size = 1024
         total_size = 1024 * 1024  # 1MB per file
-        
-        with tqdm(total=total_size, desc=f'  {url}', 
-                  unit='B', unit_scale=True, 
+
+        with tqdm(total=total_size, desc=f'  {url}',
+                  unit='B', unit_scale=True,
                   leave=False, position=1) as pbar:
             for _ in range(total_size // chunk_size):
                 time.sleep(0.001)
@@ -690,15 +690,15 @@ def download_files(urls):
 urls = ['file.zip', 'images.zip', 'music.zip']
 download_files(urls)
 
-######################
+##------------------##
 ## Batch operations ##
-######################
+##------------------##
 
 def batch_process(items, batch_size=10):
     '''Process items in batches with progress tracking'''
     total_batches = (len(items) + batch_size - 1) // batch_size
-    
-    for i in tqdm(range(0, len(items), batch_size), 
+
+    for i in tqdm(range(0, len(items), batch_size),
                   desc='Batch Processing',
                   total=total_batches):
         batch = items[i:i + batch_size]
@@ -708,9 +708,9 @@ def batch_process(items, batch_size=10):
 items = list(range(100))
 batch_process(items, batch_size=10)
 
-#########################
+##---------------------##
 ## Multi-stage process ##
-#########################
+##---------------------##
 
 def multi_stage_task():
     '''Complex task with multiple stages'''
@@ -721,39 +721,39 @@ def multi_stage_task():
         'Validation': 25,
         'Saving': 15
     }
-    
+
     for stage_name, work_units in stages.items():
-        for i in tqdm(range(work_units), 
+        for i in tqdm(range(work_units),
                       desc=f'{stage_name}',
                       leave=True):
             time.sleep(0.1)
 
 multi_stage_task()
 
-#############################
+##-------------------------##
 ## Database query tracking ##
-#############################
+##-------------------------##
 
 def query_database(record_ids):
     '''Query database records with progress tracking'''
     results = []
-    
-    for record_id in tqdm(record_ids, 
+
+    for record_id in tqdm(record_ids,
                           desc='Querying Database',
                           unit='record',
                           colour='cyan'):
         # Simulate database query
         time.sleep(0.05)
         results.append({'id': record_id, 'data': f'data_{record_id}'})
-    
+
     return results
 
 record_ids = range(1, 101)
 data = query_database(record_ids)
 
-########################
+##--------------------##
 ## Pandas integration ##
-########################
+##--------------------##
 
 import pandas as pd
 
@@ -768,19 +768,19 @@ result = df['value'].progress_apply(lambda x: x ** 2)
 
 # Output: Processing Rows: 100%|██████████| 1000/1000 [00:01<00:00, 990.10it/s]
 
-#######################
+##-------------------##
 ## Stream processing ##
-#######################
+##-------------------##
 
 def process_stream(stream_generator):
     '''Process a stream of unknown length'''
     processed = []
-    
+
     for item in tqdm(stream_generator, desc='Processing Stream'):
         # Process item
         time.sleep(0.05)
         processed.append(item * 2)
-    
+
     return processed
 
 def my_generator():
@@ -789,9 +789,9 @@ def my_generator():
 
 result = process_stream(my_generator())
 
-###########################
+##-----------------------##
 ## Concurrent processing ##
-###########################
+##-----------------------##
 
 from concurrent.futures import ThreadPoolExecutor
 
@@ -806,21 +806,21 @@ results = [process_item(item) for item in tqdm(items, desc='Sequential')]
 
 # Multi-threaded with tqdm
 with ThreadPoolExecutor(max_workers=4) as executor:
-    results = list(tqdm(executor.map(process_item, items), 
+    results = list(tqdm(executor.map(process_item, items),
                         total=len(items),
                         desc='Parallel'))
 
 # Output: Shows progress for parallel operations
 
-########################
+##--------------------##
 ## Large file reading ##
-########################
+##--------------------##
 
 def read_large_file(filename, total_size):
     '''Read large file with progress bar'''
     with open(filename, 'rb') as f:
-        with tqdm(total=total_size, 
-                  unit='B', 
+        with tqdm(total=total_size,
+                  unit='B',
                   unit_scale=True,
                   desc=filename) as pbar:
             chunk_size = 8192
@@ -833,9 +833,9 @@ def read_large_file(filename, total_size):
 # read_large_file('large_file.dat', 1024*1024*100)  # 100MB file
 
 
-#----------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------ Tips and Best Practices ---------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# Tips and Best Practices
+# ==============================================================================================
 
 '''
 1. Use tqdm() directly on iterables for simplest usage

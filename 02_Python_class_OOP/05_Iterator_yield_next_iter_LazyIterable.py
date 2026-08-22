@@ -9,7 +9,7 @@ lazy iterables (iterators) use a "just-in-time" approach.
 This makes them essential for handling massive datasets or infinite sequences
 that would otherwise crash your program due to memory limits.
 
-######################
+##------------------##
 
 1. ``yield`` and next()
 2. iter() converts iterable to iterator
@@ -18,24 +18,24 @@ that would otherwise crash your program due to memory limits.
 '''
 
 
-#-----------------------------------------------------------------------------------#
-#--------------------------- 1. ``yield`` and next() -------------------------------#
-#-----------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. ``yield`` and next()
+# =========================================================================================
 '''
 In Python, yield is a keyword used to create generators.
 Unlike a standard return statement, which exits a function and destroys its local state,
 yield pauses the function, saves all of its variables, and sends a value back to the caller.
 When the function is called again, it resumes exactly where it left off.
 
-##########################
+##----------------------##
 
 The next() function is a built-in Python tool used to manually retrieve the subsequent item from an iterator
 (like a generator, map object, or any object created with iter()
 '''
 
-##########################
+##----------------------##
 ## simple yield example ##
-##########################
+##----------------------##
 
 def simple_generator():
     yield 1
@@ -53,9 +53,9 @@ print(next(simple_gen))  # Output: 3.14
 print(simple_gen[0])
 '''TypeError: 'generator' object is not subscriptable'''
 
-#####################
+##-----------------##
 ## yield with loop ##
-#####################
+##-----------------##
 
 def while_yield(n):
     i = 0
@@ -73,7 +73,7 @@ print(next(while_gen))  # Output: 4
 print(next(while_gen))  # Output: 5
 print(next(while_gen))  # Raises StopIteration, as there are no more items to yield
 
-#------#
+# =========================================================================================
 
 def for_yield(n):
     for i in range(n):
@@ -86,9 +86,9 @@ print(next(for_gen))  # Output: 1
 print(next(for_gen))  # Output: 2
 print(next(for_gen))  # Raises StopIteration, as there are no more items to yield
 
-###############################################
+##-------------------------------------------##
 ## Use ``()`` expression to create generator ##
-###############################################
+##-------------------------------------------##
 
 # List comprehension — realized immediately, subscriptable
 squares_list = [x**2 for x in range(5)]
@@ -102,9 +102,9 @@ next(squares_gen)   # 0
 next(squares_gen)   # 1
 list(squares_gen)   # [4, 9, 16]  (0 and 1 already consumed!)
 
-#########################
+##---------------------##
 ## Realize a generator ##
-#########################
+##---------------------##
 
 def fibonacci_gen(n):
     a, b = 0, 1
@@ -119,9 +119,9 @@ print(fib_series)
 # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
 
 
-#----------------------------------------------------------------------------------#
-#-------------------- 2. iter() converts iterable to iterator ---------------------#
-#----------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. iter() converts iterable to iterator
+# =========================================================================================
 '''
 In Python, the iter() function is a built-in tool that takes an object and turns it into an iterator.
 
@@ -133,9 +133,9 @@ To understand iter(), it helps to know the difference between two key Python con
             until there are no items left.
 '''
 
-####################
+##----------------##
 ## iter() example ##
-####################
+##----------------##
 
 fruits = ["apple", "banana", "cherry"]
 print(fruits[1]) # banana
@@ -145,9 +145,9 @@ print(fruits_iter) # <list_iterator object at 0x7217285f9810>
 print(next(fruits_iter))  # apple
 print(fruits_iter[0]) # TypeError: 'list_iterator' object is not subscriptable
 
-######################################
+##----------------------------------##
 ## iter(callable, sentinel) example ##
-######################################
+##----------------------------------##
 
 import random
 
@@ -178,9 +178,9 @@ print(f"Rolled a {n} - stopping.")
 NOTE: if the sentinel is not in the value domain of the callable, it will run forever
 '''
 
-####################################################
+##------------------------------------------------##
 ## iter(callable, sentinel) with lambda (Pro-Tip) ##
-####################################################
+##------------------------------------------------##
 '''
 You will often see the sentinel pattern paired with a lambda function.
 A common use case is reading a file in chunks until it hits an empty byte string (b'').
@@ -204,18 +204,18 @@ However, you should use it manually when:
 """
 
 
-#-------------------------------------------------------------------------------#
-#-------------- 3. use "class" to create custom Iterable and Iterator ----------#
-#-------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. use "class" to create custom Iterable and Iterator
+# =========================================================================================
 '''
 Can use "class" with "__iter__" and "__next__" methods to create a custom iterator.
 => better control over the iteration process,
    and can maintain internal state across iterations.
 '''
 
-######################
+##------------------##
 ## Iterator example ##
-######################
+##------------------##
 
 class MyRange:
     def __init__(self, n):
@@ -240,9 +240,9 @@ print(next(my_range))  # Output: 1
 for num in my_range:
     print(num)  # Output: 2, 3, 4 (0 and 1 already consumed)
 
-##########################
+##----------------------##
 ## Iterator vs Iterable ##
-##########################
+##----------------------##
 
 class MyRangeIterator:
     """Iterator — tracks position, one-use"""
@@ -267,7 +267,7 @@ print(next(r_iterator))  # Output: 1
 print(list(r_iterator))  # Output: [2, 3, 4] (0 and 1 already consumed)
 print(list(r_iterator))  # Output: [] (already exhausted)
 
-#-----------#
+# =========================================================================================
 
 class MyRangeIterable:
     """Iterable — can be looped multiple times"""
@@ -302,9 +302,9 @@ Because the MyRangeIterable class computes each item one by one
 '''
 
 
-#----------------------------------------------------------------------------------------#
-#-------------------- 4. Example: loading big 3D shapes efficiently ---------------------#
-#----------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Example: loading big 3D shapes efficiently
+# =========================================================================================
 
 from pathlib import Path
 import numpy as np
@@ -313,9 +313,9 @@ from plotly import graph_objects as go
 data_dir = Path("/home/").glob("**/3D_structures/")  # Create a generator that yields matching directories
 data_dir = next(data_dir)  # Get the first matching directory
 
-#####################################
+##---------------------------------##
 ## Utilize the generator from Path ##
-#####################################
+##---------------------------------##
 
 data_iterator = data_dir.glob("*.npy")
 
@@ -353,13 +353,13 @@ def plot_iterator_single(iterator):
 
     fig.show()
 
-#--------------#
+# =========================================================================================
 
 plot_iterator_single(data_iterator)
 
-#################################################################
+##-------------------------------------------------------------##
 ## Create custom Iterator with class to yield multiple objects ##
-#################################################################
+##-------------------------------------------------------------##
 
 import random
 
@@ -408,7 +408,7 @@ class StructureIterator():
 
         return batch
 
-#-------------#
+# =========================================================================================
 
 def plot_iterator_multi(iterator, colors):
     structures = next(iterator)
@@ -453,7 +453,7 @@ def plot_iterator_multi(iterator, colors):
 
     fig.show()
 
-#--------------#
+# =========================================================================================
 
 entries = data_dir.glob("*.npy")
 
@@ -466,9 +466,9 @@ colors = ["#1f78b4", "#33a02c", "#e31a1c", "#ff7f00", "#6a3d9a"]
 random.shuffle(colors)
 plot_iterator_multi(structure_iterator, colors)
 
-###########################################
+##---------------------------------------##
 ## Create a MiniLoader for batching data ##
-###########################################
+##---------------------------------------##
 
 class MiniLoader:
     def __init__(
@@ -511,7 +511,7 @@ class MiniIterator:
 
         return batch
 
-#--------------#
+# =========================================================================================
 
 entries = data_dir.glob("*.npy")
 structures_list = []
@@ -532,9 +532,9 @@ for batch_idx, batch in enumerate(loader, start=1):
     print(batch)
     print("="*30)
 
-####################################################################
+##----------------------------------------------------------------##
 ## SourceContainer - TargetContainer - PairContainer - DataLoader ##
-####################################################################
+##----------------------------------------------------------------##
 
 from pathlib import Path
 import numpy as np
@@ -554,7 +554,7 @@ for entry in entries:
     }
     data_list.append(data)
 
-#-------------#
+# =========================================================================================
 
 class SourceContainer:
     def __init__(self, data: list[dict[Path, np.ndarray]]):
@@ -571,7 +571,7 @@ class SourceContainer:
         shape_name = self.data[idx]["path"].stem
         return {"shape_name": shape_name, "coords": arr}
 
-#-------------#
+# =========================================================================================
 
 class TargetContainer:
     def __init__(
@@ -613,7 +613,7 @@ class TargetContainer:
 
         return {"gmm_path": self.gmm_paths[idx], "coords": target}
 
-#-------------#
+# =========================================================================================
 
 class PairContainer:
     def __init__(self, source: SourceContainer, target: TargetContainer):
@@ -629,7 +629,7 @@ class PairContainer:
 
         return source_item, target_item
 
-#-------------#
+# =========================================================================================
 
 class DataLoader:
     def __init__(self, data, batch_size=2, n_subset=None, shuffle=True, collate_fn=None):
@@ -680,7 +680,7 @@ class DataIterator:
 
         return batch
 
-#-------------#
+# =========================================================================================
 
 def collate_fn_flat(batch):
     src_batch = []
@@ -719,7 +719,7 @@ def collate_fn_flat(batch):
         }
     }
 
-#-------------#
+# =========================================================================================
 
 source_container = SourceContainer(data_list)
 target_container = TargetContainer(data_list, n_components=50)

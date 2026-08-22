@@ -35,13 +35,13 @@
 import time
 
 
-#---------------------------------------------------------------------------------------------------------------------#
-#--------------------------------------------- 1. Current Timestamp --------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. Current Timestamp
+# ==============================================================================================
 
-############
+##--------##
 ## time() ##
-############
+##--------##
 '''Current timestamp in seconds since epoch'''
 
 # Get the current timestamp (seconds since epoch)
@@ -51,9 +51,9 @@ print(current_timestamp) # 1762842898.081597
 # Shorter version:
 print(time.time()) # 1762842922.4453177
 
-###############
+##-----------##
 ## time_ns() ##
-###############
+##-----------##
 '''Nanosecond precision timestamp'''
 
 # Get the current timestamp in nanoseconds
@@ -64,13 +64,13 @@ print(current_timestamp_ns) # 1762842952081597696
 print(time.time_ns()) # 1762842972445317760
 
 
-#---------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------------- 2. time.sleep(secs) -------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. time.sleep(secs)
+# ==============================================================================================
 
-##########
+##------##
 ## Demo ##
-##########
+##------##
 
 print("Sleeping for 5 seconds...")
 
@@ -78,9 +78,9 @@ time.sleep(5)  # Pause execution for 5 seconds
 
 print("Awake!")
 
-#################
+##-------------##
 ## Application ##
-#################
+##-------------##
 
 start = time.time()
 
@@ -95,26 +95,26 @@ duration = end - start
 print(f"Total time taken: {duration} seconds")
 
 
-#---------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 3. time.localtime([secs]) -----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. time.localtime([secs])
+# ==============================================================================================
 '''
 Return a struct_time object representing local time.
 If secs (timestamp) is not provided, the current time as returned by time() is used.
 '''
 
-#################
+##-------------##
 ## localtime() ##
-#################
+##-------------##
 
 local_time = time.localtime()
 
 print(local_time)
 # time.struct_time(tm_year=2025, tm_mon=11, tm_mday=11, tm_hour=16, tm_min=10, tm_sec=53, tm_wday=1, tm_yday=315, tm_isdst=0)
 
-#######################
+##-------------------##
 ## localtime([secs]) ##
-#######################
+##-------------------##
 
 specific_time = time.localtime(1609459200)  # Timestamp for January 1, 2021
 
@@ -122,13 +122,13 @@ print(specific_time)
 # time.struct_time(tm_year=2021, tm_mon=1, tm_mday=1, tm_hour=9, tm_min=0, tm_sec=0, tm_wday=4, tm_yday=1, tm_isdst=0)
 
 
-#--------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 4. struct_time object --------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 4. struct_time object
+# ==============================================================================================
 
-################
+##------------##
 ## Attributes ##
-################
+##------------##
 
 str_time_obj = time.localtime(1609459500)
 print(str_time_obj)
@@ -146,9 +146,9 @@ print(str_time_obj.tm_isdst)  # 0 (Not in Daylight Saving Time)
 
 '''Friday January 1, 2021 09:05:00 AM'''
 
-###################
+##---------------##
 ## time.gmtime() ##
-###################
+##---------------##
 '''Convert to UTC time'''
 
 utc_time = time.gmtime()
@@ -156,15 +156,14 @@ print(utc_time)
 # time.struct_time(tm_year=2025, tm_mon=11, tm_mday=11, tm_hour=7, tm_min=26, tm_sec=37, tm_wday=1, tm_yday=315, tm_isdst=0)
 '''tm_isdst is always 0 for UTC'''
 
-#----
-
+# 
 specific_time = time.gmtime(1627987508) # Convert specific timestamp
 print(specific_time)
 # time.struct_time(tm_year=2021, tm_mon=8, tm_mday=3, tm_hour=10, tm_min=45, tm_sec=8, tm_wday=1, tm_yday=215, tm_isdst=0)
 
-###################
+##---------------##
 ## time.mktime() ##
-###################
+##---------------##
 '''Convert struct_time to timestamp'''
 
 # Create a struct_time tuple (local time)
@@ -175,9 +174,9 @@ timestamp = time.mktime(time_tuple)
 print(timestamp)  # 1762839000.0
 
 
-#---------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 5. Format and Parsing ------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 5. Format and Parsing
+# ==============================================================================================
 
 '''
 %Y - Year with century (2025)
@@ -196,9 +195,9 @@ print(timestamp)  # 1762839000.0
 %z - UTC offset (+HHMM or -HHMM)
 '''
 
-#####################
+##-----------------##
 ## time.strftime() ##
-#####################
+##-----------------##
 '''Format struct_time to string'''
 
 french_revo = (1789, 7, 14, 12, 0, 0, 0, 195, 0) # July 14, 1789
@@ -208,9 +207,9 @@ print(formatted_time)  # 1789-07-14 12:00:00
 print(time.strftime("%A, %B %d, %Y %I:%M:%S %p"))  # Tuesday, November 11, 2025 04:48:51 PM
                                                    # Automatically gets current time if struct_time not provided
 
-#####################
+##-----------------##
 ## time.strptime() ##
-#####################
+##-----------------##
 '''Parse string to struct_time'''
 
 time_string = "2025-11-11 16:50:00"
@@ -219,9 +218,9 @@ parsed_time = time.strptime(time_string, "%Y-%m-%d %H:%M:%S") # The format must 
 print(parsed_time)
 # time.struct_time(tm_year=2025, tm_mon=11, tm_mday=11, tm_hour=16, tm_min=50, tm_sec=0, tm_wday=1, tm_yday=315, tm_isdst=-1)
 
-##################
+##--------------##
 ## time.ctime() ##
-##################
+##--------------##
 '''Convert timestamp to string (quick readable format)'''
 
 print(time.ctime(1609459200))  # Fri Jan  1 09:00:00 2021
@@ -229,9 +228,9 @@ print(time.ctime(1609459200))  # Fri Jan  1 09:00:00 2021
 print(time.ctime())  # Tue Nov 11 16:55:45 2025
                      # Automatically gets current time if timestamp not provided
 
-####################
+##----------------##
 ## time.asctime() ##
-####################
+##----------------##
 '''Convert struct_time to string (quick readable format)'''
 
 usa_revo = (1776, 7, 4, 12, 0, 0, 0, 185, 0) # July 4, 1776
@@ -241,13 +240,13 @@ print(time.asctime())  # Tue Nov 11 16:57:30 2025
                        # Automatically gets current time if struct_time not provided
 
 
-#--------------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 6. Performance Timing and Benchmarking -------------------------------------#
-#--------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 6. Performance Timing and Benchmarking
+# ==============================================================================================
 
-#########################
+##---------------------##
 ## time.perf_counter() ##
-#########################
+##---------------------##
 '''
 High-resolution timer for benchmarking
 Includes time elapsed during sleep, monotonic (cannot go backward)
@@ -265,9 +264,9 @@ duration = end - start
 
 print(f"Execution time: {duration:.6f} seconds") # 2.013061 seconds
 
-############################
+##------------------------##
 ## time.perf_counter_ns() ##
-############################
+##------------------------##
 '''Like perf_counter() but in nanoseconds'''
 
 start_ns = time.perf_counter_ns()
@@ -282,9 +281,9 @@ duration_ns = end_ns - start_ns
 
 print(f"Execution time: {duration_ns} nanoseconds") # 2014075259 nanoseconds
 
-######################
+##------------------##
 ## time.monotonic() ##
-######################
+##------------------##
 '''
 Monotonic clock, cannot go backward
 Good for measuring elapsed time
@@ -304,9 +303,9 @@ time.monotonic() vs time.time():
 # time.monotonic(): Guaranteed to never decrease, ideal for measuring elapsed time
 '''
 
-#########################
+##---------------------##
 ## time.process_time() ##
-#########################
+##---------------------##
 '''CPU time used by the process, excludes sleep time'''
 
 start = time.process_time()
@@ -322,9 +321,9 @@ cpu_time = end - start
 print(f"CPU time used: {cpu_time:.6f} seconds") # 0.009294 seconds
                                                 # 2 seconds of sleep not included
 
-########################
+##--------------------##
 ## time.thread_time() ##
-########################
+##--------------------##
 '''CPU time used by the current thread'''
 
 import threading
@@ -342,30 +341,28 @@ thread.join()
 # Thread CPU time: 0.001383s
 
 
-#---------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 7. Timezone Handling -------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 7. Timezone Handling
+# ==============================================================================================
 
-########################
+##--------------------##
 ## Timezone Constants ##
-########################
+##--------------------##
 
 print(time.timezone)   # -32400 (UTC-9 hours, standard time offset)
 print(time.altzone)    # -32400 (UTC-8 hours, daylight saving time offset)
 print(time.daylight)   # 0 (1 if DST is in effect, 0 if DST is not observed)
 print(time.tzname)     # ('KST', 'KST') (Standard and DST timezone names)
 
-##################
+##--------------##
 ## Set timezone ##
-##################
+##--------------##
 '''Set timezone (Unix systems only)'''
 
 import os
 
-#---
-## Set timezone to Hong Kong
-#---
-
+# ## Set timezone to Hong Kong
+# 
 os.environ['TZ'] = 'Asia/Hong_Kong'  # Set tz to Hong Kong
 time.tzset()  # Apply the timezone change
 
@@ -373,10 +370,8 @@ print(time.strftime('%X %x %Z'))
 # 19:14:09 11/11/25 HKT
 # (Current time in Hong Kong timezone)
 
-#---
-## Set back to Seoul timezone
-#---
-
+# ## Set back to Seoul timezone
+# 
 os.environ['TZ'] = 'Asia/Seoul'  # Set tz back to Seoul
 time.tzset()  # Apply the timezone change
 

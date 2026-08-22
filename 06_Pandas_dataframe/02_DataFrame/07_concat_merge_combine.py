@@ -2,7 +2,7 @@
 pd.concat(), pd.merge(), pd.combine() are 3 powerful functions/methods in pandas used for combining DataFrames, 
 but they serve different purposes and operate in different ways.
 
-#########################################################
+##-----------------------------------------------------##
 
 1. Concatenation:
    + pd.concat(axis=0): used to stack DataFrames vertically (row-wise).
@@ -27,9 +27,9 @@ but they serve different purposes and operate in different ways.
 import pandas as pd
 import numpy as np
 
-#------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 1. Concatenation --------------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Concatenation
+# =========================================================================================
 
 # Create sample DataFrames
 df_origin = pd.DataFrame({
@@ -62,9 +62,9 @@ df_hor_2 = pd.DataFrame({
     'I': ['I0', 'I1', 'I2', 'I3']
 })
 
-#############################
+##-------------------------##
 ##    pd.concat(axis=0)    ##
-#############################
+##-------------------------##
 ''' Concatenate DataFrames vertically (row-wise) '''
 
 # Original DataFrame
@@ -113,9 +113,9 @@ print(df_stack_ver)
 # 10  A10  B10  C10
 # 11  A11  B11  C11
 
-#############################
+##-------------------------##
 ##    pd.concat(axis=1)    ##
-#############################
+##-------------------------##
 ''' Concatenate DataFrames horizontally (column-wise) '''
 
 # Original DataFrame
@@ -151,9 +151,9 @@ print(df_stack_hor)
 # 3  D3  E3  F3  A3  B3  C3  G3  H3  I3
 
 
-#------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 2. Merging -----------------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Merging
+# =========================================================================================
 
 # Create sample DataFrames for merging
 customers = pd.DataFrame(
@@ -173,9 +173,9 @@ orders = pd.DataFrame(
     }
 )
 
-##############################
+##--------------------------##
 ##    pd.merge(on='key')    ##
-##############################
+##--------------------------##
 '''
 Merge DataFrames based on a common column (key)
 '''
@@ -198,9 +198,9 @@ To differentiate them, pandas appends suffixes '_x' and '_y' by default.
 '''
 
 
-##############################
+##--------------------------##
 ##    pd.merge(suffixes)    ##
-##############################
+##--------------------------##
 '''
 Add suffixes to overlapping column names to differentiate them
 '''
@@ -218,9 +218,9 @@ print(df_merged_on)
 # 1            1  Alice  New York       103     320      NYC
 # 2            2    Bob    Boston       102     180      BOS
 
-#################################
+##-----------------------------##
 ##    pd.merge(how='inner')    ##
-#################################
+##-----------------------------##
 '''
 how='inner': only keeps rows whose keys are present in both DataFrames
 By default, pd.merge() uses how='inner' if not specified.
@@ -241,9 +241,9 @@ print(df_merged_inner)
 # 2            2    Bob    Boston       102     180      BOS
 '''Here, only customer id "1" and "2" are returned, as they exist in both DataFrames.'''
 
-#################################
+##-----------------------------##
 ##    pd.merge(how='outer')    ##
-#################################
+##-----------------------------##
 '''how='outer': keeps all rows from both DataFrames, filling in NaNs for missing matches'''
 
 df_merged_outer = pd.merge(
@@ -264,9 +264,9 @@ print(df_merged_outer)
 # 5            5      NaN       NaN     105.0   150.0      MIA
 '''Here, the "3", "4" and "5" customer_ids are included, though they are not present in both DataFrames.'''
 
-################################
+##----------------------------##
 ##    pd.merge(how='left')    ##
-################################
+##----------------------------##
 '''how='left': keeps all rows from the left DataFrame and matches from the right DataFrame'''
 
 df_merged_left = pd.merge(
@@ -285,9 +285,9 @@ print(df_merged_left)
 # 3            3  Charlie   Chicago       NaN     NaN      NaN
 # 4            4    Diana     Miami       NaN     NaN      NaN
 
-#################################
+##-----------------------------##
 ##    pd.merge(how='right')    ##
-#################################
+##-----------------------------##
 '''how='right': keeps all rows from the right DataFrame and matches from the left DataFrame'''
 
 df_merged_right = pd.merge(
@@ -305,9 +305,9 @@ print(df_merged_right)
 # 2            1  Alice  New York       103     320      NYC
 # 3            5    NaN       NaN       105     150      MIA
 
-#######################################
+##-----------------------------------##
 ##    pd.merge(left_on, right_on)    ##
-#######################################
+##-----------------------------------##
 '''Merge DataFrames based on different columns from each DataFrame'''
 
 # Create sample DataFrames with matchiing keys in different columns
@@ -344,9 +344,9 @@ print(df_merged_diff_keys)
 # 1            1  Alice  New York       103       1     320      NYC
 # 2            2    Bob    Boston       102       2     180      BOS
 
-#############################################
+##-----------------------------------------##
 ##    pd.merge(left_index, right_index)    ##
-#############################################
+##-----------------------------------------##
 '''Merge DataFrames based on their index'''
 
 # Create sample DataFrames with matching indices
@@ -383,9 +383,9 @@ print(df_merged_index)
 # 1  Alice  New York       103     320      NYC
 # 2    Bob    Boston       102     180      BOS
 
-#################################
+##-----------------------------##
 ##    pd.merge(how='cross')    ##
-#################################
+##-----------------------------##
 '''
 how='cross': creates the Cartesian product of both DataFrames
 
@@ -418,9 +418,9 @@ print(df_merged_cross)
 # 2  bar      7
 # 3  bar      8
 
-#######################
+##-------------------##
 ##    df.merge()     ##
-#######################
+##-------------------##
 ''' Instance method to merge DataFrames '''
 
 # customers.merge(order,...)
@@ -431,9 +431,9 @@ print(customers.merge(orders, on='customer_id', how='inner', suffixes=('_cst', '
 # 2            2    Bob    Boston       102     180      BOS
 
 
-#------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 3. Combining -----------------------------------------------#
-#------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Combining
+# =========================================================================================
 
 df1 = pd.DataFrame({'A': [0, 0], 'B': [4, 4]})
 print(df1)
@@ -447,9 +447,9 @@ print(df2)
 # 0  1  3
 # 1  1  3
 
-#######################
+##-------------------##
 ##    df.combine()   ##
-#######################
+##-------------------##
 ''' Combines a DataFrame with other DataFrame using func to element-wise combine columns '''
 
 # Combine df1 and df2 by taking the maximum value for each element

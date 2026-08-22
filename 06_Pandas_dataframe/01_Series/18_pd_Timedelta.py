@@ -7,7 +7,7 @@ with it in most cases.
 
 Key Features: Nanosecond precision, flexible construction, arithmetic operations with timestamps
 
-######################################################
+##--------------------------------------------------##
 
 0. Creating Timedelta objects:
    + pd.Timedelta(value, unit): Create from value and unit
@@ -71,7 +71,7 @@ Key Features: Nanosecond precision, flexible construction, arithmetic operations
 
 '''
 
-###################################
+##-------------------------------##
 
 '''
 
@@ -103,19 +103,17 @@ import numpy as np
 from datetime import timedelta, datetime
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 0. Creating Timedelta objects -----------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Creating Timedelta objects
+# =========================================================================================
 
 '''
-#--------------------------
-## Creating from value and unit
-#--------------------------
-'''
+# ## Creating from value and unit
+# '''
 
-###############################
+##---------------------------##
 ## pd.Timedelta(value, unit) ##
-###############################
+##---------------------------##
 
 # Create Timedelta with value and unit
 td1 = pd.Timedelta(1, 'D')  # 1 day
@@ -148,14 +146,12 @@ print(td7)
 # 0 days 00:00:45
 
 '''
-#--------------------------
-## Creating from keyword arguments
-#--------------------------
-'''
+# ## Creating from keyword arguments
+# '''
 
-######################################
+##----------------------------------##
 ## pd.Timedelta(days=, hours=, ...) ##
-######################################
+##----------------------------------##
 
 # Create with single keyword argument
 td_days = pd.Timedelta(days=3)
@@ -182,14 +178,12 @@ print(td_weeks)
 # 17 days 00:00:00
 
 '''
-#--------------------------
-## Creating from strings
-#--------------------------
-'''
+# ## Creating from strings
+# '''
 
-##########################
+##----------------------##
 ## pd.Timedelta(string) ##
-##########################
+##----------------------##
 
 # Various string formats
 td_str1 = pd.Timedelta('1 days')
@@ -222,14 +216,12 @@ print(td_short3)
 # 0 days 00:00:30
 
 '''
-#--------------------------
-## Creating from Python timedelta
-#--------------------------
-'''
+# ## Creating from Python timedelta
+# '''
 
-#############################
+##-------------------------##
 ## pd.Timedelta(timedelta) ##
-#############################
+##-------------------------##
 
 # Convert Python timedelta to pandas Timedelta
 py_td = timedelta(days=3, hours=5, minutes=30)
@@ -241,14 +233,12 @@ print(type(pd_td))
 # <class 'pandas._libs.tslibs.timedeltas.Timedelta'>
 
 '''
-#--------------------------
-## Converting Series to timedelta
-#--------------------------
-'''
+# ## Converting Series to timedelta
+# '''
 
-#######################
+##-------------------##
 ## pd.to_timedelta() ##
-#######################
+##-------------------##
 
 # Convert string Series to timedelta
 s_str = pd.Series(['1 days', '2 days 03:00:00', '4 days 05:30:00'])
@@ -276,14 +266,12 @@ print(s_td_days)
 # dtype: timedelta64[ns]
 
 '''
-#--------------------------
-## From NumPy timedelta64
-#--------------------------
-'''
+# ## From NumPy timedelta64
+# '''
 
-##################################
+##------------------------------##
 ## pd.Timedelta(np.timedelta64) ##
-##################################
+##------------------------------##
 
 # Convert NumPy timedelta64 to pandas Timedelta
 np_td = np.timedelta64(5, 'D')
@@ -296,9 +284,9 @@ pd_td_hours = pd.Timedelta(np_td_hours)
 print(pd_td_hours)
 # 0 days 12:00:00
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 1. Basic Timedelta attributes -----------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Basic Timedelta attributes
+# =========================================================================================
 
 td = pd.Timedelta(days=5, hours=12, minutes=30, seconds=45, 
                   milliseconds=123, microseconds=456, nanoseconds=789)
@@ -306,22 +294,20 @@ print(td)
 # 5 days 12:30:45.123456789
 
 '''
-#--------------------------
-## Basic component attributes
-#--------------------------
-'''
+# ## Basic component attributes
+# '''
 
-###########
+##-------##
 ## .days ##
-###########
+##-------##
 
 # Get days component
 print(td.days)
 # 5
 
-##############
+##----------##
 ## .seconds ##
-##############
+##----------##
 '''
 Get seconds component within the day (0-86399)
 This is NOT total seconds, just the time portion
@@ -330,31 +316,29 @@ This is NOT total seconds, just the time portion
 print(td.seconds)
 # 45045  (12*3600 + 30*60 + 45)
 
-###################
+##---------------##
 ## .microseconds ##
-###################
+##---------------##
 
 # Get microseconds component (0-999999)
 print(td.microseconds)
 # 123456
 
-##################
+##--------------##
 ## .nanoseconds ##
-##################
+##--------------##
 
 # Get nanoseconds component (0-999)
 print(td.nanoseconds)
 # 789
 
 '''
-#--------------------------
-## Components named tuple
-#--------------------------
-'''
+# ## Components named tuple
+# '''
 
-#################
+##-------------##
 ## .components ##
-#################
+##-------------##
 
 # Get all components as a named tuple
 components = td.components
@@ -387,23 +371,21 @@ print(f"Days: {components.days}, Hours: {components.hours}, Minutes: {components
 # Days: 5, Hours: 12, Minutes: 30
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 2. Time unit properties ---------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Time unit properties
+# =========================================================================================
 
 td = pd.Timedelta(days=2, hours=5, minutes=30, seconds=15)
 print(td)
 # 2 days 05:30:15
 
 '''
-#--------------------------
-## Total duration
-#--------------------------
-'''
+# ## Total duration
+# '''
 
-######################
+##------------------##
 ## .total_seconds() ##
-######################
+##------------------##
 
 # Get total duration in seconds
 total_secs = td.total_seconds()
@@ -427,14 +409,12 @@ print(total_days)
 # 2.2293402777777777
 
 '''
-#--------------------------
-## Internal representation
-#--------------------------
-'''
+# ## Internal representation
+# '''
 
-#############
+##---------##
 ## ._value ##
-#############
+##---------##
 
 # Get internal nanosecond representation
 print(td._value)
@@ -445,14 +425,12 @@ print(f"{td._value:,} nanoseconds")
 # 192,615,000,000,000 nanoseconds
 
 '''
-#--------------------------
-## Resolution
-#--------------------------
-'''
+# ## Resolution
+# '''
 
-########################
+##--------------------##
 ## .resolution_string ##
-########################
+##--------------------##
 
 # Get resolution as string
 print(td.resolution_string)
@@ -464,14 +442,12 @@ print(td_sec.resolution_string)
 # ns (nanosecond resolution)
 
 '''
-#--------------------------
-## NumPy view
-#--------------------------
-'''
+# ## NumPy view
+# '''
 
-###########
+##-------##
 ## .asm8 ##
-###########
+##-------##
 
 # Get NumPy timedelta64 scalar view
 np_view = td.asm8
@@ -482,23 +458,21 @@ print(type(np_view))
 # <class 'numpy.timedelta64'>
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 3. Conversion methods -----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Conversion methods
+# =========================================================================================
 
 td = pd.Timedelta(days=3, hours=12, minutes=30, seconds=45)
 print(td)
 # 3 days 12:30:45
 
 '''
-#--------------------------
-## To Python timedelta
-#--------------------------
-'''
+# ## To Python timedelta
+# '''
 
-#######################
+##-------------------##
 ## .to_pytimedelta() ##
-#######################
+##-------------------##
 
 # Convert to Python timedelta object
 py_td = td.to_pytimedelta()
@@ -516,14 +490,12 @@ print(py_td_precise)
 # (nanoseconds are lost)
 
 '''
-#--------------------------
-## To NumPy timedelta64
-#--------------------------
-'''
+# ## To NumPy timedelta64
+# '''
 
-#######################
+##-------------------##
 ## .to_timedelta64() ##
-#######################
+##-------------------##
 
 # Convert to NumPy timedelta64
 np_td = td.to_timedelta64()
@@ -533,9 +505,9 @@ print(np_td)
 print(type(np_td))
 # <class 'numpy.timedelta64'>
 
-#################
+##-------------##
 ## .to_numpy() ##
-#################
+##-------------##
 
 # Alternative method to convert to NumPy
 np_td2 = td.to_numpy()
@@ -546,14 +518,12 @@ print(type(np_td2))
 # <class 'numpy.timedelta64'>
 
 '''
-#--------------------------
-## Convert to different units
-#--------------------------
-'''
+# ## Convert to different units
+# '''
 
-####################
+##----------------##
 ## .as_unit(unit) ##
-####################
+##----------------##
 
 # Convert to different time units
 td = pd.Timedelta('1 days 12:00:00')
@@ -580,9 +550,9 @@ print(td_us._value)
 # 129600000000 (in microseconds)
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 4. Rounding methods -----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Rounding methods
+# =========================================================================================
 
 td = pd.Timedelta('2 days 14:45:23.123456789')
 print(td)
@@ -594,14 +564,12 @@ Valid: 'D', 'h', 'min', 's', 'ms', 'us', 'ns'
 '''
 
 '''
-#--------------------------
-## Round to frequency
-#--------------------------
-'''
+# ## Round to frequency
+# '''
 
-##################
+##--------------##
 ## .round(freq) ##
-##################
+##--------------##
 
 # Round to nearest hour
 td_round_hour = td.round('h')
@@ -624,14 +592,12 @@ print(td_round_day)
 # 3 days 00:00:00
 
 '''
-#--------------------------
-## Floor to frequency
-#--------------------------
-'''
+# ## Floor to frequency
+# '''
 
-##################
+##--------------##
 ## .floor(freq) ##
-##################
+##--------------##
 
 # Floor to hour
 td_floor_hour = td.floor('h')
@@ -654,14 +620,12 @@ print(td_floor_day)
 # 2 days 00:00:00
 
 '''
-#--------------------------
-## Ceil to frequency
-#--------------------------
-'''
+# ## Ceil to frequency
+# '''
 
-#################
+##-------------##
 ## .ceil(freq) ##
-#################
+##-------------##
 
 # Ceil to hour
 td_ceil_hour = td.ceil('h')
@@ -684,23 +648,21 @@ print(td_ceil_day)
 # 3 days 00:00:00
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 5. String representation ------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. String representation
+# =========================================================================================
 
 td = pd.Timedelta(days=3, hours=12, minutes=30, seconds=45)
 print(td)
 # 3 days 12:30:45
 
 '''
-#--------------------------
-## ISO 8601 format
-#--------------------------
-'''
+# ## ISO 8601 format
+# '''
 
-##################
+##--------------##
 ## .isoformat() ##
-##################
+##--------------##
 
 # Get ISO 8601 duration format
 iso_str = td.isoformat()
@@ -731,23 +693,21 @@ print(td_complex.isoformat())
 # P17DT4H30M
 
 '''
-#--------------------------
-## String representations
-#--------------------------
-'''
+# ## String representations
+# '''
 
-###########
+##-------##
 ## str() ##
-###########
+##-------##
 
 # Get string representation
 str_repr = str(td)
 print(str_repr)
 # 3 days 12:30:45
 
-############
+##--------##
 ## repr() ##
-############
+##--------##
 
 # Get official representation
 repr_str = repr(td)
@@ -755,15 +715,13 @@ print(repr_str)
 # Timedelta('3 days 12:30:45')
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 6. Arithmetic operations ------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Arithmetic operations
+# =========================================================================================
 
 '''
-#--------------------------
-## Addition and subtraction
-#--------------------------
-'''
+# ## Addition and subtraction
+# '''
 
 td1 = pd.Timedelta(days=2, hours=5)
 td2 = pd.Timedelta(days=1, hours=10, minutes=30)
@@ -784,10 +742,8 @@ print(td_result)
 # 3 days 10:30:00
 
 '''
-#--------------------------
-## Multiplication and division
-#--------------------------
-'''
+# ## Multiplication and division
+# '''
 
 td = pd.Timedelta(days=2, hours=12)
 
@@ -836,10 +792,8 @@ print(ratio)
 # 5.0
 
 '''
-#--------------------------
-## Using with Timestamps
-#--------------------------
-'''
+# ## Using with Timestamps
+# '''
 
 ts = pd.Timestamp('2023-03-15 14:30:00')
 td = pd.Timedelta(days=5, hours=3, minutes=15)
@@ -865,10 +819,8 @@ print(type(td_diff))
 # <class 'pandas._libs.tslibs.timedeltas.Timedelta'>
 
 '''
-#--------------------------
-## Absolute value and negation
-#--------------------------
-'''
+# ## Absolute value and negation
+# '''
 
 td = pd.Timedelta(days=-3, hours=5)
 print(td)
@@ -891,19 +843,17 @@ print(td_neg2)
 # -3 days +19:00:00
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 7. Comparison operations ------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Comparison operations
+# =========================================================================================
 
 td1 = pd.Timedelta(days=2, hours=5)
 td2 = pd.Timedelta(days=1, hours=10)
 td3 = pd.Timedelta(days=2, hours=5)
 
 '''
-#--------------------------
-## Comparison operators
-#--------------------------
-'''
+# ## Comparison operators
+# '''
 
 # Less than
 print(td2 < td1)
@@ -933,10 +883,8 @@ print(td1 >= td2)
 # True
 
 '''
-#--------------------------
-## Minimum and maximum
-#--------------------------
-'''
+# ## Minimum and maximum
+# '''
 
 # Find minimum
 td_min = min(td1, td2, td3)
@@ -949,10 +897,8 @@ print(td_max)
 # 2 days 05:00:00
 
 '''
-#--------------------------
-## Sorting
-#--------------------------
-'''
+# ## Sorting
+# '''
 
 # Sort list of timedeltas
 s_td = pd.Series([
@@ -971,15 +917,13 @@ print(s_td_sorted)
 # dtype: timedelta64[ns]
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 8. Working with Series and arrays -------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Working with Series and arrays
+# =========================================================================================
 
 '''
-#--------------------------
-## Converting to timedelta Series
-#--------------------------
-'''
+# ## Converting to timedelta Series
+# '''
 
 # From strings
 s_str = pd.Series(['1 days', '2 days 03:00:00', '4 days 05:30:00'])
@@ -1011,10 +955,8 @@ print(s_td_hours)
 # dtype: timedelta64[ns]
 
 '''
-#--------------------------
-## Using .dt accessor
-#--------------------------
-'''
+# ## Using .dt accessor
+# '''
 
 s_td = pd.Series(pd.to_timedelta(['1 days 08:30:15', '2 days 12:45:30', '3 days 05:15:45']))
 print(s_td)
@@ -1050,10 +992,8 @@ print(s_td.dt.components)
 # 2     3      5       15       45             0             0            0
 
 '''
-#--------------------------
-## Vectorized operations
-#--------------------------
-'''
+# ## Vectorized operations
+# '''
 
 # Arithmetic operations on Series
 s1 = pd.Series(pd.to_timedelta(['1 days', '2 days', '3 days']))
@@ -1091,15 +1031,13 @@ print(dates_shifted)
 # dtype: datetime64[ns]
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 9. Special Timedelta values ----------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. Special Timedelta values
+# =========================================================================================
 
 '''
-#--------------------------
-## NaT (Not a Time)
-#--------------------------
-'''
+# ## NaT (Not a Time)
+# '''
 
 # Create NaT
 nat = pd.NaT
@@ -1137,10 +1075,8 @@ print(s_with_nat.notna())
 # dtype: bool
 
 '''
-#--------------------------
-## Handling missing values
-#--------------------------
-'''
+# ## Handling missing values
+# '''
 
 # Fill NaT values
 s_filled = s_with_nat.fillna(pd.Timedelta('0 days'))
@@ -1166,15 +1102,13 @@ print(s_ffill)
 # dtype: timedelta64[ns]
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------- 10. Practical examples and use cases -------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 10. Practical examples and use cases
+# =========================================================================================
 
 '''
-#--------------------------
-## Time differences
-#--------------------------
-'''
+# ## Time differences
+# '''
 
 # Calculate age from birthdate
 birth_date = pd.Timestamp('1990-05-15')
@@ -1197,10 +1131,8 @@ print(f"Hours left: {time_left.total_seconds() / 3600:.0f}")
 # Hours left: 6997
 
 '''
-#--------------------------
-## Time windows
-#--------------------------
-'''
+# ## Time windows
+# '''
 
 # Create rolling time window
 dates = pd.date_range('2023-01-01', periods=10, freq='D')
@@ -1224,10 +1156,8 @@ for date in dates[:5]:
 # Date: 2023-01-05, Window sum: 10
 
 '''
-#--------------------------
-## Business logic with durations
-#--------------------------
-'''
+# ## Business logic with durations
+# '''
 
 # Service level agreement (SLA) tracking
 ticket_created = pd.Timestamp('2023-03-15 09:00:00')
@@ -1248,10 +1178,8 @@ print(f"SLA met: {sla_met}")
 # SLA met: True
 
 '''
-#--------------------------
-## Working with time ranges
-#--------------------------
-'''
+# ## Working with time ranges
+# '''
 
 # Create timedelta range
 td_range = pd.timedelta_range(start='1 day', end='10 days', freq='2D')
@@ -1268,10 +1196,8 @@ print(td_range2)
 #                dtype='timedelta64[ns]', freq='30min')
 
 '''
-#--------------------------
-## Duration statistics
-#--------------------------
-'''
+# ## Duration statistics
+# '''
 
 # Analyze durations
 durations = pd.Series([
@@ -1301,10 +1227,8 @@ print(f"Max: {durations.max()}")
 # Max: 3 days 08:15:00
 
 '''
-#--------------------------
-## Frequency conversion
-#--------------------------
-'''
+# ## Frequency conversion
+# '''
 
 # Convert between different frequencies
 td = pd.Timedelta('5 days 12:30:45')
@@ -1328,10 +1252,8 @@ print(f"{c.days} days, {c.hours} hours, {c.minutes} minutes, {c.seconds} seconds
 # 5 days, 12 hours, 30 minutes, 45 seconds
 
 '''
-#--------------------------
-## Time-based filtering
-#--------------------------
-'''
+# ## Time-based filtering
+# '''
 
 # Create sample data
 dates = pd.date_range('2023-01-01', periods=100, freq='h')

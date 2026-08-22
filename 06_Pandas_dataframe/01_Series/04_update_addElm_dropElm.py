@@ -9,16 +9,16 @@
 import pandas as pd
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 1. Updating elements -----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Updating elements
+# =========================================================================================
 
 s_old = pd.Series(data=[10, 20, 30, 40, 50])
 s_old_index = pd.Series(data=[10, 20, 30, 40, 50], index=['a', 'b', 'c', 'd', 'e'])
 
-#########################################
+##-------------------------------------##
 ##            Using .iloc[]            ##
-#########################################
+##-------------------------------------##
 
 s_new = s_old.copy()
 
@@ -40,9 +40,9 @@ print(s_new)
 # 4     50
 # dtype: int64
 
-#########################################
+##-------------------------------------##
 ##        Using dictionary style       ##
-#########################################
+##-------------------------------------##
 
 s_new_index = s_old_index.copy()
 
@@ -73,14 +73,12 @@ print(s_new_index)
 # e    600
 # dtype: int64
 
-########################################
+##------------------------------------##
 ##          Using .update()           ##
-########################################
+##------------------------------------##
 
-#------------------------
-## With non-indexed Series
-#------------------------
-
+# ## With non-indexed Series
+# 
 s_update = s_old.copy()
 
 s_update.update(pd.Series(data=[100, 200]))
@@ -103,10 +101,8 @@ print(s_update)
 # dtype: int64
 '''Here, 300 replaces the value at index 2, and 500 replaces the value at index 4.'''
 
-#------------------------
-## With indexed Series
-#------------------------
-
+# ## With indexed Series
+# 
 s_update_index = s_old_index.copy()
 
 s_update_index.update(pd.Series(data=[200, 500], index=['b', 'e']))
@@ -120,21 +116,19 @@ print(s_update_index)
 '''Here, 200 replaces the value at index 'b', and 500 replaces the value at index 'e'.'''
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 2. Add new elements ------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Add new elements
+# =========================================================================================
 
 s_old = pd.Series(data=[10, 20, 30, 40, 50])
 s_old_index = pd.Series(data=[10, 20, 30, 40, 50], index=['a', 'b', 'c', 'd', 'e'])
 
-#####################################
+##---------------------------------##
 ##            Using s[]            ##
-#####################################
+##---------------------------------##
 
-#---------------
-## With non-indexed Series
-#---------------
-
+# ## With non-indexed Series
+# 
 s_new = s_old.copy()
 s_new[5] = 60  # Adding a new element at index 5
 print(s_new)
@@ -162,10 +156,8 @@ s_new[[7,8]] = [700, 800]
 Raise ERROR
 '''
 
-#----------------
-## With indexed Series
-#----------------
-
+# ## With indexed Series
+# 
 s_new_index = s_old_index.copy()
 
 s_new_index['f'] = 60  # Adding a new element with index label 'f'
@@ -194,14 +186,12 @@ s_new_index[['x', 'y']] = [9000, 10000]
 Raise ERROR
 '''
 
-########################################
+##------------------------------------##
 ##          Using pd.concat()         ##
-########################################
+##------------------------------------##
 
-#---------------
-## With non-indexed Series
-#---------------
-
+# ## With non-indexed Series
+# 
 s_new = pd.concat(
     objs = [s_old, pd.Series(data=[600, 700, 800], dtype=s_old.dtype)], # Ensure the same dtype
     ignore_index = True  # Reindex the resulting Series
@@ -218,10 +208,8 @@ print(s_new)
 # 7    800
 # dtype: int64
 
-#----------------
-## With indexed Series
-#----------------
-
+# ## With indexed Series
+# 
 s_new_index = pd.concat(
     objs = [s_old_index, pd.Series(data=[600, 700, 800], index=['x', 'y', 'z'], dtype=s_old_index.dtype)], # Ensure the same dtype
     ignore_index = False  # Keep the original index labels
@@ -243,9 +231,9 @@ NOTE: must use pd.concat() with TWO SERIES or TWO DATAFRAMES
 '''
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 3. Deleting elements -----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Deleting elements
+# =========================================================================================
 
 s_old = pd.Series(data=[10, 20, 30, 40, 50])
 
@@ -265,14 +253,12 @@ multi_index = pd.MultiIndex(
 
 s_old_multi_index = pd.Series([45, 200, 1.2, 30, 250, 1.5, 320, 1, 0.3], index=multi_index)
 
-######################################
+##----------------------------------##
 ##            Using s.drop()        ##
-######################################
+##----------------------------------##
 
-#---------------
-## With non-indexed Series (index=)
-#---------------
-'''Use default integer index'''
+# ## With non-indexed Series (index=)
+# '''Use default integer index'''
 
 s_new = s_old.drop(index=0)  # Deleting the element at index 0
 print(s_new)
@@ -289,10 +275,8 @@ print(s_new)
 # 4    50
 # dtype: int64
 
-#---------------
-## With indexed Series (labels=)
-#---------------
-
+# ## With indexed Series (labels=)
+# 
 s_new_index = s_old_index.drop(labels='a')  # Deleting the element with index label 'a'
 print(s_new_index)
 # b    20
@@ -308,10 +292,8 @@ print(s_new_index)
 # e    50
 # dtype: int64
 
-#---------------
-## With multi-indexed Series (labels=, level=)
-#---------------
-
+# ## With multi-indexed Series (labels=, level=)
+# 
 print(s_old_multi_index)
 # llama   speed      45.0
 #         weight    200.0
@@ -341,14 +323,12 @@ print(s_new_multi_index)
 # falcon  speed    320.0
 # dtype: float64
 
-######################################
+##----------------------------------##
 ##           Using s.pop()          ##
-######################################
+##----------------------------------##
 
-#---------------
-## With non-indexed Series
-#---------------
-
+# ## With non-indexed Series
+# 
 s_old_pop = s_old.copy()
 
 popped_value = s_old_pop.pop(0)  # Removing and returning the element at index 0
@@ -362,10 +342,8 @@ print(s_old_pop)
 # 4    50
 # dtype: int64
 
-#---------------
-## With indexed Series
-#---------------
-
+# ## With indexed Series
+# 
 s_old_index_pop = s_old_index.copy()
 
 popped_value_index = s_old_index_pop.pop('a')  # Removing and returning the element with index label 'a'

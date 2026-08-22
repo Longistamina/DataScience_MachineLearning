@@ -93,13 +93,13 @@ print(vector_tz)
 #  'America/Eirunepe' 'Africa/Ndjamena' 'America/Havana' 'Brazil/DeNoronha']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 0. Create a 1D string vector -------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Create a 1D string vector
+# =========================================================================================
 
-###############################
+##---------------------------##
 ## np.array(list_of_strings) ##
-###############################
+##---------------------------##
 
 list_of_strings = ['apple', 'banana', 'cherry', 'date']
 
@@ -111,9 +111,9 @@ vector_strings = np.array(['Hans Solo', 'Luke Skywalker', 'Leia Organa']) # Shor
 print(vector_strings)
 # ['Hans Solo' 'Luke Skywalker' 'Leia Organa']
 
-##########################################
+##--------------------------------------##
 ## np.array(list_of_strings, dtype='U') ##
-##########################################
+##--------------------------------------##
 '''
 dtype='U' creates an array of Unicode strings, with no fixed length.
 
@@ -127,9 +127,9 @@ print(vector_unicode)
 repr(vector_unicode)
 # "array(['cat', 'dog', 'birds', 'blounder fish'], dtype='<U13')"
 
-###########################################
+##---------------------------------------##
 ## np.array(list_of_strings, dtype='Un') ##
-###########################################
+##---------------------------------------##
 '''dtype='Un' creates an array of fixed-length Unicode strings of length n.'''
 
 vector_fixed_unicode = np.array(["cat", "dog", "birds", "blounder fish"], dtype='U5')
@@ -137,9 +137,9 @@ repr(vector_fixed_unicode)
 # "array(['cat', 'dog', 'birds', 'bloun'], dtype='<U5')"
 '''The last string is truncated to "bloun" to fit the fixed length of 5 characters.'''
 
-##############################################################
+##----------------------------------------------------------##
 ## np.array(list_of_strings, dtype=np.dtypes.StringDType()) ##
-##############################################################
+##----------------------------------------------------------##
 '''dtype=np.dtypes.StringDType() creates an array of unlimited-length strings.'''
 
 vector_unlimited = np.array(["cat", "dog", "birds", "blounder fish"], dtype=np.dtypes.StringDType())
@@ -147,9 +147,9 @@ repr(vector_unlimited)
 # "array(['cat', 'dog', 'birds', 'blounder fish'], dtype=StringDType())"
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#-------------------------------- 1. Slicing: np.strings.slice(start, stop, step) ----------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Slicing: np.strings.slice(start, stop, step)
+# =========================================================================================
 
 print(np.strings.slice(vector_tz, 5, 10))
 # ['Kuala' 'Sakha' 'ctica' 'e/Ist' 'e/Mad' 'Kuchi' 'a/Kam' 'a/El_' 'e/Sam'
@@ -166,9 +166,9 @@ print(np.strings.slice(vector_tz, None, None, -1)) # Reverse each string
 #  'epenuriE/aciremA' 'anemajdN/acirfA' 'anavaH/aciremA' 'ahnoroNeD/lizarB']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 2. Case conversions --------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Case conversions
+# =========================================================================================
 
 print(vector_tz)
 # ['Asia/Kuala_Lumpur' 'Asia/Sakhalin' 'Antarctica/Vostok' 'Europe/Istanbul'
@@ -176,9 +176,9 @@ print(vector_tz)
 #  'Europe/Samara' 'Europe/Copenhagen' 'Europe/Zaporozhye'
 #  'America/Eirunepe' 'Africa/Ndjamena' 'America/Havana' 'Brazil/DeNoronha']
 
-#############################
+##-------------------------##
 ## np.strings.capitalize() ##
-#############################
+##-------------------------##
 
 print(np.strings.capitalize(vector_tz))
 # ['Asia/kuala_lumpur' 'Asia/sakhalin' 'Antarctica/vostok' 'Europe/istanbul'
@@ -186,9 +186,9 @@ print(np.strings.capitalize(vector_tz))
 #  'Europe/samara' 'Europe/copenhagen' 'Europe/zaporozhye'
 #  'America/eirunepe' 'Africa/ndjamena' 'America/havana' 'Brazil/denoronha']
 
-########################
+##--------------------##
 ## np.strings.upper() ##
-########################
+##--------------------##
 
 print(np.strings.upper(vector_tz))
 # ['ASIA/KUALA_LUMPUR' 'ASIA/SAKHALIN' 'ANTARCTICA/VOSTOK' 'EUROPE/ISTANBUL'
@@ -196,9 +196,9 @@ print(np.strings.upper(vector_tz))
 #  'EUROPE/SAMARA' 'EUROPE/COPENHAGEN' 'EUROPE/ZAPOROZHYE'
 #  'AMERICA/EIRUNEPE' 'AFRICA/NDJAMENA' 'AMERICA/HAVANA' 'BRAZIL/DENORONHA']
 
-########################
+##--------------------##
 ## np.strings.lower() ##
-########################
+##--------------------##
 
 print(np.strings.lower(vector_tz))
 # ['asia/kuala_lumpur' 'asia/sakhalin' 'antarctica/vostok' 'europe/istanbul'
@@ -206,17 +206,17 @@ print(np.strings.lower(vector_tz))
 #  'europe/samara' 'europe/copenhagen' 'europe/zaporozhye'
 #  'america/eirunepe' 'africa/ndjamena' 'america/havana' 'brazil/denoronha']
 
-########################
+##--------------------##
 ## np.strings.title() ##
-########################
+##--------------------##
 
 tilte_vector = np.array(['hello world', 'numpy is great', 'string handling in python'])
 print(np.strings.title(tilte_vector))
 # ['Hello World' 'Numpy Is Great' 'String Handling In Python']
 
-###########################
+##-----------------------##
 ## np.strings.swapcase() ##
-###########################
+##-----------------------##
 
 print(np.strings.swapcase(vector_tz))
 # ['aSIA/kUALA_lUMPUR' 'aSIA/sAKHALIN' 'aNTARCTICA/vOSTOK' 'eUROPE/iSTANBUL'
@@ -225,16 +225,16 @@ print(np.strings.swapcase(vector_tz))
 #  'aMERICA/eIRUNEPE' 'aFRICA/nDJAMENA' 'aMERICA/hAVANA' 'bRAZIL/dEnORONHA']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------ 3. Stripping -----------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Stripping
+# =========================================================================================
 
 strip_space = np.array(['   leading space', 'trailing space   ', '   both sides   ', 'no_space'])
 strip_other = np.array(['***hello***', 'hellob***', '***hello', 'no_other'])
 
-########################
+##--------------------##
 ## np.strings.strip() ##
-########################
+##--------------------##
 
 print(np.strings.strip(strip_space))
 # ['leading space' 'trailing space' 'both sides' 'no_space']
@@ -242,9 +242,9 @@ print(np.strings.strip(strip_space))
 print(np.strings.strip(strip_other, '*'))
 # ['hello' 'hellob' 'hello' 'no_other']
 
-#########################
+##---------------------##
 ## np.strings.lstrip() ##
-#########################
+##---------------------##
 
 print(np.strings.lstrip(strip_space))
 # ['leading space' 'trailing space   ' 'both sides   ' 'no_space']
@@ -252,9 +252,9 @@ print(np.strings.lstrip(strip_space))
 print(np.strings.lstrip(strip_other, '*'))
 # ['hello***' 'hellob***' 'hello' 'no_other']
 
-#########################
+##---------------------##
 ## np.strings.rstrip() ##
-#########################
+##---------------------##
 
 print(np.strings.rstrip(strip_space))
 # ['   leading space' 'trailing space' '   both sides' 'no_space']
@@ -263,20 +263,20 @@ print(np.strings.rstrip(strip_other, '*'))
 # ['***hello' 'hellob' '***hello' 'no_other']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 4. Length and Count --------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Length and Count
+# =========================================================================================
 
-##########################
+##----------------------##
 ## np.strings.str_len() ##
-##########################
+##----------------------##
 
 print(np.strings.str_len(vector_tz))
 # [17 13 17 15 13 12 14 15 13 17 17 16 15 14 16]
 
-########################
+##--------------------##
 ## np.strings.count() ##
-########################
+##--------------------##
 
 print(np.strings.count(vector_tz, 'a'))
 # [3 3 2 1 1 1 4 2 3 1 1 1 3 4 2]
@@ -285,9 +285,9 @@ print(np.strings.count(vector_tz, 'Asia'))
 # [1 1 0 0 0 1 0 0 0 0 0 0 0 0 0]
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 5. Find and Search ---------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Find and Search
+# =========================================================================================
 
 print(vector_tz)
 # ['Asia/Kuala_Lumpur' 'Asia/Sakhalin' 'Antarctica/Vostok' 'Europe/Istanbul'
@@ -295,9 +295,9 @@ print(vector_tz)
 #  'Europe/Samara' 'Europe/Copenhagen' 'Europe/Zaporozhye'
 #  'America/Eirunepe' 'Africa/Ndjamena' 'America/Havana' 'Brazil/DeNoronha']
 
-#######################
+##-------------------##
 ## np.strings.find() ##
-#######################
+##-------------------##
 '''Returns the lowest index of the substring if found (from the left), otherwise -1.'''
 
 print(np.strings.find(vector_tz, 'a'))
@@ -306,9 +306,9 @@ print(np.strings.find(vector_tz, 'a'))
 print(np.strings.find(vector_tz, '###'))
 # [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]
 
-########################
+##--------------------##
 ## np.strings.rfind() ##
-########################
+##--------------------##
 '''Returns the highest index of the substring if found (from the right), otherwise -1.'''
 
 print(np.strings.rfind(vector_tz, 'a'))
@@ -317,9 +317,9 @@ print(np.strings.rfind(vector_tz, 'a'))
 print(np.strings.rfind(vector_tz, '###'))
 # [-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1]
 
-########################
+##--------------------##
 ## np.strings.index() ##
-########################
+##--------------------##
 '''Like find(), but raises an error if the substring is not found.'''
 
 print(np.strings.index(vector_tz, 'a'))
@@ -328,9 +328,9 @@ print(np.strings.index(vector_tz, 'a'))
 print(np.strings.index(vector_tz, '###'))
 # ValueError: substring not found
 
-#########################
+##---------------------##
 ## np.strings.rindex() ##
-#########################
+##---------------------##
 '''Like rfind(), but raises an error if the substring is not found.'''
 
 print(np.strings.rindex(vector_tz, 'a'))
@@ -340,9 +340,9 @@ print(np.strings.rindex(vector_tz, '###'))
 # ValueError: substring not found
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------------- 6. Replacement ----------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Replacement
+# =========================================================================================
 
 print(np.strings.replace(vector_tz, 'Asia', 'ASIA'))
 # ['ASIA/Kuala_Lumpur' 'ASIA/Sakhalin' 'Antarctica/Vostok' 'Europe/Istanbul'
@@ -363,17 +363,17 @@ print(np.strings.replace(vector_tz, 'a', '@', 2)) # Replace first 2 occurrences 
 #  'Americ@/Eirunepe' 'Afric@/Ndj@mena' 'Americ@/H@vana' 'Br@zil/DeNoronh@']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------------- 7. Alignment ----------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Alignment
+# =========================================================================================
 
 vector_fruits = np.array(['apple', 'banana', 'cherry', 'date'])
 print(vector_fruits)
 # ['apple' 'banana' 'cherry' 'date']
 
-#########################
+##---------------------##
 ## np.strings.center() ##
-#########################
+##---------------------##
 
 print(np.strings.center(vector_fruits, 10))
 # ['  apple   ' '  banana  ' '  cherry  ' '   date   ']
@@ -381,9 +381,9 @@ print(np.strings.center(vector_fruits, 10))
 print(np.strings.center(vector_fruits, 12, '*'))
 # ['***apple****' '***banana***' '***cherry***' '****date****']
 
-########################
+##--------------------##
 ## np.strings.ljust() ##
-########################
+##--------------------##
 
 print(np.strings.ljust(vector_fruits, 10))
 # ['apple     ' 'banana    ' 'cherry    ' 'date      ']
@@ -391,9 +391,9 @@ print(np.strings.ljust(vector_fruits, 10))
 print(np.strings.ljust(vector_fruits, 12, '-'))
 # ['apple-------' 'banana------' 'cherry------' 'date--------']
 
-########################
+##--------------------##
 ## np.strings.rjust() ##
-########################
+##--------------------##
 
 print(np.strings.rjust(vector_fruits, 10))
 # ['     apple' '    banana' '    cherry' '      date']
@@ -401,17 +401,17 @@ print(np.strings.rjust(vector_fruits, 10))
 print(np.strings.rjust(vector_fruits, 12, '+'))
 # ['+++++++apple' '++++++banana' '++++++cherry' '++++++++date']
 
-########################
+##--------------------##
 ## np.strings.zfill() ##
-########################
+##--------------------##
 
 print(np.strings.zfill(vector_fruits, 10))
 # ['00000apple' '0000banana' '0000cherry' '000000date']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------------- 8. Expand Tabs ----------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Expand Tabs
+# =========================================================================================
 
 tabbed_strings = np.array(['Hello\tWorld', 'NumPy\tis\tgreat', 'String\thandling\tin\tPython'])
 print(tabbed_strings)
@@ -421,17 +421,17 @@ print(np.strings.expandtabs(tabbed_strings, tabsize=4))
 # ['Hello   World' 'NumPy   is  great' 'String  handling    in  Python']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 9. Partitioning ----------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. Partitioning
+# =========================================================================================
 
 partion_vector = np.array(['apple-banana-cherry', 'date-fig-grape', 'kiwi-mango-papaya'])
 print(partion_vector)
 # ['apple-banana-cherry' 'date-fig-grape' 'kiwi-mango-papaya']
 
-############################
+##------------------------##
 ## np.strings.partition() ##
-############################
+##------------------------##
 
 print(np.strings.partition(partion_vector, '-'))
 # (array(['apple', 'date', 'kiwi'], dtype='<U5'),
@@ -444,9 +444,9 @@ The second array(['-', '-', '-']) contains the separator itself.
 The third array(['banana-cherry', 'fig-grape', 'mango-papaya']) contains the substrings after the first occurrence of '-'.
 '''
 
-#############################
+##-------------------------##
 ## np.strings.rpartition() ##
-#############################
+##-------------------------##
 
 print(np.strings.rpartition(partion_vector, '-'))
 # (array(['apple-banana', 'date-fig', 'kiwi-mango'], dtype='<U12'),
@@ -460,9 +460,9 @@ The third array(['cherry', 'grape', 'papaya']) contains the substrings after the
 '''
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#--------------------------------------------- 10. Combination -----------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 10. Combination
+# =========================================================================================
 
 vector1 = np.array(['Hello', 'NumPy', 'String'], dtype=np.dtypes.StringDType())
 vector2 = np.array(['World', 'is great', 'handling in Python'], dtype=np.dtypes.StringDType())
@@ -470,9 +470,9 @@ delimiter = np.array(['_', '_', '_'], dtype=np.dtypes.StringDType())
 
 '''NOTE: use np.dtypes.StringDType() to create string arrays to avoid truncation issues during combination'''
 
-######################
+##------------------##
 ## np.strings.add() ##
-######################
+##------------------##
 
 print(np.strings.add(vector1, vector2))
 # ['HelloWorld' 'NumPyis great' 'Stringhandling in Python']
@@ -484,9 +484,9 @@ print(np.strings.add(vector1, delimiter, vector2))
 print(np.strings.add(np.strings.add(vector1, delimiter), vector2)) # Must use nested np.strings.add()
 # ['Hello_World' 'NumPy_is great' 'String_handling in Python']
 
-###########################
+##-----------------------##
 ## np.strings.multiply() ##
-###########################
+##-----------------------##
 
 print(np.strings.multiply(vector1, 3))
 # ['HelloHelloHello' 'NumPyNumPyNumPy' 'StringStringString']
@@ -496,9 +496,9 @@ print(np.strings.multiply(vector1, multiplicands))
 # ['Hello' 'NumPyNumPy' 'StringStringString']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 11. Formatting -----------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 11. Formatting
+# =========================================================================================
 
 original = np.array(['%d bytes', '%d bits', '%d KB'])
 values = np.array([8, 64, 1024])
@@ -508,9 +508,9 @@ print(formatted)
 # ['8 bytes' '64 bits' '1024 KB']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#--------------------------------------------- 12. Translation -----------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 12. Translation
+# =========================================================================================
 
 print(vector_tz)
 # ['Asia/Kuala_Lumpur' 'Asia/Sakhalin' 'Antarctica/Vostok' 'Europe/Istanbul'
@@ -528,13 +528,13 @@ print(translated_vector)
 #  'Am3r1c@/E1run3p3' 'Afr1c@/Ndj@m3n@' 'Am3r1c@/H@v@n@' 'Br@z1l/D3N0r0nh@']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 13. Encoding and Decoding -----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 13. Encoding and Decoding
+# =========================================================================================
 
-#########################
+##---------------------##
 ## np.strings.encode() ##
-#########################
+##---------------------##
 
 original_vector = np.array(['Hello World', 'NumPy is great', 'String handling in Python'])
 encoded_vector = np.strings.encode(original_vector, encoding='utf-8', errors='strict')
@@ -542,9 +542,9 @@ encoded_vector = np.strings.encode(original_vector, encoding='utf-8', errors='st
 print(encoded_vector)
 # [b'Hello World' b'NumPy is great' b'String handling in Python']
 
-#########################
+##---------------------##
 ## np.strings.decode() ##
-#########################
+##---------------------##
 
 original_encoded_vector = np.array([b'Hello World', b'NumPy is great', b'String handling in Python'])
 
@@ -553,9 +553,9 @@ print(decoded_vector)
 # ['Hello World' 'NumPy is great' 'String handling in Python']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 14. Boolean checks ---------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 14. Boolean checks
+# =========================================================================================
 
 test_vector = np.array(
    [
@@ -568,9 +568,9 @@ test_vector = np.array(
 
 np.set_printoptions(linewidth=np.inf) # To display the entire array in one line
 
-##########################
+##----------------------##
 ## np.strings.isalpha() ##
-##########################
+##----------------------##
 '''Checks if all characters in each string are alphabetic.'''
 
 print(np.strings.isalpha(test_vector))
@@ -579,9 +579,9 @@ print(np.strings.isalpha(test_vector))
 print(test_vector[np.strings.isalpha(test_vector)])
 # ['Hello' 'WORLD' 'café' 'MyVar']
 
-############################
+##------------------------##
 ## np.strings.isdecimal() ##
-############################
+##------------------------##
 '''Checks if all characters in each string are decimal digits (0-9 only).'''
 
 print(np.strings.isdecimal(test_vector))
@@ -590,9 +590,9 @@ print(np.strings.isdecimal(test_vector))
 print(test_vector[np.strings.isdecimal(test_vector)])
 # ['123']
 
-##########################
+##----------------------##
 ## np.strings.isdigit() ##
-##########################
+##----------------------##
 '''Checks if all characters in each string are digits (includes digits and superscripts).'''
 
 print(np.strings.isdigit(test_vector))
@@ -601,9 +601,9 @@ print(np.strings.isdigit(test_vector))
 print(test_vector[np.strings.isdigit(test_vector)])
 # ['123' '³' '₂']
 
-############################
+##------------------------##
 ## np.strings.isnumeric() ##
-############################
+##------------------------##
 '''Checks if all characters in each string are numeric (includes digits, fractions, superscripts).'''
 
 print(np.strings.isnumeric(test_vector))
@@ -612,9 +612,9 @@ print(np.strings.isnumeric(test_vector))
 print(test_vector[np.strings.isnumeric(test_vector)])
 # ['123' '⅕' '³' '₂']
 
-##########################
+##----------------------##
 ## np.strings.isalnum() ##
-##########################
+##----------------------##
 '''Checks if all characters in each string are alphanumeric.'''
 
 print(np.strings.isalnum(test_vector))
@@ -623,9 +623,9 @@ print(np.strings.isalnum(test_vector))
 print(test_vector[np.strings.isalnum(test_vector)])
 # ['Hello' 'WORLD' 'Hello123' '123' '⅕' '³' '₂' 'café' 'MyVar']
 
-##########################
+##----------------------##
 ## np.strings.isspace() ##
-##########################
+##----------------------##
 '''Checks if all characters in each string are whitespace.'''
 
 print(np.strings.isspace(test_vector))
@@ -634,9 +634,9 @@ print(np.strings.isspace(test_vector))
 print(test_vector[np.strings.isspace(test_vector)])
 # [' ' '\t\n']
 
-##########################
+##----------------------##
 ## np.strings.islower() ##
-##########################
+##----------------------##
 '''Checks if all characters in each string are lowercase.'''
 
 print(np.strings.islower(test_vector))
@@ -645,9 +645,9 @@ print(np.strings.islower(test_vector))
 print(test_vector[np.strings.islower(test_vector)])
 # ['café']
 
-##########################
+##----------------------##
 ## np.strings.isupper() ##
-##########################
+##----------------------##
 '''Checks if all characters in each string are uppercase.'''
 
 print(np.strings.isupper(test_vector))
@@ -656,9 +656,9 @@ print(np.strings.isupper(test_vector))
 print(test_vector[np.strings.isupper(test_vector)])
 # ['WORLD']
 
-##########################
+##----------------------##
 ## np.strings.istitle() ##
-##########################
+##----------------------##
 '''Checks if each string is in title case (first letter uppercase, rest lowercase).'''
 
 print(np.strings.istitle(test_vector))
@@ -668,13 +668,13 @@ print(test_vector[np.strings.istitle(test_vector)])
 # ['Hello' 'Hello123']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 15. Prefix and Suffix checks -------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 15. Prefix and Suffix checks
+# =========================================================================================
 
-#############################
+##-------------------------##
 ## np.strings.startswith() ##
-#############################
+##-------------------------##
 
 print(np.strings.startswith(vector_tz, 'Asia'))
 # [ True  True False False False  True False False False False False False False False False]
@@ -682,9 +682,9 @@ print(np.strings.startswith(vector_tz, 'Asia'))
 print(vector_tz[np.strings.startswith(vector_tz, 'Asia')])
 # ['Asia/Kuala_Lumpur' 'Asia/Sakhalin' 'Asia/Kuching']
 
-###########################
+##-----------------------##
 ## np.strings.endswith() ##
-###########################
+##-----------------------##
 
 print(np.strings.endswith(vector_tz, 'e'))
 # [False False False False False False False False False False  True  True False False False]
@@ -693,13 +693,13 @@ print(vector_tz[np.strings.endswith(vector_tz, 'e')])
 # ['Europe/Zaporozhye' 'America/Eirunepe']
 
 
-#-------------------------------------------------------------------------------------------------------------------#
-#--------------------------------------------- 16. Comparison ------------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 16. Comparison
+# =========================================================================================
 
-#################################
+##-----------------------------##
 ## Lexicographical comparisons ##
-#################################
+##-----------------------------##
 '''
 Lexicographic comparison means comparing strings in dictionary order
 (exactly how words are arranged in a dictionary or phone book).
@@ -728,9 +728,9 @@ The comparison process follows these steps:
 # NOT comparing numeric values 10 and 9
 '''
 
-########################
+##--------------------##
 ## np.strings.equal() ##
-########################
+##--------------------##
 '''Checks element-wise equality between string arrays'''
 
 # Single string comparison
@@ -748,9 +748,9 @@ names = np.array(['Tom', 'Kate', 'Tom', 'Amy'])
 print(np.strings.equal(names, 'Tom'))
 # [ True False  True False]
 
-############################
+##------------------------##
 ## np.strings.not_equal() ##
-############################
+##------------------------##
 '''Checks element-wise inequality between string arrays'''
 
 # Simple inequality
@@ -768,9 +768,9 @@ data = np.array(['pass', 'fail', 'pass', 'fail'])
 print(np.strings.not_equal(data, 'pass'))
 # [False  True False  True]
 
-########################
+##--------------------##
 ## np.strings.less()  ##
-########################
+##--------------------##
 '''Checks if each element in the first array is lexicographically less than the corresponding element in the second'''
 
 # Single comparison
@@ -787,9 +787,9 @@ print(np.strings.less(arr1, arr2))
 print(np.strings.less('Apple', 'apple'))
 # True  # 'A' comes before 'a' in Unicode
 
-#############################
+##-------------------------##
 ## np.strings.less_equal() ##
-#############################
+##-------------------------##
 '''Checks if each element in the first array is lexicographically less than or equal to the corresponding element in the second'''
 
 # Simple example
@@ -803,9 +803,9 @@ words = np.array(['alpha', 'beta', 'gamma', 'gamma'])
 print(np.all(np.strings.less_equal(words[:-1], words[1:])))
 # True
 
-###########################
+##-----------------------##
 ## np.strings.greater()  ##
-###########################
+##-----------------------##
 '''Checks if each element in the first array is lexicographically greater than the corresponding element in the second'''
 
 # Single comparison

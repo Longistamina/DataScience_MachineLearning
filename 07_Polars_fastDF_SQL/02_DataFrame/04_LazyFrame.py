@@ -11,7 +11,7 @@ Polars has two concepts that are worth learning early:
    + You build the plan first, then execute it with .collect().
    + It lets Polars optimize the whole query before reading/computing data.
 
-####################################################################################################
+##------------------------------------------------------------------------------------------------##
 
 Important mental model:
 
@@ -71,9 +71,9 @@ print(df_sales)
 # columns: order_id, customer, region, amount, quantity, date
 
 
-#--------------------------------------------------------------------------------------------------#
-#------------------------------- 1. What is a Polars LazyFrame? -----------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. What is a Polars LazyFrame?
+# =========================================================================================
 '''
 A LazyFrame is a query plan, not a materialized table.
 
@@ -96,9 +96,9 @@ print(type(lf_sales))
 # <class 'polars.lazyframe.frame.LazyFrame'>
 
 
-#--------------------------------------------------------------------------------------------------#
-#----------------------------- 2. Build a lazy query with expressions -----------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Build a lazy query with expressions
+# =========================================================================================
 '''
 LazyFrame methods look similar to DataFrame methods, but they return another LazyFrame.
 This means you can keep chaining without executing the query yet.
@@ -129,9 +129,9 @@ The object is still a LazyFrame query plan.
 '''
 
 
-#-----------------------------------------------------------------------------------------------------#
-#------------------------------ 3. Execute the lazy query with .collect() ----------------------------#
-#-----------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Execute the lazy query with .collect()
+# =========================================================================================
 '''
 .collect() tells Polars to optimize and execute the query.
 It returns an eager DataFrame.
@@ -155,9 +155,9 @@ print(type(result))
 # <class 'polars.dataframe.frame.DataFrame'>
 
 
-#--------------------------------------------------------------------------------------------------#
-#------------------------------- 4. Create LazyFrames from scan_* APIs ----------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Create LazyFrames from scan_* APIs
+# =========================================================================================
 '''
 The best lazy workflow usually starts with a scan function, not an eager read function.
 
@@ -203,9 +203,9 @@ print(scan_query.collect())
 # reads the CSV, applies the filter/projection, and returns a DataFrame
 
 
-#--------------------------------------------------------------------------------------------------#
-#---------------------------- 5. Inspect the query plan with explain() ----------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Inspect the query plan with explain()
+# =========================================================================================
 '''
 .explain() prints the query plan.
 This is useful for understanding what Polars will do when you collect the query.
@@ -224,9 +224,9 @@ print(scan_query.explain())
 # Look for hints such as CSV SCAN, PROJECT, SELECTION, FILTER, WITH_COLUMNS, AGGREGATE, etc.
 
 
-#---------------------------------------------------------------------------------------------------#
-#--------------------------------- 6. Schema checking before collect -------------------------------#
-#---------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Schema checking before collect
+# =========================================================================================
 '''
 A LazyFrame knows a schema for the planned output.
 Use .collect_schema() when you want schema information without materializing all data.
@@ -240,9 +240,9 @@ print(schema)
 # Schema of the query output, e.g. order_id, region, revenue
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------ 7. LazyFrame anti-pattern: collect too early ----------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. LazyFrame anti-pattern: collect too early
+# =========================================================================================
 '''
 Try not to call .collect() in the middle of a lazy workflow unless you really need to.
 
@@ -262,9 +262,9 @@ The second pattern gives Polars the whole query at once, which gives the optimiz
 '''
 
 
-#--------------------------------------------------------------------------------------------------#
-#------------------------------ 8. LazyFrame sinks and streaming-style output ---------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. LazyFrame sinks and streaming-style output
+# =========================================================================================
 '''
 .collect() materializes a DataFrame in memory.
 
@@ -279,9 +279,9 @@ Examples are commented out because they write files:
 # scan_query.sink_ndjson(demo_dir / "sales_result.ndjson")
 
 
-#--------------------------------------------------------------------------------------------------#
-#----------------------------- 9. Categorized API list for LazyFrame ------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. Categorized API list for LazyFrame
+# =========================================================================================
 '''
 The lists below are a categorized map of the Polars LazyFrame API.
 They are included for orientation, not for memorization.

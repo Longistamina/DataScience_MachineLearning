@@ -8,9 +8,9 @@
 
 import calendar
 
-############################################
+##----------------------------------------##
 ## .isleap(): Check leap year (nam nhuan) ##
-############################################
+##----------------------------------------##
 
 check_leap_year_1 = calendar.isleap(2000)
 print(check_leap_year_1) # True
@@ -18,9 +18,9 @@ print(check_leap_year_1) # True
 check_leap_year_2 = calendar.isleap(1999)
 print(check_leap_year_2) # False
 
-#########################################
+##-------------------------------------##
 ##            .monthrange()            ##
-#########################################
+##-------------------------------------##
 
 tuple_MR = calendar.monthrange(2019, 11)
 print(tuple_MR) # (calendar.FRIDAY, 30)
@@ -31,10 +31,8 @@ print(tuple_MR) # (calendar.FRIDAY, 30)
 # 30 means November has 30 days
 '''
 
-#--------------
-## Get the number of days from monthrange()
-#--------------
-
+# ## Get the number of days from monthrange()
+# 
 month_days_1 = calendar.monthrange(2019, 11)[1] # Get the 2nd element in tuple MR, the number of days = 30
 print(month_days_1) # 30
 
@@ -42,10 +40,8 @@ tuple_MR = calendar.monthrange(2019, 11)
 month_days_2 = tuple_MR[1]
 print(month_days_2) # 30
 
-#--------------
-## Get the weekday index of the month's first day
-#--------------
-
+# ## Get the weekday index of the month's first day
+# 
 index_weekday_1 = calendar.monthrange(2019, 11)[0]
 print(index_weekday_1) # 4 (means Friday)
 
@@ -53,16 +49,14 @@ tuple_MR = calendar.monthrange(2019, 11)
 index_weekday_2 = tuple_MR[0]
 print(index_weekday_1) # 4 (means Friday)
 
-#--------------
-## Get both information
-#--------------
-
+# ## Get both information
+# 
 index_weekday, month_days = calendar.monthrange(2020, 8)
 print(index_weekday, month_days) # 5 31
 
-#####################################################
+##-------------------------------------------------##
 ##                 .monthcalendar()                ##
-#####################################################
+##-------------------------------------------------##
 
 november_2019 = calendar.monthcalendar(2019, 11)
 print(november_2019)

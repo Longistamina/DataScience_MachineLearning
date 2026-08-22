@@ -14,14 +14,14 @@ matrix = np.array([[1, 2, 3], [4, 5, 6]])
 #  [4, 5, 6]]
 
 
-#------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 1. np.expand_dims() -------------------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. np.expand_dims()
+# =========================================================================================
 '''np.expand_dims(a, axis) is used to add a new axis to an array, effectively increasing its dimensions.'''
 
-###################################
+##-------------------------------##
 ## Expand a scalar to a 1D array ##
-###################################
+##-------------------------------##
 
 scalr_expanded = np.expand_dims(scalar, axis=0)
 print(scalr_expanded) # [42]
@@ -29,9 +29,9 @@ print(scalr_expanded) # [42]
 scalar_expanded = np.expand_dims(scalar, axis=1)
 '''AxisError: axis 1 is out of bounds for array of dimension 1'''
 
-#################################
+##-----------------------------##
 ## Expand a vector to a matrix ##
-#################################
+##-----------------------------##
 
 vector_expanded = np.expand_dims(vector, axis=0)
 print(vector_expanded)
@@ -54,9 +54,9 @@ print(vector_expanded)
 vector_expanded = np.expand_dims(vector, axis=2)
 '''AxisError: axis 2 is out of bounds for array of dimension 2'''
 
-###################################
+##-------------------------------##
 ## Expand a matrix to a 3D array ##
-###################################
+##-------------------------------##
 
 matrix_expanded = np.expand_dims(matrix, axis=0)
 print(matrix_expanded)
@@ -83,21 +83,20 @@ print(matrix_expanded)
 # (2, 3) -> (2, 3, 1)
 
 
-#------------------------------------------------------------------------------------------------------------#
-#------------------------------- 2. Expand dimension with newaxis and None ----------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Expand dimension with newaxis and None
+# =========================================================================================
 '''np.newaxis and None are used to add a new axis to an array, similar to np.expand_dims().'''
 
-################
+##------------##
 ## np.newaxis ##
-################
+##------------##
 
 print(scalar[np.newaxis]) # [42]
 print(scalar[np.newaxis, np.newaxis]) # [[42]]
 print(scalar[np.newaxis, np.newaxis, np.newaxis]) # [[[42]]]
 
-#-----------------
-
+# 
 print(vector[np.newaxis]) # [[1 2 3]] <-> (1, 3)
 print(vector[np.newaxis, :]) # [[1 2 3]] <-> (1, 3)
 
@@ -126,8 +125,7 @@ print(vector[:, np.newaxis, np.newaxis, np.newaxis])
 #  [[[3]]]]
 # (3, 1, 1, 1)
 
-#-----------------
-
+# 
 print(matrix[np.newaxis])
 # [[[1 2 3]
 #   [4 5 6]]]
@@ -163,17 +161,16 @@ print(matrix[np.newaxis, np.newaxis])
 # (1, 1, 2, 3)
 # equivalent to matrix[np.newaxis, np.newaxis, :, :]
 
-##################
+##--------------##
 ##     None     ##
-##################
+##--------------##
 '''Using None is equivalent to using np.newaxis.'''
 
 print(scalar[None]) # [42]
 print(scalar[None, None]) # [[42]]
 print(scalar[None, None, None]) # [[[42]]]
 
-#-----------------
-
+# 
 print(vector[None]) # [[1 2 3]] <-> (1, 3)
 print(vector[None, :]) # [[1 2 3]] <-> (1, 3)
 
@@ -200,8 +197,7 @@ print(vector[:, None, None, None])
 #  [[[3]]]]
 # (3, 1, 1, 1)
 
-#-----------------
-
+# 
 print(matrix[None])
 # [[[1 2 3]
 #   [4 5 6]]]
@@ -237,9 +233,9 @@ print(matrix[None, None])
 # equivalent to matrix[None, None, :, :]
 
 
-#------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 3. np.squeeze() --------------------------------------------------#
-#------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. np.squeeze()
+# =========================================================================================
 '''np.squeeze() is used to remove single-dimensional entries from the shape of an array.'''
 
 matrix_excessive = np.array([[[1, 2, 3]], [[4, 5, 6]]]) # (2, 1, 3)
@@ -254,8 +250,7 @@ print(matrix_squeezed)
 #  [4 5 6]]
 # (2, 3)
 
-#-------------------
-
+# 
 vector_excessive = np.array([1, 2, 3])[:, np.newaxis, np.newaxis, np.newaxis] # (3, 1, 1, 1)
 print(vector_excessive)
 # [[[[1]]]

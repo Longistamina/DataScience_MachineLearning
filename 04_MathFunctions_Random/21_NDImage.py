@@ -80,13 +80,13 @@ labels_arr[12:17, 12:17] = 2
 vals_arr = rng.uniform(0, 10, (20, 20))   # values to measure over regions
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════════════  PART A — FILTERS  ═════════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 
-#############################
+##-------------------------##
 ## 1. convolve / correlate ##
-#############################
+##-------------------------##
 '''
 ndi.convolve(input, weights, output=None, mode='reflect', cval=0.0, origin=0)
 ndi.correlate(input, weights, output=None, mode='reflect', cval=0.0, origin=0)
@@ -150,9 +150,9 @@ print(vol_conv.shape)   # (16, 32, 32)
 # origin=1 moves the kernel 1 pixel to the right
 img_shifted = ndi.convolve1d(img, row_kernel, axis=1, origin=1)
 
-############################################
+##----------------------------------------##
 ## 2. gaussian_filter / gaussian_filter1d ##
-############################################
+##----------------------------------------##
 '''
 ndi.gaussian_filter(input, sigma, order=0, output=None, mode='reflect', cval=0.0,
                     truncate=4.0, radius=None, axes=None)
@@ -211,9 +211,9 @@ print(vol_gauss.shape)  # (16, 32, 32)
 vol_grad_z = ndi.gaussian_filter1d(img3d, sigma=1.5, axis=0, order=1)
 
 
-##########################################
+##--------------------------------------##
 ## 3. uniform_filter / uniform_filter1d ##
-##########################################
+##--------------------------------------##
 '''
 ndi.uniform_filter(input, size=3, output=None, mode='reflect', cval=0.0,
                    origin=0, axes=None)
@@ -257,9 +257,9 @@ vol_box = ndi.uniform_filter(img3d, size=3)
 print(vol_box.shape)  # (16, 32, 32)
 
 
-######################
+##------------------##
 ## 4. median_filter ##
-######################
+##------------------##
 '''
 ndi.median_filter(input, size=3, footprint=None, output=None,
                   mode='reflect', cval=0.0, origin=0)
@@ -307,9 +307,9 @@ img_med_cross = ndi.median_filter(img_sp, footprint=cross)
 vol_med = ndi.median_filter(img3d, size=3)
 print(vol_med.shape)  # (16, 32, 32)
 
-########################################
+##------------------------------------##
 ## 5. rank_filter / percentile_filter ##
-########################################
+##------------------------------------##
 '''
 ndi.rank_filter(input, rank, size=3, footprint=None, output=None,
                 mode='reflect', cval=0.0, origin=0)
@@ -352,9 +352,9 @@ yy, xx = np.ogrid[-2:3, -2:3]
 disk_5[xx**2 + yy**2 <= 4] = True   # disk of radius 2
 img_disk_med = ndi.rank_filter(img, rank=disk_5.sum()//2, footprint=disk_5)
 
-########################################
+##------------------------------------##
 ## 6. maximum_filter / minimum_filter ##
-########################################
+##------------------------------------##
 '''
 ndi.maximum_filter(input, size=None, footprint=None, output=None,
                    mode='reflect', cval=0.0, origin=0)
@@ -397,9 +397,9 @@ max1d_col = ndi.maximum_filter1d(img, size=5, axis=1)   # maximum along columns
 max_cross = ndi.maximum_filter(img, footprint=cross)
 min_cross = ndi.minimum_filter(img, footprint=cross)
 
-########################
+##--------------------##
 ## 7. sobel / prewitt ##
-########################
+##--------------------##
 '''
 ndi.sobel(input, axis=-1, output=None, mode='reflect', cval=0.0)
 ndi.prewitt(input, axis=-1, output=None, mode='reflect', cval=0.0)
@@ -439,9 +439,9 @@ sobel_c = ndi.sobel(img3d, axis=2)
 edges_3d = np.sqrt(sobel_z**2 + sobel_r**2 + sobel_c**2)
 print(edges_3d.shape)  # (16, 32, 32)
 
-#################################################################
+##-------------------------------------------------------------##
 ## 8. gaussian_gradient_magnitude / gaussian_laplace / laplace ##
-#################################################################
+##-------------------------------------------------------------##
 '''
 ndi.gaussian_gradient_magnitude(input, sigma, output=None, mode='reflect',
                                  cval=0.0, extra_keywords=None)
@@ -484,9 +484,9 @@ print(f"Gaussian Laplace std:{ndi.gaussian_laplace(img, sigma=1.0).std():.4f}") 
 lap_3d = ndi.laplace(img3d)
 gl_3d  = ndi.gaussian_laplace(img3d, sigma=1.5)
 
-###########################################
+##---------------------------------------##
 ## 9. generic_filter / vectorized_filter ##
-###########################################
+##---------------------------------------##
 '''
 ndi.generic_filter(input, function, size=None, footprint=None, output=None,
                    mode='reflect', cval=0.0, origin=0, extra_arguments=(),
@@ -540,9 +540,9 @@ local_rng_vec = ndi.vectorized_filter(img[:16, :16], vec_local_range, size=5)
 print(np.allclose(local_rng, local_rng_vec, atol=1e-10))  # True — same result, faster
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #═══════════════════════════════  PART B — FOURIER FILTERS  ══════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 '''
 Fourier filters operate in the frequency domain.
 Input should be the output of np.fft.fftn (i.e. the complex DFT).
@@ -559,9 +559,9 @@ These correspond to multiplying the DFT by the filter's frequency response.
 
 from scipy.fft import fftn, ifftn
 
-################################################################################
+##----------------------------------------------------------------------------##
 ## 10. fourier_gaussian / fourier_uniform / fourier_ellipsoid / fourier_shift ##
-################################################################################
+##----------------------------------------------------------------------------##
 '''
 ndi.fourier_gaussian(input, sigma, n=-1, axis=-1, output=None)
   Multiply DFT by a Gaussian in frequency domain.
@@ -617,9 +617,9 @@ print(f"Fourier vs spatial shift max diff: {np.abs(img_fshift - img_sshift).max(
 # Fourier shift avoids interpolation artefacts for large arrays
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #══════════════════════  PART C — INTERPOLATION / GEOMETRIC TRANSFORMS  ══════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 '''
 All geometric transforms use spline interpolation of the given order.
 order=0 : nearest neighbour (fast, pixelated)
@@ -640,9 +640,9 @@ checkerboard = np.zeros((8, 8))
 checkerboard[::2, ::2] = 1.
 checkerboard[1::2, 1::2] = 1.
 
-##############
+##----------##
 ## 11. zoom ##
-##############
+##----------##
 '''
 ndi.zoom(input, zoom, output=None, order=3, mode='reflect', cval=0.0,
          prefilter=True, grid_mode=False)
@@ -689,9 +689,9 @@ img_zoom_lin  = ndi.zoom(checkerboard, 4.0, order=1)  # linear
 img_zoom_cub  = ndi.zoom(checkerboard, 4.0, order=3)  # cubic
 print(img_zoom_nn.shape)   # (32, 32)
 
-################
+##------------##
 ## 12. rotate ##
-################
+##------------##
 '''
 ndi.rotate(input, angle, axes=(1, 0), reshape=True, output=None, order=3,
            mode='constant', cval=0.0, prefilter=True)
@@ -724,9 +724,9 @@ print(f"4x90° rotation error: {np.abs(img_rot360 - img).max():.4f}")  # small (
 vol_rot = ndi.rotate(img3d, angle=30, axes=(2, 1), reshape=False)
 print(vol_rot.shape)  # (16, 32, 32)
 
-###############
+##-----------##
 ## 13. shift ##
-###############
+##-----------##
 '''
 ndi.shift(input, shift, output=None, order=3, mode='constant', cval=0.0,
           prefilter=True)
@@ -762,9 +762,9 @@ print(f"Round-trip interior error: {interior_err:.4f}")  # 1.5386
 vol_shifted = ndi.shift(img3d, shift=[1.5, 0, -2.0])
 print(vol_shifted.shape)  # (16, 32, 32)
 
-##########################
+##----------------------##
 ## 14. affine_transform ##
-##########################
+##----------------------##
 '''
 ndi.affine_transform(input, matrix, offset=0.0, output_shape=None, output=None,
                      order=3, mode='constant', cval=0.0, prefilter=True)
@@ -836,9 +836,9 @@ M3 = np.eye(3)
 vol_affine = ndi.affine_transform(img3d, M3, order=1)
 print(np.allclose(vol_affine, img3d, atol=1e-10))  # True (identity)
 
-#########################
+##---------------------##
 ## 15. map_coordinates ##
-#########################
+##---------------------##
 '''
 ndi.map_coordinates(input, coordinates, output=None, order=3, mode='reflect',
                     cval=0.0, prefilter=True)
@@ -898,9 +898,9 @@ yy_slab, xx_slab = np.mgrid[0:ny, 0:nx]
 slab = ndi.map_coordinates(img3d, [zz_slab, yy_slab, xx_slab])
 print(slab.shape)   # (32, 32) — one slice
 
-#############################
+##-------------------------##
 ## 16. geometric_transform ##
-#############################
+##-------------------------##
 '''
 ndi.geometric_transform(input, mapping, output_shape=None, output=None,
                         order=3, mode='constant', cval=0.0, prefilter=True,
@@ -951,9 +951,9 @@ img_swirl = ndi.geometric_transform(img_small, swirl_mapping,
                                      extra_keywords={'strength': 3.0, 'radius': 6.0})
 print(img_swirl.shape)  # (16, 16)
 
-#######################
+##-------------------##
 ## 17. spline_filter ##
-#######################
+##-------------------##
 '''
 ndi.spline_filter(input, order=3, output=np.float64, mode='mirror')
 ndi.spline_filter1d(input, order=3, axis=-1, output=np.float64, mode='mirror')
@@ -994,9 +994,9 @@ coeffs_row = ndi.spline_filter1d(img, order=3, axis=0, mode='mirror')
 coeffs_both = ndi.spline_filter1d(coeffs_row, order=3, axis=1, mode='mirror')
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════════  PART D — MEASUREMENTS  ════════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 '''
 Measurement functions operate on labelled arrays (where each labelled region
 corresponds to a "feature" or "object").
@@ -1013,9 +1013,9 @@ Most functions return a scalar when index is a single value, or a list when
 index is a list.
 '''
 
-##############################
+##--------------------------##
 ## 18. label / find_objects ##
-##############################
+##--------------------------##
 '''
 ndi.label(input, structure=None, output=None) -> (labeled_array, num_features)
 
@@ -1074,9 +1074,9 @@ vol_bin = img3d > 0.5
 labeled_3d, n_3d = ndi.label(vol_bin)
 print(f"3-D components: {n_3d}") # 960
 
-##########################################################################################
+##--------------------------------------------------------------------------------------##
 ## 19. sum_labels / mean / median / variance / standard_deviation / extrema / histogram ##
-##########################################################################################
+##--------------------------------------------------------------------------------------##
 '''
 Reduction functions over labelled regions.
 
@@ -1126,9 +1126,9 @@ print(f"Histogram bins (label 2): {hists[1]}") # [ 6  3  3  3 10]
 n_pix_1 = (labels_arr == 1).sum()  # 5×5 = 25 pixels in label 1
 print(np.isclose(sums[0], means[0] * n_pix_1))  # True
 
-##############################################################
+##----------------------------------------------------------##
 ## 20. center_of_mass / maximum_position / minimum_position ##
-##############################################################
+##----------------------------------------------------------##
 '''
 ndi.center_of_mass(input, labels=None, index=None)
   Compute the weighted centre of mass of the array, using input values as weights.
@@ -1165,9 +1165,9 @@ overall_max_pos = ndi.maximum_position(vals_arr)
 print(f"Global maximum at: {overall_max_pos}") # Global maximum at: (np.int64(4), np.int64(3))
 print(np.allclose(vals_arr[overall_max_pos], vals_arr.max()))  # True
 
-###############################################
+##-------------------------------------------##
 ## 21. labeled_comprehension / value_indices ##
-###############################################
+##-------------------------------------------##
 '''
 ndi.labeled_comprehension(input, labels, index, func, out_dtype, default=None,
                           pass_positions=False)
@@ -1226,9 +1226,9 @@ print(f"Labels found: {list(vi.keys())}")   # [1, 2]
 print(f"Label 1 pixel count: {len(vi[1][0])}")  # 25 (5×5 block)
 # Equivalent to: np.where(labels_arr == 1) but returns dict over all values at once
 
-#######################
+##-------------------##
 ## 22. watershed_ift ##
-#######################
+##-------------------##
 '''
 ndi.watershed_ift(input, markers, structure=None, output=None)
 
@@ -1267,9 +1267,9 @@ print(f"Watershed labels: {np.unique(ws_result)}")   # [1 2]
 # Label 1 covers blob 1, label 2 covers blob 2 (and background split between them)
 
 
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 #════════════════════════════════  PART E — MORPHOLOGY  ══════════════════════════════════════════#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
 '''
 Binary morphology operates on boolean arrays.
 Greyscale morphology operates on float arrays.
@@ -1285,9 +1285,9 @@ generate_binary_structure(rank, connectivity):
                 3 = all neighbours in 3-D (26-connected).
 '''
 
-#######################################################
+##---------------------------------------------------##
 ## 23. generate_binary_structure / iterate_structure ##
-#######################################################
+##---------------------------------------------------##
 '''
 ndi.generate_binary_structure(rank, connectivity)
 
@@ -1342,9 +1342,9 @@ cross_3d = ndi.generate_binary_structure(rank=3, connectivity=1)   # 6-connected
 cube_3d  = ndi.generate_binary_structure(rank=3, connectivity=3)   # 26-connected all
 print(f"3-D cross shape: {cross_3d.shape}") # (3,3,3)
 
-############################################################################
+##------------------------------------------------------------------------##
 ## 24. binary_erosion / binary_dilation / binary_opening / binary_closing ##
-############################################################################
+##------------------------------------------------------------------------##
 '''
 ndi.binary_erosion(input, structure=None, iterations=1, mask=None, output=None,
                    border_value=0, origin=0, brute_force=False)
@@ -1407,9 +1407,9 @@ vol_dilated = ndi.binary_dilation(vol_bin_small)
 print(f"3-D erosion: {vol_eroded.sum()} -> dilated: {vol_dilated.sum()}")
 # 3-D erosion: 8 -> dilated: 2022
 
-#####################################################################
+##-----------------------------------------------------------------##
 ## 25. binary_fill_holes / binary_hit_or_miss / binary_propagation ##
-#####################################################################
+##-----------------------------------------------------------------##
 '''
 ndi.binary_fill_holes(input, structure=None, output=None, origin=0)
   Fill all holes (enclosed background regions) in a binary image.
@@ -1453,9 +1453,9 @@ propagated = ndi.binary_propagation(seed, mask=blob, structure=cross)
 # Should fill all of blob 1 that is 4-connected to (5,5)
 print(f"Propagated from seed: {propagated.sum()} pixels")  # 25 (entire blob 1)
 
-####################################################################
+##----------------------------------------------------------------##
 ## 26. grey_erosion / grey_dilation / grey_opening / grey_closing ##
-####################################################################
+##----------------------------------------------------------------##
 '''
 Greyscale morphological operations on float arrays.
 
@@ -1508,9 +1508,9 @@ yy, xx = np.mgrid[-2:3, -2:3]
 parabola[:] = -(xx**2 + yy**2) * 0.1   # parabolic structure
 img_erode_nf = ndi.grey_erosion(img, structure=parabola)
 
-#############################################################################
+##-------------------------------------------------------------------------##
 ## 27. morphological_gradient / morphological_laplace / white/black tophat ##
-#############################################################################
+##-------------------------------------------------------------------------##
 '''
 ndi.morphological_gradient(input, size=None, footprint=None, structure=None, ...)
   Dilation - Erosion: detects edges (similar to Sobel but morphological, nonlinear).
@@ -1559,9 +1559,9 @@ print(f"Black tophat peak: {bth.max():.3f}")   # 7.515 large at the dark spot lo
 mg_3d = ndi.morphological_gradient(img3d, size=3)
 print(mg_3d.shape) # (16, 32, 32)
 
-#################################################################################
+##-----------------------------------------------------------------------------##
 ## 28. distance_transform_edt / distance_transform_cdt / distance_transform_bf ##
-#################################################################################
+##-----------------------------------------------------------------------------##
 '''
 ndi.distance_transform_edt(input, sampling=None, return_distances=True,
                             return_indices=False, distances=None, indices=None)

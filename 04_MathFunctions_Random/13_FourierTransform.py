@@ -84,13 +84,13 @@ img = np.array([[1., 2., 3., 4.],
 spectrum_h = np.array([8.+0.j, 4.+0.j, 0.+0.j, 0.+0.j, 0.+0.j])  # one-sided (for irfft)
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------- 1. Standard FFTs ------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Standard FFTs
+# =========================================================================================
 
-##################
+##--------------##
 ## np.fft.fft() ##
-##################
+##--------------##
 '''
 np.fft.fft() computes the 1-D discrete Fourier Transform (DFT) of a sequence.
 
@@ -124,9 +124,9 @@ print(np.fft.fft(x_real, n=16).shape)
 print(np.fft.fft(x_cplx))
 # [~0.+0.j  8.+0.j  ~0.+0.j  ...]  spike only at k=1 (single positive frequency, no mirror)
 
-###################
+##---------------##
 ## np.fft.ifft() ##
-###################
+##---------------##
 '''
 np.fft.ifft() computes the 1-D inverse DFT.
 
@@ -149,9 +149,9 @@ print(np.allclose(x_rec.real, x_real))
 print(np.fft.ifft(X, norm='ortho'))
 # with ortho norm both fft and ifft are scaled by 1/√n
 
-###################
+##---------------##
 ## np.fft.fft2() ##
-###################
+##---------------##
 '''
 np.fft.fft2() computes the 2-D DFT of a 2-D array (row-wise, then column-wise).
 
@@ -182,9 +182,9 @@ IMG_padded = np.fft.fft2(img, s=(8, 8))
 print(IMG_padded.shape)
 # (8, 8)  — zero-padded to 8×8
 
-####################
+##----------------##
 ## np.fft.ifft2() ##
-####################
+##----------------##
 '''
 np.fft.ifft2() computes the 2-D inverse DFT.
 
@@ -203,9 +203,9 @@ print(img_rec.real.round(4))
 print(np.allclose(img_rec.real, img))
 # True
 
-###################
+##---------------##
 ## np.fft.fftn() ##
-###################
+##---------------##
 '''
 np.fft.fftn() computes the N-D DFT of an array.
 
@@ -229,9 +229,9 @@ print(np.allclose(VOL_2d[0], np.fft.fft2(vol[0])))
 print(np.allclose(np.fft.ifftn(VOL), vol))
 # True  (round-trip)
 
-####################
+##----------------##
 ## np.fft.ifftn() ##
-####################
+##----------------##
 '''
 np.fft.ifftn() computes the N-D inverse DFT.
 
@@ -244,13 +244,13 @@ print(np.allclose(vol_rec.real, vol))
 # True
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------------ 2. Real FFTs -----------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Real FFTs
+# =========================================================================================
 
-###################
+##---------------##
 ## np.fft.rfft() ##
-###################
+##---------------##
 '''
 np.fft.rfft() computes the 1-D DFT for real-valued input, exploiting Hermitian symmetry.
 
@@ -274,9 +274,9 @@ print(np.abs(XR).round(4))
 print(XR[1])
 # (4+0j)  — positive 1-Hz component (cosine → purely real coefficient)
 
-####################
+##----------------##
 ## np.fft.irfft() ##
-####################
+##----------------##
 '''
 np.fft.irfft() is the inverse of rfft(); reconstructs a real-valued signal.
 
@@ -299,9 +299,9 @@ print(np.allclose(x_rec_r, x_real))
 print(np.allclose(np.fft.irfft(np.fft.rfft(x_real), n=N), x_real))
 # True
 
-####################
+##----------------##
 ## np.fft.rfft2() ##
-####################
+##----------------##
 '''
 np.fft.rfft2() computes the 2-D FFT of a real array.
 
@@ -319,9 +319,9 @@ print(IMG_R.shape)
 print(np.allclose(np.fft.irfft2(IMG_R, s=img.shape), img))
 # True  (must pass original shape s to irfft2 because length is ambiguous)
 
-#####################
+##-----------------##
 ## np.fft.irfft2() ##
-#####################
+##-----------------##
 '''
 np.fft.irfft2() is the inverse of rfft2(); reconstructs a real 2-D array.
 
@@ -339,9 +339,9 @@ print(img_rec_r.round(4))
 print(np.allclose(img_rec_r, img))
 # True
 
-####################
+##----------------##
 ## np.fft.rfftn() ##
-####################
+##----------------##
 '''
 np.fft.rfftn() computes the N-D FFT for real input.
 
@@ -356,9 +356,9 @@ print(VOL_R.shape)
 print(np.allclose(np.fft.irfftn(VOL_R, s=vol.shape, axes=(0, 1, 2)), vol))
 # True
 
-#####################
+##-----------------##
 ## np.fft.irfftn() ##
-#####################
+##-----------------##
 '''
 np.fft.irfftn() is the inverse of rfftn(); reconstructs a real N-D array.
 
@@ -370,13 +370,13 @@ print(np.allclose(vol_rec_r, vol))
 # True
 
 
-#--------------------------------------------------------------------------------------------------#
-#--------------------------------------- 3. Hermitian FFTs ----------------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Hermitian FFTs
+# =========================================================================================
 
-###################
+##---------------##
 ## np.fft.hfft() ##
-###################
+##---------------##
 '''
 np.fft.hfft() computes the FFT of a signal that is Hermitian-symmetric in the time domain,
 producing a real-valued output spectrum.
@@ -413,9 +413,9 @@ print(x_from_hfft.shape)
 print(np.allclose(x_from_hfft, x_real))
 # True
 
-####################
+##----------------##
 ## np.fft.ihfft() ##
-####################
+##----------------##
 '''
 np.fft.ihfft() is the inverse of hfft().
 
@@ -447,13 +447,13 @@ print(np.allclose(img_from_hfft2, img))
 # True
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------------------- 4. Helper routines --------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Helper routines
+# =========================================================================================
 
-######################
+##------------------##
 ## np.fft.fftfreq() ##
-######################
+##------------------##
 '''
 np.fft.fftfreq() returns the DFT sample frequencies corresponding to fft/ifft output bins.
 
@@ -485,9 +485,9 @@ for f, a in zip(freqs, np.abs(X_full).round(2)):
 #  -2 Hz : 0.0
 #  -1 Hz : 4.0   ← mirror (negative frequency)
 
-#######################
+##-------------------##
 ## np.fft.rfftfreq() ##
-#######################
+##-------------------##
 '''
 np.fft.rfftfreq() returns the DFT sample frequencies for rfft/irfft output.
 
@@ -511,9 +511,9 @@ for f, a in zip(rfreqs, np.abs(XR).round(2)):
 # 3 Hz : 0.0
 # 4 Hz : 0.0
 
-#######################
+##-------------------##
 ## np.fft.fftshift() ##
-#######################
+##-------------------##
 '''
 np.fft.fftshift() shifts the zero-frequency component to the center of the array.
 
@@ -538,9 +538,9 @@ IMG_shifted = np.fft.fftshift(np.fft.fft2(img))
 print(IMG_shifted[2, 2])  # DC at center
 # (136+0j)
 
-########################
+##--------------------##
 ## np.fft.ifftshift() ##
-########################
+##--------------------##
 '''
 np.fft.ifftshift() undoes fftshift — moves the zero-frequency component back to index 0.
 
@@ -582,13 +582,13 @@ print(n_fft)
 # 1000
 
 
-#------------------------------------------------------------------------------------------------#
-#--------------------- 5. Discrete Cosine / Sine Transforms  (scipy.fft) ------------------------#
-#------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Discrete Cosine / Sine Transforms  (scipy.fft)
+# =========================================================================================
 
-#################
+##-------------##
 ## spfft.dct() ##
-#################
+##-------------##
 '''
 spfft.dct() computes the Discrete Cosine Transform (DCT) of a real sequence.
 
@@ -623,9 +623,9 @@ print(spfft.dct(x_dc, type=1).round(4))
 print((X_dct_ortho**2).round(2))
 # [162.     41.5     0.       0.45    0.       0.04    0.       0.  ]  — concentrated at low k
 
-##################
+##--------------##
 ## spfft.idct() ##
-##################
+##--------------##
 '''
 spfft.idct() computes the inverse DCT.
 
@@ -647,9 +647,9 @@ x_rec_ortho = spfft.idct(X_dct_ortho, norm='ortho')
 print(np.allclose(x_rec_ortho, x_dc))
 # True
 
-##################
+##--------------##
 ## spfft.dctn() ##
-##################
+##--------------##
 '''
 spfft.dctn() computes the N-D DCT along specified axes.
 
@@ -683,9 +683,9 @@ img_approx = spfft.idctn(DCT_block, norm='ortho')
 print(img_approx.shape)
 # (8, 8)  — reconstructed (lossy) block
 
-##########################
+##----------------------##
 ## spfft.dst() / idst() ##
-##########################
+##----------------------##
 '''
 spfft.dst() computes the Discrete Sine Transform (DST) of a real sequence.
 
@@ -713,13 +713,13 @@ print(np.allclose(spfft.idstn(DST2D, norm='ortho'), img_small))
 # True
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------- 6. Fast Hankel Transforms  (scipy.fft) ------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Fast Hankel Transforms  (scipy.fft)
+# =========================================================================================
 
-#################
+##-------------##
 ## spfft.fht() ##
-#################
+##-------------##
 '''
 spfft.fht() computes the Fast Hankel Transform (FHT) via logarithmic convolution.
 
@@ -764,9 +764,9 @@ k = k[::-1]
 print(A[:5].round(6))
 # small values (edge of transform); center bins approximate exp(-k^2/2)
 
-##################
+##--------------##
 ## spfft.ifht() ##
-##################
+##--------------##
 '''
 spfft.ifht() is the inverse Fast Hankel Transform.
 
@@ -779,9 +779,9 @@ a_rec = spfft.ifht(A, dln, mu)
 print(np.allclose(a_rec, a, atol=1e-6))
 # True  (round-trip recovery)
 
-#######################
+##-------------------##
 ## spfft.fhtoffset() ##
-#######################
+##-------------------##
 '''
 spfft.fhtoffset() returns the optimal offset for a Fast Hankel Transform.
 
@@ -803,13 +803,13 @@ for order in [0.0, 0.5, 1.0]:
 # mu=1.0  offset=0.015378
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------- 7. Workers & backend control  (scipy.fft) -----------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Workers & backend control  (scipy.fft)
+# =========================================================================================
 
-#########################
+##---------------------##
 ## spfft.set_workers() ##
-#########################
+##---------------------##
 '''
 spfft.set_workers() is a context manager that sets the default number of parallel workers
 used internally by scipy.fft transforms.
@@ -835,9 +835,9 @@ with spfft.set_workers(-1):
 print(spfft.get_workers())
 # 1  (restored to default after the context block)
 
-#########################
+##---------------------##
 ## spfft.set_backend() ##
-#########################
+##---------------------##
 '''
 spfft.set_backend() is a context manager that sets a custom FFT backend (e.g. PyFFTW).
 

@@ -26,9 +26,9 @@ pd.set_option("display.width", 200)
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-#######################
+##-------------------##
 ## Datar preparation ##
-#######################
+##-------------------##
 
 df_baseball = pd.read_csv(
     filepath_or_buffer=data_dir/"baseball.csv",
@@ -45,13 +45,13 @@ print(df_baseball >> dr.slice_head(4))
 # 3     Kevin_Millar        BAL      72     210
 
 
-# ---------------------------------------------------------------------------------------------------------------#
-# -------------------------------------------- 1. register_verb() -----------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------#
+#
+# -------------------------------------------- 1. register_verb()
+#
 
-###################################################
+##-----------------------------------------------##
 ## register_verb() to change some conflict names ##
-###################################################
+##-----------------------------------------------##
 
 dr.filter = register_verb(func=dr.filter_)
 
@@ -71,13 +71,13 @@ print(df_baseball >> dr.filter((f.Height > 75) & (f.Weight <= 200)) >> dr.slice_
 # 57  Mike_MacDougal        CWS      76     195
 
 
-# ---------------------------------------------------------------------------------------------------------------#
-# -------------------------------------------- 2. register_func() -----------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------#
+#
+# -------------------------------------------- 2. register_func()
+#
 
-###################################################
+##-----------------------------------------------##
 ## Register a single function for other packages ##
-###################################################
+##-----------------------------------------------##
 
 from scipy import stats
 
@@ -98,9 +98,9 @@ print(
 # W-statistic    9.805285e-01    9.887039e-01
 # p_value        2.075369e-10    4.815328e-07
 
-##############################################
+##------------------------------------------##
 ## NumPy functions NO NEED TO BE REGISTERED ##
-##############################################
+##------------------------------------------##
 
 import numpy as np
 
@@ -118,9 +118,9 @@ print(
 # Q2              74.0             200.0
 # Q3              75.0             215.0
 
-#######################################################################
+##-------------------------------------------------------------------##
 ## Use np.apply_along_axis() for functions like scipy.stats.shapiro  ##
-#######################################################################
+##-------------------------------------------------------------------##
 
 import numpy as np
 from scipy import stats
@@ -139,13 +139,13 @@ print(
 # p_value        2.075369e-10    2.075369e-10
 
 
-# ---------------------------------------------------------------------------------------------------------------#
-# ---------------------------------------------- 3. dr.pipe() ---------------------------------------------------#
-# ---------------------------------------------------------------------------------------------------------------#
+#
+# ---------------------------------------------- 3. dr.pipe()
+#
 
-##################################################
+##----------------------------------------------##
 ## dr.pipe() to apply custom functions directly ##
-##################################################
+##----------------------------------------------##
 
 print(
     df_baseball
@@ -162,9 +162,9 @@ print(
 # 42    Ryan_Sweeney        CWS      76     200
 # 57  Mike_MacDougal        CWS      76     195
 
-###########################################
+##---------------------------------------##
 ## dr.pipe() with user-defined functions ##
-###########################################
+##---------------------------------------##
 
 def bmi_calculate(df):
     bmi = df.Weight / (df.Height**2) * 703
@@ -182,9 +182,9 @@ print(
 # 2  Ramon_Hernandez        BAL      72     210  28.478009
 # 3     Kevin_Millar        BAL      72     210  28.478009
 
-##########################################
+##--------------------------------------##
 ## dr.pipe() with scipy.stats functions ##
-##########################################
+##--------------------------------------##
 
 """
 The cumulative distribution function (CDF) takes a value and returns the probability
@@ -196,7 +196,7 @@ takes a probability and returns the corresponding value whose CDF equals that pr
 In short: CDF input is a value and output is a probability in;
 PPF input is a probability in and output is a value on the distribution's scale.
 
-########################
+##--------------------##
 
 In this example,  for the sake of reframing demonstration,
 we will calculate the PPF values for the 25th, 50th, 75th, and 100th percentiles,
@@ -230,18 +230,18 @@ print(
 # ppf_100th          inf           inf
 
 
-# -------------------------------------------------------------------------------------------------------------------#
-# --------------------------------------- 4. Set __ast_fallback="normal" --------------------------------------------#
-# -------------------------------------------------------------------------------------------------------------------#
+#
+# --------------------------------------- 4. Set __ast_fallback="normal"
+#
 """
 While using Pipe Operator ">>", you might encounter PipeableCallCheckWarning for some complex expressions.
 
 To avoid this warning, you can set the argument __ast_fallback="normal" in the function called.
 """
 
-####################################
+##--------------------------------##
 ## Cause PipeableCallCheckWarning ##
-####################################
+##--------------------------------##
 
 print(df_baseball >> dr.mutate(Team=dr.as_factor(f.Team)) >> dr.slice_head(4))
 # /home/longdpt/miniconda3/envs/data/lib/python3.12/site-packages/pipda/utils.py:82: PipeableCallCheckWarning: Failed to detect AST node calling `as_factor`, assuming a normal call.
@@ -253,9 +253,9 @@ print(df_baseball >> dr.mutate(Team=dr.as_factor(f.Team)) >> dr.slice_head(4))
 # 2  Ramon_Hernandez        BAL      72     210
 # 3     Kevin_Millar        BAL      72     210
 
-#############################################
+##-----------------------------------------##
 ## Set __ast_fallback="normal" to avoid it ##
-#############################################
+##-----------------------------------------##
 
 print(
     df_baseball

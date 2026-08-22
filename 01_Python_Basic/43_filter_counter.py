@@ -15,9 +15,9 @@
 '''
 
 
-#--------------------------------------------------------------------------------------------------#
-#--------------------------------------- 1. filter() function -------------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 1. filter() function
+# ==============================================================================================
 '''
 The filter() function is one of Python's most powerful built-in functions for data filtering and manipulation.
 
@@ -29,9 +29,9 @@ Like map(), filter() returns an iterator,
 so you need to convert it to a list or another iterable type to see the materialized results.
 '''
 
-####################################
+##--------------------------------##
 ## Basic use with normal function ##
-####################################
+##--------------------------------##
 
 numbers = [1, 5.2, 3, 7.9, 2.8, 10, 15.6]
 
@@ -44,9 +44,9 @@ print(filter_object) # <filter object at 0x7f7014402bc0>
 int_numbers = list(filter_object) # Convert filter object to list
 print(int_numbers) # [1, 3, 10]
 
-####################################
+##--------------------------------##
 ## Basic use with lambda function ##
-####################################
+##--------------------------------##
 
 angels = ["Lilith", "ADAM", "Sachiel", "SHAMSHEL", "Ramiel", "GAGHIEL", "Israfel", "SANDALPHON"]
 
@@ -58,9 +58,9 @@ print(angels_upper) # ['ADAM', 'SHAMSHEL', 'GAGHIEL', 'SANDALPHON']
 angels_short = list(filter(lambda angel: len(angel) <= 6, angels))
 print(angels_short) # ['Lilith', 'ADAM', 'Ramiel']
 
-################################
+##----------------------------##
 ## Filter with "not" operator ##
-################################
+##----------------------------##
 
 samurais = ["Musashi", "Kojiro", "Hattori", "Yagyu", "Miyamoto"]
 
@@ -68,9 +68,9 @@ samurais = ["Musashi", "Kojiro", "Hattori", "Yagyu", "Miyamoto"]
 samurais_without_o = list(filter(lambda samurai: "o" not in samurai, samurais))
 print(samurais_without_o) # ['Musashi', 'Yagyu']
 
-####################################
+##--------------------------------##
 ##    Using filter() with None    ##
-####################################
+##--------------------------------##
 '''
 When you pass None as the function argument,
 filter() removes all "falsy" values (0, empty strings '', empty iterables [] () {}, False, None, etc.)
@@ -81,9 +81,9 @@ clean_data = list(filter(None, mixed_data))
 
 print(clean_data) # [1, 'data', True, [1, 2]]
 
-####################
+##----------------##
 ## Other examples ##
-####################
+##----------------##
 
 # Filter sales data above threshold
 sales_data = [150, 250, 300, 125, 450, 200, 380]
@@ -101,9 +101,9 @@ company_emails = list(filter(lambda email: '@company.com' in email, emails))
 print(company_emails)  # Output: ['john@company.com', 'bob@company.com']
 
 
-#--------------------------------------------------------------------------------------------------#
-#-------------------- 2. collections.Counter (from collections import Counter) --------------------#
-#--------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# 2. collections.Counter (from collections import Counter)
+# ==============================================================================================
 '''
 The Counter class from the collections module is a specialized dictionary subclass designed for
 counting hashable objects. It's incredibly useful for frequency analysis and tallying operations.
@@ -119,9 +119,9 @@ making it the go-to tool for counting operations in Python.
 
 from collections import Counter
 
-##################################
+##------------------------------##
 ## Basic use with lists/strings ##
-##################################
+##------------------------------##
 
 # Count characters in a string
 text = "mississippi"
@@ -139,9 +139,9 @@ print(fruit_count["grape"])  # 0 (returns 0 for missing elements, not KeyError!)
 
 '''char_count and fruit_count are Counter objects, which behave like dictionaries.'''
 
-###########################
+##-----------------------##
 ## .most_common() method ##
-###########################
+##-----------------------##
 
 # Get the n most common elements
 chars = [1, 1, 1, 2, 2, 3, 3, 3, 3, 4, 5, 5]
@@ -155,7 +155,7 @@ print(all_sorted)  # [(3, 4), (1, 3), (2, 2), (5, 2), (4, 1)]
 top_3 = num_counter.most_common(3)
 print(top_3)  # [(3, 4), (1, 3), (2, 2)] - returns list of (element, count) tuples
 
-########
+##----##
 
 chars = "aabbccddeeefffggghhhiii"
 char_counter = Counter(chars)
@@ -166,9 +166,9 @@ print(char_counter.most_common())
 print(char_counter.most_common(2))
 # [('e', 3), ('f', 3)]
 
-###################################
+##-------------------------------##
 ## Counter arithmetic operations ##
-###################################
+##-------------------------------##
 
 # You can add, subtract, and perform set operations with Counters
 counter1 = Counter(['a', 'b', 'c', 'a', 'b', 'b'])
@@ -195,9 +195,9 @@ print(intersection)  # Counter({'a': 1, 'b': 1})
 union = counter1 | counter2
 print(union)  # Counter({'b': 3, 'a': 2, 'd': 2, 'c': 1})
 
-########################
+##--------------------##
 ## .elements() method ##
-########################
+##--------------------##
 
 # Returns an iterator over elements, repeating each as many times as its count
 c = Counter(a=3, b=2, c=1)
@@ -207,9 +207,9 @@ print(list(c.elements()))  # ['a', 'a', 'a', 'b', 'b', 'c']
 c2 = Counter(a=2, b=0, c=-1)
 print(list(c2.elements()))  # ['a', 'a']
 
-#######################################
+##-----------------------------------##
 ## .update() and .subtract() methods ##
-#######################################
+##-----------------------------------##
 
 # update() adds counts (like += but in-place)
 counter = Counter(['a', 'b', 'c'])
@@ -220,9 +220,9 @@ print(counter)  # Counter({'a': 2, 'b': 2, 'c': 1, 'd': 1})
 counter.subtract(['a', 'b', 'b'])
 print(counter)  # Counter({'a': 1, 'c': 1, 'd': 1, 'b': 0})
 
-####################
+##----------------##
 ## Other examples ##
-####################
+##----------------##
 
 # Word frequency analysis
 sentence = "the quick brown fox jumps over the lazy dog the fox"

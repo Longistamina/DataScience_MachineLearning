@@ -31,9 +31,9 @@ import numpy as np
 import polars as pl
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 1. From a dictionary of Series ----------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. From a dictionary of Series
+# =========================================================================================
 '''
 In pandas, Series can have custom indexes and DataFrame construction aligns by index labels.
 In Polars, Series do not have custom index labels, so all columns must have the same length.
@@ -41,9 +41,9 @@ In Polars, Series do not have custom index labels, so all columns must have the 
 If you need pandas-like index alignment, keep the labels as a normal column and join on that column.
 '''
 
-##################
+##--------------##
 ## Step-by-step ##
-##################
+##--------------##
 
 s_one = pl.Series("one", [1.0, 2.0, 3.0, None])
 s_two = pl.Series("two", [1.0, 2.0, 3.0, 4.0])
@@ -68,9 +68,9 @@ print(df)
 # └──────┴─────┘
 '''Here, the dictionary keys become the column names.'''
 
-#################################################
+##---------------------------------------------##
 ## With explicit row labels as a normal column ##
-#################################################
+##---------------------------------------------##
 '''
 Polars has no index= argument. If you want labels like pandas index labels,
 put those labels in a normal column.
@@ -97,9 +97,9 @@ print(df)
 # │ d        ┆ null ┆ 4.0 │
 # └──────────┴──────┴─────┘
 
-######################################
+##----------------------------------##
 ## Emulating pandas index alignment ##
-######################################
+##----------------------------------##
 '''
 Pandas aligns Series by index labels automatically.
 Polars does not. To align by labels, use a key column and joins.
@@ -141,13 +141,13 @@ print(df_aligned)
 # └──────────┴──────┴─────┘
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#--------------------------------- 2. From a dictionary of lists or ndarrays ---------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. From a dictionary of lists or ndarrays
+# =========================================================================================
 
-################
+##------------##
 ## from lists ##
-################
+##------------##
 '''
 This is the most common and usually most efficient way to create a Polars DataFrame.
 Each dictionary key becomes a column name, and each list becomes a column.
@@ -175,9 +175,9 @@ print(df)
 # │ 7        ┆ 8.0      ┆ d        │
 # └──────────┴──────────┴──────────┘
 
-###################
+##---------------##
 ## from ndarrays ##
-###################
+##---------------##
 
 df = pl.DataFrame(
     data={
@@ -199,9 +199,9 @@ print(df)
 # │ 6.8      ┆ 1.2      │
 # └──────────┴──────────┘
 
-##################
+##--------------##
 ## Advanced way ##
-##################
+##--------------##
 
 df_score = pl.DataFrame(
     data={
@@ -226,9 +226,9 @@ print(df_score)
 # │ Susan ┆ English ┆ 89    │
 # └───────┴─────────┴───────┘
 
-#####################
+##-----------------##
 ## Explicit schema ##
-#####################
+##-----------------##
 '''
 Use schema= to control column names and dtypes.
 A schema can be a dict: {"name": dtype}, or a list of (name, dtype) pairs.
@@ -256,9 +256,9 @@ print(df_typed)
 # │ Susan ┆ 92    │
 # └───────┴───────┘
 
-#################################
+##-----------------------------##
 ## strict=False for soft casts ##
-#################################
+##-----------------------------##
 '''
 By default, strict=True. If a value does not match the target dtype, Polars raises an error.
 With strict=False, Polars tries to cast values. Values that cannot be cast become null.
@@ -289,13 +289,13 @@ print(df_loose)
 # └─────┴───────┘
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 3. From 2D-List or 2D-Array -----------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. From 2D-List or 2D-Array
+# =========================================================================================
 
-##################
+##--------------##
 ## from 2D-List ##
-##################
+##--------------##
 '''
 In pandas, you pass columns= for column names.
 In Polars, pass schema= for column names and orient="row" when each inner list is a row.
@@ -325,9 +325,9 @@ print(df_2d_list)
 # │ row_4    ┆ 7        ┆ 8.0      ┆ d        │
 # └──────────┴──────────┴──────────┴──────────┘
 
-###################
+##---------------##
 ## from 2D-Array ##
-###################
+##---------------##
 '''
 NumPy arrays usually have one dtype for the whole array.
 For mixed numeric/string data, a list of rows or list of dictionaries is often clearer.
@@ -361,9 +361,9 @@ print(df_2d_array)
 # │ 6.8   ┆ 8.0   │
 # └───────┴───────┘
 
-########################################
+##------------------------------------##
 ## from 2D-Array with pl.from_numpy() ##
-########################################
+##------------------------------------##
 
 df_from_numpy = pl.from_numpy(
     data=array_2d,
@@ -375,9 +375,9 @@ print(df_from_numpy)
 # Same result as df_2d_array.
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#--------------------------------- 4. From a structured or record array --------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. From a structured or record array
+# =========================================================================================
 '''
 Structured arrays contain named fields.
 A very explicit and reliable Polars pattern is to build a dictionary of columns from those fields.
@@ -414,9 +414,9 @@ print(df)
 # │ 2   ┆ 3.0 ┆ World │
 # └─────┴─────┴───────┘
 
-#####################
+##-----------------##
 ## With row labels ##
-#####################
+##-----------------##
 '''
 Polars has no index= argument, so row labels should be stored as a normal column.
 '''
@@ -440,9 +440,9 @@ print(df)
 # └──────────┴─────┴─────┴───────┘
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 5. From a list of dictionaries ----------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. From a list of dictionaries
+# =========================================================================================
 '''
 A list of dictionaries is row-oriented: each dictionary represents one row.
 Missing keys become null values.
@@ -450,9 +450,9 @@ Missing keys become null values.
 This is common when data comes from JSON, APIs, or manually-created row records.
 '''
 
-##################
+##--------------##
 ## Step-by-step ##
-##################
+##--------------##
 
 list_of_dicts = [
     {"a": 1, "b": 2},
@@ -471,9 +471,9 @@ print(df)
 # │ 5   ┆ 10  ┆ 20   │
 # └─────┴─────┴──────┘
 
-#####################
+##-----------------##
 ## With row labels ##
-#####################
+##-----------------##
 
 df = pl.DataFrame(
     data=[
@@ -493,9 +493,9 @@ print(df)
 # │ row_2    ┆ 5.0 ┆ 10.0 ┆ 20   │
 # └──────────┴─────┴──────┴──────┘
 
-#####################
+##-----------------##
 ## pl.from_dicts() ##
-#####################
+##-----------------##
 '''
 pl.from_dicts() is the explicit constructor for a sequence/list of row dictionaries.
 You can pass a schema to control dtypes or load only selected columns.
@@ -517,9 +517,9 @@ print(df)
 # │ 5.0 ┆ 10  ┆ 20   │
 # └─────┴─────┴──────┘
 
-##########################################
+##--------------------------------------##
 ## Partial schema: select loaded fields ##
-##########################################
+##--------------------------------------##
 '''
 For list-of-dictionaries input, a partial schema can be used to load only selected fields.
 Here, column c is omitted from the result.
@@ -542,9 +542,9 @@ print(df_partial)
 # └─────┴─────┘
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------ 6. From a dictionary of tuples / MultiIndex-like data ------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. From a dictionary of tuples / MultiIndex-like data
+# =========================================================================================
 '''
 Pandas can create MultiIndex rows/columns from dictionaries with tuple keys.
 Polars does NOT have MultiIndex.
@@ -555,9 +555,9 @@ Polars alternatives:
 3. Use Struct columns if you want nested groups of fields.
 '''
 
-###############################################
+##-------------------------------------------##
 ## Flatten MultiIndex-like data into columns ##
-###############################################
+##-------------------------------------------##
 
 multi_like_rows = [
     {
@@ -606,9 +606,9 @@ print(df_flat)
 # │ A       ┆ D       ┆ null ┆ null ┆ null ┆ null ┆ 9.0  │
 # └─────────┴─────────┴──────┴──────┴──────┴──────┴──────┘
 
-#########################
+##---------------------##
 ## Use Struct columns  ##
-#########################
+##---------------------##
 '''
 A Struct column groups multiple fields into one nested column.
 This is often the closest Polars idea to grouped columns, but it is NOT a MultiIndex.
@@ -636,15 +636,15 @@ print(df_struct)
 # └─────────┴─────────┴──────────────────┴──────────────┘
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 7. From a list of namedtuples -----------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. From a list of namedtuples
+# =========================================================================================
 
 from collections import namedtuple
 
-###############
+##-----------##
 ## 2D points ##
-###############
+##-----------##
 
 point_2d = namedtuple("Point", "x y")
 
@@ -674,9 +674,9 @@ print(df)
 # │ 3   ┆ 6   │
 # └─────┴─────┘
 
-###############
+##-----------##
 ## 3D points ##
-###############
+##-----------##
 
 point_3d = namedtuple("Point3D", "x y z")
 
@@ -706,9 +706,9 @@ print(df)
 # │ 3   ┆ 6   ┆ 9   │
 # └─────┴─────┴─────┘
 
-#########################################
+##-------------------------------------##
 ## Namedtuples as dictionaries instead ##
-#########################################
+##-------------------------------------##
 '''Another clear approach is to convert namedtuples to dictionaries and use pl.from_dicts().'''
 
 df = pl.from_dicts([p._asdict() for p in points_2d])
@@ -716,9 +716,9 @@ print(df)
 # Same 2D points result.
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 8. From a list of dataclasses ----------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. From a list of dataclasses
+# =========================================================================================
 
 from dataclasses import asdict, make_dataclass
 
@@ -751,9 +751,9 @@ print(df)
 # │ 2   ┆ 2   │
 # └─────┴─────┘
 
-#########################################
+##-------------------------------------##
 ## Dataclass list with explicit schema ##
-#########################################
+##-------------------------------------##
 
 student_dc = make_dataclass(
     "StudentScore",
@@ -788,13 +788,13 @@ print(df)
 # └───────┴─────────┴───────┘
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 9. Other constructors -----------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. Other constructors
+# =========================================================================================
 
-####################
+##----------------##
 ## pl.from_dict() ##
-####################
+##----------------##
 '''
 pl.from_dict() constructs a DataFrame from a dictionary of sequences.
 It is essentially the explicit function version of pl.DataFrame({...}).
@@ -815,9 +815,9 @@ print(df)
 # │ 3   ┆ 6   │
 # └─────┴─────┘
 
-################################################
+##--------------------------------------------##
 ## pandas orient="index" equivalent in Polars ##
-################################################
+##--------------------------------------------##
 '''
 Pandas DataFrame.from_dict(..., orient="index") uses dictionary keys as row indexes.
 Polars has no row index, so keep those keys in a normal column.
@@ -843,9 +843,9 @@ print(df)
 # │ B        ┆ 4   ┆ 5   ┆ 6     │
 # └──────────┴─────┴─────┴───────┘
 
-#####################
+##-----------------##
 ## pl.from_dicts() ##
-#####################
+##-----------------##
 '''pl.from_dicts() is for a sequence of dictionaries, where each dictionary is a row.'''
 
 df = pl.from_dicts(
@@ -867,9 +867,9 @@ print(df)
 # │ 3   ┆ 6   │
 # └─────┴─────┘
 
-#######################
+##-------------------##
 ## pl.from_records() ##
-#######################
+##-------------------##
 '''
 pl.from_records() constructs a DataFrame from a sequence of sequences.
 Use orient="row" when each tuple/list is one row.
@@ -897,9 +897,9 @@ print(df)
 # │ 2   ┆ 3.0 ┆ World │
 # └─────┴─────┴───────┘
 
-#######################################
+##-----------------------------------##
 ## pl.from_records() with row labels ##
-#######################################
+##-----------------------------------##
 '''
 Equivalent to pandas from_records(..., index=[...]):
 store the labels in a normal column.
@@ -925,9 +925,9 @@ print(df)
 # │ second   ┆ 2   ┆ 3.0 ┆ World │
 # └──────────┴─────┴─────┴───────┘
 
-###########################################
+##---------------------------------------##
 ## pandas index="C" equivalent in Polars ##
-###########################################
+##---------------------------------------##
 '''
 Pandas can use a column as the index.
 In Polars, keep that field as a normal column; optionally move it to the front.
@@ -945,9 +945,9 @@ print(df_c_first)
 # │ World ┆ 2   ┆ 3.0 │
 # └───────┴─────┴─────┘
 
-#####################
+##-----------------##
 ## pl.from_numpy() ##
-#####################
+##-----------------##
 '''
 pl.from_numpy() is the explicit constructor for NumPy ndarrays.
 It is slower than creating from columnar memory, but useful when data already exists as an ndarray.
@@ -979,9 +979,9 @@ print(df)
 # │ 3   ┆ 6   │
 # └─────┴─────┘
 
-#####################
+##-----------------##
 ## Empty DataFrame ##
-#####################
+##-----------------##
 '''
 You can create an empty DataFrame with a predefined schema.
 This is useful when you want to append/concatenate later or define a contract.
@@ -1004,9 +1004,9 @@ print(df_empty)
 # ╞══════╪═══════╪════════╡
 # └──────┴───────┴────────┘
 
-########################
+##--------------------##
 ## LazyFrame creation ##
-########################
+##--------------------##
 '''
 Polars also has LazyFrame for lazy query execution.
 Use .collect() to materialize the result as a DataFrame.

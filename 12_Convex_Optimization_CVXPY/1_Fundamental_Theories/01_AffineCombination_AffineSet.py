@@ -1,7 +1,7 @@
 '''
-#--------------------------------------------------------------#
-#-------------------- Affine Combination ----------------------#
-#--------------------------------------------------------------#
+# =========================================================================================
+# Affine Combination
+# =========================================================================================
 
 An affine combination of vectors x₁, x₂, ..., xₙ is a linear combination
 
@@ -21,9 +21,9 @@ For points v₁ and v₂:
 
 Another example: v = 2 v₁ - v₂, since 2 + (-1) = 1.
 
-#-------------------------------------------#
-#--------------- Affine Set ----------------#
-#-------------------------------------------#
+# =========================================================================================
+# Affine Set
+# =========================================================================================
 
 An affine set is a subset of a vector space that contains every affine combination of its points. 
 Specifically, a set A is affine if, for any finite collection of points x₁, x₂, ..., xₙ 
@@ -38,7 +38,7 @@ the point x formed by the affine combination
 also lies in A.
 
 
-####### Example: prove a set is an affine set
+##---## Example: prove a set is an affine set
         
         The set C = { (x, y) ∈ ℝ² | y = 2x + 1 } is affine.
 Proof:
@@ -52,7 +52,7 @@ p = θ p₁ + (1 - θ) p₂
 
 Thus, p ∈ C, so C is affine.
 
-######## Counterexample: prove a set is not an affine set
+##----## Counterexample: prove a set is not an affine set
     
     D = { (x, y) | y = x² } is not affine.
 
@@ -66,9 +66,9 @@ For θ = 0.5,
 Hence, D is not affine.
 
 
-#----------------------------------------------------#
-#-------------------- Summary -----------------------#
-#----------------------------------------------------#
+# =========================================================================================
+# Summary
+# =========================================================================================
 
 - Affine combination: linear combination with coefficients summing to 1.
 - Affine set: closed under affine combinations (contains the entire line through any two points).

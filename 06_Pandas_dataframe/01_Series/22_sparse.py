@@ -6,7 +6,7 @@ Sparse Series are designed to efficiently store data
 where a significant portion of values are identical (typically zeros or NaN),
 offering substantial memory savings for such datasets.
 
-###############################
+##---------------------------##
 
 0. Create a Sparse Series
 
@@ -24,9 +24,9 @@ offering substantial memory savings for such datasets.
 import pandas as pd
 import numpy as np
 
-#--------------------------------------------------------------------------------------------------------#
-#----------------------------------- 0. Create a Sparse Series ------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 0. Create a Sparse Series
+# =========================================================================================
 
 s_sparse_int = pd.Series([0, 0, 1, 0, 2, 0, 0, 3], dtype="Sparse[int]")
 print(s_sparse_int)
@@ -53,17 +53,17 @@ print(s_sparse_float)
 # dtype: Sparse[float64, nan]
 
 
-#--------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 1. Attributes --------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Attributes
+# =========================================================================================
 
 s_sparse_int = pd.Series([0, 0, 1, 0, 2, 0, 0, 3], dtype="Sparse[int]")
 s_sparse_float = pd.Series([np.nan, 0.0, 1.5, np.nan, 2.5, 0.0, 0.0, 3.5], dtype="Sparse[float]")
 s_sparse_nan = pd.Series([np.nan, np.nan, 1.5, np.nan, 2.5, np.nan, np.nan, 3.5], dtype="Sparse[float]")
 
-#####################
+##-----------------##
 ## .sparse.density ##
-#####################
+##-----------------##
 '''
 Density = (Number of non-fill values) / (Total number of values)
 
@@ -82,26 +82,26 @@ NOTE: here, the s_sparse_float only treats NaN as sparse value,
 => USE ONLY ONE TYPE OF SPARSE VALUE (EITHER NaN OR 0.0)
 '''
 
-########################
+##--------------------##
 ## .sparse.fill_value ##
-########################
+##--------------------##
 '''Returns the fill value used in the sparse representation of the Series.'''
 
 print(s_sparse_int.sparse.fill_value)   # 0
 print(s_sparse_float.sparse.fill_value) # nan
 
-#####################
+##-----------------##
 ## .sparse.npoints ##
-#####################
+##-----------------##
 '''The number of non-fill values in the Series.'''
 
 print(s_sparse_int.sparse.npoints)   # 3
 print(s_sparse_float.sparse.npoints) # 6
 print(s_sparse_nan.sparse.npoints)   # 3
 
-#######################
+##-------------------##
 ## .sparse.sp_values ##
-#######################
+##-------------------##
 '''The unique non-fill values in the Series.'''
 
 print(s_sparse_int.sparse.sp_values)   # [1 2 3]
@@ -109,16 +109,16 @@ print(s_sparse_float.sparse.sp_values) # [0.  1.5 2.5 0.  0.  3.5]
 print(s_sparse_nan.sparse.sp_values)   # [1.5 2.5 3.5]
 
 
-#--------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 3. Methods ----------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Methods
+# =========================================================================================
 
 s_sparse_int = pd.Series([0, 0, 1, 0, 2, 0, 0, 3], dtype="Sparse[int]")
 s_sparse_float = pd.Series([np.nan, np.nan, 1.5, np.nan, 2.5, np.nan, np.nan, 3.5], dtype="Sparse[float]")
 
-########################
+##--------------------##
 ## .sparse.from_coo() ##
-########################
+##--------------------##
 '''Create a Series with sparse values from a scipy.sparse.coo_matrix.'''
 
 from scipy import sparse
@@ -145,9 +145,9 @@ print(sparse_series)
 1  0   3.0 => row 1, column 0 of the matrix has value 3.0
 '''
 
-#######################
+##-------------------##
 ## .sparse.to_coo()  ##
-#######################
+##-------------------##
 '''Convert a Sparse Series to a scipy.sparse.coo_matrix.'''
 
 s_sparse = pd.Series([3.0, np.nan, 1.0, 3.0, np.nan, np.nan])

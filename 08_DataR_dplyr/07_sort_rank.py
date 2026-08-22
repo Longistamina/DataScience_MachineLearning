@@ -15,7 +15,7 @@ import datar.all as dr
 from datar import f
 
 
-########################
+##--------------------##
 
 tb_raw = dr.tibble(
         name = ["Alice", "Alice", "Alice", "Bob", "Bob", "Charlie"],
@@ -35,13 +35,13 @@ print(tb_raw)
 # 5  Charlie     Math      95      23
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 1. Sorting -------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Sorting
+# =========================================================================================
 
-##################################
+##------------------------------##
 ## Ascending order dr.arrange() ##
-##################################
+##------------------------------##
 
 # Sort by one column
 print(
@@ -71,9 +71,9 @@ print(
 # 3      Bob     Math      92      22
 # 5  Charlie     Math      95      23
 
-############################################
+##----------------------------------------##
 ## Descending order dr.arrange(dr.desc()) ##
-############################################
+##----------------------------------------##
 
 # Sort by one column
 print(
@@ -103,9 +103,9 @@ print(
 # 0    Alice     Math      85      20
 # 2    Alice  Science      78      20
 
-############################################
+##----------------------------------------##
 ## Combine ascending and descending order ##
-############################################
+##----------------------------------------##
 
 print(
     tb_raw
@@ -121,13 +121,13 @@ print(
 # 5  Charlie     Math      95      23
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 2. Ranking ------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Ranking
+# =========================================================================================
 
-#####################
+##-----------------##
 ## dr.row_number() ##
-#####################
+##-----------------##
 '''
 BASIC RANKING
 
@@ -164,10 +164,8 @@ print(
 # 4      Bob  English      88      22       5.0
 # 5  Charlie     Math      95      23       6.0
 
-#------
-## highest score = 1
-#------
-
+# ## highest score = 1
+# 
 print(
     tb_raw
     >> dr.mutate(row_num = dr.row_number(dr.desc(f.score)))
@@ -181,9 +179,9 @@ print(
 # 4      Bob  English      88      22       4.0
 # 5  Charlie     Math      95      23       1.0 (highest score)
 
-###################
+##---------------##
 ## dr.min_rank() ##
-###################
+##---------------##
 '''
 Assigns the minimum rank to each row within a partition of a result set.
 Ties receive the same rank, and the next rank(s) are skipped.
@@ -215,10 +213,8 @@ print(
 # 4      Bob  English      88      22       4.0
 # 5  Charlie     Math      95      23       6.0
 
-#---
-## highest age = 1
-#---
-
+# ## highest age = 1
+# 
 print(
     tb_raw
     >> dr.mutate(min_rank = dr.min_rank(dr.desc(f.age)))
@@ -232,9 +228,9 @@ print(
 # 4      Bob  English      88      22       2.0
 # 5  Charlie     Math      95      23       1.0
 
-#####################
+##-----------------##
 ## dr.dense_rank() ##
-#####################
+##-----------------##
 '''
 Assigns ranks to rows within a partition of a result set, with no gaps in ranking values.
 Ties receive the same rank, and the next rank is the next consecutive integer.
@@ -253,10 +249,8 @@ print(
 # 4      Bob  English      88      22         2.0
 # 5  Charlie     Math      95      23         3.0
 
-#---
-## highest age = 1
-#---
-
+# ## highest age = 1
+# 
 print(
     tb_raw
     >> dr.mutate(dense_rank = dr.dense_rank(dr.desc(f.age)))
@@ -270,9 +264,9 @@ print(
 # 4      Bob  English      88      22         2.0
 # 5  Charlie     Math      95      23         1.0
 
-#######################
+##-------------------##
 ## dr.percent_rank() ##
-#######################
+##-------------------##
 '''
 Calculates the relative rank of a row within a partition of a result set as a percentage.
 The formula used is (rank - 1) / (total rows in the partition - 1).
@@ -305,10 +299,8 @@ print(
 # 4      Bob  English      88      22           0.6
 # 5  Charlie     Math      95      23           1.0
 
-#---
-## highest age = 0
-#---
-
+# ## highest age = 0
+# 
 print(
     tb_raw
     >> dr.mutate(percent_rank = dr.percent_rank(dr.desc(f.age)))

@@ -116,7 +116,7 @@ y_unif =  np.asarray(np.mat("""[0.339
 -0.551
 ]"""))[0,:]
 
-##################################################3
+##----------------------------------------------##3
 # Plotting code.
 
 # The following code plots the tensile structure with evenly distributed

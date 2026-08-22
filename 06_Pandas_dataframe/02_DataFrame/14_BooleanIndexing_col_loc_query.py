@@ -2,7 +2,7 @@
 Boolean Indexing Boolean Filtering is a powerful technique
 that allows you to filter data based on specific conditions. 
 
-###############################
+##---------------------------##
 
 1. Single Condition Examples:
    + Logic Operators: >, <, >=, <=, .between(), ==, !=
@@ -79,18 +79,16 @@ print(df_pokemon['Generation'])
 # Categories (6, object): ['1' < '2' < '3' < '4' < '5' < '6']
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#------------------------------------ 1. Single Condition Examples -------------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Single Condition Examples
+# =========================================================================================
 
-#######################################################
+##---------------------------------------------------##
 ## Logic Operators: >, <, >=, <=, .between(), ==, != ##
-#######################################################
+##---------------------------------------------------##
 
-#-------------
-## > (greater than)
-#-------------
-
+# ## > (greater than)
+# 
 print(df_pokemon[df_pokemon['HP'] > 200]) # HP greater than 200
 #         Name  Type_1 Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
 # 121  Chansey  Normal    NaN    450  250       5        5      35     105     50          1      False
@@ -104,10 +102,8 @@ print(df_pokemon[df_pokemon["Sp_Atk"] > df_pokemon["Attack"]*2]) # Sp_Atk greate
 # 71   AlakazamMega Alakazam   Psychic      NaN    590   55      50       65     175      95    150          1      False
 # 88               Magnemite  Electric    Steel    325   25      35       70      95      55     45          1      False
 
-#-------------
-## < (less than)
-#-------------
-
+# ## < (less than)
+# 
 print(df_pokemon[df_pokemon['Speed'] < 15]) # Speed less than 20
 #           Name  Type_1 Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
 # 230    Shuckle     Bug   Rock    505   20      10      230      10     230      5          2      False
@@ -129,10 +125,8 @@ print(df_pokemon[df_pokemon["Defense"] < df_pokemon["Attack"]*0.5]) # Defense le
 THE SAME FOR ">=" (greater or equal) and "<=" (less or equal)
 '''
 
-#-------------
-## .between()
-#-------------
-'''
+# ## .between()
+# '''
 inclusive = "both" (default): [left, right] or left <= x <= right
 inclusive = "neither": (left, right) or left < x < right
 inclusive = "left": [left, right) or left <= x < right
@@ -147,10 +141,8 @@ print(df_pokemon[df_pokemon['Speed'].between(5, 10)]) # Speed between 100 and 15
 # 495   Munchlax  Normal    NaN    390  135      85       40      40      85      5          4      False
 # 658  Ferroseed   Grass  Steel    305   44      50       91      24      86     10          5      False
 
-#-------------
-## == (equal)
-#-------------
-
+# ## == (equal)
+# 
 print(df_pokemon[df_pokemon['Type_1'] == 'Fire']) # Type_1 equal to 'Fire'
 #                           Name Type_1    Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
 # 4                   Charmander   Fire       NaN    309   39      52       43      60      50     65          1      False
@@ -167,10 +159,8 @@ print(df_pokemon[df_pokemon["Legendary"] == True]) # Legendary equal to True
 # 162               Mewtwo   Psychic       NaN    680  106     110       90     154      90    130          1       True
 # 163  MewtwoMega Mewtwo X   Psychic  Fighting    780  106     190      100     154     100    130          1       True
 
-#-------------
-## != (not equal)
-#-------------
-
+# ## != (not equal)
+# 
 print(df_pokemon[df_pokemon['Type_2'] != 'Flying']) # Type_2 not equal to 'Flying'
 #                       Name   Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
 # 0                Bulbasaur    Grass  Poison    318  45      49       49      65      65     45          1      False
@@ -187,9 +177,9 @@ print(df_pokemon[df_pokemon["Generation"] != '1']) # Generation not equal to '1'
 # 169            Cyndaquil     Fire    NaN    309  39      52       43      60      50     65          2      False
 # 170              Quilava     Fire    NaN    405  58      64       58      80      65     80          2      False
 
-##############################
+##--------------------------##
 ##          .isin()         ##
-##############################
+##--------------------------##
 
 print(df_pokemon[df_pokemon['Type_1'].isin(['Fire', 'Water'])]) # Type_1 in the list ['Fire', 'Water']
 #                  Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
@@ -207,9 +197,9 @@ print(df_pokemon[df_pokemon["Generation"].isin(['4', '6'])]) # Generation in the
 # 798   HoopaHoopa Unbound  Psychic      Dark    680  80     160       60     170     130     80          6       True
 # 799            Volcanion     Fire     Water    600  80     110      120     130      90     70          6       True
 
-##############################
+##--------------------------##
 ##      String Boolean      ##
-##############################
+##--------------------------##
 
 print(df_pokemon[df_pokemon['Name'].str.contains('Mega')]) # Name contains 'Mega'
 #                           Name    Type_1    Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
@@ -234,9 +224,9 @@ print(df_pokemon[df_pokemon['Name'].str.endswith('saur')]) # Name ends with 'sau
 # 2               Venusaur  Grass  Poison    525  80      82       83     100     100     80          1      False
 # 3  VenusaurMega Venusaur  Grass  Poison    625  80     100      123     122     120     80          1      False
 
-##############################
+##--------------------------##
 ##     DateTime Boolean     ##
-##############################
+##--------------------------##
 
 df_emp = pd.read_csv(
     filepath_or_buffer = data_dir/"emp.csv",
@@ -260,9 +250,9 @@ print(df_emp[df_emp['start_date'].dt.is_leap_year]) # start_date is in a leap ye
 # 0   1  Rick   623.3 2012-01-01   IT
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------- 2. Negation of Condition: ~ (tilde) operator -----------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Negation of Condition: ~ (tilde) operator
+# =========================================================================================
 
 print(df_pokemon[~(df_pokemon['Type_1'] == 'Fire')]) # Type_1 not equal to 'Fire'
 #                       Name   Type_1  Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
@@ -297,13 +287,13 @@ print(df_pokemon[~df_pokemon['Type_2'].isin(["Ground", "Ghost"])]) # Type_2 not 
 # [751 rows x 12 columns]
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------------- 3. Combine Multiple Conditions: & (and), | (or) --------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Combine Multiple Conditions: & (and), | (or)
+# =========================================================================================
 
-###########################
+##-----------------------##
 ##       & (and)         ##
-###########################
+##-----------------------##
 '''True if only all the conditions (clauses) are True.'''
 
 # Type_1 equal to 'Fire' AND Generation equal to '1'
@@ -326,9 +316,9 @@ print(df_pokemon[(df_pokemon['Type_2'] == 'Flying') & (df_pokemon['Speed'] > 100
 # 153                 Aerodactyl      Rock  Flying    515   80     105       65      60      75    130          1      False
 # 154  AerodactylMega Aerodactyl      Rock  Flying    615   80     135       85      70      95    150          1      False
 
-###########################
+##-----------------------##
 ##       | (or)          ##
-###########################
+##-----------------------##
 '''False if only all the conditions (clauses) are False.'''
 
 # HP less than 50 OR HP greater than 100
@@ -355,9 +345,9 @@ print(df_pokemon[(df_pokemon["Attack"] > df_pokemon["Defense"]) | (df_pokemon["S
 # 4             Charmander     Fire     NaN    309   39      52       43      60      50     65          1      False
 # 5             Charmeleon     Fire     NaN    405   58      64       58      80      65     80          1      False
 
-###############################
+##---------------------------##
 ##      Combine & and |      ##
-###############################
+##---------------------------##
 
 # (Type_1 equal to 'Fire' OR Type_1 equal to 'Water') AND Generation > to '4'
 print(df_pokemon[((df_pokemon['Type_1'] == 'Fire') | (df_pokemon['Type_1'] == 'Water')) & (df_pokemon['Generation'] > '4')])
@@ -370,17 +360,17 @@ print(df_pokemon[((df_pokemon['Type_1'] == 'Fire') | (df_pokemon['Type_1'] == 'W
 # 562                 Samurott  Water       NaN    528   95     100       85     108      70     70          5      False
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#--------------------- 4. Using pd.col() or c() for faster access to columns for querying --------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Using pd.col() or c() for faster access to columns for querying
+# =========================================================================================
 '''
 pd.col("column_name") or c("column_name") => faster access to columns for querying
 NOTE: for Pandas >= 3.x.x only
 '''
 
-###########################
+##-----------------------##
 ## pd.col("column_name") ##
-###########################
+##-----------------------##
 
 print(df_pokemon[(pd.col("HP") < 30) | (pd.col("HP") > 100)]) # HP less than 30 OR HP greater than 100
 #                  Name    Type_1  Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
@@ -390,9 +380,9 @@ print(df_pokemon[(pd.col("HP") < 30) | (pd.col("HP") > 100)]) # HP less than 30 
 # 68               Abra   Psychic     NaN    310   25      20       15     105      55     90          1      False
 # 88          Magnemite  Electric   Steel    325   25      35       70      95      55     45          1      False
 
-######################
+##------------------##
 ## c("column_name") ##
-######################
+##------------------##
 
 print(df_pokemon[c("Type_2").isin(["Ground", "Ghost"]) & (c("HP") > 100)]) # Type_2 in the list ['Ground', 'Ghost']
 #                       Name  Type_1  Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
@@ -405,9 +395,9 @@ print(df_pokemon[c("Type_2").isin(["Ground", "Ghost"]) & (c("HP") > 100)]) # Typ
 # 794       Zygarde50% Forme  Dragon  Ground    600  108     100      121      81      95     95          6       True
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#---------------------- 5. Using .loc[] for Boolean Filtering within specific columns ------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Using .loc[] for Boolean Filtering within specific columns
+# =========================================================================================
 
 '''df.loc[filter_conditions, columns]'''
 
@@ -430,9 +420,9 @@ print(df_pokemon.loc[~df_pokemon['Type_2'].isin(["Ground", "Ghost"]), ["Name", "
 # 799              Volcanion   Water          6
 
 
-#-------------------------------------------------------------------------------------------------------------#
-#-------------------------------- 6. Using .query() for Boolean Filtering ------------------------------------#
-#-------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Using .query() for Boolean Filtering
+# =========================================================================================
 
 '''
 df.query(expr, inplace=False, **kwargs)
@@ -445,9 +435,9 @@ If the column name has special characters => put in backticks ``: `variable name
 Can use @ to reference variables outside the DataFrame like: @variable_name.
 '''
 
-######################################
+##----------------------------------##
 ## df.query("condition_expression") ##
-######################################
+##----------------------------------##
 
 print(
     df_pokemon.query('HP > 200')
@@ -484,9 +474,9 @@ print(
 # 495           Munchlax   Normal     NaN      5          4      False
 # 658          Ferroseed    Grass   Steel     10          5      False
 
-######################################
+##----------------------------------##
 ## df.query("colname.str.method()") ##
-######################################
+##----------------------------------##
 '''Same for .dt.method() and .cat.method()'''
 
 print(
@@ -502,9 +492,9 @@ print(
 # 796        DiancieMega Diancie    Rock    Fairy    700          6       True
 # 8    CharizardMega Charizard Y    Fire   Flying    634          1      False
 
-#######################################
+##-----------------------------------##
 ## df.query("~condition_expression") ##
-#######################################
+##-----------------------------------##
 
 print(
     df_pokemon
@@ -519,9 +509,9 @@ print(
 # 79   Tentacruel     Water   Poison    515          1      False
 # 598       Throh  Fighting      NaN    465          5      False
 
-#########################
+##---------------------##
 ## Using `column name` ##
-#########################
+##---------------------##
 
 df_pkm_raw = pd.read_csv(data_dir/"pokemon.csv")
 print(df_pkm_raw.columns)
@@ -543,9 +533,9 @@ print(
 # 615  DarmanitanStandard Mode   Fire       30
 # 730              Fletchinder   Fire       56
 
-#####################
+##-----------------##
 ## Using @variable ##
-#####################
+##-----------------##
 
 atk_threshold = 180
 

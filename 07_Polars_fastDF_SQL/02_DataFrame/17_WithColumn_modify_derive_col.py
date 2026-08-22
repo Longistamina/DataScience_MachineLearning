@@ -49,13 +49,13 @@ print(lf_baseball.collect().schema)
 # Schema({'Name': String, 'Team': Categorical, 'Height': Int64, 'Weight': Int64})
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#---------------------------- 1. Polars equivalent of df["col_name"] = ... -------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Polars equivalent of df["col_name"] = ...
+# =========================================================================================
 
-#####################################
+##---------------------------------##
 ##     Modify existing columns     ##
-#####################################
+##---------------------------------##
 '''
 Pandas:
     df["Height"] = df["Height"] * 2.54
@@ -66,10 +66,8 @@ Polars:
 If the expression keeps the same column name, it replaces the existing column.
 '''
 
-#-----------------
-## Modify a single column: Height from inches to cm
-#-----------------
-
+# ## Modify a single column: Height from inches to cm
+# 
 lf_demo = lf_baseball.with_columns(
     (c("Height") * 2.54).alias("Height")
 )
@@ -86,10 +84,8 @@ print(lf_demo.head(3).collect())
 # │ Ramon_Hernandez ┆ BAL  ┆ 182.88 ┆ 210    │
 # └─────────────────┴──────┴────────┴────────┘
 
-#-----------------
-## Modify a string/categorical column: Team to lowercase
-#-----------------
-'''
+# ## Modify a string/categorical column: Team to lowercase
+# '''
 For string operations, use the .str namespace.
 Because Team is categorical here, cast to String first, transform, then cast back to Categorical.
 '''
@@ -110,10 +106,8 @@ print(lf_demo.head(3).collect())
 # │ Ramon_Hernandez ┆ bal  ┆ 72     ┆ 210    │
 # └─────────────────┴──────┴────────┴────────┘
 
-#-----------------
-## Modify multiple existing columns
-#-----------------
-
+# ## Modify multiple existing columns
+# 
 lf_demo = lf_baseball.with_columns(
     (c("Height") * 2.54).alias("Height"),
     (c("Weight") * 0.453592).alias("Weight"),
@@ -132,9 +126,9 @@ print(lf_demo.head(3).collect())
 # │ Ramon_Hernandez ┆ bal  ┆ 182.88 ┆ 95.2543 │
 # └─────────────────┴──────┴────────┴─────────┘
 
-################################
+##----------------------------##
 ##     Derive new columns     ##
-################################
+##----------------------------##
 '''
 Pandas:
     df["Height_m"] = df["Height"] * 0.0254
@@ -145,10 +139,8 @@ Polars:
 If the alias is a new name, Polars adds a new column.
 '''
 
-#-----------------
-## Derive a single new column
-#-----------------
-
+# ## Derive a single new column
+# 
 lf_demo = lf_baseball.with_columns(
     (c("Height") * 0.0254).alias("Height_m")
 )
@@ -165,10 +157,8 @@ print(lf_demo.head(3).collect())
 # │ Ramon_Hernandez ┆ BAL  ┆ 72     ┆ 210    ┆ 1.8288   │
 # └─────────────────┴──────┴────────┴────────┴──────────┘
 
-#-----------------
-## Derive multiple independent new columns
-#-----------------
-
+# ## Derive multiple independent new columns
+# 
 lf_demo = lf_baseball.with_columns(
     (c("Height") * 0.0254).alias("Height_m"),
     (c("Weight") * 0.453592).alias("Weight_kg"),
@@ -186,10 +176,8 @@ print(lf_demo.head(3).collect())
 # │ Ramon_Hernandez ┆ BAL  ┆ 72     ┆ 210    ┆ 1.8288   ┆ 95.2543   │
 # └─────────────────┴──────┴────────┴────────┴──────────┴───────────┘
 
-#-----------------
-## Derive a column from original columns directly
-#-----------------
-'''
+# ## Derive a column from original columns directly
+# '''
 BMI can be computed directly from original Height and Weight.
 This avoids needing to refer to newly-created intermediate columns.
 '''
@@ -212,10 +200,8 @@ print(lf_demo.head(3).collect())
 # │ Ramon_Hernandez ┆ BAL  ┆ 72     ┆ 210    ┆ 28.4808 │
 # └─────────────────┴──────┴────────┴────────┴─────────┘
 
-#-----------------
-## Derive columns that depend on newly-created columns
-#-----------------
-'''
+# ## Derive columns that depend on newly-created columns
+# '''
 Important Polars pattern:
 If BMI depends on Height_m and Weight_kg, use a second .with_columns(...).
 
@@ -248,13 +234,13 @@ print(lf_demo.head(3).collect())
 # └─────────────────┴──────┴────────┴────────┴──────────┴───────────┴─────────┘
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------------ 2. Polars equivalent of df.assign() ---------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Polars equivalent of df.assign()
+# =========================================================================================
 
-#####################################
+##---------------------------------##
 ##     Modify existing columns     ##
-#####################################
+##---------------------------------##
 '''
 Pandas:
     df.assign(Weight=lambda df: df["Weight"] * 0.453592)
@@ -265,10 +251,8 @@ Polars:
 Keyword syntax is concise when the output column name is a valid Python identifier.
 '''
 
-#-----------------
-## Modify a single column using keyword syntax
-#-----------------
-
+# ## Modify a single column using keyword syntax
+# 
 lf_demo = lf_baseball.with_columns(
     Weight=c("Weight") * 0.453592
 )
@@ -285,10 +269,8 @@ print(lf_demo.head(3).collect())
 # │ Ramon_Hernandez ┆ BAL  ┆ 72     ┆ 95.2543 │
 # └─────────────────┴──────┴────────┴─────────┘
 
-#-----------------
-## Modify multiple columns using keyword syntax
-#-----------------
-
+# ## Modify multiple columns using keyword syntax
+# 
 lf_demo = lf_baseball.with_columns(
     Height=c("Height") * 2.54,
     Weight=c("Weight") * 0.453592,
@@ -307,14 +289,12 @@ print(lf_demo.head(3).collect())
 # │ Ramon_Hernandez ┆ bal  ┆ 182.88 ┆ 95.2543 │
 # └─────────────────┴──────┴────────┴─────────┘
 
-################################
+##----------------------------##
 ##     Derive new columns     ##
-################################
+##----------------------------##
 
-#-----------------
-## Derive a single new column using keyword syntax
-#-----------------
-
+# ## Derive a single new column using keyword syntax
+# 
 lf_demo = lf_baseball.with_columns(
     BMI=(c("Weight") * 0.453592) / ((c("Height") * 0.0254) ** 2)
 )
@@ -323,10 +303,8 @@ print(lf_demo.head(3).collect())
 # shape: (3, 5)
 # columns: Name, Team, Height, Weight, BMI
 
-#-----------------
-## Add a literal/scalar column
-#-----------------
-'''
+# ## Add a literal/scalar column
+# '''
 Non-expression values are often wrapped with pl.lit(...).
 A scalar literal is broadcast to every row.
 '''
@@ -339,10 +317,8 @@ print(lf_demo.head(3).collect())
 # shape: (3, 5)
 # columns: Name, Team, Height, Weight, Raise
 
-#-----------------
-## Add a column from a Python list
-#-----------------
-'''
+# ## Add a column from a Python list
+# '''
 For row-by-row values from Python, pass a Series or a list literal.
 Make sure the list length matches the DataFrame height.
 '''
@@ -365,10 +341,8 @@ print(lf_demo.head(3).collect())
 # │ Ramon_Hernandez ┆ BAL  ┆ 72     ┆ 210    ┆ true  │
 # └─────────────────┴──────┴────────┴────────┴───────┘
 
-#-----------------
-## Derive multiple new columns
-#-----------------
-
+# ## Derive multiple new columns
+# 
 lf_demo = (
     lf_baseball
     .with_columns(
@@ -385,9 +359,9 @@ print(lf_demo.head(3).collect())
 # shape: (3, 8)
 # columns: Name, Team, Height, Weight, Height_cm, Height_m, Weight_kg, BMI
 
-###################################################################
+##---------------------------------------------------------------##
 ## Using **{...} for names that are not valid Python identifiers ##
-###################################################################
+##---------------------------------------------------------------##
 '''
 Keyword syntax only works for valid Python identifiers:
 
@@ -397,10 +371,8 @@ If the new column has spaces, dots, punctuation, or conflicts with a Python keyw
 use positional expressions with .alias("...") or unpack a dictionary with **{...}.
 '''
 
-#--------------------
-## Add a "raise" column
-#--------------------
-'''
+# ## Add a "raise" column
+# '''
 "raise" is a Python keyword, so it is clearer to use alias(...).
 '''
 
@@ -412,10 +384,8 @@ print(lf_demo.head(3).collect())
 # shape: (3, 5)
 # columns: Name, Team, Height, Weight, raise
 
-#--------------------
-## Add columns with spaces/special characters
-#--------------------
-
+# ## Add columns with spaces/special characters
+# 
 lf_demo = lf_baseball.with_columns(
     ((c("Height") * 2.54).alias("Height cm")),
     ((c("Weight") * 0.453592).alias("Weight kg")),
@@ -434,10 +404,8 @@ print(lf_demo.head(3).collect())
 # shape: (3, 7)
 # columns include: Height cm, Weight kg, BMI score
 
-#--------------------
-## Dictionary unpacking style
-#--------------------
-'''
+# ## Dictionary unpacking style
+# '''
 This is the closest visual equivalent to pandas assign(**{...}).
 '''
 
@@ -450,10 +418,8 @@ print(lf_demo.head(3).collect())
 # shape: (3, 6)
 # columns: Name, Team, Height, Weight, height_cm, weight_kg
 
-#------------------
-## Apply the same transformation to several columns
-#------------------
-'''
+# ## Apply the same transformation to several columns
+# '''
 Pandas often uses assign(**{col: ... for col in cols}).
 In Polars, build a list of expressions.
 '''
@@ -468,10 +434,8 @@ print(lf_demo.head(5).collect())
 # shape: (5, 4)
 # columns Height and Weight are now Float64
 
-#------------------
-## Use c.column_name shorthand when names are simple
-#------------------
-'''
+# ## Use c.column_name shorthand when names are simple
+# '''
 Because we imported:
 
     from polars import col as c
@@ -494,9 +458,9 @@ print(lf_demo.head(3).collect())
 # columns: Name, Team, Height, Weight, height_to_weight_ratio
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 3. Quick summary ---------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Quick summary
+# =========================================================================================
 '''
 Pandas -> Polars mental map
 

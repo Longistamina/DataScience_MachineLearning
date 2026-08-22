@@ -15,7 +15,7 @@ Python provides several libraries to work with XML, including `xml.etree.Element
 The `xml.etree.ElementTree` module is part of the Python standard library
 and provides a simple and efficient way to parse and create XML documents.
 
-###################################
+##-------------------------------##
 
 Flow of contents:
 
@@ -33,9 +33,9 @@ import xml.etree.ElementTree as ET
 parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files"
 
 
-#---------------------------------------------------#
-#-------------- 1. XML file structure --------------#
-#---------------------------------------------------#
+# ==============================================================================================
+# 1. XML file structure
+# ==============================================================================================
 '''
 <?xml version="1.0" encoding="UTF-8"?>    (This line tells the computer that we are using XML, the content version is 1.0, with UTF-8 encoding)
 
@@ -75,13 +75,13 @@ parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Py
 #        <Child_Element_Level_3>
 
 
-#--------------------------------------------------------#
-#-------------- 2. Read and Parse XML file --------------#
-#--------------------------------------------------------#
+# ==============================================================================================
+# 2. Read and Parse XML file
+# ==============================================================================================
 
-##################################################
+##----------------------------------------------##
 ## Parse an XML file into an ElementTree object ##
-##################################################
+##----------------------------------------------##
 
 # Parse the XML file into tree_food variable
 # The parse() function reads the XML file and creates an ElementTree object
@@ -110,9 +110,9 @@ print(f"Root Element Children: {list(root_food)}") # Root Element Children:
 num_children = len(list(root_food))
 print(f"Number of Child Elements: {num_children}") # Number of Child Elements: 5
 
-########################################
+##------------------------------------##
 ## Parse a XML string into XML object ##
-########################################
+##------------------------------------##
 
 xml_string = '''<?xml version="1.0"?>
 <student>
@@ -127,9 +127,9 @@ print(f"Student name: {root_string.find('name').text}") # Alice Johnson
 print(f"Student age: {root_string.find('age').text}")   # 20
 
 
-#--------------------------------------------------------------------------#
-#------------ 3. A custom function to summarize XML structure -------------#
-#--------------------------------------------------------------------------#
+# ==============================================================================================
+# 3. A custom function to summarize XML structure
+# ==============================================================================================
 
 def summarize_xml_structure(element, level=0):
     indent = "  " * level
@@ -141,9 +141,9 @@ def summarize_xml_structure(element, level=0):
 summarize_xml_structure(root_food)
 
 
-#--------------------------------------------------#
-#-------------- 4. Navigate XML tree --------------#
-#--------------------------------------------------#
+# ==============================================================================================
+# 4. Navigate XML tree
+# ==============================================================================================
 
 # <breakfast_menu>
 #   <food>
@@ -177,17 +177,17 @@ print(calorie_items)
 #[<Element 'calories' at 0x7f9318b806d0>, <Element 'calories' at 0x7f9318b808b0>, <Element 'calories' at 0x7f9318b80a90>, <Element 'calories' at 0x7f9318b80c20>, <Element 'calories' at 0x7f9318b80db0>]
 
 
-#---------------------------------------------------------------#
-#-------------- 5. Loop through XML tree elements --------------#
-#---------------------------------------------------------------#
+# ==============================================================================================
+# 5. Loop through XML tree elements
+# ==============================================================================================
 
 tree_food = ET.parse(f'{parent_dir}/food.xml')
 root_food = tree_food.getroot()
 food_items = root_food.findall("food")
 
-##################################
+##------------------------------##
 ## Iterate with .find(...).text ##
-##################################
+##------------------------------##
 
 for food in food_items:
     name = food.find("name").text
@@ -199,9 +199,9 @@ for food in food_items:
 # Food Name: French Toast _____ Price: $4.50
 # Food Name: Homestyle Breakfast _____ Price: $6.95
 
-################################################
+##--------------------------------------------##
 ## Iterate using element.tag and element.text ##
-################################################
+##--------------------------------------------##
 
 for food_element in root_food:
     string_out = ""
@@ -217,13 +217,13 @@ for food_element in root_food:
 # name: Homestyle Breakfast ||| price: $6.95 ||| calories: 950
 
 
-#---------------------------------------------------------------#
-#-------------- 6. Create XML object from scratch --------------#
-#---------------------------------------------------------------#
+# ==============================================================================================
+# 6. Create XML object from scratch
+# ==============================================================================================
 
-######################################
+##----------------------------------##
 ## Create new XML tree from scratch ##
-######################################
+##----------------------------------##
 
 import xml.etree.ElementTree as ET
 
@@ -256,9 +256,9 @@ tree_starwars = ET.ElementTree(root_starwars)
 
 print(tree_starwars) # <xml.etree.ElementTree.ElementTree object at 0x7f4f7e8856a0>
 
-###############################
+##---------------------------##
 ## Loop through new xml tree ##
-###############################
+##---------------------------##
 
 root_starwars = tree_starwars.getroot()
 
@@ -271,9 +271,9 @@ for character_element in root_starwars:
 # Name: Anakin Skywalker ||| Gender: M ||| Age: 22 ||| Job: Jedi ||| Income: 23450
 
 
-#----------------------------------------------------------------------#
-#-------------- 7. Write a XML tree object into XML file --------------#
-#----------------------------------------------------------------------#
+# ==============================================================================================
+# 7. Write a XML tree object into XML file
+# ==============================================================================================
 
 # Add indentation before writing
 ET.indent(tree_starwars, space="  ", level=0)

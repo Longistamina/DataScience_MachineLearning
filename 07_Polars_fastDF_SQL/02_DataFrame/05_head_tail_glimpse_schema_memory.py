@@ -46,9 +46,9 @@ df_medals = pl.read_csv(
 )
 
 
-#-------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 1. df.head() ---------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. df.head()
+# =========================================================================================
 '''df.head(n=5): Return the first n rows of the DataFrame. Default n is 5.'''
 
 print(df_medals.head())
@@ -60,9 +60,9 @@ print(df_medals.head(3))
 # shape: (3, 8)
 # First three rows.
 
-####################################
+##--------------------------------##
 ## Negative n in Polars df.head() ##
-####################################
+##--------------------------------##
 '''
 In Polars, df.head(-k) means:
     return all rows except the last k rows.
@@ -91,9 +91,9 @@ print(df_small.head(-2))
 # The last 2 rows were excluded.
 
 
-#-------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 2. df.tail() ---------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. df.tail()
+# =========================================================================================
 '''df.tail(n=5): Return the last n rows of the DataFrame. Default n is 5.'''
 
 print(df_medals.tail())
@@ -104,9 +104,9 @@ print(df_medals.tail(3))
 # shape: (3, 8)
 # Last three rows.
 
-####################################
+##--------------------------------##
 ## Negative n in Polars df.tail() ##
-####################################
+##--------------------------------##
 '''
 In Polars, df.tail(-k) means:
     return all rows except the first k rows.
@@ -126,9 +126,9 @@ print(df_small.tail(-2))
 # The first 2 rows were excluded.
 
 
-#-------------------------------------------------------------------------------------------------------#
-#----------------------------- 3. Info-like inspection: shape, schema, glimpse -------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Info-like inspection: shape, schema, glimpse
+# =========================================================================================
 '''
 Pandas has df.info(), which prints a compact summary with:
     + row count / index information
@@ -141,9 +141,9 @@ Polars does not have a single direct df.info() method.
 The Polars approach is to combine several smaller inspection tools.
 '''
 
-###############################
+##---------------------------##
 ## df.shape / height / width ##
-###############################
+##---------------------------##
 
 print(df_medals.shape)
 # (2311, 8)
@@ -157,9 +157,9 @@ print(df_medals.width)
 # 8
 # Number of columns only.
 
-############################
+##------------------------##
 ## df.columns / df.dtypes ##
-############################
+##------------------------##
 
 print(df_medals.columns)
 # ['Year', 'City', 'Sport', 'Discipline', 'NOC', 'Event', 'Event gender', 'Medal']
@@ -168,9 +168,9 @@ print(df_medals.dtypes)
 # [Int64, String, String, String, String, String, String, String]
 # The exact integer width may depend on your file and inference settings.
 
-###############
+##-----------##
 ## df.schema ##
-###############
+##-----------##
 '''
 A Polars schema maps column names to Polars data types.
 This is one of the closest replacements for part of pandas df.info().
@@ -188,9 +188,9 @@ print(df_medals.schema)
 #     'Medal': String,
 # })
 
-#########################
+##---------------------##
 ## df.collect_schema() ##
-#########################
+##---------------------##
 '''
 DataFrame.collect_schema() returns an ordered schema object.
 This mirrors LazyFrame.collect_schema(), which is especially useful in lazy workflows.
@@ -210,17 +210,17 @@ print(schema.dtypes())
 print(schema.len())
 # 8
 
-#################################
+##-----------------------------##
 ## df.collect_schema().names() ##
-#################################
+##-----------------------------##
 '''Retrieve the list of DataFrame column names'''
 
 print(df_medals.collect_schema().names())
 # ['Year', 'City', 'Sport', 'Discipline', 'NOC', 'Event', 'Event gender', 'Medal']
 
-##################
+##--------------##
 ## df.glimpse() ##
-##################
+##--------------##
 '''
 df.glimpse() is a very useful Polars replacement for the quick-read part of df.info().
 It prints one line per column, including:
@@ -271,9 +271,9 @@ print(glimpse_frame)
 # │ Medal        ┆ str   ┆ ["'Silver'", "'Gold'", … "'Gol… │
 # └──────────────┴───────┴─────────────────────────────────┘
 
-#####################
+##-----------------##
 ## df.null_count() ##
-#####################
+##-----------------##
 '''
 df.null_count() returns a one-row DataFrame with the number of null values in each column.
 This is the Polars equivalent of the null-count part of pandas df.info().
@@ -289,9 +289,9 @@ print(df_medals.null_count())
 # │ 0    ┆ 0    ┆ 0     ┆ 0          ┆ 0   ┆ 0     ┆ 0            ┆ 0     │
 # └──────┴──────┴───────┴────────────┴─────┴───────┴──────────────┴───────┘
 
-################
+##------------##
 ## df.count() ##
-################
+##------------##
 '''
 df.count() returns the number of non-null values per column.
 This is comparable to the "Non-Null Count" part of pandas df.info().
@@ -307,9 +307,9 @@ print(df_medals.count())
 # │ 2311 ┆ 2311 ┆ 2311  ┆ 2311       ┆ 2311 ┆ 2311  ┆ 2311         ┆ 2311  │
 # └──────┴──────┴───────┴────────────┴──────┴───────┴──────────────┴───────┘
 
-########################################
+##------------------------------------##
 ## Make your own compact info summary ##
-########################################
+##------------------------------------##
 '''
 Because Polars inspection tools are composable, you can make a compact "info table" yourself.
 This table is often more convenient than pandas df.info(), because it is a real DataFrame.
@@ -342,9 +342,9 @@ print(info_summary)
 # └──────────────┴────────┴────────────┴────────────────┘
 
 
-#-------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 4. Memory and Performance --------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Memory and Performance
+# =========================================================================================
 '''
 Pandas:
     df.memory_usage(deep=True)
@@ -360,9 +360,9 @@ Important notes:
 + For normal Polars numeric/string/list/struct data, estimated_size() is the preferred API.
 '''
 
-#########################
+##---------------------##
 ## df.estimated_size() ##
-#########################
+##---------------------##
 
 print(df_medals.estimated_size())
 # Estimated size in bytes.
@@ -373,9 +373,9 @@ print(df_medals.estimated_size("kb"))
 print(df_medals.estimated_size("mb"))
 # Estimated size in megabytes.
 
-#################################
+##-----------------------------##
 ## Per-column estimated memory ##
-#################################
+##-----------------------------##
 '''
 Polars does not have df.memory_usage(deep=True) returning one value per column.
 You can approximate per-column memory by selecting one column at a time and calling estimated_size().
@@ -414,9 +414,9 @@ print(memory_by_column)
 # └──────────────┴────────┴──────────────────┴───────────────────┘
 
 
-####################################
+##--------------------------------##
 ## Total from per-column estimate ##
-####################################
+##--------------------------------##
 '''
 The sum of per-column estimates is usually close to the total estimate,
 but it is not guaranteed to equal df.estimated_size().
@@ -437,9 +437,9 @@ print(memory_by_column.select(pl.sum("estimated_size_b")))
 print(df_medals.estimated_size("b"))
 # 125285
 
-###################
+##---------------##
 ## df.n_chunks() ##
-###################
+##---------------##
 '''
 Polars columns are backed by chunked arrays.
 Many chunks can appear after repeated concatenation or appending.
@@ -452,9 +452,9 @@ print(df_medals.n_chunks())
 print(df_medals.n_chunks(strategy="all"))
 # Number of chunks for every column, in column order.
 
-##################
+##--------------##
 ## df.rechunk() ##
-##################
+##--------------##
 '''
 df.rechunk() returns a DataFrame with contiguous memory chunks where possible.
 Use this after many vertical concatenations if you want to reduce chunk fragmentation.
@@ -464,9 +464,9 @@ df_rechunked = df_medals.rechunk()
 print(df_rechunked.n_chunks(strategy="all"))
 # Usually [1, 1, 1, 1, 1, 1, 1, 1]
 
-########################
+##--------------------##
 ## df.shrink_to_fit() ##
-########################
+##--------------------##
 '''
 df.shrink_to_fit() shrinks allocated capacity to the exact capacity needed for the data.
 This can reduce memory overhead in some cases.
@@ -483,9 +483,9 @@ print(after_mb)
 # The result may be the same or smaller depending on current allocation capacity.
 
 
-#-------------------------------------------------------------------------------------------------------#
-#----------------------------- 5. LazyFrame Preview and Inspection -------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. LazyFrame Preview and Inspection
+# =========================================================================================
 '''
 Polars also has a LazyFrame API.
 A LazyFrame does not immediately load/compute all data. It builds a query plan that is executed at collect().
@@ -499,42 +499,42 @@ lf_medals = pl.scan_csv(
     skip_rows=4,
 )
 
-################################
+##----------------------------##
 ## LazyFrame.collect_schema() ##
-################################
+##----------------------------##
 
 print(lf_medals.collect_schema())
 # Schema({'Year': Int64, 'City': String, ...})
 # Schema inspection can be done without collecting the full data.
 
-########################################
+##------------------------------------##
 ## LazyFrame.collect_schema().names() ##
-########################################
+##------------------------------------##
 '''Retrieve the list of LazyFrame column names'''
 
 print(lf_medals.collect_schema().names())
 # ['Year', 'City', 'Sport', 'Discipline', 'NOC', 'Event', 'Event gender', 'Medal']
 
-######################
+##------------------##
 ## LazyFrame.head() ##
-######################
+##------------------##
 
 print(lf_medals.head(3).collect())
 # shape: (3, 8)
 # First three rows from the lazy scan.
 
-######################
+##------------------##
 ## LazyFrame.tail() ##
-######################
+##------------------##
 
 print(lf_medals.tail(3).collect())
 # shape: (3, 8)
 # Last three rows from the lazy scan.
 # Note: tail() may require reading more data than head(), depending on the source.
 
-#####################################
+##---------------------------------##
 ## Lazy row counts and null counts ##
-#####################################
+##---------------------------------##
 '''
 LazyFrame does not have a cheap df.shape property like an eager DataFrame.
 To get row counts or null counts lazily, express them as queries and collect the small result.
@@ -549,9 +549,9 @@ print(lf_medals.select(pl.all().null_count()).collect())
 # shape: (1, 8)
 # Null count for each column.
 
-#########################
+##---------------------##
 ## LazyFrame.explain() ##
-#########################
+##---------------------##
 '''
 lf.explain() prints the lazy query plan.
 This is useful for performance debugging and for checking whether filters/projections

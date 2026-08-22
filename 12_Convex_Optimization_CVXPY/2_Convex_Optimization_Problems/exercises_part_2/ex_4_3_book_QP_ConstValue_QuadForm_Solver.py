@@ -28,16 +28,12 @@ Checkout this link for more information:
 https://www.cvxpy.org/tutorial/solvers/index.html
 '''
 
-#--------------------
-## Define variable
-#--------------------
-
+# ## Define variable
+# 
 x = cp.Variable(name = "x", shape = (3,1))
 
-#--------------------
-## Define constants
-#--------------------
-
+# ## Define constants
+# 
 P = cp.Constant(
     name = "P",
     value = np.array([
@@ -63,10 +59,8 @@ r = cp.Constant(name = "r", value = 1)
 print(r.value)
 # 1.0
 
-#--------------------
-## Define problem and solve
-#--------------------
-
+# ## Define problem and solve
+# 
 problem = cp.Problem(
     objective = cp.Minimize(0.5*cp.quad_form(x, P) + q.T@x + r), # Must use cp.quad_form() instead of x.T@P@x to achieve DCP
     constraints = [

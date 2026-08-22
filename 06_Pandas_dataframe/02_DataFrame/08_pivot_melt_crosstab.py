@@ -1,7 +1,7 @@
 '''
 Pivot, Melt and Cross-Table are powerful techniques allowing you to reshape
 
-####################################
+##--------------------------------##
 
 1. Pivot: long to wide
    + pd.pivot() || df.pivot()
@@ -18,13 +18,13 @@ Pivot, Melt and Cross-Table are powerful techniques allowing you to reshape
 import pandas as pd
 import numpy as np
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 1. Pivot: long to wide ----------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Pivot: long to wide
+# =========================================================================================
 
-####################################
+##--------------------------------##
 ##    pd.pivot() || df.pivot()    ##
-####################################
+##--------------------------------##
 '''
 The .pivot() converts unique values from one column into multiple columns in the DataFrame.
 => Results in a wider DataFrame than the original.
@@ -55,10 +55,8 @@ df_sales.head()
 # 3   4 2024-01-15   East     Widget         4       49.43  197.72
 # 4   5 2024-01-11  North     Widget         2       11.77   23.54
 
-#--------
-## Basic usage
-#--------
-
+# ## Basic usage
+# 
 df_pivoted = pd.pivot(
     data=df_sales,
     index="ID", # The column to be kept intact, becomes the new index
@@ -75,10 +73,8 @@ print(df_pivoted.head())
 # 4       197.72     NaN    NaN   NaN
 # 5          NaN   23.54    NaN   NaN
 
-#--------
-## Using multiple variables for columns=
-#--------
-
+# ## Using multiple variables for columns=
+# 
 df_pivoted_multi = pd.pivot(
     data=df_sales,
     index="ID",
@@ -96,10 +92,8 @@ print(df_pivoted_multi.head())
 # 4          NaN     NaN       NaN  197.72    NaN    NaN    NaN    NaN       NaN       NaN    NaN       NaN
 # 5          NaN   23.54       NaN     NaN    NaN    NaN    NaN    NaN       NaN       NaN    NaN       NaN
 
-#--------
-## Using multiple variables for values=
-#--------
-
+# ## Using multiple variables for values=
+# 
 df_pivoted_multi = pd.pivot(
     data=df_sales,
     index="ID",
@@ -117,10 +111,8 @@ print(df_pivoted_multi.head())
 # 4       197.72    NaN   NaN  NaN 2024-01-15        NaT   NaT  NaT
 # 5          NaN  23.54   NaN  NaN        NaT 2024-01-11   NaT  NaT
 
-#---------
-## Join column names after pivoting
-#---------
-
+# ## Join column names after pivoting
+# 
 df_pivoted_multi = pd.pivot(
     data=df_sales,
     index="ID",
@@ -149,10 +141,8 @@ print(df_pivoted_multi.head())
 # 4      197.72         NaN         NaN        NaN 2024-01-15        NaT        NaT       NaT
 # 5         NaN       23.54         NaN        NaN        NaT 2024-01-11        NaT       NaT
 
-#--------
-## Using df.pivot()
-#--------
-
+# ## Using df.pivot()
+# 
 df_pivoted = df_sales.pivot(
     index="ID",
     columns="region",
@@ -168,9 +158,9 @@ print(df_pivoted.head())
 # 4       197.72     NaN    NaN   NaN
 # 5          NaN   23.54    NaN   NaN
 
-###########################################
+##---------------------------------------##
 ## pd.pivot_table() || df.pivot_table()  ##
-###########################################
+##---------------------------------------##
 '''
 The .pivot_table() is a more flexible version of .pivot(), 
 => allowing you to aggregate data when there are duplicate values.
@@ -201,10 +191,8 @@ print(df_duplicates)
 df_duplicates.pivot(index="ID", columns="class", values="scores")
 '''ValueError: Index contains duplicate entries, cannot reshap'''
 
-#-------------
-## Use pd.pivot_table() to handle duplicates
-#-------------
-
+# ## Use pd.pivot_table() to handle duplicates
+# 
 df_pivoted_tbl = pd.pivot_table(
     data=df_duplicates,
     index="ID",
@@ -219,10 +207,8 @@ print(df_pivoted_tbl)
 # one    4.5  1.666667
 # two    6.5  3.000000
 
-#-------------
-## Use multiple aggfunc
-#-------------
-
+# ## Use multiple aggfunc
+# 
 df_pivoted_tbl = pd.pivot_table(
     data=df_duplicates,
     index="ID",
@@ -238,10 +224,8 @@ print(df_pivoted_tbl)
 # one    5.0  5.000000    15    10
 # two    9.0  6.666667     9    20
 
-#-------------
-## Use multiple values
-#-------------
-
+# ## Use multiple values
+# 
 df_pivoted_tbl = pd.pivot_table(
     data=df_duplicates,
     index="ID",
@@ -257,10 +241,8 @@ print(df_pivoted_tbl)
 # one           5.0  5.000000  2.666667   3.0
 # two           9.0  6.666667  7.000000   4.0
 
-#-------------
-## Use multiple grouping columns
-#-------------
-
+# ## Use multiple grouping columns
+# 
 df_pivoted_tbl = pd.pivot_table(
     data=df_duplicates,
     index="ID", # Multiple grouping columns
@@ -277,10 +259,8 @@ print(df_pivoted_tbl)
 # one     NaN  0.0   NaN  NaN
 # two     NaN  NaN   NaN  0.0
 
-#-------------
-## Use df.pivot_table()
-#-------------
-
+# ## Use df.pivot_table()
+# 
 df_pivoted_tbl = df_duplicates.pivot_table(
     index="ID",
     columns="class",
@@ -295,13 +275,13 @@ print(df_pivoted_tbl)
 # two    6.5  3.000000
 
 
-#---------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 2. Melt: wide to long ----------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Melt: wide to long
+# =========================================================================================
 
-##############################
+##--------------------------##
 ## Create example DataFrame ##
-##############################
+##--------------------------##
 
 n_patients = 8
 patient_ids = [f"P{i:03d}" for i in range(1, n_patients+1)]
@@ -330,14 +310,12 @@ print(df_measurements)
 # 6       P007   40      149       61      125       77      137       63
 # 7       P008   58      133       80      124       63      116       61
 
-####################################
+##--------------------------------##
 ##     pd.melt() || df.melt()     ##
-####################################
+##--------------------------------##
 
-#--------
-## pd.melt()
-#--------
-
+# ## pd.melt()
+# 
 df_melted = pd.melt(
     frame=df_measurements,
     id_vars=['patient_id', 'age'], # Columns to keep intact
@@ -354,10 +332,8 @@ print(df_melted.head())
 # 3       P004   34         BP_day1              120
 # 4       P005   62         BP_day1              133
 
-#--------
-## df.melt()
-#--------
-
+# ## df.melt()
+# 
 df_melted = df_measurements.melt(
     id_vars=['patient_id', 'age'],
     value_vars=[col for col in df_measurements.columns if col.startswith(('BP_', 'HR_'))],
@@ -373,14 +349,12 @@ print(df_melted.head())
 # 3       P004   34         BP_day1              120
 # 4       P005   62         BP_day1              133
 
-###############################
+##---------------------------##
 ##     pd.wide_to_long()     ##
-###############################
+##---------------------------##
 
-#----------
-## Basic usage
-#----------
-
+# ## Basic usage
+# 
 df_wtl = pd.wide_to_long(
     df=df_measurements,
     stubnames=['BP', 'HR'], # The prefixes of the columns to be melted
@@ -404,10 +378,8 @@ print(df_wtl.head())
 # P002       71  day1  132  81
 #                day2  121  96
 
-#-----------
-## Use .reset_index() to turn index into columns
-#-----------
-
+# ## Use .reset_index() to turn index into columns
+# 
 df_wtl = pd.wide_to_long(
     df=df_measurements,
     stubnames=['BP', 'HR'], 
@@ -425,10 +397,8 @@ print(df_wtl.head())
 # 3       P002   71  day1  132  81
 # 4       P002   71  day2  121  96
 
-#-----------
-## Apply chaining methods
-#-----------
-
+# ## Apply chaining methods
+# 
 df_wtl = (
     pd.wide_to_long(
         df=df_measurements,
@@ -456,17 +426,17 @@ print(df_wtl.head(10))
 # 9       P004   34    1  120  83
 
 
-#---------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 3. Cross-Table -------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Cross-Table
+# =========================================================================================
 '''
 A cross-tabulation (or cross-tab) is a table that displays the frequency distribution of variables.
 It is used to analyze the relationship between two or more categorical variables (Chi-squared test).
 '''
 
-##############################
+##--------------------------##
 ## Create example DataFrame ##
-##############################
+##--------------------------##
 
 n_resp = 250
 
@@ -493,14 +463,12 @@ df_survey.head()
 # 3              4  Female          Green           Never
 # 4              5    Male           Blue        Unlikely
 
-################################
+##----------------------------##
 ##        pd.crosstab()       ##
-################################
+##----------------------------##
 
-#----------
-## Basic usage
-#----------
-
+# ## Basic usage
+# 
 contigency_table = pd.crosstab(
     index=df_survey['gender'], # Values to group by in the rows.
     columns=df_survey['favorite_color'], # Values to group by in the columns.
@@ -514,10 +482,8 @@ print(contigency_table)
 # Male              35     15      25   23      21
 # Other              1      4       2    3       0
 
-#----------
-## With margins=True
-#----------
-
+# ## With margins=True
+# 
 contigency_table = pd.crosstab(
     index=df_survey['gender'], 
     columns=df_survey['favorite_color'], 
@@ -533,10 +499,8 @@ print(contigency_table)
 # Other              1      4       2    3       0   10
 # All               60     38      58   47      47  250
 
-#----------
-## With normalize='index'
-#----------
-
+# ## With normalize='index'
+# 
 contigency_table = pd.crosstab(
     index=df_survey["gender"], 
     columns=df_survey["purchase_intent"],
@@ -552,10 +516,8 @@ print(contigency_table)
 # Other              0.100000  0.300000  0.100000  0.500000  0.000000
 '''Normalize to percentages within rows(index), so that each row sums to 1.'''
 
-#----------
-## With normalize='columns'
-#----------
-
+# ## With normalize='columns'
+# 
 contigency_table = pd.crosstab(
     index=df_survey["gender"], 
     columns=df_survey["purchase_intent"],
@@ -571,10 +533,8 @@ print(contigency_table)
 # Other                 0.025  0.039474  0.033333  0.078125      0.00
 '''Normalize to percentages within columns, so that each column sums to 1.'''
 
-#----------
-## With normalize='all'
-#----------
-
+# ## With normalize='all'
+# 
 contigency_table = pd.crosstab(
     index=df_survey["gender"], 
     columns=df_survey["purchase_intent"],
@@ -590,10 +550,8 @@ print(contigency_table)
 # Other                 0.004  0.012  0.004     0.020     0.000
 '''Normalize to percentages of the total, so that the entire table sums to 1.'''
 
-#----------
-## With multiple columns=
-#----------
-
+# ## With multiple columns=
+# 
 contigency_table = pd.crosstab(
     index=df_survey["gender"], 
     columns=[df_survey["favorite_color"], df_survey["purchase_intent"]],
@@ -608,7 +566,7 @@ print(contigency_table)
 # Male                     3    10     4       12        6          0     4  ...        4        5          3     9     3        1        5
 # Other                    0     0     1        0        0          1     2  ...        2        0          0     0     0        0        0
 
-######
+##--##
 
 contigency_table = (
     pd.crosstab(

@@ -6,9 +6,9 @@ allowing subsequent methods to be called on that returned object.
 
 import numpy as np
 
-################################
+##----------------------------##
 ## One-liner chaining methods ##
-################################
+##----------------------------##
 
 np.random.seed(0)
 mean_matrix = np.random.uniform(0, 10, (3, 4)).mean(axis=0).round(3)
@@ -16,9 +16,9 @@ mean_matrix = np.random.uniform(0, 10, (3, 4)).mean(axis=0).round(3)
 print(mean_matrix)
 # [6.454 5.815 6.107 6.552]
 
-#################################
+##-----------------------------##
 ## Multi-line chaining methods ##
-#################################
+##-----------------------------##
 
 np.random.seed(0)
 print(

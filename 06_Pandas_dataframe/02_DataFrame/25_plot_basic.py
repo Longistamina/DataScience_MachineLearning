@@ -1,7 +1,7 @@
 '''
 Draw basic plots using DataFrame.plot() method or DataFrame.plot.<plotting_method>().
 
-##########################
+##----------------------##
 
 1. Histogram: 
    + df.plot(kind="hist") 
@@ -91,22 +91,20 @@ print(df_pokemon.info())
 # memory usage: 54.7+ KB
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 1. Histogram ------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Histogram
+# =========================================================================================
 '''
 Histogram describes the distribution of a numerical variable by splitting the data into bins (intervals) 
 and counting the number of observations that fall into each bin.
 '''
 
-################################
+##----------------------------##
 ##    df.plot(kind="hist")    ##
-################################
+##----------------------------##
 
-#----------
-## Draw histogram of "Attack" column
-#----------
-
+# ## Draw histogram of "Attack" column
+# 
 df_pokemon.plot(
     kind="hist",
     y="Attack",
@@ -120,10 +118,8 @@ df_pokemon.plot(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw histogram of "Attack" and "Defense" columns
-#----------
-
+# ## Draw histogram of "Attack" and "Defense" columns
+# 
 df_pokemon.plot(
     kind="hist",
     y=["Attack", "Defense"],
@@ -137,14 +133,12 @@ df_pokemon.plot(
 )
 plt.show() # Display the plot
 
-##########################
+##----------------------##
 ##    df.plot.hist()    ##
-##########################
+##----------------------##
 
-#----------
-## Draw histogram of "Attack" column
-#----------
-
+# ## Draw histogram of "Attack" column
+# 
 df_pokemon.plot.hist(
     y="Attack",
     bins=30,                     # Number of bins (intervals)
@@ -157,10 +151,8 @@ df_pokemon.plot.hist(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw histogram of "Attack" and "Defense" columns
-#----------
-
+# ## Draw histogram of "Attack" and "Defense" columns
+# 
 df_pokemon.plot.hist(
     y=["Attack", "Defense"],
     bins=30,                     # Number of bins (intervals)
@@ -174,22 +166,20 @@ df_pokemon.plot.hist(
 plt.show() # Display the plot
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 2. Density/KDE plot -----------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Density/KDE plot
+# =========================================================================================
 '''
 Density plot (or Kernel Density Estimate - KDE) is a smoothed version of the histogram that estimates
 the probability density function of a continuous variable.
 '''
 
-###################################
+##-------------------------------##
 ##    df.plot(kind="density")    ##
-###################################
+##-------------------------------##
 
-#----------
-## Draw density plot of "Attack" column
-#----------
-
+# ## Draw density plot of "Attack" column
+# 
 # kind="density"
 df_pokemon.plot(
     kind="density",
@@ -212,10 +202,8 @@ df_pokemon.plot(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw density plot of "Attack" and "Defense" columns
-#----------
-
+# ## Draw density plot of "Attack" and "Defense" columns
+# 
 # kind="density"
 df_pokemon.plot(
     kind="density",
@@ -238,14 +226,12 @@ df_pokemon.plot(
 )
 plt.show() # Display the plot
 
-#############################
+##-------------------------##
 ##    df.plot.density()    ##
-#############################
+##-------------------------##
 
-#----------
-## Draw density plot of "Attack" column
-#----------
-
+# ## Draw density plot of "Attack" column
+# 
 df_pokemon.plot.density(
     y="Attack",
     color="blue",             # Color of the density line
@@ -255,10 +241,8 @@ df_pokemon.plot.density(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw density plot of "Attack" and "Defense" columns
-#----------
-
+# ## Draw density plot of "Attack" and "Defense" columns
+# 
 df_pokemon.plot.density(
     y=["Attack", "Defense"],
     color=["blue", "red"], # Colors for each column
@@ -268,14 +252,12 @@ df_pokemon.plot.density(
 )
 plt.show() # Display the plot
 
-#########################
+##---------------------##
 ##    df.plot.kde()    ##
-#########################
+##---------------------##
 
-#----------
-## Draw density plot of "Attack" column
-#----------
-
+# ## Draw density plot of "Attack" column
+# 
 df_pokemon.plot.kde(
     y="Attack",
     color="blue",             # Color of the density line
@@ -285,10 +267,8 @@ df_pokemon.plot.kde(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw density plot of "Attack" and "Defense" columns
-#----------
-
+# ## Draw density plot of "Attack" and "Defense" columns
+# 
 df_pokemon.plot.kde(
     y=["Attack", "Defense"],
     color=["blue", "red"], # Colors for each column
@@ -299,9 +279,9 @@ df_pokemon.plot.kde(
 plt.show() # Display the plot
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 3. Box plot ------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Box plot
+# =========================================================================================
 '''
 Box plot (or box-and-whisker plot) is a graphical representation of the distribution of a dataset
 that displays the median, quartiles, and potential outliers.
@@ -309,14 +289,12 @@ that displays the median, quartiles, and potential outliers.
 Also support notched box plot by setting notch=True.
 '''
 
-###############################
+##---------------------------##
 ##    df.plot(kind="box")    ##
-###############################
+##---------------------------##
 
-#----------
-## Draw box plot of "Attack" column
-#----------
-
+# ## Draw box plot of "Attack" column
+# 
 df_pokemon.plot(
     kind="box",
     column="Attack",
@@ -327,10 +305,8 @@ df_pokemon.plot(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw box plot of "Attack" between different "Generation"
-#----------
-
+# ## Draw box plot of "Attack" between different "Generation"
+# 
 df_pokemon.plot(
     kind="box",
     column="Attack",            # Dependent variable
@@ -344,14 +320,12 @@ df_pokemon.plot(
 )
 plt.show() # Display the plot
 
-#########################
+##---------------------##
 ##    df.plot.box()    ##
-#########################
+##---------------------##
 
-#----------
-## Draw box plot of "Attack" column
-#----------
-
+# ## Draw box plot of "Attack" column
+# 
 df_pokemon.plot.box(
     column="Attack",           # Dependent variable
     color="green",             # Color of the box
@@ -361,10 +335,8 @@ df_pokemon.plot.box(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw box plot of "Attack" between different "Generation"
-#----------
-
+# ## Draw box plot of "Attack" between different "Generation"
+# 
 df_pokemon.plot.box(
     column="Attack",            # Dependent variable
     by="Generation",            # Group by "Generation" column
@@ -378,23 +350,21 @@ df_pokemon.plot.box(
 plt.show() # Display the plot
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 4. Pie chart -----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Pie chart
+# =========================================================================================
 '''
 Pie chart is a circular statistical graphic that is divided into slices to illustrate numerical proportions.
 
 Useful for categorical data with a small number of categories.
 '''
 
-###############################
+##---------------------------##
 ##    df.plot(kind="pie")    ##
-###############################
+##---------------------------##
 
-#----------
-## Draw pie chart of "Generation" column
-#----------
-
+# ## Draw pie chart of "Generation" column
+# 
 generation_counts = df_pokemon['Generation'].value_counts().sort_index()
 
 generation_counts.plot(
@@ -408,10 +378,8 @@ generation_counts.plot(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw subplot pie charts of "Type_1" and "Type_2" columns
-#----------
-
+# ## Draw subplot pie charts of "Type_1" and "Type_2" columns
+# 
 type1_counts = df_pokemon['Type_1'].value_counts()
 type2_counts = df_pokemon['Type_2'].value_counts()
 
@@ -439,14 +407,12 @@ type2_counts.plot(
 
 plt.show() # Display the plot
 
-#########################
+##---------------------##
 ##    df.plot.pie()    ##
-#########################
+##---------------------##
 
-#----------
-## Draw pie chart of "Generation" column
-#----------
-
+# ## Draw pie chart of "Generation" column
+# 
 generation_counts = df_pokemon['Generation'].value_counts().sort_index()
 
 generation_counts.plot.pie(
@@ -459,10 +425,8 @@ generation_counts.plot.pie(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw subplot pie charts of "Type_1" and "Type_2" columns
-#----------
-
+# ## Draw subplot pie charts of "Type_1" and "Type_2" columns
+# 
 type1_counts = df_pokemon['Type_1'].value_counts()
 type2_counts = df_pokemon['Type_2'].value_counts()
 
@@ -489,9 +453,9 @@ type2_counts.plot.pie(
 plt.show() # Display the plot
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 5. Bar plot -------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Bar plot
+# =========================================================================================
 '''
 Bar plot is a graphical representation of categorical data using rectangular bars, 
 where the length of each bar is proportional to the value it represents.
@@ -499,14 +463,12 @@ where the length of each bar is proportional to the value it represents.
 Pandas also supports stacked and dodged bar plots by setting stacked=True/False.
 '''
 
-###############################
+##---------------------------##
 ##    df.plot(kind="bar")    ##
-###############################
+##---------------------------##
 
-#----------
-## Draw bar plot of "Generation" column
-#----------
-
+# ## Draw bar plot of "Generation" column
+# 
 generation_counts = df_pokemon['Generation'].value_counts().sort_index()
 
 generation_counts.plot(
@@ -521,10 +483,8 @@ generation_counts.plot(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw dodged bar plot of "Generation" and "Legendary" columns
-#----------
-
+# ## Draw dodged bar plot of "Generation" and "Legendary" columns
+# 
 gen_legd_counts = pd.crosstab(df_pokemon['Generation'], df_pokemon['Legendary'])
 # Legendary   False  True 
 # Generation              
@@ -548,10 +508,8 @@ gen_legd_counts.plot(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw stacked bar plot of "Generation" and "Legendary" columns
-#----------
-
+# ## Draw stacked bar plot of "Generation" and "Legendary" columns
+# 
 gen_legd_counts = pd.crosstab(df_pokemon['Generation'], df_pokemon['Legendary'])
 
 gen_legd_counts.plot(
@@ -567,14 +525,12 @@ gen_legd_counts.plot(
 )
 plt.show() # Display the plot
 
-#########################
+##---------------------##
 ##    df.plot.bar()    ##
-#########################
+##---------------------##
 
-#----------
-## Draw bar plot of "Generation" column
-#----------
-
+# ## Draw bar plot of "Generation" column
+# 
 generation_counts = df_pokemon['Generation'].value_counts().sort_index()
 
 generation_counts.plot.bar(
@@ -588,10 +544,8 @@ generation_counts.plot.bar(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw dodged bar plot of "Generation" and "Legendary" columns
-#----------
-
+# ## Draw dodged bar plot of "Generation" and "Legendary" columns
+# 
 gen_legd_counts = pd.crosstab(df_pokemon['Generation'], df_pokemon['Legendary'])
 
 gen_legd_counts.plot.bar(
@@ -606,10 +560,8 @@ gen_legd_counts.plot.bar(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw stacked bar plot of "Generation" and "Legendary" columns
-#----------
-
+# ## Draw stacked bar plot of "Generation" and "Legendary" columns
+# 
 gen_legd_counts = pd.crosstab(df_pokemon['Generation'], df_pokemon['Legendary'])
 
 gen_legd_counts.plot.bar(
@@ -625,21 +577,19 @@ gen_legd_counts.plot.bar(
 plt.show() # Display the plot
 
 
-#--------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 6. Horizontal Bar plot ----------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Horizontal Bar plot
+# =========================================================================================
 '''
 Horizontal bar plot is similar to a vertical bar plot, but the bars are oriented horizontally.
 '''
 
-###############################
+##---------------------------##
 ##   df.plot(kind="barh")    ##
-###############################
+##---------------------------##
 
-#----------
-## Draw horizontal bar plot of "Generation" column
-#----------
-
+# ## Draw horizontal bar plot of "Generation" column
+# 
 generation_counts = df_pokemon['Generation'].value_counts().sort_index()
 
 generation_counts.plot(
@@ -654,10 +604,8 @@ generation_counts.plot(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw dodged horizontal bar plot of "Generation" and "Legendary" columns
-#----------
-
+# ## Draw dodged horizontal bar plot of "Generation" and "Legendary" columns
+# 
 gen_legd_counts = pd.crosstab(df_pokemon['Generation'], df_pokemon['Legendary'])
 
 gen_legd_counts.plot(
@@ -673,10 +621,8 @@ gen_legd_counts.plot(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw stacked horizontal bar plot of "Generation" and "Legendary" columns
-#----------
-
+# ## Draw stacked horizontal bar plot of "Generation" and "Legendary" columns
+# 
 gen_legd_counts = pd.crosstab(df_pokemon['Generation'], df_pokemon['Legendary'])
 
 gen_legd_counts.plot(
@@ -692,14 +638,12 @@ gen_legd_counts.plot(
 )
 plt.show() # Display the plot
 
-##########################
+##----------------------##
 ##    df.plot.barh()    ##
-##########################
+##----------------------##
 
-#----------
-## Draw horizontal bar plot of "Generation" column
-#----------
-
+# ## Draw horizontal bar plot of "Generation" column
+# 
 generation_counts = df_pokemon['Generation'].value_counts().sort_index()
 
 generation_counts.plot.barh(
@@ -713,10 +657,8 @@ generation_counts.plot.barh(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw dodged horizontal bar plot of "Generation" and "Legendary" columns
-#----------
-
+# ## Draw dodged horizontal bar plot of "Generation" and "Legendary" columns
+# 
 gen_legd_counts = pd.crosstab(df_pokemon['Generation'], df_pokemon['Legendary'])
 
 gen_legd_counts.plot.barh(
@@ -731,10 +673,8 @@ gen_legd_counts.plot.barh(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw stacked horizontal bar plot of "Generation" and "Legendary" columns
-#----------
-
+# ## Draw stacked horizontal bar plot of "Generation" and "Legendary" columns
+# 
 gen_legd_counts = pd.crosstab(df_pokemon['Generation'], df_pokemon['Legendary'])
 
 gen_legd_counts.plot.barh(
@@ -750,17 +690,17 @@ gen_legd_counts.plot.barh(
 plt.show() # Display the plot
 
 
-#---------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 7. Scatter plot ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Scatter plot
+# =========================================================================================
 '''
 Scatter plot is a graphical representation of the relationship between two continuous variables,
 where each point represents an observation in the dataset.
 '''
 
-#################################
+##-----------------------------##
 ##   df.plot(kind="scatter")   ##
-#################################
+##-----------------------------##
 
 # Draw scatter plot of "Attack" vs "Defense" columns
 df_pokemon.plot(
@@ -776,9 +716,9 @@ df_pokemon.plot(
 )
 plt.show() # Display the plot
 
-############################
+##------------------------##
 ##   df.plot.scatter()    ##
-############################
+##------------------------##
 
 # Draw scatter plot of "Attack" vs "Defense" columns
 df_pokemon.plot.scatter(
@@ -794,18 +734,18 @@ df_pokemon.plot.scatter(
 plt.show() # Display the plot
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 8. Hexbin plot ----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Hexbin plot
+# =========================================================================================
 '''
 Hexbin plot is a two-dimensional histogram 
 that uses hexagonal bins to represent the density of points in a scatter plot, 
 useful for visualizing the relationship between two continuous variables, especially with large datasets.
 '''
 
-################################
+##----------------------------##
 ##   df.plot(kind="hexbin")   ##
-################################
+##----------------------------##
 
 # Draw hexbin plot of "Attack" vs "Defense" columns
 df_pokemon.plot(
@@ -821,9 +761,9 @@ df_pokemon.plot(
 )
 plt.show() # Display the plot
 
-############################
+##------------------------##
 ##    df.plot.hexbin()    ##
-############################
+##------------------------##
 
 # Draw hexbin plot of "Attack" vs "Defense" columns
 df_pokemon.plot.hexbin(
@@ -839,9 +779,9 @@ df_pokemon.plot.hexbin(
 plt.show() # Display the plot
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------------------- 9. Line plot -----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. Line plot
+# =========================================================================================
 '''
 Line plot is a graphical representation of data points connected by straight lines,
 often used to visualize trends over time or ordered categories.
@@ -868,14 +808,12 @@ print(df_aq.info())
 # dtypes: datetime64[ns, UTC](1), float64(1), object(5)
 # memory usage: 113.2+ KB
 
-################################
+##----------------------------##
 ##    df.plot(kind="line")    ##
-################################
+##----------------------------##
 
-#----------
-## Draw line plot of "date" vs "value" columns for city "Paris"
-#----------
-
+# ## Draw line plot of "date" vs "value" columns for city "Paris"
+# 
 (
     df_aq.copy()
     .query('city == "Paris"')
@@ -896,10 +834,8 @@ print(df_aq.info())
 )
 plt.show() # Display the plot
 
-#----------
-## Draw line plot of "date" vs "value" columns for all cities
-#----------
-
+# ## Draw line plot of "date" vs "value" columns for all cities
+# 
 (
     df_aq.copy()
     .set_index("date")
@@ -919,14 +855,12 @@ plt.show() # Display the plot
 )
 plt.show() # Display the plot
 
-##########################
+##----------------------##
 ##    df.plot.line()    ##
-##########################
+##----------------------##
 
-#----------
-## Draw line plot of "date" vs "value" columns for city "Paris"
-#----------
-
+# ## Draw line plot of "date" vs "value" columns for city "Paris"
+# 
 (
     df_aq.copy()
     .query('city == "Paris"')
@@ -946,10 +880,8 @@ plt.show() # Display the plot
 )
 plt.show() # Display the plot
 
-#----------
-## Draw line plot of "date" vs "value" columns for all cities
-#----------
-
+# ## Draw line plot of "date" vs "value" columns for all cities
+# 
 (
     df_aq.copy()
     .set_index("date")
@@ -969,9 +901,9 @@ plt.show() # Display the plot
 plt.show() # Display the plot
 
 
-#--------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 10. Area plot -----------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 10. Area plot
+# =========================================================================================
 '''
 Area plot is a graphical representation of data where the area between the line and the x-axis is filled,
 often used to visualize cumulative totals over time or ordered categories.
@@ -995,14 +927,12 @@ print(df_business)
 # 2018-05-31     10       14      81
 # 2018-06-30      6       13      50
 
-################################
+##----------------------------##
 ##    df.plot(kind="area")    ##
-################################
+##----------------------------##
 
-#----------
-## Draw stacked (default) area plot of all columns
-#----------
-
+# ## Draw stacked (default) area plot of all columns
+# 
 df_business.plot(
     kind="area",
     color=["skyblue", "orange", "green"], # Colors for each category
@@ -1014,10 +944,8 @@ df_business.plot(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw unstacked area plot of all columns
-#----------
-
+# ## Draw unstacked area plot of all columns
+# 
 df_business.plot(
     kind="area",
     stacked=False,              # Unstacked area plot
@@ -1030,14 +958,12 @@ df_business.plot(
 )
 plt.show() # Display the plot
 
-##########################
+##----------------------##
 ##    df.plot.area()    ##
-##########################
+##----------------------##
 
-#----------
-## Draw stacked (default) area plot of all columns
-#----------
-
+# ## Draw stacked (default) area plot of all columns
+# 
 df_business.plot.area(
     color=["skyblue", "orange", "green"], # Colors for each category
     alpha=0.5,                  # Transparency level (0 to 1)
@@ -1048,10 +974,8 @@ df_business.plot.area(
 )
 plt.show() # Display the plot
 
-#----------
-## Draw unstacked area plot of all columns
-#----------
-
+# ## Draw unstacked area plot of all columns
+# 
 df_business.plot.area(
     stacked=False,              # Unstacked area plot
     color=["skyblue", "orange", "green"], # Colors for each category

@@ -4,7 +4,7 @@ Un like .assign() and .agg(), reframe technique allows returning a new DataFrame
 (.assign() requires the same number of rows as the original DataFrame,
  .groupby() returns a DataFrame the same number of columns as the original DataFrame.)
 
-####################################
+##--------------------------------##
 
 1. Using df.apply(axis=0) with .pipe(): Apply one reframing function to specific columns of the DataFrame.
 
@@ -37,9 +37,9 @@ print(df_boston.head())
 print(df_boston.shape)  # (506, 11)
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------- 1. Using df.apply(axis=0) with .pipe() -------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Using df.apply(axis=0) with .pipe()
+# =========================================================================================
 '''Apply the same reframing function to multiple columns of the DataFrame.'''
 
 print(df_boston[["rm", "lstat", "medv"]].apply(stats.shapiro, axis=0)) # axis=0 to apply function to each column
@@ -47,7 +47,7 @@ print(df_boston[["rm", "lstat", "medv"]].apply(stats.shapiro, axis=0)) # axis=0 
 # 0  9.608723e-01  9.369061e-01  9.171759e-01
 # 1  2.411977e-10  8.286632e-14  4.941386e-16
 
-###############
+##-----------##
 
 print(
     df_boston[["rm", "lstat", "medv"]]
@@ -58,7 +58,7 @@ print(
 # W-statistic  9.608723e-01  9.369061e-01  9.171759e-01
 # p-value      2.411977e-10  8.286632e-14  4.941386e-16
 
-###############
+##-----------##
 
 print(
     df_boston[["rm", "lstat", "medv"]]
@@ -72,12 +72,12 @@ print(
 # Q4  4.524450  2.88300  7.01000
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------ 2. Using df.pipe(lambda df: pd.DataFrame(...)) --------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Using df.pipe(lambda df: pd.DataFrame(...))
+# =========================================================================================
 '''Apply multiple reframing functions to the DataFrame.'''
 
-#######################
+##-------------------##
 
 '''
 The cumulative distribution function (CDF) takes a value and returns the probability
@@ -89,7 +89,7 @@ takes a probability and returns the corresponding value whose CDF equals that pr
 In short: CDF input is a value and output is a probability in ;
 PPF input is a probability in and output is a value on the distribution's scale.
 
-########################
+##--------------------##
 
 In this example,  for the sake of reframing demonstration,
 we will calculate the PPF values for the 25th, 50th, 75th, and 100th percentiles,

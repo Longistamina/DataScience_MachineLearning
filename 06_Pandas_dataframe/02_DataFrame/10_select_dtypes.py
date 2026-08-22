@@ -6,7 +6,7 @@ include, exclude: scalar or list-like
    At least one of these parameters must be supplied.
 '''
 
-########################
+##--------------------##
 
 '''
 To select all numeric types, use: 'np.number' or 'number'
@@ -54,13 +54,13 @@ print(df_emp.dtypes)
 # dtype: object
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------------- Apply df.select_dtypes() ------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# Apply df.select_dtypes()
+# =========================================================================================
 
-####################################
+##--------------------------------##
 ## df.select_dtypes(include=...)  ##
-####################################
+##--------------------------------##
 
 # Select all "number" columns
 df_num = df_emp.select_dtypes(include="number")
@@ -134,9 +134,9 @@ print(df_combined.head())
 # 3      Ryan  729.00  Excellent
 # 4      Gary  843.25       Poor
 
-####################################
+##--------------------------------##
 ## df.select_dtypes(exclude=...)  ##
-####################################
+##--------------------------------##
 
 # Select all columns except "object" columns
 df_excl_obj = df_emp.select_dtypes(exclude="object")
@@ -168,9 +168,9 @@ print(df_combined.head())
 # 3  729.00 2014-05-11  False
 # 4  843.25 2015-03-27   True
 
-##############################################
+##------------------------------------------##
 ## df.select_dtypes(include=, exclude=...)  ##
-##############################################
+##------------------------------------------##
 
 # Select "number" columns but exclude "int64" columns
 df_num_excl_int = df_emp.select_dtypes(include="number", exclude="int64")

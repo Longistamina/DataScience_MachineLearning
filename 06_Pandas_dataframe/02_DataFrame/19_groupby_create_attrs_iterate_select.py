@@ -60,13 +60,13 @@ print(df_pokemon.info())
 # memory usage: 54.7+ KB
 
 
-#----------------------------------------------------------------------------------------------------------#
-#------------------------------------ 1. Create group-by object -------------------------------------------#
-#----------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Create group-by object
+# =========================================================================================
 
-#############################################################
+##---------------------------------------------------------##
 ## Using df.groupby("key") or df.groupby(["key1", "key2"]) ##
-#############################################################
+##---------------------------------------------------------##
 
 grouped_single_key = df_pokemon.groupby("Type_1")
 print(grouped_single_key)
@@ -76,9 +76,9 @@ grouped_multi_keys = df_pokemon.groupby(["Type_1", "Type_2"])
 print(grouped_multi_keys)
 # <pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f4481bd3c50>
 
-###############################################################################
+##---------------------------------------------------------------------------##
 ## Using df.groupby(by=df["key"]) or df.groupby(by=[df["key1"], df["key2"]]) ##
-###############################################################################
+##---------------------------------------------------------------------------##
 
 grouped_single_key = df_pokemon.groupby(by=df_pokemon["Type_1"])
 print(grouped_single_key)
@@ -89,13 +89,13 @@ print(grouped_multi_keys)
 # <pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f4481bea060>
 
 
-#---------------------------------------------------------------------------------------------------------#
-#---------------------------------- 2. df.groupby() object attritubes ------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. df.groupby() object attritubes
+# =========================================================================================
 
-######################
+##------------------##
 ## group_obj.groups ##
-######################
+##------------------##
 '''A dictionary mapping group names to row labels'''
 
 print(grouped_single_key.groups)
@@ -104,9 +104,9 @@ print(grouped_single_key.groups)
 print(grouped_multi_keys.groups)
 # {('Bug', 'Electric'): [595, 596], ('Bug', 'Fighting'): [214, 214], ('Bug', 'Fire'): [636, 637], ...}
 
-#######################
+##-------------------##
 ## group_obj.indices ##
-#######################
+##-------------------##
 '''A dictionary mapping group names to row indices (array style)'''
 
 print(grouped_single_key.indices)
@@ -135,9 +135,9 @@ print(grouped_multi_keys.indices)
 # ('Bug', 'Fire'): array([697, 698]), 
 # ('Bug', 'Flying'): array([ 15, 132, 137, 179, 180, 208, 290, 308, 315, 461, 462, 463, 520, 734]), ...}
 
-#######################
+##-------------------##
 ## group_obj.ngroups ##
-#######################
+##-------------------##
 '''The number of groups'''
 
 print(grouped_single_key.ngroups)
@@ -147,13 +147,13 @@ print(grouped_multi_keys.ngroups)
 # 136
 
 
-#-----------------------------------------------------------------------------------------------------------#
-#---------------------------- 3. Iterate over groups within a group-by object ------------------------------#
-#-----------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Iterate over groups within a group-by object
+# =========================================================================================
 
-#####################################
+##---------------------------------##
 ## Iterate over grouped_single_key ##
-#####################################
+##---------------------------------##
 
 for name, group in grouped_single_key:
     print(f"Group name: {name}")
@@ -172,9 +172,9 @@ for name, group in grouped_single_key:
 # 213  Murkrow   Dark  Flying    405  60      85       42      85      42     91          2      False
 # 233  Sneasel   Dark     Ice    430  55      95       55      35      75    115          2      False
 
-#####################################
+##---------------------------------##
 ## Iterate over grouped_multi_keys ##
-#####################################
+##---------------------------------##
 
 for name, group in grouped_multi_keys:  # Iterate over the first 4 groups
     print(f"Group name: {name}")
@@ -197,13 +197,13 @@ for name, group in grouped_multi_keys:  # Iterate over the first 4 groups
 # 698  Volcarona    Bug   Fire    550  85      60       65     135     105    100          5      False
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------- 4. Select specific groups in a group-by object ------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Select specific groups in a group-by object
+# =========================================================================================
 
-############################
+##------------------------##
 ## With single group name ##
-############################
+##------------------------##
 
 print(grouped_single_key.get_group("Fire").head())
 #                         Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
@@ -213,9 +213,9 @@ print(grouped_single_key.get_group("Fire").head())
 # 7  CharizardMega Charizard X   Fire  Dragon    634  78     130      111     130      85    100          1      False
 # 8  CharizardMega Charizard Y   Fire  Flying    634  78     104       78     159     115    100          1      False
 
-###############################
+##---------------------------##
 ## With multiple group names ##
-###############################
+##---------------------------##
 
 print(grouped_multi_keys.get_group(("Water", "Flying")).head())
 #          Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary

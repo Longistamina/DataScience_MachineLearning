@@ -25,9 +25,9 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
 
-#----------------------------------------------------------------------------------------#
-#------------------------ 1. The Core Concept: Basic Callback ---------------------------#
-#----------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. The Core Concept: Basic Callback
+# =========================================================================================
 '''
 Sometimes you just want to execute standard Python code, like printing a formatted
 string or interacting with an unsupported library, without needing to return
@@ -56,9 +56,9 @@ print(f"Result from nopython mode: {res}\n")
 # Result from nopython mode: 30
 
 
-#----------------------------------------------------------------------------------------#
-#---------------- 2. Returning Values & Type Annotation (String & Types) ----------------#
-#----------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Returning Values & Type Annotation (String & Types)
+# =========================================================================================
 '''
 If the Python code generates data that you need back in your fast ``nopython`` code,
 you must declare the output variables and their expected Numba types as keyword
@@ -101,9 +101,9 @@ print(f"z: {res_z}\n")
 # z: [8 6 4 2 0]
 
 
-#----------------------------------------------------------------------------------------#
-#------------------------ 3. Real-World Use Case: Logging Progress ----------------------#
-#----------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Real-World Use Case: Logging Progress
+# =========================================================================================
 '''
 A very common use case for ``objmode`` is logging the progress of a long-running
 simulation or loop without breaking out of the JIT-compiled function.
@@ -147,9 +147,9 @@ print(f"Final accumulated value: {final_acc:.2f}\n")
 # Final accumulated value: 666666166.46
 
 
-#----------------------------------------------------------------------------------------#
-#------------------------ 4. Limitations & Performance Warning --------------------------#
-#----------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Limitations & Performance Warning
+# =========================================================================================
 '''
 KNOWN LIMITATIONS of the ``with objmode():`` block:
 1. Cannot use incoming Python `list` or `dict` objects directly from nopython scope.

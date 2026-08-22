@@ -13,13 +13,13 @@ import os
 import pickle
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ Saving and Loading ------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# Saving and Loading
+# =========================================================================================
 
-###############################
+##---------------------------##
 ## save_npz() and load_npz() ##
-###############################
+##---------------------------##
 '''
 Save to NumPy compressed format (.npz)
 Efficient, preserves format and dtype
@@ -45,9 +45,9 @@ print(f"Matrices equal: {np.allclose(A_save.toarray(), A_loaded.toarray())}")
 os.remove(filename_npz)
 print(f"Cleaned up {filename_npz}")
 
-##########################
+##----------------------##
 ## Matrix Market format ##
-##########################
+##----------------------##
 '''
 Save/load in Matrix Market format (.mtx)
 Portable text format
@@ -77,9 +77,9 @@ print(A_mm_loaded.toarray())
 os.remove(filename_mtx)
 print(f"\nCleaned up {filename_mtx}")
 
-####################################
+##--------------------------------##
 ## Pickle (general serialization) ##
-####################################
+##--------------------------------##
 '''
 Use pickle for general Python serialization
 Can save multiple arrays in one file

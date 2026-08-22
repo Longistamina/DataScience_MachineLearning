@@ -4,7 +4,7 @@ Flow of contents:
 2. itertools.starmap()
 '''
 
-#############################
+##-------------------------##
 
 '''
 itertools.starmap() is similar to map(),
@@ -12,9 +12,9 @@ but it unpacks the arguments from each tuple in the iterable(s) before applying 
 '''
 
 
-#-------------------------------------------------------------------------------------------------------#
-#------------------------------------------------ map() ------------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# map()
+# ==============================================================================================
 '''
 map() applies a function to every element in one or more iterables
 and produces a lazy and memory-efficient iterator.
@@ -28,9 +28,9 @@ Values are computed only when the object is iterated, which keeps peak memory lo
 To materialize results you must wrap with list(), tuple(), set() or loop over the iterator.
 '''
 
-################
+##------------##
 ## map object ##
-################
+##------------##
 
 numbers = [1, 2, 3, 4, 5]
 map_object = map(lambda x: x**2, numbers)
@@ -46,9 +46,9 @@ print(list(map(lambda x: x**2, numbers))) # [1, 4, 9, 16, 25]
 
 print(list(map_object))  # [] (empty, as map object is exhausted after initial iteration)
 
-########################################################
+##----------------------------------------------------##
 ##           map(func, iterable, *iterables)          ##
-########################################################
+##----------------------------------------------------##
 
 nums  = [1, 2, 3]
 exps  = [2, 3, 4]
@@ -57,10 +57,8 @@ mod = [5, 6, 7]
 # pow(base, exp, mod) returns (base ** exp) % mod
 # If the mod is not provided, it will return base ** exp (the exponentiation result only).
 
-#-------------
-## pass 2 iterables to pow() using map()
-#-------------
-
+# ## pass 2 iterables to pow() using map()
+# 
 print(list(map(pow, nums, exps)))   # 1**2, 2**3, 3**4
                                      # [1, 8, 81]
 
@@ -71,10 +69,8 @@ what actually happens is:
     pow(base=3, exp=4) = (3⁴) = 81
 '''
 
-#-------------
-## pass 3 iterables to pow() using map()
-#-------------
-
+# ## pass 3 iterables to pow() using map()
+# 
 print(list(map(pow, nums, exps, mod)))
 # [1, 2, 4]
 
@@ -85,14 +81,12 @@ what actually happens is:
     pow(base=3, exp=4, mod=7) = (3⁴) % 7 = 81 % 7 = 4
 '''
 
-################################
+##----------------------------##
 ## map() with lambda function ##
-################################
+##----------------------------##
 
-#---
-## single input
-#---
-
+# ## single input
+# 
 lst_floats = [213.0, 321.5, 56198.99, 65489.55, 213.68]
 
 output_lst = list(map(lambda x: x/100, lst_floats))
@@ -100,10 +94,8 @@ output_lst = list(map(lambda x: x/100, lst_floats))
 print(output_lst)
 # [2.13, 3.215, 561.9899, 654.8955000000001, 2.1368]
 
-#---
-## multiple inputs
-#---
-
+# ## multiple inputs
+# 
 lengths = [2, 3, 4]
 widths = [5, 6, 7]
 
@@ -113,9 +105,9 @@ print(areas)
 # [10, 18, 28]
 
 
-#-------------------------------------------------------------------------------------------------------#
-#---------------------------------------- itertools.starmap() ------------------------------------------#
-#-------------------------------------------------------------------------------------------------------#
+# ==============================================================================================
+# itertools.starmap()
+# ==============================================================================================
 """
 itertools.starmap() is similar to map(),
 but it unpacks the arguments from each tuple in the iterable(s) before applying the function.
@@ -123,9 +115,9 @@ but it unpacks the arguments from each tuple in the iterable(s) before applying 
 
 from itertools import starmap
 
-####################################
+##--------------------------------##
 ## starmap() with normal function ##
-####################################
+##--------------------------------##
 
 import sympy as syp
 
@@ -151,19 +143,17 @@ what actually happens is:
     syp.diff(2**x + 3*z, x, 2 => differentiating 2**x + 3*z with respect to x, 2 orders
 '''
 
-#-------------
-## using map() instead of starmap()
-#-------------
-
+# ## using map() instead of starmap()
+# 
 object_function = (2*x + 3*y - z, x**2 + 2*x*y + z**4, 2**x + 3*z)
 respect_variable = (y, z, x)
 diff_time = (1, 3, 2)
 
 print(list(map(syp.diff, object_function, respect_variable, diff_time)))
 
-###########################
+##-----------------------##
 ## starmap() with lambda ##
-###########################
+##-----------------------##
 
 height_width = [(1.5, 2.0), (2.0, 3.0), (3.0, 4.0)]
 

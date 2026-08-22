@@ -48,13 +48,13 @@ print(matrix)
 #  [5.27 6.03 1.15 7.89]]
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 1. Statistical reduction methods --------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Statistical reduction methods
+# =========================================================================================
 
-###############
+##-----------##
 ## arr.sum() ##
-###############
+##-----------##
 '''Computes the sum along the specified axis.'''
 
 print(matrix.sum())
@@ -77,9 +77,9 @@ print(matrix.sum(axis=1))
 20.34 = 5.46 + 3.38 + 1.69 + 5.25
 '''
 
-################
+##------------##
 ## arr.mean() ##
-################
+##------------##
 '''Computes the mean along the specified axis.'''
 
 print(matrix.mean())
@@ -91,9 +91,9 @@ print(matrix.mean(axis=0))
 print(matrix.mean(axis=1))
 # [5.715  3.395  5.085 ] (mean along axis=1)
 
-################
+##------------##
 ## arr.prod() ##
-################
+##------------##
 '''Computes the product along the specified axis.'''
 
 print(matrix.prod())
@@ -105,9 +105,9 @@ print(matrix.prod(axis=0))
 print(matrix.prod(axis=1))
 # [923.28075     44.88384615 288.33859035] (product along axis=1)
 
-###############
+##-----------##
 ## arr.max() ##
-###############
+##-----------##
 '''Finds the maximum value along the specified axis.'''
 
 print(matrix.max())
@@ -119,9 +119,9 @@ print(matrix.max(axis=0))
 print(matrix.max(axis=1))
 # [7.75 7.15 7.89] (maximum along axis=1)
 
-###############
+##-----------##
 ## arr.min() ##
-###############
+##-----------##
 '''Finds the minimum value along the specified axis.'''
 
 print(matrix.min())
@@ -133,9 +133,9 @@ print(matrix.min(axis=0))
 print(matrix.min(axis=1))
 # [3.66 1.41 1.15] (minimum along axis=1)
 
-#################
+##-------------##
 ## np.ptp(arr) ##
-#################
+##-------------##
 '''Computes the peak-to-peak (max - min) value along the specified axis.'''
 
 print(np.ptp(matrix))
@@ -147,9 +147,9 @@ print(np.ptp(matrix, axis=0))
 print(np.ptp(matrix, axis=1))
 # [4.09 5.74 6.74] (range along axis=1)
 
-###############
+##-----------##
 ## arr.var() ##
-###############
+##-----------##
 '''Computes the variance along the specified axis.'''
 
 print(matrix.var())
@@ -161,9 +161,9 @@ print(matrix.var(axis=0))
 print(matrix.var(axis=1))
 # [2.203925 5.295675 6.069875] (variance along axis=1)
 
-###############
+##-----------##
 ## arr.std() ##
-###############
+##-----------##
 '''Computes the standard deviation along the specified axis.'''
 
 print(matrix.std())
@@ -176,18 +176,18 @@ print(matrix.std(axis=1))
 # [1.48456223 2.30123336 2.46371163] (standard deviation along axis=1)
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 2. Cumulative methods -----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Cumulative methods
+# =========================================================================================
 
 print(matrix)
 # [[3.66 7.75 6.2  5.25]
 #  [2.11 2.11 1.41 7.15]
 #  [5.27 6.03 1.15 7.89]]
 
-##################
+##--------------##
 ## arr.cumsum() ##
-##################
+##--------------##
 '''Computes the cumulative sum along the specified axis.'''
 
 print(matrix.cumsum())
@@ -214,9 +214,9 @@ Row 1: [2.11, 2.11+4.88, 7.99+8.10, 15.09+7.32]
 Row 2: [5.46, 5.46+3.38, 8.84+1.69, 10.53+5.25]
 '''
 
-###################
+##---------------##
 ## arr.cumprod() ##
-###################
+##---------------##
 '''Computes the cumulative product along the specified axis.'''
 
 print(matrix.cumprod())
@@ -246,18 +246,18 @@ Row 2: [5.46, 5.46*3.38, 18.4548*1.69, 31.1696*5.25]
 '''
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 3. Rounding and clipping methods ---------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Rounding and clipping methods
+# =========================================================================================
 
 print(matrix)
 # [[3.66 7.75 6.2  5.25]
 #  [2.11 2.11 1.41 7.15]
 #  [5.27 6.03 1.15 7.89]]
 
-#################
+##-------------##
 ## arr.round() ##
-#################
+##-------------##
 '''Rounds each element in the matrix to the specified number of decimals.'''
 
 print(matrix.round(decimals=1))
@@ -270,9 +270,9 @@ print(matrix.round(decimals=0))
 #  [2. 2. 1. 7.]
 #  [5. 6. 1. 8.]]
 
-################
+##------------##
 ## arr.clip() ##
-################
+##------------##
 '''Clips (limits) the values in the matrix to be within the specified minimum and maximum bounds.'''
 
 print(matrix.clip(min=4.0, max=7.0))
@@ -282,9 +282,9 @@ print(matrix.clip(min=4.0, max=7.0))
 '''Values less than 4.0 are set to 4.0, and values greater than 7.0 are set to 7.0.'''
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#---------------------------------------- 4. Complex number methods --------------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Complex number methods
+# =========================================================================================
 
 matrix_complex = np.array([[3+4j, 1-2j], [-5+0j, 0+6j], [-3-3j, 2+1j]])
 
@@ -293,9 +293,9 @@ print(matrix_complex)
 #  [-5.+0.j  0.+6.j]
 #  [-3.-3.j  2.+1.j]]
 
-##############
+##----------##
 ## arr.real ##
-##############
+##----------##
 '''Returns a new matrix containing the real parts of the complex numbers.'''
 
 print(matrix_complex.real)
@@ -303,9 +303,9 @@ print(matrix_complex.real)
 #  [-5.  0.]
 #  [-3.  2.]]
 
-##############
+##----------##
 ## arr.imag ##
-##############
+##----------##
 '''Returns a new matrix containing the imaginary parts of the complex numbers.'''
 
 print(matrix_complex.imag)
@@ -313,9 +313,9 @@ print(matrix_complex.imag)
 #  [ 0.  6.]
 #  [-3.  1.]]
 
-################
+##------------##
 ## arr.conj() ##
-################
+##------------##
 '''
 Returns a new matrix containing the complex conjugates of the complex numbers.
 The complex conjugate of a complex number is obtained by changing the sign of its imaginary part.
@@ -327,9 +327,9 @@ print(matrix_complex.conj())
 #  [-5.-0.j  0.-6.j]
 #  [-3.+3.j  2.-1.j]]
 
-#####################
+##-----------------##
 ## arr.conjugate() ##
-#####################
+##-----------------##
 '''Works the same as arr.conj().'''
 
 print(matrix_complex.conjugate())
@@ -338,9 +338,9 @@ print(matrix_complex.conjugate())
 #  [-3.+3.j  2.-1.j]]
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#----------------------------------- 5. Matrix multiplication and transpose ------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Matrix multiplication and transpose
+# =========================================================================================
 
 matrix1 = np.array([[1, 2, 3],
                     [4, 5, 6]])
@@ -358,9 +358,9 @@ print(matrix2)
 #  [ 9 10]
 #  [11 12]]
 
-####################
+##----------------##
 ## arr1.dot(arr2) ##
-####################
+##----------------##
 '''
 Computes the matrix multiplication between two matrices with compatible dimensions.
 
@@ -378,18 +378,18 @@ Result[1,0] = 4*7 + 5*9 + 6*11 = 139
 Result[1,1] = 4*8 + 5*10 + 6*12 = 154
 '''
 
-#################
+##-------------##
 ## arr1 @ arr2 ##
-#################
+##-------------##
 '''Another syntax to compute the matrix multiplication between two matrices with compatible dimensions.'''
 
 print(matrix1 @ matrix2)
 # [[ 58  64]
 #  [139 154]]
 
-###########
+##-------##
 ## arr.T ##
-###########
+##-------##
 '''Returns the transpose of the matrix (rows become columns and vice versa).'''
 
 print(matrix1)
@@ -402,9 +402,9 @@ print(matrix1.T)
 #  [3 6]]
 '''Original shape (2, 3) becomes (3, 2) after transpose.'''
 
-#####################
+##-----------------##
 ## arr.transpose() ##
-#####################
+##-----------------##
 '''Another method to get the transpose of the matrix.'''
 
 print(matrix2)
@@ -417,13 +417,13 @@ print(matrix2.transpose())
 #  [ 8 10 12]]
 
 
-#---------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 6. Examples for 3D and 4D matrices -------------------------------------#
-#---------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Examples for 3D and 4D matrices
+# =========================================================================================
 
-#######################
+##-------------------##
 ## 3D Matrix Example ##
-#######################
+##-------------------##
 
 np.random.seed(100)
 matrix_3d = np.random.uniform(1, 10, size=(2, 3, 4)).round(2)
@@ -440,10 +440,8 @@ print(matrix_3d)
 print(matrix_3d.shape)
 # (2, 3, 4) => 2 matrices of shape (3, 4)
 
-#-------
-## Statistical operations with axis parameter
-#-------
-
+# ## Statistical operations with axis parameter
+# 
 print(matrix_3d.sum(axis=0))  # Sum along the first dimension (stacks)
 # [[ 8.56  5.49  7.8  18.41]
 #  [ 9.35  4.64 15.39 11.9 ]
@@ -476,10 +474,8 @@ For each row across all matrices, compute the mean of all elements in that row.
 5.0325 = (5.89 + 3.51 + 4.82 + 8.6 + 2.67 + 1.98 + 2.98 + 9.81) / 8
 '''
 
-#------
-## Cumulative methods
-#------
-
+# ## Cumulative methods
+# 
 print(matrix_3d.cumsum(axis=0))  # Cumulative sum along stacks
 # [[[ 2.58  4.36  1.05  3.27]
 #   [ 8.16  1.14  6.39  6.43]
@@ -494,9 +490,9 @@ Each element in the second matrix is the sum of the corresponding elements in th
 12.41 = 2.58 + 9.83
 '''
 
-#######################
+##-------------------##
 ## 4D Matrix Example ##
-#######################
+##-------------------##
 
 np.random.seed(200)
 matrix_4d = np.random.uniform(1, 5, size=(2, 2, 3, 3)).round(2)
@@ -522,10 +518,8 @@ print(matrix_4d)
 print(matrix_4d.shape)
 # (2, 2, 3, 3) => 2 batches, each with 2 matrices of shape (3, 3)
 
-#-------
-## Statistical operations with axis parameter
-#-------
-
+# ## Statistical operations with axis parameter
+# 
 print(matrix_4d.mean(axis=0))  # Mean along batches
 # [[[3.085 3.34  3.84 ]
 #   [2.89  4.275 2.16 ]
@@ -550,10 +544,8 @@ print(matrix_4d.sum(axis=(0, 1)))  # Sum along batches and depth
 Sum all values at each (row, column) position across all batches and depth levels.
 '''
 
-#------
-## Transpose method for 4D matrices
-#------
-
+# ## Transpose method for 4D matrices
+# 
 print(matrix_4d.transpose(0, 3, 1, 2).shape)
 # (2, 3, 2, 3) => Swaps depth and columns dimensions
 

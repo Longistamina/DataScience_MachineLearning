@@ -35,9 +35,9 @@
 import numpy as np
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 1. arr.reshape(dimension) ------------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. arr.reshape(dimension)
+# =========================================================================================
 
 np.random.seed(0)
 vector = np.random.randn(12).round(2)
@@ -58,9 +58,9 @@ Possible ways to reshape 1D vector of size 12:
    = 1x12
 '''
 
-#######################
+##-------------------##
 ## arr.reshape(m, n) ##
-#######################
+##-------------------##
 
 matrix_4x3 = vector.reshape((4, 3))
 print(matrix_4x3)
@@ -113,9 +113,9 @@ print(vector.reshape((2, 2, 3)))
 print(vector.reshape((5, 3)))
 '''ValueError: cannot reshape array of size 12 into shape (5,3)'''
 
-########################
+##--------------------##
 ## arr.reshape(-1, n) ##
-########################
+##--------------------##
 
 print(vector.reshape(-1, 6))
 # [[ 1.76  0.4   0.98  2.24  1.87 -0.98]
@@ -128,9 +128,9 @@ print(vector.reshape(-1, 4))
 #  [-0.1   0.41  0.14  1.45]]
 '''set columns to 4, automatically calculate the other dimension based on 4 columns'''
 
-########################
+##--------------------##
 ## arr.reshape(n, -1) ##
-########################
+##--------------------##
 
 print(vector.reshape(4, -1))
 # [[ 1.76  0.4   0.98]
@@ -144,9 +144,9 @@ print(vector.reshape(2, -1))
 #  [ 0.95 -0.15 -0.1   0.41  0.14  1.45]]
 '''set rows to 2, automatically calculate the other dimension based on 2 rows'''
 
-########################
+##--------------------##
 ## arr.reshape(-1, 1) ##
-########################
+##--------------------##
 
 print(vector.reshape(-1, 1))
 # [[ 1.76]
@@ -165,9 +165,9 @@ print(vector.reshape(-1, 1))
 
 print(vector.reshape(-1, 1).ndim) # 2 (Still counted as 2D matrix)
 
-########################
+##--------------------##
 ## arr.reshape(1, -1) ##
-########################
+##--------------------##
 
 print(vector.reshape(1, -1))
 # [[ 1.76  0.4   0.98  2.24  1.87 -0.98  0.95 -0.15 -0.1   0.41  0.14  1.45]]
@@ -175,9 +175,9 @@ print(vector.reshape(1, -1))
 
 print(vector.reshape(1, -1).ndim) # 2 (Still counted as 2D matrix)
 
-#####################
+##-----------------##
 ## arr.reshape(-1) ##
-#####################
+##-----------------##
 
 print(vector.reshape(-1))
 # [ 1.76  0.4   0.98  2.24  1.87 -0.98  0.95 -0.15 -0.1   0.41  0.14  1.45]
@@ -185,9 +185,9 @@ print(vector.reshape(-1))
 
 print(vector.reshape(-1).ndim) # 1
 
-###############################
+##---------------------------##
 ## np.reshape(arr, newshape) ##
-###############################
+##---------------------------##
 '''Works similarly to arr.reshape(newshape)'''
 
 print(np.reshape(vector, (3, 4)))
@@ -196,9 +196,9 @@ print(np.reshape(vector, (3, 4)))
 #  [-0.1   0.41  0.14  1.45]]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------- 2. Flatten and Ravel: convert back to 1D vector ------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Flatten and Ravel: convert back to 1D vector
+# =========================================================================================
 
 np.random.seed(0)
 matrix = np.random.randint(1, 21, size=(4, 5))
@@ -208,9 +208,9 @@ print(matrix)
 #  [ 7 13  2  7  8]
 #  [15 18  6 14  9]]
 
-###################
+##---------------##
 ## arr.flatten() ##
-###################
+##---------------##
 '''
 Convert back to 1D vector, returns a copy (with different id, different memory location)
 => Modifying flattened will not affect the original matrix
@@ -224,9 +224,9 @@ print(flattened)
 
 print(np.shares_memory(matrix, flattened)) # False (different memory location)
 
-#################
+##-------------##
 ## arr.ravel() ##
-#################
+##-------------##
 '''
 Convert back to 1D vector, returns a view whenever possible (same id, same memory location)
 => Modifying raveled will affect the original matrix
@@ -240,9 +240,9 @@ print(raveled)
 
 print(np.shares_memory(matrix, raveled)) # True (same memory location)
 
-###################
+##---------------##
 ## np.ravel(arr) ##
-###################
+##---------------##
 '''Works similarly to arr.ravel()'''
 
 raveled_np = np.ravel(matrix)
@@ -252,9 +252,9 @@ print(raveled_np)
 '''NOTE: np.flatten(arr) does not exist'''
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------- 3. arr.resize(dimension): similar to reshape ---------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. arr.resize(dimension): similar to reshape
+# =========================================================================================
 '''
 arr.resize(dimension): Similar to reshape,
 But if the new array is larger than the original array,
@@ -269,9 +269,9 @@ vector = np.random.randn(12).round(2)
 print(vector)
 # [ 1.76  0.4   0.98  2.24  1.87 -0.98  0.95 -0.15 -0.1   0.41  0.14  1.45]
 
-###################################
+##-------------------------------##
 ## arr.resize() with larger size ##
-###################################
+##-------------------------------##
 
 vector.resize(18)
 print(vector)
@@ -285,17 +285,17 @@ print(vector)
 #  [ 0.    0.    0.    0.    0.    0.    0.    0.  ]]
 '''NOT vector = vector.resize(18)'''
 
-####################################
+##--------------------------------##
 ## arr.resize() with smaller size ##
-####################################
+##--------------------------------##
 
 vector.resize(5)
 print(vector)
 # [1.76 0.4  0.98 2.24 1.87]
 
-##############################
+##--------------------------##
 ## np.resize(arr, newshape) ##
-##############################
+##--------------------------##
 '''
 Works similarly to arr.resize(newshape)
 
@@ -317,9 +317,9 @@ print(np.resize(vector, (3, 8)))
 #  [ 1.49 -0.21  0.31 -0.85 -2.55  0.65  0.86 -0.74]]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#---------------------------- 4. arr.transpose() or arr.T: Transpose the array --------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. arr.transpose() or arr.T: Transpose the array
+# =========================================================================================
 '''
 arr.transpose() or arr.T: Transpose the array (swap rows and columns)
 
@@ -327,17 +327,15 @@ arr.transpose() or arr.T: Transpose the array (swap rows and columns)
 (1, n) -->  (n, 1)
 '''
 
-########################
+##--------------------##
 ## with (n, 1) vector ##
-########################
+##--------------------##
 
 np.random.seed(0)
 col_vector = np.random.randn(5,1).round(2)
 
-#---
-## Before transpose
-#---
-
+# ## Before transpose
+# 
 print(col_vector)
 # [[1.76]
 #  [0.4 ]
@@ -345,34 +343,28 @@ print(col_vector)
 #  [2.24]
 #  [1.87]]
 
-#---
-## After transpose
-#---
-
+# ## After transpose
+# 
 print(col_vector.transpose())
 # [[1.76 0.4  0.98 2.24 1.87]]
 
 print(col_vector.T)
 # [[1.76 0.4  0.98 2.24 1.87]]
 
-########################
+##--------------------##
 ## with (1, n) vector ##
-########################
+##--------------------##
 
 np.random.seed(0)
 row_vector = np.random.randn(1,5).round(2)
 
-#---
-## Before transpose
-#---
-
+# ## Before transpose
+# 
 print(row_vector)
 # [[1.76 0.4  0.98 2.24 1.87]]
 
-#---
-## After transpose
-#---
-
+# ## After transpose
+# 
 print(row_vector.transpose())
 # [[1.76]
 #  [0.4 ]
@@ -388,9 +380,9 @@ print(row_vector.T)
 #  [1.87]]
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------- 5. arr.squeeze(): remove single-dimensional entries ------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. arr.squeeze(): remove single-dimensional entries
+# =========================================================================================
 '''
 arr.squeeze(): Remove single-dimensional entries from the shape of an array
 
@@ -398,17 +390,15 @@ arr.squeeze(): Remove single-dimensional entries from the shape of an array
 (1, n) -->  (n,)
 '''
 
-########################
+##--------------------##
 ## with (n, 1) vector ##
-########################
+##--------------------##
 
 np.random.seed(0)
 col_vector = np.random.randn(5,1).round(2)
 
-#---
-## Before squeeze
-#---
-
+# ## Before squeeze
+# 
 print(col_vector)
 # [[1.76]
 #  [0.4 ]
@@ -419,10 +409,8 @@ print(col_vector)
 print(col_vector.shape) # (5, 1)
 print(col_vector.ndim)  # 2
 
-#---
-## After squeeze
-#---
-
+# ## After squeeze
+# 
 squeezed_col_vector = col_vector.squeeze()
 
 print(squeezed_col_vector)
@@ -431,27 +419,23 @@ print(squeezed_col_vector)
 print(squeezed_col_vector.shape) # (5,)
 print(squeezed_col_vector.ndim)  # 1
 
-########################
+##--------------------##
 ## with (1, n) vector ##
-########################
+##--------------------##
 
 np.random.seed(0)
 row_vector = np.random.randn(1,5).round(2)
 
-#---
-## Before squeeze
-#---
-
+# ## Before squeeze
+# 
 print(row_vector)
 # [[1.76 0.4  0.98 2.24 1.87]]
 
 print(row_vector.shape) # (1, 5)
 print(row_vector.ndim)  # 2
 
-#---
-## After squeeze
-#---
-
+# ## After squeeze
+# 
 squeezed_row_vector = row_vector.squeeze()
 
 print(squeezed_row_vector)
@@ -461,9 +445,9 @@ print(squeezed_row_vector.shape) # (5,)
 print(squeezed_row_vector.ndim)  # 1
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------ 6. np.expand_dims(): expand shape by inserting new axis -----------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. np.expand_dims(): expand shape by inserting new axis
+# =========================================================================================
 '''
 np.expand_dims(arr, axis): Expand the shape of an array
 by inserting a new axis at the specified position
@@ -474,18 +458,18 @@ vector = np.random.randn(12).round(2)
 print(vector)
 # [ 1.76  0.4   0.98  2.24  1.87 -0.98  0.95 -0.15 -0.1   0.41  0.14  1.45]
 
-####################################
+##--------------------------------##
 ## axis=0 (convert to row vector) ##
-####################################
+##--------------------------------##
 
 print(np.expand_dims(vector, axis=0))
 # [[ 0.76  0.12  0.44  0.33  1.49 -0.21  0.31 -0.85 -2.55  0.65  0.86 -0.74]]
 
 print(np.expand_dims(vector, axis=0).shape) # (1, 12)
 
-#######################################
+##-----------------------------------##
 ## axis=1 (convert to column vector) ##
-#######################################
+##-----------------------------------##
 
 print(np.expand_dims(vector, axis=1))
 # [[ 0.76]
@@ -503,9 +487,9 @@ print(np.expand_dims(vector, axis=1))
 
 print(np.expand_dims(vector, axis=1).shape) # (12, 1)
 
-######################
+##------------------##
 ## Using np.newaxis ##
-######################
+##------------------##
 '''np.newaxis can be used to increase the dimensions of the existing array by one more dimension,'''
 
 print(vector[np.newaxis, :])
@@ -529,9 +513,9 @@ print(vector[:, np.newaxis])
 # shape: (12, 1)
 # equivalent to np.expand_dims(vector, axis=1)
 
-########################################
+##------------------------------------##
 ## Using arr[:, None] or arr[None, :] ##
-########################################
+##------------------------------------##
 
 print(vector[None, :])
 # [[ 1.76  0.4   0.98  2.24  1.87 -0.98  0.95 -0.15 -0.1   0.41  0.14  1.45]]

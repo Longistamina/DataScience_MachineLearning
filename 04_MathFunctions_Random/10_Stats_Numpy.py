@@ -64,13 +64,13 @@ M_nan = np.array([[1.0, np.nan, 3.0],
 #        [ 4.,  5.,  6.]])
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------------- 1. Order statistics -----------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Order statistics
+# =========================================================================================
 
-##############
+##----------##
 ## np.ptp() ##
-##############
+##----------##
 '''
 np.ptp() returns the range of values (maximum - minimum) along an axis.
 "ptp" stands for "peak to peak".
@@ -88,9 +88,9 @@ print(np.ptp(M1, axis=0))
 print(np.ptp(M1, axis=1))
 # [15 13 15]  (calculate ranges along axis=1)
 
-#####################
+##-----------------##
 ## np.percentile() ##
-#####################
+##-----------------##
 '''
 np.percentile() computes the q-th percentile of the data along the specified axis.
 
@@ -119,9 +119,9 @@ print(np.percentile(M1, 50, axis=1, keepdims=True))
 #  [ 8.5]
 #  [10. ]]
 
-########################
+##--------------------##
 ## np.nanpercentile() ##
-########################
+##--------------------##
 '''
 np.nanpercentile() computes the q-th percentile of the data along the specified axis,
 while ignoring nan values.
@@ -137,9 +137,9 @@ print(np.nanpercentile(v_nan, [25, 75]))
 print(np.percentile(v_nan, 50))
 # nan  (NaN propagates when using np.percentile)
 
-###################
+##---------------##
 ## np.quantile() ##
-###################
+##---------------##
 '''
 np.quantile() computes the q-th quantile of the data along the specified axis.
 
@@ -158,9 +158,9 @@ print(np.quantile(M1, 0.5, axis=0))
 print(np.quantile(M1, 0.5, axis=1))
 # [ 9.5  8.5 10. ]
 
-######################
+##------------------##
 ## np.nanquantile() ##
-######################
+##------------------##
 '''
 np.nanquantile() computes the q-th quantile of the data along the specified axis,
 while ignoring nan values.
@@ -176,13 +176,13 @@ print(np.quantile(v_nan, 0.5))
 # nan  (NaN propagates when using np.quantile)
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------------- 2. Averages and variances -------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Averages and variances
+# =========================================================================================
 
-#################
+##-------------##
 ## np.median() ##
-#################
+##-------------##
 '''
 np.median() computes the median along the specified axis.
 
@@ -207,9 +207,9 @@ print(np.median(M1, axis=1, keepdims=True))
 #  [ 8.5]
 #  [10. ]]
 
-##################
+##--------------##
 ## np.average() ##
-##################
+##--------------##
 '''
 np.average() computes the weighted average along the specified axis.
 
@@ -236,9 +236,9 @@ avg, wsum = np.average(v1, weights=weights, returned=True)
 print(avg, wsum)
 # 4.7  1.0  (weights sum to 1.0 since they were normalized)
 
-###############
+##-----------##
 ## np.mean() ##
-###############
+##-----------##
 '''
 np.mean() computes the arithmetic mean along the specified axis.
 
@@ -257,9 +257,9 @@ print(np.mean(M1, axis=0))
 print(np.mean(M1, axis=1))
 # [10.    9.5  10.25]  (mean along axis=1)
 
-##############
+##----------##
 ## np.std() ##
-##############
+##----------##
 '''
 np.std() computes the standard deviation along the specified axis.
 
@@ -283,9 +283,9 @@ print(np.std(M1, axis=0))
 print(np.std(M1, axis=1))
 # [5.6125 5.6789 6.0156]  (std along axis=1)
 
-##############
+##----------##
 ## np.var() ##
-##############
+##----------##
 '''
 np.var() computes the variance along the specified axis.
 
@@ -307,9 +307,9 @@ print(np.var(M1, axis=0))
 print(np.var(M1, axis=1))
 # [31.5    32.25   36.1875]  (variance along axis=1)
 
-####################
+##----------------##
 ## np.nanmedian() ##
-####################
+##----------------##
 '''np.nanmedian() computes the median along the specified axis, while ignoring NaNs.'''
 
 print(np.nanmedian(v_nan))
@@ -327,9 +327,9 @@ print(np.nanmedian(M_nan, axis=1))
 print(np.median(M_nan, axis=1))
 # [nan 5.]  (NaN propagates when using np.median instead of ignoring nan)
 
-##################
+##--------------##
 ## np.nanmean() ##
-##################
+##--------------##
 '''np.nanmean() computes the arithmetic mean along the specified axis, ignoring NaNs.'''
 
 print(np.nanmean(v_nan))
@@ -347,9 +347,9 @@ print(np.nanmean(M_nan, axis=1))
 print(np.mean(M_nan, axis=1))
 # [nan 5.]  (NaN propagates when using np.mean instead of np.nanmean)
 
-#################
+##-------------##
 ## np.nanstd() ##
-#################
+##-------------##
 '''np.nanstd() computes the standard deviation along the specified axis, while ignoring NaNs.'''
 
 print(np.nanstd(v_nan))
@@ -367,9 +367,9 @@ print(np.nanstd(M_nan, axis=0))
 print(np.std(M_nan, axis=1))
 # [       nan 0.81649658] (NaN propagates in row 0; std of row 1 is std of [4., 5., 6.])
 
-#################
+##-------------##
 ## np.nanvar() ##
-#################
+##-------------##
 '''np.nanvar() computes the variance along the specified axis, while ignoring NaNs.'''
 
 print(np.nanvar(v_nan))
@@ -388,13 +388,13 @@ print(np.var(M_nan, axis=1))
 # [       nan 0.66666667] (NaN propagates in row 0; var of row 1 is var of [4., 5., 6.])
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------- 3. Correlating --------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Correlating
+# =========================================================================================
 
-###################
+##---------------##
 ## np.corrcoef() ##
-###################
+##---------------##
 '''
 np.corrcoef() returns the Pearson product-moment correlation coefficients.
 
@@ -426,9 +426,9 @@ print(np.corrcoef(M1, rowvar=False))
 #  [-0.90419443 -0.94491118 -0.65465367  1.        ]]
 # 4x4 correlation matrix for the 4 columns of M1
 
-####################
+##----------------##
 ## np.correlate() ##
-####################
+##----------------##
 '''
 np.correlate() computes the cross-correlation of two 1-dimensional sequences.
 
@@ -483,9 +483,9 @@ Position 4  (partial overlap, right edge)
   result → 0.0
 '''
 
-##############
+##----------##
 ## np.cov() ##
-##############
+##----------##
 '''
 np.cov() estimates a covariance matrix, given data and optional weights.
 
@@ -516,13 +516,13 @@ print(np.cov(M1, rowvar=False))
 #  [-51.33 -11.67 -14.    65.33]]
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------------------- 4. Histograms -------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Histograms
+# =========================================================================================
 
-####################
+##----------------##
 ## np.histogram() ##
-####################
+##----------------##
 '''
 np.histogram() computes the histogram of a dataset.
 
@@ -549,9 +549,9 @@ hist_density, _ = np.histogram(v1, bins=5, density=True)
 print(hist_density)
 # [0.2222 0.     0.1111 0.     0.2222]
 
-######################
+##------------------##
 ## np.histogram2d() ##
-######################
+##------------------##
 '''
 np.histogram2d() computes the bi-dimensional histogram of two 1D data samples.
 
@@ -576,9 +576,9 @@ print(yedges)
 
 # H[i, j] counts points where x falls in xedges[i:i+2] and y in yedges[j:j+2]
 
-######################
+##------------------##
 ## np.histogramdd() ##
-######################
+##------------------##
 '''
 np.histogramdd() computes the multidimensional histogram of some data.
 
@@ -607,9 +607,9 @@ H_4d, _ = np.histogramdd(M1, bins=3)  # M1 has shape (3,4) → 4 dimensions
 print(H_4d.shape)
 # (3, 3, 3, 3)  (3 bins per dimension, 4 dimensions)
 
-###################
+##---------------##
 ## np.bincount() ##
-###################
+##---------------##
 '''
 np.bincount() counts the number of occurrences of each non-negative integer value.
 
@@ -638,9 +638,9 @@ print(np.bincount(v_int, weights=wts))
 3 appears 1 time, with weight 2.0              → total weight 2.0
 '''
 
-##############################
+##--------------------------##
 ## np.histogram_bin_edges() ##
-##############################
+##--------------------------##
 '''
 np.histogram_bin_edges() computes only the bin edges for a histogram, without counting.
 
@@ -663,9 +663,9 @@ print(edges_auto)
 # [ 1.    3.25  5.5   7.75 10.  ]
 # Automatically determined bin edges based on the data distribution (e.g., Sturges rule)
 
-###################
+##---------------##
 ## np.digitize() ##
-###################
+##---------------##
 '''
 np.digitize() returns the index of the bin to which each value in the input belongs.
 
@@ -694,9 +694,9 @@ print(categories)
 # ['extreme', 'low', 'very low', 'very low', 'extreme']
 
 
-#--------------------------------------------------------------------------------------------------#
-#--------------------------------- 5. Application in data analysis --------------------------------#
-#--------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Application in data analysis
+# =========================================================================================
 
 np.random.seed(42)
 data = np.random.normal(loc=50, scale=10, size=100)  # 100 samples, mean=50, std=10
@@ -710,7 +710,7 @@ print("Q1, Q3   :", np.quantile(data, [0.25, 0.75]).round(2))  # [43.99 54.06]
 print("IQR      :", (np.quantile(data, 0.75) - np.quantile(data, 0.25)).round(2))  # 10.07
 print("Range    :", (np.max(data) - np.min(data)).round(2))    # 44.72
 
-########################
+##--------------------##
 
 # Detect outliers using the IQR method (Tukey's fences)
 Q1, Q3 = np.quantile(data, [0.25, 0.75])
@@ -720,7 +720,7 @@ outliers = data[(data < Q1 - 1.5 * IQR) | (data > Q3 + 1.5 * IQR)]
 print("Outliers :", outliers.round(2))
 # [23.8]  (one value more than 1.5*IQR below Q1)
 
-########################
+##--------------------##
 
 # Correlation between two simulated measurement series
 np.random.seed(1)

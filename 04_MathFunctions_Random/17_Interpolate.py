@@ -97,13 +97,13 @@ y_true_fine  = np.sin(x_fine)
 y_true_nodes = np.sin(x_nodes)
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------- 1. Univariate interpolation — modern OOP API --------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Univariate interpolation — modern OOP API
+# =========================================================================================
 
-###################
+##---------------##
 ## CubicSpline() ##
-###################
+##---------------##
 '''
 CubicSpline(x, y) fits a C² (twice continuously differentiable) piecewise cubic polynomial
 that passes exactly through every data point.
@@ -173,9 +173,9 @@ cs_per = CubicSpline(x_per, y_per, bc_type='periodic')
 print(cs_per(0.).round(6), cs_per(2 * np.pi).round(6))
 # 0.0  0.0  (periodic: same value at both ends)
 
-#######################
+##-------------------##
 ## PchipInterpolator ##
-#######################
+##-------------------##
 '''
 PchipInterpolator(x, y) uses Piecewise Cubic Hermite Interpolating Polynomials (PCHIP).
 
@@ -214,9 +214,9 @@ print(y_pchip_mono.min().round(4), y_pchip_mono.max().round(4))
 print(pchip.derivative()(x_nodes[0]).round(4))
 # finite slope at left endpoint
 
-#########################
+##---------------------##
 ## Akima1DInterpolator ##
-#########################
+##---------------------##
 '''
 Akima1DInterpolator(x, y) computes a C¹ cubic spline using Akima's local averaging method.
 
@@ -255,9 +255,9 @@ makima = Akima1DInterpolator(x_nodes, y_nodes, method='makima')
 print(np.abs(makima(x_fine) - y_true_fine).max().round(5))
 # 0.16314
 
-########################
+##--------------------##
 ## CubicHermiteSpline ##
-########################
+##--------------------##
 '''
 CubicHermiteSpline(x, y, dydx) constructs a C¹ piecewise cubic given values AND derivatives.
 
@@ -282,9 +282,9 @@ print(np.abs(chs(x_fine) - y_true_fine).max().round(6))
 print(np.allclose(chs.derivative()(x_nodes), dydx_nodes))
 # True
 
-#############################
+##-------------------------##
 ## BarycentricInterpolator ##
-#############################
+##-------------------------##
 '''
 BarycentricInterpolator(xi, yi) computes the unique polynomial through all N points.
 
@@ -329,9 +329,9 @@ print(err_cheb.round(4))
 # 0.1332
 # much smaller — Chebyshev nodes eliminate Runge oscillation
 
-################################
+##----------------------------##
 ## FloaterHormannInterpolator ##
-################################
+##----------------------------##
 '''
 FloaterHormannInterpolator(xi, yi) computes a barycentric rational interpolant — NOT a polynomial.
 
@@ -360,9 +360,9 @@ print(err_fh.round(5))
 # 0.0689
 # much smaller than BarycentricInterpolator on equally-spaced nodes
 
-#######################
+##-------------------##
 ## KroghInterpolator ##
-#######################
+##-------------------##
 '''
 KroghInterpolator(xi, yi) fits a polynomial to values AND arbitrary-order derivatives.
 
@@ -391,13 +391,13 @@ print(krogh.derivative(np.pi/4, der=1).round(4))
 # ≈ [cos(π/4)] ≈ [0.7071]
 
 
-#-------------------------------------------------------------------------------------------------#
-#---------------------- 2. B-spline interpolation — make_interp_spline + BSpline -----------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. B-spline interpolation — make_interp_spline + BSpline
+# =========================================================================================
 
-##########################
+##----------------------##
 ## make_interp_spline() ##
-##########################
+##----------------------##
 '''
 make_interp_spline(x, y, k=3) constructs a B-spline of degree k that passes through all (x, y).
 
@@ -449,9 +449,9 @@ print(bspl_bc.derivative()(x_nodes[0]).round(4))
 # 1.0
 # ≈ cos(0) = 1.0  (derivative prescribed correctly)
 
-###############
+##-----------##
 ## BSpline() ##
-###############
+##-----------##
 '''
 BSpline(t, c, k) is the low-level B-spline object.
 
@@ -507,13 +507,13 @@ print(colloc.shape)
 # (7, 9)  — 7 interior evaluation points, 9 B-spline basis functions
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------- 3. 1-D spline smoothing & approximation -----------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. 1-D spline smoothing & approximation
+# =========================================================================================
 
-#############################
+##-------------------------##
 ## make_smoothing_spline() ##
-#############################
+##-------------------------##
 '''
 make_smoothing_spline(x, y, lam=None) fits a cubic B-spline that balances fit and smoothness.
 
@@ -555,9 +555,9 @@ spl_weighted = make_smoothing_spline(x_noisy, y_noisy, w=w)
 print(spl_weighted(np.pi).round(4))
 # 0.0076
 
-#######################
+##-------------------##
 ## make_lsq_spline() ##
-#######################
+##-------------------##
 '''
 make_lsq_spline(x, y, t, k=3) fits a B-spline in a least-squares sense with FIXED knot vector t.
 
@@ -591,9 +591,9 @@ print(len(lsq_spl.t))
 print(np.abs(lsq_spl(x_noisy) - np.sin(x_noisy)).mean().round(4))
 # 0.0756
 
-###################
+##---------------##
 ## make_splrep() ##
-###################
+##---------------##
 '''
 make_splrep(x, y, s=None) is the modern replacement for the legacy splrep() function.
 
@@ -616,9 +616,9 @@ print(spl_rep.derivative()(np.pi).round(4))
 # -1.1961
 # ≈ cos(π) ≈ -1.0
 
-####################
+##----------------##
 ## make_splprep() ##
-####################
+##----------------##
 '''
 make_splprep(x, s=None) fits a parametric smoothing spline to an N-D curve.
 
@@ -647,13 +647,13 @@ print(np.sqrt(xy_smooth[0]**2 + xy_smooth[1]**2).mean().round(3))
 # ≈ 1.0  (smooth unit circle)
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------- 4. Low-level piecewise structures -------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Low-level piecewise structures
+# =========================================================================================
 
-###########
+##-------##
 ## PPoly ##
-###########
+##-------##
 '''
 PPoly(c, x) is a piecewise polynomial in the power basis.
 
@@ -721,9 +721,9 @@ print(pp_manual(0.5).round(4))
 print(pp_manual(1.5).round(4))
 # 0.5    (= -(1.5-1) + 1 = 0.5 on [1,2])
 
-###########
+##-------##
 ## BPoly ##
-###########
+##-------##
 '''
 BPoly(c, x) is a piecewise polynomial in the Bernstein basis.
 
@@ -756,9 +756,9 @@ print(bp(0.5).round(4))
 # value between 0 and 1 — monotone
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------- 5. Multivariate interpolation — unstructured data -------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. Multivariate interpolation — unstructured data
+# =========================================================================================
 
 # 2-D scattered data: f(x, y) = sin(x) * cos(y)
 rng2 = np.random.default_rng(1)
@@ -773,9 +773,9 @@ Xg, Yg = np.meshgrid(xg, yg)
 xi_grid = np.column_stack([Xg.ravel(), Yg.ravel()])
 true_grid = np.sin(Xg) * np.cos(Yg)
 
-##########################
+##----------------------##
 ## LinearNDInterpolator ##
-##########################
+##----------------------##
 '''
 LinearNDInterpolator(points, values) does piecewise linear interpolation on a Delaunay
 triangulation of the scattered input points.
@@ -803,9 +803,9 @@ lin_nd_fill = LinearNDInterpolator(pts2d, vals2d, fill_value=0.0)
 print(lin_nd_fill(np.array([[5., 5.]])))   # outside hull
 # [0.]
 
-###########################
+##-----------------------##
 ## NearestNDInterpolator ##
-###########################
+##-----------------------##
 '''
 NearestNDInterpolator(x, y) returns the value of the nearest data point.
 
@@ -824,9 +824,9 @@ print(f"NearestND mean error: {err_nn:.4f}")
 # NearestND mean error: 0.0967
 # larger than LinearND — no smoothness
 
-################################
+##----------------------------##
 ## CloughTocher2DInterpolator ##
-################################
+##----------------------------##
 '''
 CloughTocher2DInterpolator(points, values) is a C¹ cubic interpolant on a 2-D Delaunay
 triangulation. Each triangle carries a degree-3 polynomial; C¹ continuity is enforced
@@ -851,9 +851,9 @@ print(f"Improvement factor: {err_lin / err_ct:.1f}×")
 # Improvement factor: 4.7×
 # typically 5–20× more accurate than linear for smooth functions
 
-#######################
+##-------------------##
 ## RBFInterpolator() ##
-#######################
+##-------------------##
 '''
 RBFInterpolator(y, d, kernel, epsilon, degree) does radial basis function interpolation.
 
@@ -897,9 +897,9 @@ result_local = rbf_local(xi_grid)
 print(np.mean(np.abs(result_local - true_grid.ravel())).round(4))
 # 0.0083
 
-##############
+##----------##
 ## griddata ##
-##############
+##----------##
 '''
 griddata(points, values, xi, method) is a convenience wrapper for unstructured ND interpolation.
 
@@ -920,9 +920,9 @@ print(np.nanmean(np.abs(result_gd_lin  - true_grid.ravel())).round(4)) # 0.0162
 print(np.nanmean(np.abs(result_gd_near - true_grid.ravel())).round(4)) # 0.0967 # worst
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------- 6. Grid-based multivariate interpolation ------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Grid-based multivariate interpolation
+# =========================================================================================
 
 # 3-D test: f(x, y, z) = sin(x) * cos(y) * exp(-z)
 x1d = np.linspace(0, np.pi, 10)
@@ -931,9 +931,9 @@ z1d = np.linspace(0, 2.,    8)
 X3, Y3, Z3 = np.meshgrid(x1d, y1d, z1d, indexing='ij')
 vals3d = np.sin(X3) * np.cos(Y3) * np.exp(-Z3)
 
-###############################
+##---------------------------##
 ## RegularGridInterpolator() ##
-###############################
+##---------------------------##
 '''
 RegularGridInterpolator(points, values, method, bounds_error, fill_value) interpolates
 on a rectilinear (axis-aligned) N-D grid.
@@ -984,9 +984,9 @@ rgi_ext = RegularGridInterpolator((x1d, y1d, z1d), vals3d,
 print(rgi_ext([[5., 5., 5.]]))
 # [nan]  (outside grid domain)
 
-###############
+##-----------##
 ## interpn() ##
-###############
+##-----------##
 '''
 interpn(points, values, xi, method) is the functional convenience wrapper for
 RegularGridInterpolator — same arguments, no persistent object.
@@ -1010,9 +1010,9 @@ print(interpn((x2g, y2g), V2, xi_query, method='linear').round(4))
 # [0.2235 0.5464]
 # [sin(0.3)*cos(0.7)  sin(0.6)*cos(0.2)] approximately
 
-#########################
+##---------------------##
 ## RectBivariateSpline ##
-#########################
+##---------------------##
 '''
 RectBivariateSpline(x, y, z, kx=3, ky=3, s=0) fits a bivariate spline on a rectangular grid.
 
@@ -1070,13 +1070,13 @@ print(np.abs(rbs_smooth(x_fine2, y_fine2) - true_Z).max().round(4))
 # 0.00391
 
 
-#-------------------------------------------------------------------------------------------------#
-#------------------------------------- 7. Additional tools ---------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Additional tools
+# =========================================================================================
 
-################
+##------------##
 ## lagrange() ##
-################
+##------------##
 '''
 lagrange(x, w) returns the Lagrange interpolating polynomial as a numpy.poly1d object.
 
@@ -1106,9 +1106,9 @@ print(p_lag(1.5).round(6))
 print(np.allclose(p_lag(x_lag), y_lag))
 # True
 
-###################################
+##-------------------------------##
 ## approximate_taylor_polynomial ##
-###################################
+##-------------------------------##
 '''
 approximate_taylor_polynomial(f, x, degree, scale) estimates the Taylor series of f at x.
 
@@ -1134,9 +1134,9 @@ print(np.abs(taylor_sin(x_test) - np.sin(x_test)).max().round(4))
 # 0.0564
 # small error near x=0, grows near ±π
 
-############
+##--------##
 ## pade() ##
-############
+##--------##
 '''
 pade(an, m) computes the Padé approximant [m/n] from power series coefficients.
 
@@ -1178,9 +1178,9 @@ print((p_sinc(x_sinc) / q_sinc(x_sinc)).round(6))   # evaluate at x=0.5: should 
 print((np.sin(0.5) / 0.5).round(6))
 # 0.958851
 
-###########
+##-------##
 ## AAA() ##
-###########
+##-------##
 '''
 AAA(x, y) computes the AAA (Adaptive Antoulas-Anderson) rational approximant.
 
@@ -1237,9 +1237,9 @@ print(real_poles.round(4))
 # ≈ [0.5]  (correctly identifies the pole)
 
 
-#-------------------------------------------------------------------------------------------------#
-#--------------------------------------- 8. Legacy API -------------------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Legacy API
+# =========================================================================================
 
 '''
 The following classes and functions are LEGACY. Do NOT use in new code.
@@ -1367,13 +1367,13 @@ print(make_smoothing_spline(x_noisy, y_noisy)(np.pi).round(4))    # 0.0054 # rep
 print(make_interp_spline(x_nodes, y_nodes)(np.pi).round(4))       # 0.0075 # replaces InterpolatedUnivariateSpline
 
 
-#-------------------------------------------------------------------------------------------------#
-#----------------------------------- 9. NumPy supportive parts -----------------------------------#
-#-------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 9. NumPy supportive parts
+# =========================================================================================
 
-#################
+##-------------##
 ## np.interp() ##
-#################
+##-------------##
 '''
 np.interp(x, xp, fp) performs 1-D linear interpolation on sorted data.
 
@@ -1416,9 +1416,9 @@ print(np.interp(2.5 * np.pi, angles_x, angles_y, period=2 * np.pi).round(4))
 # 2.0
 # wraps 2.5π → 0.5π; same as np.interp(π/2, ...)
 
-#######################
+##-------------------##
 ## np.searchsorted() ##
-#######################
+##-------------------##
 '''
 np.searchsorted(a, v, side='left') finds the sorted insertion position of v in a.
 

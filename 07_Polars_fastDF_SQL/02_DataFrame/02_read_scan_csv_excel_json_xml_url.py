@@ -10,7 +10,7 @@ This file mirrors the pandas guide for:
 
 It also adds Polars-specific `scan_*` APIs.
 
-##################################################################
+##--------------------------------------------------------------##
 
 Main pandas -> Polars mapping:
 
@@ -65,9 +65,9 @@ data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 1. pl.read_csv() ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. pl.read_csv()
+# =========================================================================================
 '''
 pl.read_csv() eagerly reads a CSV file into a Polars DataFrame.
 
@@ -92,9 +92,9 @@ Key parameters:
 + truncate_ragged_lines: truncate lines that are longer than the schema
 '''
 
-#################
+##-------------##
 ## Basic Usage ##
-#################
+##-------------##
 
 df = pl.read_csv(data_dir/"emp.csv")
 
@@ -105,9 +105,9 @@ print(df)
 print(df.schema)
 # Schema({'id': Int64, 'name': String, 'salary': Float64, 'start_date': String, 'dept': String})
 
-###############################
+##---------------------------##
 ## index_col= does not exist ##
-###############################
+##---------------------------##
 '''
 Polars DataFrames do not have custom row index labels.
 
@@ -136,9 +136,9 @@ print(df_with_row_number)
 # shape: (8, 6)
 # columns: row_nr, id, name, salary, start_date, dept
 
-######################
+##------------------##
 ## Specify columns= ##
-######################
+##------------------##
 '''
 Pandas uses usecols=.
 Polars uses columns= for eager CSV reading.
@@ -166,9 +166,9 @@ print(df)
 # shape: (8, 3)
 # columns: name, salary, dept
 
-###############################
+##---------------------------##
 ## Specify schema_overrides= ##
-###############################
+##---------------------------##
 '''
 Pandas dtype= is usually translated to Polars schema_overrides=.
 
@@ -194,9 +194,9 @@ df = pl.read_csv(
 print(df.schema)
 # Schema({'name': String, 'salary': Float64, 'start_date': String, 'dept': Categorical})
 
-##########################
+##----------------------##
 ## Specify parse_dates= ##
-##########################
+##----------------------##
 '''
 Polars does not have pandas-style parse_dates=["col"].
 
@@ -210,10 +210,8 @@ try_parse_dates=True attempts to infer date/datetime columns.
 If inference does not succeed, the column remains pl.String.
 '''
 
-#-----------
-## Automatic date parsing
-#-----------
-
+# ## Automatic date parsing
+# 
 df = pl.read_csv(
     source=data_dir / "emp.csv",
     schema_overrides={
@@ -226,10 +224,8 @@ df = pl.read_csv(
 print(df.schema)
 # start_date is typically parsed as Date for ISO-like values such as 2012-01-01.
 
-#-----------
-## Explicit date parsing after reading
-#-----------
-
+# ## Explicit date parsing after reading
+# 
 df = (
     pl.read_csv(data_dir / "emp.csv")
     .with_columns(
@@ -239,10 +235,8 @@ df = (
 print(df.schema)
 # Schema({'id': Int64, 'name': String, 'salary': Float64, 'start_date': Date, 'dept': String})
 
-#-----------
-## pandas parse_dates=True with index_col= is not a Polars pattern
-#-----------
-'''
+# ## pandas parse_dates=True with index_col= is not a Polars pattern
+# '''
 Pandas often reads a date column as the index.
 In Polars, keep the date as a regular column and mark/sort/filter by that column.
 '''
@@ -254,9 +248,9 @@ df = (
 print(df)
 # start_date is a normal column, not an index.
 
-#################################
+##-----------------------------##
 ## With has_header/new_columns ##
-#################################
+##-----------------------------##
 '''
 Pandas:
     header=0, names=[...]
@@ -278,8 +272,7 @@ print(df)
 # shape: (8, 5)
 # columns: ID, NAME, SALARY, START_DATE, DEPT
 
-#-------
-
+# 
 '''
 If a CSV has no header row, set has_header=False and provide new_columns=.
 Polars will otherwise create names such as column_1, column_2, ...
@@ -292,9 +285,9 @@ Polars will otherwise create names such as column_1, column_2, ...
 # )
 # print(df_no_header)
 
-##################################
+##------------------------------##
 ## Read TSV file with separator ##
-##################################
+##------------------------------##
 '''
 Pandas:
     sep="\t"
@@ -311,8 +304,7 @@ print(df)
 # shape: (8, 5)
 # columns may include: Unnamed: 0, name, salary, start_date, dept
 
-#-------
-'''
+# '''
 No index_col= in Polars.
 If the first column is an ID-like column, keep it or rename it.
 '''
@@ -325,9 +317,9 @@ print(df)
 # shape: (8, 5)
 # columns: id, name, salary, start_date, dept
 
-########################
+##--------------------##
 ## Handle null values ##
-########################
+##--------------------##
 '''
 Pandas:
     na_values=["?"]
@@ -349,8 +341,7 @@ print(df)
 print(df.null_count())
 # Shows null counts by column.
 
-#-------
-
+# 
 # You can also specify null values per column.
 df = pl.read_csv(
     source=data_dir / "emp.tsv",
@@ -359,9 +350,9 @@ df = pl.read_csv(
 ).rename({"": "id"})
 print(df)
 
-####################################
+##--------------------------------##
 ## Read with skip_rows and n_rows ##
-####################################
+##--------------------------------##
 '''
 Pandas:
     skiprows=2
@@ -382,8 +373,7 @@ df = pl.read_csv(
 print(df)
 # shape: (8, 5)
 
-#-------
-
+# 
 # Skip 2 rows and read only 4 rows.
 df = pl.read_csv(
     source=data_dir/"emp_skiprows.tsv",
@@ -394,9 +384,9 @@ df = pl.read_csv(
 print(df)
 # shape: (4, 5)
 
-######################################
+##----------------------------------##
 ## skip_rows_after_header= examples ##
-######################################
+##----------------------------------##
 '''
 skip_rows_after_header= is useful when a file has a valid header but then has
 one or more metadata rows immediately after the header.
@@ -408,9 +398,9 @@ one or more metadata rows immediately after the header.
 # )
 # print(df)
 
-############################################
+##----------------------------------------##
 ## Read with skipfooter= equivalent notes ##
-############################################
+##----------------------------------------##
 '''
 Polars does not have a direct skipfooter= parameter for CSV.
 
@@ -429,8 +419,7 @@ df = pl.read_csv(
 print(df)
 # Footer lines starting with # are skipped.
 
-#-------
-
+# 
 # Option 2: read first, then remove the final 2 rows.
 df_raw = pl.read_csv(
     source=data_dir / "emp_skipfooter.csv",
@@ -443,9 +432,9 @@ df_without_footer = df_raw.slice(0, max(0, df_raw.height - 2))
 print(df_without_footer)
 # Last 2 rows removed after reading.
 
-############################################
+##----------------------------------------##
 ## Bad/ragged CSV lines and comment lines ##
-############################################
+##----------------------------------------##
 '''
 For malformed CSV data, useful options include:
 + ignore_errors=True
@@ -463,9 +452,9 @@ df = pl.read_csv(
 print(df)
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 2. pl.scan_csv() ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. pl.scan_csv()
+# =========================================================================================
 '''
 pl.scan_csv() lazily reads one or more CSV files and returns a LazyFrame.
 
@@ -485,9 +474,9 @@ Important:
   Polars can push the projection down to the scan.
 '''
 
-#########################
+##---------------------##
 ## Basic lazy CSV scan ##
-#########################
+##---------------------##
 
 lf = pl.scan_csv(data_dir/"emp.csv")
 
@@ -500,9 +489,9 @@ df = lf.collect()
 print(df)
 # shape: (8, 5)
 
-########################################
+##------------------------------------##
 ## Projection pushdown with .select() ##
-########################################
+##------------------------------------##
 '''
 This is the lazy equivalent of pandas usecols=.
 The optimizer can avoid reading unneeded columns.
@@ -519,9 +508,9 @@ print(df)
 # shape: (8, 3)
 # columns: name, salary, dept
 
-#######################################
+##-----------------------------------##
 ## Predicate pushdown with .filter() ##
-#######################################
+##-----------------------------------##
 '''
 Filters can be pushed down to the scan so less data is loaded.
 '''
@@ -537,9 +526,9 @@ df = lf.collect()
 print(df)
 # Employees with salary >= 650.
 
-#####################################################
+##-------------------------------------------------##
 ## scan_csv with schema_overrides and date parsing ##
-#####################################################
+##-------------------------------------------------##
 
 lf = pl.scan_csv(
     source=data_dir / "emp.csv",
@@ -557,9 +546,9 @@ print(lf.collect_schema())
 
 print(lf.collect())
 
-###################################
+##-------------------------------##
 ## scan_csv with separator / TSV ##
-###################################
+##-------------------------------##
 
 lf = pl.scan_csv(
     source=data_dir / "emp.tsv",
@@ -571,9 +560,9 @@ df = lf.collect()
 
 print(df)
 
-######################################
+##----------------------------------##
 ## scan_csv with with_column_names= ##
-######################################
+##----------------------------------##
 '''
 with_column_names= lets you transform column names before the query is planned.
 This exists on scan_csv(), not read_csv().
@@ -586,9 +575,9 @@ lf = pl.scan_csv(
 print(lf.collect())
 # All column names lowercased.
 
-#############################################
+##-----------------------------------------##
 ## scan_csv over many files with glob=True ##
-#############################################
+##-----------------------------------------##
 '''
 scan_csv() can read multiple files via glob patterns.
 include_file_paths= can add the source file path as a column.
@@ -607,9 +596,9 @@ df_sample = lf.head(5).collect()
 
 print(df_sample)
 
-#############################################
+##-----------------------------------------##
 ## scan_csv with n_rows and row_index_name ##
-#############################################
+##-----------------------------------------##
 
 lf = pl.scan_csv(
     source=data_dir / "emp.csv",
@@ -620,9 +609,9 @@ print(lf.collect())
 # shape: (4, 6)
 # columns: row_nr, id, name, salary, start_date, dept
 
-############################################
+##----------------------------------------##
 ## Lazy vs eager anti-pattern explanation ##
-############################################
+##----------------------------------------##
 '''
 Avoid this pattern for large files:
 
@@ -635,9 +624,9 @@ For large CSV files, prefer:
 '''
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 3. pl.read_excel() --------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. pl.read_excel()
+# =========================================================================================
 '''
 pl.read_excel() eagerly reads Excel spreadsheet data into a Polars DataFrame.
 
@@ -665,9 +654,9 @@ Important:
 # pip install fastexcel openpyxl
 # conda install -c conda-forge fastexcel openpyxl
 
-#################
+##-------------##
 ## Basic Usage ##
-#################
+##-------------##
 
 df = pl.read_excel(data_dir / "emp_sheetname.xlsx")
 
@@ -677,9 +666,9 @@ print(df)
 
 print(df.schema)
 
-#########################
+##---------------------##
 ## Specify sheet_name= ##
-#########################
+##---------------------##
 
 # Read by sheet name.
 df = pl.read_excel(
@@ -690,8 +679,7 @@ print(df)
 # shape: (8, 2)
 # columns: name, city
 
-#-------
-'''
+# '''
 Polars sheet_id is 1-based.
 Pandas sheet_name=1 means second sheet.
 Polars sheet_id=2 means second sheet.
@@ -704,8 +692,7 @@ df = pl.read_excel(
 print(df)
 # second sheet
 
-#-------
-
+# 
 # Load all sheets as a dictionary of {sheet_name: DataFrame}.
 all_sheets = pl.read_excel(
     source=data_dir/"emp_sheetname.xlsx",
@@ -718,9 +705,9 @@ print(type(all_sheets))
 print(all_sheets.keys())
 # dict_keys([...])
 
-###############################
+##---------------------------##
 ## columns= and dtype schema ##
-###############################
+##---------------------------##
 
 # Select only a few columns from the workbook.
 df = pl.read_excel(
@@ -736,9 +723,9 @@ df = pl.read_excel(
 print(df)
 print(df.schema)
 
-##############################
+##--------------------------##
 ## Read a named Excel table ##
-##############################
+##--------------------------##
 '''
 If the workbook contains an Excel named table, use table_name=.
 The table name is unique across the workbook.
@@ -750,9 +737,9 @@ The table name is unique across the workbook.
 # )
 # print(df_table)
 
-###########################################
+##---------------------------------------##
 ## No native scan_excel() in Polars core ##
-###########################################
+##---------------------------------------##
 '''
 For lazy processing, a common workflow is:
 1. Read Excel eagerly once.
@@ -766,9 +753,9 @@ For lazy processing, a common workflow is:
 # print(lf.filter(pl.col("salary") > 650).collect())
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 4. JSON / NDJSON ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. JSON / NDJSON
+# =========================================================================================
 '''
 Polars has several JSON-related tools:
 
@@ -796,17 +783,16 @@ https://docs.pola.rs/api/python/stable/reference/api/polars.scan_ndjson.html
 https://docs.pola.rs/api/python/stable/reference/api/polars.json_normalize.html
 '''
 
-##########################
+##----------------------##
 ## pl.read_json() basic ##
-##########################
+##----------------------##
 
 # For a JSON file on disk.
 df = pl.read_json(data_dir/"emps.json")
 print(df)
 # shape depends on the JSON orientation/structure.
 
-#-------
-
+# 
 # For a JSON string or file-like object.
 json_str = '''
 [
@@ -822,8 +808,7 @@ print(df)
 # shape: (3, 4)
 # columns: id, name, salary, dept
 
-#-------
-
+# 
 # Declare or override schema.
 df = pl.read_json(
     StringIO(json_str),
@@ -837,9 +822,9 @@ df = pl.read_json(
 
 print(df.schema)
 
-#######################################
+##-----------------------------------##
 ## Normalize nested JSON with Polars ##
-#######################################
+##-----------------------------------##
 '''
 Pandas:
     pd.json_normalize(data=json_obj, record_path=["Mathematics", "book"])
@@ -864,8 +849,7 @@ df_books = pl.json_normalize(
 print(df_books)
 # Nested dict fields are flattened with dot-separated names.
 
-#-------
-
+# 
 # You can normalize to a limited depth.
 df_books_level_1 = pl.json_normalize(
     books,
@@ -874,9 +858,9 @@ df_books_level_1 = pl.json_normalize(
 )
 print(df_books_level_1)
 
-############################
+##------------------------##
 ## pl.read_ndjson() eager ##
-############################
+##------------------------##
 '''
 NDJSON means newline-delimited JSON:
 {"id": 1, "name": "Rick"}
@@ -897,8 +881,7 @@ df = pl.read_ndjson(StringIO(ndjson_str))
 print(df)
 # shape: (3, 3)
 
-#-------
-
+# 
 # From a file path.
 # df = pl.read_ndjson(
 #     source=data_dir / "employees.ndjson",
@@ -906,9 +889,9 @@ print(df)
 # )
 # print(df)
 
-###########################
+##-----------------------##
 ## pl.scan_ndjson() lazy ##
-###########################
+##-----------------------##
 '''
 There is no pl.scan_json() for a single JSON array in core Polars.
 The lazy JSON scanner is for newline-delimited JSON: pl.scan_ndjson().
@@ -928,9 +911,9 @@ The lazy JSON scanner is for newline-delimited JSON: pl.scan_ndjson().
 # print(df)
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------------- 5. XML data ---------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 5. XML data
+# =========================================================================================
 '''
 Pandas has pd.read_xml().
 Core Polars does not currently expose a native pl.read_xml() or pl.scan_xml().
@@ -981,9 +964,9 @@ def read_simple_xml_to_polars(path, row_tag=None) -> pl.DataFrame:
 
     return pl.DataFrame(records)
 
-###############
+##-----------##
 ## Example 1 ##
-###############
+##-----------##
 
 # Equivalent spirit to: pd.read_xml(data_dir / "cd.xml")
 df_cd = read_simple_xml_to_polars(data_dir/"cd.xml")
@@ -999,9 +982,9 @@ df_cd = df_cd.with_columns(
 
 print(df_cd.schema)
 
-###############
+##-----------##
 ## Example 2 ##
-###############
+##-----------##
 
 # Equivalent spirit to: pd.read_xml(data_dir / "food.xml")
 df_food = read_simple_xml_to_polars(data_dir / "food.xml")
@@ -1014,9 +997,9 @@ df_food = df_food.with_columns(
 )
 print(df_food.schema)
 
-#####################
+##-----------------##
 ## Nested XML note ##
-#####################
+##-----------------##
 '''
 For deeply nested XML, write a custom parser for your desired row shape.
 Do not expect a generic XML-to-table conversion to always infer the table correctly.
@@ -1034,9 +1017,9 @@ Do not expect a generic XML-to-table conversion to always infer the table correc
 # df = pl.DataFrame(records)
 
 
-#---------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 6. Read data from URL -------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 6. Read data from URL
+# =========================================================================================
 '''
 Polars can read from local files and, depending on installed dependencies/backends,
 remote files and cloud locations.
@@ -1047,9 +1030,9 @@ If not, download bytes with urllib/request/fsspec and pass a BytesIO object.
 
 url = "https://raw.githubusercontent.com/laxmimerit/All-CSV-ML-Data-Files-Download/refs/heads/master/jamesbond.csv"
 
-###########################
+##-----------------------##
 ## Direct URL read_csv() ##
-###########################
+##-----------------------##
 
 # Direct read. This requires network access and appropriate backend support.
 df_jamesbond = pl.read_csv(url)
@@ -1057,9 +1040,9 @@ print(df_jamesbond.head())
 # shape: (5, 7)
 # columns include Film, Year, Actor, Director, Box Office, Budget, Bond Actor Salary
 
-###########################################
+##---------------------------------------##
 ## Fallback: URL bytes -> BytesIO -> CSV ##
-###########################################
+##---------------------------------------##
 '''
 If direct URL reading is unavailable in your environment, use this fallback.
 This is eager because the bytes are downloaded first.
@@ -1072,9 +1055,9 @@ df_jamesbond = pl.read_csv(BytesIO(csv_bytes))
 
 print(df_jamesbond.head())
 
-########################################
+##------------------------------------##
 ## Lazy scan_csv() from remote source ##
-########################################
+##------------------------------------##
 '''
 pl.scan_csv() can scan local files, glob patterns, and supported remote/cloud paths.
 For cloud object stores, pass storage_options= or rely on environment credentials.
@@ -1092,9 +1075,9 @@ When scanning works, use select/filter before collect() to get lazy benefits.
 # df_recent_bond = lf.collect()
 # print(df_recent_bond)
 
-#################################
+##-----------------------------##
 ## Cloud/object-store examples ##
-#################################
+##-----------------------------##
 
 # AWS S3 example.
 # lf = pl.scan_csv(
@@ -1114,9 +1097,9 @@ When scanning works, use select/filter before collect() to get lazy benefits.
 # print(lf.head().collect())
 
 
-#---------------------------------------------------------------------------------------------------------#
-#----------------------------------- 7. Other Polars scan APIs -------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7. Other Polars scan APIs
+# =========================================================================================
 '''
 Polars has many scan APIs besides scan_csv().
 These return LazyFrame objects and are designed for lazy query optimization.
@@ -1126,9 +1109,9 @@ excellent projection/predicate pushdown.
 '''
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 7.1 pl.scan_parquet() -------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7.1 pl.scan_parquet()
+# =========================================================================================
 
 '''
 Use scan_parquet() for Parquet files.
@@ -1154,9 +1137,9 @@ This is often the best format for repeated analytics.
 # print(lf.head(10).collect())
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 7.2 pl.scan_ipc() ------------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7.2 pl.scan_ipc()
+# =========================================================================================
 '''
 IPC/Feather files are Arrow-based columnar files.
 Use scan_ipc() for lazy scanning of IPC/Feather v2 files.
@@ -1167,9 +1150,9 @@ Use scan_ipc() for lazy scanning of IPC/Feather v2 files.
 # print(lf.select(["name", "dept"]).collect())
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 7.3 pl.scan_ndjson() ---------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7.3 pl.scan_ndjson()
+# =========================================================================================
 '''
 Use scan_ndjson() for newline-delimited JSON.
 This is the JSON format that Polars can scan lazily in core Polars.
@@ -1179,9 +1162,9 @@ This is the JSON format that Polars can scan lazily in core Polars.
 # print(lf.filter(pl.col("salary") > 600).collect())
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 7.4 pl.scan_lines() ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7.4 pl.scan_lines()
+# =========================================================================================
 '''
 scan_lines() lazily scans plain text lines.
 It is useful when each line is a record that you want to parse with expressions.
@@ -1196,9 +1179,9 @@ It is useful when each line is a record that you want to parse with expressions.
 # print(df)
 
 
-#---------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 7.5 pl.scan_delta() ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7.5 pl.scan_delta()
+# =========================================================================================
 '''
 scan_delta() lazily scans Delta Lake tables.
 This requires the optional Delta Lake dependencies and a valid Delta table.
@@ -1208,9 +1191,9 @@ This requires the optional Delta Lake dependencies and a valid Delta table.
 # print(lf.select(["customer_id", "amount"]).collect())
 
 
-#---------------------------------------------------------------------------------------------------------#
-#---------------------------------- 7.6 pl.scan_pyarrow_dataset() ----------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 7.6 pl.scan_pyarrow_dataset()
+# =========================================================================================
 '''
 scan_pyarrow_dataset() can scan a PyArrow Dataset lazily through Polars.
 Use it when a dataset is already managed through pyarrow.dataset.
@@ -1223,9 +1206,9 @@ Use it when a dataset is already managed through pyarrow.dataset.
 # print(lf.head().collect())
 
 
-#---------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 8. Quick reference ----------------------------------------------#
-#---------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 8. Quick reference
+# =========================================================================================
 '''
 Quick pandas -> Polars reference
 

@@ -15,9 +15,9 @@
 
 import pandas as pd
 
-#--------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 1. Sort ---------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Sort
+# =========================================================================================
 
 df_raw_sort = pd.DataFrame(
     {
@@ -36,14 +36,12 @@ df_raw_idx = pd.DataFrame(
     index=[100, 29, 234, 1, 150],
 )
 
-########################
+##--------------------##
 ##  df.sort_values()  ##
-########################
+##--------------------##
 
-#---------------
-## Sort by single column
-#---------------
-
+# ## Sort by single column
+# 
 df_sorted = df_raw_sort.sort_values(by="score", ascending=False, inplace=False)
 print(df_sorted)
 #       name  subject  score  age
@@ -54,10 +52,8 @@ print(df_sorted)
 # 0    Alice     Math     85   20
 # 2    Alice  Science     78   20
 
-#---------------
-## Sort by multiple columns and orders
-#---------------
-
+# ## Sort by multiple columns and orders
+# 
 df_sorted = df_raw_sort.sort_values(by=["name", "score"], ascending=[False, True], inplace=False)
 print(df_sorted)
 #       name  subject  score  age
@@ -68,9 +64,9 @@ print(df_sorted)
 # 0    Alice     Math     85   20
 # 1    Alice  English     90   20
 
-#######################
+##-------------------##
 ##  df.sort_index()  ##
-#######################
+##-------------------##
 
 print(df_raw_idx)
 #      Numbers Letters
@@ -80,10 +76,8 @@ print(df_raw_idx)
 # 1          4       d
 # 150        5       e
 
-#---------------
-## Sort by axis=0 (row names), ascending=True
-#---------------
-
+# ## Sort by axis=0 (row names), ascending=True
+# 
 df_sorted = df_raw_idx.sort_index(axis=0, ascending=True, inplace=False)
 
 print(df_sorted)
@@ -94,10 +88,8 @@ print(df_sorted)
 # 150        5       e
 # 234        3       c
 
-#---------------
-## Sort by axis=1 (column names), ascending=False
-#---------------
-
+# ## Sort by axis=1 (column names), ascending=False
+# 
 df_sorted = df_raw_idx.sort_index(axis=0, ascending=False, inplace=False)
 
 print(df_sorted)
@@ -108,10 +100,8 @@ print(df_sorted)
 # 29         2       b
 # 1          4       d
 
-#---------------
-## Sort by axis=1 (column names), ascending=True
-#---------------
-
+# ## Sort by axis=1 (column names), ascending=True
+# 
 df_sorted = df_raw_idx.sort_index(axis=1, ascending=True, inplace=False)
 
 print(df_sorted)
@@ -122,9 +112,9 @@ print(df_sorted)
 # 1         d        4
 # 150       e        5
 
-#--------------------------------------------------------------------------------------------------------#
-#-------------------------------------------- 2. Rank ---------------------------------------------------#
-#--------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Rank
+# =========================================================================================
 
 '''NOTE: when using df.rank() for DataFrame, must always set axis=0'''
 
@@ -146,9 +136,9 @@ print(df_raw_rank)
 # 6   George     66
 # 7   Hannah     66
 
-#######################################################
+##---------------------------------------------------##
 ## df.rank(method="average", ascending=True, axis=1) ##
-#######################################################
+##---------------------------------------------------##
 
 df_ranked = df_raw_rank.copy()
 
@@ -186,9 +176,9 @@ David has the score of 88 (unique),
 => rank = 6
 '''
 
-###################################################
+##-----------------------------------------------##
 ## df.rank(method="max", ascending=True, axis=1) ##
-###################################################
+##-----------------------------------------------##
 
 df_ranked = df_raw_rank.copy()
 
@@ -213,9 +203,9 @@ David has the score of 88 (unique),
 => rank = 6
 '''
 
-###################################################
+##-----------------------------------------------##
 ## df.rank(method="min", ascending=True, axis=1) ##
-###################################################
+##-----------------------------------------------##
 
 df_ranked = df_raw_rank.copy()
 
@@ -241,9 +231,9 @@ David has the score of 88 (unique),
 => rank = 6
 '''
 
-#####################################################
+##-------------------------------------------------##
 ## df.rank(method="dense", ascending=True, axis=1) ##
-#####################################################
+##-------------------------------------------------##
 
 df_ranked = df_raw_rank.copy()
 
@@ -273,9 +263,9 @@ David has the score of 88 (unique),
 => DENSE rank = 3.0 (rank increases by 1 from previous group)
 '''
 
-#####################################################
+##-------------------------------------------------##
 ## df.rank(method="first", ascending=True, axis=1) ##
-#####################################################
+##-------------------------------------------------##
 
 df_ranked = df_raw_rank.copy()
 
@@ -302,9 +292,9 @@ David has the score of 88 (unique),
 => rank = 6
 '''
 
-##############################
+##--------------------------##
 ## Rank UNIQUE values only  ##
-##############################
+##--------------------------##
 
 df_raw_unique = pd.DataFrame(
     {
@@ -346,15 +336,13 @@ print(df_ranked)
 # 7   Hannah     42           2.0       2.0       2.0         2.0         2.0
 '''When all teh values are UNIQUE, all methods give the SAME result'''
 
-#######################
+##-------------------##
 ## df.rank(pct=True) ##
-#######################
+##-------------------##
 '''Rank in percentage (from 0 to 1)'''
 
-#---------------
-## With UNIQUE values
-#---------------
-
+# ## With UNIQUE values
+# 
 df_ranked = (
     df_raw_unique.copy()
     .assign(rank_pct=lambda df: df["score"].rank(method="average", ascending=True, axis=0, pct=True))
@@ -380,10 +368,8 @@ Bob has the score of 92 (highest, unique),
 => rank_pct = 8/8 = 1.0
 '''
 
-#---------------
-## With DUPLICATE values
-#---------------
-
+# ## With DUPLICATE values
+# 
 df_ranked = (
     df_raw_rank.copy()
     .assign(

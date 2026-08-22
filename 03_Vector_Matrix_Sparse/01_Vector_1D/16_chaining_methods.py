@@ -6,9 +6,9 @@ allowing subsequent methods to be called on that returned object.
 
 import numpy as np
 
-################################
+##----------------------------##
 ## One-liner chaining methods ##
-################################
+##----------------------------##
 
 np.random.seed(0)
 mean_vector = np.random.uniform(0, 10, 5).mean().round(2)
@@ -16,9 +16,9 @@ mean_vector = np.random.uniform(0, 10, 5).mean().round(2)
 print(mean_vector)
 # 5.67
 
-#################################
+##-----------------------------##
 ## Multi-line chaining methods ##
-#################################
+##-----------------------------##
 
 np.random.seed(0)
 print(

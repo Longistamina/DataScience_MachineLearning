@@ -13,7 +13,7 @@ Numba’s main features are:
 import numba as nb
 import numpy as np
 
-##### Example #####
+##-## Example ##-##
 @nb.jit # just-in-time compilation
 def sum2d(arr):
     M, N = arr.shape
@@ -23,7 +23,7 @@ def sum2d(arr):
             result += arr[i,j]
     return result
 
-###################
+##---------------##
 
 np.random.seed(42)
 tensor = np.random.randn(int(1e4), int(1e3))

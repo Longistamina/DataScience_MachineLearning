@@ -1,9 +1,9 @@
 # https://www.youtube.com/watch?v=SHJuGASZwlE&list=PL-DDW8QIRjNOVxrU2efygBw0xADVOgpmw&index=2
 
 '''
-#---------------------------------------------------------#
-#--------------------- Introduction ----------------------#
-#---------------------------------------------------------#
+# =========================================================================================
+# Introduction
+# =========================================================================================
 
 Convex optimization is a branch of mathematical optimization focused on minimizing convex functions over convex sets. 
 The core idea is that both the objective function and the feasible region (defined by constraints) are convex, 
@@ -30,9 +30,9 @@ Constraints can be inequalities involving convex functions or affine equalities.
 Interior-point methods are widely used for constrained problems and can handle large-scale problems effectively.
 
 
-#--------------------------------------------------------------------------#
-#----------------- Applications of Convex Optimization --------------------#
-#--------------------------------------------------------------------------#
+# =========================================================================================
+# Applications of Convex Optimization
+# =========================================================================================
 
 Convex optimization is widely applied across many fields due to its tractability and strong theoretical guarantees:
 

@@ -3,7 +3,7 @@ In Polars, Series do not have custom index labels.
 Concatenation simply stacks them vertically, and element-wise operations
 align strictly by row position (not by index labels like pandas).
 
-##########################################
+##--------------------------------------##
 1. pl.concat(): Concatenation of Series
 2. Element-wise Merging (pl.max_horizontal, pl.when)
 3. Emulating Index Alignment (Relational Joins)
@@ -12,9 +12,9 @@ align strictly by row position (not by index labels like pandas).
 import polars as pl
 
 
-#-----------------------------------------------------------------------------------------------------------------#
-#----------------------------------------------- 1. pl.concat() --------------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. pl.concat()
+# =========================================================================================
 '''
 The pl.concat() function concatenates Series vertically.
 Key Features:
@@ -25,9 +25,9 @@ Key Features:
 s1 = pl.Series("letters", ["a", "b"])
 s2 = pl.Series("letters", ["c", "d"])
 
-###################################
+##-------------------------------##
 ## Basic concatenation of Series ##
-###################################
+##-------------------------------##
 
 s_concat = pl.concat([s1, s2])
 print(s_concat)
@@ -40,9 +40,9 @@ print(s_concat)
 # 	"d"
 # ]
 
-######################################
+##----------------------------------##
 ## "keys" equivalent (Tracking origin)
-######################################
+##----------------------------------##
 '''
 Polars does not support MultiIndex. If you need to track which Series
 the data came from (equivalent to pandas' keys=['first', 'second']),
@@ -66,9 +66,9 @@ print(df_concat)
 # │ d       ┆ second │
 # └─────────┴────────┘
 
-#-----------------------------------------------------------------------------------------------------------------#
-#--------------------------------------------- 2. Element-wise Merging -------------------------------------------#
-#-----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Element-wise Merging
+# =========================================================================================
 '''
 Pandas' .combine() aligns data by INDEX LABELS and applies a function.
 Since Polars Series have no custom indices, they align strictly by POSITION (row number).
@@ -79,9 +79,9 @@ using horizontal functions (pl.max_horizontal, pl.sum_horizontal) or pl.when().
 s1 = pl.Series("s1", [330.0, 160.0])
 s2 = pl.Series("s2", [345.0, 200.0])
 
-###################################
+##-------------------------------##
 ## Basic element-wise max / min  ##
-###################################
+##-------------------------------##
 
 # Equivalent to pandas s1.combine(s2, func=max)
 df_combined = pl.select(
@@ -98,9 +98,9 @@ print(df_combined)
 # │ 200.0     │
 # └───────────┘
 
-#############################################
+##-----------------------------------------##
 ## Combine with fill_value to handle nulls ##
-#############################################
+##-----------------------------------------##
 '''
 If one Series has nulls (equivalent to missing index labels in pandas),
 horizontal functions will ignore the null and take the valid value.
@@ -125,9 +125,9 @@ print(df_fill)
 # │ 200.0         │
 # └───────────────┘
 
-################################
+##----------------------------##
 ## Custom functions (pl.when) ##
-################################
+##----------------------------##
 '''
 For custom logic (e.g., func=lambda x, y: x + y if x > 300 else y),
 use pl.when().then().otherwise().
@@ -151,9 +151,9 @@ print(df_custom)
 # └────────────────┘
 
 
-#-----------------------------------------------------------------------------------------------------------------#
-#----------------------------------------------- 3. Emulating Index Alignment ------------------------------------#
-#-----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Emulating Index Alignment
+# =========================================================================================
 '''
 NOTE: What if you truly need pandas-like index alignment where rows are matched by
 a "key" (like 'falcon', 'eagle', 'duck') rather than row position?

@@ -36,7 +36,7 @@ print(df_emp)
 # 6   7     Simon  632.80  2013-07-30  Operations
 # 7   8      Guru  722.50  2014-06-17     Finance
 
-########################################################
+##----------------------------------------------------##
 
 df_set_id = df_emp.set_index("id", drop=True, inplace=False)
 print(df_set_id)
@@ -51,7 +51,7 @@ print(df_set_id)
 # 7      Simon  632.80  2013-07-30  Operations
 # 8       Guru  722.50  2014-06-17     Finance
 
-########################################################
+##----------------------------------------------------##
 
 df_indexed = df_emp.set_axis(
     labels = [f"row_{i}" for i in df_emp["id"]],
@@ -70,13 +70,13 @@ print(df_indexed)
 # row_8   8      Guru  722.50  2014-06-17     Finance
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#--------------------------------------- 1. Using df[] or df.column_name --------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Using df[] or df.column_name
+# =========================================================================================
 
-########################
+##--------------------##
 ##   df["col_name"]   ##
-########################
+##--------------------##
 '''Access single column'''
 
 print(df_emp["name"])
@@ -90,9 +90,9 @@ print(df_emp["name"])
 # 7        Guru
 # Name: name, dtype: object
 
-############################
+##------------------------##
 ##  df[["col1", "col2"]]  ##
-############################
+##------------------------##
 '''Access multiple columns'''
 
 print(df_emp[["name", "salary"]])
@@ -106,9 +106,9 @@ print(df_emp[["name", "salary"]])
 # 6     Simon  632.80
 # 7      Guru  722.50
 
-#####################
+##-----------------##
 ##   df.col_name   ##
-#####################
+##-----------------##
 '''
 Access single column using attribute style
 
@@ -127,9 +127,9 @@ print(df_emp.dept)
 # 7       Finance
 # Name: dept, dtype: object
 
-#############################
+##-------------------------##
 ##  df[start_row:end_row]  ##
-#############################
+##-------------------------##
 '''
 Access rows by index positions (slicing)
 NOTE: Should use with default integer index only
@@ -161,10 +161,8 @@ print(df_emp[::2])
 # 4   5      Gary  843.25  2015-03-27     Finance
 # 6   7     Simon  632.80  2013-07-30  Operations
 
-#-----------------
-## Try with non-default-integer index
-#-----------------
-
+# ## Try with non-default-integer index
+# 
 print(df_set_id[2:5])
 #         name  salary  start_date     dept
 # id                                       
@@ -183,9 +181,9 @@ Ase we can see, slicing with non-default-integer index still works,
 but the rows are selected based on their integer position, NOT their index labels.
 '''
 
-###############################################
+##-------------------------------------------##
 ##  df[start_row:end_row][["col1", "col2"]]  ##
-###############################################
+##-------------------------------------------##
 '''Access specific rows and columns'''
 
 print(df_emp[2:5]["name"])
@@ -214,9 +212,9 @@ print(df_emp[::2][["id", "dept"]])
 # 4   5     Finance
 # 6   7  Operations
 
-######################################
+##----------------------------------##
 ##  df[start_row:end_row].col_name  ##
-######################################
+##----------------------------------##
 '''Access a specific column for specific rows (attribute style)'''
 
 print(df_emp[2:5].name)
@@ -233,13 +231,13 @@ print(df_emp[::2].salary)
 # Name: salary, dtype: float64
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#-------------------------------------- 2. Indexing with df.at and df.loc -------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Indexing with df.at and df.loc
+# =========================================================================================
 
-#################
+##-------------##
 ##    df.at    ##
-#################
+##-------------##
 '''Access a SINGLE value for a row/column label pair'''
 
 print(df_set_id.at[3, "name"])
@@ -248,9 +246,9 @@ print(df_set_id.at[3, "name"])
 print(df_indexed.at["row_5", "dept"])
 # Finance
 
-#########################################
+##-------------------------------------##
 ##   df.loc (allow BOOLEAN indexing)   ##
-#########################################
+##-------------------------------------##
 '''
 Access a MULTIPLE rows and columns by labels or a BOOLEAN array.
 NOTE: The end_row is INCLUDED when using df.loc
@@ -287,10 +285,8 @@ print(df_indexed.loc["row_3":"row_5", ["name", "dept"]])
 # row_4      Ryan       HR
 # row_5      Gary  Finance
 
-#-----------------
-## Try BOOLEAN indexing
-#-----------------
-'''
+# ## Try BOOLEAN indexing
+# '''
 The CONDITION is on the side of the ROW selection
 
 df.loc[condition, ["columns"]]
@@ -315,13 +311,13 @@ print(df_set_id.loc[df_set_id["name"].str.startswith("R"), ["name", "salary", "d
 # 4   Ryan   729.0   HR
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 3. Indexing with df.iat and df.iloc ------------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 3. Indexing with df.iat and df.iloc
+# =========================================================================================
 
-##################
+##--------------##
 ##    df.iat    ##
-##################
+##--------------##
 '''Access a SINGLE value for a row/column pair by INTEGER position'''
 
 print(df_emp.iat[2, 1])
@@ -330,9 +326,9 @@ print(df_emp.iat[2, 1])
 print(df_indexed.iat[4, 4])
 # Finance
 
-#################
+##-------------##
 ##   df.iloc   ##
-#################
+##-------------##
 '''Access a MULTIPLE rows and columns by INTEGER position(s).
 NOTE: The end_row is EXCLUDED when using df.iloc
 '''
@@ -362,9 +358,9 @@ print(df_set_id.iloc[2:5, 2]) # Single column
 # Name: start_date, dtype: object
 
 
-#--------------------------------------------------------------------------------------------------------------#
-#------------------------------------- 4. Squeezing into Series: df.squeeze() ---------------------------------#
-#--------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 4. Squeezing into Series: df.squeeze()
+# =========================================================================================
 '''
 df.squeeze() is used to squeeze a DataFrame into a Series if it contains only one column or one row.
 This is particularly useful when you want to simplify the data structure for easier manipulation or analysis.
@@ -392,9 +388,9 @@ print(df_single_col)
 print(type(df_single_col))
 # <class 'pandas.core.frame.DataFrame'>
 
-######################
+##------------------##
 ## use df.squeeze() ##
-######################
+##------------------##
 
 s_name = df_single_col.squeeze()
 print(s_name)
@@ -414,9 +410,9 @@ print(type(s_name))
 print(type(df_emp[["name"]].squeeze()))
 # <class 'pandas.core.series.Series'>
 
-########################################
+##------------------------------------##
 ## Application with with df.reindex() ##
-########################################
+##------------------------------------##
 '''
 df.reindex() always returns a DataFrame even if the result has only one column or one row.
 => use df.squeeze() to convert it to Series
@@ -439,10 +435,8 @@ print(type(salary))
 # <class 'pandas.core.frame.DataFrame'>
 '''Still a DataFrame'''
 
-#---
-## Use df.squeeze()
-#---
-
+# ## Use df.squeeze()
+# 
 s_salary = df_emp.reindex(columns=["salary"]).squeeze()
 
 print(s_salary)

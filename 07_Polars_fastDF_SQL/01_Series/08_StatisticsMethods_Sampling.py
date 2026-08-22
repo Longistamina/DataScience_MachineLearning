@@ -9,21 +9,19 @@
 '''
 import polars as pl
 
-#----------------------------------------------------------------------------------------------------------------#
-#------------------------------------------ 1. Statistical methods ----------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 1. Statistical methods
+# =========================================================================================
 
 '''
-#-------------------------------------
-## Reduction methods
-#-------------------------------------
-'''
+# ## Reduction methods
+# '''
 
 s_demo = pl.Series([2.0, 5.8, None, 4.6, 14.0, 37.0, 25.2, None, 9.3, 10.5])
 
-##############
+##----------##
 ## .count() ##
-##############
+##----------##
 # .count() returns the number of non-null observations in the Series.
 
 print(s_demo.count())
@@ -33,40 +31,40 @@ print(s_demo.count())
 print(s_demo.len())
 # 10
 
-############
+##--------##
 ## .sum() ##
-############
+##--------##
 # .sum() returns the sum of the values in the Series, excluding null values.
 
 print(s_demo.sum())
 # 108.4
 
-################
+##------------##
 ## .product() ##
-################
+##------------##
 # .product() returns the product of the values in the Series, excluding null values.
 
 print(s_demo.product())
 # 68017140.37439999
 
-#############
+##---------##
 ## .mean() ##
-#############
+##---------##
 # .mean() returns the mean (average) of the values in the Series, excluding null values.
 print(s_demo.mean())
 # 13.55
 
-###############
+##-----------##
 ## .median() ##
-###############
+##-----------##
 # .median() returns the median (middle value) of the values in the Series, excluding null values.
 
 print(s_demo.median())
 # 9.9
 
-#####################
+##-----------------##
 ## .var() / .std() ##
-#####################
+##-----------------##
 # .var() and .std() return the variance and standard deviation, excluding null values.
 # By default, Polars uses ddof=1 (Delta Degrees of Freedom), just like pandas.
 
@@ -76,23 +74,23 @@ print(s_demo.var())
 print(s_demo.std())
 # 11.872898310257455
 
-############
+##--------##
 ## .min() ##
-############
+##--------##
 
 print(s_demo.min())
 # 2.0
 
-############
+##--------##
 ## .max() ##
-############
+##--------##
 
 print(s_demo.max())
 # 37.0
 
-#################
+##-------------##
 ## .quantile() ##
-#################
+##-------------##
 # .quantile(quantile, interpolation="linear") returns the q-th quantile.
 # Polars interpolation options: "nearest", "higher", "lower", "midpoint", "linear"
 
@@ -106,9 +104,9 @@ print(s_demo.quantile([0.25, 0.5, 0.75], interpolation="linear")) # Q1, Q2 and Q
 print(s_demo.quantile([0.25, 0.5, 0.75], interpolation="lower"))
 # [4.6, 9.3, 14.0]
 
-#############
+##---------##
 ## .skew() ##
-#############
+##---------##
 
 print(s_demo.skew())
 # 1.0628794487793372
@@ -116,9 +114,9 @@ print(s_demo.skew())
 print(s_demo.skew(bias=False)) # Like pandas default
 # 1.325643580258475
 
-#################
+##-------------##
 ## .kurtosis() ##
-#################
+##-------------##
 
 print(s_demo.kurtosis())
 # -0.13219254351670662
@@ -126,9 +124,9 @@ print(s_demo.kurtosis())
 print(s_demo.kurtosis(bias=False))
 # 1.122395658614919
 
-############
+##--------##
 ## .sem() ##
-############
+##--------##
 '''
 Polars does NOT have a built-in .sem() (Standard Error of the Mean) method.
 You must calculate it manually using the formula: std / sqrt(count)
@@ -138,9 +136,9 @@ sem = s_demo.std() / (s_demo.count() ** 0.5)
 print(sem)
 # 4.197703453760673
 
-#################
+##-------------##
 ## .describe() ##
-#################
+##-------------##
 '''
 Unlike pandas (which returns a Series), Polars' Series.describe() returns a DataFrame!
 It also includes a "null_count" row, which is very useful.
@@ -165,16 +163,14 @@ print(s_demo.describe())
 # └────────────┴───────────┘
 
 '''
-#-------------------------------------
-## Cumulative methods
-#-------------------------------------
-'''
+# ## Cumulative methods
+# '''
 
 s_demo = pl.Series([5.8, 4.6, 2.0, None, 14.0, 37.0, 25.2, None, 9.3, 10.5])
 
-################
+##------------##
 ## .cum_sum() ##
-################
+##------------##
 # Polars uses snake_case for cumulative methods.
 # Nulls are preserved in their original positions, but do not break the running total.
 
@@ -194,9 +190,9 @@ print(s_demo.cum_sum())
 # 	108.4
 # ]
 
-#################
+##-------------##
 ## .cum_prod() ##
-#################
+##-------------##
 
 print(s_demo.cum_prod())
 # shape: (10,)
@@ -214,9 +210,9 @@ print(s_demo.cum_prod())
 # 	6.801714e7
 # ]
 
-################
+##------------##
 ## .cum_min() ##
-################
+##------------##
 
 print(s_demo.cum_min())
 # shape: (10,)
@@ -234,9 +230,9 @@ print(s_demo.cum_min())
 # 	2.0
 # ]
 
-################
+##------------##
 ## .cum_max() ##
-################
+##------------##
 
 print(s_demo.cum_max())
 # shape: (10,)
@@ -254,9 +250,9 @@ print(s_demo.cum_max())
 # 	37.0
 # ]
 
-###################
+##---------------##
 ## .pct_change() ##
-###################
+##---------------##
 
 s_demo_pctchange = pl.Series([100.0, 120.0, 150.0, 130.0, 160.0])
 # .pct_change() calculates the percentage change between the current and previous element.
@@ -273,18 +269,16 @@ print(s_demo_pctchange.pct_change())
 # ]
 
 '''
-#-------------------------------------
-## Covariance and Correlation methods
-#-------------------------------------
-'''
+# ## Covariance and Correlation methods
+# '''
 
 s1 = pl.Series([10.0, 20.0, 30.0, 40.0, 50.0])
 s2 = pl.Series([5.0, 25.0, 20.0, 44.0, 48.0])
 s3 = pl.Series([5.0, 4.0, 3.0, 2.0, 1.0])
 
-############
+##--------##
 ## .cov() ##
-############
+##--------##
 '''
 Polars does NOT have a .cov() method directly on Series objects.
 Instead, you use the top-level pl.cov() function inside a pl.select() context
@@ -297,9 +291,9 @@ print(pl.select(pl.cov(s1, s2)).item())
 print(pl.select(pl.cov(s1, s3)).item())
 # -62.5
 
-#############
+##---------##
 ## .corr() ##
-#############
+##---------##
 '''
 Similarly, correlation is computed using the top-level pl.corr() function.
 Methods supported: "pearson" (default), "spearman".
@@ -313,15 +307,15 @@ print(pl.select(pl.corr(s1, s3, method="spearman")).item())
 # -1.0
 
 
-#----------------------------------------------------------------------------------------------------------------#
-#---------------------------------------------- 2. Sampling -----------------------------------------------------#
-#----------------------------------------------------------------------------------------------------------------#
+# =========================================================================================
+# 2. Sampling
+# =========================================================================================
 
 s_demo = pl.Series([5.8, 4.6, 2.0, None, 14.0, 4.6, 25.2, None, 9.3, 10.5])
 
-#################
+##-------------##
 ## .sample(n=) ##
-#################
+##-------------##
 # Polars uses `seed` instead of pandas' `random_state`.
 
 s_sampled_n = s_demo.sample(n=3, seed=1)
@@ -334,9 +328,9 @@ print(s_sampled_n)
 # 	25.2
 # ]
 
-########################
+##--------------------##
 ## .sample(fraction=) ##
-########################
+##--------------------##
 # Polars uses `fraction` instead of pandas' `frac`.
 # Because Polars Series do not have custom index labels, there is no need for `ignore_index=True`.
 
