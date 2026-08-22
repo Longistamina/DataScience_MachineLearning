@@ -266,3 +266,7 @@
       * Overview: the main idea of Numba ~ compile Python code to machine code to run faster
       * JIT (lazy) and AOT (eager) compilation, signatures (datatypes)
       * Compilation options: nopython, nogil, cache, parallel
+  + [05_Numba_PythonCompiler_part_02](https://youtu.be/Nme7nao6QeI): 22th/08/2026
+      * vectorize (ufunc), guvectorize (gufunc), dufunc, dgufunc
+      * jitclass: compile Python class
+      * cfunc: run codes with ```ctypes``` for significantly faster execution
