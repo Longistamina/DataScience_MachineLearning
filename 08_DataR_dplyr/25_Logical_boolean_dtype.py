@@ -6,7 +6,7 @@
 2. Datatype checking:
    + dr.is_logical()
    + Apply to dr.select(dr.where())
-      
+
 3. Conversion:
    + dr.as_logical()
    + Apply to dr.mutate()
@@ -15,11 +15,13 @@
 import datar.all as dr
 from datar import f
 import pandas as pd
-
 from pipda import register_verb
+from pathlib import Path
+
 dr.filter = register_verb(func=dr.filter_)
 
-from pathlib import Path
+pd.set_option("display.width", 200)
+
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 

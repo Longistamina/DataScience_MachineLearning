@@ -15,15 +15,17 @@
 '''
 
 import re
-
 import datar.all as dr
 from datar import f
 import pandas as pd
-
 from pipda import register_verb
+from pathlib import Path
+
 dr.filter = register_verb(func=dr.filter_)
 
-from pathlib import Path
+pd.set_option("display.width", 200)
+pd.set_option("display.max_columns", 8)
+
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
@@ -34,12 +36,28 @@ tb_mkt = dr.tibble(
     >> dr.rename_with(lambda col: re.sub("\\s+|\\.", "_", col.strip().lower()))
 )
 
+print(tb_mkt)
+# week    year  market_share  av_price_per_kg       reach_cinema  grp_outdoor  grp_print  share_of_spend
+# <int64> <int64>     <float64>        <float64>  ...     <float64>    <float64>  <float64>       <float64>
+# 0        19    2010         38.40             7.61  ...           NaN          NaN        NaN             NaN
+# 1        20    2010         36.80             7.60  ...           NaN          NaN        NaN             NaN
+# 2        21    2010         35.21             7.63  ...           NaN          NaN        NaN             NaN
+# 3        22    2010         35.03             7.22  ...           NaN          NaN        NaN             NaN
+# ..      ...     ...           ...              ...  ...           ...          ...        ...             ...
+# 4        23    2010         32.37             7.70  ...           NaN          NaN        NaN             NaN
+# 151      14    2013         33.26             7.63  ...           NaN          NaN        NaN             NaN
+# 152      15    2013         33.99             7.59  ...           NaN          NaN        NaN             NaN
+# 153      16    2013         30.57             7.66  ...           NaN          NaN        NaN             NaN
+# 154      17    2013         32.24             7.63  ...           NaN          NaN        NaN             NaN
+# 155      18    2013         34.63             7.61  ...           NaN          NaN        NaN             NaN
+# [156 rows x 26 columns]
+
 
 # =========================================================================================
 # 1. dr.complete()
 # =========================================================================================
 '''
-Turns implicit missing values into explicit missing values 
+Turns implicit missing values into explicit missing values
 by expanding your data frame to include all possible combinations of specified columns.
 
 Parameters:
@@ -112,8 +130,8 @@ print(tb_mkt.shape[1])
 
 print(
     tb_mkt
-    >> dr.pipe(lambda f: f.isna().sum())
-    >> dr.pipe(lambda s: s[s > 0]) # Show only columns with NAs
+    >> dr.pipe(lambda f: f.isna().sum()) # get NA count of all columns
+    >> dr.pipe(lambda s: s[s > 0]) # Show only columns with NA count > 0
 )
 # top_of_mind                   33
 # spontaneous                   33
@@ -154,13 +172,13 @@ print(
 # [5 rows x 19 columns]
 
 '''
-grp_radio, reach_radio, grp_tv, reach_tv, reach_cinema, grp_outdoor, grp_print columns are dropped 
+grp_radio, reach_radio, grp_tv, reach_tv, reach_cinema, grp_outdoor, grp_print columns are dropped
 as they have more than 1/3 NA values.
 '''
 
 
 # =========================================================================================
-# 3. dr.drop_na()
+# 3. dr.drop_na(): drop rows having NA
 # =========================================================================================
 
 tb_mkt_dropped = (
@@ -191,7 +209,7 @@ Parameters:
 ##---------------------------------##
 
 # ## All columns
-# 
+#
 print(
     tb_mkt_dropped
     >> dr.drop_na(how_='any')
@@ -213,7 +231,7 @@ print(
 # [105 rows x 19 columns]
 
 # ## Specified columns
-# 
+#
 print(
     tb_mkt_dropped
     >> dr.drop_na(f.competitor, f.share_of_spend, how_='any')
@@ -239,7 +257,7 @@ print(
 ##---------------------------------##
 
 # ## All columns
-# 
+#
 print(
     tb_mkt_dropped
     >> dr.drop_na(how_='all')
@@ -248,7 +266,7 @@ print(
 '''No rows are dropped as there is no row with all NAs.'''
 
 # ## Specified columns
-# 
+#
 print(
     tb_mkt_dropped
     >> dr.drop_na(f.competitor, f.share_of_spend, how_='all')
@@ -282,7 +300,7 @@ Parameters:
 # data_or_replace: When used as a verb, this is the data; otherwise it's the replacement value
 # replace: Dict (for data frames) mapping column names to replacement values, or scalar (for vectors)
 
-Important note: For data frames, replace must be a dict like {'column_name': value}. 
+Important note: For data frames, replace must be a dict like {'column_name': value}.
 You cannot replace all NAs at once with a single scalar value (unlike some pandas methods).
 '''
 
@@ -314,13 +332,13 @@ print(
 
 print(
     tb_empty
-    >> dr.mutate(x = dr.replace_na(f.x, replace='empty')) # Single column replacement
+    >> dr.mutate(x = dr.replace_na(f.x, replace=float("inf"))) # Single column replacement
 )
-#          x        y
-#   <object> <object>
-# 0      1.0        a
-# 1      2.0     None
-# 2    empty        b
+#            x     y
+#    <float64> <str>
+# 0       1.0     a
+# 1       2.0   NaN
+# 2       inf     b
 
 
 # =========================================================================================
