@@ -21,7 +21,8 @@ class Item:
         return f"{self.__class__.__name__}({self.name}, {self.price}, {self.quantity})"
         # Use self.__class__.name__ to get the class name dynamically
 
-    def calculate_total_price(self):
+    @property
+    def total_price(self):
         return self.price * self.quantity
 
     @classmethod

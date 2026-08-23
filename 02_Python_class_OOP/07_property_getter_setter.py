@@ -1,10 +1,13 @@
-# =========================================================================================
-# @property Decorator: getter
-# =========================================================================================
+from loguru import logger
 
-# Python has a decorator called @property that allows you to define a method as a property (or attribute)
-# This means you can access it like an attribute, but it behaves like a method.
-# This allows processing them on demand, not store them as a stale value (makes some workflows more efficient)
+# =========================================================================================
+# 1. @property Decorator: getter
+# =========================================================================================
+'''
+Python has a decorator called @property that allows you to define a method as a property (or attribute)
+This means you can access it like an attribute, but it behaves like a method.
+This allows processing them on demand, not store them as a stale value (makes some workflows more efficient)
+'''
 
 class Item:
     def __init__(self, name: str, price: float, quantity: int):
@@ -23,6 +26,7 @@ class Item:
     def __repr__(self):
         return f"Item({self.name}, {self.price}, {self.quantity})"
 
+
 item1 = Item("Laptop", 1500, 3)
 
 print(item1)  # Output: Item(Laptop, 1500, 3)
@@ -38,11 +42,12 @@ item1.total_price = 5000
 
 
 # =========================================================================================
-# @property Decorator: setter
+# 2. @property Decorator: setter
 # =========================================================================================
-
-# To make a property writable, you can define a setter method using the @property decorator
-# and the @<property_name>.setter decorator.
+'''
+To make a property writable, you can define a setter method using the @property decorator
+and the @<property_name>.setter decorator.
+'''
 
 class ItemWithSetter:
     def __init__(self, name: str, price: float, quantity: int):
@@ -68,7 +73,7 @@ class ItemWithSetter:
 
     @total_price.setter # This setter allows you to modify the total price directly
     def total_price(self, value):
-        print("WARNING: You are trying to set the new total price!!!")
+        logger.warning("WARNING: You are trying to set the new total price!!!") # can use ``print()`` instead of ``logger.warning()``
         self._total_price = value
         # do not need to return a value from a property setter in Python
         # because setter methods are only meant to set the value, not to return anything.
