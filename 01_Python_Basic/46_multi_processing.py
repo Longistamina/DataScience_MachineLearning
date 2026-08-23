@@ -212,6 +212,15 @@ print(f"Conditional inputs: {conditional_inputs}")
 
 
 # ==============================================================================================
+# freeze_support()
+# ==============================================================================================
+
+multiprocessing.freeze_support()
+# prevents an infinite loop of process creations
+# when a Python script using the multiprocessing module is compiled into a standalone executable (e.g., using PyInstaller, py2exe, ...)
+
+
+# ==============================================================================================
 # difference between Multithreading and Multiprocessing
 # ==============================================================================================
 

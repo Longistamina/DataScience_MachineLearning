@@ -443,5 +443,9 @@ def main():
 # =========================================================================================
 
 if __name__ == "__main__":
+    multiprocessing.freeze_support()
+    # prevents an infinite loop of process creations
+    # when a Python script using the multiprocessing module is compiled into a standalone executable (e.g., using PyInstaller, py2exe, ...)
+
     main()
     logger.info("Program ended! Thank you!\n")
