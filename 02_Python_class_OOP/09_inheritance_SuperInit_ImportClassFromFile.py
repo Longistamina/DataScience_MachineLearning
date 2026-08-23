@@ -19,20 +19,22 @@ class Item:
         return f"{self.__class__.__name__}({self.name}, {self.price}, {self.quantity})"
         # Use self.__class__.name__ to get the class name dynamically
 
-    def calculate_total_price(self):
+    @property
+    def total_price(self):
         return self.price * self.quantity
 
 
 # =========================================================================================
-# why need Inheritance?
+# 1. Why need Inheritance?
 # =========================================================================================
+'''
+Imagine our item list have many types of phones.
+We want to determine whether the phone is broken or not for selling.
+If we set a new attribute like ``self.broken_phone`` in side the Item class,
+it will be applied to all the items, not just phones.
 
-# Imagine our item list have many types of phones.
-# We want to determine whether the phone is broken or not for selling.
-# If we set a new attribute like ``self.broken_phone`` in side the Item class,
-# it will be applied to all the items, not just phones.
-
-# => Create a new class Phone that inherits from Item
+=> Create a new class Phone that inherits from Item
+'''
 
 class Phone(Item): # The "Item" inside the parentheses means that Phone is inheriting from Item
     def __init__(self, name: str, price: float, quantity: int, broken_phone: bool=False):
@@ -44,7 +46,7 @@ class Phone(Item): # The "Item" inside the parentheses means that Phone is inher
 
     def __repr__(self):
         return f"{self.__class__.__name__}({self.name}, {self.price}, {self.quantity}, Broken: {self.broken_phone})"
-        # Redefine __repre__() to include ``self.broken_phone`` attribute.
+        # Redefine __repr__() to include ``self.broken_phone`` attribute.
 
 
 phone1 = Phone("iPhone 14", 1200, 5, broken_phone=True)
@@ -56,7 +58,7 @@ print(phone2)  # Output: Phone(Samsung Galaxy S23, 1000, 3, Broken: False)
 
 print(phone1.broken_phone)  # Output: True
 
-print(phone1.calculate_total_price())  # Output: 6000 (1200 * 5)
+print(phone1.total_price)  # Output: 6000 (1200 * 5)
                                        # It inherits the method calculate_total_price() from Item
 
 print(Phone.all_items)
@@ -64,17 +66,23 @@ print(Phone.all_items)
 
 
 # =========================================================================================
-# Inheritance from other .py file
+# 2. Inheritance from other .py file
 # =========================================================================================
+'''We can also import the Item class from another file like item.py and inherit from it'''
 
-# We can also import the Item class from another file like item.py and inherit from it
-
+from pathlib import Path
 import os
-os.chdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP')
 
-from item import Item # Make sure file item.py is in the same directory or adjust the import path accordingly
+dir_path = next(Path("/home").glob("**/item.py")).parent
+print(dir_path) # /home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP
 
-class Fruit(Item):
+os.chdir(dir_path)
+os.getcwd() # '/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP'
+
+from item import Item as ItemCSV # Make sure file ``item.py`` is in the same directory or adjust the import path accordingly
+                                 # ``as ItemCSV`` to avoid overlapping with the Item class above
+
+class Fruit(ItemCSV):
     def __init__(self, name: str, price: float, quantity: int, is_organic: bool=False):
         super().__init__(name, price, quantity)
         self.is_organic = is_organic  # New attribute specific to Fruit class
@@ -92,7 +100,7 @@ print(fruit2)  # Output: Fruit(Banana, 1.5, 20, Organic: False)
 
 print(fruit1.is_organic)  # Output: True
 
-print(fruit1.calculate_total_price())  # Output: 25.0 (2.5 * 10)
+print(fruit1.total_price)  # Output: 25.0 (2.5 * 10)
 
 print(Fruit.all_items)
 # [Fruit(Apple, 2.5, 10, Organic: True), Fruit(Banana, 1.5, 20, Organic: False), Fruit(Apple, 2.5, 10, Organic: True), Fruit(Banana, 1.5, 20, Organic: False)]

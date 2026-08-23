@@ -7,9 +7,8 @@ There are four main principles of Object-Oriented Programming (OOP):
 '''
 
 # =========================================================================================
-# Encapsulation
+# 1. Encapsulation
 # =========================================================================================
-
 '''
 Encapsulation in Python's object-oriented programming (OOP) is the concept of bundling data (attributes)
 and the methods (functions) that operate on that data into a single unit called a class.
@@ -55,9 +54,8 @@ print(p.get_age())
 
 
 # =========================================================================================
-# Abstraction
+# 2. Abstraction
 # =========================================================================================
-
 '''
 Abstraction in Python's object-oriented programming (OOP) is the concept of hiding the internal implementation details
 of a class or method and exposing only the essential features and behaviors to the user.
@@ -149,9 +147,8 @@ print(rectangle.area())   # Output: 35
 
 
 # =========================================================================================
-# Inheritance
+# 3. Inheritance
 # =========================================================================================
-
 '''
 Inheritance in Python's object-oriented programming (OOP) is a mechanism that allows one class (called the child or subclass)
 to inherit attributes and methods from another class (called the parent or superclass).
@@ -159,13 +156,12 @@ to inherit attributes and methods from another class (called the parent or super
 This promotes code reuse, simplifies maintenance, and helps create a hierarchical relationship between classes.
 '''
 
-# Refer to file 09_inheritance.py for detailed examples of inheritance
+# Refer to file ``09_inheritance_SuperInit_ImportClassFromFile.py`` for detailed examples of inheritance
 
 
 # =========================================================================================
-# Polymorphism
+# 4. Polymorphism
 # =========================================================================================
-
 '''
 Polymorphism, derived from Greek meaning "many forms," is a feature in object-oriented programming (OOP)
 where objects of different classes can respond to the same method call in their own way.
