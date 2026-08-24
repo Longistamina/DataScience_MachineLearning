@@ -6,6 +6,7 @@ There are four main principles of Object-Oriented Programming (OOP):
 4. Polymorphism: Allowing different classes to be treated as instances of the same class through a common interface.
 '''
 
+
 # =========================================================================================
 # 1. Encapsulation
 # =========================================================================================
@@ -42,6 +43,7 @@ print(p.__age)         # Attempting to access private attribute directly will ra
                        # AttributeError: 'Person' object has no attribute '__age'
 
 print(p.get_age())     # Access private attribute via getter
+
 p.set_age(35)          # Modify private attribute via setter
 print(p.get_age())
 
@@ -107,7 +109,6 @@ email_demo.send_email()  # Output: Email sent successfully!
 ##---------## Other example of Abstraction ##---------##
 
 from abc import ABC, abstractmethod
-
 # ABC here means Abstract Bas Class, which is a base class for defining abstract classes in Python.
 # Abstract classes cannot be instantiated directly and must be subclassed.
 # (meaning you cannot create any instance or object from an abstract class)
