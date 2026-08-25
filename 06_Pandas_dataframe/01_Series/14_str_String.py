@@ -46,7 +46,9 @@ while handling missing values automatically and operating efficiently on entire 
 
 8. Concatenation: .cat(others=None, sep='', na_rep=None)
 
-9. Padding and Alignment:
+9. Prefix, Suffix, Padding and Alignment:
+   - Prefix: .radd(prefixes)
+   - Suffix: .add(suffixes)
    - Padding: .pad(width, side='left', fillchar=' ')
    - Alignment: .ljust(), .rjust(), .center()
    - Zero-fill: .zfill(width)
@@ -65,6 +67,7 @@ while handling missing values automatically and operating efficiently on entire 
 
 import pandas as pd
 import numpy as np
+
 
 # =========================================================================================
 # 0. pandas.Series.str accessor
@@ -213,7 +216,7 @@ print(s_heroes.str.get(20))  # Out-of-bounds
 # dtype: float64
 
 # ## With dictionary-type series
-# 
+#
 s_ff4_dict = pd.Series(
     data = [
          {"name": "Reed_Richards", "code": "MrFantastic"},
@@ -257,7 +260,7 @@ print(s_ff4_dict.str.get("code"))
 s_mixed = pd.Series(['Hello World', 'pandas is FUN', 'Data Science 101'])
 
 # ## .lower()
-# 
+#
 print(s_mixed.str.lower())
 # 0         hello world
 # 1       pandas is fun
@@ -265,7 +268,7 @@ print(s_mixed.str.lower())
 # dtype: object
 
 # ## .upper()
-# 
+#
 print(s_mixed.str.upper())
 # 0         HELLO WORLD
 # 1       PANDAS IS FUN
@@ -273,7 +276,7 @@ print(s_mixed.str.upper())
 # dtype: object
 
 # ## .title()
-# 
+#
 print(s_mixed.str.title())
 # 0         Hello World
 # 1       Pandas Is Fun
@@ -281,7 +284,7 @@ print(s_mixed.str.title())
 # dtype: object
 
 # ## .capitalize()
-# 
+#
 print(s_mixed.str.capitalize())
 # 0         Hello world
 # 1       Pandas is fun
@@ -289,7 +292,7 @@ print(s_mixed.str.capitalize())
 # dtype: object
 
 # ## .swapcase()
-# 
+#
 print(s_mixed.str.swapcase())
 # 0         hELLO wORLD
 # 1       PANDAS IS fun
@@ -304,7 +307,7 @@ print(s_mixed.str.swapcase())
 ##-----------------------##
 
 # ## .len()
-# 
+#
 print(s_mixed.str.len())
 # 0    11
 # 1    13
@@ -312,7 +315,7 @@ print(s_mixed.str.len())
 # dtype: int64
 
 # ## .count(pattern)
-# 
+#
 print(s_mixed.str.count('a'))
 # 0    0
 # 1    2
@@ -1102,8 +1105,48 @@ print(s1.str.cat(s2, sep='_'))
 
 
 # =========================================================================================
-# 9. Padding and Alignment
+# 9. Prefix, Suffix, Padding and Alignment
 # =========================================================================================
+
+##------------------------------##
+## add prefix: s.radd(prefixes) ##
+##------------------------------##
+
+s_asean = pd.Series(["Vietnam", "Philipines", "Malaysia", "Myanmar"])
+
+print(s_asean.radd("ASEAN_"))
+# 0       ASEAN_Vietnam
+# 1    ASEAN_Philipines
+# 2      ASEAN_Malaysia
+# 3       ASEAN_Myanmar
+# dtype: str
+
+print(s_asean.radd(["VN_", "PH_", "MY_", "MM_"]))
+# 0       VN_Vietnam
+# 1    PH_Philipines
+# 2      MY_Malaysia
+# 3       MM_Myanmar
+# dtype: str
+
+##-----------------------------##
+## add suffix: s.add(suffixes) ##
+##-----------------------------##
+
+s_vn = pd.Series(["Vietnam"]*3)
+
+print(s_vn.add("_1975"))
+# 0    Vietnam_1975
+# 1    Vietnam_1975
+# 2    Vietnam_1975
+# dtype: str
+
+
+print(s_vn.add(["_north", "_center", "_south"]))
+# 0     Vietnam_north
+# 1    Vietnam_center
+# 2     Vietnam_south
+# dtype: str
+
 
 ##-----------------------------##
 ## .pad(width, side, fillchar) ##
@@ -1201,7 +1244,7 @@ print(pd.factorize(s_gender))
 # (array([0, 0, 1, 0, 2, 1, 0, 1, 2, 0]), Index(['M', 'F', 'LGBTQ'], dtype='object'))
 
 # ## Assign the result to separate variables
-# 
+#
 s_gender_factorized, codes = pd.factorize(s_gender)
 
 print(s_gender_factorized)
@@ -1224,7 +1267,7 @@ It is useful for one-hot encoding categorical variables.
 '''
 
 # ## Without dropping the first category
-# 
+#
 s_gender_dummmies = pd.get_dummies(s_gender, prefix="gender")
 print(s_gender_dummmies)
 #    gender_F  gender_LGBTQ  gender_M
@@ -1254,7 +1297,7 @@ print(s_gender_dummmies)
 # 9         0             0         1
 
 # ## With dropping the first category (to avoid multicollinearity)
-# 
+#
 '''
 In fact, if we have n categories, we just need n-1 columns to represent them.
 The last n-th category can be inferred from the other n-1 columns.
