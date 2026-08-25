@@ -16,7 +16,7 @@ Key Differences from Pandas:
 5. Concatenation (pl.concat_str & .list.join)
 6. Replacement and Stripping
 7. RegEx, Matching, Finding, Extracting
-8. Padding and Alignment
+8. Prefix, Suffix, Padding and Alignment
 9. Categorical Encoding
 10. Real applications
 '''
@@ -329,8 +329,79 @@ print(s_extall.str.extract_all(r'[ab]\d'))
 
 
 # =========================================================================================
-# 8. Padding and Alignment
+# 8. Prefix, Suffix, Padding and Alignment
 # =========================================================================================
+'''
+Polars Series does not have ``add()`` or ``radd()`` methods natively like Pandas,
+so we need to register it like this.
+'''
+
+@pl.api.register_series_namespace("mystr")
+class MyStrNamespace:
+    def __init__(self, s: pl.Series):
+        self._s = s
+
+    def radd(self, prefixes) -> pl.Series:
+        """Prepend each element of `prefixes` to the corresponding element of the Series."""
+        return pl.Series(prefixes, dtype=pl.Utf8) + self._s
+
+    def add(self, suffixes) -> pl.Series:
+        """Append each element of `suffixes` to the corresponding element of the Series."""
+        return self._s + pl.Series(suffixes, dtype=pl.Utf8)
+
+##-------------------------------------------------------##
+## add prefix: Use + operator, or register new namespace ##
+##-------------------------------------------------------##
+
+s_asean = pl.Series(["Vietnam", "Philipines", "Malaysia", "Myanmar"])
+
+print(s_asean.mystr.radd(["ASEAN_"])) #  pl.Series(["ASEAN_"]) + s_asean
+# shape: (4,)
+# Series: '' [str]
+# [
+# 	"ASEAN_Vietnam"
+# 	"ASEAN_Philipines"
+# 	"ASEAN_Malaysia"
+# 	"ASEAN_Myanmar"
+# ]
+
+print(s_asean.mystr.radd(["VN_", "PH_", "MY_", "MM_"])) # pl.Series(["VN_", "PH_", "MY_", "MM_"]) + s_asean
+# shape: (4,)
+# Series: '' [str]
+# [
+# 	"VN_Vietnam"
+# 	"PH_Philipines"
+# 	"MY_Malaysia"
+# 	"MM_Myanmar"
+# ]
+
+##-------------------------------------------------------##
+## add suffix: Use + operator, or register new namespace ##
+##-------------------------------------------------------##
+
+s_vn = pl.Series(["Vietnam"]*3)
+
+print(s_vn.mystr.add(["_1975"])) # s_vn + pl.Series(["_1975"])
+# shape: (3,)
+# Series: '' [str]
+# [
+# 	"Vietnam_1975"
+# 	"Vietnam_1975"
+# 	"Vietnam_1975"
+# ]
+
+print(s_vn.mystr.add(["_north", "_center", "_south"])) # s_vn + pl.Series(["_north", "_center", "_south"])
+# shape: (3,)
+# Series: '' [str]
+# [
+# 	"Vietnam_north"
+# 	"Vietnam_center"
+# 	"Vietnam_south"
+# ]
+
+##-----------------------##
+## Padding and Alignment ##
+##-----------------------##
 
 s_align = pl.Series(['dog', 'bird', 'mouse'])
 
