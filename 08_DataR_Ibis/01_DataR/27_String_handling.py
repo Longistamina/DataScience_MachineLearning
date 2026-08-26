@@ -24,7 +24,7 @@
    + dr.sub(): Replace first occurrence.
    + dr.gsub(): Replace all occurrences.
    + dr.chartr(): Character translation.
-   
+
 7. Substring extraction:
    + dr.substr(): Get substring from start to stop.
    + dr.substring(): Get substring with a start only (to stop).
@@ -33,9 +33,11 @@
    + dr.strsplit(): Split strings into substrings based on a specified separator.
    + dr.strsplit() with RegEx: Split strings using regular expressions.
 
-9. String concatenation: 
-   + dr.paste() 
+9. String concatenation (add Prefix and Suffix):
+   + dr.paste()
    + dr.paste0()
+   + Add prefixes with dr.paste()
+   + Add suffixes with dr.paste()
 
 10. Trimming whitespace:
     + dr.trimws(texts): trim both sides (as default)
@@ -47,7 +49,7 @@
     + dr.separate(): Separate a single string column into multiple columns based on a specified separator.
     + dr.separate_rows(): Separate a single string column into multiple rows based on a specified separator.
     + dr.unite(): Unite multiple string columns into a single column with a specified separator.
-    
+
 12. Apply Pandas f.str methods
 
 13. Some applications:
@@ -58,12 +60,15 @@
 import datar.all as dr
 from datar import f
 import pandas as pd
-
+from pathlib import Path
 from pipda import register_verb
+
 dr.filter = register_verb(func=dr.filter_)
 dr.slice = register_verb(func=dr.slice_)
 
-from pathlib import Path
+pd.set_option("display.width", 200)
+pd.set_option("display.max_columns", 8)
+
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
@@ -116,7 +121,7 @@ print(dr.is_character(tb_pokemon.Total)) # False
 ##-------------------##
 
 # ## Demo
-# 
+#
 print(dr.as_character(tb_pokemon.Generation))
 # 0      1
 # 1      1
@@ -132,7 +137,7 @@ print(dr.as_character(tb_pokemon.Generation))
 # Name: Generation, Length: 800, dtype: object
 
 # ## Apply in pipeline
-# 
+#
 print(
     tb_pokemon
     >> dr.mutate(Total = dr.as_character(f.Total))
@@ -193,11 +198,11 @@ print(
 '''Test if each string element is not empty'''
 
 s_nzchar = dr.c("Hello", "", "DataR", " ", "Pandas")
-print(dr.nzchar(s_nzchar)) 
+print(dr.nzchar(s_nzchar))
 # [ True False  True  True  True]
 
 # ## Apply in pipeline
-# 
+#
 print(
     tb_pokemon
     >> dr.mutate(
@@ -217,7 +222,7 @@ print(
 # 792   Xerneas      Fairy        NaN             True            False
 
 # ## Cleaner way
-# 
+#
 print(
     tb_pokemon
     >> dr.filter(dr.nzchar(f.Type_1) == False | dr.nzchar(f.Type_2) == False)
@@ -291,14 +296,14 @@ dr.grep(pattern, x)
 '''
 
 # ## Demo
-# 
+#
 print(dr.grep(pattern="Mega", x=tb_pokemon.Name))
 # [  3   7   8  12  19  23  71  87 102 124 137 141 154 163 164 168 196 224
 #  229 232 248 268 275 279 283 306 327 329 333 336 339 349 354 366 387 393
 #  397 409 413 418 420 426 476 494 498 511 527 591 796]
 
 # ## Slice using dr.grep()
-# 
+#
 print(
     tb_pokemon
     >> dr.slice_(dr.grep("Mega", tb_pokemon.Name))
@@ -323,7 +328,7 @@ dr.grepl(pattern, x)
 '''
 
 # ## Demo
-# 
+#
 print(
     tb_pokemon
     >> dr.mutate(
@@ -341,7 +346,7 @@ print(
 # 4             Charmander     False
 
 # ## Filter using dr.grepl()
-# 
+#
 print(
     tb_pokemon
     >> dr.filter(dr.grepl("Mega", f.Name))
@@ -500,7 +505,7 @@ names = ["John_Hans_Smith", "Jane_Mary_Doe", "Alice_Bob_Johnson"]
 
 print(dr.strsplit(names, "_"))
 # [
-#   list(['John', 'Hans', 'Smith']) 
+#   list(['John', 'Hans', 'Smith'])
 #   list(['Jane', 'Mary', 'Doe'])
 #   list(['Alice', 'Bob', 'Johnson'])
 # ]
@@ -511,23 +516,23 @@ print(dr.strsplit(names, "_"))
 
 names2 = ["John-Hans.Smith", "Jane_Mary-Doe", "Alice.Bob_Johnson"]
 
-print(dr.strsplit(names2, r"[-._]"))
+print(dr.strsplit(names2, r"[-._]")) # splits either by "-", or ".", or "_"
 # [
-#   list(['John', 'Hans', 'Smith']) 
+#   list(['John', 'Hans', 'Smith'])
 #   list(['Jane', 'Mary', 'Doe'])
 #   list(['Alice', 'Bob', 'Johnson'])
 # ]
 
 print(dr.strsplit(names2, r"\W+")) # \W+ matches any non-word character
 # [
-#   list(['John', 'Hans', 'Smith']) 
-#   list(['Jane', 'Mary', 'Doe'])
-#   list(['Alice', 'Bob', 'Johnson'])
+#     list(['John', 'Hans', 'Smith'])
+#     list(['Jane_Mary', 'Doe'])
+#     list(['Alice', 'Bob_Johnson'])
 # ]
 
 
 # =========================================================================================
-# 9. String concatenation
+# 9. String concatenation (add Prefix and Suffix)
 # =========================================================================================
 
 firts = dr.c("John", "Jane", "Alice")
@@ -559,6 +564,24 @@ dr.paste0(...)
 
 print(dr.paste0(firts, lasts))
 # ['JohnSmith' 'JaneDoe' 'AliceJohnson']
+
+##------------------------------##
+## Add prefixes with dr.paste() ##
+##------------------------------##
+
+asean = ["Vietnam", "Laos", "Myanmar", "Thailand"]
+
+print(dr.paste(["Asean"]*len(asean), asean, sep="_"))
+# ['Asean_Vietnam' 'Asean_Laos' 'Asean_Myanmar' 'Asean_Thailand']
+
+##-----------------------------##
+## Add suffixes with dr.past() ##
+##-----------------------------##
+
+asean = ["Vietnam", "Laos", "Myanmar", "Thailand"]
+
+print(dr.paste(asean, ["vn", "la", "mm", "th"], sep="_"))
+# ['Vietnam_vn' 'Laos_la' 'Myanmar_mm' 'Thailand_th']
 
 
 # =========================================================================================
@@ -617,7 +640,7 @@ print(df_extract)
 # 2    C-003
 
 # ## Extract into multiple columns
-# 
+#
 print(
     df_extract
     >> dr.extract(f.id, regex=r'([A-Z])-(\d+)', into=['prefix', 'number'])
@@ -629,7 +652,7 @@ print(
 # 2        C      003
 
 # ## remove=False to keep original column
-# 
+#
 print(
     df_extract
     >> dr.extract(f.id, regex=r'([A-Z])-(\d+)', into=['prefix', 'number'], remove=False)
@@ -661,7 +684,7 @@ print(df_separate)
 # 2   Bob_35
 
 # ## Separate into multiple columns
-# 
+#
 print(
     df_separate
     >> dr.separate(f.name_age, into=['name', 'age'], sep='_')
@@ -673,7 +696,7 @@ print(
 # 2      Bob       35
 
 # ## remove=False to keep original column
-# 
+#
 print(
     df_separate
     >> dr.separate(f.name_age, into=['name', 'age'], sep='_', remove=False)
@@ -705,7 +728,7 @@ print(df_sep_rows)
 # 1       2    x,y,z
 
 # ## Separate into multiple rows
-# 
+#
 print(
     df_sep_rows
     >> dr.separate_rows(f.values, sep=',')
@@ -740,7 +763,7 @@ print(df_unite)
 # 1     Jane    Smith
 
 # ## Unite into single column
-# 
+#
 print(
     df_unite
     >> dr.unite('full_name', ['first', 'last'], sep=' ')
@@ -751,7 +774,7 @@ print(
 # 1  Jane Smith
 
 # ## remove=False to keep original columns
-# 
+#
 print(
     df_unite
     >> dr.unite('full_name', ['first', 'last'], sep='_', remove=False)
@@ -845,7 +868,7 @@ print(
 ##----------------------------------------------------##
 
 # ## Load raw data
-# 
+#
 tb_bac_2016 = dr.tibble(pd.read_excel(data_dir/"Baccalaureate_2016.xlsx"))
 
 print(
@@ -861,7 +884,7 @@ print(
 # 4  018000005    ĐẶNG VĂN AN  25/10/1998  Sở GDĐT Bắc Giang       Nam  Toán:   2.25   Ngữ văn:   4.75   Địa lí:   5.2...
 
 # ## Define dictionaries and functions
-# 
+#
 dict_subjects = {
     'Toán':'Math',
     'Ngữ văn':'Literature',
@@ -888,7 +911,7 @@ def rename_subjects(subjects_str):
     return subjects_str
 
 # ## Data cleaning pipeline
-# 
+#
 tb_bac_2016_clean = (
     tb_bac_2016
     >> dr.rename( # Rename columns from Vietnamese to English
@@ -907,7 +930,7 @@ tb_bac_2016_clean = (
         GENDER = dr.as_factor(f.GENDER)  # Convert to category type
     )
     >> dr.mutate( # Extract subject scores into multiple columns
-        **{subject: dr.as_numeric(f.SCORE.str.extract(fr'{subject}:\s*(\d+\.\d+)', expand=False)) for subject in dict_subjects.values()}    
+        **{subject: dr.as_numeric(f.SCORE.str.extract(fr'{subject}:\s*(\d+\.\d+)', expand=False)) for subject in dict_subjects.values()}
     )
     >> dr.select(~f.SCORE, ~f.BIRTHDAY, ~f.EXAM_LOCATION) # Drop unnecessary columns
     >> dr.pipe(lambda f: f.set_index('ID')) # Set ID as index
@@ -925,7 +948,7 @@ print(
     >> dr.slice_head(n=5)
 )
 #                FULL_NAME     GENDER     Math Literature Geography     History     English     Biology     Physics   Chemistry
-                                                                                                                             
+
 # ID              <object> <category> <object>   <object>  <object>    <object>    <object>    <object>    <object>    <object>
 # 018000001  DƯƠNG VIỆT AN       Male      2.0        5.5       5.0         3.0  not_attend  not_attend  not_attend  not_attend
 # 018000002      ĐỖ VĂN AN       Male      5.5       5.25       5.5  not_attend        3.68  not_attend  not_attend  not_attend

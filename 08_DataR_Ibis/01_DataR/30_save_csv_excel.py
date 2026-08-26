@@ -1,5 +1,5 @@
 '''
-datar does not support saving DataR dataframes to CSV or Excel files directly.
+datar does not have APIs for saving DataR dataframes to CSV or Excel files directly.
 
 However, can use dr.pipe() to apply Pandas methods for saving dataframes.
 
@@ -18,7 +18,7 @@ from pathlib import Path
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-save_dir = Path("/home").rglob("*/06_Pandas_DataR_dataframe/save")
+save_dir = Path("/home").rglob("*/08_DataR_Ibis/save")
 save_dir = next(save_dir)
 
 
@@ -44,7 +44,7 @@ save_dir = next(save_dir)
 # =========================================================================================
 
 # ## Define dictionaries and functions
-# 
+#
 dict_subjects = {
     'Toán':'Math',
     'Ngữ văn':'Literature',
@@ -71,7 +71,7 @@ def rename_subjects(subjects_str):
     return subjects_str
 
 # ## Load and process data, then save to Excel
-# 
+#
 (
     pd.read_excel(data_dir/"Baccalaureate_2016.xlsx")
     >> dr.rename( # Rename columns from Vietnamese to English
@@ -90,7 +90,7 @@ def rename_subjects(subjects_str):
         GENDER = dr.as_factor(f.GENDER)
     )
     >> dr.mutate(
-        **{subject: dr.as_numeric(f.SCORE.str.extract(fr'{subject}:\s*(\d+\.\d+)', expand=False)) for subject in dict_subjects.values()}    
+        **{subject: dr.as_numeric(f.SCORE.str.extract(fr'{subject}:\s*(\d+\.\d+)', expand=False)) for subject in dict_subjects.values()}
     )
     >> dr.select(~f.SCORE, ~f.BIRTHDAY, ~f.EXAM_LOCATION)
     >> dr.pipe(lambda f: f.set_index('ID'))
@@ -98,7 +98,7 @@ def rename_subjects(subjects_str):
     >> dr.mutate(
         dr.across(
             ~f.FULL_NAME & ~f.GENDER,
-            lambda col: col.fillna('not_attend') 
+            lambda col: col.fillna('not_attend')
         )
     )
     >> dr.pipe(lambda df: df.to_excel(save_dir/"tb_baccalaureat_to.xlsx", sheet_name='Baccalaureate_2016'))
