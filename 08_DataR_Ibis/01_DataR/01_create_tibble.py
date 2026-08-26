@@ -4,7 +4,7 @@ compared to the traditional pandas DataFrame constructor.
 
 --------------------------------------------------------------------------------
 
-1. Create dataframe using datar.tibble.tibble()
+1. Create dataframe using datar.tibble()
 
 2. Convert pandas DataFrame to datar tibble
 '''
@@ -15,7 +15,7 @@ import pandas as pd
 pd.set_option("display.width", 200)
 
 # =========================================================================================
-# 1. Create dataframe using datar.tibble.tibble()
+# 1. Create dataframe using datar.tibble()
 # =========================================================================================
 
 tb = dr.tibble(
