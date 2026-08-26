@@ -9,8 +9,11 @@
 import datar.all as dr
 from datar import f
 import pandas as pd
-
 from pathlib import Path
+
+pd.set_option("display.width", 200)
+pd.set_option("display.max_columns", 8)
+
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
@@ -91,8 +94,11 @@ print(
 
 print(
     tb_aq
-    >> dr.mutate(date = dr.pipe(lambda f: pd.to_datetime(f.date, format="%Y-%m-%d %H:%M:%S%z", errors='coerce')))
-    >> dr.slice_head(5)
+    >> dr.pipe(
+        lambda f: f
+        >> dr.mutate(date = pd.to_datetime(f.date, format="%Y-%m-%d %H:%M:%S%z", errors='coerce'))
+        >> dr.slice_head(5)
+    )
 )
 #       city  country                      date location parameter     value     unit
 #   <object> <object>     <datetime64[ns, UTC]> <object>  <object> <float64> <object>

@@ -19,7 +19,6 @@ tb_baseball = (
     >> dr.mutate(Position = dr.as_factor(f.Position))
 )
 
-
 print(tb_baseball >> dr.slice_head(4))
 #               Name       Position  Height  Weight
 #           <object>     <category> <int64> <int64>
@@ -39,6 +38,7 @@ print(tb_baseball >> dr.slice_head(4))
     + pln.geom_point(pln.aes(x="Weight", y="Height", color="Position"))
     + pln.geom_smooth(pln.aes(x="Weight", y="Height"), method="lm", se=False, color="black")
     + pln.ggtitle("Scatter plot Height ~ Weight colored by Position")
+    + pln.theme(figure_size=(10, 6)) # width=10, height=6
 ).show()
 
 ##---------------------------------------------------------------------##
@@ -52,4 +52,5 @@ print(tb_baseball >> dr.slice_head(4))
     + pln.geom_boxplot(pln.aes(x="Position", y="Height", fill="Position"), notch=True)
     + pln.coord_flip()
     + pln.ggtitle("Boxplot Height ~ Position")
+    + pln.theme(figure_size=(10, 6)) # width=10, height=6
 ).show()
