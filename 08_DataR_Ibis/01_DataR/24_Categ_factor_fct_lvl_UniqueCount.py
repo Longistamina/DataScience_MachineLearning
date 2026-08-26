@@ -1,7 +1,7 @@
 '''
 In dataR (as well as R), categorical variables are often represented as factors.
 
-##------------------------------------------------------------------------------##
+--------------------------------------------------------------------------------
 
 1. Create factor variable
    + dr.factor()

@@ -2,7 +2,7 @@
 tibble() function from DataR library creates a DataFrame in a more user-friendly way
 compared to the traditional pandas DataFrame constructor.
 
-##-------------------------##
+--------------------------------------------------------------------------------
 
 1. Create dataframe using datar.tibble.tibble()
 

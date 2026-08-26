@@ -4,7 +4,7 @@ Un like dr.mutate() and dr.summarise(), dr.reframe() allows returning a new Data
 (dr.mutate() requires the same number of rows as the original DataFrame,
  dr.summarise() returns a DataFrame the same number of columns as the original DataFrame.)
 
-##--------------------------------##
+----------------------------------------------------------------------------------------------------------
 
 1. dr.reframe() - how to use
 

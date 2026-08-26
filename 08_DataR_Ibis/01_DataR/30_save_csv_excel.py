@@ -3,7 +3,7 @@ datar does not have APIs for saving DataR dataframes to CSV or Excel files direc
 
 However, can use dr.pipe() to apply Pandas methods for saving dataframes.
 
-##------------------------##
+--------------------------------------------------------------------------------
 
 1. Save to CSV: dr.pipe(lambda f: f.to_csv('file.csv'))
 
