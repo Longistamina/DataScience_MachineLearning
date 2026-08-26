@@ -2,7 +2,7 @@
 dr.summarise() is a transformation that aggregates data,
 by using aggregation functions like sum, mean, min, max, etc.
 
-##--------##
+----------------------------------------------------------------
 
 dr.summarise() with single column
 
@@ -69,7 +69,7 @@ print(
 ##---------------------------------------##
 
 # ## Different agg func
-# 
+#
 print(
     tb_pokemon
     >> dr.summarise(
@@ -84,7 +84,7 @@ print(
 # 0  69.25875      230        5      54622
 
 # ## Same agg func (dr.across())
-# 
+#
 print(
     tb_pokemon
     >> dr.summarise(
@@ -100,7 +100,7 @@ print(
 # 0  69.25875    79.00125      73.8425       72.82     71.9025    68.2775
 
 # ## Same agg func (dr.across(dr.where()))
-# 
+#
 print(
     tb_pokemon
     >> dr.summarise(
@@ -119,7 +119,7 @@ print(
 # Q3               515.0         80.0            100.0              90.0            95.00             90.0            90.0
 
 # ## Same agg func (dr.across(dr.everything()))
-# 
+#
 '''Count NA values in each column'''
 print(
     tb_pokemon
