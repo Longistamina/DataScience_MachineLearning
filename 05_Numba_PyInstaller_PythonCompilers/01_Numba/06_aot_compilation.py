@@ -5,7 +5,7 @@ AOT = ahead-of-time compilation
 
 This is the traditional kind of compilation known in languages such as C, C++ or Fortran.
 
-##------------------------##
+##--------------------------------------------------------------------------------------##
 
 Benefits:
     + AOT compilation produces a compiled extension module which does not depend on Numba
@@ -29,7 +29,7 @@ from pathlib import Path
 
 current_dir = Path().cwd()
 print(current_dir)
-# /home/longdpt/Documents/Academic/DataScience_MachineLearning/05_Numba_PythonCompiler
+# /home/longdpt/Documents/Academic/DataScience_MachineLearning/05_Numba_PyInstaller_PythonCompilers/01_Numba
 
 ##----------------------------------------------##
 ## Step 1. Define ``CC`` object and module name ##
@@ -90,6 +90,10 @@ if __name__ == "__main__":
     print(aot_demo.multf(3.5, -2.4)) # -8.4
     print(aot_demo.multi(2, 3)) # 6
     print(aot_demo.square(-2.8)) # 7.839999999999999
+
+    # use incorrect types (still run)
+    print(aot_demo.multi(2.5, 45.9)) # 2.5 to 2, 45.9 to 45, then 2 * 45 = 90
+    print(aot_demo.square(5)) # 5 to 5.0, then 5.0**2 = 25.0
 
     # array output
     in_arr = np.arange(10).astype(np.float64)

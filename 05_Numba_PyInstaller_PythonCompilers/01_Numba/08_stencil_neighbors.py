@@ -7,7 +7,6 @@ This pattern is extremely common in:
 
 import numba as nb
 import numpy as np
-import time
 
 vector = np.arange(10) * 1.0
 print(vector)
@@ -84,7 +83,7 @@ print(f"Custom cval:    {out_custom}")
 Numba usually infers the size of the stencil by looking at the literal numbers in your indices
 (e.g., seeing -1 and 1 tells it the size is 3x3).
 
- However, if you use a for loop inside the stencil, Numba cannot guess the bounds. You must provide them manually.
+However, if you use a for loop inside the stencil, Numba cannot guess the bounds. You must provide them manually.
 '''
 
 # Tells Numba the kernel looks back 29 steps and forward 0 steps
@@ -98,7 +97,7 @@ def moving_average(a):
 
 
 # =========================================================================================
-# 4. @stensil(neighborhood=(-29, 0))
+# 4. @stensil(standard_indexing=...)
 # =========================================================================================
 '''
 By default, all array arguments use relative indexing.
@@ -113,6 +112,11 @@ def weighted_sum(a, weights):
     # a uses relative indexing (neighbors)
     # weights uses absolute indexing (lookup table)
     return a[-1]*weights[0] + a[0]*weights[1] + a[1]*weights[2]
+
+w = [0.2, 0.5, 0.3]
+
+print(weighted_sum(vector, w))
+# [0.  1.1 2.1 3.1 4.1 5.1 6.1 7.1 8.1 0. ]
 
 
 # =========================================================================================

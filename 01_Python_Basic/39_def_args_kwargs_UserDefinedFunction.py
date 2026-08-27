@@ -435,7 +435,7 @@ def calculate_salary(**info):
     return {"Name": name, "Total Salary": total_salary}
 
 # ## Call the function with required and optional fields
-# 
+#
 salary_info = calculate_salary(
     name="Alice",
     salary_daily=100,
@@ -452,7 +452,7 @@ print(salary_info)
 # {'Name': 'Alice', 'Total Salary': 2500}
 
 # ## Call the functionn lacking required fields
-# 
+#
 salary_info = calculate_salary(
     salary_daily=100,
     working_days=20,
