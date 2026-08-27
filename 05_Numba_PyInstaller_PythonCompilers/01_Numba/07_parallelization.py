@@ -54,20 +54,26 @@ print(sum_vector(vector))
 def prod_matrix(M, axis=None):
     rows, cols = M.shape
 
-    match axis:
-        case 0:
-            result = np.ones(cols) # Initialize with 'cols' because we are reducing across rows (axis 0)
-            for i in nb.prange(rows):
-                result *= M[i, :]
-        case 1:
-            result = np.ones(rows) # Initialize with 'rows' because we are reducing across cols (axis 1)
-            for j in nb.prange(cols):
-                result *= M[:, j]
-        case _:
-            result = np.ones(1)
-            for i in nb.prange(rows):
-                for j in nb.prange(cols):
-                    result *= M[i, j]
+    if axis == 0:
+        result = np.ones(cols, dtype=M.dtype)
+        for j in nb.prange(cols):
+            for i in range(rows):
+                result[j] *= M[i, j]
+
+    elif axis == 1:
+        result = np.ones(rows, dtype=M.dtype)
+        for i in nb.prange(rows):
+            for j in range(cols):
+                result[i] *= M[i, j]
+
+    else:
+        result = np.ones(1, dtype=M.dtype)
+        total = 1.0
+        for i in range(rows):
+            for j in range(cols):
+                total *= M[i, j]
+        result[0] = total
+
     return result
 
 matrix = np.linspace(1, 10, 12).reshape(3, 4)

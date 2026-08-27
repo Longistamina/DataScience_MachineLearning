@@ -79,7 +79,7 @@ os.chdir(str(working_dir))
 
 
 # ## Import a module from module_1
-# 
+#
 from demo_package.package_module_1 import subtract
 
 _ = subtract(1255, 250)
@@ -88,7 +88,7 @@ _ = subtract(1255, 250)
 
 
 # ## Import all modules from module_2
-# 
+#
 from demo_package.package_module_2 import *
 
 _ = multiply(6, 2)
