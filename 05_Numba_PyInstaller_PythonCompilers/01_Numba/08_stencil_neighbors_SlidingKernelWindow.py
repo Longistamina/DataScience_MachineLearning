@@ -1,5 +1,6 @@
 '''
 The ``@stencil`` decorator is a powerful tool for operations where the new value of an array element depends on its neighbors.
+(Sliding Window or Sliding Kernel)
 This pattern is extremely common in:
     + image processing (blurring, edge detection)
     + physics simulations (heat diffusion, fluid dynamics), and finance (moving averages).

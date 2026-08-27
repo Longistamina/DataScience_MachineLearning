@@ -270,3 +270,7 @@
       * vectorize (ufunc), guvectorize (gufunc), dufunc, dgufunc
       * jitclass: compile Python class
       * cfunc: run codes with ```ctypes``` for significantly faster execution
+  + [05_Numba_PyInstaller_PythonCompilers_part_03](https://youtu.be/Hkt1vMr5beM): 27th/08/2026
+      * Ahead-of-Time module compilation with ```from numba.pycc import CC```
+      * Parallelization (automatic) with ```nb.prange``` and ```@njit(parallel=True)```
+      * Stencil and neighbor for sliding kernel and sliding window computation
