@@ -42,6 +42,7 @@ def python_only_function(text):
 def basic_callback_example():
     x = 10
     y = 20
+
     # Enter object mode
     with objmode():
         python_only_function(f"Calculating sum of {x} and {y}...")

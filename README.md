@@ -274,3 +274,6 @@
       * Ahead-of-Time module compilation with ```from numba.pycc import CC```
       * Parallelization (automatic) with ```nb.prange``` and ```@njit(parallel=True)```
       * Stencil and neighbor for sliding kernel and sliding window computation
+  + [05_Numba_PyInstaller_PythonCompilers_part_04](https://youtu.be/gc5nWGtAdQI): 30th/08/2026
+      * ```nb.objmode```: fall back to Python execution when ```nopython``` mode fails
+      * ```jit_module```: compile multiple functions without typing decorators repeatedly
