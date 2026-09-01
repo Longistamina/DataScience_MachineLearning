@@ -139,7 +139,7 @@ print(s_gender_codes)
 # ]
 
 # The categories stored in the categorical mapping
-categories = s_gender_cat.cat.get_categories()
+categories = s_gender_cat.unique()
 print(categories)
 # shape: (3,)
 # Series: 'gender' [str]
@@ -151,7 +151,7 @@ print(categories)
 
 # Assign the two results to separate variables, similar to pandas factorize output
 codes = s_gender_cat.to_physical()
-uniques = s_gender_cat.cat.get_categories()
+uniques = s_gender_cat.unique()
 
 print(codes)
 print(uniques)
@@ -225,7 +225,7 @@ Each column contains 1 if the row belongs to that category, otherwise 0.
 '''
 
 # ## Without dropping the first category
-# 
+#
 s_gender_dummies = s_gender.to_dummies()
 print(s_gender_dummies)
 # shape: (10, 3)
@@ -251,7 +251,7 @@ print(s_gender.to_dummies(separator="__"))
 # Columns: gender__F, gender__LGBTQ, gender__M
 
 # ## With dropping the first category
-# '''
+'''
 If we have n categories, we often only need n-1 dummy columns.
 The omitted category can be inferred when all dummy columns are 0.
 
@@ -412,7 +412,7 @@ If labels are given, the number of labels must equal len(breaks) + 1.
 '''
 
 # ## Custom breakpoints: [2, 4, 6, 8]
-# 
+#
 s_bins = s_quantitative.cut(
     breaks=[2, 4, 6, 8],
     labels=["Very Low", "Low", "Medium", "High", "Very High"],
@@ -460,7 +460,7 @@ print(s_bins.value_counts())
 # └───────────┴───────┘
 
 # ## Without labels: Polars returns interval text as an Enum
-# 
+#
 print(s_quantitative.cut(breaks=[2, 4, 6, 8]))
 # shape: (20,)
 # Series: 'score' [enum]
@@ -668,7 +668,7 @@ For q=4, the bins are quartiles.
 '''
 
 # ## q = 4 (quartiles)
-# 
+#
 s_qcut = s_quantitative.qcut(
     4,
     labels=["Q1", "Q2", "Q3", "Q4"],
@@ -715,7 +715,7 @@ print(s_qcut.value_counts())
 # Each quartile should contain approximately the same number of values.
 
 # ## Explicit quantile probabilities
-# '''
+'''
 You can also pass explicit probabilities between 0 and 1.
 For two cut points [0.25, 0.75], you need three labels.
 '''
