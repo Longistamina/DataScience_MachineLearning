@@ -64,9 +64,9 @@ s_cat = pl.Series("gender", lst_gender).cast(pl.Categorical)
 ##--------------------##
 
 # Get categories
-print(s_cat.cat.get_categories())
+print(s_cat.unique())
 # shape: (3,)
-# Series: 'gender' [str]
+# Series: 'gender' [cat]
 # [
 # 	"M"
 # 	"F"
@@ -98,14 +98,14 @@ s_renamed = (
     .replace({"F": "Female", "M": "Male", "LGBTQ": "Other"})
     .cast(pl.Categorical)
 )
-print(s_renamed.cat.get_categories())
+print(s_renamed.unique())
 # ["Male", "Female", "Other"]
 
 # Removing unused categories
 # Polars automatically drops unused categories if you cast to String and back to Categorical
 s_subset = s_cat.filter(s_cat != "LGBTQ")
 s_cleaned = s_subset.cast(pl.String).cast(pl.Categorical)
-print(s_cleaned.cat.get_categories())
+print(s_cleaned.cat.unique())
 # ["M", "F"]  (LGBTQ is gone)
 
 ##--------------------------##
@@ -165,6 +165,37 @@ print(s_enum)
 # Check if it's ordered (It is an Enum)
 print(isinstance(s_enum.dtype, pl.Enum))
 # True
+
+##--------------------##
+## 5. Core attributes ##
+##--------------------##
+
+# get categories
+print(s_enum.dtype.categories)
+# shape: (3,)
+# Series: 'category' [str]
+# [
+# 	"LGBTQ"
+# 	"F"
+# 	"M"
+# ]
+
+# Get integer codes (physical representation)
+print(s_enum.to_physical())
+# shape: (10,)
+# Series: 'gender' [u8]
+# [
+# 	2
+# 	2
+# 	1
+# 	2
+# 	0
+# 	1
+# 	2
+# 	1
+# 	0
+# 	2
+# ]
 
 ##------------------------------------------------------------------------##
 ## 5. Fast trick to convert to Enum without specifying list of categories ##
