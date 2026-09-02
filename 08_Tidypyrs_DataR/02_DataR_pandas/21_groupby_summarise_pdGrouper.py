@@ -9,11 +9,12 @@
 3. dr.group_split(): split a groupped DataFrame into a list of DataFrames
 '''
 
-import datar.all as dr
-from datar import f
-import pandas as pd
-import numpy as np
 from pathlib import Path
+
+import datar.all as dr
+import numpy as np
+import pandas as pd
+from datar import f
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

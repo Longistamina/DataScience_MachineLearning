@@ -1,7 +1,8 @@
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd 
 from datetime import datetime, timedelta
+
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 l = np.array([0.5       , 0.44647768, 0.40069089, 0.36206477, 0.33002452,
        0.30399529, 0.28340225, 0.26767058, 0.25622545, 0.24849202,

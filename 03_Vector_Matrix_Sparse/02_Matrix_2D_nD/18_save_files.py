@@ -10,8 +10,9 @@
    + arr.tofile(): save a Numpy array to a text file with specified separator.'
 '''
 
-import numpy as np
 from pathlib import Path
+
+import numpy as np
 
 np.random.seed(0)
 matrix_1 = np.random.randint(1, 100, size=(4, 5))

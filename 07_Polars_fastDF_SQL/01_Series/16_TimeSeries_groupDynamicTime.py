@@ -19,9 +19,9 @@ In Polars, time series data is handled fundamentally differently than in pandas:
 10. Rolling Window by Time (rolling_*_by)
 '''
 
-import polars as pl
 import datetime as dt
 
+import polars as pl
 
 # =========================================================================================
 # 1. Scalars

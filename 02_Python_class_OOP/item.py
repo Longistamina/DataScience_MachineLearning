@@ -2,6 +2,7 @@
 
 import csv
 
+
 class Item:
 
     all_items = []

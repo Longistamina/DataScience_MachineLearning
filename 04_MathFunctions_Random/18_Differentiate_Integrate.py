@@ -52,12 +52,27 @@ NumPy supportive (samples-based):
 import numpy as np
 import scipy.differentiate as sd
 from scipy.integrate import (
-    quad, quad_vec, dblquad, tplquad, nquad,
-    tanhsinh, fixed_quad, newton_cotes, lebedev_rule, qmc_quad,
-    nsum, trapezoid, cumulative_trapezoid,
-    simpson, cumulative_simpson, romb,
-    solve_ivp, solve_bvp, odeint,
+    cumulative_simpson,
+    cumulative_trapezoid,
+    dblquad,
+    fixed_quad,
+    lebedev_rule,
+    newton_cotes,
+    nquad,
+    nsum,
+    odeint,
+    qmc_quad,
+    quad,
+    quad_vec,
+    romb,
+    simpson,
+    solve_bvp,
+    solve_ivp,
+    tanhsinh,
+    tplquad,
+    trapezoid,
 )
+
 try:
     from scipy.integrate import cubature
     _has_cubature = True
@@ -625,6 +640,7 @@ print(round(val_tpl, 8))
 
 # Volume of a sphere: ∫₋₁¹ ∫_{-√(1-x²)}^{√(1-x²)} ∫_{-√(1-x²-y²)}^{√(1-x²-y²)} dz dy dx = 4π/3
 from math import sqrt as msqrt
+
 val_sphere, _ = tplquad(
     lambda z, y, x: 1.0,
     -1., 1.,
@@ -970,6 +986,7 @@ print(res_harmonic.sum.round(8), round(true_harmonic, 8))
 
 # Riemann zeta function ζ(s) = Σ_{n=1}^∞ 1/nˢ
 from scipy.special import zeta
+
 for s in [2., 3., 4.]:
     res_zeta = nsum(lambda n: n**(-s), 1, np.inf)
     print(f"ζ({s:.0f}) = {res_zeta.sum.round(6):.6f}  (scipy: {zeta(s):.6f})")

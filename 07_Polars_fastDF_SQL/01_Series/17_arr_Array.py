@@ -20,7 +20,6 @@ highly optimized, strictly typed, and memory-efficient compared to `.list` opera
 
 import polars as pl
 
-
 # =========================================================================================
 # 0. Creation
 # =========================================================================================

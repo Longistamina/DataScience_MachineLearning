@@ -3,6 +3,7 @@
 # --output:           : not_given, existed_dir, not_existed_dir, json_file, not_json_file
 
 from itertools import product
+
 import polars as pl
 
 length_width = ['not_given', 'one_valid', 'both_valid', 'both_invalid']

@@ -1,12 +1,12 @@
-from loguru import logger
-from pathlib import Path
-from argparse import ArgumentParser, HelpFormatter
 import json
+import multiprocessing
 import re
 import shutil
-from termcolor import colored
-import multiprocessing
+from argparse import ArgumentParser, HelpFormatter
+from pathlib import Path
 
+from loguru import logger
+from termcolor import colored
 
 # =========================================================================================
 # Define Class and its methods

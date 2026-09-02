@@ -1,7 +1,7 @@
 import cvxpy
-from cvxpy import *
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+from cvxpy import *
 
 figpath = "figures/"
 # datapath = "/home/anqi/Documents/teaching/364a/final/data/time_reg_data/"

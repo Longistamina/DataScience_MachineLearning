@@ -2,12 +2,13 @@
 datar allows applying plotnine's ggplot into the processing pipeline
 '''
 
+from pathlib import Path
+
 import datar.all as dr
-from datar import f
 import pandas as pd
 import plotnine as pln
+from datar import f
 
-from pathlib import Path
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 

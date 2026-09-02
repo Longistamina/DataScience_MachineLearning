@@ -1,7 +1,8 @@
 # radiation treatment planning data file
 # this one is randomly generated; a real one would use the beam geometry
-import scipy.io as sio
 import numpy as np
+import scipy.io as sio
+
 
 def get_value(mat, name):
     value = mat[name]

@@ -40,10 +40,11 @@
    + c(...).fill_null(c(...).mean().over('week'))
 '''
 
+from pathlib import Path
+
 import polars as pl
 import polars.selectors as cs
 from polars import col as c
-from pathlib import Path
 from scipy import interpolate
 
 # Optional display settings

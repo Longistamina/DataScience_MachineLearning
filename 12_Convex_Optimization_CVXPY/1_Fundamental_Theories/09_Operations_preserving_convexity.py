@@ -383,8 +383,8 @@ END OF DOCUMENT
 
 '''
 
-import sympy as sp
 import numpy as np
+import sympy as sp
 
 x = sp.symbols("x")
 y = sp.symbols("y")

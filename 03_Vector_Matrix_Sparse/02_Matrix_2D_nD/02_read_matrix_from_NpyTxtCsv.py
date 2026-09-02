@@ -13,8 +13,9 @@
    + Read named columns (names=True) and convert to plain 2D matrix
 '''
 
-import numpy as np
 from pathlib import Path
+
+import numpy as np
 
 data_dir = next(Path('/home/').glob("**/02_Matrix_2D_nD/data/"))
 

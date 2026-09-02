@@ -2,6 +2,7 @@
 
 import time
 
+
 def calc_square(numbers):
     print("Calculate square numbers:")
     for n in numbers:
@@ -59,9 +60,9 @@ with APIs like "Process" and "Pool" for managing multiple processes
 
 ##--------## Example WITH multiprocessing ##--------------##
 
-import time
 import multiprocessing
 import os
+import time
 
 print("Number of logical CPUs (threads):", os.cpu_count()) # 16 threads ~ 8 cores
 
@@ -105,6 +106,7 @@ print("\nDone double-process calculating in:", time.time() - t0)
 
 from multiprocessing import Pool
 
+
 def target_function(single_block):
     # Replace with your actual processing logic
     # For demonstration, return the reversed version of the input block
@@ -136,8 +138,9 @@ print(outputs)
 
 ##---## save output to multiple files ##---##
 
-from multiprocessing import Pool
 import os
+from multiprocessing import Pool
+
 
 def target_func(single_block, idx):
     # Example: write reversed block to a unique file
@@ -167,6 +170,7 @@ multicore_process(target_func, inputs, max_processes=3)
 # ==============================================================================================
 
 import multiprocessing
+
 
 # Function with two parameters
 def add_numbers(x, y):

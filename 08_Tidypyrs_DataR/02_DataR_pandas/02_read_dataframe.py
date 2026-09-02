@@ -2,9 +2,10 @@
 To read dataframe, just use pandas.read.....() functions, then convert to datar tibble if needed.
 '''
 
+from pathlib import Path
+
 import datar.all as dr
 import pandas as pd
-from pathlib import Path
 
 pd.set_option("display.width", 200)
 

@@ -34,7 +34,6 @@
 
 import re
 
-
 # ==============================================================================================
 # 1. Example
 # ==============================================================================================
@@ -446,7 +445,7 @@ Meaning, they lie between a start codon (ATG) and a stop codon (TAA, TAG, TGA).
 We can combine non-greedy, lookbehind, and lookahead to extract sequences inside ORFs (ignore the outside parts).
 '''
 
-import regex # Must use regex module to allow variable-width lookbehind
+import regex  # Must use regex module to allow variable-width lookbehind
 
 dna_sequence = "XXXAAATGXXXCCCTCGXXXTCGTGCXXXGATTGAAGAXXXACC"
 

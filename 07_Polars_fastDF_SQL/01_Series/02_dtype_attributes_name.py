@@ -6,9 +6,8 @@
 3. ``s.name`` and ``s.rename()``: getting and setting name for a series
 '''
 
-import polars as pl
 import numpy as np
-
+import polars as pl
 
 # =========================================================================================
 # 1. Series.dtype 

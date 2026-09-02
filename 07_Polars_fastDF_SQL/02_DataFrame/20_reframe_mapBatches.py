@@ -20,8 +20,9 @@ In Polars, reframing is achieved via:
 4. Summary: `.pipe(...)` vs `.map_batches(...)`
 '''
 
-import polars as pl
 from pathlib import Path
+
+import polars as pl
 from scipy import stats
 
 # Optional display settings

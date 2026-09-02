@@ -13,8 +13,8 @@ such as NumPy array, list, dictionary, or string representation.
 4. .to_string()
 '''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 # Create a mixed-type Series
 s_mixed = pd.Series([1, 2.5, 'three', np.nan, True])

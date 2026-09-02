@@ -79,8 +79,14 @@ This is the REVERSE of legacy poly1d which stores highest-degree first.
 '''
 
 import numpy as np
-from numpy.polynomial import (Polynomial, Chebyshev, Legendre,
-                               Hermite, HermiteE, Laguerre)
+from numpy.polynomial import (
+                               Chebyshev,
+                               Hermite,
+                               HermiteE,
+                               Laguerre,
+                               Legendre,
+                               Polynomial,
+)
 
 # ── Shared sample data ───────────────────────────────────────────────────────────────────────────
 rng = np.random.default_rng(0)

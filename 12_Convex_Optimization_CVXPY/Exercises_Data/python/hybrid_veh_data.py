@@ -3,8 +3,8 @@
 
 # fuel use is given by F(p) = p+ gamma*p^2 (for p>=0)
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 # define Preq, required power at wheels
 # Preq is piecewise linear

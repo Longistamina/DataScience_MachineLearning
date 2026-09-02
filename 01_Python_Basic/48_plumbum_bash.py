@@ -91,7 +91,6 @@ Table of Contents:
 import plumbum as pb
 import plumbum.cmd as pcd
 
-
 # ==============================================================================================
 # 1. Basic plumbum usage - Local commands
 # ==============================================================================================
@@ -108,7 +107,7 @@ Plumbum provides multiple ways to access commands:
 
 # ## Example 1: Import commands directly (RECOMMENDED)
 # 
-from plumbum.cmd import ls, echo, grep, cat, wc
+from plumbum.cmd import cat, echo, grep, ls, wc
 
 print(echo)
 # LocalCommand(<LocalPath /usr/bin/echo>)
@@ -158,12 +157,14 @@ echo["Hello", "World", "from", "Plumbum"]()
 # 
 args = ["-l", "-a", "-h"]
 from plumbum.cmd import ls
+
 ls[args]()
 # (Lists directory contents with all flags)
 
 # ## Combining arguments
 # 
 from plumbum.cmd import find  # Chainable
+
 find[".", "-maxdepth", "1", "-name", "*.py"]()
 # './demo.py\n./test_GPU.py\n'
 
@@ -339,7 +340,7 @@ Pipes can be chained indefinitely
 
 # ## Basic pipe
 # 
-from plumbum.cmd import ls, grep
+from plumbum.cmd import grep, ls
 
 # List files and filter for .py files
 result = (ls["-a"] | grep[".py"])()
@@ -358,7 +359,7 @@ print(result)
 
 # ## Multiple pipes in chain
 # 
-from plumbum.cmd import ls, grep, wc
+from plumbum.cmd import grep, ls, wc
 
 # List all files, exclude .py files, count them
 pipeline = ls["-a"] | grep["-v", ".py"] | wc["-l"]
@@ -395,7 +396,8 @@ print(result)
 
 # ## Reusable pipeline
 # 
-from plumbum.cmd import ps, grep, wc
+from plumbum.cmd import grep, ps, wc
+
 
 # Pipeline to count processes matching a pattern
 def count_processes(pattern):
@@ -418,7 +420,7 @@ Commands can be saved and reused
 
 # ## Complex chain with multiple filters
 # 
-from plumbum.cmd import ls, grep, sort, head
+from plumbum.cmd import grep, head, ls, sort
 
 # Get top 5 .txt files (sorted alphabetically)
 chain = ls["./01_Python_Basic", "-1"] | grep[".py"] | sort | head["-n", "5"]
@@ -432,7 +434,8 @@ print(result)
 
 # ## Conditional pipeline execution
 # 
-from plumbum.cmd import ls, grep
+from plumbum.cmd import grep, ls
+
 
 def find_files(extension, pattern=None):
     cmd = ls["-1"] | grep[f".{extension}"]
@@ -496,7 +499,7 @@ Returns empty string (output went to file)
 
 # ## Redirect output to file
 # 
-from plumbum.cmd import ls, echo
+from plumbum.cmd import echo, ls
 
 # Save directory listing to file
 (ls["-la"] > "directory_list.txt")()
@@ -545,7 +548,7 @@ print(result)
 
 # ## Append pipeline output
 # 
-from plumbum.cmd import ls, grep
+from plumbum.cmd import grep, ls
 
 # Append filtered results to file
 (ls["-1"] | grep["\.py"] >> "python_files.txt")()
@@ -785,7 +788,7 @@ Useful for interactive commands or when you want live output
 # ## Run command in foreground
 # 
 from plumbum import FG
-from plumbum.cmd import ls, grep
+from plumbum.cmd import grep, ls
 
 # Output appears directly in terminal
 (ls["-a"] | grep[".py"]) & FG
@@ -824,7 +827,7 @@ Process runs asynchronously in the background
 # ## Run command in background
 # 
 from plumbum import BG
-from plumbum.cmd import sleep, echo
+from plumbum.cmd import echo, sleep
 
 # Start command, returns immediately
 future = (sleep["5"]) & BG
@@ -842,8 +845,8 @@ print("Command completed!")
 
 # ## Multiple background commands
 # 
-from plumbum.cmd import sleep
 from plumbum import BG
+from plumbum.cmd import sleep
 
 # Start multiple background processes
 future1 = (sleep["3"]) & BG
@@ -883,6 +886,7 @@ print(f"Ready: {future.ready()}")
 # Ready: False
 
 import time
+
 time.sleep(4)
 
 print(f"Ready: {future.ready()}")
@@ -890,8 +894,8 @@ print(f"Ready: {future.ready()}")
 
 # ## Get return code
 # 
-from plumbum.cmd import echo
 from plumbum import BG
+from plumbum.cmd import echo
 
 future = (echo["Hello"]) & BG
 future.wait()
@@ -903,8 +907,8 @@ print(f"Return code: {return_code}")
 
 # ## Capture output from background process
 # 
-from plumbum.cmd import ls, grep
 from plumbum import BG
+from plumbum.cmd import grep, ls
 
 # Redirect output to capture it
 future = ((ls["-a"] | grep["\.py"]) > "bg_output.txt") & BG
@@ -912,6 +916,7 @@ future.wait()
 
 # Read captured output
 from plumbum.cmd import cat
+
 output = cat["bg_output.txt"]()
 print(output)
 # file1.py
@@ -1040,8 +1045,8 @@ Useful for commands that might hang
 
 # ## Command with timeout
 # 
-from plumbum.cmd import sleep
 from plumbum import ProcessTimedOut
+from plumbum.cmd import sleep
 
 try:
     # This will timeout after 2 seconds
@@ -1072,8 +1077,8 @@ Access return code, stdout, stderr from exception
 
 # ## Handle command failure
 # 
-from plumbum.cmd import ls
 from plumbum import ProcessExecutionError
+from plumbum.cmd import ls
 
 try:
     ls["nonexistent_file"]()
@@ -1242,6 +1247,7 @@ with SshMachine("user@example.com") as remote:
 # ## Mix remote and local commands
 # 
 from plumbum.cmd import grep  # Local grep
+
 with SshMachine("user@example.com") as remote:
     r_cat = remote["cat"]
 
@@ -1262,6 +1268,7 @@ Can copy entire directories recursively
 # ## Upload file to remote
 # 
 from plumbum import local
+
 with SshMachine("user@example.com") as remote:
     local_file = local.path("local_data.txt")
     remote_path = remote.path("/tmp/remote_data.txt")
@@ -1378,6 +1385,7 @@ result2 = grep_ignore_case["warning", "log.txt"]()
 # 
 from plumbum.cmd import find
 
+
 def find_files(extension, directory="."):
     """Create find command for specific file extension"""
     return find[directory, "-name", f"*.{extension}"]
@@ -1401,7 +1409,8 @@ Create command libraries for common tasks
 
 # ## Command library for common operations
 # 
-from plumbum.cmd import tar, gzip, find
+from plumbum.cmd import find, gzip, tar
+
 
 class BackupCommands:
     @staticmethod
@@ -1432,7 +1441,8 @@ print(large_files)
 
 # ## Parameterized command builder
 # 
-from plumbum.cmd import ps, grep, awk
+from plumbum.cmd import awk, grep, ps
+
 
 def process_monitor(process_name, sort_by="memory"):
     """Monitor specific process with sorting"""

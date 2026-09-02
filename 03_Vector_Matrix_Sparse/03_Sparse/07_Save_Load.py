@@ -5,13 +5,12 @@ Saving and Loading:
    + pickle: General Python serialization
 '''
 
-import numpy as np
-from scipy import sparse
-from scipy.sparse import (csr_array, csc_array, random_array)
-
 import os
 import pickle
 
+import numpy as np
+from scipy import sparse
+from scipy.sparse import csc_array, csr_array, random_array
 
 # =========================================================================================
 # Saving and Loading
@@ -54,7 +53,7 @@ Portable text format
 Compatible with other software (MATLAB, etc.)
 '''
 
-from scipy.io import mmwrite, mmread
+from scipy.io import mmread, mmwrite
 
 A_mm = csr_array([[1, 0, 2],
                   [0, 3, 0],

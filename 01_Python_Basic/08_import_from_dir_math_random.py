@@ -3,9 +3,10 @@
 # ==============================================================================================
 
 import math
+
 a = math.sqrt(16) # 4
 b = math.pow(2, 3) # 2**3 = 8
-math.pi # pi number
+print(math.pi) # pi number
 
 print(dir(math)) # list out all the functions, methods and attributes of an object
 
@@ -72,13 +73,7 @@ random.seed(42); print(random.random()) # one-liner
 ##---------------------##
 
 from math import sqrt
-from random import random, uniform, seed # Not recommended
-
-from random import ( # Recommended
-    random,
-    uniform,
-    seed
-)
+from random import random, seed, uniform  # Not recommended  # Recommended
 
 print(sqrt(4)) # 2.0
 
@@ -103,6 +98,7 @@ Method 2:
 '''
 
 from math import sqrt as msqrt
+
 from numpy import sqrt as nsqrt
 
 print(msqrt(4)) # 2.0

@@ -12,10 +12,11 @@
    + Error if trying to add a new column that doesn't exist in the DataFrame
 '''
 
-import datar.all as dr
-from datar import f
-import pandas as pd
 from pathlib import Path
+
+import datar.all as dr
+import pandas as pd
+from datar import f
 from loguru import logger
 
 pd.set_option("display.width", 200)

@@ -1,11 +1,10 @@
 ##--------------------------------------------------------------##
 #### This data will be given, i.e. train_timetable_data.py ##---##
-import numpy as np
-
-import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle
 import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import numpy as np
 from matplotlib.lines import Line2D
+from matplotlib.patches import Rectangle
 
 ##---------------------## Problem data ##---------------------##
 # Routes

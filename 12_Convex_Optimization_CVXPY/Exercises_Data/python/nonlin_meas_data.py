@@ -1,5 +1,6 @@
 # Data for non linear measurements
 import numpy as np
+
 n = 4
 m = 300
 sigma = 1.000000e-01

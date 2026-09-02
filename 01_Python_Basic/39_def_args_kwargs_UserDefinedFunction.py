@@ -405,6 +405,7 @@ display_info(name="Alice", age=30, city="New York")
 
 from loguru import logger
 
+
 def calculate_salary(**info):
     """Calculate salary based on required and optional fields."""
 

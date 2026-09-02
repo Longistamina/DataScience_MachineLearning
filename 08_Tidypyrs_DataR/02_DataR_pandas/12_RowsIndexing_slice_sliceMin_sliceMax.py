@@ -8,10 +8,11 @@
 3. dr.slice_max(): allows selecting rows with the largest values in a specified column.
 '''
 
-import datar.all as dr
-from datar import f
-import pandas as pd
 from pathlib import Path
+
+import datar.all as dr
+import pandas as pd
+from datar import f
 
 pd.set_option("display.width", 200)
 

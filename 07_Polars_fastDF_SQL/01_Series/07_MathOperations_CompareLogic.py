@@ -18,9 +18,8 @@ round(),
 Boolean to Binary 0/1 (using .cast(pl.Int8))
 '''
 
-import polars as pl
 import numpy as np
-
+import polars as pl
 
 # =========================================================================================
 # 1. Mathematical Operations

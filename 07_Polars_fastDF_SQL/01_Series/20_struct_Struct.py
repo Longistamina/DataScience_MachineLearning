@@ -32,6 +32,7 @@ field, json_encode, rename_fields, unnest, fields, schema
 '''
 
 import polars as pl
+
 pl.Config(fmt_str_lengths=1000)
 
 # =========================================================================================

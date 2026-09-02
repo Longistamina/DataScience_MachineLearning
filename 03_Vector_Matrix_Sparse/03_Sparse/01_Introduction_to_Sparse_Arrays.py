@@ -23,8 +23,7 @@ scipy.sparse - Introduction to Sparse Arrays
 '''
 
 import numpy as np
-from scipy.sparse import csr_array, coo_array
-
+from scipy.sparse import coo_array, csr_array
 
 # =========================================================================================
 # 1. What are Sparse Arrays?

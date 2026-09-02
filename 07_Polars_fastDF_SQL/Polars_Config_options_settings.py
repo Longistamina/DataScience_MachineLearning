@@ -47,12 +47,11 @@ Pandas -> Polars equivalents:
 8. Less common global behavior options
 '''
 
+import sys
 from decimal import Decimal as D
 from pathlib import Path
-import sys
 
 import polars as pl
-
 
 # =========================================================================================
 # Data setup

@@ -73,8 +73,9 @@ Tips and Best Practices
 ## Quick examples ##
 ##----------------##
 
-from tldm import tldm
 import time
+
+from tldm import tldm
 
 # Simplest usage
 for i in tldm(range(100)):
@@ -87,8 +88,9 @@ for i in tldm(range(100)):
 # 2. Basic Usage
 # ==============================================================================================
 
-from tldm import tldm
 import time
+
+from tldm import tldm
 
 ##---------------------##
 ## Simple progress bar ##
@@ -497,8 +499,9 @@ for i in tldm(range(100), smoothing=0.9):  # More stable
 ##---------------------------------##
 '''auto_tldm automatically chooses the best progress bar for your environment'''
 
-from tldm import auto_tldm  # Auto-detection import
 import time
+
+from tldm import auto_tldm  # Auto-detection import
 
 # This will use tldm.tldm in terminal/console
 # This will use tldm.notebook.tldm in Jupyter notebooks
@@ -691,6 +694,7 @@ for i in tldm(range(50), bar_format=fortmat):
 
 import os
 
+
 def process_files(directory):
     '''Process all files in a directory with progress bar'''
     files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
@@ -793,8 +797,8 @@ for record in data[:5]:  # Print first 5 records
 ##--------------------##
 '''Use tldm with pandas operations'''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 # ## Method 1: Import pandas from tldm (recommended)
 # from tldm import pandas
@@ -861,6 +865,7 @@ result = process_stream(my_generator())
 
 from concurrent.futures import ThreadPoolExecutor
 
+
 def process_item(item):
     time.sleep(0.1)
     return item * 2
@@ -910,6 +915,7 @@ def read_large_file(filename, total_size):
 '''Shortcut for tldm(range(*args), **kwargs)'''
 
 from tldm import trange
+
 for i in trange(100, desc='Range Progress'):
     time.sleep(0.01)
 
@@ -952,6 +958,7 @@ for a, b, c in tzip(list1, list2, list3, desc='Zipping'):
 '''Equivalent of builtin map with progress bar'''
 
 from tldm import tmap
+
 
 def square(x):
     time.sleep(0.01)

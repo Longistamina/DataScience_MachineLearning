@@ -36,13 +36,21 @@ scipy.sparse - Advanced Sparse Operations
 
 import numpy as np
 from scipy import sparse
-from scipy.sparse import (csr_array, coo_array, lil_array,
-                          diags_array, eye_array, random_array)
-from scipy.sparse.csgraph import (connected_components, shortest_path,
-                                  minimum_spanning_tree, depth_first_order,
-                                  breadth_first_order)
-
-
+from scipy.sparse import (
+    coo_array,
+    csr_array,
+    diags_array,
+    eye_array,
+    lil_array,
+    random_array,
+)
+from scipy.sparse.csgraph import (
+    breadth_first_order,
+    connected_components,
+    depth_first_order,
+    minimum_spanning_tree,
+    shortest_path,
+)
 
 # =========================================================================================
 # 1. Canonical Formats and Duplicates
@@ -682,6 +690,7 @@ A_workflow.sum_duplicates()
 # 4. Perform computation
 b_workflow = np.ones(n, dtype=np.float32)
 from scipy.sparse.linalg import spsolve
+
 x_workflow = spsolve(A_workflow, b_workflow)
 
 print(f"4. Solved linear system")

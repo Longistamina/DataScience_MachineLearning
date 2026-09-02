@@ -1,6 +1,6 @@
 import cvxpy as cp
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 np.random.seed(0x364A_23F2)
 N = 500

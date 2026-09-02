@@ -1,4 +1,5 @@
 import numpy as np
+
 m = 30
 n = 20
 nb = 6

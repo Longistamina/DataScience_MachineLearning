@@ -7,8 +7,8 @@ and ensuring that analyses are performed on unique data points.
 '''
 
 import datar.all as dr
-from datar import f
 import numpy as np
+from datar import f
 
 ##--------------------##
 

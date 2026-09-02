@@ -26,8 +26,8 @@ Important Polars ideas:
 5. All-in-one workflow example
 '''
 
-from pathlib import Path
 from functools import reduce
+from pathlib import Path
 
 import altair as alt
 import polars as pl

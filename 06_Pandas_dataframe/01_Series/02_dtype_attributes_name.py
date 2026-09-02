@@ -6,9 +6,8 @@
 3. 'name' attribute: setting and getting the name of the Series.
 '''
 
-import pandas as pd
 import numpy as np
-
+import pandas as pd
 
 # =========================================================================================
 # 1. Series.dtype 

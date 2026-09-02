@@ -1,5 +1,6 @@
-import numpy as np
 import cvxpy as cvx
+import numpy as np
+
 # data for censored fitting problem.
 np.random.seed(15)
 

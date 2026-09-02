@@ -13,8 +13,8 @@ mapping is handled via .replace().
 6. Method Chaining (via pl.select() or .to_frame())
 '''
 
-import polars as pl
 import numpy as np
+import polars as pl
 import scipy.stats as stats
 
 # Setup data

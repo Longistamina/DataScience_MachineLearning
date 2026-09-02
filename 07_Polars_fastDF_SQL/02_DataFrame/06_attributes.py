@@ -46,9 +46,9 @@ Important Polars differences:
       + df.attrs -> keep metadata in a separate Python dict or normal columns
 '''
 
-import polars as pl
 from pathlib import Path
 
+import polars as pl
 
 # =========================================================================================
 # 0. Example DataFrame

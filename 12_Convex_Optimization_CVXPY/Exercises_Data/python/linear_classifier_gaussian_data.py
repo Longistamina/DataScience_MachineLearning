@@ -1,9 +1,9 @@
+import matplotlib.transforms as transforms
 import numpy as np
+from matplotlib import cm
 from matplotlib import pyplot as plt
 from matplotlib.patches import Ellipse
-import matplotlib.transforms as transforms
 from scipy.stats import multivariate_normal as normal
-from matplotlib import cm
 
 # NOTE: You just need to consider the function plot_helper(c,d,save_file=None) below
 # and pass in c and d you found as its arguments. 

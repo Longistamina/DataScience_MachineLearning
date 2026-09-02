@@ -98,10 +98,10 @@ VALID FREQUENCIES FOR ROUNDING (FIXED FREQUENCIES ONLY):
 
 '''
 
-import pandas as pd
-import numpy as np
-from datetime import timedelta, datetime
+from datetime import datetime, timedelta
 
+import numpy as np
+import pandas as pd
 
 # =========================================================================================
 # 0. Creating Timedelta objects

@@ -4,6 +4,7 @@
 
 import numpy as np
 from scipy import linalg as la
+
 np.random.seed(8)
 
 n = 5 # Dimension

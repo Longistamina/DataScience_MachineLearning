@@ -1,4 +1,5 @@
 import numpy as np
+
 np.random.seed(1)
 
 n = 10

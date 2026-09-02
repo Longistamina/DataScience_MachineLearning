@@ -1,6 +1,7 @@
 # Data for minimum energy processor speed scheduling.
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 n = 12  # number of jobs.
 T = 16  # number of time periods.
 

@@ -35,6 +35,7 @@ list_str = list(tuple_str)
 print(list_str)
 
 from datetime import date
+
 list_mix = ["Lentani", 35.5, 20, date(1885, 12, 21), False]
 print(list_mix)
 
@@ -296,6 +297,7 @@ list_mix.sort()
 '''.reverse() to reverse the current order of a list "180 degrees"'''
 
 from datetime import date
+
 list_mix = ["Lentani", 35.5, 20, date(1885, 12, 21), False]
 
 list_mix.reverse()

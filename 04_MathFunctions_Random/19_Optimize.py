@@ -54,21 +54,46 @@ PART F — UTILITIES & LEGACY
 import numpy as np
 from scipy import optimize
 from scipy.optimize import (
-    minimize_scalar, minimize,
-    Bounds, LinearConstraint, NonlinearConstraint,
-    differential_evolution, basinhopping, shgo, dual_annealing, direct, brute,
-    least_squares, curve_fit, lsq_linear, nnls, isotonic_regression,
-    root_scalar, root, fixed_point,
-    linprog, milp,
-    linear_sum_assignment, quadratic_assignment,
-    approx_fprime, check_grad, bracket,
-    rosen, rosen_der, rosen_hess, rosen_hess_prod,
-    fsolve, fmin, leastsq,
-    SR1, BFGS as OptBFGS,
+    BFGS as OptBFGS,
 )
-from scipy.optimize import elementwise
+from scipy.optimize import (
+    SR1,
+    Bounds,
+    LinearConstraint,
+    NonlinearConstraint,
+    approx_fprime,
+    basinhopping,
+    bracket,
+    brute,
+    check_grad,
+    curve_fit,
+    differential_evolution,
+    direct,
+    dual_annealing,
+    elementwise,
+    fixed_point,
+    fmin,
+    fsolve,
+    isotonic_regression,
+    least_squares,
+    leastsq,
+    linear_sum_assignment,
+    linprog,
+    lsq_linear,
+    milp,
+    minimize,
+    minimize_scalar,
+    nnls,
+    quadratic_assignment,
+    root,
+    root_scalar,
+    rosen,
+    rosen_der,
+    rosen_hess,
+    rosen_hess_prod,
+    shgo,
+)
 from scipy.special import j1
-
 
 # =========================================================================================
 #  PART A — MINIMIZATION 
@@ -196,6 +221,8 @@ print(np.allclose(res_jac_true.x, res_bfgs.x, atol=1e-5))  # True
 
 # Memoize expensive computation with lru_cache (shared across f and grad calls)
 from functools import lru_cache
+
+
 @lru_cache(maxsize=None)
 def expensive_rosen(x_tuple):
     x = np.array(x_tuple)
@@ -1011,7 +1038,8 @@ print([round(r, 6) for r in roots_sin])
 # [-6.283185, -3.141593, 0.0, 3.141593, 6.283185]
 
 # Direct bracket functions (legacy-compatible standalone wrappers)
-from scipy.optimize import brentq, bisect, newton
+from scipy.optimize import bisect, brentq, newton
+
 root_bq_direct = brentq(f_root, 1., 2.)
 print(round(root_bq_direct, 10))
 # 1.5213797068

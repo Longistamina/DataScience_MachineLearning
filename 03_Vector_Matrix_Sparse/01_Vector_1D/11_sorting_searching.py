@@ -22,8 +22,9 @@
    + (The array must be sorted first)
 '''
 
-import numpy as np
 from pathlib import Path
+
+import numpy as np
 
 data_dir = next(Path('/home/').glob("**/01_Vector_1D/data/"))
 

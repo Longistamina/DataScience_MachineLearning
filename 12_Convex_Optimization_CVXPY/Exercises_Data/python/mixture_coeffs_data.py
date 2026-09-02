@@ -1,7 +1,7 @@
 import cvxpy as cp
 import numpy as np
-from scipy.stats import norm, laplace, uniform
 from matplotlib import pyplot as plt
+from scipy.stats import laplace, norm, uniform
 
 # True weights for the underlying mixture
 true_mixture_weights = [.3, .5, .2]

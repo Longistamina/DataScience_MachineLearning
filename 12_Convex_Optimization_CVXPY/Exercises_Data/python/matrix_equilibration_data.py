@@ -1,5 +1,6 @@
 # Data for matrix equilibration
 import numpy as np
+
 m = 20; n = 10; p = 2
 
 A = np.array([[-0.24399,-0.17122,0.05243,-0.40015,2.318,-0.12891,0.55294,0.011122,-0.65157,0.43334],

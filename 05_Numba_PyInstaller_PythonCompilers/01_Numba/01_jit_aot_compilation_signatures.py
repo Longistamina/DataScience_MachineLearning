@@ -16,10 +16,10 @@ Various invocation modes trigger differing compilation options and behaviours.
 4. Calling and inlining other functions
 '''
 
-import numba as nb
-import numpy as np
 import math
 
+import numba as nb
+import numpy as np
 
 # =========================================================================================
 # 1. Lazy Compilation

@@ -1,6 +1,6 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import cvxpy as cvx
+import matplotlib.pyplot as plt
+import numpy as np
 
 # This script generates data for the micro grid optimization problem
 # WARNING: it imports cvxpy as cvx to generate some data, so after running it

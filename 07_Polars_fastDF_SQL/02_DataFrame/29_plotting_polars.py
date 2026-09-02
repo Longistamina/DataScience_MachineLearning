@@ -59,8 +59,8 @@ alt.data_transformers.disable_max_rows()
 
 # Optional hvPlot support. The script still works without hvPlot; the hvPlot section is skipped.
 try:
-    import hvplot.polars  # noqa: F401
     import hvplot
+    import hvplot.polars  # noqa: F401
     HAS_HVPLOT = True
 except ImportError:
     HAS_HVPLOT = False

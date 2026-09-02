@@ -13,8 +13,8 @@ which is similar to SciPy's sparse matrix module but optimized for GPU computati
 2. CuPy demo with sparse matrices
 '''
 
-import numpy as np
 import cupy as cp
+import numpy as np
 from cupyx.scipy import sparse
 
 cp.set_printoptions(linewidth=1000)

@@ -27,10 +27,10 @@ Flow of contents:
 No def/class used, only built-in modules + bs4.
 '''
 
-from bs4 import BeautifulSoup  # bs4 docs: BeautifulSoup(markup, 'html.parser')
-import requests                # Read HTLM documents from URLs
-import time                    # optional pacing
+import time  # optional pacing
 
+import requests  # Read HTLM documents from URLs
+from bs4 import BeautifulSoup  # bs4 docs: BeautifulSoup(markup, 'html.parser')
 
 # ==============================================================================================
 # 1. HTML structure basics

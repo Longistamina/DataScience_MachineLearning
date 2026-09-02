@@ -6,10 +6,11 @@
 3. Combine with pd.Grouper() for time-based grouping
 '''
 
-import datar.all as dr
-from datar import f
-import pandas as pd
 from pathlib import Path
+
+import datar.all as dr
+import pandas as pd
+from datar import f
 
 pd.set_option("display.width", 200)
 pd.set_option("display.max_columns", 8)

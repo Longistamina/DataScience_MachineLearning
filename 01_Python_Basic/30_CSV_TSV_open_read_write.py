@@ -143,6 +143,7 @@ This is useful when dealing with large datasets that cannot fit into memory all 
 
 import csv
 
+
 def process_csv_chunks(file_path, chunk_size=1000):
     """Generator function to process CSV file in chunks."""
     with open(file=file_path, mode="r", newline="", encoding="utf-8") as file_pointer:

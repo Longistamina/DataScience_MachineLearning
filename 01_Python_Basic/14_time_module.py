@@ -34,7 +34,6 @@
 
 import time
 
-
 # ==============================================================================================
 # 1. Current Timestamp
 # ==============================================================================================
@@ -327,6 +326,7 @@ print(f"CPU time used: {cpu_time:.6f} seconds") # 0.009294 seconds
 '''CPU time used by the current thread'''
 
 import threading
+
 
 def worker():
     start = time.thread_time()

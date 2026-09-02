@@ -1,5 +1,6 @@
 # data for optimal evacuation problem
 import numpy as np
+
 T = 30
 A = np.array([[-1.,-1., 0., 0., 0., 0., 0., 0., 0.],
  [ 1., 0.,-1., 0., 0., 0., 0., 0., 0.],

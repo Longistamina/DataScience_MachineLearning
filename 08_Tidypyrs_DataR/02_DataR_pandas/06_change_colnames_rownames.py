@@ -11,10 +11,11 @@
    + Apply pandas method dr.pipe()
 '''
 
-import datar.all as dr
-from datar import f
-import pandas as pd
 from pathlib import Path
+
+import datar.all as dr
+import pandas as pd
+from datar import f
 
 pd.set_option("display.width", 200)
 
@@ -102,6 +103,7 @@ print(tb_pokemon.head())
 ##---------------##
 
 from pipda import register_verb
+
 dr.filter = register_verb(func=dr.filter_)
 
 tb_renamed3 = (
@@ -209,6 +211,7 @@ print(tb_from_rownames.head())
 ##---------------##
 
 from pipda import register_verb
+
 dr.filter = register_verb(func = dr.filter_)
 
 

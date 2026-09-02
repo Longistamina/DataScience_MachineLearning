@@ -31,9 +31,10 @@ Core Polars APIs used here:
      Python-side logic or schema-driven expression generation.
 '''
 
+from pathlib import Path
+
 import polars as pl
 import polars.selectors as cs
-from pathlib import Path
 
 # Optional display settings
 pl.Config.set_tbl_rows(10)

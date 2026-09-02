@@ -4,8 +4,8 @@
 3. Exponentially Weighted: .ewm_mean() (Direct method, no intermediate .ewm() object)
 '''
 
-import polars as pl
 import numpy as np
+import polars as pl
 
 np.random.seed(42)
 s_nums = pl.Series(np.random.normal(loc=3, scale=2, size=5)).round(2)

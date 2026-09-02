@@ -98,11 +98,11 @@ COMMON UNIT CODES FOR TIMESTAMP CONSTRUCTION:
 
 '''
 
-import pandas as pd
-import numpy as np
 from datetime import datetime, timedelta
-import pytz
 
+import numpy as np
+import pandas as pd
+import pytz
 
 # =========================================================================================
 # 0. Creating Timestamp objects
@@ -1055,6 +1055,7 @@ print(ts_past)
 
 # Using Python timedelta
 from datetime import timedelta
+
 ts_future3 = ts1 + timedelta(weeks=2)
 print(ts_future3)
 # 2023-03-29 14:30:00

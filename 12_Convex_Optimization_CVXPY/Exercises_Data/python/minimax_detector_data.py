@@ -1,5 +1,5 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Define the data
 pmf1 = np.array([0.0057432 , 0.00568681, 0.00563071, 0.00557498, 0.00551972,

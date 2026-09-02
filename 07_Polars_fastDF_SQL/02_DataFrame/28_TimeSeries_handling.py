@@ -1,6 +1,7 @@
+from pathlib import Path
+
 import polars as pl
 from polars import col as c
-from pathlib import Path
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

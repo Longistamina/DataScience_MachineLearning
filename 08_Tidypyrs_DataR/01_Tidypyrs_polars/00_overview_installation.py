@@ -1,29 +1,23 @@
 '''
-``tidypolars`` is a data frame library built on top of the blazingly fast polars library
+``tidypyrs`` is a data frame library built on top of the blazingly fast polars library
 that gives access to methods and functions familiar to R tidyverse users.
 
 ##------------------------------------------------------------------------------------##
 
-# Installation (my fork):
-git clone https://github.com/Longistamina/tidypolars.git
-cd tidypolars
-
-# then activate your python venv (``conda activate``, ``source /path/to/venv/bin/activate``, ``source /path/to/venv/bin/activate.fish``, ...)
-
-pip install .
+pip install tidypyrs
+uv pip install tidypyrs
 '''
 
-import tidypolars as tp
-import polars as pl
+import tidypyrs as tp
 
-df = tp.tibble({
+tf = tp.TibbleFrame({
     "name": ["Jimmy", "Keith"],
     "band": ["Led Zeppelin", "Stones"],
 })
 
 print(
-    df
-    .mutate(age = pl.Series([20, 23]))
+    tf
+    .mutate(age = tp.Series([20, 23]))
     .select("name", "band", "age")
 )
 # shape: (2, 3)

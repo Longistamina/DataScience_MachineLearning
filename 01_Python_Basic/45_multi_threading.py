@@ -2,6 +2,7 @@
 
 import time
 
+
 def calc_square(numbers):
     print("Calculate square numbers:")
     for n in numbers:
@@ -62,9 +63,9 @@ and higher-level interfaces like "concurrent.futures.ThreadPoolExecutor" to mana
 
 ##--------## Example WITH multithreading ##--------------##
 
-import time
-import threading
 import os
+import threading
+import time
 
 print("Number of logical CPUs (threads):", os.cpu_count()) # 16 threads ~ 8 cores
 
@@ -133,6 +134,7 @@ print("\nDone double-thread calculating in:", time.time() - t0)
 import threading
 from concurrent.futures import ThreadPoolExecutor
 
+
 def target_function(single_block):
     # Replace with your actual processing logic
     # For demonstration, this target_function return the reversed version of the input as single_block
@@ -168,6 +170,7 @@ print(outputs)
 ##-## Write outputs into  files ##-##
 
 from concurrent.futures import ThreadPoolExecutor
+
 
 def reversing(single_block):
     # Replace with your actual processing logic
@@ -212,6 +215,7 @@ multithread_process(func=write_output_file,input_blocks=inputs, max_threads=4, o
 # ==============================================================================================
 
 from concurrent.futures import ThreadPoolExecutor
+
 
 # Function with two parameters
 def add_numbers(x, y):

@@ -7,15 +7,12 @@ The data of a jitclass instance is allocated on the heap as a C-compatible struc
 so that any compiled functions can have direct access to the underlying data, bypassing the interpreter.
 '''
 
-import numba as nb
-from numba.experimental import jitclass
-
-from numba.typed import List as NumbaList
-
-import numpy as np
-
 from typing import List
 
+import numba as nb
+import numpy as np
+from numba.experimental import jitclass
+from numba.typed import List as NumbaList
 
 # =========================================================================================
 # 1. Manual signatures specifying

@@ -21,8 +21,8 @@ offering substantial memory savings for such datasets.
    + .sparse.to_coo()
 '''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 # =========================================================================================
 # 0. Create a Sparse Series

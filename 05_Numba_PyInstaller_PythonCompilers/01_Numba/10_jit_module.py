@@ -14,9 +14,8 @@ IMPORTANT RULES (When jit_module WILL NOT affect a function):
 3. Functions defined logically AFTER the ``jit_module()`` call.
 '''
 
-from numba import jit_module, jit
 import numpy as np
-
+from numba import jit, jit_module
 
 # =========================================================================================
 # 1. Functions defined BEFORE jit_module

@@ -1,5 +1,6 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 # Parameters
 T = 30  # Retiree's life expectancy post retirement (in years)
 # Initial account balances (in thousands $)

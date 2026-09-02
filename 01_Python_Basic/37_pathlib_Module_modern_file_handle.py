@@ -25,7 +25,6 @@ Flow of contents:
 
 from loguru import logger
 
-
 # ==============================================================================================
 # 1. Create Path object: PurePath, Concrete Path, slash /
 # ==============================================================================================
@@ -40,7 +39,6 @@ such as reading and writing files, checking existence, and more.
 '''
 
 from pathlib import Path, PosixPath, WindowsPath
-
 
 # Create a Path object using Path. It will automatically handle the path separator based on the operating system.
 path = Path('parent_dir', 'child_dir', 'example.txt')  # Works like os.path.join()
@@ -99,7 +97,6 @@ They do not allow for any file system operations like reading or writing files, 
 '''
 
 from pathlib import PurePath, PurePosixPath, PureWindowsPath
-
 
 # Create a PurePath object using PurePath.
 # It will automatically handle the path separator based on the operating system.
@@ -374,6 +371,7 @@ print(exist_file_path.is_dir())  # False (since it's a file)
 demo_symlink_path = Path('parent_dir/child_dir/symlink_fake')
 
 import os
+
 os.symlink(src="./Curriculum.txt", dst="symlink_to_curriculum.txt")
 exist_symlink_path = Path("symlink_to_curriculum.txt")
 
@@ -559,6 +557,7 @@ project_path.rmdir() # Raise error (OSError) since the directory is not empty
 '''To remove a non-empty dir with all its contents, use shutil.rmtree()'''
 
 import shutil
+
 shutil.rmtree(project_path)
 
 ##---------------------------------------------------##
@@ -702,9 +701,11 @@ print(f"Last modification time: {file_mtime}")  # Last modification time: 174763
 # You can convert it to a human-readable format using datetime or time module
 
 from datetime import datetime
+
 print(f"Last modification time: {datetime.fromtimestamp(file_mtime)}")  # Last modification time: 2025-05-19 12:35:19
 
 import time
+
 print(f"Last modification time: {time.ctime(file_mtime)}")  # 'Mon May 19 14:35:19 2025'
 
 ##------------------------------------------------------------##
@@ -717,9 +718,11 @@ print(f"Creation time: {file_ctime}")  # Creation time: 1748964340.0572999
 # You can convert it to a human-readable format using datetime
 
 from datetime import datetime
+
 print(f"Creation time: {datetime.fromtimestamp(file_ctime)}")  # Creation time: 2025-06-03 22:25:40.057300
 
 import time
+
 print(f"Last modification time: {time.ctime(file_ctime)}") # Wed Jun  4 00:25:40 2025
 
 ##-------------------------------------##
@@ -732,9 +735,11 @@ print(f"Last access time: {file_atime}")  # Last access time: 1753340542.8413243
 # You can convert it to a human-readable format using datetime
 
 from datetime import datetime
+
 print(f"Last access time: {datetime.fromtimestamp(file_atime)}")  # Last access time: 2025-07-24 14:02:22.841324
 
 import time
+
 print(f"Last access time: {time.ctime(file_atime)}")  # Thu Jul 24 16:02:22 2025
 
 ##-------------------------------------------##
@@ -747,6 +752,7 @@ print(f"File mode: {file_mode}")  # File mode: 33279
 # You can convert it to a human-readable format using the stat module
 
 import stat
+
 file_mode_human_readable = stat.filemode(file_mode)
 print(f"File mode (human-readable): {file_mode_human_readable}")  # -rwxrwxrwx
 
@@ -761,6 +767,7 @@ print(f"File size: {file_stats.st_size / (1024**2):.2f} MB")
 
 # Get timestamps
 from datetime import datetime
+
 mod_time = datetime.fromtimestamp(file_stats.st_mtime)
 access_time = datetime.fromtimestamp(file_stats.st_atime)
 create_time = datetime.fromtimestamp(file_stats.st_ctime)
@@ -771,6 +778,7 @@ print(f"Created: {create_time}")
 
 # File permissions (Unix-like systems)
 import stat
+
 print(f"Permissions: {oct(file_stats.st_mode)}") # 0o100777
 print(f"Permissions (human-readable): {stat.filemode(file_stats.st_mode)}")  # -rwxrwxrwx
 

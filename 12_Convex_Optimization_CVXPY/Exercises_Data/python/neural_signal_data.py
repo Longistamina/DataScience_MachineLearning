@@ -23,8 +23,8 @@ We also provide the following helper functions for plotting and other utility:
 
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 ##----------------------------------------------------------------------------##
 # This section of the code sets up a discrete version of the Hodgkin Huxley (H&H)

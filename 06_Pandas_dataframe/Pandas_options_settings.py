@@ -22,8 +22,9 @@ data behavior and more.
 Detailed documentation: https://pandas.pydata.org/docs/user_guide/options.html#
 '''
 
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

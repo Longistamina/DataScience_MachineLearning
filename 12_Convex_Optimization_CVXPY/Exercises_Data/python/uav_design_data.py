@@ -1,5 +1,5 @@
-import numpy as np
 import cvxpy as cp
+import numpy as np
 
 K = 5    # number of missions
 D = np.array([1.2e5, 4.5e5, 5.2e5, 2.4e5, 1.1e6])      # m

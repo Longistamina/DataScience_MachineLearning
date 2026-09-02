@@ -1,5 +1,6 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 Banks=[]
 for i in range(0,16,1):
     for j in reversed(range(0,16,1)):
