@@ -283,7 +283,35 @@ greet_user("Bob", "Bonjour")
 
 
 # ==============================================================================================
-# 7. *args (Variable Positional Arguments)
+# 7. Forcing keyword arguments with "*": `def func(par1, *, par2, par3=arg3)`
+# ==============================================================================================
+'''
+Parameters before "*" can take positional or keyword arguments
+Parameters AFTER "*" can only take KEYWORD ARGUMENTS
+'''
+
+def greet(name, *, greeting, punctuation="!"):
+    return f"{greeting}, {name}{punctuation}"
+
+print(greet("Alice", greeting="Welcome", punctuation="."))
+# Welcome, Alice.
+
+print(greet("Bob", greeting="Hi"))
+# Hi, Bob!
+
+try:
+    print(greet("Bob", "Bonjour", "."))
+except Exception as e:
+    print(e)
+'''
+This will raise error "greet() takes 1 positional argument but 3 were given"
+
+because `greeting` and `punctuation` are all behind "*",
+so you must pass keyword arguments.
+'''
+
+# ==============================================================================================
+# 8. *args (Variable Positional Arguments)
 # ==============================================================================================
 '''
 *args allows you to pass a variable number of positional arguments to a function.
@@ -359,7 +387,7 @@ print(create_message("Hello", "world", "from", "Python"))
 
 
 # ==============================================================================================
-# 8. **kwargs (Variable Keyword Arguments)
+# 9. **kwargs (Variable Keyword Arguments)
 # ==============================================================================================
 '''
 **kwargs allows you to pass a variable number of keyword arguments to a function.
