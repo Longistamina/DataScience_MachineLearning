@@ -118,14 +118,14 @@
 ## 02_Python_class_OOP
 + [02_Python_class_OOP_part_01](https://youtu.be/6I61G3QYc9E): 12th/04/2026
     * class, instance and object introduction
-    * ``__init__``, ``self``, instance attribute
-    * ``__dict__``, ``__repr__``, class attribute
-    * magic methods: ``__new__``, ``_len__``, ``__getitem__``, etc (and many more)
+    * `__init__`, `self`, instance attribute
+    * `__dict__`, `__repr__`, class attribute
+    * magic methods: `__new__`, `_len__`, `__getitem__`, etc (and many more)
     * Bonus: RustPython, NuShell for data wrangling right in the terminal!!!
 + [02_Python_class_OOP_part_02](https://youtu.be/zAzfQ-3sRfo): 19th/04/2026
-    * ``yield``, ``next``, ``iter``
+    * `yield`, `next`, `iter`
     * Iterator, Iterable, Generator
-    * Use ``__next__`` and ``__iter__`` to create custom Iterable and Iterator
+    * Use `__next__` and `__iter__` to create custom Iterable and Iterator
     * Example: create MiniLoader to load big 3D structures efficiently
     * The concept of DataLoader, shuffle and collate_fn
     * Bonus: ipython, bpython, setup alias linked to executable file, use conda without "conda activate"
@@ -136,11 +136,11 @@
     * Some plotly demonstrations
 + [02_Python_class_OOP_part_04](https://youtu.be/cTY52ViYQxM): 10th/05/2026
     * Some decorators in Python
-    * ```@classmethod``` and ```@staticmethod```
-    * setter: ```@property```
-    * getter: ```@<property_name>.setter```
-    * Private attributes and methods (```self._attribute````, ```_method(self)```, ```self.__attribute```, ```__method(self)```)
-    * Inhereitance, ```super().__init__()```
+    * `@classmethod` and `@staticmethod`
+    * setter: `@property`
+    * getter: `@<property_name>.setter`
+    * Private attributes and methods (`self._attribute`, `_method(self)`, `self.__attribute`, `__method(self)`)
+    * Inhereitance, `super().__init__()`
     * Principles of Python OOP: Encapsulation, Abstraction, Inheritance, Polymorphism
     * rectangle_project: capstone project for 01_Python_Basic and 02_Python_class_OOP
     * Bonus 1: Zed - a blazing fast and clean editor written in Rust, disable all AI features with one button
@@ -149,9 +149,9 @@
 
 ## 03_Vector_Matrix_Sparse
   + [03_Vector_Matrix_Sparse_part_01](https://youtu.be/w--r-1IVeWQ): 24th/05/2026
-      * create a vector: ```np.array(), np.arange(), np.random, np.choice(), np.choose()```
-      * read vector from npy, txt and csv files: ```np.load(), np.loadtxt(), np.genfromtxt()```
-      * attributes of a vector: ```ndim, shape, size, dtype, itemsize, nbytes```
+      * create a vector: `np.array(), np.arange(), np.random, np.choice(), np.choose()`
+      * read vector from npy, txt and csv files: `np.load(), np.loadtxt(), np.genfromtxt()`
+      * attributes of a vector: `ndim, shape, size, dtype, itemsize, nbytes`
       * copy, type conversion
       * reshape, transpose, squeeze and expand_dims a vector 
       * stack and concatenate multiple vectors
@@ -159,35 +159,35 @@
       * repeat and unique
   + [03_Vector_Matrix_Sparse_part_02](https://youtu.be/sNvq5z2c880): 31st/05/2026
       * indexing, fancy indexing, slicing, vector modification
-      * mask array, boolean indexing (conditional filtering), ```np.isin()```
-      * ```np.nditer()```
+      * mask array, boolean indexing (conditional filtering), `np.isin()`
+      * `np.nditer()`
       * sorting, argsort, lexsort, searching
       * math methods
       * logical methods
   + [03_Vector_Matrix_Sparse_part_03](https://youtu.be/2-nef9QhWQk): 07th/06/2026
-      * string handling with modules ```numpy.strings```
-      * ```np.apply_along_axis()```, ```np.vectorize()```, ```np.frompyfunc()```
+      * string handling with modules `numpy.strings`
+      * `np.apply_along_axis()`, `np.vectorize()`, `np.frompyfunc()`
       * chaining methods
       * convert Numpy vector to other data structures
       * save numpy vector to files
   + [03_Vector_Matrix_Sparse_part_04](https://youtu.be/-_LUT_LO0Fw): 14th/06/2026
-      * 2D and nD array: create with ```np.array(), np.arange(), np.random, np.choice(), np.choose()```
-      * 2D and nD array: read arrays from npy, txt and csv files: ```np.load(), np.loadtxt(), np.genfromtxt()```
-      * 2D and nD array: attributes ```ndim, shape, size, dtype, itemsize, nbytes```
+      * 2D and nD array: create with `np.array(), np.arange(), np.random, np.choice(), np.choose()`
+      * 2D and nD array: read arrays from npy, txt and csv files: `np.load(), np.loadtxt(), np.genfromtxt()`
+      * 2D and nD array: attributes `ndim, shape, size, dtype, itemsize, nbytes`
       * 2D and nD array: copy, type conversion
   + [03_Vector_Matrix_Sparse_part_05](https://youtu.be/nkfZII0DWn4): 20th/06/2026
       * 2D and nD array: reshape, transpose, squeeze, expandims, swapaxes, permute_dim
       * 2D and nD array: stack, concatenate
       * 2D and nD array: split, repeat, unique
       * 2D and nD array: indexing, slicing, modification
-      * 2D and nD array: mask array, boolean indexing (conditional filtering), ```np.isin()```
+      * 2D and nD array: mask array, boolean indexing (conditional filtering), `np.isin()`
   + [03_Vector_Matrix_Sparse_part_06](https://youtu.be/KKNDTGswZrM): 21th/06/2026
-      * 2D and nD array: ```np.nditer()```
+      * 2D and nD array: `np.nditer()`
       * 2D and nD array: sorting, argsort, lexsort
   + [03_Vector_Matrix_Sparse_part_07](https://youtu.be/UmwC2h3HmXo): 27th/06/2026
       * 2D and nD array: math methods
-      * 2D and nD array: logical methods, ```nonzero()```
-      * 2D and nD array: apply_along_axis, ```apply_over_axes``` vectorize, frompyfunc
+      * 2D and nD array: logical methods, `nonzero()`
+      * 2D and nD array: apply_along_axis, `apply_over_axes` vectorize, frompyfunc
       * 2D and nD array: chainning methods
       * 2D and nD array: convert to other data structures
       * 2D and nD array: save arrays to files
@@ -217,7 +217,7 @@
       * Array Manipulation: pad, resize
       * Array Manipulation: flip, roll, rot90
   + [03_Vector_Matrix_Sparse_part_12](https://youtu.be/Ucdo5miqTdw): 11th/07/2026
-      * Extra: packed array inputs, f(abc) instead of f(a, b, c)
+      * Extra: packed array inputs, `f(abc)` instead of `f(a, b, c)`
       * Extra: NumPy low-level manipulations
       * Extra: CuPy - NumPy and SciPy on GPU
       * Extra: PyTorch - NumPy and SciPy on GPU with autograd engine (for Deep Learning)
@@ -269,11 +269,15 @@
   + [05_Numba_PyInstaller_PythonCompilers_part_02](https://youtu.be/Nme7nao6QeI): 22th/08/2026
       * vectorize (ufunc), guvectorize (gufunc), dufunc, dgufunc
       * jitclass: compile Python class
-      * cfunc: run codes with ```ctypes``` for significantly faster execution
+      * cfunc: run codes with `ctypes` for significantly faster execution
   + [05_Numba_PyInstaller_PythonCompilers_part_03](https://youtu.be/Hkt1vMr5beM): 27th/08/2026
-      * Ahead-of-Time module compilation with ```from numba.pycc import CC```
-      * Parallelization (automatic) with ```nb.prange``` and ```@njit(parallel=True)```
+      * Ahead-of-Time module compilation with `from numba.pycc import CC`
+      * Parallelization (automatic) with `nb.prange` and `@njit(parallel=True)`
       * Stencil and neighbor for sliding kernel and sliding window computation
   + [05_Numba_PyInstaller_PythonCompilers_part_04](https://youtu.be/gc5nWGtAdQI): 30th/08/2026
-      * ```nb.objmode```: fall back to Python execution when ```nopython``` mode fails
-      * ```jit_module```: compile multiple functions without typing decorators repeatedly
+      * `nb.objmode`: fall back to Python execution when `nopython` mode fails
+      * `jit_module`: compile multiple functions without typing decorators repeatedly
+  + [05_Numba_PyInstaller_PythonCompilers_part_05](https://youtu.be/RMd_B0o7CiY): 02nd/09/2026
+      * `pyinstaller` overview: from Python file to machine codes, the interpreter
+      * `pyinstaller` basic usage: compile the "compile_me.py", explain `build` and `dist` directories, explain `*.spec` file
+      * `pyinstaller` compile one file: produce only the executable file, no build, no dist, no spec
