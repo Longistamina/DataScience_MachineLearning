@@ -1,5 +1,6 @@
 # data and code for multiperiod portfolio rebalancing problem
 import numpy as np
+
 T = 100
 n = 5
 gamma = 8.0
@@ -26,6 +27,7 @@ generateReturns = lambda: np.random.multivariate_normal(mu,Sigma)
 # - w_star: np.array of size n,
 #       the "target" solution w_star.
 import matplotlib.pyplot as plt
+
 colors = ['b','r','g','c','m']
 plt.figure(figsize=(13,5))
 for j in range(n):

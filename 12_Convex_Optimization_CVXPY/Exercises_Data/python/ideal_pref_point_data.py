@@ -1,6 +1,6 @@
-from cvxpy import *
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+from cvxpy import *
 
 # Problem data
 K = 8

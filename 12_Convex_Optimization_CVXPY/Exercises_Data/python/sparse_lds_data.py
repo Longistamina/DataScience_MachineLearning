@@ -1,6 +1,6 @@
 import numpy as np
-from scipy.sparse import rand as sprandn
 from scipy.linalg import sqrtm
+from scipy.sparse import rand as sprandn
 
 np.random.seed(123)
 

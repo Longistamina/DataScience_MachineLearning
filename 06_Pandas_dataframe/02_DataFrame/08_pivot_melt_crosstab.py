@@ -15,8 +15,8 @@ Pivot, Melt and Cross-Table are powerful techniques allowing you to reshape
    + pd.crosstab()
 '''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 # =========================================================================================
 # 1. Pivot: long to wide

@@ -14,10 +14,11 @@ Key Features:
 + Rename Row-Names
 '''
 
+from pathlib import Path
+
+import numpy as np
 import pandas as pd
 from pandas import col as c
-import numpy as np
-from pathlib import Path
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

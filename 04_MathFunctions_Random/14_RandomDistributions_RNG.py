@@ -94,8 +94,8 @@
 '''
 
 import numpy as np
-from scipy.stats import qmc
 import scipy.stats as spstats
+from scipy.stats import qmc
 
 # ── Shared test data ─────────────────────────────────────────────────────────────────────────────
 rng = np.random.default_rng(42)     # seeded Generator — reproducible throughout this file
@@ -158,7 +158,7 @@ All four built-in BitGenerators:
 All produce the same distribution interface; only the underlying bit stream differs.
 '''
 
-from numpy.random import Generator, PCG64, MT19937, Philox, SFC64
+from numpy.random import MT19937, PCG64, SFC64, Generator, Philox
 
 rng_pcg  = Generator(PCG64(42))
 rng_mt   = Generator(MT19937(42))

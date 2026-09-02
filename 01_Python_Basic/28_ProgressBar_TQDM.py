@@ -65,8 +65,9 @@ Tips and Best Practices
 ## Quick examples ##
 ##----------------##
 
-from tqdm import tqdm
 import time
+
+from tqdm import tqdm
 
 # Simplest usage
 for i in tqdm(range(100)):
@@ -79,8 +80,9 @@ for i in tqdm(range(100)):
 # 2. Basic Usage
 # ==============================================================================================
 
-from tqdm import tqdm
 import time
+
+from tqdm import tqdm
 
 ##---------------------##
 ## Simple progress bar ##
@@ -465,8 +467,9 @@ for i in tqdm(range(100), smoothing=0.9):  # More stable
 ##---------------------------------##
 '''tqdm.auto automatically chooses the best progress bar for your environment'''
 
-from tqdm.auto import tqdm  # Note: .auto instead of regular import
 import time
+
+from tqdm.auto import tqdm  # Note: .auto instead of regular import
 
 # This will use tqdm.tqdm in terminal/console
 # This will use tqdm.notebook.tqdm in Jupyter notebooks
@@ -660,6 +663,7 @@ for i in tqdm(range(50),
 
 import os
 
+
 def process_files(directory):
     '''Process all files in a directory with progress bar'''
     files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
@@ -794,6 +798,7 @@ result = process_stream(my_generator())
 ##-----------------------##
 
 from concurrent.futures import ThreadPoolExecutor
+
 
 def process_item(item):
     time.sleep(0.1)

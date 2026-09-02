@@ -15,10 +15,12 @@
    + multi-key groupby object: group_obj.get_group(("name1", "name2"))
 '''
 
+import warnings
+from pathlib import Path
+
 import pandas as pd
 from pandas import col as c
-from pathlib import Path
-import warnings
+
 warnings.filterwarnings("ignore")
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")

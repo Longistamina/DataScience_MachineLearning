@@ -25,8 +25,8 @@ Flow of contents:
 '''
 
 import os
-from loguru import logger
 
+from loguru import logger
 
 # ==============================================================================================
 # 1. Basic Inspection
@@ -463,6 +463,7 @@ print("This line will not be executed if os.execvp() is called")  # This line wi
 
 import os
 import subprocess
+
 
 def get_conda_env(env_name):
     """Get environment variables from a conda environment"""

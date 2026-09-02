@@ -4,8 +4,9 @@
 2. arr.astype(new_dtype): Converts the array to a different data type.
 '''
 
-import numpy as np
 from pathlib import Path
+
+import numpy as np
 
 data_dir = next(Path('/home/').glob("**/01_Vector_1D/data/"))
 

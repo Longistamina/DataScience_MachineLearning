@@ -19,9 +19,8 @@ NOTE: polars series do not support multi-level index like pandas
 2. Clone a Series: s.clone()
 '''
 
-import polars as pl
 import numpy as np
-
+import polars as pl
 
 # =========================================================================================
 # 1. Creating a Series

@@ -19,8 +19,8 @@ These operations can be performed on Series objects, allowing for efficient data
    Boolean to Binary 0/1 (using astype(int))
 '''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 # =========================================================================================
 # 1. Mathematical Operations

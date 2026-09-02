@@ -22,10 +22,11 @@ by reducing the need for intermediate variables.
 5. All-in-one workflow example
 '''
 
+from pathlib import Path
+
+import matplotlib.pyplot as plt
 import pandas as pd
 from pandas import col as c
-import matplotlib.pyplot as plt
-from pathlib import Path
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

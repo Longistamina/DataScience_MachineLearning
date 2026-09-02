@@ -20,10 +20,11 @@
 4. Reorder columns using dr.select(): dr.select(f.col3, f.col1, f.col2)
 '''
 
-import datar.all as dr
-from datar import f
-import pandas as pd
 from pathlib import Path
+
+import datar.all as dr
+import pandas as pd
+from datar import f
 
 pd.set_option("display.width", 200)
 

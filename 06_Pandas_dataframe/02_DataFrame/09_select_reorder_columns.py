@@ -5,8 +5,9 @@ Two ways to select and reorder columns in a Pandas DataFrame.
 2. df = df.reindex(columns=["col3", "col1", "col2"])
 '''
 
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

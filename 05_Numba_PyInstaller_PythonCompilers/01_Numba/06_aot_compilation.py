@@ -23,9 +23,10 @@ Limitations:
 Types: https://numba.readthedocs.io/en/stable/reference/types.html#numba-types
 '''
 
-from numba.pycc import CC
-import numpy as np
 from pathlib import Path
+
+import numpy as np
+from numba.pycc import CC
 
 current_dir = Path().cwd()
 print(current_dir)
@@ -84,7 +85,7 @@ cc.compile()
 
 if __name__ == "__main__":
 
-    import aot_demo # import compiled ``aot_demo``
+    import aot_demo  # import compiled ``aot_demo``
 
     # scalar outputs
     print(aot_demo.multf(3.5, -2.4)) # -8.4

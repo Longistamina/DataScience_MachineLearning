@@ -79,24 +79,48 @@ PART K — BOOLEAN / SET DISTANCES  (scipy.spatial.distance)
 '''
 
 import numpy as np
-from scipy.spatial.transform import Rotation, Slerp, RotationSpline
 from scipy.spatial import (
-    KDTree, cKDTree, Rectangle,
-    Delaunay, ConvexHull, Voronoi, SphericalVoronoi, HalfspaceIntersection,
-    tsearch, distance_matrix, minkowski_distance, minkowski_distance_p,
-    procrustes, geometric_slerp,
+    ConvexHull,
+    Delaunay,
+    HalfspaceIntersection,
+    KDTree,
+    Rectangle,
+    SphericalVoronoi,
+    Voronoi,
+    cKDTree,
+    distance_matrix,
+    geometric_slerp,
+    minkowski_distance,
+    minkowski_distance_p,
+    procrustes,
+    tsearch,
 )
 from scipy.spatial.distance import (
-    cdist, pdist, squareform,
-    euclidean, sqeuclidean,
-    minkowski, cityblock, chebyshev,
-    cosine, correlation,
-    mahalanobis, seuclidean,
-    jensenshannon, directed_hausdorff,
-    hamming, jaccard, dice,
-    rogerstanimoto, russellrao, sokalmichener, sokalsneath,
-    yule, kulczynski1,
+    cdist,
+    chebyshev,
+    cityblock,
+    correlation,
+    cosine,
+    dice,
+    directed_hausdorff,
+    euclidean,
+    hamming,
+    jaccard,
+    jensenshannon,
+    kulczynski1,
+    mahalanobis,
+    minkowski,
+    pdist,
+    rogerstanimoto,
+    russellrao,
+    seuclidean,
+    sokalmichener,
+    sokalsneath,
+    sqeuclidean,
+    squareform,
+    yule,
 )
+from scipy.spatial.transform import Rotation, RotationSpline, Slerp
 
 rng = np.random.default_rng(42)
 
@@ -771,6 +795,7 @@ print(f"Finite ridges: {len(finite_ridges)}") # 43
 
 # Area of each Voronoi cell (finite cells only)
 from scipy.spatial import ConvexHull as _CH
+
 cell_areas = []
 for region_idx in vor.point_region:
     region = vor.regions[region_idx]
@@ -1131,7 +1156,8 @@ Y_rt = squareform(D_sq)
 print("Round-trip condensed matches:", np.allclose(Y_rt, Y_cond))   # True
 
 # Full clustering workflow: hierarchical linkage uses condensed form
-from scipy.cluster.hierarchy import linkage, fcluster
+from scipy.cluster.hierarchy import fcluster, linkage
+
 Z = linkage(Y_cond, method='ward')
 labels = fcluster(Z, t=3, criterion='maxclust')   # 3 clusters
 print("Cluster labels:", labels) # [3 2 2 3 1 1]

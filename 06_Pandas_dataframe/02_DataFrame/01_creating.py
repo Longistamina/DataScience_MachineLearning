@@ -20,8 +20,8 @@ There are many ways to create a DataFrame in Pandas. Here are some of the most c
 9. Other constructors: .from_dict(), .from_records()
 '''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 # =========================================================================================
 # 1. From a dictionary of series

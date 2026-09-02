@@ -63,9 +63,9 @@ Table of Contents:
 - Running background processes
 '''
 
+import os
 import subprocess
 import sys
-import os
 
 # ==============================================================================================
 # Basic subprocess usage - subprocess.run()
@@ -577,6 +577,7 @@ print(f"Process PID: {process.pid}")
 '''use "htop --pid=10279" in another terminal to monitor the process'''
 
 import time
+
 time.sleep(1)
 
 process.terminate()  # Send SIGTERM
@@ -715,6 +716,7 @@ result = subprocess.run(f'cat {filename}', shell=True)  # BREAKS with spaces!
 # ## If shell=True is necessary, use shlex.quote()
 # 
 import shlex
+
 filename = "user file.txt"
 result = subprocess.run(f'cat {shlex.quote(filename)}', shell=True, capture_output=True)  # Safe
 

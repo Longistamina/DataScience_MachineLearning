@@ -60,16 +60,32 @@ PART H — VALIDATION  (scipy.cluster.hierarchy)
 '''
 
 import numpy as np
-from scipy.cluster.vq import (
-    whiten, kmeans, kmeans2, vq,
-)
 from scipy.cluster.hierarchy import (
-    linkage, fcluster, fclusterdata, cut_tree, leaders,
-    dendrogram, leaves_list,
-    cophenet, inconsistent, maxinconsts, maxdists, maxRstat,
-    to_tree, optimal_leaf_ordering,
-    from_mlab_linkage, to_mlab_linkage,
-    is_valid_linkage, is_valid_im, num_obs_linkage,
+    cophenet,
+    cut_tree,
+    dendrogram,
+    fcluster,
+    fclusterdata,
+    from_mlab_linkage,
+    inconsistent,
+    is_valid_im,
+    is_valid_linkage,
+    leaders,
+    leaves_list,
+    linkage,
+    maxdists,
+    maxinconsts,
+    maxRstat,
+    num_obs_linkage,
+    optimal_leaf_ordering,
+    to_mlab_linkage,
+    to_tree,
+)
+from scipy.cluster.vq import (
+    kmeans,
+    kmeans2,
+    vq,
+    whiten,
 )
 from scipy.spatial.distance import pdist, squareform
 
@@ -254,6 +270,8 @@ print("kmeans2 (random) label distribution:", np.bincount(label_rnd)) # [30 30 3
 # Verify quality: all 3 true clusters should map to distinct kmeans labels
 # (Adjusted by permutation invariance)
 from itertools import permutations
+
+
 def cluster_accuracy(true, pred):
     best = 0
     for perm in permutations(np.unique(pred)):

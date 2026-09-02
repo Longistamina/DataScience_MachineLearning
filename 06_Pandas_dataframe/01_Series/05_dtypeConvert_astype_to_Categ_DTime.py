@@ -18,7 +18,6 @@ Converting and casting data types is a fundamental operation in pandas data mani
 
 import pandas as pd
 
-
 # =========================================================================================
 # 1. .astype()
 # =========================================================================================
@@ -282,6 +281,7 @@ print(s_gender_categ)
 ##------------------------------------------------##
 
 import numpy as np
+
 lst_price_levels = [1, 1, 3, 2, 5, 2, None, 4, 4, np.nan, 3]
 
 # ## With ordered = False

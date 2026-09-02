@@ -1,6 +1,6 @@
-import numpy as np
 import matplotlib.image as mpimg
 import matplotlib.pyplot as plt
+import numpy as np
 
 img_array = mpimg.imread('demosaic_raw.png')[:,:,:3]
 HEIGHT, WIDTH, _ = img_array.shape

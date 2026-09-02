@@ -41,8 +41,15 @@ scipy.sparse - Sparse Array Formats
 '''
 
 import numpy as np
-from scipy.sparse import (coo_array, csr_array, csc_array,
-                          bsr_array, dia_array, dok_array, lil_array)
+from scipy.sparse import (
+    bsr_array,
+    coo_array,
+    csc_array,
+    csr_array,
+    dia_array,
+    dok_array,
+    lil_array,
+)
 
 # Create a sample dense array for demonstrations
 dense = np.array([[1, 0, 0, 2],

@@ -10,9 +10,9 @@
 5. Examples for 3D and 4D matrices
 '''
 
-import numpy as np
 import math
 
+import numpy as np
 
 # =========================================================================================
 # 1. np.apply_along_axis()

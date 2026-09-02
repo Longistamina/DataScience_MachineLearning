@@ -17,8 +17,9 @@ The `.str` namespace provides operations for text strings (including decoding te
 6. Low-Level Memory Casting (.bin.reinterpret)
 '''
 
-import polars as pl
 import struct
+
+import polars as pl
 
 # =========================================================================================
 # 0. Creation

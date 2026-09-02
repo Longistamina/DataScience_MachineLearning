@@ -1,4 +1,5 @@
 import numpy as np
+
 np.random.seed(0)
 
 # n is the dimension of each point, N is the number of points

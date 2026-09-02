@@ -25,8 +25,8 @@ and operations on the Series can be performed more efficiently.
 7. Exploring Categorical: .unique(), .value_counts()
 '''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 # =========================================================================================
 # 0. Create a Categorical Series

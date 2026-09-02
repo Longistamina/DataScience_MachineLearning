@@ -22,8 +22,8 @@ Flow of contents:
 # 1. Copying files and directories
 # ==============================================================================================
 
-import shutil
 import os
+import shutil
 
 ##-----------------------##
 ## shutil.copy(src, dst) ##

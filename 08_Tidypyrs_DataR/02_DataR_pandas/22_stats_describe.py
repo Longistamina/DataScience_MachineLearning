@@ -5,11 +5,12 @@ f.describe(): Get summary statistics of DataFrame columns.
    + f.describe(exclude=[category, bool]): Exclude specific data types.
 '''
 
-import datar.all as dr
-from datar import f
-import pandas as pd
-from pipda import register_verb
 from pathlib import Path
+
+import datar.all as dr
+import pandas as pd
+from datar import f
+from pipda import register_verb
 
 dr.filter = register_verb(func=dr.filter_)
 

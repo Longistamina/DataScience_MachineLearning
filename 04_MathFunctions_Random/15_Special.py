@@ -81,64 +81,170 @@ PART J — MISCELLANEOUS: ZETA, FRESNEL, EXPN, LOGIT, EXPIT
 
 import numpy as np
 from scipy.special import (
+    ai_zeros,
     # Airy
-    airy, airye, ai_zeros, bi_zeros, itairy,
-    # Elliptic
-    ellipj, ellipk, ellipkm1, ellipkinc, ellipe, ellipeinc,
-    elliprc, elliprd, elliprf, elliprg, elliprj,
-    # Bessel – generic order
-    jv, jve, yn, yv, yve, iv, ive, kn, kv, kve,
-    hankel1, hankel1e, hankel2, hankel2e,
-    wright_bessel, besselpoly,
-    # Bessel – fast scalar (order 0/1)
-    j0, j1, y0, y1, i0, i0e, i1, i1e, k0, k0e, k1, k1e,
-    # Spherical Bessel
-    spherical_jn, spherical_yn, spherical_in, spherical_kn,
-    # Bessel derivatives & zeros
-    jvp, yvp, ivp, kvp, h1vp, h2vp,
-    jn_zeros, jnyn_zeros, jnp_zeros, yn_zeros,
-    # Struve
-    struve, modstruve, itstruve0, it2struve0, itmodstruve0,
-    # Gamma family
-    gamma, gammaln, gammasgn, loggamma, rgamma, multigammaln,
-    gammainc, gammaincc, gammaincinv, gammainccinv,
-    # Beta family
-    beta, betaln, betainc, betaincc, betaincinv,
-    # Psi / polygamma
-    digamma, polygamma, psi,
-    # Combinatorics
-    factorial, factorial2, comb, perm,
-    # Error functions
-    erf, erfc, erfcx, erfi, erfinv, erfcinv,
-    # Normal CDF
-    ndtr, ndtri, log_ndtr,
-    # Orthogonal polynomials – eval (ufunc)
-    eval_legendre, eval_chebyt, eval_chebyu,
-    eval_jacobi, eval_gegenbauer,
-    eval_hermite, eval_hermitenorm,
-    eval_laguerre, eval_genlaguerre,
-    # Orthogonal polynomials – objects
-    legendre, chebyt, chebyu, jacobi, hermite, hermitenorm, laguerre,
+    airy,
+    airye,
     # Raw statistical functions
-    bdtr, bdtrc, bdtri,
-    chdtr, chdtrc, chdtri,
-    fdtr, fdtrc, fdtri,
-    gdtr, gdtrc,
-    stdtr, stdtrit,
-    nbdtr, nbdtrc, nbdtri,
+    bdtr,
+    bdtrc,
+    bdtri,
+    besselpoly,
+    # Beta family
+    beta,
+    betainc,
+    betaincc,
+    betaincinv,
+    betaln,
+    bi_zeros,
+    chdtr,
+    chdtrc,
+    chdtri,
+    chebyt,
+    chebyu,
+    comb,
+    # Psi / polygamma
+    digamma,
+    ellipe,
+    ellipeinc,
+    # Elliptic
+    ellipj,
+    ellipk,
+    ellipkinc,
+    ellipkm1,
+    elliprc,
+    elliprd,
+    elliprf,
+    elliprg,
+    elliprj,
     # Information theory
-    entr, rel_entr, kl_div,
-    huber, pseudo_huber,
-    # Zeta
-    zeta, zetac,
+    entr,
+    # Error functions
+    erf,
+    erfc,
+    erfcinv,
+    erfcx,
+    erfi,
+    erfinv,
+    eval_chebyt,
+    eval_chebyu,
+    eval_gegenbauer,
+    eval_genlaguerre,
+    eval_hermite,
+    eval_hermitenorm,
+    eval_jacobi,
+    eval_laguerre,
+    # Orthogonal polynomials – eval (ufunc)
+    eval_legendre,
+    exp1,
+    expi,
+    expit,
+    # Exponential integrals
+    expn,
+    # Combinatorics
+    factorial,
+    factorial2,
+    fdtr,
+    fdtrc,
+    fdtri,
     # Fresnel
     fresnel,
-    # Exponential integrals
-    expn, exp1, expi,
+    # Gamma family
+    gamma,
+    gammainc,
+    gammaincc,
+    gammainccinv,
+    gammaincinv,
+    gammaln,
+    gammasgn,
+    gdtr,
+    gdtrc,
+    h1vp,
+    h2vp,
+    hankel1,
+    hankel1e,
+    hankel2,
+    hankel2e,
+    hermite,
+    hermitenorm,
+    huber,
+    i0,
+    i0e,
+    i1,
+    i1e,
+    it2struve0,
+    itairy,
+    itmodstruve0,
+    itstruve0,
+    iv,
+    ive,
+    ivp,
+    # Bessel – fast scalar (order 0/1)
+    j0,
+    j1,
+    jacobi,
+    jn_zeros,
+    jnp_zeros,
+    jnyn_zeros,
+    # Bessel – generic order
+    jv,
+    jve,
+    # Bessel derivatives & zeros
+    jvp,
+    k0,
+    k0e,
+    k1,
+    k1e,
+    kl_div,
+    kn,
+    kv,
+    kve,
+    kvp,
+    laguerre,
+    # Orthogonal polynomials – objects
+    legendre,
+    log_ndtr,
+    loggamma,
     # Logit / sigmoid
-    logit, expit,
+    logit,
+    logsumexp,
+    modstruve,
+    multigammaln,
+    nbdtr,
+    nbdtrc,
+    nbdtri,
+    # Normal CDF
+    ndtr,
+    ndtri,
+    perm,
+    polygamma,
+    pseudo_huber,
+    psi,
+    rel_entr,
+    rgamma,
+    spherical_in,
+    # Spherical Bessel
+    spherical_jn,
+    spherical_kn,
+    spherical_yn,
+    stdtr,
+    stdtrit,
+    # Struve
+    struve,
+    wright_bessel,
+    xlog1py,
     # Stable log helpers
-    xlogy, xlog1py, logsumexp,
+    xlogy,
+    y0,
+    y1,
+    yn,
+    yn_zeros,
+    yv,
+    yve,
+    yvp,
+    # Zeta
+    zeta,
+    zetac,
 )
 
 rng = np.random.default_rng(42)

@@ -36,8 +36,10 @@ The Three-Step Process
 # Define functional functions
 # ==============================================================================================
 
-from loguru import logger
 from pathlib import Path
+
+from loguru import logger
+
 
 def rectangle_perimeter(length, width):
     """Calculate the perimeter of a rectangle."""

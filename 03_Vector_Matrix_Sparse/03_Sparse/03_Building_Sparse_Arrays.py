@@ -27,9 +27,15 @@ scipy.sparse - Building Sparse Arrays
 
 import numpy as np
 from scipy import sparse
-from scipy.sparse import (csr_array, csc_array, coo_array,
-                          eye_array, diags_array, random_array, block_array)
-
+from scipy.sparse import (
+    block_array,
+    coo_array,
+    csc_array,
+    csr_array,
+    diags_array,
+    eye_array,
+    random_array,
+)
 
 # =========================================================================================
 # 1. From Dense Arrays

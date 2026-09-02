@@ -32,6 +32,7 @@ Common execution contexts for expressions:
 '''
 
 from pathlib import Path
+
 import polars as pl
 
 # Create a small self-contained demo dataset.

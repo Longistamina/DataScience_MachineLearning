@@ -17,10 +17,9 @@
 '''
 
 import datar.all as dr
-from datar import f
-import pandas as pd
 import numpy as np
-
+import pandas as pd
+from datar import f
 
 # =========================================================================================
 # 1. dr.pivot_wider()

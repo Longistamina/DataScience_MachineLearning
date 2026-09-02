@@ -37,12 +37,19 @@ import numpy as np
 from scipy import sparse
 from scipy.sparse import csr_array, diags_array
 from scipy.sparse.linalg import (
-    spsolve, factorized, splu, spilu,
-    cg, gmres, bicgstab,
-    eigs, eigsh, svds,
-    norm, LinearOperator
+    LinearOperator,
+    bicgstab,
+    cg,
+    eigs,
+    eigsh,
+    factorized,
+    gmres,
+    norm,
+    spilu,
+    splu,
+    spsolve,
+    svds,
 )
-
 
 # =========================================================================================
 # 1. Solving Linear Systems

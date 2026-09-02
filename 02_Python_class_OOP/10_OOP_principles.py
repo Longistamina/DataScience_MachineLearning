@@ -109,6 +109,7 @@ email_demo.send_email()  # Output: Email sent successfully!
 ##---------## Other example of Abstraction ##---------##
 
 from abc import ABC, abstractmethod
+
 # ABC here means Abstract Bas Class, which is a base class for defining abstract classes in Python.
 # Abstract classes cannot be instantiated directly and must be subclassed.
 # (meaning you cannot create any instance or object from an abstract class)

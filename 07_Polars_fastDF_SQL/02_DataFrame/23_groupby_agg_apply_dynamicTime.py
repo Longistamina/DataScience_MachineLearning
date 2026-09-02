@@ -16,10 +16,11 @@
    + Extra grouping keys can be included with group_by=... .
 '''
 
-import polars as pl
-from polars import selectors as cs
-from polars import col as c
 from pathlib import Path
+
+import polars as pl
+from polars import col as c
+from polars import selectors as cs
 
 # Optional display settings
 pl.Config.set_tbl_rows(20)

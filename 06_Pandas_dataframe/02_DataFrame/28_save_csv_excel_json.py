@@ -6,10 +6,11 @@
 3. df.to_json('file_name.json')  # Save DataFrame to JSON file
 '''
 
+from pathlib import Path
+
+import numpy as np
 import pandas as pd
 from pandas import col as c
-import numpy as np
-from pathlib import Path
 
 save_dir = Path("/home").rglob("*/06_Pandas_dataframe/save")
 save_dir = next(save_dir)

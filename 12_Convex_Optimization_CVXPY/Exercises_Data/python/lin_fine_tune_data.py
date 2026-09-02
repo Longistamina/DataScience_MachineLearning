@@ -19,6 +19,7 @@ tuning F to the embeddings.
 
 import json
 import urllib.request
+
 import numpy as np
 
 url = "https://raw.githubusercontent.com/cvxgrp/cvxbook_additional_exercises/main/python/ae_emb_data.txt"

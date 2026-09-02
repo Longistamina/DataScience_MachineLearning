@@ -13,14 +13,13 @@ Un like dr.mutate() and dr.summarise(), dr.reframe() allows returning a new Data
 3. dr.reframe() with different reframing functions
 '''
 
-import datar.all as dr
-from datar import f
-import pandas as pd
-
-from scipy import stats
-import numpy as np
-
 from pathlib import Path
+
+import datar.all as dr
+import numpy as np
+import pandas as pd
+from datar import f
+from scipy import stats
 
 pd.set_option("display.width", 200)
 

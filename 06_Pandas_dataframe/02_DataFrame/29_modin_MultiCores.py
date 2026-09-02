@@ -16,8 +16,9 @@ Just need to change a single line of code to import modin instead of pandas.
 # 1. Example Code
 # =========================================================================================
 
-import modin.pandas as pd # Change only this line to use modin instead of pandas
 from pathlib import Path
+
+import modin.pandas as pd  # Change only this line to use modin instead of pandas
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -116,9 +117,11 @@ print(modin.config.NPartitions.get())
 
 '''Set the specific number of partitions (CPU cores) to be used by modin'''
 import os
+
 os.environ["MODIN_CPUS"] = "10" # Set to use 10 CPU cores
 
 '''If you are using modin[ray]'''
 import ray
+
 ray.shutdown() # Shut down current process if already running
 ray.init(num_cpus=10) # Set to use 10 CPU cores

@@ -1,5 +1,6 @@
 # data for satisfying minimum number of constraints problem
 import numpy as np
+
 m = 70
 k = 58
 n = 12

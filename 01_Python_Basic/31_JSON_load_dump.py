@@ -21,6 +21,7 @@ Table of Contents:
 '''
 
 import json
+
 #print(dir(json)) # List of methods in the json module
 
 parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files"

@@ -5,10 +5,12 @@ df.describe(): Get summary statistics of DataFrame columns.
    + df.describe(exclude=[category, bool]): Exclude specific data types.
 '''
 
+import warnings
+from pathlib import Path
+
 import pandas as pd
 from pandas import col as c
-from pathlib import Path
-import warnings
+
 warnings.filterwarnings("ignore")
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")

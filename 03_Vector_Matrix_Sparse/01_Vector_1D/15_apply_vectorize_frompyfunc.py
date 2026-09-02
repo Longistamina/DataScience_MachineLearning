@@ -37,6 +37,7 @@ print(np.apply_along_axis(custom_func, axis=0, arr=vector_nums))
 # [1419.17422628 1152.67711975 1208.26082303 1067.33249264 1411.2119754 ]
 
 import math
+
 print(np.apply_along_axis(math.log2, axis=0, arr=vector_nums))
 '''TypeError: only length-1 arrays can be converted to Python scalars'''
 # It returns an error because math.log2 expects a single scalar value, not an array.

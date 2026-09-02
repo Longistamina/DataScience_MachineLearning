@@ -46,11 +46,11 @@ Draw basic plots using DataFrame.plot() method or DataFrame.plot.<plotting_metho
    + df.plot.area()
 '''
 
+from pathlib import Path
+
+import matplotlib.pyplot as plt
 import pandas as pd
 from pandas import col as c
-import matplotlib.pyplot as plt
-
-from pathlib import Path
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

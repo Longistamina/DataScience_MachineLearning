@@ -1,5 +1,6 @@
 # data for multi risk portfolio portfolio problem
 import numpy as np
+
 n = 10
 M = 6
 gamma = 1.0

@@ -13,9 +13,10 @@ Polars notes:
 + For Excel and regular JSON, collect the LazyFrame first, then write the eager DataFrame.
 '''
 
-import json
 import datetime as dt
+import json
 from pathlib import Path
+
 import polars as pl
 
 save_dir = next(Path("/home").rglob("*/07_Polars_fastDF_SQL"))

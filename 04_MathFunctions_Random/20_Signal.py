@@ -81,42 +81,125 @@ PART J — WAVEFORMS & CHIRP Z-TRANSFORM
 import numpy as np
 import scipy.signal as sig
 from scipy.signal import (
-    # Convolution
-    convolve, correlate, fftconvolve, oaconvolve,
-    convolve2d, correlate2d, choose_conv_method, correlation_lags,
-    # Filtering
-    lfilter, lfilter_zi, filtfilt,
-    sosfilt, sosfilt_zi, sosfiltfilt,
-    savgol_filter, savgol_coeffs,
-    medfilt, wiener,
-    hilbert, envelope, decimate, resample, resample_poly, upfirdn, detrend,
-    # FIR design
-    firwin, firwin2, firls, remez, kaiserord, kaiser_beta, kaiser_atten, minimum_phase,
+    CZT,
+    ShortTimeFFT,
+    StateSpace,
+    # LTI systems
+    TransferFunction,
+    ZerosPolesGain,
+    ZoomFFT,
+    argrelextrema,
+    argrelmax,
+    argrelmin,
+    bessel,
+    bilinear,
+    bode,
     # IIR design
-    butter, buttord, cheby1, cheb1ord, cheby2, cheb2ord, ellip, ellipord,
-    bessel, iirdesign, iirfilter, iirnotch, iirpeak, iircomb,
+    butter,
+    buttord,
+    cheb1ord,
+    cheb2ord,
+    cheby1,
+    cheby2,
+    check_NOLA,
+    # Waveforms
+    chirp,
+    choose_conv_method,
+    coherence,
+    cont2discrete,
+    # Convolution
+    convolve,
+    convolve2d,
+    correlate,
+    correlate2d,
+    correlation_lags,
+    csd,
+    # Chirp Z-transform
+    czt,
+    dbode,
+    decimate,
+    detrend,
+    dimpulse,
+    dlsim,
+    dlti,
+    dstep,
+    ellip,
+    ellipord,
+    envelope,
+    fftconvolve,
+    filtfilt,
+    # Peak finding
+    find_peaks,
+    find_peaks_cwt,
+    firls,
+    # FIR design
+    firwin,
+    firwin2,
+    freqresp,
+    freqs,
     # Frequency response
-    freqz, freqz_zpk, freqz_sos, freqs, group_delay,
-    # Representation conversions
-    tf2zpk, tf2sos, tf2ss, zpk2tf, zpk2sos, zpk2ss, ss2tf, ss2zpk,
-    sos2zpk, sos2tf, cont2discrete, bilinear,
-    residue, invres, residuez, invresz,
+    freqz,
+    freqz_sos,
+    freqz_zpk,
+    gausspulse,
     # Window functions
     get_window,
+    group_delay,
+    hilbert,
+    iircomb,
+    iirdesign,
+    iirfilter,
+    iirnotch,
+    iirpeak,
+    impulse,
+    invres,
+    invresz,
+    istft,
+    kaiser_atten,
+    kaiser_beta,
+    kaiserord,
+    # Filtering
+    lfilter,
+    lfilter_zi,
+    lombscargle,
+    lsim,
+    medfilt,
+    minimum_phase,
+    oaconvolve,
+    peak_prominences,
+    peak_widths,
     # Spectral analysis
-    periodogram, welch, csd, coherence, ShortTimeFFT,
-    stft, istft, lombscargle, check_NOLA,
-    # LTI systems
-    TransferFunction, ZerosPolesGain, StateSpace,
-    lsim, impulse, step, bode, freqresp,
-    dlti, dlsim, dimpulse, dstep, dbode,
-    # Peak finding
-    find_peaks, peak_prominences, peak_widths,
-    argrelmin, argrelmax, argrelextrema, find_peaks_cwt,
-    # Waveforms
-    chirp, sawtooth, square, unit_impulse, gausspulse,
-    # Chirp Z-transform
-    czt, zoom_fft, CZT, ZoomFFT,
+    periodogram,
+    remez,
+    resample,
+    resample_poly,
+    residue,
+    residuez,
+    savgol_coeffs,
+    savgol_filter,
+    sawtooth,
+    sos2tf,
+    sos2zpk,
+    sosfilt,
+    sosfilt_zi,
+    sosfiltfilt,
+    square,
+    ss2tf,
+    ss2zpk,
+    step,
+    stft,
+    tf2sos,
+    tf2ss,
+    # Representation conversions
+    tf2zpk,
+    unit_impulse,
+    upfirdn,
+    welch,
+    wiener,
+    zoom_fft,
+    zpk2sos,
+    zpk2ss,
+    zpk2tf,
 )
 from scipy.signal import windows as win
 
@@ -371,6 +454,8 @@ print(y_lfilter.shape)  # (1000,)
 
 # Note: energy at 50 Hz is preserved; 150 Hz and 300 Hz are attenuated
 from scipy.fft import rfft, rfftfreq
+
+
 def peak_amp(y, freq, fs=1000):
     '''Return amplitude at a given frequency (rough estimate via DFT peak).'''
     Y = np.abs(rfft(y)) * 2 / len(y)
@@ -390,6 +475,7 @@ y_chunk2, _ = lfilter(b_lp, a_lp, x_chunk2, zi=zf)
 
 # lfiltic: compute initial conditions from known past inputs and outputs
 from scipy.signal import lfiltic
+
 zi_from_ic = lfiltic(b_lp, a_lp, y=[y_lfilter[-1]], x=[x_multi[-1]])
 print(zi_from_ic.shape)  # (max(len(b),len(a))-1,)
 

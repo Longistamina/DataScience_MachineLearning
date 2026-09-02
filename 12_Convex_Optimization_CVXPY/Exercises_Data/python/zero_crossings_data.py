@@ -1,5 +1,6 @@
 # data for problem on bandlimited signal recovery from zero crossings
 import numpy as np
+
 n = 2048
 f_min = 4
 B = 9

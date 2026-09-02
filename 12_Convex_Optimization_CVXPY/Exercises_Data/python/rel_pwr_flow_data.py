@@ -1,5 +1,6 @@
 # data for power flow problem
 import numpy as np
+
 n = 12     # total number of nodes
 m = 18     # number of edges (transmission lines)
 k = 4      # number of generators
@@ -78,6 +79,7 @@ epsx = 0.05; epsy = 0.15; # text placing offset
 
 # plotting
 import matplotlib.pyplot as plt
+
 for i in range(12): #plot edges
     for j in range(i):
         if Ad[i,j] == 1:

@@ -1,4 +1,5 @@
 import numpy as np
+
 n = 10 # number of variables
 k = 6  # number of designs
 

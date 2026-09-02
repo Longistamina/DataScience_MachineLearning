@@ -425,7 +425,6 @@ from itertools import starmap
 ##--------------------------------##
 ## starmap() with normal function ##
 ##--------------------------------##
-
 import sympy as syp
 
 x, y, z = syp.symbols('x y z')

@@ -32,9 +32,9 @@ Instead, use a combination of:
    + lf.explain(): Inspect the lazy query plan.
 '''
 
-import polars as pl
 from pathlib import Path
 
+import polars as pl
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

@@ -9,6 +9,7 @@ __name__ is a special variable that indicates whether the script is being run di
 '''
 
 from pathlib import Path
+
 working_dir = next(Path("/home").glob("**/01_Python_Basic/*.py")).parent
 
 # ==============================================================================================
@@ -17,6 +18,7 @@ working_dir = next(Path("/home").glob("**/01_Python_Basic/*.py")).parent
 
 ''' The current directory MUST be in the same path as the module to import it directly.'''
 import os
+
 os.chdir(str(working_dir))
 # demo_module_same_directory.py module is in this directory
 # => must move the current directory to this path to import the module directly
@@ -73,6 +75,7 @@ The contents of the __init__.py file can be empty, or it can contain initializat
 
 ''' The current directory MUST be in the same path as the package to import it. '''
 import os
+
 os.chdir(str(working_dir))
 # demo_package is in this directory
 # => must move the current directory to this path to import the demo_package

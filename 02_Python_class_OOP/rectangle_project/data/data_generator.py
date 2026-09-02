@@ -1,6 +1,7 @@
 import json
 import random
 from pathlib import Path
+
 from loguru import logger
 
 # Randomly select 20 file numbers to be corrupted

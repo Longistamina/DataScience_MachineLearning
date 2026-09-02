@@ -1,4 +1,5 @@
 import numpy as np
+
 T = 120; t = range(1, T + 1); 
 y_true = 0.0006 * np.array(np.log(3.0 + 1.0 * np.array(t))) + 0.0007;
 p_true = np.hstack([1, np.power((y_true + 1), -1 * np.array(t))]);

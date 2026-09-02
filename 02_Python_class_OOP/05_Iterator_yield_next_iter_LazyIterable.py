@@ -151,6 +151,7 @@ print(fruits_iter[0]) # TypeError: 'list_iterator' object is not subscriptable
 
 import random
 
+
 def roll_dice(): # A callable that simulates rolling a six-sided die
     return random.randint(1, 6)
 
@@ -307,6 +308,7 @@ Because the MyRangeIterable class computes each item one by one
 # =========================================================================================
 
 from pathlib import Path
+
 import numpy as np
 from plotly import graph_objects as go
 
@@ -362,6 +364,7 @@ plot_iterator_single(data_iterator)
 ##-------------------------------------------------------------##
 
 import random
+
 
 class StructureLoader():
     def __init__(self, entries: list[Path], batch_size: int = 1, shuffle: bool = False):
@@ -537,10 +540,11 @@ for batch_idx, batch in enumerate(loader, start=1):
 ##----------------------------------------------------------------##
 
 from pathlib import Path
+
+import joblib
 import numpy as np
 from plotly import graph_objects as go
 from sklearn.mixture import GaussianMixture
-import joblib
 
 data_dir = Path("/home/longdpt/").rglob("*/data/3D_structures")
 data_dir = next(data_dir)

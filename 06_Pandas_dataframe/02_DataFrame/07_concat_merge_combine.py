@@ -24,8 +24,8 @@ but they serve different purposes and operate in different ways.
    + df.combine(): instance method to combine DataFrames.
 '''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 # =========================================================================================
 # 1. Concatenation

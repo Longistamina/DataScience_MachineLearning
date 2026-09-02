@@ -6,10 +6,11 @@
 3. dr.glimpse() - Transpose print of tibble, showing data types and a preview of data (like df.info())
 '''
 
-import datar.all as dr
-from datar import f
-import pandas as pd
 from pathlib import Path
+
+import datar.all as dr
+import pandas as pd
+from datar import f
 
 pd.set_option("display.width", 200)
 

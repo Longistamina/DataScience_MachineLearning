@@ -26,10 +26,11 @@
 # 5: Saturday
 # 6: Sunday
 
-from datetime import datetime # from datetime: this datetime is a module, a .py file
-                              # import datetime: this datetime is a class or a function inside the datetime module
-from datetime import date
-
+# import datetime: this datetime is a class or a function inside the datetime module
+from datetime import (
+    date,
+    datetime,  # from datetime: this datetime is a module, a .py file
+)
 
 # ==============================================================================================
 # 1. datetime object's attributes
@@ -191,8 +192,9 @@ print(total_delta_seconds)
 # 5. pytz module
 # ==============================================================================================
 
-import pytz
 import datetime
+
+import pytz
 
 ##-----------------------##
 ## Get a timezone object ##

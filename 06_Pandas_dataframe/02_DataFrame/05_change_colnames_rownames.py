@@ -24,8 +24,9 @@
    + df.rename(index={'old1':'new1'}, level=0, inplace=True/False) # for MultiIndex
 '''
 
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

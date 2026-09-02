@@ -1,10 +1,10 @@
 # Move to the directory containing the rectangle_module.py
 import os
+
 os.chdir("/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP/rectangle_project")
 
 # Import the RectangleCalculator class from the rectangle_module.py
 from rectangle_module import RectangleCalculator
-
 
 # =========================================================================================
 # [RECOMMENDED] Canon way to use an imported class

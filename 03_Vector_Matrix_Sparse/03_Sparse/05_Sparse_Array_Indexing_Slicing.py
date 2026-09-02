@@ -32,8 +32,7 @@ scipy.sparse - Sparse Array Indexing and Slicing
 '''
 
 import numpy as np
-from scipy.sparse import csr_array, csc_array, coo_array, lil_array, dok_array
-
+from scipy.sparse import coo_array, csc_array, csr_array, dok_array, lil_array
 
 # =========================================================================================
 # 1. Single Element Access
@@ -212,6 +211,7 @@ print(submat_fancy.toarray())
 '''Demonstrate efficiency difference'''
 
 import time
+
 from tldm import tldm
 
 # Large matrix

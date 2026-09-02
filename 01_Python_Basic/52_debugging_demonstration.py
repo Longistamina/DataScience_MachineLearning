@@ -4,8 +4,9 @@
 # Define functional modules
 # ==============================================================================================
 
-from loguru import logger
 from pathlib import Path
+
+from loguru import logger
 
 
 def get_input():

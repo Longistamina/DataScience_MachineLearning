@@ -70,8 +70,8 @@ print(Phone.all_items)
 # =========================================================================================
 '''We can also import the Item class from another file like item.py and inherit from it'''
 
-from pathlib import Path
 import os
+from pathlib import Path
 
 dir_path = next(Path("/home").glob("**/item.py")).parent
 print(dir_path) # /home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP
@@ -79,7 +79,10 @@ print(dir_path) # /home/longdpt/Documents/Academic/DataScience_MachineLearning/0
 os.chdir(dir_path)
 os.getcwd() # '/home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP'
 
-from item import Item as ItemCSV # Make sure file ``item.py`` is in the same directory or adjust the import path accordingly
+from item import (
+    Item as ItemCSV,  # Make sure file ``item.py`` is in the same directory or adjust the import path accordingly
+)
+
                                  # ``as ItemCSV`` to avoid overlapping with the Item class above
 
 class Fruit(ItemCSV):

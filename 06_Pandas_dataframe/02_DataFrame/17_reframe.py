@@ -11,11 +11,12 @@ Un like .assign() and .agg(), reframe technique allows returning a new DataFrame
 2. Using df.pipe(lambda df: pd.DataFrame(...)): Apply multiple reframing functions to the DataFrame.
 '''
 
+from pathlib import Path
+
+import numpy as np
 import pandas as pd
 from pandas import col as c
 from scipy import stats
-import numpy as np
-from pathlib import Path
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

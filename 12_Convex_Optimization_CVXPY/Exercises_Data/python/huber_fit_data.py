@@ -10,8 +10,8 @@ Data for fitting a 2D Huber distribution.
     path specified by save_path.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 from scipy.stats import chi2
 
 # Y.shape = (N, n)

@@ -18,9 +18,10 @@ WARNING: Callbacks are EXPENSIVE. They require:
 => Do NOT use ``objmode`` on performance-critical inner loops!
 '''
 
-from numba import njit, objmode, types
-import numpy as np
 import logging
+
+import numpy as np
+from numba import njit, objmode, types
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 

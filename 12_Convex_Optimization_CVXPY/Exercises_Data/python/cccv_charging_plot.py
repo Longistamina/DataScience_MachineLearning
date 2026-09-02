@@ -1,5 +1,6 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 
 def plot_data(ax, data, y_label, color, line_label):
     ax.plot(data[:-1], color=color)

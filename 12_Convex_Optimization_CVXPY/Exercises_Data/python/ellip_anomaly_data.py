@@ -1,5 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
+
 X = np.array([[ -0.074,   1.611],
       [  0.109,   0.518],
       [ -0.409,  -0.768],

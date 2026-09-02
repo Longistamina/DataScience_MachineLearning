@@ -10,11 +10,11 @@ These options can be passed to @nb.jit() to enable specific features like:
 Each option can be used individually or in combination.
 '''
 
-import numba as nb
-import numpy as np
 import time
 from threading import Thread
 
+import numba as nb
+import numpy as np
 
 # =========================================================================================
 # 1. nopython (nonpython)

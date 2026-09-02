@@ -1774,6 +1774,7 @@ t_c = (time.perf_counter() - t0) / 10
 
 # frompyfunc
 import math
+
 sin_py = np.frompyfunc(math.sin, 1, 1)
 t0 = time.perf_counter()
 for _ in range(3): _ = sin_py(x_perf)

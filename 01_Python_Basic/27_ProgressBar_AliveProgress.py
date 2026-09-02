@@ -71,8 +71,9 @@ showtime() # This displays an interactive showcase of all available styles
 # 2. Basic Usage
 # ==============================================================================================
 
-from alive_progress import alive_bar
 import time
+
+from alive_progress import alive_bar
 
 ##---------------------##
 ## Simple progress bar ##
@@ -518,6 +519,7 @@ with alive_bar(50, force_tty=True) as bar:
 ##-----------------##
 
 import os
+
 
 def process_files(directory):
     '''Process all files in a directory with progress bar'''

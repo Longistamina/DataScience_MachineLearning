@@ -15,9 +15,8 @@ Workarounds are provided below.
 4. String representation (Workarounds)
 '''
 
-import polars as pl
 import numpy as np
-
+import polars as pl
 
 # =========================================================================================
 # Setup Data

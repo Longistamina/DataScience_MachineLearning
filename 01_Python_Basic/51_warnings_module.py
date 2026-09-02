@@ -33,8 +33,8 @@ but it is not severe enough to raise an exception and halt the program.
 '''
 
 import warnings
-import numpy as np
 
+import numpy as np
 
 # ==============================================================================================
 # Exmaples of disabling a warning
@@ -49,6 +49,7 @@ np.log(0)
 # np.float64(-inf)
 
 import warnings
+
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 np.sqrt(-1)  # No warning
 # np.float64(nan)

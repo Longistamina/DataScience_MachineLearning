@@ -13,6 +13,7 @@ Numba’s main features are:
 import numba as nb
 import numpy as np
 
+
 ##-## Example ##-##
 @nb.jit # just-in-time compilation
 def sum2d(arr):

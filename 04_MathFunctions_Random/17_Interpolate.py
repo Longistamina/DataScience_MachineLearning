@@ -64,18 +64,43 @@ scipy.interpolate  —  interpolation and approximation
 
 import numpy as np
 from scipy.interpolate import (
-    CubicSpline, PchipInterpolator, Akima1DInterpolator,
-    CubicHermiteSpline, BarycentricInterpolator,
-    FloaterHormannInterpolator, KroghInterpolator,
-    make_interp_spline, BSpline,
-    make_smoothing_spline, make_lsq_spline, make_splrep, make_splprep,
-    PPoly, BPoly,
-    LinearNDInterpolator, NearestNDInterpolator,
-    CloughTocher2DInterpolator, RBFInterpolator, griddata,
-    RegularGridInterpolator, interpn, RectBivariateSpline,
-    lagrange, approximate_taylor_polynomial, pade, AAA,
-    interp1d, UnivariateSpline, InterpolatedUnivariateSpline,
-    LSQUnivariateSpline, splrep, splev, splint, sproot, splder, splantider,
+    AAA,
+    Akima1DInterpolator,
+    BarycentricInterpolator,
+    BPoly,
+    BSpline,
+    CloughTocher2DInterpolator,
+    CubicHermiteSpline,
+    CubicSpline,
+    FloaterHormannInterpolator,
+    InterpolatedUnivariateSpline,
+    KroghInterpolator,
+    LinearNDInterpolator,
+    LSQUnivariateSpline,
+    NearestNDInterpolator,
+    PchipInterpolator,
+    PPoly,
+    RBFInterpolator,
+    RectBivariateSpline,
+    RegularGridInterpolator,
+    UnivariateSpline,
+    approximate_taylor_polynomial,
+    griddata,
+    interp1d,
+    interpn,
+    lagrange,
+    make_interp_spline,
+    make_lsq_spline,
+    make_smoothing_spline,
+    make_splprep,
+    make_splrep,
+    pade,
+    splantider,
+    splder,
+    splev,
+    splint,
+    splrep,
+    sproot,
 )
 
 # ── Shared sample data ───────────────────────────────────────────────────────────────────────────
@@ -1152,6 +1177,7 @@ Returns: (p, q) as numpy.poly1d objects (descending degree).
 
 # Padé approximant for exp(x): Taylor coefficients aₙ = 1/n!
 import math
+
 n_terms = 8
 an_exp = np.array([1./math.factorial(k) for k in range(n_terms)])
 

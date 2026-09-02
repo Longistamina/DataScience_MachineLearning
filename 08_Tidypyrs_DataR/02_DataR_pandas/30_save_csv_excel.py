@@ -10,10 +10,11 @@ However, can use dr.pipe() to apply Pandas methods for saving dataframes.
 2. Save to EXCEL: dr.pipe(lambda f: f.to_excel('file.xlsx', sheet_name='Sheet1'))
 '''
 
-import datar.all as dr
-from datar import f
-import pandas as pd
 from pathlib import Path
+
+import datar.all as dr
+import pandas as pd
+from datar import f
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

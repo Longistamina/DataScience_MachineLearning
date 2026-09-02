@@ -26,10 +26,11 @@ The main idea:
 Polars is expression/query-first, not object-attribute-first.
 '''
 
-import polars as pl
-from polars import selectors as cs
-from polars import col as c
 from pathlib import Path
+
+import polars as pl
+from polars import col as c
+from polars import selectors as cs
 
 # Optional display settings
 pl.Config.set_tbl_rows(10)

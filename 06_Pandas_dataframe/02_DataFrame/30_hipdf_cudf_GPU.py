@@ -38,10 +38,12 @@ pip3 install "cudf-cu13==25.12.*"
 '''
 
 import hipdf
+
 print(hipdf.__version__)
 # 2.0.00
 
 import cudf
+
 print(cudf.__version__)
 # 25.12.00
 
@@ -51,9 +53,10 @@ print(cudf.__version__)
 # =========================================================================================
 
 import os
+
 os.environ["CUDF_PANDAS_BYPASS_XNACK_CHECK"]="1"  # For some AMD GPUs, may need this line to avoid XNACK error
 
-import hipdf as hpd # Change only this line to use hipdf instead of pandas
+import hipdf as hpd  # Change only this line to use hipdf instead of pandas
 
 url = "https://raw.githubusercontent.com/notpeter/crunchbase-data/master/investments.csv"
 
@@ -69,7 +72,7 @@ print(df_investments.head())
 
 '''##---------------------------------------------------------------------##'''
 
-import cudf as cpd # Change only this line to use cudf instead of pandas
+import cudf as cpd  # Change only this line to use cudf instead of pandas
 
 url = "https://raw.githubusercontent.com/notpeter/crunchbase-data/master/investments.csv"
 

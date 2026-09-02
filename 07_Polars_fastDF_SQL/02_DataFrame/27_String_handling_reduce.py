@@ -1,8 +1,9 @@
+from functools import reduce
+from pathlib import Path
+
 import polars as pl
 from polars import col as c
 from polars import selectors as cs
-from pathlib import Path
-from functools import reduce
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

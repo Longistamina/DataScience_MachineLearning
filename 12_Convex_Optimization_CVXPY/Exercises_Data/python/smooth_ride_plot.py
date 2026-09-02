@@ -1,5 +1,5 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Function to plot the trajectory of the vehicle
 # NOTE: This function is provided for visualization purposes only

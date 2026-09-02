@@ -12,8 +12,8 @@
 6. .pipe(): Method Chaining with Custom Functions
 '''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 s_mixed = pd.Series(["apple", "banana", "cherry", 42, 3.14, None])
 

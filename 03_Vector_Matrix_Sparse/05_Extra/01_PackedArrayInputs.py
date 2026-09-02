@@ -63,8 +63,7 @@ Flow of contents:
 '''
 
 import numpy as np
-from scipy import optimize, integrate
-
+from scipy import integrate, optimize
 
 # =========================================================================================
 # 0. The Core Pattern

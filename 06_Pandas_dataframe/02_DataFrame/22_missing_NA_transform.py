@@ -36,9 +36,10 @@
   + df_group_filled = df_missing.fillna(df_missing.groupby("week").transform("mean"))
 '''
 
-import pandas as pd
-import numpy as np
 from pathlib import Path
+
+import numpy as np
+import pandas as pd
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

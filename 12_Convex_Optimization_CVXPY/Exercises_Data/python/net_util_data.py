@@ -4,6 +4,7 @@
 import numpy as np
 import scipy.io as sio
 
+
 def get_value(mat, name):
     value = mat[name]
     return value[0][0] if np.shape(value) == (1, 1) else value

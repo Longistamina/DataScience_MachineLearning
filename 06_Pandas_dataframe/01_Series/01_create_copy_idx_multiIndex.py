@@ -16,8 +16,8 @@ Or like numpy 1D array with additional features like labels.
 2. Copy a Series: s.copy()
 '''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 # =========================================================================================
 # 1. Creating a Series
