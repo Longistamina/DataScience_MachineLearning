@@ -10,18 +10,18 @@ import numpy as np
 import pandas as pd
 
 # =========================================================================================
-# 1. Series.dtype 
+# 1. Series.dtype
 # =========================================================================================
 '''Dtype is the data type of the Series, which can be checked using the .dtype attribute.'''
 
 s_nums = pd.Series(data=[1, 2, 3, 4, 5])
 print(s_nums.dtype)  # Output: int64
 
-s_floats = pd.Series(data=[1.0, 2.0, 3.0, 4.0, 5.0])
+s_floats = pd.Series(data=[1., 2., 3.0, 4.0, 5.0])
 print(s_floats.dtype)  # Output: float64
 
 s_strings = pd.Series(data=['a', 'b', 'c', 'd', 'e'])
-print(s_strings.dtype)  # Output: object
+print(s_strings.dtype)  # Output: str
 
 s_mixed_string = pd.Series(data=[1, 'a', 3.0])
 print(s_mixed_string.dtype)  # Output: object
@@ -35,6 +35,10 @@ print(s_mixed_NA.dtype)  # Output: object
 s_mixed_nan = pd.Series(data=[1, np.nan, 3.0])
 print(s_mixed_nan.dtype)  # Output: float64
 
+# create Series with specified dtype
+s_floats32 = pd.Series(data=[1., 2., 3.0, 4.0, 5.0], dtype='float32')
+print(s_floats32.dtype) # float32
+
 
 # =========================================================================================
 # 2. Some important Series attributes
@@ -47,8 +51,7 @@ print(s_mixed_nan.dtype)  # Output: float64
 # .index: Returns the index labels of the Series. ##
 s = pd.Series(data=[1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
 print(s.index)
-# Index(['a', 'b', 'c', 'd', 'e'], dtype='object')
-
+# Index(['a', 'b', 'c', 'd', 'e'], dtype='str')
 
 ##---------##
 ## .values ##
@@ -62,7 +65,6 @@ print(s.values)
 print(type(s.values))
 # <class 'numpy.ndarray'>
 
-
 ##--------##
 ## .shape ##
 ##--------##
@@ -71,7 +73,6 @@ print(type(s.values))
 s = pd.Series(data=[1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
 print(s.shape)
 # (5,)
-
 
 ##-------##
 ## .size ##
@@ -82,7 +83,6 @@ s = pd.Series(data=[1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
 print(s.size)
 # 5
 
-
 ##-------##
 ## .ndim ##
 ##-------##
@@ -92,11 +92,9 @@ s = pd.Series(data=[1, 2, 3, 4, 5], index=['a', 'b', 'c', 'd', 'e'])
 print(s.ndim)
 # 1
 
-
 ##------------##
 ## .is_unique ##
 ##------------##
-
 # .is_unique: Returns True if all elements in the Series are unique, otherwise False.
 
 s_unique = pd.Series(data=[1, 2, 3, 4, 5])
@@ -107,7 +105,6 @@ s_not_unique = pd.Series(data=["a", "b", "c", "a", "e"])
 print(s_not_unique.is_unique)
 # False
 
-
 ##----------##
 ## .hasnans ##
 ##----------##
@@ -115,12 +112,13 @@ print(s_not_unique.is_unique)
 # .hasnans: Returns True if the Series contains any NaN (Not a Number) values, otherwise False.
 s_with_nan = pd.Series(data=[1, 2, np.nan, 4, 5])
 s_with_NA = pd.Series(data=[1, 2, pd.NA, 4, 5])
+s_with_None = pd.Series(data=[1, None, 4, 5])
 s_no_misisng = pd.Series(data=[1, 2, 3, 4, 5])
 
 print(s_with_nan.hasnans) # True
 print(s_with_NA.hasnans) # True
+print(s_with_None.hasnans) # True
 print(s_no_misisng.hasnans) # False
-
 
 ##--------##
 ## .empty ##
@@ -157,3 +155,18 @@ print(s)
 # d    4
 # e    5
 # Name: My Series, dtype: int64
+
+##-----------------------------------##
+# Create a Series with `name`
+
+s_name = pd.Series(["2", 3, "four", 5], name="something")
+
+print(s_name.name)
+# something
+
+print(s_name)
+# 0       2
+# 1       3
+# 2    four
+# 3       5
+# Name: something, dtype: object
