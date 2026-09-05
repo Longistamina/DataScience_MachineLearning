@@ -80,7 +80,7 @@ print(df_emp)
 # └─────┴──────────┴────────┴────────────┴────────────┘
 
 # ## MultiIndex-like example in Polars
-# '''
+'''
 Polars does not have pandas MultiIndex columns or MultiIndex rows.
 Use normal columns for row keys, and use flat column names or Struct columns for nested data.
 '''

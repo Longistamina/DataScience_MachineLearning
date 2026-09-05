@@ -77,7 +77,7 @@ print(s_new_index)
 ##------------------------------------##
 
 # ## With non-indexed Series
-# 
+#
 s_update = s_old.copy()
 
 s_update.update(pd.Series(data=[100, 200]))
@@ -101,7 +101,7 @@ print(s_update)
 '''Here, 300 replaces the value at index 2, and 500 replaces the value at index 4.'''
 
 # ## With indexed Series
-# 
+#
 s_update_index = s_old_index.copy()
 
 s_update_index.update(pd.Series(data=[200, 500], index=['b', 'e']))
@@ -127,7 +127,7 @@ s_old_index = pd.Series(data=[10, 20, 30, 40, 50], index=['a', 'b', 'c', 'd', 'e
 ##---------------------------------##
 
 # ## With non-indexed Series
-# 
+#
 s_new = s_old.copy()
 s_new[5] = 60  # Adding a new element at index 5
 print(s_new)
@@ -156,7 +156,7 @@ Raise ERROR
 '''
 
 # ## With indexed Series
-# 
+#
 s_new_index = s_old_index.copy()
 
 s_new_index['f'] = 60  # Adding a new element with index label 'f'
@@ -190,12 +190,10 @@ Raise ERROR
 ##------------------------------------##
 
 # ## With non-indexed Series
-# 
 s_new = pd.concat(
-    objs = [s_old, pd.Series(data=[600, 700, 800], dtype=s_old.dtype)], # Ensure the same dtype
-    ignore_index = True  # Reindex the resulting Series
+    objs=[s_old, pd.Series(data=[600, 700, 800], dtype=s_old.dtype)], # Ensure the same dtype
+    ignore_index=True  # Reindex the resulting Series
 )
-
 print(s_new)
 # 0     10
 # 1     20
@@ -208,12 +206,10 @@ print(s_new)
 # dtype: int64
 
 # ## With indexed Series
-# 
 s_new_index = pd.concat(
-    objs = [s_old_index, pd.Series(data=[600, 700, 800], index=['x', 'y', 'z'], dtype=s_old_index.dtype)], # Ensure the same dtype
-    ignore_index = False  # Keep the original index labels
+    objs=[s_old_index, pd.Series(data=[600, 700, 800], index=['x', 'y', 'z'], dtype=s_old_index.dtype)], # Ensure the same dtype
+    ignore_index=False  # Keep the original index labels
 )
-
 print(s_new_index)
 # a     10
 # b     20
@@ -226,7 +222,7 @@ print(s_new_index)
 # dtype: int64
 
 '''
-NOTE: must use pd.concat() with TWO SERIES or TWO DATAFRAMES
+NOTE: must use pd.concat() with MANY SERIES or MANY DATAFRAMES
 '''
 
 
@@ -275,7 +271,7 @@ print(s_new)
 # dtype: int64
 
 # ## With indexed Series (labels=)
-# 
+#
 s_new_index = s_old_index.drop(labels='a')  # Deleting the element with index label 'a'
 print(s_new_index)
 # b    20
@@ -292,7 +288,7 @@ print(s_new_index)
 # dtype: int64
 
 # ## With multi-indexed Series (labels=, level=)
-# 
+#
 print(s_old_multi_index)
 # llama   speed      45.0
 #         weight    200.0
@@ -327,7 +323,7 @@ print(s_new_multi_index)
 ##----------------------------------##
 
 # ## With non-indexed Series
-# 
+#
 s_old_pop = s_old.copy()
 
 popped_value = s_old_pop.pop(0)  # Removing and returning the element at index 0
@@ -342,7 +338,7 @@ print(s_old_pop)
 # dtype: int64
 
 # ## With indexed Series
-# 
+#
 s_old_index_pop = s_old_index.copy()
 
 popped_value_index = s_old_index_pop.pop('a')  # Removing and returning the element with index label 'a'

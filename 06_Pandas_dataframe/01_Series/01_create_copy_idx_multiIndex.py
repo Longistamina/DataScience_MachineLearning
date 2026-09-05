@@ -29,9 +29,7 @@ import pandas as pd
 
 # ## Without index labels,
 ## pandas will create a default integer index starting from 0.
-# 
 s = pd.Series(data=[1, 2, 3, 4, 5])
-
 print(s)
 # 0    1
 # 1    2
@@ -41,9 +39,7 @@ print(s)
 # dtype: int64
 
 # ## With custom index labels
-# 
 s = pd.Series(data=[1, 2, 3, 4, 5], index=['one', 'two', 'three', 'four', 'five'])
-
 print(s)
 # one      1
 # two      2
@@ -51,7 +47,6 @@ print(s)
 # four     4
 # five     5
 # dtype: int64
-
 
 ##----------------##
 ## From a ndarray ##
@@ -66,7 +61,6 @@ print(s)
 # d    0.962831
 # e    0.794495
 # dtype: float64
-
 
 ##-------------------##
 ## From a dictionary ##
@@ -83,7 +77,6 @@ print(s)
 # e    5
 # dtype: int64
 
-
 ##---------------------##
 ## From a scalar value ##
 ##---------------------##
@@ -97,7 +90,6 @@ print(s)
 # d    5
 # e    5
 # dtype: int64
-
 
 ##----------------------------##
 ## Multi-Level Indexed Series ##

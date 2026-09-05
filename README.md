@@ -1,4 +1,4 @@
-# DATA SCIENCE - MACHINE LEARNING - 2025
+# DATA SCIENCE - MACHINE LEARNING
 
 # TABLE OF CONTENTS
 - [00_Course_Intro](#00_course_intro)
@@ -7,6 +7,7 @@
 - [03_Vector_Matrix_Sparse](#03_vector_matrix_sparse)
 - [04_MathFunctions_Random](#04_mathfunctions_random)
 - [05_Numba_PyInstaller_PythonCompilers](#05_numba_pyinstalelr_pythoncompilers)
+- [06_Pandas_dataframe](#06_pandas_dataframe)
 
 ## 00_Course_Intro
 + [00_Course_Intro_part_01](https://www.youtube.com/watch?v=v1ZxYlfbZ9o): 1st/11/2025
@@ -281,3 +282,10 @@
       * `pyinstaller` overview: from Python file to machine codes, the interpreter
       * `pyinstaller` basic usage: compile the "compile_me.py", explain `build` and `dist` directories, explain `*.spec` file
       * `pyinstaller` compile one file: produce only the executable file, no build, no dist, no spec
+
+## 06_Pandas_dataframe
+  + [06_Pandas_dataframe_part_01](https://youtu.be/D5xcp5Wd7Wo): 05th/09/2026
+      * `pd.Series`: create, copy, index, multi-index
+      * `pd.Series`: explore Series' dtype, attributes and name
+      * `pd.Series`: select and access Series' elements
+      * `pd.Series`: update, add and drop Series' elements
