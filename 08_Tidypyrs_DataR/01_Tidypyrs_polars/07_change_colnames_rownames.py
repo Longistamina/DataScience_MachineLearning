@@ -16,7 +16,8 @@ Therefore, if we want to create row names, we need to treat them as a column of 
     + Example: clean Pokemon dataframe column names (lazyframe implementation)
 
 2. Change Row names:
-    + tl.with_row_index(name='row_id', offset=0)
+    + tl.row_index(name='row_id', offset=0)
+    + Create row index with `row_index` then modify it
 """
 
 import tidypyrs as tp  # noqa: I001
