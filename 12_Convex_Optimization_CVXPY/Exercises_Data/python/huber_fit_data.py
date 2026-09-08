@@ -18,7 +18,6 @@ from scipy.stats import chi2
 N = 200
 n = 2
 
-
 # Generate the data Y
 def randcov(n):
     """Generate a random covariance matrix."""
@@ -26,12 +25,10 @@ def randcov(n):
     A = A @ A.T
     return A / np.max(np.abs(np.linalg.eigvals(A)))
 
-
 np.random.seed(1)
 Y = np.sqrt(0.6) * np.random.multivariate_normal(np.random.randn(n), randcov(n), N)
 sel = np.random.choice(Y.shape[0], Y.shape[0] // 10, replace=False)
 Y[sel] = np.sqrt(5) * np.random.randn(*Y[sel].shape)
-
 
 def huber_function(x, M):
     """Huber function.
@@ -46,7 +43,6 @@ def huber_function(x, M):
     res[norms <= M] = 0.5 * norms[norms <= M] ** 2
     res[norms > M] = M * (norms[norms > M] - 0.5 * M)
     return res
-
 
 def log_likelihood(data, A, mu, M):
     """Data log likelihood for the 2D Huber distribution.
@@ -72,7 +68,6 @@ def log_likelihood(data, A, mu, M):
     _, logabsdet = np.linalg.slogdet(A_inv)
     return np.sum(np.log(C) + logabsdet - huber_function((data - mu) @ A_inv.T, M))
 
-
 def data_log_likelihood(A, mu):
     """Data log likelihood for the 2D Huber distribution with M = 1.
 
@@ -84,7 +79,6 @@ def data_log_likelihood(A, mu):
         float: The log likelihood of the data given the parameters.
     """
     return log_likelihood(Y, A, mu, 1.0)
-
 
 def plot_fits(A, mu, save_path=None):
     """

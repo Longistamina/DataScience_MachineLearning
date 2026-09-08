@@ -36,7 +36,6 @@ def show_matrix_info(A, name="matrix", max_rows=8, max_cols=8):
     else:
         print(A)
 
-
 # =========================================================================================
 # 1. np.load(): Read matrix from .npy file
 # =========================================================================================
@@ -93,7 +92,6 @@ show_matrix_info(static_lmk_bary_coords, "static_lmk_bary_coords")
 #  [0.44596004 0.20582012 0.34821984]
 #  [0.03614211 0.22336893 0.74048896]]
 # ... (showing top-left 8x3)
-
 
 # =========================================================================================
 # 2. np.loadtxt(): Read matrix from .txt and .csv files
@@ -183,7 +181,6 @@ show_matrix_info(matrix_csv_usecols, "matrix_csv_usecols")
 #  [193.  221.    8.3]
 #  [ 21.   11.    3.8]]
 # ... (showing top-left 8x3)
-
 
 # =========================================================================================
 # 3. np.genfromtxt() for more control with TXT and CSV

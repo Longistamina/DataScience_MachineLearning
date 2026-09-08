@@ -39,7 +39,6 @@ print(s_mixed_nan.dtype)  # Output: float64
 s_floats32 = pd.Series(data=[1., 2., 3.0, 4.0, 5.0], dtype='float32')
 print(s_floats32.dtype) # float32
 
-
 # =========================================================================================
 # 2. Some important Series attributes
 # =========================================================================================
@@ -130,7 +129,6 @@ s_not_empty = pd.Series(data=[1, 2, 3, 4, 5])
 
 print(s_empty.empty)  # True
 print(s_not_empty.empty)  # False
-
 
 # =========================================================================================
 # 3. 'name' attribute

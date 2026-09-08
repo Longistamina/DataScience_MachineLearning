@@ -26,7 +26,6 @@ print(rectangle.summary())
 # ++ Perimeter = 2 * (355 + 263) = 1236.0
 # ++ Area = 355 * 263 = 93365.0
 
-
 ##------------------------------------------------------------------##
 ## Change the attributes (length and width) of the rectangle object ##
 ## which will automatically update the perimeter and area as well   ##
@@ -44,7 +43,6 @@ print(rectangle.summary())
 # ++ Width = 23
 # ++ Perimeter = 2 * (55 + 23) = 156.0
 # ++ Area = 55 * 23 = 1265.0
-
 
 ##---------------------------------------------------------------##
 ## Try to change rectangle.perimeter and rectangle.area directly ##
@@ -75,7 +73,6 @@ This will prevent users from changing the perimeter and area directly, keep the 
 and ensure that the perimeter and area are always calculated based on the length and width.
 '''
 
-
 ##-------------------------------------------------------------------------------------------##
 ## (NOT RECOMMENDED) Access the private attributes self.__perimeter and self.__area directly ##
 ##-------------------------------------------------------------------------------------------##
@@ -104,7 +101,6 @@ The new perimeter and area values are not calculated based on the length and wid
 Instead, they are set directly, which can lead to inconsistencies and non-integrity.
 '''
 
-
 # =========================================================================================
 # non-canon way to use an imported class
 # =========================================================================================
@@ -123,7 +119,6 @@ print(rectangle.area) # None
 
 print(rectangle.summary())
 # | CRITICAL | rectangle_module:summary:234 - NO valid inputs were given! They are expected to be POSITIVE NUMBERS (greater than zero)
-
 
 ##------------------------------------------------##
 ## Update attributes (self.length and self.width) ##
@@ -189,7 +184,6 @@ for info in dir(RectangleCalculator):
 # area
 # perimeter
 # summary
-
 
 # =========================================================================================
 # Display everything of the rectangle object from RectangleCalculator (attributes and methods)

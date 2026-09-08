@@ -79,7 +79,6 @@ print("Happiness", "is", "simple", sep=" - ")
 print("Happiness", "is", "simple", sep="|")
 # Happiness|is|simple
 
-
 # ==============================================================================================
 # 2. ``termcolor`` module: create and print colored text
 # ==============================================================================================

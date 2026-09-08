@@ -37,7 +37,6 @@ the point x formed by the affine combination
 
 also lies in A.
 
-
 ##---## Example: prove a set is an affine set
         
         The set C = { (x, y) ∈ ℝ² | y = 2x + 1 } is affine.
@@ -64,7 +63,6 @@ For θ = 0.5,
     but y = x² at x=0 is 0, not 1, so p ∉ D.
 
 Hence, D is not affine.
-
 
 # =========================================================================================
 # Summary

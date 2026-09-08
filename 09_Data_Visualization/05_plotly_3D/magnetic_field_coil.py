@@ -44,7 +44,6 @@ dphi = 2*np.pi / n_line_segments
 
 phi = np.tile(phi, n_coils)[None, :] # expand phi to (1, n_line_segments*n_coils)
 
-
 rx = a * np.cos(phi) # (1, n_line_segments*n_coils)
 ry = a * np.sin(phi)
 

@@ -31,7 +31,6 @@ x = cp.Variable(name = "x")
 y = cp.Variable(name = "y")
 z = cp.Variable(name = "z")
 
-
 # ## (a) 1/x + 1/y ≤ 1,  x ≥ 0,  y ≥ 0.
 # 
 constraints_a = [
@@ -46,7 +45,6 @@ for constraint in constraints_a:
 # -x <= 0.0 ___ True DCP
 # -y <= 0.0 ___ True DCP
 
-
 # ## (b) xy ≥ 1,  x ≥ 0,  y ≥ 0.
 # 
 constraints_b = [
@@ -60,7 +58,6 @@ for constraint in constraints_b:
 # -log(x) + -log(y) <= 0.0 ___ True DCP
 # -x <= 0.0 ___ True DCP
 # -y <= 0.0 ___ True DCP
-
 
 # ## (c) (x + y)² / √y ≤ x - y + 5  (with implicit constraint y ≥ 0)
 # 
@@ -86,7 +83,6 @@ for constraint in constraints_c:
 # quad_over_lin(x + y, x + -y + 5.0) + -power(y, 0.5) <= 0.0 ___ True DCP
 # -y <= 0.0 ___ True DCP
 # -x + y <= 5.0 ___ True DCP
-
 
 
 # ## (d) x + z ≤ 1 + √(xy - z²),  x ≥ 0,  y ≥ 0.  

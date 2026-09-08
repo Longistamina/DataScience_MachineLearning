@@ -48,7 +48,6 @@ print(s_numeric)
 # 	2.54
 # ]
 
-
 # =========================================================================================
 # 1. .to_numpy()
 # =========================================================================================
@@ -68,7 +67,6 @@ Note: If a Polars numeric Series contains nulls, ``.to_numpy()`` will return an 
 or raise an error unless you specify how to handle nulls (e.g., filling them first).
 '''
 
-
 # =========================================================================================
 # 2. .to_list()
 #
@@ -86,7 +84,6 @@ print(type(list_numeric))  # <class 'list'>
 As we can see, in list, there are "," separators between elements.
 Polars natively represents missing values as Python `None` in lists.
 '''
-
 
 # =========================================================================================
 # 3. Dictionary Conversion
@@ -126,7 +123,6 @@ print(df_kv.to_dict(as_series=False))
 dict_indexed = dict(zip(df_kv["keys"], df_kv["values"]))
 print(dict_indexed)
 # {'a': 0, 'b': 3.2, 'c': 'three', 'd': None, 'e': False}
-
 
 # =========================================================================================
 # 4. String Representation

@@ -64,7 +64,6 @@ import polars as pl
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-
 # =========================================================================================
 # 1. pl.read_csv()
 # =========================================================================================
@@ -155,7 +154,6 @@ df = pl.read_csv(
 print(df)
 # shape: (8, 3)
 # columns: name, salary, dept
-
 
 # Read columns by position: 1=name, 2=salary, 4=dept.
 df = pl.read_csv(
@@ -451,7 +449,6 @@ df = pl.read_csv(
 )
 print(df)
 
-
 # =========================================================================================
 # 2. pl.scan_csv()
 # =========================================================================================
@@ -623,7 +620,6 @@ For large CSV files, prefer:
     pl.scan_csv("large.csv")
 '''
 
-
 # =========================================================================================
 # 3. pl.read_excel()
 # =========================================================================================
@@ -751,7 +747,6 @@ For lazy processing, a common workflow is:
 # excel_df.write_parquet(data_dir / "emp_from_excel.parquet")
 # lf = pl.scan_parquet(data_dir / "emp_from_excel.parquet")
 # print(lf.filter(pl.col("salary") > 650).collect())
-
 
 # =========================================================================================
 # 4. JSON / NDJSON
@@ -910,7 +905,6 @@ The lazy JSON scanner is for newline-delimited JSON: pl.scan_ndjson().
 #
 # print(df)
 
-
 # =========================================================================================
 # 5. XML data
 # =========================================================================================
@@ -1016,7 +1010,6 @@ Do not expect a generic XML-to-table conversion to always infer the table correc
 #     })
 # df = pl.DataFrame(records)
 
-
 # =========================================================================================
 # 6. Read data from URL
 # =========================================================================================
@@ -1096,7 +1089,6 @@ When scanning works, use select/filter before collect() to get lazy benefits.
 # )
 # print(lf.head().collect())
 
-
 # =========================================================================================
 # 7. Other Polars scan APIs
 # =========================================================================================
@@ -1107,7 +1099,6 @@ These return LazyFrame objects and are designed for lazy query optimization.
 The most common lazy scan format is Parquet because it is columnar and supports
 excellent projection/predicate pushdown.
 '''
-
 
 # =========================================================================================
 # 7.1 pl.scan_parquet()
@@ -1136,7 +1127,6 @@ This is often the best format for repeated analytics.
 # lf = pl.scan_parquet(str(data_dir / "parquet_folder" / "*.parquet"), glob=True)
 # print(lf.head(10).collect())
 
-
 # =========================================================================================
 # 7.2 pl.scan_ipc()
 # =========================================================================================
@@ -1149,7 +1139,6 @@ Use scan_ipc() for lazy scanning of IPC/Feather v2 files.
 # lf = pl.scan_ipc(data_dir / "emp.feather")
 # print(lf.select(["name", "dept"]).collect())
 
-
 # =========================================================================================
 # 7.3 pl.scan_ndjson()
 # =========================================================================================
@@ -1160,7 +1149,6 @@ This is the JSON format that Polars can scan lazily in core Polars.
 
 # lf = pl.scan_ndjson(data_dir / "employees.ndjson")
 # print(lf.filter(pl.col("salary") > 600).collect())
-
 
 # =========================================================================================
 # 7.4 pl.scan_lines()
@@ -1178,7 +1166,6 @@ It is useful when each line is a record that you want to parse with expressions.
 # )
 # print(df)
 
-
 # =========================================================================================
 # 7.5 pl.scan_delta()
 # =========================================================================================
@@ -1189,7 +1176,6 @@ This requires the optional Delta Lake dependencies and a valid Delta table.
 
 # lf = pl.scan_delta("/path/to/delta_table")
 # print(lf.select(["customer_id", "amount"]).collect())
-
 
 # =========================================================================================
 # 7.6 pl.scan_pyarrow_dataset()
@@ -1204,7 +1190,6 @@ Use it when a dataset is already managed through pyarrow.dataset.
 # dataset = ds.dataset(str(data_dir / "parquet_folder"), format="parquet")
 # lf = pl.scan_pyarrow_dataset(dataset)
 # print(lf.head().collect())
-
 
 # =========================================================================================
 # 8. Quick reference

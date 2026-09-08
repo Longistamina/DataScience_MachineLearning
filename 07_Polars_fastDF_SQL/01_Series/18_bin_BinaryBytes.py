@@ -85,7 +85,6 @@ print(s_base64_str)
 # 	"d29ybGQ="
 # ]
 
-
 # =========================================================================================
 # 2. UTF-8 String Conversion
 # =========================================================================================
@@ -110,7 +109,6 @@ print(s_bad_bytes.cast(pl.String))
 # Note: Depending on the Polars version, invalid bytes might raise an error or become null.
 # To be safe with messy byte data, you can use map_elements or handle it at ingestion.
 
-
 # =========================================================================================
 # 3. Searching & Matching
 # =========================================================================================
@@ -133,7 +131,6 @@ print(s_bin.bin.starts_with(b"he"))
 # Check if binary ends with a specific byte sequence
 print(s_bin.bin.ends_with(b"ld"))
 # [false, true, false, false]
-
 
 # =========================================================================================
 # 4. Slicing & Extraction
@@ -164,7 +161,6 @@ print(s_bin.bin.tail(2))
 print(s_bin.bin.get(0))
 # [104, 119, 112]
 
-
 # =========================================================================================
 # 5. Size & Information
 # =========================================================================================
@@ -187,7 +183,6 @@ print(s_bin.bin.size()) # Equivalent to .bin.size("b")
 # Filter out empty binary payloads
 print(s_bin.filter(s_bin.bin.size() > 0))
 # [b"hello", b"\x00\x01\x02"]
-
 
 # =========================================================================================
 # 6. Low-Level Memory Casting (.bin.reinterpret)

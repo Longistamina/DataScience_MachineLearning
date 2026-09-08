@@ -31,7 +31,6 @@ from pandas import col as c
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-
 # =========================================================================================
 # 1. General Chaining Methods
 # =========================================================================================
@@ -51,7 +50,6 @@ s_aq = (
     .reindex(columns=["value"])
     .squeeze() # Convert Single-Column DataFrame to Series
 )
-
 
 # =========================================================================================
 # 2. Apply with .pipe() for custom functions
@@ -99,7 +97,6 @@ print(df_boston_stats)
 # ppf_75th   6.758542    17.540870   30.336306
 # ppf_100th       inf          inf         inf
 
-
 # =========================================================================================
 # 3. Apply with .groupby()
 # =========================================================================================
@@ -114,7 +111,6 @@ print(
     )
     .reset_index() # Reset index to turn the group keys into a column
 )
-
 
 # =========================================================================================
 # 4. Apply with .plot() / .plot.method()
@@ -146,7 +142,6 @@ df_pokemon.plot.box(
     figsize=(10, 6)              # Size of the figure
 )
 plt.show() # Display the plot
-
 
 # =========================================================================================
 # 5. All-in-one workflow

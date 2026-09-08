@@ -18,13 +18,11 @@ class DemoSingleUnderscore:
     def _change_internal(self):
         self._internal = random.randint(10, 20)
 
-
 obj = DemoSingleUnderscore()
 print(obj._internal)  # Output: 42 (can access, but should not)
 
 obj._change_internal()
 print(obj._internal) # other values between [10, 20)
-
 
 '''
 2. __attribute and __method() (Double Underscores)

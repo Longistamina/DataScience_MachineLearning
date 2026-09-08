@@ -53,7 +53,6 @@ print(s_index.iloc[[0, 2, 4]])  # Accessing specific elements by their integer p
 # e    50
 # dtype: int64
 
-
 # =========================================================================================
 # 2. Using dictionary style
 # =========================================================================================
@@ -147,7 +146,6 @@ This is because in future versions of pandas, using integer keys will always be 
 not positions, to maintain consistency with DataFrame behavior.
 '''
 
-
 # =========================================================================================
 # 3. Using .get() method
 # =========================================================================================
@@ -172,7 +170,6 @@ print(s_index.get(['a', 'c', 'e']))  # Accessing multiple elements using get()
 
 print(s_no_index.get(2))  # Accessing the 3rd element in a default integer index Series
 # 5
-
 
 # =========================================================================================
 # 4. Using .head() and .tail()
@@ -209,7 +206,6 @@ print(s_index.tail(2))  # Last 2 elements
 # d    40
 # e    50
 # dtype: int64
-
 
 # =========================================================================================
 # 5. Using .item()

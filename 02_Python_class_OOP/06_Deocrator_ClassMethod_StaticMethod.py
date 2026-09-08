@@ -58,7 +58,6 @@ print(lst_employees)
 
 '''NOT RECOMMEND: class methods can be called from an instance, but should not do so'''
 
-
 # =========================================================================================
 # Decorator: @staticmethod
 # =========================================================================================

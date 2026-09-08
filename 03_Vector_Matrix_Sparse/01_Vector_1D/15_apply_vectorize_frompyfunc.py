@@ -10,7 +10,6 @@ import numpy as np
 
 np.set_printoptions(linewidth=200)
 
-
 # =========================================================================================
 # 1. np.apply_along_axis()
 # =========================================================================================
@@ -42,7 +41,6 @@ print(np.apply_along_axis(math.log2, axis=0, arr=vector_nums))
 '''TypeError: only length-1 arrays can be converted to Python scalars'''
 # It returns an error because math.log2 expects a single scalar value, not an array.
 
-
 # =========================================================================================
 # 2. np.vectorize()
 # =========================================================================================
@@ -68,7 +66,6 @@ def hour_stamps(ts):
 hour_stamps_vectorized = np.vectorize(hour_stamps)
 print(hour_stamps_vectorized(time_stamps))
 # [499678.34       498589.30194444 308708.9725     494364.46444444 337027.41944444]
-
 
 # =========================================================================================
 # 3. np.frompyfunc()

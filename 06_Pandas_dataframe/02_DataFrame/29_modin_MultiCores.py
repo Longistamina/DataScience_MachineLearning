@@ -11,7 +11,6 @@ Just need to change a single line of code to import modin instead of pandas.
 3. Config the number of CPU cores
 '''
 
-
 # =========================================================================================
 # 1. Example Code
 # =========================================================================================
@@ -90,7 +89,6 @@ UserWarning: <function Series.extract> is not currently supported by PandasOnRay
 => This may lead to performance degradation due to data transfer overhead.
 '''
 
-
 # =========================================================================================
 # 2. Check supported APIs
 # =========================================================================================
@@ -103,7 +101,6 @@ You can check the supported APIs at:
 # pd Utilities: https://modin.readthedocs.io/en/latest/supported_apis/utilities_supported.html
 # pd.read_* functions: https://modin.readthedocs.io/en/latest/supported_apis/io_supported.html
 '''
-
 
 # =========================================================================================
 # 3. Config the number of CPU cores

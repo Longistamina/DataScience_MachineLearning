@@ -21,7 +21,6 @@ Let S be a vector space over ℝ. A subset C ⊆ S is convex if:
 Alternative formulation:
 A set C is convex if for any two points x,y ∈ C, the line segment connecting them lies entirely within C.
 
-
 # =========================================================================================
 # CONVEX COMBINATION
 # =========================================================================================

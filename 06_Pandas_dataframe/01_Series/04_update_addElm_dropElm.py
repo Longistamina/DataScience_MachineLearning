@@ -114,7 +114,6 @@ print(s_update_index)
 # dtype: int64
 '''Here, 200 replaces the value at index 'b', and 500 replaces the value at index 'e'.'''
 
-
 # =========================================================================================
 # 2. Add new elements
 # =========================================================================================
@@ -224,7 +223,6 @@ print(s_new_index)
 '''
 NOTE: must use pd.concat() with MANY SERIES or MANY DATAFRAMES
 '''
-
 
 # =========================================================================================
 # 3. Deleting elements

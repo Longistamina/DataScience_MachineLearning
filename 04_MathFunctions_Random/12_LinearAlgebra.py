@@ -90,7 +90,6 @@ v1 = np.array([1., 2., 3.])   # 1D vector
 v2 = np.array([4., 5., 6.])   # 1D vector
 b  = np.array([1., 2., 3.])   # RHS vector for Ax = b
 
-
 # =========================================================================================
 # 1. Matrix and vector products
 # =========================================================================================
@@ -330,7 +329,6 @@ print(np.tensordot(A, G, axes=[[1],[0]]))
 #  [ 5. 10. 21.]]
 # standard matrix multiplication A @ G  (contract last axis of A with first axis of G)
 
-
 # =========================================================================================
 # 2. Decompositions
 # =========================================================================================
@@ -557,7 +555,6 @@ T_c, Z_c = spla.schur(G, output='complex')
 print(np.diag(T_c).round(4))
 # eigenvalues on diagonal: [0.9697+0.4953j, 0.9697-0.4953j, 5.0606+0.j]
 
-
 # =========================================================================================
 # 3. Matrix eigenvalues
 # =========================================================================================
@@ -697,7 +694,6 @@ print(w_gen)
 i = 0
 print(np.allclose(G @ v_gen[:, i], w_gen[i] * (B_gen @ v_gen[:, i])))
 # True
-
 
 # =========================================================================================
 # 4. Norms and other numbers
@@ -861,7 +857,6 @@ print(np.trace(A, offset=1))
 
 print(np.trace(G @ A))
 # trace(G @ A) = trace(A @ G)  (cyclic invariance)
-
 
 # =========================================================================================
 # 5. Solving equations and inverting matrices
@@ -1045,7 +1040,6 @@ print(spla.pinvh(A_sing).round(4))
 #  [0.0153 0.0306 0.0459]]
 # pseudoinverse of rank-deficient symmetric matrix (np.linalg.inv would fail)
 
-
 # =========================================================================================
 # 6. Matrix functions  (scipy.linalg)
 # =========================================================================================
@@ -1155,7 +1149,6 @@ print(spla.funm(A, np.sqrt).round(4))
 print(np.allclose(spla.funm(A, np.exp), spla.expm(A)))
 # True  (funm with np.exp reproduces expm)
 
-
 # =========================================================================================
 # 7. Matrix equation solvers  (scipy.linalg)
 # =========================================================================================
@@ -1220,7 +1213,6 @@ print(A_l @ X_l + X_l @ A_l.T)
 # [[1. 0.]
 #  [0. 1.]]  (verifies AX + XA.T = Q)
 # Interpretation: X_l is the steady-state covariance of dx = A_l @ x dt + dW
-
 
 # =========================================================================================
 # 8. Special matrices  (scipy.linalg)

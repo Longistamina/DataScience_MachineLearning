@@ -406,7 +406,6 @@ print(df)
 # 7.0     Simon  632.80  2013-07-30  Operations
 # 8.0      Guru  722.50  2014-06-17     Finance
 
-
 # =========================================================================================
 # 2. pd.read_excel()
 # =========================================================================================
@@ -489,7 +488,6 @@ print(df)
 # 5      Nina   Boston
 # 6     Simon   Mumbai
 # 7      Guru   Dallas
-
 
 # =========================================================================================
 # 3. pd.read_json()
@@ -580,7 +578,6 @@ print(df_processed)
 # 2      Mathematical Statistics with Resampling and R  ...  [Exercises, Illustrations, Readability]
 # [3 rows x 6 columns]
 
-
 # =========================================================================================
 # 4. pd.read_xml()
 # =========================================================================================
@@ -630,7 +627,6 @@ print(df_food)
 # 2  Berry-Berry Belgian Waffles  $8.95  Light Belgian waffles covered with an assortme...       900
 # 3                 French Toast  $4.50  Thick slices made from our homemade sourdough ...       600
 # 4          Homestyle Breakfast  $6.95  Two eggs, bacon or sausage, toast, and our eve...       950
-
 
 # =========================================================================================
 # 5. pd.read_csv(url)

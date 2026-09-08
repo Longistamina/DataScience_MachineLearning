@@ -24,7 +24,6 @@ Rules / gotchas:
 
 import polars as pl
 
-
 @pl.api.register_series_namespace("mystr")
 class MyStrNamespace:
     def __init__(self, s: pl.Series):
@@ -33,7 +32,6 @@ class MyStrNamespace:
     def radd(self, prefixes) -> pl.Series:
         """Prepend each element of `prefixes` to the matching Series element."""
         return pl.Series(prefixes, dtype=pl.Utf8) + self._s
-
 
 if __name__ == "__main__":
     s = pl.Series(["Vietnam", "Philipines", "Malaysia", "Myanmar"])

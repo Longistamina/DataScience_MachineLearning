@@ -62,7 +62,6 @@ M2 = np.random.randint(-10, 11, (3, 4))
 #        [-4, -8, 10,  2],
 #        [-7, 10, -8,  4]])
 
-
 # =========================================================================================
 # 1. Truth value testing
 # =========================================================================================
@@ -138,7 +137,6 @@ print(np.any(M_bool, axis=0))
 
 print(np.any(M_bool, axis=1))
 # [True True]
-
 
 # =========================================================================================
 # 2. Array contents
@@ -238,7 +236,6 @@ out = np.zeros(v_special.shape, dtype=bool)
 np.isposinf(v_special, out=out)
 print(out)
 # [False  True False False False]
-
 
 # =========================================================================================
 # 3. Array type testing
@@ -363,7 +360,6 @@ print(np.isscalar(np.array(5)))
 print(np.isscalar("hello"))
 # True
 
-
 # =========================================================================================
 # 4. Logical operations
 # =========================================================================================
@@ -462,7 +458,6 @@ but False in XOR because both are True.
 
 (XOR requires that only exact one of the inputs is True, while OR allows for both to be True.)
 '''
-
 
 # =========================================================================================
 # 5. Comparison
@@ -685,7 +680,6 @@ print(np.not_equal(M1, M2))
 
 print(v1 != v2)
 # [ True  True  True  True False]
-
 
 # =========================================================================================
 # 6. Application in boolean indexing and masking

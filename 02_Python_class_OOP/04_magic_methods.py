@@ -67,7 +67,6 @@ print(e)  # Output: 4
 
 '''This class ensures that any instance of EvenIntClass will always represent an even integer.'''
 
-
 # =========================================================================================
 # 2. __str__() method
 # =========================================================================================
@@ -103,7 +102,6 @@ Output if using __repr__() instead of __str__():
 'Book: Python 101'
 '''
 
-
 # =========================================================================================
 # 3. __len__() method
 # =========================================================================================
@@ -132,7 +130,6 @@ class Team:
 
 t = Team(['Alice', 'Bob'])
 print(len(t))  # 2
-
 
 # =========================================================================================
 # 4. __getitem__() method
@@ -164,7 +161,6 @@ c = Colors(['red', 'blue'])
 print(c[0])  # red
 
 '''This explains why set is not subscriptable, as it does not implement __getitem__() method.'''
-
 
 # =========================================================================================
 # 5. __setitem__() method
@@ -199,7 +195,6 @@ b['apple'] = 3
 
 print(b.items)    # {'apple': 3}
 print(b["apple"]) # 3
-
 
 # =========================================================================================
 # 6. __eq__() method
@@ -241,7 +236,6 @@ print(p1 == p2)  # Output: True
 # __gt__(self, other): Greater than >
 # __ge__(self, other): Greater than or equal >=
 '''
-
 
 # =========================================================================================
 # 7. __add__() method
@@ -286,7 +280,6 @@ print(v1 + v2)  # Output: Vector(5)
 # __pow__(self, other[, modulo])	Defines behavior for self ** other.
 '''
 
-
 # =========================================================================================
 # 8. __call__() method
 # =========================================================================================
@@ -315,7 +308,6 @@ class Greeter:
 
 g = Greeter("Alice")
 g()  # Output: Hello, Alice!
-
 
 # =========================================================================================
 # 9. __enter__() and __exit__()
@@ -351,7 +343,6 @@ with FileOpener("test.txt") as f:
     print("File opened successfully")
 # Output: File opened successfully
 #         The file "test.txt" is created with the given content
-
 
 # =========================================================================================
 # 10. __del__() method

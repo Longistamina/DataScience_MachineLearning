@@ -2,7 +2,6 @@
 
 import time
 
-
 def calc_square(numbers):
     print("Calculate square numbers:")
     for n in numbers:
@@ -32,7 +31,6 @@ print("\nDone single-thread calculating in:", time.time() - t0) # Get the curren
 # After function calc_square terminates its process, function calc_cube will jump in
 # Then, like before, calc_cube will also keep processing, then sleeping, then processing, ... til the end
 # => Make the total processing time delayed and cost upto 1.602s to finish
-
 
 # ==============================================================================================
 # Multiprocessing
@@ -97,7 +95,6 @@ processor2.join() # tell the main program to wait until processor2 terminates it
 
 print("\nDone double-process calculating in:", time.time() - t0)
 
-
 ##------------------## Dynamic Multitprocess using "Pool" from "multiprocessing"          ##---------------------##
 ##------------------## Enable defining the maximum number of processors (cores) to use    ##---------------------##
 ##------------------## Automatically create processor, start processor and join processor ##---------------------##
@@ -105,7 +102,6 @@ print("\nDone double-process calculating in:", time.time() - t0)
 ##--## Return an output list ##--##
 
 from multiprocessing import Pool
-
 
 def target_function(single_block):
     # Replace with your actual processing logic
@@ -141,7 +137,6 @@ print(outputs)
 import os
 from multiprocessing import Pool
 
-
 def target_func(single_block, idx):
     # Example: write reversed block to a unique file
     output = str(single_block[::-1])
@@ -164,13 +159,11 @@ inputs = [
 multicore_process(target_func, inputs, max_processes=3)
 # This creates files output_block_0.txt, output_block_1.txt, output_block_2.txt
 
-
 # ==============================================================================================
 # using a list of tuples as argument
 # ==============================================================================================
 
 import multiprocessing
-
 
 # Function with two parameters
 def add_numbers(x, y):
@@ -183,7 +176,6 @@ def square(x):
 # Function with three parameters
 def calculate(x, y, z):
     return x * y + z
-
 
 # ✅ Multi-argument inputs using list comprehension
 multi_arg_inputs = [(i, i+1) for i in range(1, 7, 2)]  # [(1, 2), (3, 4), (5, 6)]
@@ -214,7 +206,6 @@ conditional_inputs = [(i,) for i in range(10) if i % 2 == 0]  # [(0,), (2,), (4,
 print(f"Complex inputs: {complex_inputs[:3]}...")  # Show first 3
 print(f"Conditional inputs: {conditional_inputs}")
 
-
 # ==============================================================================================
 # freeze_support()
 # ==============================================================================================
@@ -222,7 +213,6 @@ print(f"Conditional inputs: {conditional_inputs}")
 multiprocessing.freeze_support()
 # prevents an infinite loop of process creations
 # when a Python script using the multiprocessing module is compiled into a standalone executable (e.g., using PyInstaller, py2exe, ...)
-
 
 # ==============================================================================================
 # difference between Multithreading and Multiprocessing

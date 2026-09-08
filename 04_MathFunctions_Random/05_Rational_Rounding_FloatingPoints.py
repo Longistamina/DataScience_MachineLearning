@@ -38,7 +38,6 @@ print(M2)
 # [[52 41 49]
 #  [46 54 50]]
 
-
 # =========================================================================================
 # 1. Rational routines
 # =========================================================================================
@@ -94,7 +93,6 @@ print(np.gcd(M1, M2))
 
 print(v1 * v2 == np.gcd(v1, v2) * np.lcm(v1, v2))
 # [ True  True  True  True  True]
-
 
 # =========================================================================================
 # 2. Rounding
@@ -197,7 +195,6 @@ print(f"trunc:    {np.trunc(test_vals)}")  # [-2. -2.  2.  2.]
 print(f"floor:    {np.floor(test_vals)}")  # [-3. -3.  2.  2.]
 print(f"ceil:     {np.ceil(test_vals)}")   # [-2. -2.  3.  3.]
 # trunc rounds towards zero
-
 
 # =========================================================================================
 # 3. Floating point routines
@@ -380,7 +377,6 @@ print(f"Spacing at {x}: {spacing}") # Spacing at 5.0: 8.881784197001252e-16
 print(f"Difference to next float: {next_float - x}") # 8.881784197001252e-16
 print(f"Are they equal? {np.isclose(spacing, next_float - x)}")
 # True
-
 
 ##-------------------------------##
 ## Comparisons and Verifications ##

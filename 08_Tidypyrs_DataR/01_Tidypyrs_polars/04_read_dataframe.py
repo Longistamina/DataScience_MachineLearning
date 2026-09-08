@@ -11,10 +11,9 @@ from pathlib import Path
 
 data_dir = next(Path("/home").glob("**/DataScience*/data"))
 
-
-# =================================================
+# =========================================================================================
 # 1. tp.read_csv()
-# =================================================
+# =========================================================================================
 
 tf_baseball = tp.read_csv(data_dir/"baseball.csv")
 
@@ -41,10 +40,9 @@ print(tf_baseball)
 print(type(tf_baseball))
 # <class 'tidypyrs.tibble_frame.TibbleFrame'>
 
-
-# =================================================
+# =========================================================================================
 # 2. tp.read_exce;()
-# =================================================
+# =========================================================================================
 
 tf_emp = tp.read_excel(data_dir/"emp_sheetname.xlsx", sheet_id=1) # `sheet_id=0` will read all sheets into a dictionary
 print(tf_emp) # `sheet_id=1` read the first sheets
@@ -67,10 +65,9 @@ print(tf_emp) # `sheet_id=1` read the first sheets
 print(type(tf_emp))
 # <class 'tidypyrs.tibble_frame.TibbleFrame'>
 
-
-# =================================================
+# =========================================================================================
 # 2. tp.scan_csv(): read into TibbleLazy
-# =================================================
+# =========================================================================================
 
 tl_air = tp.scan_csv(data_dir/"air_quality_no2_long.csv")
 

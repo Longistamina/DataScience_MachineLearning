@@ -48,7 +48,6 @@ os.path.exists('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_
 os.path.exists('non_existing_dir/non_existing_file.txt')
 # False
 
-
 # ==============================================================================================
 # 2. Check if a path is an absolute path
 # ==============================================================================================
@@ -60,7 +59,6 @@ os.path.isabs('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_P
 # Check a non-absolute path
 os.path.isabs('01_Python_Basic/01_print_termcolor.py')
 # False
-
 
 # ==============================================================================================
 # 3. Checking if a path is a directory
@@ -78,7 +76,6 @@ os.path.isdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_P
 os.path.isdir("dir1/dir2")
 # False
 
-
 # ==============================================================================================
 # 4. Checking if a path is a file
 # ==============================================================================================
@@ -94,7 +91,6 @@ os.path.isfile('/home/longdpt/Documents/Academic/DataScience_MachineLearning')
 # Check a non-existing path
 os.path.isfile('non_existing_file.txt')
 # False
-
 
 # ==============================================================================================
 # 5. Joining paths using os.path.join
@@ -113,7 +109,6 @@ print(joined_path) # dir_parent/dir_child/file.txt
 NOTE: os.path.join() automatically handles the path separators based on the operating system.
 ====> produces the same output even with or without leading or trailing slashes.
 '''
-
 
 # ==============================================================================================
 # 6. Getting the base name of a path
@@ -134,7 +129,6 @@ print(base_name_dir) # dir_3
 print(os.path.basename('/home/longdpt/Documents/')) # (an empty string)
 '''NOTE: returns an empty string if the path ends with a trailing slash.'''
 
-
 # ==============================================================================================
 # 7. Getting the directory name of a path
 # ==============================================================================================
@@ -144,7 +138,6 @@ demo_path = 'dir_1/dir_2/file.txt'
 # Get the directory name of the path
 dir_name = os.path.dirname(demo_path)
 print(dir_name) # dir_1/dir_2
-
 
 # ==============================================================================================
 # 8. Splitting a path into its components
@@ -180,7 +173,6 @@ print(split_ext)  # ('dir_1/dir_2/file', '.txt')
 
 print(os.path.splitext('json_file.json'))  # ('json_file', '.json')
 
-
 # ==============================================================================================
 # 9. Using os.path.normpath() to normalize paths
 # ==============================================================================================
@@ -188,7 +180,6 @@ print(os.path.splitext('json_file.json'))  # ('json_file', '.json')
 
 normalized_path = os.path.normpath('dir_1//dir_2/../file.txt')
 print(normalized_path)  # dir_1/file.txt
-
 
 # ==============================================================================================
 # 10. Using os.path.abspath() to get the absolute path
@@ -202,7 +193,6 @@ absolute_path = os.path.abspath('dir_1/dir_2/file.txt')
 print(absolute_path)
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/dir_1/dir_2/file.txt
 
-
 # ==============================================================================================
 # 11. Using os.path.relpath() to get a relative path
 # ==============================================================================================
@@ -214,7 +204,6 @@ relative_path = os.path.relpath('dir_1/dir_2/dir_3/file.txt',
 print(relative_path)
 # dir_3/file.txt
 
-
 # ==============================================================================================
 # 12. Using os.path.commonpath() to find the common path prefix
 # ==============================================================================================
@@ -223,7 +212,6 @@ print(relative_path)
 common_path = os.path.commonpath(['dir_1/dir_2/file.txt', 'dir_1/dir_2/dir_3/file.txt'])
 print(common_path)  # dir_1/dir_2
 
-
 # ==============================================================================================
 # 13. Using os.path.commonprefix() to find the common prefix of paths
 # ==============================================================================================
@@ -231,7 +219,6 @@ print(common_path)  # dir_1/dir_2
 
 common_prefix = os.path.commonprefix(['dir_1/dir_2/file.txt', 'dir_1/dir_2/dir_3/file.txt'])
 print(common_prefix)  # dir_1/dir_2/
-
 
 # ==============================================================================================
 # 14. Using os.path.sep and os.path.altsep to understand path separators
@@ -251,7 +238,6 @@ print(os.path.sep)  # / on Unix-like systems, \ on Windows
 
 print(os.path.altsep)  # None on Unix-like systems, / on Windows
 
-
 # ==============================================================================================
 # 15. Using os.path.curdir and os.path.pardir for current and parent directories
 # ==============================================================================================
@@ -270,7 +256,6 @@ print(os.path.curdir)  # .
 
 print(os.path.pardir)  # ..
 
-
 # ==============================================================================================
 # 16. Using os.path.islink() to check for symbolic links
 # ==============================================================================================
@@ -286,7 +271,6 @@ os.symlink(src="./Curriculum.txt", dst="symlink_to_curriculum.txt")
 is_link = os.path.islink('./symlink_to_curriculum.txt')
 print(is_link)  # True
 
-
 # ==============================================================================================
 # 17. Using os.walk() to traverse directories
 # ==============================================================================================
@@ -300,7 +284,6 @@ for each directory in the tree rooted at the specified directory.
 print(os.walk('/home/longdpt/Academic/DataScience_MachineLearning/01_Python_Basic'))
 # <generator object walk at 0x7f1a1fd5b290>
 # Not the content of the dir, only the generator object.
-
 
 
 ## Exmaple to use os.walk() to print all files in a directory tree ##
@@ -345,7 +328,6 @@ for dirpath, dirnames, filenames in os.walk(path_to_traverse):
 # File: write_dictionary.csv
 # ---
 
-
 # ==============================================================================================
 # 18. Using os.path.getsize() to get the size of a file
 # ==============================================================================================
@@ -353,7 +335,6 @@ for dirpath, dirnames, filenames in os.walk(path_to_traverse):
 
 file_size = os.path.getsize('./01_Python_Basic/01_print_end_sep_termcolor.py')
 print(file_size) # 5158 (bytes) (convert to GB by dividing by 1024**3)
-
 
 # ==============================================================================================
 # 19. Using os.path.getmtime() to get the last modification time of a file
@@ -363,13 +344,11 @@ print(file_size) # 5158 (bytes) (convert to GB by dividing by 1024**3)
 last_mod_time = os.path.getmtime('./01_Python_Basic/01_print_end_sep_termcolor.py')
 print(last_mod_time)  # 1766041388.2355113 (timestamp)
 
-
 # Convert the timestamp to a human-readable format
 import datetime
 
 last_mod_time_human = datetime.datetime.fromtimestamp(last_mod_time)
 print(last_mod_time_human)  # 2025-12-18 16:03:08.235511
-
 
 # ==============================================================================================
 # 20. Using os.path.getatime() to get the last access time of a file
@@ -379,11 +358,9 @@ print(last_mod_time_human)  # 2025-12-18 16:03:08.235511
 last_access_time = os.path.getatime('./01_Python_Basic/01_print_end_sep_termcolor.py')
 print(last_access_time)  # 1771156240.955581 (timestamp)
 
-
 # Convert the timestamp to a human-readable format
 last_access_time_human = datetime.datetime.fromtimestamp(last_access_time)
 print(last_access_time_human)  # 2026-02-15 20:50:40.955581
-
 
 # ==============================================================================================
 # 21. Using os.path.getctime() to get the creation time of a file
@@ -393,11 +370,9 @@ print(last_access_time_human)  # 2026-02-15 20:50:40.955581
 creation_time = os.path.getctime('./01_Python_Basic/01_print_end_sep_termcolor.py')
 print(creation_time)  # 1766041388.2355113 (timestamp)
 
-
 # Convert the timestamp to a human-readable format
 creation_time_human = datetime.datetime.fromtimestamp(creation_time)
 print(creation_time_human)  # 2025-12-18 16:03:08.235511
-
 
 # ==============================================================================================
 # 22. Using os.path.samefile() to check if two paths point to the same file
@@ -408,7 +383,6 @@ same_file = os.path.samefile('./01_Python_Basic/01_print_end_sep_termcolor.py',
                              '/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/01_print_end_sep_termcolor.py')
 print(same_file)
 # True (if both paths point to the same file)
-
 
 print(os.path.samefile('./vscode_install_settings.txt', 'Libraries_Installation.txt'))
 # False (if the files are different or do not exist)

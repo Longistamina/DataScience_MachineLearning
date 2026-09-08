@@ -39,7 +39,6 @@ print(matrix)
 #  [46 60 48 78 57 43 64 53]
 #  [48 65 41 59 67 46 47 74]]
 
-
 # =========================================================================================
 # 0. Mask: a boolean array created using a condition
 # =========================================================================================
@@ -67,7 +66,6 @@ element in the original matrix satisfies the given condition (True) or not (Fals
 
 NOTE: When used for indexing, it flattens the result into a 1D array.
 '''
-
 
 # =========================================================================================
 # 1. Single Condition Examples: np.isin()
@@ -144,7 +142,6 @@ print(matrix[mask_isin])
 print(matrix[np.isin(matrix, [51, 77, 70], invert=True)][:20])
 # [78 68 54 47 60 78 58 62 50 50 63 75 79 63 42 61 41 63 69 41]
 
-
 # =========================================================================================
 # 2. Negation of Condition: ~ (tilde) operator
 # =========================================================================================
@@ -156,7 +153,6 @@ print(matrix[~(matrix >= 60)])
 print(matrix[~np.isin(matrix, [51, 72, 77])][:20])
 # [78 68 54 47 60 78 58 62 50 50 63 75 79 63 42 61 41 63 69 41]
 '''Values that are NOT in the list [51, 72, 77]'''
-
 
 # =========================================================================================
 # 3. Combine Multiple Conditions: & (and), | (or)
@@ -182,7 +178,6 @@ print(matrix[(matrix < 45) | (matrix > 75)])
 
 print(matrix[((matrix >= 70) & (matrix <= 75)) | (matrix == 42)])
 # [75 42 72 42 74]
-
 
 # =========================================================================================
 # 4. Boolean Compression: arr.compress(mask)
@@ -239,7 +234,6 @@ print(matrix.compress(row_mask, axis=0))
 #  [41 63 69 77 41 60 72 51]
 #  [61 64 66 67 55 54 42 76]]
 '''These are the 4 rows where the horizontal sum is greater than 460.'''
-
 
 # =========================================================================================
 # 5. Row and Column Filtering (np.any() and np.all())
@@ -377,7 +371,6 @@ print(matrix[[True, False, True, False, True, False]]) # Same outcome, no need t
 # [[78 68 54 47 60 78 58 62]
 #  [41 63 69 77 41 60 72 51]
 #  [46 60 48 78 57 43 64 53]]
-
 
 # =========================================================================================
 # 6. Examples for 3D and 4D matrices

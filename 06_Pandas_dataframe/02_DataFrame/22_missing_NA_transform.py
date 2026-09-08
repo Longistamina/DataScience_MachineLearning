@@ -91,7 +91,6 @@ print(df_mkt.info())
 # dtypes: category(2), float64(23), int64(1)
 # memory usage: 32.2 KB
 
-
 # =========================================================================================
 # 1. Detect missing values
 # =========================================================================================
@@ -219,7 +218,6 @@ print(df_mkt.info())
 # dtypes: category(2), float64(23), int64(1)
 # memory usage: 32.2 KB
 
-
 # =========================================================================================
 # 2. Detect non-missing values
 # =========================================================================================
@@ -308,7 +306,6 @@ print(df_mkt.notnull().sum())
 # share_of_spend               116
 # dtype: int64
 
-
 # =========================================================================================
 # 3. Drop missing values along columns
 # =========================================================================================
@@ -370,7 +367,6 @@ print(
 # 4   23  2010         32.37             7.70                    7.78  ...          NaN    NaN          NaN         NaN             NaN
 
 # [5 rows x 19 columns]
-
 
 # =========================================================================================
 # 4. Drop missing values along rows
@@ -461,7 +457,6 @@ print(
 )
 # (123, 19)
 '''Here 33 rows are dropped because they have missing values in the 'top_of_mind' or 'spontaneous' columns.'''
-
 
 # =========================================================================================
 # 5. Fill missing values
@@ -568,7 +563,6 @@ print(s_misisng.bfill())
 # 5    7.0
 # 6    7.0
 # dtype: float64
-
 
 # =========================================================================================
 # 6. Interpolate missing values
@@ -695,7 +689,6 @@ print(df_interpolated_nearest.isna().sum().pipe(lambda x: x[x > 0]))
 # dtype: int64
 '''Only fills missing values between two non-missing values, ignore the boundary missing values'''
 
-
 # =========================================================================================
 # 7. Conditional filling
 # =========================================================================================
@@ -732,7 +725,6 @@ print(df_filled.isna().sum())
 # share_of_spend               0
 # dtype: int64
 '''All missing values are filled'''
-
 
 # =========================================================================================
 # 8. Group-based filling, transform

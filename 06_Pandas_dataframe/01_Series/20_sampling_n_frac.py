@@ -82,7 +82,6 @@ print(s_age)
 # p10    32.01
 # Name: age, dtype: float64
 
-
 # =========================================================================================
 # 2. s.sample(n=..., random_state=...)
 # =========================================================================================
@@ -115,7 +114,6 @@ s_sample_one = s_players.sample(random_state=42)
 print(s_sample_one)
 # p09    Wilson
 # Name: player, dtype: object
-
 
 # =========================================================================================
 # 3. s.sample(frac=..., random_state=...)
@@ -154,7 +152,6 @@ Choose either:
 + n=... for an exact number of values
 + frac=... for a proportion of the Series
 '''
-
 
 # =========================================================================================
 # 4. Sampling with replacement / oversampling
@@ -206,7 +203,6 @@ print(s_sample_replace_frac)
 print(len(s_sample_replace_frac))
 # 15
 
-
 # =========================================================================================
 # 5. Shuffle all values with frac=1
 # =========================================================================================
@@ -242,7 +238,6 @@ print(s_train)
 print(s_test)
 # last 2 shuffled values
 
-
 # =========================================================================================
 # 6. Preserve or reset index labels with ignore_index=
 # =========================================================================================
@@ -270,7 +265,6 @@ print(s_sample_reset_index)
 # 2     Brian
 # 3      Adam
 # Name: player, dtype: object
-
 
 # =========================================================================================
 # 7. Weighted sampling with weights=
@@ -321,7 +315,6 @@ If replace=False, pandas does not allow an impossible or biased weighted sample.
 For example, asking for too many values when one item has nearly all the weight can raise an error.
 '''
 
-
 # =========================================================================================
 # 8. SeriesGroupBy.sample(...)
 # =========================================================================================
@@ -346,7 +339,6 @@ print(s_group_sample)
 s_group_sample_frac = s_players.groupby(s_position).sample(frac=0.50, random_state=42)
 print(s_group_sample_frac)
 # One half of each group, rounded according to pandas group sampling behavior.
-
 
 # =========================================================================================
 # 10. Quick summary

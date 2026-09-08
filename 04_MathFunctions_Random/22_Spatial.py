@@ -129,7 +129,6 @@ pts_2d  = rng.uniform(0, 10, (20, 2))     # 20 random 2-D points
 pts_3d  = rng.uniform(0, 10, (30, 3))     # 30 random 3-D points
 pts_unit = pts_3d / np.linalg.norm(pts_3d, axis=1, keepdims=True)  # on unit sphere
 
-
 # =========================================================================================
 #  PART A — ROTATION  (scipy.spatial.transform) 
 # =========================================================================================
@@ -207,7 +206,6 @@ r_rnd = Rotation.random(5, random_state=rng)         # 5 uniformly random rotati
 print(f"Random rotation magnitudes: {r_rnd.magnitude().round(3)}")
 # Random rotation magnitudes: [1.427 2.02  1.288 2.918 2.887]
 
-
 # ── Conversion between representations ───────────────────────────────────────
 
 r_test = Rotation.from_euler('xyz', [30, 45, 60], degrees=True)
@@ -224,7 +222,6 @@ print("as_euler() :", e_out.round(2))        # [30. 45. 60.]
 # Round-trip: euler -> matrix -> euler should recover original angles
 r_rt = Rotation.from_matrix(r_test.as_matrix())
 print(np.allclose(r_rt.as_euler('xyz', degrees=True), [30, 45, 60]))   # True
-
 
 # ── Applying rotations ────────────────────────────────────────────────────────
 '''
@@ -258,7 +255,6 @@ v_single = np.array([1.0, 0.0, 0.0])
 results = r_stack.apply(v_single)   # shape (3, 3): one result per rotation
 print("Stacked apply results shape:", results.shape)   # (3, 3)
 
-
 # ── Composition, magnitude, mean ─────────────────────────────────────────────
 '''
 r1 * r2           : compose rotations (apply r2 first, then r1).
@@ -282,7 +278,6 @@ print(f"Mean angle: {r_mean.as_euler('zyx', degrees=True)[0]:.2f}°")   # ≈ 10
 # Concatenate stacked rotations
 r_all = Rotation.concatenate([r_a, r_b, r_composed])
 print(f"Concatenated length: {len(r_all)}")   # 3
-
 
 # =========================================================================================
 #  PART B — ROTATION INTERPOLATION  (scipy.spatial.transform) 
@@ -360,7 +355,6 @@ print("Max |α| :", np.linalg.norm(alpha, axis=1).max().round(4)) # 7.293
 # Spline passes through key frames exactly
 print(np.allclose(rs(key_times).as_euler('xyz', degrees=True),
                   key_rots_3d.as_euler('xyz', degrees=True), atol=1e-10))   # True
-
 
 # =========================================================================================
 #  PART C — KD-TREE  (scipy.spatial) 
@@ -557,7 +551,6 @@ print(f"Density                     : {sp_dm.nnz / (len(pts_2d)**2):.3f}") # 0.1
 # Convert to CSR for efficient arithmetic
 sp_csr = sp_dm.tocsr()
 
-
 # =========================================================================================
 #  PART D — DELAUNAY TRIANGULATION 
 # =========================================================================================
@@ -676,7 +669,6 @@ tsearch(tri, xi) -> int array
 xi_test = np.array([[4.0, 4.0], [6.0, 6.0]])
 print("tsearch:", tsearch(tri, xi_test))   # [1, 6] same as find_simplex
 
-
 # =========================================================================================
 #  PART E — CONVEX HULL 
 # =========================================================================================
@@ -748,7 +740,6 @@ print(f"Far point outside    : {point_in_hull(p_outside_2d, hull_2d)}")   # Fals
 hull_incr = ConvexHull(pts_2d[:10], incremental=True)
 hull_incr.add_points(pts_2d[10:])
 print(f"Incremental hull area: {hull_incr.volume:.4f}")   # 59.6168
-
 
 # =========================================================================================
 #  PART F — VORONOI DIAGRAMS 
@@ -838,7 +829,6 @@ print(f"SphericalVoronoi: {len(pts_unit)} points -> {len(sv.vertices)} vertices"
 print(f"Total area = {areas.sum():.6f}, 4π = {4*np.pi:.6f}") # should match
 print(f"Mean cell area: {areas.mean():.4f} = 4π/{len(pts_unit)} = {4*np.pi/len(pts_unit):.4f}") # Mean cell area: 0.4189 = 4π/30 = 0.4189
 
-
 # =========================================================================================
 #  PART G — HALFSPACE INTERSECTION 
 # =========================================================================================
@@ -892,7 +882,6 @@ halfspaces_3d = np.array([
 ])
 hs_3d = HalfspaceIntersection(halfspaces_3d, np.array([0., 0., 0.]))
 print(f"Cube intersection vertices: {len(hs_3d.intersections)} (expect 8)") # 8
-
 
 # =========================================================================================
 #  PART H — UTILITY FUNCTIONS  (scipy.spatial) 
@@ -1032,7 +1021,6 @@ print("Element-wise L1:", minkowski_distance(a_pairs, b_pairs, p=1).round(4))
 print("Squared L2      :", minkowski_distance_p(a_pairs, b_pairs, p=2).round(4))
 # [1.  1.  4.]  -- no sqrt
 
-
 # =========================================================================================
 #  PART I — PAIRWISE DISTANCE COMPUTATION  (scipy.spatial.distance) 
 # =========================================================================================
@@ -1161,7 +1149,6 @@ from scipy.cluster.hierarchy import fcluster, linkage
 Z = linkage(Y_cond, method='ward')
 labels = fcluster(Z, t=3, criterion='maxclust')   # 3 clusters
 print("Cluster labels:", labels) # [3 2 2 3 1 1]
-
 
 # =========================================================================================
 #  PART J — CONTINUOUS VECTOR DISTANCES 
@@ -1310,7 +1297,6 @@ B_haus = rng.uniform(0.5, 1.5, (50, 3))
 d_AB = max(directed_hausdorff(A_haus, B_haus)[0], directed_hausdorff(B_haus, A_haus)[0])
 print(f"Random set Hausdorff: {d_AB:.4f}")
 # Random set Hausdorff: 0.8342
-
 
 # =========================================================================================
 #  PART K — BOOLEAN / SET DISTANCES 

@@ -12,7 +12,6 @@ for i in range(10):
     print(str(i).center(12))
     time.sleep(0.5)
 
-
 # Output: 0 1 2 3 4
 
 ##-----------------------##
@@ -27,7 +26,6 @@ for i in range(10):
             break
         print("j", j)
 # Only breaks the inner loop, does not affect the outer loop
-
 
 # ==============================================================================================
 # continue
@@ -45,7 +43,6 @@ for i in range(10):
     time.sleep(0.5)
 
 # Output: 1 3 5 7 9
-
 
 # ==============================================================================================
 # pass

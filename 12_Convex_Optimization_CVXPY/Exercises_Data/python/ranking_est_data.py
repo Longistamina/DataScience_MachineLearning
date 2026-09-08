@@ -2,9 +2,7 @@
 ### THE PROJECTION FUNCTION Pi()
 ### YOU DO NOT NEED TO READ THIS FILE TO DO THE PROBLEM
 
-
 import numpy as np
-
 
 def Pi(y):
     """Returns the rakning of the argument.

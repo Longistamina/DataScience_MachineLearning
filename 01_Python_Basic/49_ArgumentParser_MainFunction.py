@@ -31,7 +31,6 @@ The Three-Step Process
 | allow_abbrev    | bool  | Allow abbreviation of long options  | True                    |
 '''
 
-
 # ==============================================================================================
 # Define functional functions
 # ==============================================================================================
@@ -39,7 +38,6 @@ The Three-Step Process
 from pathlib import Path
 
 from loguru import logger
-
 
 def rectangle_perimeter(length, width):
     """Calculate the perimeter of a rectangle."""
@@ -56,14 +54,12 @@ def rectangle_perimeter(length, width):
     else:
         return 2 * (length + width)
 
-
 def rectangle_area(length, width):
     """Calculate the area of a rectangle."""
     # Don't need to check the length and width's constrains, since the perimeter function has already done that
     length = float(length)
     width = float(width)
     return length * width
-
 
 def save_results(out_message, filepath):
     """Save the results to a file."""
@@ -76,7 +72,6 @@ def save_results(out_message, filepath):
         with open(filepath, 'w') as file: # Save the results to the specified file
             file.write(out_message)
         logger.info(f"Results saved to {filepath}")
-
 
 # ==============================================================================================
 # Create ArgumentParser object
@@ -113,7 +108,6 @@ def parse_args():
 # type=str means that the argument MUST be a string
 # default="" means that if the user doesn't provide this argument, an empty string will be parsed as default value
 # help="..." is the description of the argument that will be shown in the help message
-
 
 # ==============================================================================================
 # Define main() function
@@ -153,7 +147,6 @@ def main():
     except Exception as e:
         logger.error(e)
         return None
-
 
 # ==============================================================================================
 # Run the main() function

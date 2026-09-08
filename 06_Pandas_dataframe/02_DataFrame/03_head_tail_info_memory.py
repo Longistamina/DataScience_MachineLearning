@@ -20,7 +20,6 @@ df_medals = pd.read_csv(
     skiprows = 4
 )
 
-
 # =========================================================================================
 # 1. df.head()
 # =========================================================================================
@@ -41,7 +40,6 @@ df_medals.head(3)
 # 1  1924  Chamonix  Skating  Figure skating  AUT  individual            W    Gold
 # 2  1924  Chamonix  Skating  Figure skating  AUT       pairs            X    Gold
 
-
 # =========================================================================================
 # 2. df.tail()
 # =========================================================================================
@@ -61,7 +59,6 @@ df_medals.tail(3)
 # 2308  2006  Turin  Skiing  Snowboard  USA        Half-pipe            W  Silver
 # 2309  2006  Turin  Skiing  Snowboard  USA  Snowboard Cross            M    Gold
 # 2310  2006  Turin  Skiing  Snowboard  USA  Snowboard Cross            W  Silver
-
 
 # =========================================================================================
 # 3. Memory and Performance

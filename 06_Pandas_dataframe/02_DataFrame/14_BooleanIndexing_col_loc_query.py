@@ -78,7 +78,6 @@ print(df_pokemon['Generation'])
 # Name: Generation, Length: 800, dtype: category
 # Categories (6, object): ['1' < '2' < '3' < '4' < '5' < '6']
 
-
 # =========================================================================================
 # 1. Single Condition Examples
 # =========================================================================================
@@ -119,7 +118,6 @@ print(df_pokemon[df_pokemon["Defense"] < df_pokemon["Attack"]*0.5]) # Defense le
 # 44                Jigglypuff    Normal   Fairy    270  115      45       20      45      25     20          1      False
 # 55                   Diglett    Ground     NaN    265   10      55       25      35      45     95          1      False
 # 61                    Mankey  Fighting     NaN    305   40      80       35      35      45     70          1      False
-
 
 '''
 THE SAME FOR ">=" (greater or equal) and "<=" (less or equal)
@@ -249,7 +247,6 @@ print(df_emp[df_emp['start_date'].dt.is_leap_year]) # start_date is in a leap ye
 #    id  name  salary start_date dept
 # 0   1  Rick   623.3 2012-01-01   IT
 
-
 # =========================================================================================
 # 2. Negation of Condition: ~ (tilde) operator
 # =========================================================================================
@@ -285,7 +282,6 @@ print(df_pokemon[~df_pokemon['Type_2'].isin(["Ground", "Ghost"])]) # Type_2 not 
 # 799              Volcanion     Fire   Water    600   80     110      120     130      90     70          6       True
 
 # [751 rows x 12 columns]
-
 
 # =========================================================================================
 # 3. Combine Multiple Conditions: & (and), | (or)
@@ -359,7 +355,6 @@ print(df_pokemon[((df_pokemon['Type_1'] == 'Fire') | (df_pokemon['Type_1'] == 'W
 # 561                   Dewott  Water       NaN    413   75      75       60      83      60     60          5      False
 # 562                 Samurott  Water       NaN    528   95     100       85     108      70     70          5      False
 
-
 # =========================================================================================
 # 4. Using pd.col() or c() for faster access to columns for querying
 # =========================================================================================
@@ -394,7 +389,6 @@ print(df_pokemon[c("Type_2").isin(["Ground", "Ghost"]) & (c("HP") > 100)]) # Typ
 # 597             Seismitoad   Water  Ground    509  105      95       75      85      75     74          5      False
 # 794       Zygarde50% Forme  Dragon  Ground    600  108     100      121      81      95     95          6       True
 
-
 # =========================================================================================
 # 5. Using .loc[] for Boolean Filtering within specific columns
 # =========================================================================================
@@ -418,7 +412,6 @@ print(df_pokemon.loc[~df_pokemon['Type_2'].isin(["Ground", "Ghost"]), ["Name", "
 # 796    DiancieMega Diancie   Fairy          6
 # 798     HoopaHoopa Unbound    Dark          6
 # 799              Volcanion   Water          6
-
 
 # =========================================================================================
 # 6. Using .query() for Boolean Filtering

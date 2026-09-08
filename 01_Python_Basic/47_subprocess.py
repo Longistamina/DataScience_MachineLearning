@@ -11,7 +11,6 @@ The subprocess module provides several functions and classes to work with subpro
 # subprocess.run() - Recommended for most use cases. Runs a command and waits for it to complete (Python 3.5+).
 # subprocess.Popen() - Advanced class for more complex subprocess management with fine-grained control.
 
-
 Important parameters for subprocess.run():
 # args - Command to execute (list or string).
 # capture_output - If True, captures stdout and stderr (Python 3.7+).
@@ -261,7 +260,6 @@ except subprocess.CalledProcessError as e:
 # Command failed with return code 2
 # Error output: ls: cannot access 'nonexistent_file': No such file or directory
 
-
 # ==============================================================================================
 # Working with input/output
 # ==============================================================================================
@@ -433,7 +431,6 @@ txt_files = [line for line in lines if line.endswith('.txt')]
 print(txt_files)
 # ['Curriculum.txt', 'Libraries_Installation.txt', 'vscode_install_settings.txt']
 
-
 # ==============================================================================================
 # Advanced subprocess.Popen()
 # ==============================================================================================
@@ -447,7 +444,6 @@ subprocess.Popen() provides more control than subprocess.run():
 
 subprocess.run(['sleep', '3'])  # Blocking version for comparison
 print("Waited for sleep to finish")
-
 
 ##-------------------------##
 ## Creating a Popen object ##
@@ -613,7 +609,6 @@ process.send_signal(signal.SIGTERM)
 process.wait()
 print("Custom signal sent")
 
-
 # ==============================================================================================
 # Error handling and security
 # ==============================================================================================
@@ -719,7 +714,6 @@ import shlex
 
 filename = "user file.txt"
 result = subprocess.run(f'cat {shlex.quote(filename)}', shell=True, capture_output=True)  # Safe
-
 
 # ==============================================================================================
 # Advanced patterns

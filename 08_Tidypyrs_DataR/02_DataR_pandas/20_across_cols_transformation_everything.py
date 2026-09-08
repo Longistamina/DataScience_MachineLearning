@@ -56,7 +56,6 @@ print(
 # 3  VenusaurMega Venusaur    Grass   Poison     625      80     100      123     122     120      80           1      False
 # 4             Charmander     Fire      NaN     309      39      52       43      60      50      65           1      False
 
-
 # =========================================================================================
 # 1. dr.across() with dr.mutate()
 # =========================================================================================
@@ -64,7 +63,6 @@ print(
 ##-------------------------------------------------------##
 ## dr.across(f.col1 | f.col2) to modify specific columns ##
 ##-------------------------------------------------------##
-
 
 # ## Use dr.across(f.col1 | f.col2) to lowercase
 # 
@@ -228,7 +226,6 @@ print(
 # 3  VenusaurMega Venusaur    Grass   Poison      625       80      100      123      122      120       80          1     False
 # 4             Charmander     Fire      nan      309       39       52       43       60       50       65          1     False
 
-
 # =========================================================================================
 # 2. dr.across() with dr.summarise()
 # =========================================================================================
@@ -306,7 +303,6 @@ print(
 #      Name  Type_1  Type_2   Total      HP  Attack  Defense  Sp_Atk  Sp_Def   Speed  Generation  Legendary
 #   <int64> <int64> <int64> <int64> <int64> <int64>  <int64> <int64> <int64> <int64>     <int64>    <int64>
 # 0     800      18      19     200      94     111      103     105      92     108           6          2
-
 
 # =========================================================================================
 # 3. dr.across() with dr.reframe()

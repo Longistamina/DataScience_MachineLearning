@@ -11,7 +11,6 @@ print("Subtract x - y =", x - y)
 print("Multiplication x * y =", x * y)
 print("Division x / y =", x / y)
 
-
 # ==============================================================================================
 # 2. eval()
 # ==============================================================================================
@@ -55,7 +54,6 @@ type_k = type_abc = {type(k)}
 
 k = eval('xyz')
 '''Raise error because eval considers this abc as an undefined variable'''
-
 
 # ==============================================================================================
 # 3. combine ``input()`` and ``eval()``

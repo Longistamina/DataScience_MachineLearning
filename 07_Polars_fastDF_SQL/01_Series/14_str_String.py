@@ -53,7 +53,6 @@ print(s_nums.cast(pl.String))
 # 	"5"
 # ]
 
-
 # =========================================================================================
 # 1. Slicing and Indexing
 # =========================================================================================
@@ -92,7 +91,6 @@ Instead, use `.str.slice(index, 1)` or extract via regex.
 print(s_heroes.str.slice(0, 1)) # First character
 # ["T", "S", "B", "P"]
 
-
 # =========================================================================================
 # 2. Basic Transformations
 # =========================================================================================
@@ -127,7 +125,6 @@ s_spaced = pl.Series(['  hello  ', '  pandas  ', '  data science  '])
 print(s_spaced.str.strip_chars())       # Equivalent to .strip()
 print(s_spaced.str.strip_chars_start()) # Equivalent to .lstrip()
 print(s_spaced.str.strip_chars_end())   # Equivalent to .rstrip()
-
 
 # =========================================================================================
 # 3. Checking methods
@@ -166,7 +163,6 @@ print(s_start.str.ends_with('t'))
 s_contain = pl.Series(['Mouse', 'dog', 'house and parrot', '23', None])
 print(s_contain.str.contains('og', literal=True))
 print(s_contain.str.contains(r'\d|parrot|Mo', literal=False)) # Regex pattern
-
 
 # =========================================================================================
 # 4. Split and List Indexing
@@ -222,7 +218,6 @@ print(
 # │ null                 ┆ null   ┆ null   ┆ null       │
 # └──────────────────────┴────────┴────────┴────────────┘
 
-
 # =========================================================================================
 # 5. Concatenation
 # =========================================================================================
@@ -242,7 +237,6 @@ print(pl.select(pl.concat_str([s1, s2], separator='_'))) # pl.concat_str([s1, s2
 s_lists = pl.Series([['apple', 'banana'], ['dog', 'cat']])
 print(s_lists.list.join('-'))
 # ["apple-banana", "dog-cat"]
-
 
 # =========================================================================================
 # 6. Replacement, Removal, Repeat
@@ -276,7 +270,6 @@ print(s_prefix.str.strip_prefix('pre_'))
 
 s_suffix = pl.Series(['apple_suf', 'banana_suf', 'dog'])
 print(s_suffix.str.strip_suffix('_suf'))
-
 
 # =========================================================================================
 # 7. RegEx, Matching, Finding, Extracting
@@ -325,7 +318,6 @@ print(
 s_extall = pl.Series(["a2a4", "b63", "ccc"])
 print(s_extall.str.extract_all(r'[ab]\d'))
 # [["a2", "a4"], ["b6"], []]
-
 
 # =========================================================================================
 # 8. Prefix, Suffix, Padding and Alignment
@@ -418,7 +410,6 @@ print(pl.Series(['1', '22', '333']).str.zfill(5))
 
 # Note: Polars does not have a native .center() method.
 
-
 # =========================================================================================
 # 9. Categorical Encoding
 # =========================================================================================
@@ -460,7 +451,6 @@ print(s_gender.to_dummies(separator="gender_"))
 # │ 1         ┆ 0          ┆ 0            │
 # │ 0         ┆ 1          ┆ 0            │
 # ...
-
 
 # =========================================================================================
 # 10. Real applications

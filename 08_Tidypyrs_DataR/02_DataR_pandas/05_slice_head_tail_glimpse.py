@@ -60,7 +60,6 @@ print(
 #     <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
 # 0  Bulbasaur      Grass     Poison     318      45      49       49      65      65      45          1      False
 
-
 # =========================================================================================
 # 2. dr.slice_tail()
 # =========================================================================================
@@ -90,7 +89,6 @@ print(
 
 # #               <object> <category> <category> <int64> <int64> <int64>  <int64> <int64> <int64> <int64> <category>     <bool>
 # 721            Volcanion       Fire      Water     600      80     110      120     130      90      70          6       True
-
 
 # =========================================================================================
 # 3. dr.glimpse()

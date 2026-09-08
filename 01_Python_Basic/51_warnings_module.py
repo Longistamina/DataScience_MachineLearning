@@ -59,7 +59,6 @@ warnings.filterwarnings("ignore")
 => This will ignore all warnings, regardless of their category or message content.
 '''
 
-
 # ==============================================================================================
 # 1. Issue a Warning
 # ==============================================================================================
@@ -86,7 +85,6 @@ warnings.warn("This is a deprecation warning.", DeprecationWarning)
 
 warnings.warn("This is a runtime warning.", RuntimeWarning)
 # <stdin>:1: RuntimeWarning: This is a runtime warning
-
 
 # ==============================================================================================
 # 2. List of all Warning Categories
@@ -115,7 +113,6 @@ BytesWarning: Warns about issues related to byte and bytearray operations.
 ResourceWarning: Warns about resource usage issues, such as unclosed files.
 '''
 
-
 # ==============================================================================================
 # 3. Create a Custom Warning using class
 # ==============================================================================================
@@ -126,7 +123,6 @@ class DataQualityWarning(UserWarning):
 
 warnings.warn("Data quality issue detected.", DataQualityWarning)
 # <stdin>:1: DataQualityWarning: Data quality issue detected.
-
 
 # ==============================================================================================
 # 4. Control Warning Behavior

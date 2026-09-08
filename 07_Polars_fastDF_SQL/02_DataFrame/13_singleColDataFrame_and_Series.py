@@ -1,7 +1,6 @@
 '''
 Sometime, the dataframe workflow results in a single-column dataframe, like this:
 
-
 Though it has only one column, its type is still polars.DataFrame, not polars.Series.
 So if you mistake a single-column dataframe with a series, and you try to use series method,
 it could lead to errors.
@@ -46,7 +45,6 @@ print(df_emp)
 # │ 7   ┆ Simon    ┆ 632.8  ┆ 2013-07-30 ┆ Operations │
 # │ 8   ┆ Guru     ┆ 722.5  ┆ 2014-06-17 ┆ Finance    │
 # └─────┴──────────┴────────┴────────────┴────────────┘
-
 
 # =========================================================================================
 # 1. Single-column DataFrame (2D) vs Series (1D)
@@ -122,7 +120,6 @@ print(s_name)
 # 	"Guru"
 # ]
 '''NOTE: only works with eager dataframe, not lazyframe'''
-
 
 # =========================================================================================
 # 2. Convert single-column DataFrame to a Series

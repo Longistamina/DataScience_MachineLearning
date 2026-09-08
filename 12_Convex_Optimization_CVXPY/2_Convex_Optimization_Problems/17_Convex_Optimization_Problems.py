@@ -65,7 +65,6 @@ Brief explanations:
     - Degeneracy occurs when multiple constraints are active at optimal vertex
     - Unbounded problems have no finite optimal value in the objective direction
 
-
 ================================================================================
 Linear-fractional program
 ================================================================================
@@ -519,7 +518,6 @@ Brief explanations:
     - Varying λ over the positive cone can recover (almost) all supported Pareto points in convex problems  
     - Unsupported (non-convex) portions of the Pareto frontier require other methods (ε-constraint, Benson’s algorithm)  
     - Weighted sum is simple to implement and leverages standard single-objective solvers  
-
 
 ================================================================================
 Scalarization for Multicriterion Problems (Example)

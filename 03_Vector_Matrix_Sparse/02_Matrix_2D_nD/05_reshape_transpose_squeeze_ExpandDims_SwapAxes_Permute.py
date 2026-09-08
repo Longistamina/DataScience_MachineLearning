@@ -186,7 +186,6 @@ print(flat_vector.ndim)  # 1 (1D vector)
 print(np.reshape(matrix, (5, 4)))
 # Works similarly to arr.reshape(newshape)
 
-
 # =========================================================================================
 # 2. Flatten and Ravel: convert back to 1D vector
 # =========================================================================================
@@ -231,7 +230,6 @@ print(np.shares_memory(matrix2, raveled))  # True whenever possible
 raveled_np = np.ravel(matrix2)
 print(raveled_np)
 # Works similarly to arr.ravel()
-
 
 # =========================================================================================
 # 3. arr.resize(dimension): similar to reshape
@@ -318,7 +316,6 @@ print(np.resize(matrix4, (3, 8)))
 print(matrix4)
 # original matrix4 is unchanged
 
-
 # =========================================================================================
 # 4. arr.transpose() or arr.T: Transpose the array
 # =========================================================================================
@@ -364,7 +361,6 @@ print(np.transpose(matrix5))
 #  [ 2 10  5]
 #  [ 9  8 19]]
 # same result as arr.T or arr.transpose()
-
 
 # =========================================================================================
 # 5. Squeeze: remove 1-sized dims
@@ -449,7 +445,6 @@ print(mat_2x3)
 print(mat_2x3.squeeze())
 # [[1 2 3]
 #  [4 5 6]]
-
 
 # =========================================================================================
 # 6. np.expand_dims: expand shape by inserting new axis
@@ -606,7 +601,6 @@ print(matrix6[..., None]) # same as arr[:, :, np.newaxis]
 #   [17]
 #   [ 8]]]
 
-
 # =========================================================================================
 # 7. np.swapaxes(): swap two axes
 # =========================================================================================
@@ -705,7 +699,6 @@ print(swapped_3d_method)
 print(swapped_3d_method.shape)
 # (2, 4, 3)
 '''from (2, 3, 4) to (2, 4, 3), only axes 1 and 2 are swapped.'''
-
 
 # =========================================================================================
 # 8. np.permute_dims(): permute axes

@@ -25,7 +25,6 @@ pl.Config.set_tbl_rows(12)
 pl.Config.set_tbl_cols(12)
 pl.Config.set_float_precision(4)
 
-
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 
 lf_baseball = pl.scan_csv(
@@ -47,7 +46,6 @@ print(lf_baseball.head(3).collect())
 
 print(lf_baseball.collect().schema)
 # Schema({'Name': String, 'Team': Categorical, 'Height': Int64, 'Weight': Int64})
-
 
 # =========================================================================================
 # 1. Polars equivalent of df["col_name"] = ...
@@ -232,7 +230,6 @@ print(lf_demo.head(3).collect())
 # │ Paul_Bako       ┆ BAL  ┆ 74     ┆ 215    ┆ 1.8796   ┆ 97.5223   ┆ 27.6041 │
 # │ Ramon_Hernandez ┆ BAL  ┆ 72     ┆ 210    ┆ 1.8288   ┆ 95.2543   ┆ 28.4808 │
 # └─────────────────┴──────┴────────┴────────┴──────────┴───────────┴─────────┘
-
 
 # =========================================================================================
 # 2. Polars equivalent of df.assign()
@@ -456,7 +453,6 @@ lf_demo = lf_baseball.with_columns(
 print(lf_demo.head(3).collect())
 # shape: (3, 5)
 # columns: Name, Team, Height, Weight, height_to_weight_ratio
-
 
 # =========================================================================================
 # 3. Quick summary

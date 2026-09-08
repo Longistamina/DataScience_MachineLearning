@@ -131,7 +131,6 @@ pd.plotting.scatter_matrix(
 plt.title("Scatter Matrix with KDE on Diagonal")
 plt.show()
 
-
 # =========================================================================================
 # 2. pd.plotting.andrews_curves()
 # =========================================================================================
@@ -162,7 +161,6 @@ pd.plotting.andrews_curves(
 )
 plt.title("Andrews Curves of Pokémon by Type 1")
 plt.show()
-
 
 # =========================================================================================
 # 3. pd.plotting.parallel_coordinates()
@@ -200,7 +198,6 @@ pd.plotting.parallel_coordinates(
 plt.title("Parallel Coordinates Plot of Pokémon by Type 1")
 plt.show()
 
-
 # =========================================================================================
 # 4. pd.plotting.radviz()
 # =========================================================================================
@@ -230,7 +227,6 @@ pd.plotting.radviz(
 )
 plt.title("Radviz Plot of Pokémon by Type 1")
 plt.show()
-
 
 # =========================================================================================
 # 5. pd.plotting.lag_plot()
@@ -262,7 +258,6 @@ plt.title("Lag Plot of NO2 Levels in Paris (Lag=1)")
 plt.xlabel("NO2 Level at time t")
 plt.show()
 
-
 # =========================================================================================
 # 6. pd.plotting.autocorrelation_plot()
 # =========================================================================================
@@ -289,7 +284,6 @@ pd.plotting.autocorrelation_plot(
 )
 plt.title("Autocorrelation Plot of NO2 Levels in Paris")
 plt.show()
-
 
 # =========================================================================================
 # 7. pd.plotting.bootstrap_plot()
@@ -321,7 +315,6 @@ pd.plotting.bootstrap_plot(
 )
 plt.title("Bootstrap Plot of NO2 Levels in Paris")
 plt.show()
-
 
 # =========================================================================================
 # 8. pd.plotting.boxplot()
@@ -378,7 +371,6 @@ plt.title("Boxplot of Pokémon Attack by Type 1 and Legendary Status")
 plt.suptitle("")  # Suppress the automatic 'Boxplot grouped by ...' title
 plt.show()
 
-
 # =========================================================================================
 # 9. pd.plotting.table()
 # =========================================================================================
@@ -411,7 +403,6 @@ ax.set_title("NO2 Levels in Paris with Data Table")
 ax.axis("off") # Hide the axes for table only
 plt.show()
 
-
 # =========================================================================================
 # 10. pd.plotting.register_matplotlib_converters()
 # =========================================================================================
@@ -430,7 +421,6 @@ When to Use:
 
 https://pandas.pydata.org/docs/reference/api/pandas.plotting.register_matplotlib_converters.html
 '''
-
 
 # =========================================================================================
 # 11. pd.plotting.deregister_matplotlib_converters()

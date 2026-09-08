@@ -38,7 +38,6 @@ x_fixed = np.asarray(np.mat("""[0.726
 0.707
 ]"""))[0,:]
 
-
 y_fixed =  np.asarray(np.mat("""[0.339
 0.837
 0.407

@@ -30,7 +30,6 @@ plt.xlabel('time t'); plt.ylabel('job i')
 plt.show()
 
 
-
 # s = Tx1 vector of speeds and theta = Txn matrix of allocations
 #r = lambda: np.random.randint(0,255)
 #for i in range(n):

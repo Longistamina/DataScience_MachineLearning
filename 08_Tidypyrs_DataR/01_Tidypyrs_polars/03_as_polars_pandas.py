@@ -11,7 +11,6 @@ TibbleLazy support only one method:
 
 import tidypyrs as tp  # noqa: I001
 
-
 # =======================================================================
 # 1. `TibbleFrame.as_polars()` and `TibbleFrame.as_pandas()`
 # =======================================================================
@@ -39,7 +38,6 @@ pdf = tf.as_pandas()
 
 print(type(pdf))
 # <class 'pandas.DataFrame'>
-
 
 # =========================================================================
 # 2. `TibbleLazy.as_polars()` and `TibbleLazy.collect().as_pandas()`

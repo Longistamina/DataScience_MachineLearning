@@ -194,7 +194,6 @@ print(f"Solution (last 5): {x_large[-5:]}") # [239. 193. 146.  98.  49.]
 
 print(f"Residual: {np.linalg.norm(A_large @ x_large - b_large):.2e}") # Residual: 1.24e-12
 
-
 # =========================================================================================
 # 2. Iterative Solvers
 # =========================================================================================
@@ -304,7 +303,6 @@ print(f"Iterative solver time: {time_iter*1000:.2f} ms") # 0.53 ms
 print(f"Direct residual: {np.linalg.norm(A_compare @ x_direct - b_compare):.2e}") # 2.38e-15
 print(f"Iterative residual: {np.linalg.norm(A_compare @ x_iter - b_compare):.2e}") # 2.17e-05
 
-
 # =========================================================================================
 # 3. Eigenvalue Problems
 # =========================================================================================
@@ -402,7 +400,6 @@ A_approx = U_sorted @ np.diag(s_sorted) @ Vt_sorted
 reconstruction_error = np.linalg.norm(A_rect.toarray() - A_approx, 'fro')
 print(f"\nReconstruction error (Frobenius): {reconstruction_error:.4f}") # 10.2996
 
-
 # =========================================================================================
 # 4. Matrix Norms and Properties
 # =========================================================================================
@@ -451,7 +448,6 @@ eigs_bad = eigsh(A_bad, k=2, which='BE', return_eigenvectors=False)
 cond_bad = max(abs(eigs_bad)) / min(abs(eigs_bad))
 
 print(f"Ill-conditioned matrix condition number: {cond_bad:.2e}") # 3.00e+05
-
 
 # =========================================================================================
 # 5. Matrix Decompositions
@@ -519,7 +515,6 @@ print(f"ILU U nnz: {ilu.U.nnz}") # 98
 # np.set_printoptions(linewidth=120)
 # print(ilu.L.toarray())
 # print(ilu.U.toarray())
-
 
 # =========================================================================================
 # 6. Preconditioners

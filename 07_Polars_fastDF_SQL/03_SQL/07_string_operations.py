@@ -5,7 +5,6 @@ Main ideas:
 
 # In native Polars, the equivalents usually live under: c("name").str....
 
-
 Important Polars SQL notes:
 + Frame-level .sql(...) registers the frame as the SQL table named self.
 + LazyFrame.sql(...) returns a LazyFrame, so call .collect() to materialize.
@@ -23,7 +22,6 @@ pl.Config.set_tbl_rows(20)
 pl.Config.set_tbl_cols(9)
 pl.Config.set_float_precision(4)
 pl.Config.set_tbl_width_chars(120)
-
 
 # =========================================================================================
 # 0. Setup data
@@ -128,7 +126,6 @@ print(df_orders)
 print(df_orders.schema)
 # Schema({'order_id': Int64, 'customer': String, 'region': String, 'product': String, 'product_code': String, 'comment': String, 'quantity': Int64, 'unit_price': Float64, 'discount_rate': Float64, 'profit_change': Float64, 'score': Float64, 'order_date': Date, 'order_time': Time, 'order_dt': Datetime(time_unit='us', time_zone=None), 'date_text_iso': String, 'date_text_long': String, 'time_text': String})
 
-
 # =========================================================================================
 # 1. String case functions
 # =========================================================================================
@@ -178,7 +175,6 @@ out_native = lf_orders.select(
     c("customer").str.to_titlecase().alias("customer_title"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 2. Trimming and padding strings
@@ -237,7 +233,6 @@ out_native = lf_orders.select(
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 3. String length, byte length, and bit length
 # =========================================================================================
@@ -285,7 +280,6 @@ out_native = lf_orders.select(
     (c("product").str.len_bytes() * 8).alias("n_bits"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 4. Substrings and positions
@@ -344,7 +338,6 @@ out_native = lf_orders.select(
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 5. Replace, regex, starts/ends with
 # =========================================================================================
@@ -394,7 +387,6 @@ out_native = lf_orders.select(
     c("product_code").str.contains(r"^[A-Z]{2}-[0-9]{3}-[A-Z]{2}$").alias("valid_code_pattern"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 6. Concatenating strings
@@ -459,7 +451,6 @@ out_native = (
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 7. Splitting strings
 # =========================================================================================
@@ -509,7 +500,6 @@ out_native = lf_orders.select(
     c("product_code").str.split("-").alias("code_parts"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 8. Quick map

@@ -22,7 +22,6 @@ s_float = pd.Series([1.0, 2.5, 3.7, 4.2, 5.9])
 s_str = pd.Series(['1', '2', '3', '4.6', '5.7'])
 s_mixed = pd.Series(['1', 2, '3', 4, 'five'])
 
-
 # =========================================================================================
 # 1. dr.as_integer()
 # =========================================================================================
@@ -40,7 +39,6 @@ print(dr.as_integer(s_str))
 
 print(dr.as_integer(s_mixed))
 # ValueError: invalid literal for int() with base 10: 'five'
-
 
 # =========================================================================================
 # 2. dr.as_double()
@@ -65,7 +63,6 @@ print(dr.as_double(s_str))
 print(dr.as_double(s_mixed))
 # ValueError: could not convert string to float: 'five'
 
-
 # =========================================================================================
 # 3. dr.as_numeric()
 # =========================================================================================
@@ -89,7 +86,6 @@ print(dr.as_numeric(s_str))
 print(dr.as_numeric(s_mixed))
 # raise ValueError(f"Cannot convert {x} to numeric")
 # ValueError: Cannot convert 0       1
-
 
 # =========================================================================================
 # 4. Use Pandas conversion methods or functions

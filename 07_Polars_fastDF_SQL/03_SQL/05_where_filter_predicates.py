@@ -49,7 +49,6 @@ pl.Config.set_tbl_cols(12)
 pl.Config.set_tbl_width_chars(120)
 pl.Config.set_float_precision(2)
 
-
 # =========================================================================================
 # 0. Setup Data
 # =========================================================================================
@@ -104,7 +103,6 @@ lf_emp = df_emp.lazy()
 print(df_emp)
 print(df_emp.schema)
 
-
 # =========================================================================================
 # 1. Basic WHERE filter
 # =========================================================================================
@@ -153,7 +151,6 @@ out_native = lf_emp.filter(
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
 
-
 # =========================================================================================
 # 2. Comparison operators
 # =========================================================================================
@@ -193,7 +190,6 @@ print(out_sql.collect())
 # │ 3           ┆ Charlie ┆ IT   ┆ 96.50      │
 # └─────────────┴─────────┴──────┴────────────┘
 
-
 out_native = lf_emp.filter(
     (c("dept") == "IT") & (c("score_2024") > 90)
 ).select(
@@ -204,7 +200,6 @@ out_native = lf_emp.filter(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 3. AND / OR / NOT
@@ -264,7 +259,6 @@ out_native = lf_emp.filter(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 4. Boolean columns in WHERE
@@ -371,7 +365,6 @@ out_native = lf_emp.filter(
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
 
-
 # =========================================================================================
 # 5. IN and NOT IN
 # =========================================================================================
@@ -458,7 +451,6 @@ out_native = lf_emp.filter(
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
 
-
 # =========================================================================================
 # 6. BETWEEN and NOT BETWEEN
 # =========================================================================================
@@ -544,7 +536,6 @@ out_native = lf_emp.filter(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 7. LIKE and ILIKE
@@ -664,7 +655,6 @@ out_native = lf_emp.filter(
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
 
-
 # =========================================================================================
 # 8. Regex predicates
 # =========================================================================================
@@ -724,7 +714,6 @@ out_sql = lf_emp.sql(
 print(out_sql.collect())
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 9. IS NULL and IS NOT NULL
@@ -810,7 +799,6 @@ out_native = lf_emp.filter(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 10. NULL behavior in normal comparisons
@@ -902,7 +890,6 @@ out_native = lf_emp.filter(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 11. NULL-safe equality: IS DISTINCT FROM
@@ -1026,7 +1013,6 @@ out_native = lf_emp.filter(
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
 
-
 # =========================================================================================
 # 12. Date predicates
 # =========================================================================================
@@ -1078,7 +1064,6 @@ out_native = lf_emp.filter(
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
 
-
 # =========================================================================================
 # 13. WHERE with SQLContext tables
 # =========================================================================================
@@ -1120,7 +1105,6 @@ out_native = lf_emp.filter(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 14. Quick reference

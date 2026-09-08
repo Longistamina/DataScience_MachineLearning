@@ -31,7 +31,6 @@ Special cases:
 - p* = ∞ if problem is infeasible (no x satisfies the constraints)
 - p* = -∞ if problem is unbounded below
 
-
 ##---------------------##
 ## Key Characteristics ##
 ##---------------------##
@@ -55,7 +54,6 @@ where:
 - b ∈ ℝᵐ is the right-hand side vector (b ≥ 0)
 - x ∈ ℝⁿ are the decision variables
 
-
 ##---------------------------------------------##
 ## Linear Programming Standard Form Properties ##
 ##---------------------------------------------##
@@ -64,7 +62,6 @@ where:
 2. ALL VARIABLES ARE NON-NEGATIVE (x ≥ 0)
 3. RIGHT-HAND SIDE IS NON-NEGATIVE (b ≥ 0)
 4. OBJECTIVE CAN BE MIN OR MAX (by negating coefficients)
-
 
 ##-----------------------------------##
 ## Convex Optimization Standard Form ##
@@ -80,7 +77,6 @@ Additional requirements:
 - f₀, f₁, ..., fₘ are CONVEX functions
 - Equality constraints are AFFINE (linear)
 - The feasible set is convex
-
 
 ##-----------------------------##
 ## Converting to Standard Form ##
@@ -123,7 +119,6 @@ Standard form:
 
 where x₂ = x₂⁺ - x₂⁻, s₁ is slack variable, s₂ is surplus variable
 
-
 ##---------------------------##
 ## Why Standard Form Matters ##
 ##---------------------------##
@@ -133,7 +128,6 @@ where x₂ = x₂⁺ - x₂⁻, s₁ is slack variable, s₂ is surplus variable
 3. SOFTWARE IMPLEMENTATION: Solvers are designed for standard form input
 4. DUALITY THEORY: Standard form enables clean dual problem formulation
 5. SENSITIVITY ANALYSIS: Easier to analyze parameter changes
-
 
 ##-------------------##
 ## Alternative Forms ##
@@ -145,7 +139,6 @@ where x₂ = x₂⁺ - x₂⁻, s₁ is slack variable, s₂ is surplus variable
 
 Standard form provides the mathematical foundation for systematic optimization problem solving 
 and is essential for both theoretical development and practical implementation.
-
 
 ================================================================================
 UNRESTRICTED VARIABLE TRANSFORMATION: x = x+ - x-
@@ -192,7 +185,6 @@ Alternatively, we could set x+ = 3 and x- = 8:
 
 The representation is NOT unique, but it always works.
 
-
 ================================================================================
 OPTIMAL AND LOCALLY OPTIMAL POINTS
 ================================================================================
@@ -216,7 +208,6 @@ Special cases:
 - p* = ∞ if problem is infeasible (no x satisfies the constraints)
 - p* = -∞ if problem is unbounded below
 
-
 Examples (with n = 1, m = p = 0)
 
    • f₀(x) = 1/x, dom f₀ = R₊₊: p* = 0, no optimal point
@@ -226,7 +217,6 @@ Examples (with n = 1, m = p = 0)
    • f₀(x) = x log x, dom f₀ = R₊₊: p* = -1/e, x = 1/e is optimal
 
    • f₀(x) = x³ - 3x, p* = -∞, local optimum at x = 1
-
 
 ================================================================================
 IMPLICIT CONSTRAINTS IN OPTIMIZATION PROBLEMS
@@ -273,7 +263,6 @@ Explanation:
 - This gives us the implicit constraint a_i^T x < b_i
 - If x violates any of these constraints, the objective function becomes undefined (-∞)
 
-
 ##-------------------##
 ## Why This Matters: ##
 ##-------------------##
@@ -285,7 +274,6 @@ Explanation:
 3. Barrier Methods: The example shows how logarithmic barriers naturally enforce constraints through their domains, making explicit constraints unnecessary.
 
 4. Theoretical Analysis: Understanding implicit constraints is essential for proving convergence, optimality conditions, and feasibility analysis.
-
 
 ##-----------------------------------------##
 ## Common Sources of Implicit Constraints: ##

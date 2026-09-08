@@ -1,7 +1,6 @@
 import numpy as np
 from loguru import logger
 
-
 def main():
     lucky_number = "".join(np.random.randint(0, 10, 8).astype(str).tolist())
 

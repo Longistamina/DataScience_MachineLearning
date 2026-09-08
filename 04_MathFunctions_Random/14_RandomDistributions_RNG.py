@@ -104,7 +104,6 @@ arr    = np.array([10, 20, 30, 40, 50])
 mat    = np.arange(12).reshape(3, 4)
 pop    = np.array(['a', 'b', 'c', 'd', 'e'])
 
-
 # =========================================================================================
 # 1. RNG setup & infrastructure
 # =========================================================================================
@@ -196,7 +195,6 @@ print(Generator(bg_state).random())
 children = ss.spawn(4)
 print([type(c).__name__ for c in children])
 # ['SeedSequence', 'SeedSequence', 'SeedSequence', 'SeedSequence']
-
 
 # =========================================================================================
 # 2. Simple random data
@@ -310,7 +308,6 @@ print(rng.choice(mat, size=2, axis=0))
 #  [ 0  1  2  3]]
 # picks 2 of the 3 rows at random
 
-
 # =========================================================================================
 # 3. Permutations
 # =========================================================================================
@@ -396,7 +393,6 @@ print(rng.permuted(m, axis=0))
 # Compare: permutation shuffles whole rows (columns stay paired)
 print(rng.permutation(m))
 # e.g. row 2 is now row 0, but all 4 values in row 2 are together
-
 
 # =========================================================================================
 # 4. Continuous distributions
@@ -744,7 +740,6 @@ print(rng.vonmises(mu=0, kappa=4, size=5).round(3))
 print(rng.vonmises(mu=0, kappa=0, size=3).round(3))
 # [-2.4  1.1  0.7]  (kappa=0 → uniform on [-π, π])
 
-
 # =========================================================================================
 # 5. Discrete distributions
 # =========================================================================================
@@ -891,7 +886,6 @@ print(rng.zipf(a=2, size=8))
 print(rng.zipf(a=1.5, size=5))
 # [1 12 2 1 4]  (heavier tail for smaller a)
 
-
 # =========================================================================================
 # 6. Multivariate distributions
 # =========================================================================================
@@ -1010,7 +1004,6 @@ alpha_lda = np.array([0.5, 2.0, 0.3])   # topic 2 expected to dominate
 print(rng.dirichlet(alpha_lda, size=5).round(3))
 # each row is a document's topic distribution; topic 2 (index 1) gets more weight
 
-
 # =========================================================================================
 # 7. Parallel generation
 # =========================================================================================
@@ -1072,7 +1065,6 @@ print(stream_2.random(3).round(4))   # [0.2037 0.6217 0.3071]
 base_check = Generator(PCG64(42))
 print(base_check.random(3).round(4))
 # [0.7740 0.4359 0.0259]  — matches stream_0
-
 
 # =========================================================================================
 # 8. scipy.stats — distributions with .rvs()
@@ -1144,7 +1136,6 @@ print(norm_dist.mean(), norm_dist.std())                    # 0.0  1.0
 print(norm_dist.ppf(0.975).round(4))                        # 1.96  (z-score for 95% CI)
 print(norm_dist.cdf(1.96).round(4))                         # 0.975
 print(norm_dist.interval(0.95))                             # (-1.96, 1.96)
-
 
 # =========================================================================================
 # 9. scipy.stats.qmc — Quasi-Monte Carlo
@@ -1332,7 +1323,6 @@ print(f"MC:    {mc_est:.6f}  (error {abs(mc_est-true_val):.2e})")
 print(f"LHS:   {lhs_est:.6f}  (error {abs(lhs_est-true_val):.2e})")
 print(f"Sobol: {qmc_est:.6f}  (error {abs(qmc_est-true_val):.2e})")
 # Sobol error is typically 10–100× smaller than MC for the same n
-
 
 # =========================================================================================
 # 10. Legacy API

@@ -150,7 +150,6 @@ print(df_stack_hor)
 # 2  D2  E2  F2  A2  B2  C2  G2  H2  I2
 # 3  D3  E3  F3  A3  B3  C3  G3  H3  I3
 
-
 # =========================================================================================
 # 2. Merging
 # =========================================================================================
@@ -196,7 +195,6 @@ print(df_merged_on)
 NOTE: The 'city' column appears twice in the merged DataFrame, once from each original DataFrame.
 To differentiate them, pandas appends suffixes '_x' and '_y' by default.
 '''
-
 
 ##--------------------------##
 ##    pd.merge(suffixes)    ##
@@ -429,7 +427,6 @@ print(customers.merge(orders, on='customer_id', how='inner', suffixes=('_cst', '
 # 0            1  Alice  New York       101     250      NYC
 # 1            1  Alice  New York       103     320      NYC
 # 2            2    Bob    Boston       102     180      BOS
-
 
 # =========================================================================================
 # 3. Combining

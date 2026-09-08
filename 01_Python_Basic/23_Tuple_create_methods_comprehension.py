@@ -11,7 +11,6 @@ Tuple still allows DUPLICATE values (because it has index to distinguish)
 
 Should use Tuple when you don't want others modify your data
 
-
 Table of contents:
 ## Create a tuple
 ## Index/Access tuple's elements
@@ -42,7 +41,6 @@ tup3 = 6, 7, 8, 9, 10
 tup4 = 8,         # If have only one element, must end with "," to make Python understand this as Tuple
 tup5 = ('abc',)
 tup6 = ('cdf', True, 1.2, 3, ["Name", False])
-
 
 # ==============================================================================================
 # Index / Access tuple'-s elements
@@ -92,7 +90,6 @@ print(fruits[-4:-1]) # ('orange', 'kiwi', 'melon')
 if "apple" in fruits:
     print("Yes, 'apple' is in the fruits Tuple")
 
-
 # ==============================================================================================
 # Modify tuple via list
 # ==============================================================================================
@@ -120,11 +117,9 @@ print(predators_list) # ['tiger', 'lion', 'wolf']
 predators_list.extend(["eagle", "cheetah", "batman"])
 print(predators_list) # ['tiger', 'lion', 'wolf', 'eagle', 'cheetah', 'batman']
 
-
 # convert back to tuple using tuple() after all modifications
 predators_tup = tuple(predators_list)
 print(predators_tup) # ('tiger', 'lion', 'wolf', 'eagle', 'cheetah', 'batman')
-
 
 # ==============================================================================================
 # Tuple methods
@@ -148,7 +143,6 @@ print(float_tup.count(0.49)) # 3 (value 0.49 shows up 3 times)
 
 print(float_tup.index(0.49)) # 2 (index of the first 0.49 is 2)
 
-
 # ==============================================================================================
 # Tuple concat and duplicate
 # ==============================================================================================
@@ -164,7 +158,6 @@ print(tuple_add) # ('a', 'b', 'c', 1, 2, 3)
 tuple_dup = tuple1*2 + tuple2*3
 print(tuple_dup)
 # ('a', 'b', 'c', 'a', 'b', 'c', 1, 2, 3, 1, 2, 3, 1, 2, 3)
-
 
 # ==============================================================================================
 # Tuple and Loops and 2D Tuple
@@ -224,7 +217,6 @@ for first_name, purchase in tup_customers:
 it raises error because the number of iterators and the number of items are not corresponding
 '''
 
-
 # ==============================================================================================
 # Tuple comprehension
 # ==============================================================================================
@@ -249,7 +241,6 @@ print(samurais_upper)
 ==> <generator object <genexpr> at 0x7fda43f13850>
 '''
 
-
 # ==============================================================================================
 # Numeric Tuple calculating with Aggregate Functions
 # ==============================================================================================
@@ -273,7 +264,6 @@ print(np.std(tup_floats))
 # string_tup = ("A", "b", "c")
 # print(sum(string_tup)) #=> TypeError
 
-
 # ==============================================================================================
 # map() and tuple comprehension for list element-wise calculation
 # ==============================================================================================
@@ -295,13 +285,11 @@ print(output_tuple)
 output_tuple = tuple(map(lambda x: x / 100, tuple_floats)) #combine map() with lambda function
 print(output_tuple)
 
-
 # Use tuple comprehension to perform list element-wise calculation
 tuple_complexes = ((3 + 2j), (4 + 5j), (9.5 + 10j))
 
 output_tuple = tuple(complex ** 2 for complex in tuple_complexes)
 print(output_tuple)
-
 
 # ==============================================================================================
 # Tuple application example: calculate Lunar Year

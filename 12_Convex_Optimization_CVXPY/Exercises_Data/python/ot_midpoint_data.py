@@ -16,7 +16,6 @@ Variables are:
 
 __all__ = ['k', 'd', 'n', 'p', 'q', 'C', 'plot_pdfs']
 
-
 k = 23; d = 2
 p_square = np.zeros((k, k))
 q_square = np.zeros((k, k))

@@ -6,7 +6,6 @@ There are four main principles of Object-Oriented Programming (OOP):
 4. Polymorphism: Allowing different classes to be treated as instances of the same class through a common interface.
 '''
 
-
 # =========================================================================================
 # 1. Encapsulation
 # =========================================================================================
@@ -47,13 +46,11 @@ print(p.get_age())     # Access private attribute via getter
 p.set_age(35)          # Modify private attribute via setter
 print(p.get_age())
 
-
 # In this example, the __age attribute is private and cannot be accessed directly from outside the class.
 # Instead, the ``get_age()`` and ``set_age()`` methods provide controlled access to it
 
 # To sum it up, Encapsulation prevents direct access and direct modification of an object's attributes,
 # helps ensure data security and integrity while providing a clean interface for interaction
-
 
 # =========================================================================================
 # 2. Abstraction
@@ -105,7 +102,6 @@ email_demo.send_email()  # Output: Email sent successfully!
 # The user interacts with the Email class through the public send_email() method,
 # which provides a simplified interface for sending an email without needing to know the details of how it works.
 
-
 ##---------## Other example of Abstraction ##---------##
 
 from abc import ABC, abstractmethod
@@ -147,7 +143,6 @@ print(rectangle.area())   # Output: 35
 # The subclasses Circle and Rectangle implement the area() method, hiding the details of how the area is calculated.
 # Users interact with the shapes through the common interface defined by the abstract class
 
-
 # =========================================================================================
 # 3. Inheritance
 # =========================================================================================
@@ -159,7 +154,6 @@ This promotes code reuse, simplifies maintenance, and helps create a hierarchica
 '''
 
 # Refer to file ``09_inheritance_SuperInit_ImportClassFromFile.py`` for detailed examples of inheritance
-
 
 # =========================================================================================
 # 4. Polymorphism

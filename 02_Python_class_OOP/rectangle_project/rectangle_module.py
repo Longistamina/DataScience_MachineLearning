@@ -40,7 +40,6 @@ class RectangleCalculator:
         self._single_output_path = None
         self._json_count = 0
 
-
     @staticmethod
     def __validate_input_number(*numbers): # Internal use only, cannot call out when the module is being imported
         numeric_pattern = r"^\+?\d+\.?\d*$"
@@ -54,7 +53,6 @@ class RectangleCalculator:
                 numbers[idx] = None
 
         return numbers
-
 
     @property
     def perimeter(self):
@@ -71,7 +69,6 @@ class RectangleCalculator:
 
         return self.__perimeter
 
-
     @property
     def area(self):
         if (None in [self.__length, self.__width]) and ((str(self._input) == "") or (not Path(self._input).is_dir())):
@@ -86,7 +83,6 @@ class RectangleCalculator:
             self.__area = length * width # Name it as "self.__area" to prevent user from changing its value
 
         return self.__area
-
 
     def __load_rectangle_inputs(self, json_rectangle_file): # Internal use only, cannot call out when the module is being imported
         if len(Path(json_rectangle_file).parts) > 1:
@@ -105,7 +101,6 @@ class RectangleCalculator:
             logger.error(f"CORRUPTED inputs are detected in {json_rectangle_file}{datatype_hint}\n")
 
         return length, width
-
 
     def __validate_output_directory(self): # Internal use only, cannot call out when the module is being imported
         match str(self._output):
@@ -131,7 +126,6 @@ class RectangleCalculator:
 
         return self._output
 
-
     def __validate_output_file(self, json_output_file): # Internal use only, cannot call out when the module is being imported
         if str(json_output_file) == "":
             return None
@@ -149,7 +143,6 @@ class RectangleCalculator:
 
         else:
             json_output_file = Path(self._output)
-
 
         if json_output_file.suffix == "":
             non_json_count = sum([1 for _ in json_output_file.rglob("*[!.json]")]) # Ensure the directory contains only json file
@@ -174,7 +167,6 @@ class RectangleCalculator:
 
         return json_output_file
 
-
     def __save_output_file(self):
         if None not in [self.__length, self.__width]:
             length, width = self.__length, self.__width
@@ -195,7 +187,6 @@ class RectangleCalculator:
         with open(self._single_output_path, "w") as json_pointer:
             json.dump(result_dict, json_pointer, indent=4)
 
-
     def _display_saving_single_output_message(self):
         result_path = colored(str(self._single_output_path), (139, 0, 0), attrs=["bold"])
         match str(self._output):
@@ -203,7 +194,6 @@ class RectangleCalculator:
                 return None
             case _:
                 logger.info(f"The result is saved in {result_path}\n")
-
 
     def summary(self, rectangle_output_name="nameless"):
         rectangle_output_name = colored(str(rectangle_output_name), (139, 0, 0), attrs=["bold"])
@@ -250,7 +240,6 @@ class RectangleCalculator:
 
                 return None
 
-
     def _single_workflow(self, json_rectangle_file):
         match json_rectangle_file:
             case "":
@@ -288,7 +277,6 @@ class RectangleCalculator:
 
                     self._single_output_path = self.__validate_output_file(self._output)
 
-
         if str(json_rectangle_file).endswith(".json") and Path(self._input).exists() and (str(self._input) != ""):
             out_message = self.summary(Path(json_rectangle_file).name)
 
@@ -297,7 +285,6 @@ class RectangleCalculator:
 
         if out_message is not None:
             logger.info(out_message)
-
 
 # =========================================================================================
 # Define log_file() function
@@ -312,7 +299,6 @@ def __config_log_file(project_dir): # Internal use only, cannot call out when th
             rotation="1 MB",  # Rotate when file reaches 1MB
             retention="10 days",  # Keep logs for 10 days
             level="WARNING") # Only save the WARNING level and above
-
 
 # =========================================================================================
 # Define parse_args() function
@@ -335,7 +321,6 @@ def __parse_args():
     parser.add_argument("-c", "--cores", required=False, default=2, type=int, metavar="\b", help="The number of CPU cores to be used for parallel computing.")
 
     return parser.parse_args()
-
 
 # =========================================================================================
 # Define main() function
@@ -433,10 +418,8 @@ def main():
             calculator._single_workflow('')
             calculator._display_saving_single_output_message()
 
-
     except Exception as e:
         logger.critical(f"{e}\n")
-
 
 # =========================================================================================
 # Run main() function

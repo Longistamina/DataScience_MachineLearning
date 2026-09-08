@@ -14,7 +14,6 @@ import polars as pl
 
 s_demo = pl.Series([5.8, 4.6, 2.0, None, 14.0, 4.6, 25.2, None, 9.3, 10.5])
 
-
 # =========================================================================================
 # 1. Ranking and Sorting methods
 # =========================================================================================
@@ -145,7 +144,6 @@ Just like in Pandas, if the data is String type, the sorting is done
 lexicographically based on Unicode code points. It is case-sensitive,
 meaning uppercase letters come before lowercase letters ('A' < 'a').
 '''
-
 
 # =========================================================================================
 # 2. N-Largest and N-Smallest methods

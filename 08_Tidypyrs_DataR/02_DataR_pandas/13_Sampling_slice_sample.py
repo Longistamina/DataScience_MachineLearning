@@ -46,7 +46,6 @@ print(df_baseball.info())
 # dtypes: category(3), float64(1), int64(2), object(1)
 # memory usage: 36.5+ KB
 
-
 # =========================================================================================
 # 1. dr.slice_sample(n=...)
 # =========================================================================================
@@ -65,7 +64,6 @@ print(
 # 210       Miguel_Cairo        NYY  Second_Baseman      73     208     32.82   Infielder
 # 611  Edwin_Encarnacion        CIN   Third_Baseman      73     195     24.15   Infielder
 # 914      Humberto_Cota        PIT         Catcher      72     210     28.06     Catcher
-
 
 # =========================================================================================
 # 2. dr.slice_sample(prop=...)

@@ -20,7 +20,6 @@ from cupyx.scipy import sparse
 cp.set_printoptions(linewidth=1000)
 np.set_printoptions(linewidth=1000)
 
-
 # =========================================================================================
 # 1. CuPy demo with normal arrays
 # =========================================================================================
@@ -88,7 +87,6 @@ C_cpu = A_cpu.dot(B_cpu)
 end_cpu = time.time()
 cpu_time = end_cpu - start_cpu
 print(f"NumPy CPU time: {cpu_time:.4f} seconds") # 2.2554 seconds
-
 
 # =========================================================================================
 # 2. CuPy demo with sparse matrices

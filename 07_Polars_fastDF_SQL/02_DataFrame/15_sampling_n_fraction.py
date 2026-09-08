@@ -39,10 +39,8 @@ pl.Config.set_tbl_rows(12)
 pl.Config.set_tbl_cols(10)
 pl.Config.set_float_precision(2)
 
-
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
-
 
 df_baseball = pl.read_csv(
     source=data_dir / "baseball.csv",
@@ -68,7 +66,6 @@ print(df_baseball.shape)   # (1015, 7)
 print(df_baseball.schema)
 # Schema({'Name': String, 'Team': Categorical, 'Position': Categorical,
 #         'Height': Int64, 'Weight': Int64, 'Age': Float64, 'PosCategory': Categorical})
-
 
 # =========================================================================================
 # 1. df.sample(n=..., seed=...)
@@ -130,7 +127,6 @@ print(df_sample_one)
 # │ Tony_Gwynn_Jr. ┆ MLW  ┆ Outfielder ┆ 72     ┆ 185    ┆ 24.41 ┆ Outfielder  │
 # └────────────────┴──────┴────────────┴────────┴────────┴───────┴─────────────┘
 
-
 # =========================================================================================
 # 2. df.sample(fraction=..., seed=...)
 # =========================================================================================
@@ -191,7 +187,6 @@ Choose either:
 + fraction=... for a proportion
 '''
 
-
 # =========================================================================================
 # 3. Sampling with replacement / oversampling
 # =========================================================================================
@@ -231,7 +226,6 @@ df_sample_replacement_fraction = df_baseball.sample(
 print(df_sample_replacement_fraction.shape)
 # (1116, 7) - More rows than df_baseball.
 
-
 # =========================================================================================
 # 4. Shuffling all rows
 # =========================================================================================
@@ -266,7 +260,6 @@ print(train.shape)
 
 print(test.shape)
 # Around (203, 7)
-
 
 # =========================================================================================
 # 5. Expression sampling with pl.col().sample()
@@ -314,7 +307,6 @@ df_independent_column_samples = df_baseball.select(
 print(df_independent_column_samples)
 # The sampled_name and sampled_age columns were sampled independently.
 # They should not be interpreted as original player-name/player-age pairs.
-
 
 # =========================================================================================
 # 7. Group-wise sampling
@@ -376,7 +368,6 @@ df_group_sample_fraction = df_baseball.filter(
 )
 print(df_group_sample_fraction)
 # Around 10% of each PosCategory group.
-
 
 # =========================================================================================
 # 8. LazyFrame sampling patterns
@@ -442,7 +433,6 @@ lf_group_sample = lf_baseball.filter(
 )
 print(lf_group_sample.collect())
 # shape: number_of_groups * 2 rows
-
 
 # =========================================================================================
 # 9. Quick pandas-to-Polars summary

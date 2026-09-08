@@ -41,7 +41,6 @@ pl.Config.set_tbl_rows(12)
 pl.Config.set_tbl_cols(12)
 pl.Config.set_float_precision(2)
 
-
 # =========================================================================================
 # 1. Example data and pandas-to-Polars mental model
 # =========================================================================================
@@ -109,7 +108,6 @@ print(df_labeled)
 # │ row_7     ┆ 7   ┆ Simon    ┆ 632.80 ┆ 2013-07-30 ┆ Operations │
 # │ row_8     ┆ 8   ┆ Guru     ┆ 722.50 ┆ 2014-06-17 ┆ Finance    │
 # └───────────┴─────┴──────────┴────────┴────────────┴────────────┘
-
 
 # =========================================================================================
 # 2. Drop columns with df.drop(...)
@@ -184,7 +182,6 @@ print(df_tmp)
 # shape: (8, 3)
 # columns: id, name, salary
 
-
 # =========================================================================================
 # 3. Drop columns with strict=False for optional names
 # =========================================================================================
@@ -213,7 +210,6 @@ df_dropped = df_emp.drop("dept", "bonus", strict=False)
 print(df_dropped)
 # shape: (8, 4)
 # columns: id, name, salary, start_date
-
 
 # =========================================================================================
 # 4. Drop columns with pl.exclude(...) or selectors
@@ -267,7 +263,6 @@ print(df_no_date_named_cols)
 # shape: (8, 4)
 # columns: id, name, salary, dept
 
-
 # =========================================================================================
 # 5. In-place column removal: drop_in_place()
 # =========================================================================================
@@ -295,7 +290,6 @@ print(removed_series)
 print(df_tmp)
 # shape: (8, 4)
 # columns: id, name, salary, start_date
-
 
 # =========================================================================================
 # 6. Drop rows by row number
@@ -352,7 +346,6 @@ def drop_row_positions(df: pl.DataFrame, positions: list[int]) -> pl.DataFrame:
         .drop("__row_nr")
     )
 
-
 df_dropped_by_position = drop_row_positions(df_emp, [1, 2, 3])
 print(df_dropped_by_position)
 # shape: (5, 5)
@@ -375,7 +368,6 @@ df_dropped_by_mask = df_emp.filter(keep_mask)
 print(df_dropped_by_mask)
 # shape: (5, 5)
 # same result as dropping positions 0, 3, and 5
-
 
 # =========================================================================================
 # 7. Drop rows by explicit row-label/key columns
@@ -428,7 +420,6 @@ df_dropped_ids = df_emp.remove(pl.col("id").is_in([1, 4, 6]))
 print(df_dropped_ids)
 # shape: (5, 5)
 # remaining ids: 2, 3, 5, 7, 8
-
 
 # =========================================================================================
 # 10. Drop row ranges with slice/head/tail
@@ -487,7 +478,6 @@ print(df_drop_middle)
 # shape: (5, 5)
 # dropped original positions 2, 3, 4: Michelle, Ryan, Gary
 
-
 # =========================================================================================
 # 11. LazyFrame equivalents
 # =========================================================================================
@@ -525,7 +515,6 @@ lf_result = (
 print(lf_result)
 # shape: (5, 5)
 # rows at original positions 0, 3, and 5 are removed
-
 
 # =========================================================================================
 # 12. Quick pandas-to-Polars mapping

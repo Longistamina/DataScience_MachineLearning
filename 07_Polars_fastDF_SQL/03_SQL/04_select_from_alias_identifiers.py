@@ -48,7 +48,6 @@ pl.Config.set_tbl_cols(12)
 pl.Config.set_tbl_width_chars(120)
 pl.Config.set_float_precision(2)
 
-
 # =========================================================================================
 # 0. Setup Data
 # =========================================================================================
@@ -110,7 +109,6 @@ print(df_emp)
 
 print(df_emp.schema)
 
-
 # =========================================================================================
 # 1. SELECT * FROM self
 # =========================================================================================
@@ -151,7 +149,6 @@ print(out_sql.collect())
 out_native = lf_emp.select(pl.all())
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 2. SELECT explicit columns and order
@@ -196,7 +193,6 @@ out_native = lf_emp.select(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 3. AS column aliases
@@ -246,7 +242,6 @@ out_native = lf_emp.select(
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
 
-
 # =========================================================================================
 # 4. Alias expressions
 # =========================================================================================
@@ -294,7 +289,6 @@ out_native = lf_emp.select(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 5. Quoted identifiers
@@ -348,7 +342,6 @@ out_native = lf_emp.select(
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
 
-
 # =========================================================================================
 # 6. Single quotes are string literals
 # =========================================================================================
@@ -392,7 +385,6 @@ out_native = lf_emp.select(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 7. Table aliases
@@ -450,7 +442,6 @@ out_native = lf_emp.select(
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
 
-
 # =========================================================================================
 # 8. Custom frame-level table_name=
 # =========================================================================================
@@ -495,7 +486,6 @@ out_native = lf_emp.select(
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
 
-
 # =========================================================================================
 # 9. SQLContext registered table names
 # =========================================================================================
@@ -527,7 +517,6 @@ out_native = lf_emp.select(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 10. Reserved-like column names
@@ -569,7 +558,6 @@ out_native = lf_keyword.select(
 )
 
 assert_frame_equal(out_sql.collect(), out_native.collect())
-
 
 # =========================================================================================
 # 11. What not to do
@@ -615,7 +603,6 @@ bad_examples = [
 print("Examples intentionally not executed:")
 for query in bad_examples:
     print(query)
-
 
 # =========================================================================================
 # 12. Quick summary

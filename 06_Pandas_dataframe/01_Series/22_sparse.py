@@ -52,7 +52,6 @@ print(s_sparse_float)
 # 7    3.5
 # dtype: Sparse[float64, nan]
 
-
 # =========================================================================================
 # 1. Attributes
 # =========================================================================================
@@ -107,7 +106,6 @@ print(s_sparse_nan.sparse.npoints)   # 3
 print(s_sparse_int.sparse.sp_values)   # [1 2 3]
 print(s_sparse_float.sparse.sp_values) # [0.  1.5 2.5 0.  0.  3.5]
 print(s_sparse_nan.sparse.sp_values)   # [1.5 2.5 3.5]
-
 
 # =========================================================================================
 # 3. Methods

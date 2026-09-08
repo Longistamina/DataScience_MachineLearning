@@ -34,7 +34,6 @@ Then use the LazyFrame API normally, and execute the query with:
 
 print(pl.__version__)
 
-
 # =========================================================================================
 # 1. Example: Lazy query executed on GPU
 # =========================================================================================

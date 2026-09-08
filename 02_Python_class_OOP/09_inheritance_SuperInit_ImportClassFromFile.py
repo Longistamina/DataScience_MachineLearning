@@ -23,7 +23,6 @@ class Item:
     def total_price(self):
         return self.price * self.quantity
 
-
 # =========================================================================================
 # 1. Why need Inheritance?
 # =========================================================================================
@@ -48,7 +47,6 @@ class Phone(Item): # The "Item" inside the parentheses means that Phone is inher
         return f"{self.__class__.__name__}({self.name}, {self.price}, {self.quantity}, Broken: {self.broken_phone})"
         # Redefine __repr__() to include ``self.broken_phone`` attribute.
 
-
 phone1 = Phone("iPhone 14", 1200, 5, broken_phone=True)
 phone2 = Phone("Samsung Galaxy S23", 1000, 3)
 
@@ -63,7 +61,6 @@ print(phone1.total_price)  # Output: 6000 (1200 * 5)
 
 print(Phone.all_items)
 # Output: [Phone(iPhone 14, 1200, 5, True), Phone(iPhone 14, 1200, 5, Broken: True), Phone(Samsung Galaxy S23, 1000, 3, Broken: False)]
-
 
 # =========================================================================================
 # 2. Inheritance from other .py file
@@ -93,7 +90,6 @@ class Fruit(ItemCSV):
     def __repr__(self):
         return f"{self.__class__.__name__}({self.name}, {self.price}, {self.quantity}, Organic: {self.is_organic})"
         # Redefine __repre__() to include ``self.broken_phone`` attribute.
-
 
 fruit1 = Fruit("Apple", 2.5, 10, is_organic=True)
 fruit2 = Fruit("Banana", 1.5, 20)

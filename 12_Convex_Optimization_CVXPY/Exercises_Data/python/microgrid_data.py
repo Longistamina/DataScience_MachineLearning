@@ -82,7 +82,6 @@ if PLOT_FIGURES:
     plt.xticks(xtick_vals, xtick_labels)
     plt.show()
 
-
 ##-----------------------------------------##
 # Solar data generation
 ##-----------------------------------------##
@@ -104,7 +103,6 @@ if PLOT_FIGURES:
     plt.ylabel("Power (kW)")
     plt.xticks(xtick_vals, xtick_labels)
     plt.show()
-
 
 ##-----------------------------------------##
 # Load Data Generation (using cvx)
@@ -164,7 +162,6 @@ if PLOT_FIGURES:
     plt.xticks(xtick_vals, xtick_labels)
     plt.show()
 
-
 # For reference, plot the net load curve: load - solar
 # Aside: the shape of this curve is referred to as "the duck curve"
 # by some people in energy (since the shape looks like a duck on profile), and
@@ -177,7 +174,6 @@ if PLOT_FIGURES:
     plt.ylabel("Power (kW)")
     plt.xticks(xtick_vals, xtick_labels)
     plt.show()
-
 
 ##-----------------------------------------##
 # Battery and Grid Line Constraint Values

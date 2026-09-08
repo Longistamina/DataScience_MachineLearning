@@ -62,7 +62,6 @@ Here, if leave the "Team", "Position", "PosCategory" columns as "object" type,
 the memory usage will be 55.6+ KB.
 '''
 
-
 # =========================================================================================
 # 1. Shape and Size attributes
 # =========================================================================================
@@ -90,7 +89,6 @@ print(df_baseball.size)   # 7105
 
 print(df_baseball.ndim)   # 2
                           # DataFrames are always 2-dimensional.
-
 
 # =========================================================================================
 # 2. Data types and Structure attributes
@@ -143,7 +141,6 @@ print(df_baseball.axes)
 #     Index(['Name', 'Team', 'Position', 'Height', 'Weight', 'Age', 'PosCategory'], dtype='object')
 # ]
 
-
 # =========================================================================================
 # 3. Data Access attributes
 # =========================================================================================
@@ -191,7 +188,6 @@ print(df_baseball.empty)
 df_void = pd.DataFrame()
 print(df_void.empty)
 # True
-
 
 # =========================================================================================
 # 4. Advanced attributes

@@ -99,7 +99,6 @@ print(
 # 3  VenusaurMega Venusaur      Grass     Poison     625      80     100      123     122     120      80          1      False
 # 4             Charmander       Fire        NaN     309      39      52       43      60      50      65          1      False
 
-
 # =========================================================================================
 # 1. String type checking
 # =========================================================================================
@@ -111,7 +110,6 @@ print(
 print(dr.is_character(tb_pokemon.Name)) # True
 
 print(dr.is_character(tb_pokemon.Total)) # False
-
 
 # =========================================================================================
 # 2. Converion
@@ -168,7 +166,6 @@ s_str = dr.c("10", "20", "30", "45", "50")
 print(s_str) # ['10', '20', '30', '45', '50']
 
 print(dr.strtoi(s_str)) # [10 20 30 45 50]
-
 
 # =========================================================================================
 # 3. Get properties
@@ -238,7 +235,6 @@ print(
 # 789   Avalugg        Ice        NaN
 # 792   Xerneas      Fairy        NaN
 
-
 # =========================================================================================
 # 4. Case transformation
 # =========================================================================================
@@ -280,7 +276,6 @@ print(
 # 2               Venusaur               VENUSAUR
 # 3  VenusaurMega Venusaur  VENUSAURMEGA VENUSAUR
 # 4             Charmander             CHARMANDER
-
 
 # =========================================================================================
 # 5. Pattern matching and searching
@@ -409,7 +404,6 @@ print(
 # 701    Virizion      Grass   Fighting
 # 799   Volcanion       Fire      Water
 
-
 # =========================================================================================
 # 6. String replacement
 # =========================================================================================
@@ -456,7 +450,6 @@ dr.chartr(old, new, x)
 print(dr.chartr("aeiou", "12345", names))
 # ['J4hn  H1ns Sm3th' 'J1n2  M1ry D42' 'Al3c2   B4b J4hns4n']
 
-
 # =========================================================================================
 # 7. Substring extraction
 # =========================================================================================
@@ -492,7 +485,6 @@ print(dr.substring(names, 5))
 
 print(dr.substring(names, 5, 9))
 # ['Hans' 'Mary' '_Bob']
-
 
 # =========================================================================================
 # 8. String splitting
@@ -530,7 +522,6 @@ print(dr.strsplit(names2, r"\W+")) # \W+ matches any non-word character
 #     list(['Jane_Mary', 'Doe'])
 #     list(['Alice', 'Bob_Johnson'])
 # ]
-
 
 # =========================================================================================
 # 9. String concatenation (add Prefix and Suffix)
@@ -584,7 +575,6 @@ asean = ["Vietnam", "Laos", "Myanmar", "Thailand"]
 print(dr.paste(asean, ["vn", "la", "mm", "th"], sep="_"))
 # ['Vietnam_vn' 'Laos_la' 'Myanmar_mm' 'Thailand_th']
 
-
 # =========================================================================================
 # 10. Trimming whitespace
 # =========================================================================================
@@ -614,7 +604,6 @@ print(dr.trimws(texts, which="left"))
 
 print(dr.trimws(texts, which="right"))
 # ['   Hello World' '   DataR is great!' '   Pandas and DataR']
-
 
 # =========================================================================================
 # 11. Extract, Separate, and Unite
@@ -785,7 +774,6 @@ print(
 # 0    John_Doe     John      Doe
 # 1  Jane_Smith     Jane    Smith
 
-
 # =========================================================================================
 # 12. Apply Pandas f.str methods
 # =========================================================================================
@@ -822,7 +810,6 @@ print(
 # 8   CharizardMega Charizard Y
 # 12    BlastoiseMega Blastoise
 # 19      BeedrillMega Beedrill
-
 
 # =========================================================================================
 # 13. Some applications

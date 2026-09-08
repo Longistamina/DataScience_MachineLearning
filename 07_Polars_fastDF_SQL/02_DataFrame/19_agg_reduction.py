@@ -40,7 +40,6 @@ pl.Config.set_tbl_rows(12)
 pl.Config.set_tbl_cols(12)
 pl.Config.set_float_precision(3)
 
-
 # =========================================================================================
 # 1. Example data
 # =========================================================================================
@@ -80,7 +79,6 @@ print(lf_baseball.collect_schema())
 
 # A reusable lazy subset for numeric columns.
 lf_hw = lf_baseball.select("Height", "Weight")
-
 
 # =========================================================================================
 # 2. Single reductions with LazyFrame.select(...).collect()
@@ -152,7 +150,6 @@ print(
 # │ 170.180    ┆ 210.820    ┆ 68.039     ┆ 131.542    │
 # └────────────┴────────────┴────────────┴────────────┘
 
-
 # =========================================================================================
 # 3. Direct LazyFrame reduction methods
 # =========================================================================================
@@ -193,7 +190,6 @@ print(lf_baseball.count().collect())
 
 print(lf_baseball.null_count().collect())
 # count of null values for each column
-
 
 # =========================================================================================
 # 4. Multiple reductions with expression aliases
@@ -255,7 +251,6 @@ exprs = [
 print(lf_baseball.select(exprs).collect())
 # same idea as applying several functions to several columns
 
-
 # =========================================================================================
 # 5. Dictionary-style aggregation replacement
 # =========================================================================================
@@ -297,7 +292,6 @@ exprs = [
 print(lf_baseball.select(exprs).collect())
 # shape: (1, 6)
 # columns: height_min, height_max, height_mean, weight_median, weight_var, weight_std
-
 
 # =========================================================================================
 # 6. Named aggregation-style output with alias
@@ -365,7 +359,6 @@ print(lf_summary_long.collect())
 # │ median ┆ 187.960 ┆ 90.718 │
 # │ std    ┆ 5.877   ┆ 9.445  │
 # └────────┴─────────┴────────┘
-
 
 # =========================================================================================
 # 7. Quantiles and custom percentile labels
@@ -440,7 +433,6 @@ print(lf_quantiles_long.collect())
 # │ Q4       ┆ 210.820 ┆ 131.542 │
 # └──────────┴─────────┴─────────┘
 
-
 # =========================================================================================
 # 8. Count, null_count, and distinct-count style summaries
 # =========================================================================================
@@ -478,7 +470,6 @@ print(
     .collect()
 )
 # shape: (1, 4)
-
 
 # =========================================================================================
 # 9. Boolean and string reductions in lazy queries
@@ -528,7 +519,6 @@ print(
 # ╞═════════╪════════════╪═══════════╡
 # │ 30      ┆ BAL        ┆ STL       │
 # └─────────┴────────────┴───────────┘
-
 
 # =========================================================================================
 # 10. Eager-only fallback for direct DataFrame aggregation helpers
@@ -588,7 +578,6 @@ print(df_hw_horizontal.head(5))
 # │ 182.880 ┆ 95.254 ┆ 278.134 ┆ 139.067  ┆ 95.254  ┆ 182.880 │
 # │ 185.420 ┆ 85.275 ┆ 270.695 ┆ 135.348  ┆ 85.275  ┆ 185.420 │
 # └─────────┴────────┴─────────┴──────────┴─────────┴─────────┘
-
 
 # =========================================================================================
 # 11. Categorized API list

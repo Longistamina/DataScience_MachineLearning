@@ -39,7 +39,6 @@ x = np.array([1.0, 2.0, 3.0])
 y = np.array([4.0, 5.0, 6.0])
 print(dot_product(x, y))  # 32.0
 
-
 # =========================================================================================
 # 2. nogil
 # =========================================================================================
@@ -79,7 +78,6 @@ end = time.time()
 print(f"Parallel nogil execution: {end - start:.3f} sec")
 # Both threads run truly concurrently because GIL is released inside long_computation
 
-
 # =========================================================================================
 # 3. cache
 # =========================================================================================
@@ -101,7 +99,6 @@ def fibonacci(n):
 # First run: compiles and caches
 # Next time you run this script: loads from cache instantly
 print(fibonacci(100))   # 3736710778780434371
-
 
 # =========================================================================================
 # 4. parallel
@@ -132,7 +129,6 @@ result_parallel = sum_squares_parallel(big_arr)
 end = time.time()
 print(f"Parallel execution time: {end - start:.3f} sec")
 # Faster than sequential for large arrays
-
 
 # =========================================================================================
 # 5. Combining options

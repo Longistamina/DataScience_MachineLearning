@@ -29,7 +29,6 @@ Constraints can be inequalities involving convex functions or affine equalities.
 - Algorithms: Efficient algorithms exist such as interior-point methods, Newton’s method, gradient descent, and subgradient methods. 
 Interior-point methods are widely used for constrained problems and can handle large-scale problems effectively.
 
-
 # =========================================================================================
 # Applications of Convex Optimization
 # =========================================================================================

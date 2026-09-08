@@ -15,7 +15,6 @@ vector = np.load(data_dir/'timeseries.npy')
 print(vector[:10])
 # [49. 49. 49. 49. 49. 50. 50. 50. 51. 56.]
 
-
 # =========================================================================================
 # 1. array.copy(): Creates a copy of the array.
 # =========================================================================================
@@ -31,7 +30,6 @@ print(id(copied_vector))   # 140030373244112
 By using array.copy(), we create a new array that is a copy of the original array.
 So when the original array is modified, the copied array remains unchanged, as they occupy different memory locations.
 '''
-
 
 # =========================================================================================
 # 2. array.astype(new_dtype): Converts the array to a different data type.

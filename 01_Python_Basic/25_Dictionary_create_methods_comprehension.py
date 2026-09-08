@@ -89,7 +89,6 @@ dict_6 = {
 print(dict_6)
 # {'name': 'David', 'age': 40, 'is_student': False, 'grades': [90, 85, 88], 'address': {'city': 'Miami', 'state': 'FL'}}
 
-
 # ==============================================================================================
 # Nested dictionaries
 # ==============================================================================================
@@ -115,7 +114,6 @@ nested_dict = {
 print(nested_dict)
 # {'person': {'name': 'Eve', 'age': 28, 'address': {'city': 'San Francisco', 'state': 'CA', 'zip': '94105'}},
 #  'company': {'name': 'TechCorp', 'location': 'Silicon Valley', 'employees': 500}}
-
 
 # ==============================================================================================
 # Access values by key
@@ -183,7 +181,6 @@ print(dict_nested_access['person']['address']['city'])  # Seattle
 print(dict_nested_access.get('person').get('age'))  # 45
 print(dict_nested_access.get('person').get('address').get('state'))  # WA
 
-
 # ==============================================================================================
 # Check if key exists
 # ==============================================================================================
@@ -224,7 +221,6 @@ dict_check = {
 
 print('city' in dict_check.keys())  # True
 print('country' in dict_check.keys())  # False
-
 
 # ==============================================================================================
 # Add, Update and Remove key-value pairs
@@ -323,7 +319,6 @@ dict_add.clear()
 print(dict_add)  # {}
                  # The dictionary is now empty, but still exists and has id(dict_add) = .....
 
-
 # ==============================================================================================
 # Dictionary Methods
 # ==============================================================================================
@@ -387,7 +382,6 @@ print(value)  # Colorado
 print(sample_dict)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'USA', 'state': 'Colorado'}
                     # The dichtionary now has a new key 'state' with value 'Colorado'
 
-
 # .setdefault() does not change the value if the key already exists
 # Instead, it returns the existing value
 value = sample_dict.setdefault('city', 'New York')
@@ -402,7 +396,6 @@ print(sample_dict)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'U
 dict_copy = sample_dict.copy()
 print(dict_copy)  # {'name': 'Ivy', 'age': 29, 'city': 'Denver', 'country': 'USA', 'state': 'Colorado'}
                   # Modifying the copy does not affect the original dictionary
-
 
 # ==============================================================================================
 # Sort a dictionary
@@ -462,7 +455,6 @@ for key, value in sorted_dict_value.items():
 # F: 4
 # C: 3
 # D: 1
-
 
 # ==============================================================================================
 # Loop through keys, values, and items
@@ -530,7 +522,6 @@ for index, (key, value) in enumerate(sample_loop_dict.items()):
 # Index: 1, Key: age, Value: 32
 # Index: 2, Key: city, Value: Seattle
 # Index: 3, Key: country, Value: USA
-
 
 # ==============================================================================================
 # Dictionary Comprehension

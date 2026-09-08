@@ -53,7 +53,6 @@ print(
 # 3  VenusaurMega Venusaur      Grass     Poison     625      80     100      123     122     120      80          1      False
 # 4             Charmander       Fire        NaN     309      39      52       43      60      50      65          1      False
 
-
 # =========================================================================================
 # 1. Single Condition Examples
 # =========================================================================================
@@ -290,7 +289,6 @@ print(
 #   <int64> <object> <float64> <datetime64[ns]> <object>
 # 0       1     Rick     623.3       2012-01-01       IT
 
-
 # =========================================================================================
 # 2. Negation of Condition: ~ (tilde) operator
 # =========================================================================================
@@ -322,7 +320,6 @@ print(
 # 740      Skiddo      Grass        NaN     350      False
 # 732  Scatterbug        Bug        NaN     200      False
 # 350     Wailmer      Water        NaN     400      False
-
 
 # =========================================================================================
 # 3. Combine Multiple Conditions: & (and), | (or)
@@ -414,7 +411,6 @@ print(
 # 12     BlastoiseMega Blastoise      Water     103      False
 # 64                    Arcanine       Fire     110      False
 # 106                     Krabby      Water     105      False
-
 
 # =========================================================================================
 # 4. Columns with "bad" names: using f["col name"]

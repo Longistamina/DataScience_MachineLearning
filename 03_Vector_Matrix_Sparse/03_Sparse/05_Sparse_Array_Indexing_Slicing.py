@@ -119,7 +119,6 @@ print(A_csr_set.toarray())
 # [[1 5 2]
 #  [0 3 0]]
 
-
 # =========================================================================================
 # 2. Row and Column Slicing
 # =========================================================================================
@@ -248,7 +247,6 @@ print(f"CSR column access: {csr_col_time*1000:.2f} ms") # 16.42 ms
 print(f"CSC column access: {csc_col_time*1000:.2f} ms") # 12.76 ms
 print(f"\nSpeedup (CSR col vs CSC col): {csr_col_time/csc_col_time:.1f}x") # 1.3x
 
-
 # =========================================================================================
 # 3. Fancy Indexing
 # =========================================================================================
@@ -289,7 +287,6 @@ rows_bool = A_fancy[bool_mask, :]
 print(rows_bool.toarray())
 # [[1 0 2 0]
 #  [5 0 6 0]]
-
 
 # =========================================================================================
 # 4. Boolean Indexing
@@ -365,7 +362,6 @@ Avoid: A[A > 3] = 0  # This doesn't work as in NumPy
 
 print("Element-wise boolean indexing is limited in sparse arrays")
 print("Use comparison operations to create boolean sparse matrices instead")
-
 
 # =========================================================================================
 # 5. Assignment Operations
@@ -505,7 +501,6 @@ print(A_csr_assign.toarray())
 # [[ 5.  0. 15.]
 #  [ 0. 10.  0.]
 #  [20.  0.  0.]]
-
 
 # =========================================================================================
 # 6. Best Practices

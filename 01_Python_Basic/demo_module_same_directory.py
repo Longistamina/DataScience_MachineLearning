@@ -1,6 +1,5 @@
 from loguru import logger
 
-
 def add(x, y):
     if __name__ == "__main__":
         logger.info("This module is being run directly")

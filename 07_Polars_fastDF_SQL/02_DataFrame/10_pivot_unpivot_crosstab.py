@@ -35,13 +35,11 @@ import numpy as np
 import polars as pl
 import polars.selectors as cs
 
-
 # Optional display settings for tutorial output.
 pl.Config.set_tbl_rows(12)
 pl.Config.set_tbl_cols(16)
 pl.Config.set_float_precision(3)
 pl.Config.set_tbl_width_chars(120)
-
 
 # =========================================================================================
 # 1. Pivot: long to wide
@@ -433,7 +431,6 @@ print(lf_pivoted.collect())
 # │ two ┆ 6.500 ┆ 3.000 │
 # └─────┴───────┴───────┘
 
-
 # =========================================================================================
 # 2. Unpivot: wide to long
 # =========================================================================================
@@ -665,7 +662,6 @@ print(lf_unpivoted.collect().head())
 # │ P005       ┆ 62  ┆ BP_day1         ┆ 133            │
 # └────────────┴─────┴─────────────────┴────────────────┘
 
-
 # =========================================================================================
 # 3. Cross-Table
 # =========================================================================================
@@ -753,7 +749,6 @@ def crosstab_counts(df, row, col, col_order=None):
     value_cols = [name for name in table.columns if name != row]
     return table.with_columns([pl.col(name).cast(pl.Int64) for name in value_cols])
 
-
 def add_margins(table, row, total_name="All"):
     '''Add row and column totals, similar to pandas crosstab(margins=True).'''
 
@@ -770,7 +765,6 @@ def add_margins(table, row, total_name="All"):
 
     return body.vstack(totals)
 
-
 def normalize_rows(table, row, digits=3):
     '''Normalize counts within each row, like pandas crosstab(normalize="index").'''
 
@@ -781,7 +775,6 @@ def normalize_rows(table, row, digits=3):
         [(pl.col(name) / row_total).round(digits).alias(name) for name in value_cols]
     )
 
-
 def normalize_columns(table, row, digits=3):
     '''Normalize counts within each column, like pandas crosstab(normalize="columns").'''
 
@@ -790,7 +783,6 @@ def normalize_columns(table, row, digits=3):
     return table.with_columns(
         [(pl.col(name) / pl.col(name).sum()).round(digits).alias(name) for name in value_cols]
     )
-
 
 def normalize_all(table, row, digits=3):
     '''Normalize counts by the grand total, like pandas crosstab(normalize="all").'''
@@ -1003,7 +995,6 @@ print(lazy_crosstab.collect())
 # │ Male   ┆ 16         ┆ 38    ┆ 13    ┆ 30       ┆ 22       │
 # │ Other  ┆ 1          ┆ 3     ┆ 1     ┆ 5        ┆ 0        │
 # └────────┴────────────┴───────┴───────┴──────────┴──────────┘
-
 
 # =========================================================================================
 # 4. Quick pandas -> Polars map

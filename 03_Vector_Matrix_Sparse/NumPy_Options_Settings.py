@@ -37,7 +37,6 @@ print(arr_small[:3])
 
 print(arr_small.shape) # (5, 5)
 
-
 # =========================================================================================
 # 1. All available options
 # =========================================================================================
@@ -65,7 +64,6 @@ Key options:
 - suppress: Whether to suppress small floating point values using scientific notation
 - edgeitems: Number of array items in summary at beginning and end of each dimension
 '''
-
 
 # =========================================================================================
 # 2. Getting, Setting and Resetting options
@@ -111,7 +109,6 @@ np.set_printoptions(suppress=False)
 # Check the reset value
 print(np.get_printoptions()['suppress'])  # False
 
-
 # =========================================================================================
 # 3. Setting startup options in Python/IPython environment
 # =========================================================================================
@@ -127,7 +124,6 @@ Check the tutorial here:
 
 https://numpy.org/doc/stable/reference/generated/numpy.set_printoptions.html
 '''
-
 
 # =========================================================================================
 # 4. Frequently used options
@@ -258,7 +254,6 @@ print(arr_large)
 
 np.set_printoptions(threshold=1000, edgeitems=3)  # Reset to default value
 
-
 # =========================================================================================
 # 5. Number formatting
 # =========================================================================================
@@ -284,7 +279,6 @@ print(arr_sci)
 
 # Reset formatter
 np.set_printoptions(formatter=None)
-
 
 # =========================================================================================
 # 6. Error handling

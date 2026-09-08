@@ -50,7 +50,6 @@ print(
 # 3  VenusaurMega Venusaur      Grass     Poison     625      80     100      123     122     120      80          1      False
 # 4             Charmander       Fire        NaN     309      39      52       43      60      50      65          1      False
 
-
 ##--------------------------------------##
 ##       Summarise single column        ##
 ##--------------------------------------##

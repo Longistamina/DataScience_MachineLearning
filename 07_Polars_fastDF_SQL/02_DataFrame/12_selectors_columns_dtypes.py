@@ -43,7 +43,6 @@ pl.Config.set_tbl_cols(20)
 pl.Config.set_float_precision(2)
 pl.Config.set_tbl_width_chars(200)
 
-
 # =========================================================================================
 # 0. Example Data
 # =========================================================================================
@@ -147,7 +146,6 @@ print(df_people.schema)
 # + categorical/enum columns: dept_cat, priority
 # + binary columns: payload
 
-
 # =========================================================================================
 # 1. What selectors are and when to use them
 # =========================================================================================
@@ -173,7 +171,6 @@ print(df_people.select(cs.string()))
 
 print(df_people.select(cs.temporal()))
 # Selects temporal columns, such as Date, Datetime, Duration, and Time columns.
-
 
 # =========================================================================================
 # 2. Select columns by data type
@@ -434,7 +431,6 @@ print(df_people.select(cs.temporal()))
 # │ 2018-03-10 ┆ 2024-01-04 14:15:00 ┆ 14:15:00   ┆ 2100d        │
 # └────────────┴─────────────────────┴────────────┴──────────────┘
 
-
 # =========================================================================================
 # 3. Select columns by exact dtype and nested dtype
 # =========================================================================================
@@ -521,7 +517,6 @@ print(df_people.select(cs.struct()))
 
 print(df_people.select(cs.nested()))
 # columns include: tags, rgb, pay_info
-
 
 # =========================================================================================
 # 4. Select columns by name or name pattern
@@ -634,7 +629,6 @@ print(df_name_rules.select(cs.digit()))
 print(df_name_rules.select(cs.alpha(ignore_spaces=True)))
 # columns: abc, has space
 
-
 # =========================================================================================
 # 5. Select columns by position
 # =========================================================================================
@@ -686,7 +680,6 @@ print(df_people.select(cs.by_index(range(3, 7))))
 
 print(df_people.select(cs.by_index(-1)))
 # last column by position
-
 
 # =========================================================================================
 # 6. Combine selectors with set operations
@@ -754,7 +747,6 @@ print(df_people.select(~cs.numeric()))
 
 print(df_people.select(~cs.by_name("id", "employee name")))
 # all columns except id and employee name
-
 
 # =========================================================================================
 # 7. Use selectors with expressions in select(), with_columns(), group_by()
@@ -863,7 +855,6 @@ print(df_people.select(cs.exclude(cs.nested())))
 print(df_people.select(cs.exclude(pl.Boolean)))
 # all columns except Boolean columns
 
-
 # =========================================================================================
 # 8. Avoid operator ambiguity with as_expr()
 # =========================================================================================
@@ -925,7 +916,6 @@ print(
 )
 # expression OR: Boolean logic applied to the values.
 
-
 # =========================================================================================
 # 9. Debug selectors with utilities
 # =========================================================================================
@@ -965,7 +955,6 @@ print(cs.expand_selector(df_people, cs.numeric() & cs.ends_with("_usd")))
 
 print(cs.expand_selector(df_people, cs.all() - cs.nested()))
 # all non-nested column names
-
 
 # =========================================================================================
 # 10. Selectors in LazyFrame
@@ -1010,7 +999,6 @@ print(lazy_query.explain())
 #  DF ["id", "employee name", "dept", "salary_usd", ...]; PROJECT["dept", "salary_usd", "bonus_usd", "score_2023", ...] 5/21 COLUMNS
 # Shows the lazy query plan.
 
-
 # =========================================================================================
 # 11. Categorized selector API list
 # =========================================================================================
@@ -1031,7 +1019,6 @@ A. Base selector object and methods
 + selector.exclude(columns, *more_columns)
     Exclude columns from a broad selector such as cs.all(), cs.numeric(), etc.
 
-
 B. Positional selectors
 -----------------------
 + cs.all()
@@ -1045,7 +1032,6 @@ B. Positional selectors
 
 + cs.by_index(*indices, require_all=True)
     Select columns by zero-based position, negative position, or range object.
-
 
 C. Name and pattern selectors
 -----------------------------
@@ -1072,7 +1058,6 @@ C. Name and pattern selectors
 
 + cs.digit(ascii_only=False)
     Select columns whose names consist only of digits.
-
 
 D. Data type selectors
 ----------------------
@@ -1112,7 +1097,6 @@ D. Data type selectors
 + cs.binary()
     Select Binary columns.
 
-
 E. Temporal selectors
 ---------------------
 + cs.date()
@@ -1130,7 +1114,6 @@ E. Temporal selectors
 + cs.temporal()
     Select all temporal columns.
 
-
 F. Nested selectors
 -------------------
 + cs.list(inner=None)
@@ -1145,7 +1128,6 @@ F. Nested selectors
 + cs.nested()
     Select nested columns, such as List, Array, and Struct.
 
-
 G. Selector utility functions
 -----------------------------
 + cs.exclude(columns, *more_columns)
@@ -1156,7 +1138,6 @@ G. Selector utility functions
 
 + cs.is_selector(obj)
     Return True if obj is a selector, otherwise False.
-
 
 H. Selector set operations
 --------------------------

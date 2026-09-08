@@ -60,7 +60,6 @@ df_medals.info()
 # dtypes: category(8)
 # memory usage: 24.8 KB
 
-
 # =========================================================================================
 # 1. All available options
 # =========================================================================================
@@ -88,7 +87,6 @@ print(pd.describe_option())
 #     placeholder is embedded in the output. A 'None' value means unlimited.
 #     [default: 50] [currently: 50]
 '''And more...'''
-
 
 # =========================================================================================
 # 2. Getting, Setting and Resetting options
@@ -134,7 +132,6 @@ pd.reset_option("mode.sim_interactive")
 # Check the reset value
 print(pd.get_option("mode.sim_interactive"))    # False
 
-
 # =========================================================================================
 # 3. Setting startup options in Python/IPython environment
 # =========================================================================================
@@ -146,7 +143,6 @@ So that you don't have to set them manually every time you start a new session.
 Check the tutorial here:
 https://pandas.pydata.org/docs/user_guide/options.html#setting-startup-options-in-python-ipython-environment
 '''
-
 
 # =========================================================================================
 # 4. Frequently used options
@@ -224,7 +220,6 @@ print(df_medals)
 
 # [2311 rows x 8 columns]
 
-
 # =========================================================================================
 # 5. Number formatting
 # =========================================================================================
@@ -258,7 +253,6 @@ print(s / 1.0e6)
 # d    766.854n
 # e     -1.071u
 # dtype: float64
-
 
 # =========================================================================================
 # 6. Unicode formatting

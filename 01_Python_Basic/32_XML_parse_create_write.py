@@ -32,7 +32,6 @@ import xml.etree.ElementTree as ET
 
 parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/xml_files"
 
-
 # ==============================================================================================
 # 1. XML file structure
 # ==============================================================================================
@@ -74,7 +73,6 @@ parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Py
 #       <Child_Element_Level_2>
 #        <Child_Element_Level_3>
 
-
 # ==============================================================================================
 # 2. Read and Parse XML file
 # ==============================================================================================
@@ -88,12 +86,10 @@ parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Py
 tree_food = ET.parse(f'{parent_dir}/food.xml')
 print(tree_food) # <xml.etree.ElementTree.ElementTree object at 0x7fb02723bc50>
 
-
 # Get the root element of the XML file
 # The getroot() function returns the root element of the XML tree
 root_food = tree_food.getroot()
 print(root_food) # <Element 'breakfast_menu' at 0x7fb027162cf0>
-
 
 # Get basic information about the root element
 print(f"Root Element: {root_food.tag}") # "tag" is the name of that element: breakfast_menu (like "key" in dictionary)
@@ -126,7 +122,6 @@ root_string = ET.fromstring(xml_string)
 print(f"Student name: {root_string.find('name').text}") # Alice Johnson
 print(f"Student age: {root_string.find('age').text}")   # 20
 
-
 # ==============================================================================================
 # 3. A custom function to summarize XML structure
 # ==============================================================================================
@@ -139,7 +134,6 @@ def summarize_xml_structure(element, level=0):
 
 # Use with your XML:
 summarize_xml_structure(root_food)
-
 
 # ==============================================================================================
 # 4. Navigate XML tree
@@ -158,13 +152,11 @@ summarize_xml_structure(root_food)
 tree_food = ET.parse(f'{parent_dir}/food.xml')
 root_food = tree_food.getroot()
 
-
 # Find single element (fist occurrence)
 print(root_food.find("food")) # <Element 'food' at 0x7f4f7e87bab0> (first occurrence of <food> under <breakfast_menu>)
 print(root_food.find("food/name"))  # <Element 'name' at 0x7f9318b804a0> (first occurrence of <name> under <food>)
 
 print(root_food.find("food/name").text) # Belgian Waffles (first occurrence of <name> under <food>)
-
 
 # Find all elements with the tag "food"
 food_items = root_food.findall("food")
@@ -175,7 +167,6 @@ print(food_items)
 calorie_items = root_food.findall("food/calories")
 print(calorie_items)
 #[<Element 'calories' at 0x7f9318b806d0>, <Element 'calories' at 0x7f9318b808b0>, <Element 'calories' at 0x7f9318b80a90>, <Element 'calories' at 0x7f9318b80c20>, <Element 'calories' at 0x7f9318b80db0>]
-
 
 # ==============================================================================================
 # 5. Loop through XML tree elements
@@ -216,7 +207,6 @@ for food_element in root_food:
 # name: French Toast ||| price: $4.50 ||| calories: 600
 # name: Homestyle Breakfast ||| price: $6.95 ||| calories: 950
 
-
 # ==============================================================================================
 # 6. Create XML object from scratch
 # ==============================================================================================
@@ -230,7 +220,6 @@ import xml.etree.ElementTree as ET
 # Create the root element with the tag "STARWARS"
 root_starwars = ET.Element("STARWARS")
 
-
 # Add the first child element with the tag "CHARACTER"
 # (as well as the first observation, like the first row in a dataframe)
 character_1 = ET.SubElement(root_starwars, "CHARACTER")
@@ -240,7 +229,6 @@ ET.SubElement(character_1, "Age").text = "27"             # Add subelement "Age"
 ET.SubElement(character_1, "Job").text = "Queen of Naboo" # Add subelement "Job" for the character_1 element
 ET.SubElement(character_1, "Income", currency="$").text = "45000" # Add subelement "Income" for the character_1 element with currency
 
-
 # Add the second child element also with the tag "CHARACTER"
 # (as well as the second observation, like the second row in a dataframe)
 character_2 = ET.SubElement(root_starwars, "CHARACTER")
@@ -249,7 +237,6 @@ ET.SubElement(character_2, "Gender").text = "M"
 ET.SubElement(character_2, "Age").text = "22"
 ET.SubElement(character_2, "Job").text = "Jedi"
 ET.SubElement(character_2, "Income", currency="$").text = "23450"
-
 
 # Create the XML tree from the defined root element
 tree_starwars = ET.ElementTree(root_starwars)
@@ -269,7 +256,6 @@ for character_element in root_starwars:
     print(string_out.rstrip(" |||"))
 # Name: Padmé Amidala ||| Gender: F ||| Age: 27 ||| Job: Queen of Naboo ||| Income: 45000
 # Name: Anakin Skywalker ||| Gender: M ||| Age: 22 ||| Job: Jedi ||| Income: 23450
-
 
 # ==============================================================================================
 # 7. Write a XML tree object into XML file

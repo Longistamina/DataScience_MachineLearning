@@ -46,7 +46,6 @@ if x:
 else:
   print("No match")
 
-
 # ==============================================================================================
 # 2. "[]" = A set of characters
 # ==============================================================================================
@@ -66,7 +65,6 @@ print(x) # ['h', 'e', 'a', 'i', 'i', 'a', 'i']
 # [a-zA-Z]	Returns a match for any character alphabetically between a and z, lower case OR upper case
 # [+]	In sets, +, *, ., |, (), $,{} has no special meaning, so [+] means: return a match for any + character in the string
 '''
-
 
 # ==============================================================================================
 # 3. "\" = Signals a special sequence, or escapes special character
@@ -102,7 +100,6 @@ print(x) # ['5', '9']
 ## \., \*, \+, \$, \(, \), \[, \], \{, \}, \|, \\	Use to search for special characters
 """
 
-
 # ==============================================================================================
 # 4. "." = Any character (except newline character "\n")
 # ==============================================================================================
@@ -111,7 +108,6 @@ txt = "hello planet"
 
 x = re.findall(r"he..o", txt) # Search for a sequence that starts with "he", followed by two (any) characters, and an "o":
 print(x) # ['hello']
-
 
 # ==============================================================================================
 # 5. "^" = Starts with
@@ -129,7 +125,6 @@ else:
 # Yes, the string starts with 'hello.'
 # ['hello1']
 
-
 # ==============================================================================================
 # 6. "$" = Ends with
 # ==============================================================================================
@@ -145,7 +140,6 @@ else:
 
 # Yes, the string ends with 'planet'
 # ['planet2']
-
 
 # ==============================================================================================
 # 7. "*" = Zero or More occurrences (greedy)
@@ -164,7 +158,6 @@ print(re.findall(pattern, text))
 # So "" means zero occurrence of 'a'
 # For example, the "b" or "bb" have no 'a' characters, so it matches zero occurrences, resulting in an empty string in the output list.
 
-
 # ==============================================================================================
 # 8. "+" = One or More occurrences (greedy)
 # ==============================================================================================
@@ -181,7 +174,6 @@ print(re.findall(pattern, text))
 # The r"+a+" pattern matches 'a' characters of varying lengths, but only those with at least one occurrence.
 # So it does not match the "b" or "bb" since they have no 'a' characters.
 
-
 # ==============================================================================================
 # 9. "?" = Zero or One occurrence
 # ==============================================================================================
@@ -197,7 +189,6 @@ print(re.findall(pattern, text))
 # Output: ['a', '', 'a', 'a', '', 'a', 'a', 'a', '', 'a', 'a', 'a', 'a', '', '', '', '', '', '', '', '', '', '']
 # The r"?a?" pattern matches one-length 'a' characters, including zero occurrences (represented by empty strings).
 # So "" means zero occurrence of 'a' (like in "b" or "bb")
-
 
 # ==============================================================================================
 # 10. "*?" = Zero or More occurences, but as few as possible (non-greedy)
@@ -224,7 +215,6 @@ Explanation:
    The ".*?" matches as few characters as possible, so it stops at the first > it encounters, resulting in <b>.
    (between <b and > there is no character, so it matches zero occurrence of any character)
 '''
-
 
 # ==============================================================================================
 # 11. "+?" = One or More occurences, but as few as possible (non-greedy)
@@ -255,7 +245,6 @@ Explanation:
    resulting in ['<foo>', '<bar>', '<baz>'] (it excludes the empty tags <>).
 '''
 
-
 # ==============================================================================================
 # 12. "{}" = Exactly the specified number of occurrences
 # ==============================================================================================
@@ -274,7 +263,6 @@ pattern = r"\d{1,3}" # {1,3} quantifier meaning at least 1 digit and at most 3 d
 
 print(re.findall(pattern, text)) # Output: ['123', '4', '56', '7', '890', '12']
 
-
 # ==============================================================================================
 # 13. "|" = Either or
 # ==============================================================================================
@@ -290,7 +278,6 @@ else:
   print("No match")
 
 # Output: Yes, there is at least one match!
-
 
 # ==============================================================================================
 # 14. () group capturing
@@ -330,7 +317,6 @@ print(re.findall(pattern, text))  # Output: ['cat', 'dog']
 pattern = r"(c[a-z]+|d[a-z]+)\d+"
 print(re.findall(pattern, text))  # Output: ['cat', 'dog']
 
-
 # ==============================================================================================
 # 15. (?:) non-group capturing
 # ==============================================================================================
@@ -367,7 +353,6 @@ print(re.findall(pattern, text))
 # Matches dates with either hyphen or slash as separators
 pattern = r"(?:\+82-|\+84-|\+87-)(\d+)"
 print(re.findall(pattern, text))  # Output: ['1012345678', '526913', '52105948', '2352345267']
-
 
 # ==============================================================================================
 # 16. (?<=Y)X and (?<!Y)X = Positive lookbehind and Negative lookbehind
@@ -430,7 +415,6 @@ pattern_neg_lookahead = r"\b[a-zA-Z]+\b(?!_&)" # Matches words NOT followed by "
 print(re.findall(pattern_neg_lookahead, text))
 # ['Apple', 'Banana', 'Cherry']
 
-
 # ==============================================================================================
 # 18. regex: Combine non-greedy, lookbehind and lookahead
 # ==============================================================================================
@@ -469,7 +453,6 @@ print(regex.sub(pattern_equal_in_parentheses, "=", text))
 # x = func(a=5, b=10)
 # y = another_func(c=15, d=20)
 
-
 # ==============================================================================================
 # 19. re.match()
 # ==============================================================================================
@@ -506,7 +489,6 @@ if result:
 else:
   print("No match found!")  # Output: No match found!
 
-
 # ==============================================================================================
 # 20. re.findall()
 # ==============================================================================================
@@ -521,7 +503,6 @@ print(x) # ['ai', 'ai']
 x = re.findall("Portugal", txt)
 print(x) # []
 
-
 # ==============================================================================================
 # 21. re.search()
 # ==============================================================================================
@@ -535,7 +516,6 @@ print("The first white-space character is located in position:", x.start()) # Re
 
 x = re.search("Portugal", txt)
 print(x) # Return None
-
 
 # ==============================================================================================
 # 22. re.split()
@@ -554,7 +534,6 @@ print(x) # ['The', 'rain in Spain']
 x = re.split(r"\s", txt, maxsplit=2) # Split atmost 2 times
 print(x) # ['The', 'rain', 'in Spain']
 
-
 # ==============================================================================================
 # 23. re.sub()
 # ==============================================================================================
@@ -568,7 +547,6 @@ print(x) # The_rain_in_Spain
 
 x = re.sub(r"\s", "_", txt, count=2) # Replace maximum of 2 occurrences
 print(x) # The_rain_in Spain
-
 
 # ==============================================================================================
 # 24. Match Object

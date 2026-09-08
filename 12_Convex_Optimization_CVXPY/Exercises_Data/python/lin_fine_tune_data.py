@@ -32,7 +32,6 @@ titles = data["name"]
 N = len(x)
 d = len(x[0])
 
-
 def find_nearest_neighbors(index: int, num_neighbors: int = 5, F=None) -> list[int]:
     """Find the nearest neighbors of the specified index. Apply the linear fine
     tuning F to the embeddings if F is not None."""
@@ -43,7 +42,6 @@ def find_nearest_neighbors(index: int, num_neighbors: int = 5, F=None) -> list[i
         distances = np.linalg.norm([F @ emb for emb in x] - F @ query_embedding, axis=1)
     nearest_indices = np.argsort(distances)[1 : num_neighbors + 1]
     return [int(k) for k in nearest_indices]
-
 
 def compare_nearest_neighbors(F: np.ndarray) -> None:
     """print the nearest neighbors for the specified index."""
@@ -57,7 +55,6 @@ def compare_nearest_neighbors(F: np.ndarray) -> None:
         for k, j in enumerate(find_nearest_neighbors(i, 5, F)):
             print(f"{k + 1}: {titles[j]}")
         print()
-
 
 # generate similar and dissimilar pairs
 np.random.seed(0)

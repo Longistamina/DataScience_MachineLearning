@@ -91,7 +91,6 @@ lam = .15
 N = X.shape[0]
 Sigma_emp = X.T@X/N
 
-
 def plot_helper(Z, save_dest=None):
     cmap = "viridis"
     vmax = max([A.max() for A in [Z, Sigma_emp, Sigma_true]])

@@ -37,7 +37,6 @@ This is due to the way floating-point numbers are represented in binary, which c
 compare_result = math.isclose(a=0.5, b=0.4999999999, abs_tol=1e-3)
 print(compare_result) # True
 
-
 # ==============================================================================================
 # 2. ``random`` library
 # ==============================================================================================
@@ -62,7 +61,6 @@ random.seed(42) # Set the seed for random number generator for reproducibility
 print(random.random()) # This will always print the same number when the seed is set to
 
 random.seed(42); print(random.random()) # one-liner
-
 
 # ==============================================================================================
 # 3. from ... import ... as ...

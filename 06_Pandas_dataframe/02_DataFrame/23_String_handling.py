@@ -6,7 +6,6 @@ from pandas import col as c
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-
 # =========================================================================================
 # Step-by-step workflow
 # =========================================================================================
@@ -217,7 +216,6 @@ print(df_subjects_score.notna().sum()) # Count non-null values in each column
 # Physics       10157
 # Chemistry      8098
 # dtype: int64
-
 
 # =========================================================================================
 # All-in-one workflow

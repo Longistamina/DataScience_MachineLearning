@@ -129,7 +129,6 @@ print(f"\nCSR (auto-sorted) canonical format: {csr_sorted.has_canonical_format}"
 print(f"CSR indices: {csr_sorted.indices}") # [0 2 0 1]
 print(f"CSR indptr: {csr_sorted.indptr}")   # [0 2 3 4]
 
-
 # =========================================================================================
 # 2. Zero Management
 # =========================================================================================
@@ -226,7 +225,6 @@ A_explicit[0, 1] = 0  # Now (0,1) might be explicit zero
 print(f"\nAfter setting A[0,1]=1 then A[0,1]=0:")
 print(f"nnz (stored): {A_explicit.nnz}") # 5
 print(f"count_nonzero(): {A_explicit.count_nonzero()}") # 4
-
 
 # =========================================================================================
 # 3. Reshape and Transpose
@@ -327,7 +325,6 @@ print("\nConjugate transpose:")
 print(A_H.toarray())
 # [[1.-2.j 3.+1.j]
 #  [0.+0.j 4.+0.j]]
-
 
 # =========================================================================================
 # 4. Graph Algorithms
@@ -488,7 +485,6 @@ print(f"\nDepth-first order: {dfs_order}") # [0 1 3 4 2]
 bfs_order, bfs_predecessors = breadth_first_order(tree, 0, directed=True)
 print(f"Breadth-first order: {bfs_order}") # [0 1 2 3 4]
 
-
 # =========================================================================================
 # 5. Advanced Construction
 # =========================================================================================
@@ -581,7 +577,6 @@ print(f"2D Laplacian for {n}x{n} grid") # 5x5
 print(f"Shape: {Laplacian_2D.shape}") # (25, 25)
 print(f"Non-zeros: {Laplacian_2D.nnz}") # 325
 print(f"Sparsity: {100 * Laplacian_2D.nnz / (n**4):.1f}%") # 52.0%
-
 
 # =========================================================================================
 # 7. Performance Optimization

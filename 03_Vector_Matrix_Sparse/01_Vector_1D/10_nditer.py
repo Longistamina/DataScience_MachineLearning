@@ -52,7 +52,6 @@ for i, value in enumerate(arr2):
 # Index 1: value = 200
 # Index 2: value = 300
 
-
 # =========================================================================================
 # 3. Modify Values
 # =========================================================================================
@@ -81,7 +80,6 @@ with np.nditer(arr4, flags=['c_index'], op_flags=['writeonly']) as it:
 print("\nIndex squared:", arr4)
 # Index squared: [ 0.  1.  4.  9. 16.]
 
-
 # =========================================================================================
 # 4. Process in Chunks (For Performance)
 # =========================================================================================
@@ -97,7 +95,6 @@ with np.nditer(arr5, flags=['external_loop'], op_flags=['readwrite']) as it:
 print("Result:", arr5)
 # Processing chunk of size 12
 # Result: [  0.   1.   4.   9.  16.  25.  36.  49.  64.  81. 100. 121.]
-
 
 # =========================================================================================
 # Real-World Examples

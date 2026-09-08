@@ -43,7 +43,6 @@ print(s_coords)
 # 	[7, 8, 9]
 # ]
 
-
 # =========================================================================================
 # 1. Aggregation & Reduction
 # =========================================================================================
@@ -70,11 +69,9 @@ print(s_nums.arr.median())
 print(s_nums.arr.min()) # [1, 4, -10]
 print(s_nums.arr.max()) # [3, 6, 10]
 
-
 # Compute the var/std of the values of the sub-arrays
 print(s_nums.arr.var())
 print(s_nums.arr.std())
-
 
 # =========================================================================================
 # 2. Boolean Aggregation
@@ -93,7 +90,6 @@ print(s_bools.arr.all())
 # Evaluate whether ANY boolean value is true for every subarray
 print(s_bools.arr.any())
 # [true, true, false]
-
 
 # =========================================================================================
 # 3. Element Access & Indexing
@@ -124,7 +120,6 @@ print(s_nums.arr.arg_min())
 # Retrieve the index of the maximum value in every sub-array
 print(s_nums.arr.arg_max())
 # [2, 2, 1]  (30 is at idx 2; 60 is at idx 2; 80 is at idx 1)
-
 
 # =========================================================================================
 # 4. Searching & Counting
@@ -159,7 +154,6 @@ print(s_search.arr.unique())
 # 	[3, 4, 5]
 # 	[2]
 # ]
-
 
 # =========================================================================================
 # 5. Transformation & Manipulation
@@ -227,7 +221,6 @@ print(s_nums.arr.eval(pl.element().filter(pl.element() > 2), as_list=True))
 # 	[3]
 # 	[4, 5, 6]
 # ]
-
 
 # =========================================================================================
 # 6. Structural Operations

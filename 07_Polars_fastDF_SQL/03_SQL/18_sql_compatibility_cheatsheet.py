@@ -35,7 +35,6 @@ pl.Config.set_tbl_cols(8)
 pl.Config.set_float_precision(3)
 pl.Config.set_tbl_width_chars(120)
 
-
 # =========================================================================================
 # 0. Setup data
 # =========================================================================================
@@ -98,7 +97,6 @@ ctx = pl.SQLContext(orders=lf_orders, customers=lf_customers)
 
 print(df_orders)
 print(df_orders.schema)
-
 
 # =========================================================================================
 # 1. Compatibility overview
@@ -180,7 +178,6 @@ compatibility_overview = pl.DataFrame(
 
 print(compatibility_overview)
 
-
 # =========================================================================================
 # 2. Generic SQL vs Polars SQL mindset
 # =========================================================================================
@@ -221,7 +218,6 @@ out_native = (
     .sort("net_sales", descending=True)
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 3. Query clauses cheat sheet
@@ -272,7 +268,6 @@ query_clause_map = pl.DataFrame(
 
 print(query_clause_map)
 
-
 # =========================================================================================
 # 4. Function categories cheat sheet
 # =========================================================================================
@@ -320,7 +315,6 @@ function_category_map = pl.DataFrame(
 )
 
 print(function_category_map)
-
 
 # =========================================================================================
 # 5. Pandas / SQL / native Polars mappings
@@ -400,7 +394,6 @@ pandas_sql_polars_map = pl.DataFrame(
 
 print(pandas_sql_polars_map)
 
-
 # =========================================================================================
 # 6. Runnable SQL and native equivalent
 # =========================================================================================
@@ -445,7 +438,6 @@ out_native = (
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 7. Runnable multi-table SQL example
 # =========================================================================================
@@ -484,7 +476,6 @@ out_native = (
     .sort("net_sales", descending=True)
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 8. Generic SQL commands to be careful with
@@ -548,7 +539,6 @@ generic_command_reality = pl.DataFrame(
 
 print(generic_command_reality)
 
-
 # =========================================================================================
 # 9. Known Polars SQL workarounds from practice
 # =========================================================================================
@@ -592,7 +582,6 @@ workarounds = pl.DataFrame(
 )
 
 print(workarounds)
-
 
 # =========================================================================================
 # 10. SQL snippets that are reference-only here
@@ -666,7 +655,6 @@ UNSUPPORTED_OR_NOT_DATABASE_SNIPPETS = {
 for name, snippet in UNSUPPORTED_OR_NOT_DATABASE_SNIPPETS.items():
     print(f"\n--- be careful: {name} ---")
     print(snippet)
-
 
 # =========================================================================================
 # 11. Final checklist

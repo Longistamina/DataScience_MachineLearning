@@ -9,7 +9,6 @@ except ValueError:
 else:
     print("Your input is an integer")
 
-
 # ==============================================================================================
 # try except Exception
 # ==============================================================================================
@@ -37,7 +36,6 @@ else:
     print("Your code has no error")
 # Output: ">>> Something wrong!!!"
 
-
 ##---------------------------------##
 ## Exception as .... Error as .... ##
 ##---------------------------------##
@@ -50,7 +48,6 @@ else:
     print("Your code has no error")
 
 # Output: ">>> Error: division by zero"
-
 
 # ==============================================================================================
 # assert except AssertionError

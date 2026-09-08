@@ -23,7 +23,6 @@ pl.Config.set_tbl_cols(9)
 pl.Config.set_float_precision(4)
 pl.Config.set_tbl_width_chars(120)
 
-
 # =========================================================================================
 # 0. Setup data
 # =========================================================================================
@@ -127,7 +126,6 @@ print(df_orders)
 print(df_orders.schema)
 # Schema({'order_id': Int64, 'customer': String, 'region': String, 'product': String, 'product_code': String, 'comment': String, 'quantity': Int64, 'unit_price': Float64, 'discount_rate': Float64, 'profit_change': Float64, 'score': Float64, 'order_date': Date, 'order_time': Time, 'order_dt': Datetime(time_unit='us', time_zone=None), 'date_text_iso': String, 'date_text_long': String, 'time_text': String})
 
-
 # =========================================================================================
 # 1. Numeric rounding functions
 # =========================================================================================
@@ -185,7 +183,6 @@ out_native = lf_orders.select(
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 2. Numeric sign, absolute value, modulo
 # =========================================================================================
@@ -237,7 +234,6 @@ out_native = lf_orders.select(
     (c("quantity") % 2).alias("quantity_mod_2"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 3. Powers, roots, logs, PI
@@ -309,7 +305,6 @@ out_native = lf_orders.select(
     pl.lit(3.141592653589793).alias("pi_constant"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 4. Quick map

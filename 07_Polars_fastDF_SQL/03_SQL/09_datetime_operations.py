@@ -24,7 +24,6 @@ pl.Config.set_tbl_cols(9)
 pl.Config.set_float_precision(4)
 pl.Config.set_tbl_width_chars(120)
 
-
 # =========================================================================================
 # 0. Setup data
 # =========================================================================================
@@ -128,7 +127,6 @@ print(df_orders)
 print(df_orders.schema)
 # Schema({'order_id': Int64, 'customer': String, 'region': String, 'product': String, 'product_code': String, 'comment': String, 'quantity': Int64, 'unit_price': Float64, 'discount_rate': Float64, 'profit_change': Float64, 'score': Float64, 'order_date': Date, 'order_time': Time, 'order_dt': Datetime(time_unit='us', time_zone=None), 'date_text_iso': String, 'date_text_long': String, 'time_text': String})
 
-
 # =========================================================================================
 # 1. Parse strings into dates/times
 # =========================================================================================
@@ -199,7 +197,6 @@ out_native = lf_orders.select(
     pl.lit(dt.datetime(2024, 1, 1, 12, 30, 45)).alias("typed_timestamp_literal"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 2. Extract date/time parts
@@ -273,7 +270,6 @@ out_native = lf_orders.select(
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 3. Format temporal values as strings
 # =========================================================================================
@@ -330,7 +326,6 @@ out_native = lf_orders.select(
     c("order_dt").dt.strftime("%Y-%m-%d %H:%M").alias("pretty_datetime"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 4. Quick map

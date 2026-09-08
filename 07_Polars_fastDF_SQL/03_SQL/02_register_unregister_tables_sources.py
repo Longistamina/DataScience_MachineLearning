@@ -50,7 +50,6 @@ pl.Config.set_tbl_cols(12)
 pl.Config.set_tbl_width_chars(120)
 pl.Config.set_float_precision(2)
 
-
 # =========================================================================================
 # 0. Setup Data
 # =========================================================================================
@@ -136,7 +135,6 @@ print(df_regions)
 # │ South  ┆ Liam    │
 # └────────┴─────────┘
 
-
 # =========================================================================================
 # 1. Empty SQLContext + register one table
 # =========================================================================================
@@ -180,7 +178,6 @@ print(out.collect())
 # │ 4        ┆ 103         ┆ 150.00 │
 # │ 1        ┆ 101         ┆ 120.00 │
 # └──────────┴─────────────┴────────┘
-
 
 # =========================================================================================
 # 2. Register multiple tables by chaining
@@ -250,7 +247,6 @@ assert_frame_equal(
     orders_with_customers_sql.collect(),
     orders_with_customers_native.collect(),
 )
-
 
 # =========================================================================================
 # 3. Register tables at SQLContext construction
@@ -344,7 +340,6 @@ print(
 # └────────┴─────────┘
 
 
-
 # =========================================================================================
 # 4. register_many(): mapping and kwargs
 # =========================================================================================
@@ -401,7 +396,6 @@ print(
 # │ West   ┆ Noah    ┆ 2        ┆ 170.00       │
 # └────────┴─────────┴──────────┴──────────────┘
 
-
 # =========================================================================================
 # 5. tables() and SHOW TABLES
 # =========================================================================================
@@ -446,7 +440,6 @@ print(show_tables_eager)
 # │ regions   │
 # └───────────┘
 
-
 # =========================================================================================
 # 6. eager=True: only controls the returned Python type
 # =========================================================================================
@@ -478,7 +471,6 @@ result_eager_once = ctx_lazy_default.execute(
 )
 print(type(result_eager_once))
 print(result_eager_once)
-
 
 # =========================================================================================
 # 7. Register LazyFrames that come from file scans
@@ -536,7 +528,6 @@ exist when the SQL result is collected. The file is not necessarily read at
 registration time.
 '''
 
-
 # =========================================================================================
 # 8. register_globals(): convenient, but use carefully
 # =========================================================================================
@@ -592,7 +583,6 @@ ctx_register_later = pl.SQLContext()
 ctx_register_later.register_globals()
 print([name for name in ["df_global_demo", "lf_global_demo"] if name in ctx_register_later.tables()])
 
-
 # =========================================================================================
 # 9. unregister(): remove table names
 # =========================================================================================
@@ -620,7 +610,6 @@ print(ctx_remove.tables())
 ctx_remove.unregister(["orders", "customers"])
 print(ctx_remove.tables())
 # []
-
 
 # =========================================================================================
 # 10. Context-manager scope for temporary tables
@@ -665,7 +654,6 @@ with ctx_scope:
 print(ctx_scope.tables())
 # ['base_orders']
 
-
 # =========================================================================================
 # 11. Practical naming advice for SQL tables
 # =========================================================================================
@@ -688,7 +676,6 @@ Practical advice:
 5. Use `ctx.tables()` or `SHOW TABLES` before debugging a query that says a table
    was not found.
 '''
-
 
 # =========================================================================================
 # 12. Quick summary

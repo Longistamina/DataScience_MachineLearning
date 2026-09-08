@@ -61,7 +61,6 @@ print(df_pokemon.info())
 # dtypes: bool(1), category(3), int64(7), object(1)
 # memory usage: 54.7+ KB
 
-
 # =========================================================================================
 # 1. Create group-by object
 # =========================================================================================
@@ -89,7 +88,6 @@ print(grouped_single_key)
 grouped_multi_keys = df_pokemon.groupby(by=[df_pokemon["Type_1"], df_pokemon["Type_2"]])
 print(grouped_multi_keys)
 # <pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f4481bea060>
-
 
 # =========================================================================================
 # 2. df.groupby() object attritubes
@@ -148,7 +146,6 @@ print(grouped_single_key.ngroups)
 print(grouped_multi_keys.ngroups)
 # 136
 
-
 # =========================================================================================
 # 3. Iterate over groups within a group-by object
 # =========================================================================================
@@ -197,7 +194,6 @@ for name, group in grouped_multi_keys:  # Iterate over the first 4 groups
 #           Name Type_1 Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
 # 697   Larvesta    Bug   Fire    360  55      85       55      50      55     60          5      False
 # 698  Volcarona    Bug   Fire    550  85      60       65     135     105    100          5      False
-
 
 # =========================================================================================
 # 4. Select specific groups in a group-by object

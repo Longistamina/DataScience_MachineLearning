@@ -22,7 +22,6 @@ pd.set_option("display.width", 200)
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-
 ##--------------------##
 
 tb_emp = dr.tibble(pd.read_csv(data_dir/"emp.csv"))
@@ -37,7 +36,6 @@ print(tb_emp)
 # 5       6      Nina    578.00  2013-05-21          IT
 # 6       7     Simon    632.80  2013-07-30  Operations
 # 7       8      Guru    722.50  2014-06-17     Finance
-
 
 # =========================================================================================
 # 1. Change column names
@@ -138,7 +136,6 @@ print(
 # 6       7     Simon    632.80       2013-07-30  Operations
 # 7       8      Guru    722.50       2014-06-17     Finance
 
-
 # =========================================================================================
 # 2. Change row names
 # =========================================================================================
@@ -213,7 +210,6 @@ print(tb_from_rownames.head())
 from pipda import register_verb
 
 dr.filter = register_verb(func = dr.filter_)
-
 
 tb_set_index = (
     tb_emp
