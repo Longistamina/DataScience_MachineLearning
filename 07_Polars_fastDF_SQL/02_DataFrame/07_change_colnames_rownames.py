@@ -17,12 +17,10 @@ This file is adapted from the pandas workflow:
 
 2. Changing Row Names / Index:
    + Polars does NOT have pandas-style custom row indexes or MultiIndex.
-   + Rows are addressed by integer position.
-   + Index-like labels should be stored as normal columns.
-   + pandas df.set_index('col')           -> df.with_row_index(name='row_id', offset=0)
-   + pandas df.reset_index(drop=True)     -> Usually no-op in Polars; add/drop a visible row-id column if needed.
-   + pandas df.rename(index={...})        -> Rename/update values in an explicit row-label column.
-   + pandas MultiIndex rows               -> Use multiple normal key columns, e.g. Country and Year.
+     Rows are addressed by integer position.
+     Index-like labels should be stored as normal columns.
+   + df.with_row_index(name='row_id', offset=0)
+   + Create row index with `with_ow_index` then modify it
 '''
 
 import re
