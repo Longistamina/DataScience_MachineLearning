@@ -23,4 +23,3 @@ F = np.array([7, 2, 6, 3]) # availibility of raw materials
 p = np.array([15, 13, 11, 8]) # price of raw materials
 pTilde = np.array([21, 18]) # price of the blended material
 
-

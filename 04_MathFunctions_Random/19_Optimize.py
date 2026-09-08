@@ -145,7 +145,6 @@ print(res_sin.fun.round(6))   # -1.0
 res_golden = minimize_scalar(f_1d, method='golden')
 print(np.isclose(res_golden.x, res_brent.x, atol=1e-5))  # True
 
-
 ##----------------------------##
 ## minimize() — unconstrained ##
 ##----------------------------##
@@ -221,7 +220,6 @@ print(np.allclose(res_jac_true.x, res_bfgs.x, atol=1e-5))  # True
 
 # Memoize expensive computation with lru_cache (shared across f and grad calls)
 from functools import lru_cache
-
 
 @lru_cache(maxsize=None)
 def expensive_rosen(x_tuple):
@@ -418,7 +416,6 @@ res_cobyla = minimize(rosen_2d, [0.5, 0.], method='COBYLA',
                       options={'rhobeg': 0.5, 'maxiter': 5000})
 print(res_cobyla.x.round(4))  # approximately [0.4149, 0.1701]
 
-
 '''
 LOCAL MINIMISATION METHOD SELECTION TABLE
 =====================================================================================
@@ -451,7 +448,6 @@ Decision guide:
   Indefinite or near-singular H      -> trust-krylov > trust-ncg
   Medium n, full H cheap             -> trust-exact (fewest iterations)
 '''
-
 
 # =========================================================================================
 #  PART B — GLOBAL OPTIMIZATION 
@@ -517,7 +513,6 @@ res_de_int = differential_evolution(lambda x: (x[0]-3)**2 + (x[1]-1.5)**2,
                                      integrality=[1, 0])
 print(res_de_int.x)   # x0 should be 3 (integer), x1 near 1.5
 
-
 ##----------------##
 ## basinhopping() ##
 ##----------------##
@@ -564,7 +559,6 @@ res_bh_custom = basinhopping(multiwell, [0., 0.], niter=100, seed=42,
                                minimizer_kwargs={'method': 'BFGS'})
 print(res_bh_custom.fun.round(4)) # -0.7946
 
-
 ##--------##
 ## shgo() ##
 ##--------##
@@ -601,7 +595,6 @@ res_shgo_c = shgo(rastrigin, bounds_rast,
                   constraints={'type': 'ineq', 'fun': lambda x: 4 - x[0]**2 - x[1]**2},
                   n=100)
 print(res_shgo_c.x.round(4)) # [-0. -0.]
-
 
 ##------------------##
 ## dual_annealing() ##
@@ -662,7 +655,6 @@ print(res_dir.success)  # True
 res_dir_lb = direct(rastrigin, bounds_rast, f_min=0., f_min_rtol=1e-8)
 print(res_dir_lb.x.round(4)) # [0. 0.]
 
-
 ##---------##
 ## brute() ##
 ##---------##
@@ -693,7 +685,6 @@ x_min_b, f_min_b, grid, Jout = brute(f_bowl_2d, ranges=[(-2,3), (-2,2)],
 print(x_min_b.round(2), f_min_b.round(4)) # [ 0.89 -0.53] 0.0118
 print(grid[0].shape)   # (20, 20) grid of x0 values
 
-
 '''
 GLOBAL OPTIMISER COMPARISON TABLE
 ==========================================================================
@@ -707,7 +698,6 @@ direct                  *                     Yes            Small n; systematic
 brute                   *                     Yes            Very small n; exhaustive
 ==========================================================================
 '''
-
 
 # =========================================================================================
 #  PART C — LEAST-SQUARES & CURVE FITTING 
@@ -865,7 +855,6 @@ popt_plane, _ = curve_fit(plane, x2d, y2d, p0=[1., 1., 0.])
 print(popt_plane.round(3))   # ~[2.0, 0.5, 1.0]
                              #  [1.993 0.493 1.07 ]
 
-
 ##--------------##
 ## lsq_linear() ##
 ##--------------##
@@ -896,7 +885,6 @@ print((res_lsq_lin.x >= -1e-10).all())   # True all non-negative ✓
 res_box = lsq_linear(A_lsq, b_lsq, bounds=(0, 2.))
 print((res_box.x >= 0).all() and (res_box.x <= 2).all())  # True
 
-
 ##--------##
 ## nnls() ##
 ##--------##
@@ -918,7 +906,6 @@ print(round(rnorm_nnls, 6)) # 0.503418 ||Ax - b||_2
 
 # nnls and lsq_linear(bounds=(0,inf)) should give the same result
 print(np.allclose(x_nnls, res_lsq_lin.x, atol=1e-4))  # True
-
 
 ##-----------------------##
 ## isotonic_regression() ##
@@ -950,7 +937,6 @@ w = np.ones(20)
 w[8:12] = 5.   # central points measured more accurately
 res_iso_w = isotonic_regression(y_noisy, weights=w, increasing=True)
 print(np.all(np.diff(res_iso_w.x) >= -1e-12))  # True still monotone ✓
-
 
 # =========================================================================================
 #  PART D — ROOT FINDING 
@@ -1047,7 +1033,6 @@ print(round(root_bq_direct, 10))
 
 root_newton_direct = newton(f_root, x0=1.5, fprime=f_root_d, fprime2=f_root_d2)
 print(round(root_newton_direct, 10)) # 1.5213797068
-
 
 ##--------##
 ## root() ##
@@ -1204,7 +1189,6 @@ res_fm2 = elementwise.find_minimum(lambda x, a: (x - a)**2,
                                     res_bm.bracket, args=(a_min,))
 print(res_fm2.x.round(6))   # [1.  2.  3.]  ✓
 
-
 # =========================================================================================
 #  PART E — LINEAR PROGRAMMING & ASSIGNMENT 
 # =========================================================================================
@@ -1265,7 +1249,6 @@ print(round(res_diet.fun, 4))   # 6.2222 minimum cost
 binding = np.array(A_ub) @ res_lp.x - np.array(b_ub)
 print(binding.round(8))    # [0. 0.], negative slack = room left; 0 = constraint is tight
 
-
 ##--------##
 ## milp() ##
 ##--------##
@@ -1309,7 +1292,6 @@ res_mix  = milp(c_mix, constraints=con_mix,
                 integrality=int_mix, bounds=bnd_mix)
 print(res_mix.x)     # [4.  1.]
 print(-res_mix.fun)  # 22.0
-
 
 ##-------------------------##
 ## linear_sum_assignment() ##
@@ -1365,7 +1347,6 @@ dist_mat = np.linalg.norm(pts_A[:, None] - pts_B[None, :], axis=-1)
 row_d, col_d = linear_sum_assignment(dist_mat)
 print(dist_mat[row_d, col_d].sum().round(4)) # 2.3414
 
-
 ##------------------------##
 ## quadratic_assignment() ##
 ##------------------------##
@@ -1402,7 +1383,6 @@ print(res_qa.fun)       # 316.71576192033615 objective value (lower is better)
 res_qa_2opt = quadratic_assignment(A_qa, B_qa, method='2opt',
                                     options={'rng': 3})
 print(res_qa_2opt.fun) # 325.28359010373157
-
 
 # =========================================================================================
 #  PART F — UTILITIES & LEGACY 
@@ -1516,7 +1496,6 @@ print(fa > fb, fc > fb)   # True True -- fb is the smallest
 # Pass the bracket to minimize_scalar
 res_ms = minimize_scalar(f_bracket, bracket=(xa, xb, xc), method='brent')
 print(res_ms.x.round(6))   # 3.0  ✓
-
 
 ##------------##
 ## Legacy API ##

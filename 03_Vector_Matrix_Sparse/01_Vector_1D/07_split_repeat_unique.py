@@ -19,7 +19,6 @@ import numpy as np
 
 data_dir = next(Path('/home/').glob("**/01_Vector_1D/data/"))
 
-
 # =========================================================================================
 # 1. np.split()
 # =========================================================================================
@@ -82,7 +81,6 @@ for i, vec in enumerate(split_vectors):
 # Vector 3: [6 7]
 '''NOTE: np.array_split() handles uneven divisions gracefully, unlike np.split().'''
 
-
 # =========================================================================================
 # 2. arr.repeat()
 # =========================================================================================
@@ -107,7 +105,6 @@ The 1st element (3) is repeated once,
 the 2nd element (6) is repeated twice,
 the 3rd element (9) is repeated three times.
 '''
-
 
 # =========================================================================================
 # 3. np.unique()

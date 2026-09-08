@@ -37,7 +37,6 @@ Flow of contents:
 8. **kwargs (Variable Keyword Arguments): allows passing a variable number of keyword arguments to a function.
 '''
 
-
 # ==============================================================================================
 # 1. Define a function using def
 # ==============================================================================================
@@ -85,11 +84,9 @@ def customer_info(name, age=30, job="Unknown"):
     """Display customer information with a default age and job"""
     print(f"Customer Name: {name}, Age: {age}", f"Job: {job}")
 
-
 # Call the function with default parameters
 customer_info("Alice")
 # Customer Name: Alice, Age: 30 Job: Unknown
-
 
 # Call the function with custom parameters (repalacing default values)
 customer_info(name="Bob", age=25, job="Engineer")
@@ -101,7 +98,6 @@ NOTE: the NON-DEFAULT parameters (name) must appear BEFORE default parameters (a
 If you try to define a function with a default parameter before a non-default parameter,
 it will raise a SyntaxError.
 '''
-
 
 # ==============================================================================================
 # 2. Return a value using "return" statement
@@ -161,7 +157,6 @@ square, cubic = calculate_square_cubic(5) # Calculate with return_original=False
 print(f"Square: {square}, Cubic: {cubic}")
 # Square: 25, Cubic: 125
 
-
 # ==============================================================================================
 # 3. Constraint the data type of parameters using type hints (Typing)
 # ==============================================================================================
@@ -197,7 +192,6 @@ def concatenate_strings(str1: str, str2: str) -> str:
 result_3 = concatenate_strings("Hello, ", "World!")
 print(result_3)  # Hello, World!
 
-
 # ==============================================================================================
 # 4. Positional arguments: passing arguments in the order of parameters
 # ==============================================================================================
@@ -211,11 +205,9 @@ def info_display(first_name, last_name, DoB):
     """Display the full name."""
     print(f"{first_name} {last_name} - {DoB}")
 
-
 # Call the function with positional arguments in the correct order
 info_display("Abraham", "Lincoln", "12 February 1809")
 # Abraham Lincoln - 12 February 1809
-
 
 # Call the function with positional arguments in the wrong order
 info_display("Lincoln", "12 February 1809", "Abraham")
@@ -225,7 +217,6 @@ info_display("Lincoln", "12 February 1809", "Abraham")
 If the order of arguments is not respected, the output will be different from what you expect.
 This is because positional arguments are matched to parameters based on their position.
 '''
-
 
 # ==============================================================================================
 # 5. Keyword arguments: passing arguments by explicitly specifying the parameter names
@@ -239,11 +230,9 @@ def person_info(name, age, city):
     """Display person's information."""
     print(f"Name: {name}, Age: {age}, City: {city}")
 
-
 # Call the function with keyword arguments with the same order as parameters
 person_info(name="John", age=30, city="New York")
 # Name: John, Age: 30, City: New York
-
 
 # Call the function with keyword arguments in a different order
 person_info(
@@ -258,7 +247,6 @@ The result has the same output format (order) even though the arguments were pas
 This is because keyword arguments explicitly specify which parameter each argument corresponds to.
 '''
 
-
 # ==============================================================================================
 # 6. Default arguments: parameters with default values that can be omitted
 # ==============================================================================================
@@ -271,16 +259,13 @@ def greet_user(name, greeting="Hello"):
     """Greet the user with a default greeting."""
     print(f"{greeting}, {name}!")
 
-
 # Call the function with a default argument
 greet_user("Alice")
 # Hello, Alice!
 
-
 # Call the function with a custom greeting
 greet_user("Bob", "Bonjour")
 # Bonjour, Bob!
-
 
 # ==============================================================================================
 # 7. Forcing keyword arguments with "*": `def func(par1, *, par2, par3=arg3)`
@@ -385,7 +370,6 @@ def create_message(*strings): # now *strings will work as *args to collect all p
 print(create_message("Hello", "world", "from", "Python"))
 # "Hello world from Python"
 
-
 # ==============================================================================================
 # 9. **kwargs (Variable Keyword Arguments)
 # ==============================================================================================
@@ -432,7 +416,6 @@ display_info(name="Alice", age=30, city="New York")
 ##--------------------------------------------------------------------##
 
 from loguru import logger
-
 
 def calculate_salary(**info):
     """Calculate salary based on required and optional fields."""

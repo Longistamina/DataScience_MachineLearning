@@ -161,7 +161,6 @@ print(df_medals.head(3))
 print(df_medals.schema)
 # Schema({'row_id': UInt32, 'Year': Int64, 'City': Categorical, 'Sport': Categorical, 'Discipline': Categorical, 'NOC': Categorical, 'Event': Categorical, 'Event gender': Categorical, 'Medal': Categorical, 'Score': Float64, 'Prize': Int64, 'Tags': List(String), 'Notes': String})
 
-
 # =========================================================================================
 # 1. All available Config options
 # =========================================================================================
@@ -201,7 +200,6 @@ print(pl.Config.state())
 # Show only options that have been explicitly set.
 print(pl.Config.state(if_set=True))
 # Usually {} at the start of a clean session.
-
 
 # =========================================================================================
 # 2. Getting, Setting and Resetting options
@@ -262,7 +260,6 @@ pl.Config.restore_defaults()
 print(pl.Config.state(if_set=True))
 # {}
 
-
 # =========================================================================================
 # 3. Temporary options: context manager / decorator
 # =========================================================================================
@@ -316,7 +313,6 @@ def write_markdown_frame_to_stdout(df: pl.DataFrame) -> None:
 write_markdown_frame_to_stdout(df_medals.head(3))
 # The function prints the DataFrame using Markdown-style table formatting.
 
-
 # =========================================================================================
 # 4. Setting startup options in Python/IPython environment
 # =========================================================================================
@@ -368,7 +364,6 @@ cfg_path.unlink(missing_ok=True)
 
 # Reset after the demo.
 pl.Config.restore_defaults()
-
 
 # =========================================================================================
 # 5. Frequently used options
@@ -588,7 +583,6 @@ with pl.Config(tbl_cell_alignment="CENTER"):
 with pl.Config(tbl_cell_numeric_alignment="RIGHT"):
     print(df_align)
 
-
 # =========================================================================================
 # 6. Number formatting
 # =========================================================================================
@@ -680,7 +674,6 @@ with pl.Config(trim_decimal_zeros=True):
     print(df_decimal)
     # Trailing decimal zeros are trimmed in display.
 
-
 # =========================================================================================
 # 7. Unicode / ASCII formatting
 # =========================================================================================
@@ -727,7 +720,6 @@ with pl.Config(tbl_formatting="ASCII_MARKDOWN"):
 with pl.Config(tbl_width_chars=60, fmt_str_lengths=20):
     print(df_unicode)
     # Width and string-length options can help with display readability.
-
 
 # =========================================================================================
 # 8. Less common global behavior options

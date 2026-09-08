@@ -29,16 +29,13 @@ class Item:
         discount_amount = self.price * self.discount_rate
         return self.price - discount_amount
 
-
 item1 = Item("Laptop", 1500, 3)
 item2 = Item("Phone", 1000, 5)
-
 
 print(Item.discount_rate)  # Accessing the class attribute directly from the class => 0.2
 print(item1.discount_rate) # Accessing the class attribute from an instance        => 0.2
 print(item2.discount_rate) # Accessing the class attribute from another instance   => 0.2
 # ==> all instances share the same class attribute
-
 
 print(item1.apply_discount_ClassAttribute())  # Applying discount on item1 => 1200.0
 
@@ -56,7 +53,6 @@ print(item1.discount_rate)  # 0.3
 print(item1.apply_discount_instanceAttribute()) # Applying discount_rate 0.3 on item1 => 1050.0
 print(item2.apply_discount_instanceAttribute()) # Applying discount_rate 0.25 on item2 => 750.0
 
-
 # =========================================================================================
 # __dict__ to see attributes
 # =========================================================================================
@@ -64,7 +60,6 @@ print(item2.apply_discount_instanceAttribute()) # Applying discount_rate 0.25 on
 # .__dict__ is a special attribute that stores the name of the attributes of both class and instance
 print(Item.__dict__)  # Show all the attributes of the class Item
 print(item1.__dict__) # Show all the attributes of the instance item1
-
 
 # =========================================================================================
 # __repr__() method 

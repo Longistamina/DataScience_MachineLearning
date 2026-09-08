@@ -28,7 +28,6 @@ save_path = next(Path('/home/').glob("**/01_Vector_1D/save/"))
 print(save_path)
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/03_Vector_Matrix_Sparse/01_Vector_1D/save
 
-
 # =========================================================================================
 # 1. Using functions
 # =========================================================================================
@@ -83,7 +82,6 @@ np.savez_compressed(save_path/'vector_compressed.npz', vector_1, vector_2) # Sho
 np.savetxt(fname=save_path/'vector_1.txt', X=vector_1, fmt='%d', delimiter=', ') # Full syntax
 
 np.savetxt(save_path/'vector_2.txt', vector_2, fmt='%.1f', delimiter=', ') # Shortcut syntax
-
 
 # =========================================================================================
 # 2. Using methods

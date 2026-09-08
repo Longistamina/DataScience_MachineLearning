@@ -35,7 +35,6 @@ save_path.mkdir(parents=True, exist_ok=True)
 print(save_path)
 # /home/longdpt/Documents/Academic/DataScience_MachineLearning/03_Vector_Matrix_Sparse/02_Matrix_2D_nD/save
 
-
 # =========================================================================================
 # 1. Using functions
 # =========================================================================================
@@ -100,7 +99,6 @@ np.savez_compressed(save_path/'matrix_compressed.npz', matrix_1, matrix_2) # Sho
 np.savetxt(fname=save_path/'matrix_1.txt', X=matrix_1, fmt='%d', delimiter=', ') # Full syntax
 
 np.savetxt(save_path/'matrix_2.txt', matrix_2, fmt='%.2f', delimiter=', ') # Shortcut syntax
-
 
 # =========================================================================================
 # 2. Using methods

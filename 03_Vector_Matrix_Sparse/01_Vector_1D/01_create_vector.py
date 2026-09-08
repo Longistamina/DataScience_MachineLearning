@@ -44,7 +44,6 @@ vector_tuple = np.array((5.6, 15.7, 25.92, 35, 45))
 print(vector_tuple)
 # [ 5.6  15.7  25.92 35.   45.  ]
 
-
 # =========================================================================================
 # 2. Create 1D vector using other numpy functions
 # =========================================================================================
@@ -214,7 +213,6 @@ print(vector_choose)
 40: the 4th element from choices[0]
 100: the 5th element from choices[1]
 '''
-
 
 # =========================================================================================
 # 3. Create a 1D array with dtype specified

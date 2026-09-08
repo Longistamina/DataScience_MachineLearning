@@ -272,7 +272,6 @@ print(df_origin.vstack(df_ver_1))
 print(df_origin.hstack(df_hor_1))
 # Same result as pl.concat([df_origin, df_hor_1], how="horizontal")
 
-
 # =========================================================================================
 # 2. Joining
 # =========================================================================================
@@ -821,7 +820,6 @@ print(lf_joined.collect())
 # │ 2           ┆ Bob   ┆ 102      ┆ 180    │
 # └─────────────┴───────┴──────────┴────────┘
 
-
 # =========================================================================================
 # 3. Combining
 # =========================================================================================
@@ -836,7 +834,6 @@ The Polars style is:
 For same-shape DataFrames, horizontal concatenation by row position is often enough.
 For label/key alignment, join first, then combine columns.
 '''
-
 
 df1 = pl.DataFrame({"A": [0, 0], "B": [4, 4]})
 print(df1)
@@ -902,7 +899,6 @@ print(df_combined_max)
 ##    Element-wise mean combine    ##
 ##---------------------------------##
 '''Equivalent idea to pandas df1.combine(df2, func=lambda s1, s2: (s1 + s2) / 2).'''
-
 
 df_combined_mean = df_side_by_side.select(
     ((pl.col("A") + pl.col("A_2")) / 2).alias("A"),
@@ -1067,7 +1063,6 @@ print(combined_multi)
 # │ 2   ┆ 2   ┆ 20  │
 # │ 3   ┆ 3   ┆ 30  │
 # └─────┴─────┴─────┘
-
 
 # =========================================================================================
 # 4. Quick Mapping Table

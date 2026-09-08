@@ -35,7 +35,6 @@ print(s_filtered)
 # Bird_2    350.0
 # dtype: float64
 
-
 ##---------------------##
 ## Filter using regex= ##
 ##---------------------##
@@ -45,7 +44,6 @@ print(s_filtered)
 # Bird_2    350.0
 # Bird_4     20.0
 # dtype: float64
-
 
 ##--------------------##
 ## Filter using like= ##
@@ -58,7 +56,6 @@ print(s_filtered)
 # Bird_3     30.0
 # Bird_4     20.0
 # dtype: float64
-
 
 # =========================================================================================
 # 2. .where()
@@ -108,7 +105,6 @@ print(s_where)
 # 0    2.72
 # 1    2.53
 # dtype: float64
-
 
 ##-------------------------------------------------##
 ## Using where() to replace False-condition values ##

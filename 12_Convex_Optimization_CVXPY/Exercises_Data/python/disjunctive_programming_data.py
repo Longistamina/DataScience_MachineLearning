@@ -2,7 +2,6 @@ import numpy as np
 
 np.random.seed(1111)
 
-
 q = 10
 k_i = 10
 n = 10

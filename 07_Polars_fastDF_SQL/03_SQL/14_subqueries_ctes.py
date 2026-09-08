@@ -35,7 +35,6 @@ pl.Config.set_tbl_cols(10)
 pl.Config.set_float_precision(3)
 pl.Config.set_tbl_width_chars(120)
 
-
 # =========================================================================================
 # 0. Setup data
 # =========================================================================================
@@ -217,7 +216,6 @@ print(df_regional_targets)
 # │ West   ┆ 500.000      │
 # └────────┴──────────────┘
 
-
 # =========================================================================================
 # 1. Inline view: subquery in FROM
 # =========================================================================================
@@ -276,7 +274,6 @@ out_native = (
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 2. Inline view: filter inside, aggregate outside
 # =========================================================================================
@@ -330,7 +327,6 @@ out_native = (
     .sort("paid_sales", descending=True)
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 3. Inline view: calculate, then filter on alias
@@ -389,7 +385,6 @@ out_native = (
     .sort(["effective_discount_rate", "order_id"], descending=[True, False])
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 4. Join to a derived table
@@ -459,7 +454,6 @@ out_native = (
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 5. Basic WITH CTE
 # =========================================================================================
@@ -524,7 +518,6 @@ out_native = (
     .sort("paid_sales", descending=True)
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 6. Multiple CTEs in one WITH
@@ -604,7 +597,6 @@ Instead:
 #     .sort("paid_sales", descending=True)
 # )
 # print(out_native.collect())
-
 
 # =========================================================================================
 # 7. Chained CTE pipeline
@@ -690,7 +682,6 @@ This creates a readable pipeline:
 # ).sort("sales_gap", descending=True)
 # print(out_native.collect())
 
-
 # =========================================================================================
 # 8. CTE equivalent of a repeated inline view
 # =========================================================================================
@@ -743,7 +734,6 @@ out_native = (
     .sort(["paid_sales", "order_id"], descending=[True, False])
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 9. CTEs with LEFT JOIN lookup tables
@@ -801,7 +791,6 @@ out_native = (
     .sort("customer_id")
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 10. Scalar-subquery idea: use a CTE rewrite
@@ -872,7 +861,6 @@ print(out_native.collect())
 # │ 1004     ┆ Diana    ┆ Keyboard ┆ 349.500      ┆ 265.083          │
 # └──────────┴──────────┴──────────┴──────────────┴──────────────────┘
 
-
 # =========================================================================================
 # 11. IN-subquery idea: use SEMI JOIN rewrite
 # =========================================================================================
@@ -929,7 +917,6 @@ out_native = (
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 12. NOT IN / NOT EXISTS idea: use ANTI JOIN rewrite
 # =========================================================================================
@@ -981,7 +968,6 @@ out_native = (
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 13. CTE scope is one SQL statement
 # =========================================================================================
@@ -1017,7 +1003,6 @@ print(out_sql.collect())
 print(ctx.tables())
 # The registered tables are orders, customers, and regional_targets.
 # paid_orders was only a temporary CTE inside the previous statement.
-
 
 # =========================================================================================
 # 14. Use CTE output in later Polars chain
@@ -1062,7 +1047,6 @@ out_polars_chain = (
     .sort("total_sales", descending=True)
 )
 print(out_polars_chain.collect())
-
 
 # =========================================================================================
 # 15. Common mistakes

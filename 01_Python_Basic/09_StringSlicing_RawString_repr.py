@@ -38,7 +38,6 @@ name[-7:-4] # Middle name "Anh": from the -7 index to the -4 index (exclude -4)
 
 name[-3:] # Given name "Thu": from the third last element to the end
 
-
 name[-1:-4:-1] # "uhT" (exclude the -4)
                # The last -1 after the second ":" means slicing in reverse steps from right to left (with step = 1)
                # negative sign "-" means reverse indexing
@@ -68,7 +67,6 @@ strOdd = strNumbers[0::2] # slice from start to end, but with index step = 2, re
 strEven = strNumbers[1::2]  # slice from the second element to end, but with index step = 2, return "2468"
 
 print("-" * 50) # print character '-' 50 times
-
 
 # ==============================================================================================
 # 2. ``repr()`` funcion

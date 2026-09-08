@@ -105,7 +105,6 @@ def make_blobs(n=40, centres=None, std=0.6, seed=42):
 X, labels_true = make_blobs(n=30)   # 90 × 2, 3 clusters
 X_1d = rng.normal(0, 1, (60, 1))    # 1-D data for simple demos
 
-
 # =========================================================================================
 #  PART A — PREPROCESSING  (scipy.cluster.vq) 
 # =========================================================================================
@@ -150,7 +149,6 @@ X_unequal = np.column_stack([
 ])
 X_ueq_w = whiten(X_unequal)
 print("Unequal scales, std after whiten:", X_ueq_w.std(axis=0).round(4))   # [1. 1.]
-
 
 # =========================================================================================
 #  PART B — K-MEANS  (scipy.cluster.vq) 
@@ -271,7 +269,6 @@ print("kmeans2 (random) label distribution:", np.bincount(label_rnd)) # [30 30 3
 # (Adjusted by permutation invariance)
 from itertools import permutations
 
-
 def cluster_accuracy(true, pred):
     best = 0
     for perm in permutations(np.unique(pred)):
@@ -338,7 +335,6 @@ print(f"Test dists : {dists_test.round(4)}") # [0.4695 1.1735 1.2067 1.1011 1.11
 X_reconstructed = codebook[codes] * X_std   # un-whiten
 reconstruction_error = np.mean((X - X_reconstructed)**2)
 print(f"MSE reconstruction error: {reconstruction_error:.4f}") # 0.2650
-
 
 # =========================================================================================
 #  PART C — LINKAGE CONSTRUCTION  (scipy.cluster.hierarchy) 
@@ -435,7 +431,6 @@ print("MATLAB round-trip matches:", np.allclose(Z_back, Z_ward))   # True
 print("MATLAB linkage first row:", Z_matlab[0])   
 # [8.00000000e+01 8.70000000e+01 3.60847096e-02]
 # indices are +1 vs scipy
-
 
 # =========================================================================================
 #  PART D — FLAT CLUSTER EXTRACTION  (scipy.cluster.hierarchy) 
@@ -595,7 +590,6 @@ N_obs = len(X)
 print(f"\nLeaders: node indices={L}, cluster labels={M}") # node indices=[175 176 174], cluster labels=[2 3 1]
 print(f"Internal nodes (>= N={N_obs}): {L[L >= N_obs]}") # Internal nodes (>= N=90): [175 176 174]
 
-
 # =========================================================================================
 #  PART E — DENDROGRAM & VISUALISATION 
 # =========================================================================================
@@ -700,7 +694,6 @@ print("First block (top-left 5x5):\n", D_reordered[:5, :5].round(3))
 #  [0.177 0.128 0.    0.372 0.265]
 #  [0.545 0.25  0.372 0.    0.352]
 #  [0.341 0.208 0.265 0.352 0.   ]]
-
 
 # =========================================================================================
 #  PART F — LINKAGE STATISTICS 
@@ -874,7 +867,6 @@ print("\nmaxRstat col=3 (inconsistency) equals maxinconsts:", np.allclose(MS_col
 print("maxRstat col=0 (max mean height) last 5:", MS_col0[-5:].round(4)) # [ 2.3624  2.4664  3.0284 11.0131 18.3029]
 print("maxRstat col=2 (max count) last 5:", MS_col2[-5:]) # [3. 3. 3. 3. 3.]
 
-
 # =========================================================================================
 #  PART G — TREE STRUCTURE 
 # =========================================================================================
@@ -1018,7 +1010,6 @@ sum_olo = adjacent_dist_sum(X, order_olo)
 print(f"\nAdjacent-pair distance sum — standard: {sum_std:.4f}, OLO: {sum_olo:.4f}") # Adjacent-pair distance sum — standard: 47.6801, OLO: 36.7246
 print(f"OLO improvement: {100*(sum_std - sum_olo)/sum_std:.1f}%")   # 23.0% (OLO <= standard)
 
-
 # =========================================================================================
 #  PART H — VALIDATION 
 # =========================================================================================
@@ -1094,7 +1085,6 @@ num_obs_linkage(Z) -> int
 N_recovered = num_obs_linkage(Z_ward)
 print(f"\nnum_obs_linkage: {N_recovered} == len(X): {len(X)}")   # both 90
 
-
 # =========================================================================================
 #  END-TO-END WORKFLOWS (putting it all together) 
 # =========================================================================================
@@ -1130,7 +1120,6 @@ for k in range(3):
     mask = (lbl2 == k)
     wgss[k] = (all_dists[mask]**2).sum()
     print(f"Cluster {k}: n={mask.sum()}, WGSS={wgss[k]:.4f}")
-
 
 print("\n" + "="*70)
 print("WORKFLOW 2 — HIERARCHICAL CLUSTERING (hierarchy module)")
@@ -1173,7 +1162,6 @@ L_h, M_h = leaders(Z_w2, lbl_hier)
 for node_id, clust_lbl in zip(L_h, M_h):
     size = int(node_list[node_id].count) if node_id < len(node_list) else '?'
     print(f"  Cluster {clust_lbl}: leader node {node_id}, size={size}")
-
 
 print("\n" + "="*70)
 print("WORKFLOW 3 — COMPARING ALL LINKAGE METHODS")

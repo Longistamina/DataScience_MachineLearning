@@ -59,7 +59,6 @@ print(np.apply_along_axis(math.log2, axis=0, arr=matrix_nums))
 '''TypeError: only length-1 arrays can be converted to Python scalars'''
 # It returns an error because math.log2 expects a single scalar value, not an array.
 
-
 # =========================================================================================
 # 2. np.apply_over_axes()
 # =========================================================================================
@@ -102,7 +101,6 @@ print(result_both)
 result_mean = np.apply_over_axes(np.mean, matrix_data, axes=[0])
 print(result_mean)
 # [[4.   7.   4.75 1.25 5.5 ]]
-
 
 # =========================================================================================
 # 3. np.vectorize()
@@ -149,7 +147,6 @@ print(scale_vectorized(matrix_values))
 # [[15. 74. 24.  2.]
 #  [58. 39. 45. 98.]
 #  [45. 18. 15.  2.]]
-
 
 # =========================================================================================
 # 4. np.frompyfunc()
@@ -265,7 +262,6 @@ print("Divisions:\n", divs.astype(float))
 #  [6.  5. ]]
 
 '''op_func() takes TWO array-like inputs and returns FOUR array-like outputs.'''
-
 
 # =========================================================================================
 # 5. Examples for 3D and 4D Matrices

@@ -196,7 +196,6 @@ for i, mat in enumerate(dsplit_matrices):
 # Matrix 3 shape: (2, 3, 2)
 '''Splits the (2, 3, 6) matrix into 3 matrices of shape (2, 3, 2).'''
 
-
 # =========================================================================================
 # 2. np.repeat()
 # =========================================================================================
@@ -251,7 +250,6 @@ The 1st column is repeated once,
 the 2nd column is repeated twice,
 the 3rd column is repeated three times.
 '''
-
 
 # =========================================================================================
 # 3. np.unique()

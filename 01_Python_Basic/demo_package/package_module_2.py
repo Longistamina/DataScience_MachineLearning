@@ -1,6 +1,5 @@
 from loguru import logger
 
-
 def multiply(x, y):
     if __name__ == "__main__":
         logger.info("This module is being run directly")
@@ -16,7 +15,6 @@ def divide(x, y):
         logger.info("This module is being imported")
     print(f"{x} / {y} = {x / y}")
     return x / y
-
 
 if __name__ == "__main__": # These codes will not be executed when being imported from other scripts
     _ = multiply(6, 2)  # Assign to _ to avoid printing output in the console

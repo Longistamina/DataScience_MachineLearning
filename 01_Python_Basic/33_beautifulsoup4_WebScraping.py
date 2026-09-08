@@ -51,7 +51,6 @@ Minimal expected HTML skeleton:
 </html>
 '''
 
-
 # ==============================================================================================
 # 2. Parse html_string, then read from URL
 # ==============================================================================================
@@ -174,7 +173,6 @@ print(soup.prettify()[:100])  # print first 100 chars of prettified HTML
   <
 '''
 
-
 # ==============================================================================================
 # 3. Inspect tags / text / attributes
 # ==============================================================================================
@@ -222,7 +220,6 @@ print(first_a.attrs) # {'href': '/', 'style': 'text-decoration: none'}
 print(first_a['href'])  # /
 print(first_a.get('style'))  # text-decoration: none
 print(first_a.get_text(strip=True))  # Quotes to Scrape
-
 
 # ==============================================================================================
 # 4. Navigate the parse tree
@@ -294,7 +291,6 @@ print(f"Next sibling of first element child:\n{next_sibling.prettify()}")
  </div>
 </footer>
 '''
-
 
 # ==============================================================================================
 # 5. Searching (find / find_all) safely
@@ -369,7 +365,6 @@ title_text = maybe_title.get_text(strip=True) if maybe_title else None # Get the
 print("Safe title_text:", title_text)
 # Safe title_text: Quotes to Scrape
 
-
 # ==============================================================================================
 # 6. Text extraction
 # ==============================================================================================
@@ -414,7 +409,6 @@ print(first_a.prettify())
 print(first_a.string)
 # Quotes to Scrape
 '''Because <a> has only one direct text node, .string works here.'''
-
 
 # ==============================================================================================
 # 7. CSS selectors (select / select_one)
@@ -465,7 +459,6 @@ print(first_p.prettify())
 print(first_p.get_text(strip=True))
 # Login
 
-
 # ==============================================================================================
 # 8. Extraction loop pattern (+ CSV optional)
 # ==============================================================================================
@@ -503,7 +496,6 @@ with open(output_path, "w", newline="", encoding="utf-8") as f:
     writer.writeheader()
     writer.writerows(rows)
 '''
-
 
 # ==============================================================================================
 # 9. Common gotchas (practical)

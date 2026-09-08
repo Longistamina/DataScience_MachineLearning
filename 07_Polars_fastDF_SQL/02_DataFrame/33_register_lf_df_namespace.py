@@ -20,7 +20,6 @@ Rules / gotchas:
 
 import polars as pl
 
-
 @pl.api.register_dataframe_namespace("mytools")
 class MyDataFrameNamespace:
     def __init__(self, df: pl.DataFrame):
@@ -32,7 +31,6 @@ class MyDataFrameNamespace:
             (pl.Series(prefixes, dtype=pl.Utf8) + self._df[col]).alias(col)
         )
 
-
 @pl.api.register_lazyframe_namespace("mytools")
 class MyLazyFrameNamespace:
     def __init__(self, lf: pl.LazyFrame):
@@ -42,7 +40,6 @@ class MyLazyFrameNamespace:
         """Prepend elementwise prefixes onto a string column (lazy version)."""
         prefix_expr = pl.Series(prefixes, dtype=pl.Utf8)
         return self._lf.with_columns((prefix_expr + pl.col(col)).alias(col))
-
 
 if __name__ == "__main__":
     df = pl.DataFrame(

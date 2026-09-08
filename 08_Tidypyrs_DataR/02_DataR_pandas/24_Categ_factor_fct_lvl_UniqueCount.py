@@ -65,7 +65,6 @@ pd.set_option("display.width", 200)
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-
 # =========================================================================================
 # 1. Create factor variable
 # =========================================================================================
@@ -110,7 +109,6 @@ ord_size = dr.ordered(
 print(ord_size)
 # [39, 42, 36, 40, 38, 41, 39, 37, 42, 40]
 # Categories (7, int64): [36 < 37 < 38 < 39 < 40 < 41 < 42]
-
 
 # =========================================================================================
 # 2. Convert to factor variable
@@ -158,7 +156,6 @@ ord_size2 = dr.as_ordered(lst_size)
 print(ord_size2)
 # [39, 42, 36, 40, 38, 41, 39, 37, 42, 40]
 # Categories (7, int64): [36 < 37 < 38 < 39 < 40 < 41 < 42]
-
 
 # =========================================================================================
 # 3. Inspect core properties of factor variable
@@ -257,7 +254,6 @@ print(dr.fct_count(ord_degree))
 # 2        PhD       2
 # 3    AscProf       1
 
-
 # =========================================================================================
 # 4. Add and Remove levels
 # =========================================================================================
@@ -310,7 +306,6 @@ print(dr.levels(dropped_size)) # [39 40 41 42]
 
 dropped_gender = dr.droplevels(fct_gender[~fct_gender.isin(["Others"])]) # Remove "Others" level
 print(dr.levels(dropped_gender)) # ['F' 'M']
-
 
 # =========================================================================================
 # 5. Reorder levels of factor variable
@@ -520,7 +515,6 @@ print(dr.levels(shifted_size))   # [37 38 39 40 41 42 36]
 shifted_size_left = dr.fct_shift(ord_size, n=-2) # Shift left by 2
 print(dr.levels(shifted_size_left))   # [41 42 36 37 38 39 40]
 
-
 # =========================================================================================
 # 6. Rename levels of factor variable
 # =========================================================================================
@@ -696,7 +690,6 @@ print(relabel_product)
 # Length: 14
 # Categories (8, object): ['APPLE', 'HUAWEI', 'ONEPLUS', 'OPPO', 'REALME', 'SAMSUNG', 'VIVO', 'XIAOMI']
 
-
 # =========================================================================================
 # 7. Handle multiple factors
 # =========================================================================================
@@ -761,7 +754,6 @@ Before unification, your three factors had different levels:
 After unification, all three factors now share the same complete set of levels: ['a', 'b', 'c']
 '''
 
-
 # =========================================================================================
 # 8. Special operations on factor variable
 # =========================================================================================
@@ -822,7 +814,6 @@ anon_nationality = dr.fct_anon(patient_nationality, prefix="Nat_")
 print(anon_nationality)
 # ['Nat_1', 'Nat_0', 'Nat_2', 'Nat_1', 'Nat_0', 'Nat_1', 'Nat_2', 'Nat_0', 'Nat_1', 'Nat_2']
 # Categories (3, object): ['Nat_0', 'Nat_1', 'Nat_2']
-
 
 # =========================================================================================
 # 9. Low-level operations
@@ -908,7 +899,6 @@ expanded_degree = dr.lvls_expand(
 print(expanded_degree)
 # ['Bachelors', 'Masters', 'PhD', 'Bachelors', 'PhD', 'Masters', 'Bachelors', 'AscProf']
 # Categories (6, object): ['Bachelors' < 'Masters' < 'PhD' < 'AscProf' < 'PostDoc' < 'Professor']
-
 
 # =========================================================================================
 # 10. Apply to processing pipelines with dr.mutate()

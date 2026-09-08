@@ -13,4 +13,3 @@ P_feas = P_feas @ P_feas.T
 y = np.diag(X.T @ P_feas @ X)
 
 
-

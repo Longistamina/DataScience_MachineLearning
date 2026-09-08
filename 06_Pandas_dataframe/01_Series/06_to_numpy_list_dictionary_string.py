@@ -38,7 +38,6 @@ print(s_numeric)
 # 9    2.54
 # dtype: float64
 
-
 # =========================================================================================
 # 1. .to_numpy()
 # =========================================================================================
@@ -56,7 +55,6 @@ print(type(np_numeric))  # <class 'numpy.ndarray'>
 '''
 As we can see, in ndarray, there are no "," separators between elements
 '''
-
 
 # =========================================================================================
 # 2. .to_list()
@@ -76,7 +74,6 @@ print(type(list_numeric))  # <class 'list'>
 As we can see, in list, there are "," separators between elements
 '''
 
-
 # =========================================================================================
 # 3. .to_dict()
 #
@@ -95,7 +92,6 @@ print(dict_indexed)
 As we can see, the indexes are used as keys in the dictionary,
 and the values are the corresponding elements of the Series.
 '''
-
 
 # =========================================================================================
 # 4. .to_string()

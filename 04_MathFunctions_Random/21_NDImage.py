@@ -79,7 +79,6 @@ labels_arr[3:8, 3:8]    = 1
 labels_arr[12:17, 12:17] = 2
 vals_arr = rng.uniform(0, 10, (20, 20))   # values to measure over regions
 
-
 # =========================================================================================
 #  PART A — FILTERS 
 # =========================================================================================
@@ -210,7 +209,6 @@ print(vol_gauss.shape)  # (16, 32, 32)
 # Derivative of Gaussian for edge/ridge detection in 3-D
 vol_grad_z = ndi.gaussian_filter1d(img3d, sigma=1.5, axis=0, order=1)
 
-
 ##--------------------------------------##
 ## 3. uniform_filter / uniform_filter1d ##
 ##--------------------------------------##
@@ -255,7 +253,6 @@ img_box1d = ndi.uniform_filter1d(img, size=7, axis=1)
 # 3-D
 vol_box = ndi.uniform_filter(img3d, size=3)
 print(vol_box.shape)  # (16, 32, 32)
-
 
 ##------------------##
 ## 4. median_filter ##
@@ -539,7 +536,6 @@ def vec_local_range(windows, **kwargs):   # windows: (H, W, kH, kW)
 local_rng_vec = ndi.vectorized_filter(img[:16, :16], vec_local_range, size=5)
 print(np.allclose(local_rng, local_rng_vec, atol=1e-10))  # True — same result, faster
 
-
 # =========================================================================================
 #  PART B — FOURIER FILTERS 
 # =========================================================================================
@@ -615,7 +611,6 @@ img_sshift = ndi.shift(img_small, shift=shift_amount, mode='wrap')
 print(f"Fourier vs spatial shift max diff: {np.abs(img_fshift - img_sshift).max():.4f}")
 # 2.1503
 # Fourier shift avoids interpolation artefacts for large arrays
-
 
 # =========================================================================================
 #  PART C — INTERPOLATION / GEOMETRIC TRANSFORMS 
@@ -993,7 +988,6 @@ print(np.allclose(result1, result1_ref, atol=1e-8))  # True
 coeffs_row = ndi.spline_filter1d(img, order=3, axis=0, mode='mirror')
 coeffs_both = ndi.spline_filter1d(coeffs_row, order=3, axis=1, mode='mirror')
 
-
 # =========================================================================================
 #  PART D — MEASUREMENTS 
 # =========================================================================================
@@ -1265,7 +1259,6 @@ markers_ws[14, 14] = 2   # seed in blob 2
 ws_result = ndi.watershed_ift(img_inv, markers_ws)
 print(f"Watershed labels: {np.unique(ws_result)}")   # [1 2]
 # Label 1 covers blob 1, label 2 covers blob 2 (and background split between them)
-
 
 # =========================================================================================
 #  PART E — MORPHOLOGY 

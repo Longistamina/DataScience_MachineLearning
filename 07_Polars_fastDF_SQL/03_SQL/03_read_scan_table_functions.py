@@ -56,11 +56,9 @@ pl.Config.set_tbl_cols(12)
 pl.Config.set_tbl_width_chars(120)
 pl.Config.set_float_precision(2)
 
-
 def sql_path(path: Path) -> str:
     '''Return a file path that is safe to place inside a single-quoted SQL string.'''
     return path.as_posix().replace("'", "''")
-
 
 # =========================================================================================
 # 0. Setup Data
@@ -130,7 +128,6 @@ with TemporaryDirectory() as tmp_dir:
     print(df_products)
     print(df_cities)
 
-
     # =========================================================================================
     # 1. read_csv('path.csv')
     # =========================================================================================
@@ -165,7 +162,6 @@ with TemporaryDirectory() as tmp_dir:
     )
 
     assert_frame_equal(out_csv_sql.collect(), out_csv_native.collect())
-
 
     # =========================================================================================
     # 2. read_parquet('path.parquet')
@@ -203,7 +199,6 @@ with TemporaryDirectory() as tmp_dir:
     )
 
     assert_frame_equal(out_parquet_sql.collect(), out_parquet_native.collect())
-
 
     # =========================================================================================
     # 3. read_json('path.ndjson')
@@ -251,7 +246,6 @@ with TemporaryDirectory() as tmp_dir:
 
     assert_frame_equal(out_json_sql.collect(), out_json_native.collect())
 
-
     # =========================================================================================
     # 4. read_ipc('path.arrow')
     # =========================================================================================
@@ -284,7 +278,6 @@ with TemporaryDirectory() as tmp_dir:
     )
 
     assert_frame_equal(out_ipc_sql.collect(), out_ipc_native.collect())
-
 
     # =========================================================================================
     # 5. When SQL table functions are not the best fit
@@ -332,7 +325,6 @@ with TemporaryDirectory() as tmp_dir:
 
     assert_frame_equal(out_standard_json_registered.collect(), out_standard_json_native.collect())
 
-
     # =========================================================================================
     # 6. Practical path and source advice
     # =========================================================================================
@@ -359,7 +351,6 @@ with TemporaryDirectory() as tmp_dir:
     5. If a SQL result scans a temporary file lazily, the file must still exist
        when you call .collect(). Do not delete temporary files before collecting.
     '''
-
 
 # =========================================================================================
 # 7. Quick summary

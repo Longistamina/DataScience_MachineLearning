@@ -94,7 +94,6 @@ print(s.str.upper())
 # 1    WORLD
 # dtype: object
 
-
 ##---------------------------------------------------##
 ## With numeric series, must convert to string first ##
 ##---------------------------------------------------##
@@ -121,7 +120,6 @@ print(s_nums.astype(str).str.fullmatch(r"\d+\.\d+"))
 # 3    False
 # 4     True
 # dtype: bool
-
 
 # =========================================================================================
 # 1. Slicing and Indexing
@@ -168,7 +166,6 @@ print(s_heroes.str.slice(step=2))
 # Quicksilver       Per_aiof
 # dtype: object
 
-
 ##-------------------------##
 ## .slice_replace() method ##
 ##-------------------------##
@@ -183,7 +180,6 @@ print(s_heroes.str.slice_replace(start=0, stop=4, repl="Dr"))
 # Hulk                 Dre_Banner
 # Quicksilver       Drro_Maximoff
 # dtype: object
-
 
 ##---------------##
 ## .get() method ##
@@ -247,7 +243,6 @@ print(s_ff4_dict.str.get("code"))
 # 3          TheThing
 # Name: Fantastic Four, dtype: object
 
-
 # =========================================================================================
 # 2. Basic Transformations
 # =========================================================================================
@@ -300,7 +295,6 @@ print(s_mixed.str.swapcase())
 
 '''Swap case means converting uppercase letters to lowercase and vice versa.'''
 
-
 ##-----------------------##
 ## Information retrieval ##
 ##-----------------------##
@@ -326,7 +320,6 @@ print(s_mixed.str.count(r'\d'))  # Count digits
 # 1    0
 # 2    3
 # dtype: int64
-
 
 ##------------------##
 ##     Stripping    ##
@@ -357,7 +350,6 @@ print(s_spaced.str.lstrip().to_list())
 
 print(s_spaced.str.rstrip().to_list())
 # ['  hello', '  pandas', '  data science']
-
 
 # =========================================================================================
 # 3. Checking methods
@@ -459,7 +451,6 @@ print(s_check.str.isspace())
 # 8    False
 # dtype: bool
 
-
 ##-----------------##
 ##   Case checks   ##
 ##-----------------##
@@ -501,7 +492,6 @@ print(s_check.str.istitle())
 # 4    False
 # 5    False
 # dtype: bool
-
 
 ##------------------------##
 ##     Pattern checks     ##
@@ -581,7 +571,6 @@ print(s_contain.str.contains(pat=r"\d|parrot|Mo", regex=True, na=False)) # Regex
 # 3     True ('23' contains digit '\d')
 # 4    False
 # dtype: bool
-
 
 # =========================================================================================
 # 4. Split and Partion
@@ -746,7 +735,6 @@ print(s_partition.str.rpartition(sep='-', expand=False)) # Return as tuples, not
 # 3                          NaN
 # dtype: object
 
-
 # =========================================================================================
 # 5. Joinning
 # =========================================================================================
@@ -770,7 +758,6 @@ print(s_join.str.join(sep=' || '))
 # 2    one || two || three || four
 # 3                            NaN
 # dtype: object
-
 
 # =========================================================================================
 # 6. Replacement, Removal, Repeat, Wrap
@@ -814,7 +801,6 @@ print(s_replace.str.replace(pat=r'\d+', repl='#', regex=True))  # Replace all di
 # 4                    NaN
 # dtype: object
 
-
 ##-----------------------##
 ## .removeprefix(prefix) ##
 ##-----------------------##
@@ -827,7 +813,6 @@ print(s_prefix.str.removeprefix('pre_'))  # Remove 'pre_' if it exists at the st
 # 2       cat
 # 3       NaN
 # dtype: object
-
 
 ##-----------------------##
 ## .removesuffix(suffix) ##
@@ -842,7 +827,6 @@ print(s_suffix.str.removesuffix('_suf'))  # Remove '_suf' if it exists at the en
 # 3       NaN
 # dtype: object
 
-
 ##------------##
 ## .repeat(n) ##
 ##------------##
@@ -855,7 +839,6 @@ print(s_repeat.str.repeat(3))  # Repeat each string 3 times
 # 2    hehehe
 # 3       NaN
 # dtype: object
-
 
 ##--------------##
 ## .wrap(width) ##
@@ -876,7 +859,6 @@ print(s_wrap.str.wrap(width=10).get(0))
 # that needs
 # to be
 # wrapped.
-
 
 # =========================================================================================
 # 7. RegEx, Matching, Finding, Extracting
@@ -936,7 +918,6 @@ print(s_match.str.contains(r'\d{3}', regex=True, na=False))  # Contains a sequen
 # 3    True ('123abc' contains digits '123')
 # 4   False (NaN treated as False)
 # dtype: object
-
 
 ##-------------------------------------##
 ##               Finding               ##
@@ -1001,7 +982,6 @@ print(s_index.str.rindex(sub='_'))  # Find the last occurrence of '_' in s_index
 # 2    4 ('do_v_e' has '_' at index 4 as the highest)
 # dtype: int64
 
-
 ##--------------------------------------##
 ##              Extracting              ##
 ##--------------------------------------##
@@ -1011,7 +991,6 @@ print(s_index.str.rindex(sub='_'))  # Find the last occurrence of '_' in s_index
 # By default, expand=True (returns DataFrame)
 
 s_extract = pd.Series(['a1', 'b2', 'c3'])
-
 
 print(s_extract.str.extract(r'[ab](\d)')) # Returns only one group (the digit after 'a' or 'b')
 #      0                                  # This is a DATAFRAME since expand=True by default
@@ -1063,7 +1042,6 @@ print(s_extall.str.extractall(r'([ab])(\d)'))  # Extract all occurrences of lett
 #   1      a  4 (match 1: 'a4')
 # B 0      b  6 (match 0: 'b6')
 
-
 # =========================================================================================
 # 8. Concatenation
 # =========================================================================================
@@ -1102,7 +1080,6 @@ print(s1.str.cat(s2, sep='_'))
 # 2    c_3
 # dtype: object
 
-
 # =========================================================================================
 # 9. Prefix, Suffix, Padding and Alignment
 # =========================================================================================
@@ -1139,13 +1116,11 @@ print(s_vn.add("_1975"))
 # 2    Vietnam_1975
 # dtype: str
 
-
 print(s_vn.add(["_north", "_center", "_south"]))
 # 0     Vietnam_north
 # 1    Vietnam_center
 # 2     Vietnam_south
 # dtype: str
-
 
 ##-----------------------------##
 ## .pad(width, side, fillchar) ##
@@ -1176,7 +1151,6 @@ print(s_pad.str.pad(width=5, side='left', fillchar='_'))
 # 1    elephant (no padding needed)
 # 2       __dog
 # dtype: object
-
 
 ##-----------------------------------##
 ##             Alignment             ##
@@ -1210,7 +1184,6 @@ print(s_align.str.center(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 1    ..bird..
 # 2    .mouse..
 # dtype: object
-
 
 # =========================================================================================
 # 10. Categorical Encoding
@@ -1252,7 +1225,6 @@ print(s_gender_factorized)
 
 print(codes)
 # Index(['M', 'F', 'LGBTQ'], dtype='object')
-
 
 ##----------------------------------------##
 ##            pd.get_dummies()            ##
@@ -1324,7 +1296,6 @@ The 5-indexed person has LGBTQ = 0 and M = 0, which means they are F (the last c
 => The F gender though is not included can still be inferred from the other 2 genders/columns.
 '''
 
-
 # =========================================================================================
 # 11. Unicode and Decoding
 # =========================================================================================
@@ -1356,7 +1327,6 @@ print(s_normalized)
 # 4           NaN
 # dtype: object
 
-
 ##---------------------------##
 ## .encode(encoding, errors) ##
 ##---------------------------##
@@ -1382,7 +1352,6 @@ print(s_encoded)
 # 4            NaN
 # dtype: object
 
-
 ##---------------------------##
 ## .decode(encoding, errors) ##
 ##---------------------------##
@@ -1398,7 +1367,6 @@ print(s_decoded)
 # 1    123
 # 2     ()
 # dtype: object
-
 
 # =========================================================================================
 # 12. Real applications

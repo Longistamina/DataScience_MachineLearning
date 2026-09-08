@@ -16,7 +16,6 @@ vector_ones = np.ones(4) # array([1., 1., 1., 1.])
 vector_zeros = np.zeros(4) # array([0., 0., 0., 0.])
 vector_mixed_num = np.array([0, 1, 2, 0]) # array([0, 1, 2, 0])
 
-
 # =========================================================================================
 # 1. arr.all() ||| np.all(arr)
 # =========================================================================================
@@ -86,7 +85,6 @@ print(np.all(vector_mixed_num)) # False
 # 
 print(np.all(vector_mixed_num > -1)) # True
 print(np.all(vector_mixed_num == 2)) # False
-
 
 # =========================================================================================
 # 2. arr.any() ||| np.any(arr)
@@ -162,7 +160,6 @@ print(np.any(vector_mixed_num)) # True
 print(np.any(vector_mixed_num > 1)) # True
 print(np.any(vector_mixed_num < -1)) # False
 print(np.any(vector_mixed_num == 2)) # True
-
 
 # =========================================================================================
 # 3. arr.nonzero() ||| np.nonzero(arr)

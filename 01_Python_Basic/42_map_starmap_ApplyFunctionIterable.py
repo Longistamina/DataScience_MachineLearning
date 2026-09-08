@@ -11,7 +11,6 @@ itertools.starmap() is similar to map(),
 but it unpacks the arguments from each tuple in the iterable(s) before applying the function.
 '''
 
-
 # ==============================================================================================
 # map()
 # ==============================================================================================
@@ -103,7 +102,6 @@ areas = list(map(lambda l, w: l*w, lengths, widths))
 
 print(areas)
 # [10, 18, 28]
-
 
 # ==============================================================================================
 # itertools.starmap()

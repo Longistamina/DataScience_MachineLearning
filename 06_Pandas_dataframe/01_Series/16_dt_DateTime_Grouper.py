@@ -195,10 +195,8 @@ print(bdate_range)
 #                '2023-01-06', '2023-01-09', '2023-01-10'],
 #               dtype='datetime64[ns]', freq='B')
 
-
 # (Here, the weekends 2023-01-01, 2023-01-07, and 2023-01-08 are excluded 
 # because they are not business days)
-
 
 '''
 # ## Timedelta data
@@ -284,7 +282,6 @@ print(s_timedelta_range)
 # 2 days 00:00:00    67
 # Freq: 6h, dtype: int64
 
-
 '''
 # ## Period data
 # '''
@@ -348,7 +345,6 @@ print(s_period_range)
 # 2018Q1    67
 # Freq: Q-DEC, dtype: int64
 
-
 '''
 # ## Infer the most likely frequency given the input index.
 # '''
@@ -361,7 +357,6 @@ idx = pd.date_range(start='2020/12/01', end='2020/12/30', periods=30)
 
 infered_freq = pd.infer_freq(idx)
 print(infered_freq) # D (daily frequency)
-
 
 # =========================================================================================
 # 1. Basic properties
@@ -452,7 +447,6 @@ print(s_datetime.dt.nanosecond)
 # 4    0
 # dtype: int32
 
-
 # =========================================================================================
 # 2. ISO Calendar properties
 # =========================================================================================
@@ -515,7 +509,6 @@ print(s_datetime.dt.isocalendar().day)
 # 3    3
 # 4    4
 # Name: day, dtype: UInt32
-
 
 # =========================================================================================
 # 3. Extended properties
@@ -593,7 +586,6 @@ print(s_datetime.dt.days_in_month)
 '''March has 31 days'''
 
 
-
 # =========================================================================================
 # 4. Extract Python datetime objects
 # =========================================================================================
@@ -642,7 +634,6 @@ print(s_datetime.dt.timetz)
 
 print(type(s_datetime.dt.timetz[0]))
 # <class 'datetime.time'>
-
 
 # =========================================================================================
 # 5. Boolean properties
@@ -776,7 +767,6 @@ print(s_datetime.dt.is_leap_year) # Indicates whether the year is a leap year
 # 4     True (2024 is a leap year)
 # dtype: bool
 
-
 # =========================================================================================
 # 6. String Representation Methods
 # =========================================================================================
@@ -796,7 +786,6 @@ print(s_datetime)
 '''
 https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes
 '''
-
 
 print(s_datetime.dt.strftime('%d-%M-%Y %H:%M'))
 # 0    01-30-2023 08:30
@@ -838,7 +827,6 @@ print(s_datetime.dt.month_name())
 # 3    January
 # 4    January
 # dtype: object
-
 
 # =========================================================================================
 # 7. Time Rounding Methods
@@ -928,7 +916,6 @@ print(s_datetime.dt.normalize())
 # 3   2023-01-04
 # 4   2023-01-05
 # dtype: datetime64[ns]
-
 
 # =========================================================================================
 # 8. Timezone Handling
@@ -1041,7 +1028,6 @@ s_converted = s_datetime.dt.tz_convert('Zulu')
 # This will raise an error because s_datetime is timezone-naive
 '''TypeError: Cannot convert tz-naive timestamps, use tz_localize to localize'''
 
-
 # =========================================================================================
 # 9. Timedelta handling
 # =========================================================================================
@@ -1100,7 +1086,6 @@ print(s_timedelta.dt.total_seconds())
 '''
 NOTE: since these are all numeric values (int or float), you can perform numeric operations on them directly.
 '''
-
 
 # =========================================================================================
 # 10. Grouper with datetime-like data

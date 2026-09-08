@@ -16,7 +16,6 @@ print(f'X{chr(178)}') # X²
 quadratic_equation = f"aX{chr(178)} + bX + c = 0" # quadratic equation = phương trình bậc 2
 print(quadratic_equation) # aX² + bX + c = 0
 
-
 ##------------------------------------------------------------##
 ## Create a quadratic equation string using input() and chr() ##
 ##------------------------------------------------------------##

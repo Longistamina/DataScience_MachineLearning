@@ -69,7 +69,6 @@ print(s_applied)
 # 5      None
 # dtype: object
 
-
 # =========================================================================================
 # 2. .map()
 # =========================================================================================
@@ -101,7 +100,6 @@ print(s_mapped)
 # 4     6.4009
 # dtype: float64
 
-
 ##----------------------------------##
 ## Using a dictionary to map values ##
 ##----------------------------------##
@@ -117,7 +115,6 @@ print(s_mapped)
 # dtype: object
 
 '''Unmapped values will be NaN if not found in the mapping dictionary.'''
-
 
 # =========================================================================================
 # 3. .transform()
@@ -151,7 +148,6 @@ print(s_transformed)
 # 2  5.30   8.60
 # 3  7.05  12.10
 # 4  3.53   5.06
-
 
 ##------------------------------##
 ## .transform() with .groupby() ##
@@ -192,7 +188,6 @@ print(df_transformed)
 The 0-indexed row and the 4-indexed row share the same value (55) because they belong to the same group "1st", and so on.
 '''
 
-
 # =========================================================================================
 # 4. .agg()
 # =========================================================================================
@@ -214,7 +209,6 @@ print(s_agg)
 # max     6.050000
 # dtype: float64
 
-
 ##-------------------------------------##
 ## .agg() with dictionary of functions ##
 ##-------------------------------------##
@@ -232,7 +226,6 @@ print(s_agg)
 # custom_sum      19.590
 # custom_range     3.520
 # dtype: float64
-
 
 ##------------------------##
 ## .agg() with .groupby() ##
@@ -277,7 +270,6 @@ print(df_agg)
 # 3rd            2       33.0        66
 # 4th            2       60.5       121
 
-
 # =========================================================================================
 # 5. .groupby()
 # =========================================================================================
@@ -303,7 +295,6 @@ print(s_birds_flight)
 # Parrot     20.0
 # dtype: float64
 
-
 ##---------------------------##
 ## Groupping by using level= ##
 ##---------------------------##
@@ -313,7 +304,6 @@ print(s_grouped)
 # Falcon    370.0
 # Parrot     25.0
 # dtype: float64
-
 
 ##------------------------##
 ## Groupping by using by= ##
@@ -331,7 +321,6 @@ In this case:
 + Group "a" contains Falcon-390 and Parrot-30, resulting in a mean of 210 and a max of 390.
 + Group "b" contains Falcon-350 and Parrot-20, resulting in a mean of 185 and a max of 350.
 '''
-
 
 # =========================================================================================
 # 6. .pipe()
@@ -363,7 +352,6 @@ query = (
 
 print(query)
 # ShapiroResult(statistic=np.float64(0.8865328120075993), pvalue=np.float64(0.033671906069434675))
-
 
 ##---------------------------##
 ## Handle categorical series ##

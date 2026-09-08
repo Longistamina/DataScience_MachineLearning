@@ -43,7 +43,6 @@ print(s_convert)
 s_convert = s_str_float.astype('int64')
 """ValueError: invalid literal for int() with base 10: '1.5'"""
 
-
 ##------------------##
 ## .astype(float64) ##
 ##------------------##
@@ -78,7 +77,6 @@ print(s_convert)
 s_convert = s_mixed.astype('float64')
 """ValueError: could not convert string to float: 'a'"""
 
-
 ##--------------##
 ## .astype(str) ##
 ##--------------##
@@ -103,7 +101,6 @@ print(s_convert)
 
 print(s_convert[4])
 # 'False'
-
 
 ##---------------------##
 ## .astype('category') ##
@@ -134,7 +131,6 @@ print(s_convert)
 # dtype: category
 # Categories (3, object): ['F', 'LGBTQ', 'M']
 
-
 ##---------------##
 ## .astype(bool) ##
 ##---------------##
@@ -160,7 +156,6 @@ print(s_convert)
 # 6     True
 # 7    False
 # dtype: bool
-
 
 # =========================================================================================
 # 2. pd.to_numeric()
@@ -204,7 +199,6 @@ print(s_convert)
 # 3    4.5
 # 4    0.0 (The False is converted to 0.0)
 # dtype: float64
-
 
 # =========================================================================================
 # 3. pd.Categorical()
@@ -275,7 +269,6 @@ print(s_gender_categ)
 # dtype: category
 # Categories (3, object): ['LGBTQ' < 'F' < 'M']
 
-
 ##------------------------------------------------##
 ##            numeric example with NaN            ##
 ##------------------------------------------------##
@@ -325,7 +318,6 @@ print(s_price_levels_categ)
 # dtype: category
 # Categories (5, int64): [1 < 2 < 3 < 4 < 5]
 
-
 # =========================================================================================
 # 4. pd.to_datetime()
 # =========================================================================================
@@ -371,7 +363,6 @@ print(s_dates_converted)
 # 3          NaT
 # dtype: datetime64[ns]
 
-
 # =========================================================================================
 # 5. pd.to_timedelta()
 # =========================================================================================
@@ -416,7 +407,6 @@ print(s_timedeltas_converted)
 # 3               NaT
 # dtype: timedelta64[ns]
 
-
 # =========================================================================================
 # 6. String conversion
 # =========================================================================================
@@ -439,7 +429,6 @@ print(s_str)
 # 4    10.0
 # dtype: object
 
-
 ##-----------##
 ## .map(str) ##
 ##-----------##
@@ -453,7 +442,6 @@ print(s_str_map)
 # 4    10.0
 # dtype: object
 
-
 ##-------------##
 ## .apply(str) ##
 ##-------------##
@@ -466,7 +454,6 @@ print(s_str_apply)
 # 3     8.6
 # 4    10.0
 # dtype: object
-
 
 ##--------------------------##
 ## .apply(lambda x: str(x)) ##

@@ -55,7 +55,6 @@ opt_constraints_matrix = [
     for i, _ in enumerate(right_side)
 ]
 
-
 # ## (a) f₀(x₁, x₂) = x₁ + x₂.
 # 
 # Define objective
@@ -81,7 +80,6 @@ print(
 # Optimal Value: 0.6000000001640435
 # Optimal variables: (array(0.4), array(0.2))
 
-
 ''''''''''''''''''''''''''''''''''''
 ''' Try with constraints matrix '''
 ''''''''''''''''''''''''''''''''''''
@@ -106,7 +104,6 @@ print(
 # Optimal Value: 0.6000000001640435
 # Optimal variables: (array(0.4), array(0.2))
 
-
 # ## (b) f₀(x₁, x₂) = -x₁ - x₂.
 # 
 objective_b = cp.Minimize(-x1 - x2)
@@ -128,7 +125,6 @@ print(
 # Status: unbounded
 # Optimal Value: -inf
 # Optimal variables: (None, None)
-
 
 # ## (c) f₀(x₁, x₂) = x₁.
 # 
@@ -152,7 +148,6 @@ print(
 # Optimal Value: -1.95729336465049e-11
 # Optimal variables: (array(-1.95729336e-11), array(1.69159744))
 
-
 # ## (d) f₀(x₁, x₂) = max{x₁, x₂}.
 # 
 objective_d = cp.Minimize(cp.max([x1, x2])) # NOT cp.max(x1, x2) because cp.max() takes one argument only
@@ -175,7 +170,6 @@ print(
 # Status: optimal
 # Optimal Value: 0.3333333337083394
 # Optimal variables: (array(0.33333333), array(0.33333333))
-
 
 # ## (e) f₀(x₁, x₂) = x₁² + 9x₂².
 # 

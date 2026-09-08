@@ -85,7 +85,6 @@ pmf4 = np.array([0.00151817, 0.00165627, 0.00179441, 0.0019326 , 0.00207083,
 P = np.stack([pmf1, pmf2,
               pmf3, pmf4], axis=0).T
 
-
 def plot_pmfs():
     plt.figure()
     plt.plot(pmf1, label='distribution_1')

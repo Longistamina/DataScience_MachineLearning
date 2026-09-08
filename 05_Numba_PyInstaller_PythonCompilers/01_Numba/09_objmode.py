@@ -25,7 +25,6 @@ from numba import njit, objmode, types
 
 logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
 
-
 # =========================================================================================
 # 1. The Core Concept: Basic Callback
 # =========================================================================================
@@ -56,7 +55,6 @@ print(f"Result from nopython mode: {res}\n")
 # --- 1. Basic Callback ---
 # [Python Interpreter] Calculating sum of 10 and 20...
 # Result from nopython mode: 30
-
 
 # =========================================================================================
 # 2. Returning Values & Type Annotation (String & Types)
@@ -102,7 +100,6 @@ print(f"z: {res_z}\n")
 # y: [4 3 2 1 0]
 # z: [8 6 4 2 0]
 
-
 # =========================================================================================
 # 3. Real-World Use Case: Logging Progress
 # =========================================================================================
@@ -147,7 +144,6 @@ print(f"Final accumulated value: {final_acc:.2f}\n")
 # INFO: Simulation 80% complete. Current acc: 477028282.21
 # --- 3. Logging Progress ---
 # Final accumulated value: 666666166.46
-
 
 # =========================================================================================
 # 4. Limitations & Performance Warning

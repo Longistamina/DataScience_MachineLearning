@@ -71,7 +71,6 @@ print(df_sales)
 # └──────────┴──────────┴────────┴────────┴──────────┴────────────┘
 # columns: order_id, customer, region, amount, quantity, date
 
-
 # =========================================================================================
 # 1. What is a Polars LazyFrame?
 # =========================================================================================
@@ -95,7 +94,6 @@ print(lf_sales)
 
 print(type(lf_sales))
 # <class 'polars.lazyframe.frame.LazyFrame'>
-
 
 # =========================================================================================
 # 2. Build a lazy query with expressions
@@ -129,7 +127,6 @@ At this point, no result DataFrame has been created.
 The object is still a LazyFrame query plan.
 '''
 
-
 # =========================================================================================
 # 3. Execute the lazy query with .collect()
 # =========================================================================================
@@ -154,7 +151,6 @@ print(result)
 
 print(type(result))
 # <class 'polars.dataframe.frame.DataFrame'>
-
 
 # =========================================================================================
 # 4. Create LazyFrames from scan_* APIs
@@ -203,7 +199,6 @@ print(scan_query.collect())
 # └──────┴────────┘
 # reads the CSV, applies the filter/projection, and returns a DataFrame
 
-
 # =========================================================================================
 # 5. Inspect the query plan with explain()
 # =========================================================================================
@@ -224,7 +219,6 @@ print(scan_query.explain())
 # Example plan details vary by Polars version.
 # Look for hints such as CSV SCAN, PROJECT, SELECTION, FILTER, WITH_COLUMNS, AGGREGATE, etc.
 
-
 # =========================================================================================
 # 6. Schema checking before collect
 # =========================================================================================
@@ -239,7 +233,6 @@ schema = scan_query.collect_schema()
 print(schema)
 # Schema({'name': String, 'salary': Float64})
 # Schema of the query output, e.g. order_id, region, revenue
-
 
 # =========================================================================================
 # 7. LazyFrame anti-pattern: collect too early
@@ -262,7 +255,6 @@ Better:
 The second pattern gives Polars the whole query at once, which gives the optimizer more room to work.
 '''
 
-
 # =========================================================================================
 # 8. LazyFrame sinks and streaming-style output
 # =========================================================================================
@@ -278,7 +270,6 @@ Examples are commented out because they write files:
 # scan_query.sink_parquet(demo_dir / "sales_result.parquet")
 # scan_query.sink_csv(demo_dir / "sales_result.csv")
 # scan_query.sink_ndjson(demo_dir / "sales_result.ndjson")
-
 
 # =========================================================================================
 # 9. Categorized API list for LazyFrame

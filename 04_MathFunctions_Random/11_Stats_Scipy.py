@@ -146,7 +146,6 @@ x_norm   = rng.normal(loc=5.0, scale=2.0, size=N)   # normal sample, μ=5, σ=2
 x_exp    = rng.exponential(scale=2.0, size=N)        # exponential sample
 x_pos    = np.abs(rng.normal(3, 1, N)) + 0.1        # positive reals
 
-
 # =========================================================================================
 #  PART A — CONTINUOUS DISTRIBUTIONS 
 # =========================================================================================
@@ -628,7 +627,6 @@ d_rv_hist = stats.rv_histogram((hist_counts, bin_edges))
 print(f"rv_histogram mean ≈ {d_rv_hist.mean():.4f}")   # -0.0322 (≈ 0)
 print(f"rv_histogram CDF(0) ≈ {d_rv_hist.cdf(0):.4f}")  # 0.5068 (≈ 0.5)
 
-
 # =========================================================================================
 #  PART B — DISCRETE DISTRIBUTIONS 
 # =========================================================================================
@@ -792,7 +790,6 @@ print(f"Zipf(2) P(X=1)={d_zf.pmf(1):.4f}, P(X=2)={d_zf.pmf(2):.4f}") # P(X=1)=0.
 d_zi = stats.zipfian(a=1.5, n=1000)
 print(f"Zipfian(1.5,1000) mean={d_zi.mean():.4f}") # mean=24.2438
 
-
 # =========================================================================================
 #  PART C — MULTIVARIATE DISTRIBUTIONS 
 # =========================================================================================
@@ -935,7 +932,6 @@ d_mvt = stats.multivariate_t(loc=[0, 0], shape=np.eye(2), df=4)
 samp_mvt = d_mvt.rvs(size=1000, random_state=0)
 print(f"Multivariate t sample mean: {samp_mvt.mean(axis=0).round(4)}")   # [-0.0888  0.0099]
 print(f"Sample var (expect 4/(4-2)=2): {samp_mvt.var(axis=0).round(3)}") # [1.763 1.787]
-
 
 # =========================================================================================
 #  PART D — SUMMARY & DESCRIPTIVE STATISTICS 
@@ -1096,7 +1092,6 @@ for n in range(1, 5):
   # central moment 3: -0.505727
   # central moment 4: 15.583166
 
-
 # =========================================================================================
 #  PART E — FREQUENCY STATISTICS 
 # =========================================================================================
@@ -1164,7 +1159,6 @@ print("average ranks:", stats.rankdata(a_rank, method='average')) # [5.  1.5 6. 
 print("min ranks    :", stats.rankdata(a_rank, method='min')) # [4 1 5 1 6 9 3 8 6]
 print("dense ranks  :", stats.rankdata(a_rank, method='dense')) # [3 1 4 1 5 7 2 6 5]
 print(f"Tie correction: {stats.tiecorrect(stats.rankdata(a_rank)):.4f}") # 0.9833
-
 
 # =========================================================================================
 #  PART F — CORRELATION & ASSOCIATION 
@@ -1302,7 +1296,6 @@ n_ct = obs_table.sum()
 cramer_v = np.sqrt(res_ct.statistic / (n_ct * min(obs_table.shape[0]-1, obs_table.shape[1]-1)))
 print(f"Cramér's V = {cramer_v:.4f}")   # V = 0.3237 (0=no association, 1=perfect)
 
-
 # =========================================================================================
 #  PART G — STATISTICAL TESTS 
 # =========================================================================================
@@ -1426,7 +1419,6 @@ die_obs = np.array([18, 22, 15, 20, 19, 16])   # 6 faces, 110 rolls
 die_exp = np.full(6, die_obs.sum() / 6)
 res_cs  = stats.chisquare(die_obs, f_exp=die_exp)
 print(f"Die fairness: χ²={res_cs.statistic:.4f}, p={res_cs.pvalue:.4f}")   # χ²=1.8182, p=0.8737 (p > 0.05)
-
 
 # ────────────────────── G2 : TWO-SAMPLE TESTS ─────────────────────────────────
 
@@ -1578,7 +1570,6 @@ print("\n=== brunnermunzel ===")
 res_bm = stats.brunnermunzel(x_skew, y_skew)
 print(f"Brunner-Munzel: stat={res_bm.statistic:.4f}, p={res_bm.pvalue:.4f}") # stat=2.7664, p=0.0071
 
-
 # ────────────────────── G3 : k-SAMPLE / ANOVA TESTS ──────────────────────────
 
 ##----------##
@@ -1674,7 +1665,6 @@ for test, name in [(stats.levene, 'levene'), (stats.bartlett, 'bartlett'),
 # bartlett: equal_var p=0.3946  unequal_var p=0.0000
 # fligner: equal_var p=0.7601  unequal_var p=0.0000
 
-
 # ────────────────────── G4 : ASSOCIATION / CONTINGENCY TESTS ─────────────────
 
 ##--------------##
@@ -1710,7 +1700,6 @@ res_ba = stats.barnard_exact(table_2x2)
 res_bo = stats.boschloo_exact(table_2x2)
 print(f"Barnard exact  p={res_ba.pvalue:.4f}") # p=0.0018
 print(f"Boschloo exact p={res_bo.pvalue:.4f}") # p=0.0018
-
 
 # ────────────────────── G5 : POST-HOC TESTS ──────────────────────────────────
 
@@ -1753,7 +1742,6 @@ treatment_1  = rng.normal(6, 1.5, 30)
 treatment_2  = rng.normal(5.2, 1.5, 30)
 res_dn = stats.dunnett(control_grp, treatment_1, treatment_2, control=control_grp)
 print("Dunnett p-values (vs control):", res_dn.pvalue.round(4)) # [1.     0.0037 0.1284]
-
 
 # =========================================================================================
 #  PART H — DISTRIBUTION FITTING & KDE 
@@ -1900,7 +1888,6 @@ print(f"2-D KDE pdf at origin: {kde_2d([0, 0])[0]:.6f}") # 0.121600
 prob_between = kde.integrate_box_1d(-1, 1)
 print(f"P(-1 < X < 1) from KDE: {prob_between:.4f}") # 0.1515
 
-
 # =========================================================================================
 #  PART I — CONFIDENCE INTERVALS & RESAMPLING 
 # =========================================================================================
@@ -2045,7 +2032,6 @@ print(f"Bayesian var  95% CI: center={var_ci.statistic:.4f}, "
 print(f"Bayesian std  95% CI: center={std_ci.statistic:.4f}, "
       f"interval={np.array(std_ci.minmax).round(4)}")
 # Bayesian std  95% CI: center=1.5652, interval=[1.3639 1.8045]
-
 
 # =========================================================================================
 #  PART J — QUASI-MONTE CARLO 
@@ -2207,7 +2193,6 @@ print(f"Scaled dim 0 range ≈ [-5, 5]: "
 # Round-trip: scale then reverse-scale should recover original
 sobol_back = qmc.scale(sobol_scaled, l_bounds, u_bounds, reverse=True)
 print(f"Round-trip error: {np.abs(sobol_back - sobol_unit).max():.2e}") # ≈ 0
-
 
 # ── End-to-end: QMC integration example ──────────────────────────────────────
 print("\n=== QMC Integration Example ===")

@@ -41,7 +41,6 @@ pl.Config.set_tbl_cols(12)
 pl.Config.set_float_precision(2)
 pl.Config.set_tbl_width_chars(120)
 
-
 # =========================================================================================
 # 0. Example Data
 # =========================================================================================
@@ -90,7 +89,6 @@ print(lf_pokemon.collect().head())
 
 print(lf_pokemon.collect().schema)
 # Schema({... 'Type_1': Categorical, 'Type_2': Categorical, 'Generation': Enum, 'Legendary': Boolean})
-
 
 # =========================================================================================
 # 1. Single Condition Examples
@@ -330,7 +328,6 @@ print(lf_emp.filter(c.start_date.dt.is_leap_year()).collect())
 # start_date is after 2014-01-01.
 print(lf_emp.filter(c.start_date > dt.date(2014, 1, 1)).collect())
 
-
 # =========================================================================================
 # 2. Negation of Condition: ~ (tilde) operator
 # =========================================================================================
@@ -367,7 +364,6 @@ print(
     .head()
     .collect()
 )
-
 
 # =========================================================================================
 # 3. Combine Multiple Conditions: & (and), | (or)
@@ -462,7 +458,6 @@ print(
     .select("Name", "Type_1", "Type_2", "Total", "Generation", "Legendary")
     .collect()
 )
-
 
 # =========================================================================================
 # 4. df.remove(condition): drop matching rows

@@ -39,7 +39,6 @@ print(df_baseball.head())
 # 3     Kevin_Millar        BAL  First_Baseman      72     210     35.43   Infielder
 # 4      Chris_Gomez        BAL  First_Baseman      73     188     35.71   Infielder
 
-
 # =========================================================================================
 # 1. dr.slice(...)
 # =========================================================================================
@@ -134,7 +133,6 @@ print(
 # 6    Miguel_Tejada        BAL      Shortstop      69     209     30.77   Infielder
 # 8      Aubrey_Huff        BAL  Third_Baseman      76     231     30.19   Infielder
 
-
 # =========================================================================================
 # 2. dr.slice_min(...)
 # =========================================================================================
@@ -161,7 +159,6 @@ print(
 # 289  Ryan_Feierabend        SEA  Starting_Pitcher      75     190     21.52     Pitcher
 # 285       Adam_Jones        SEA        Outfielder      74     200     21.58  Outfielder
 # 267    Andrew_Miller        DET    Relief_Pitcher      78     210     21.78     Pitcher
-
 
 # =========================================================================================
 # 3. dr.slice_max(...)

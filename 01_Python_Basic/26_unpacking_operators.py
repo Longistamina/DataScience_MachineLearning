@@ -6,7 +6,6 @@ There are two types of unpacking operators in Python:
 2. The double asterisks (**) operator: Used to unpack dictionaries.
 '''
 
-
 # ==============================================================================================
 # Unpacking with aterisk (*)
 # ==============================================================================================
@@ -123,7 +122,6 @@ string = "Hello"
 chars = [*string]
 
 print(chars)  # Output: ['H', 'e', 'l', 'l', 'o']
-
 
 # ==============================================================================================
 # Unpacking with double asterisks (**)

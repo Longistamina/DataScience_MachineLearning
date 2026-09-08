@@ -17,7 +17,6 @@ index =np.argmax(np.abs(w_true))
 w_true = np.roll(w_true,-index)
 w_true = w_true/w_true[0]
 
-
 x_true = rn.randn(T)
 x_true = rn.binomial(1,p,np.shape(x_true))*x_true
 y_true = np.real(np.fft.ifft( np.fft.fft(x_true,N)/np.fft.fft(w_true,N),N))

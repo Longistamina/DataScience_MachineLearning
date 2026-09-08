@@ -52,7 +52,6 @@ print("\nNumber of total elements:", dense.size)  # 12
 print("Number of non-zero elements:", np.count_nonzero(dense))  # 5
 print("Percentage of non-zeros: {:.1f}%".format(100 * np.count_nonzero(dense) / dense.size))  # 41.7%
 
-
 # =========================================================================================
 # 2. Basic Sparse Array Creation from Dense Arrays
 # =========================================================================================
@@ -107,7 +106,6 @@ print("Data type:", sparse_csr.dtype)  # int64
 print("Number of stored elements (.nnz):", sparse_csr.nnz)  # 5
 print("Number of dimensions:", sparse_csr.ndim)  # 2
 
-
 # =========================================================================================
 # 3. Converting Back to Dense Arrays
 # =========================================================================================
@@ -128,7 +126,6 @@ print(dense_from_sparse)
 #  [0 0 5 0]]
 
 print("Type:", type(dense_from_sparse))  # <class 'numpy.ndarray'>
-
 
 # =========================================================================================
 # 4. Understanding Stored vs Implicit Elements
@@ -181,7 +178,6 @@ print("\nBefore eliminating zeros - stored elements:", sparse_with_explicit_zero
 sparse_with_explicit_zero.eliminate_zeros()
 print("After eliminating zeros - stored elements:", sparse_with_explicit_zero.nnz)  # 5
 
-
 # =========================================================================================
 # 5. Simple Operations on Sparse Arrays
 # =========================================================================================
@@ -229,7 +225,6 @@ print(sparse_csr.mean(axis=1))
 print("\nSum over axis 0 (column sums):")
 print(sparse_csr.sum(axis=0))
 # [1 4 6 2]
-
 
 # =========================================================================================
 # 6. Memory Efficiency Demonstration

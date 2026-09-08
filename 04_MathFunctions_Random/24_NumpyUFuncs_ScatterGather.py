@@ -112,7 +112,6 @@ B   = np.arange(1, 7, dtype=float).reshape(3, 2)
 i16 = np.array([0b1010, 0b1100, 0b0110], dtype=np.uint8)
 j16 = np.array([0b0110, 0b1010, 0b1100], dtype=np.uint8)
 
-
 # =========================================================================================
 #  PART A — UFUNC ANATOMY: ATTRIBUTES & INTROSPECTION
 # =========================================================================================
@@ -174,7 +173,6 @@ print("matmul signature:", np.matmul.signature)   # (n?,k),(k,m?)->(n?,m?)
 
 vec1 = np.array([1, 2, 3])
 vec2 = np.array([4., 5., 6.])
-
 
 # =========================================================================================
 #  PART B — OPTIONAL KEYWORD ARGUMENTS (apply to all ufuncs)
@@ -423,7 +421,6 @@ print(batch_C)
 
 print("axes= explicit:", np.allclose(batch_C, batch_C2))   # True
 
-
 # =========================================================================================
 #  PART C — METHOD: reduce
 # =========================================================================================
@@ -501,7 +498,6 @@ print(f"int16 reduce (overflows): {wrong}  |  int64 reduce: {right}")
 print("add.reduce axis=(0,1):", np.add.reduce(M, axis=(0, 1)))   # 21
 # ``np.add.reduce(M, axis=(1, 0))`` does the same thing
 
-
 # =========================================================================================
 #  PART D — METHOD: accumulate
 # =========================================================================================
@@ -559,7 +555,6 @@ peak   = np.maximum.accumulate(prices)
 drawdown = (prices - peak) / peak * 100
 print("Running peak   :", peak) # [100. 105. 105. 108. 108. 112. 112.]
 print("Drawdown (%)   :", drawdown.round(2)) # [ 0.    0.   -2.86  0.   -4.63  0.   -2.68]
-
 
 # =========================================================================================
 #  PART E — METHOD: reduceat
@@ -623,7 +618,6 @@ print("Group min :", np.minimum.reduceat(values, group_starts))     # [10. 40. 7
 labels = np.array([0, 0, 0, 1, 1, 2, 2, 2, 2])   # group labels (must be sorted)
 _, starts = np.unique(labels, return_index=True)
 print("Group sums via unique:", np.add.reduceat(values, starts))   # [ 60.  90. 300.]
-
 
 # =========================================================================================
 #  PART F — METHOD: outer
@@ -695,7 +689,6 @@ PQ = np.multiply.outer(P, Q)
 print("2-D outer shape:", PQ.shape)   # (2,2,2,2)
 print("PQ[0,0]:", PQ[0, 0])          # [[5 6],[7 8]] = 1 * Q
 
-
 # =========================================================================================
 #  PART G — METHOD: at
 # =========================================================================================
@@ -740,7 +733,6 @@ print("Buffered   (a[idx]+=src):", out_buffered)   # [3. 0. 0.]  ← only src[2]
 out_unbuffered = np.zeros(3)
 np.add.at(out_unbuffered, idx, src)               # CORRECT
 print("Unbuffered (add.at)     :", out_unbuffered) # [6. 0. 0.]  ← 1+2+3=6
-
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SCATTER / GATHER EQUIVALENTS FOR torch.scatter_reduce_() / torch.gather()
@@ -810,7 +802,6 @@ print(f"scatter_sum (include_self=True, self=[100,200,300]): {out_sum_self}")
 out_sum_noself = scatter_sum(src, index, include_self=False)
 print(f"scatter_sum (include_self=False): {out_sum_noself}")  # [7. 4. 10.]
 
-
 # ── scatter_prod  ─────────────────────────────────────────────────────────────
 print("\n--- scatter_prod ---")
 '''
@@ -843,7 +834,6 @@ print(f"scatter_prod (self=[2,3,4]): {out_prod_self}")
 
 out_prod_noself = scatter_prod(src, index, include_self=False)
 print(f"scatter_prod (include_self=False): {out_prod_noself}")  # [10.  4. 18.]
-
 
 # ── scatter_mean  ─────────────────────────────────────────────────────────────
 print("\n--- scatter_mean ---")
@@ -892,7 +882,6 @@ K = len(np.unique(index))
 count_check = np.zeros(K)
 np.add.at(count_check, index, 1)
 print(f"  count per slot: {count_check}")   # [2. 1. 3.]
-
 
 # ── scatter_amax  ─────────────────────────────────────────────────────────────
 print("\n--- scatter_amax ---")
@@ -947,7 +936,6 @@ for step, (i, s) in enumerate(zip(index, src)):
 #   step 4: index=0, src=5.0, 2 → 5
 #   step 5: index=2, src=6.0, 3 → 6
 
-
 # ── scatter_amin  ─────────────────────────────────────────────────────────────
 print("\n--- scatter_amin ---")
 '''
@@ -979,7 +967,6 @@ out_amin_self = scatter_amin(src, index, include_self=True,
                              self_val=np.array([0., 10., 5.]))
 print(f"scatter_amin (self=[0,10,5]): {out_amin_self}")
 # out[0]=min(0,2,5)=0, out[1]=min(10,4)=4, out[2]=min(5,1,3,6)=1 → [0. 4. 1.]
-
 
 # ── 2-D scatter  (torch dim=1)  ───────────────────────────────────────────────
 print("\n--- 2-D scatter (dim=1) ---")
@@ -1081,7 +1068,6 @@ print(gathered_dim0)
 # [input[1,0]=5,  input[2,1]=10]
 # [input[0,0]=1,  input[1,1]=6]
 
-
 # ── Advanced scatter patterns  ────────────────────────────────────────────────
 print("\n--- Advanced: conditional scatter ---")
 '''
@@ -1134,7 +1120,6 @@ print(f"absolute.at [1,3]  : {a_abs}")   # [1. 2. 3. 4. 5.]
 a_pow = np.array([1., 2., 3., 4., 5.])
 np.power.at(a_pow, [1, 3], 2)   # square elements at index 1 and 3
 print(f"power.at [1,3] **2 : {a_pow}")   # [1.  4.  3. 16.  5.]
-
 
 # =========================================================================================
 #  PART H — MATH UFUNCS
@@ -1273,7 +1258,6 @@ b_int = np.array([ 8, 25, 36, 5])
 print("gcd:", np.gcd(a_int, b_int))   # [4 5 12 5]
 print("lcm:", np.lcm(a_int, b_int))   # [24 75 72  0]
 
-
 # =========================================================================================
 #  PART I — TRIGONOMETRIC UFUNCS
 # =========================================================================================
@@ -1334,7 +1318,6 @@ rad = np.deg2rad(deg)
 print("deg→rad:", rad.round(4)) # [0.     0.5236 0.7854 1.0472 1.5708 3.1416 6.2832]
 print("rad→deg:", np.rad2deg(rad))   # back to original
 print("sin(30°):", np.sin(np.deg2rad(30.)))   # 0.5
-
 
 # =========================================================================================
 #  PART J — BIT-TWIDDLING UFUNCS
@@ -1408,7 +1391,6 @@ log2_pow2 = np.zeros(len(pow2), dtype=np.uint32)
 for k in range(8):
     log2_pow2 += np.right_shift(pow2, k + 1).astype(bool).astype(np.uint32)
 print("Fast log2(2^k):", log2_pow2)   # [0 1 2 3 4 5 6 7]
-
 
 # =========================================================================================
 #  PART K — COMPARISON UFUNCS
@@ -1504,7 +1486,6 @@ print("All-time high:", ath)   # [3. 3. 4. 4. 5. 9. 9. 9.]
 x_clip = np.array([-3., 0., 5., 12., -1.])
 clipped = np.minimum(np.maximum(x_clip, 0.0), 10.0)   # clip to [0, 10]
 print("Clipped [0,10]:", clipped)   # [0. 0. 5. 10. 0.]
-
 
 # =========================================================================================
 #  PART L — FLOATING-POINT UFUNCS
@@ -1615,7 +1596,6 @@ batch_C = np.matmul(batch_A, batch_B)   # (2, 2, 2)
 print("batch matmul shape:", batch_C.shape)
 print(np.allclose(batch_C[0], M22 @ M22b))   # True
 print(np.allclose(batch_C[1], (M22*2.) @ (M22b*0.5)))  # True
-
 
 # =========================================================================================
 #  PART M — CREATING CUSTOM UFUNCS
@@ -1758,7 +1738,6 @@ mat = np.array([[3, 1, 4, 1, 5],
 print("running_max per row (signature):\n", rmax_v(mat))
 # [[3 3 4 4 5]
 #  [9 9 9 9 9]]
-
 
 # ── Performance comparison ────────────────────────────────────────────────────
 print("\n=== Performance summary ===")

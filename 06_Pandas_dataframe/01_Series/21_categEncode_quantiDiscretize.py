@@ -47,7 +47,6 @@ print(s_gender_factorized)
 print(codes)
 # Index(['M', 'F', 'LGBTQ'], dtype='object')
 
-
 ##----------------------------------------##
 ##            pd.get_dummies()            ##
 ##----------------------------------------##
@@ -118,7 +117,6 @@ The 5-indexed person has LGBTQ = 0 and M = 0, which means they are F (the last c
 => The F gender though is not included can still be inferred from the other 2 genders/columns.
 '''
 
-
 # =========================================================================================
 # 2. Binning and Discretization
 # =========================================================================================
@@ -155,7 +153,6 @@ print(s_quantitative)
 # 18    3.183952
 # 19    2.175393
 # dtype: float64
-
 
 ##--------------------------------##
 ##            pd.cut()            ##
@@ -226,7 +223,6 @@ print(s_bins)
 # 19       Low
 # dtype: category
 # Categories (3, object): ['Low' < 'Medium' < 'High']
-
 
 ##---------------------------------##
 ##            pd.qcut()            ##

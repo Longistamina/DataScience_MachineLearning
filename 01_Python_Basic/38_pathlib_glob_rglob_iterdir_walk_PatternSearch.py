@@ -19,7 +19,6 @@ from pathlib import Path
 
 demo_path = Path("/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data")
 
-
 # ==============================================================================================
 # 1. path_object.iterdir()
 # ==============================================================================================
@@ -87,7 +86,6 @@ for entry in demo_path.iterdir():
 # TXT directory: txt_files
 # JSON directory: json_files
 
-
 # ==============================================================================================
 # 2. path_object.glob()
 # ==============================================================================================
@@ -125,7 +123,6 @@ glob patterns:
 for entry in Path.cwd().glob("*.md"):
     print(entry.name)
 # README.md
-
 
 # search for all .txt files in the current directory
 for entry in Path.cwd().glob("*.txt"):
@@ -171,7 +168,6 @@ for entry in Path.cwd().joinpath("01_Python_Basic").glob("*[!.py]"):  # Exclude 
 # demo_data
 # demo_package
 
-
 # The elements that do not start with '0', '1', '2' or '3:
 for entry in Path.cwd().joinpath("01_Python_Basic").glob("[!0-3]*"):  # Exclude all files starting with '0', '1', '2' or '3'
     print(entry.name)
@@ -195,7 +191,6 @@ for entry in Path.cwd().joinpath("01_Python_Basic").glob("[!0-3]*"):  # Exclude 
 for entry in demo_path.glob("*.xml"): # Without '**', return nothing
     print(entry)
     # (no output, because there are no .xml files in the given directory)
-
 
 for entry in demo_path.glob("**/*.xml"):  # '**' for recursive search
     print(entry)
@@ -234,7 +229,6 @@ print(py_count) # 49
 # Count the number of non-python files in the current directory using recursive glob("**/*[!.py]")
 non_py_count = sum(1 for _ in Path.cwd().glob("**/*[!.py]"))
 print(non_py_count) # 1383
-
 
 # ==============================================================================================
 # 3. path_object.rglob()
@@ -311,7 +305,6 @@ for entry in Path.cwd().joinpath("01_Python_Basic").rglob("*[!.py|!.json]"):  # 
 # drinks.csv
 # write_quoting_all.csv
 # write_dictionary.csv
-
 
 # The elements that DO NOT start with '0', '1', '2' or '3 AND not a json file:
 for entry in Path.cwd().joinpath("01_Python_Basic").rglob("[!0-3]*[!.json]"):  # Exclude all files starting with '0' or '1'
@@ -390,7 +383,6 @@ print(py_count) # 301
 non_py_json_count = sum(1 for _ in Path.cwd().rglob("*[!.py|!.json]"))
 print(non_py_json_count) # 951
 
-
 # ==============================================================================================
 # 4. path_object.walk()
 # ==============================================================================================
@@ -444,7 +436,6 @@ for dirpath, dirnames, filenames in Path(target_path).joinpath("01_Python_Basic"
 # File: 06_Operators.py
 # File: 07_input_eval.py
 # File: 10_String_methods_Cell.py
-
 
 # ==============================================================================================
 # 5. glob module (LEGACY)

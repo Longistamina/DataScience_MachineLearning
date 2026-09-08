@@ -36,7 +36,6 @@ print(item2.name)     # "Laptop"
 #             item.attribute1 = value1
 #             item.attribute2 = value2
 
-
 item_no_name = Item()
 '''
 # => TypeError: Item.__init__() missing 1 required positional argument: 'name'
@@ -60,7 +59,6 @@ print(car1.color)  # "Red"
 car2 = Car("Audi") # color not defined, so the default value "Green" is assigned
 print(car2.name)   # "Audi"
 print(car2.color)  # "Green"
-
 
 # =========================================================================================
 # 3. __innit__ additional example
@@ -102,7 +100,6 @@ print(item_extend_2.name)      # "Laptop"
 print(item_extend_2.price)     # 1500
 print(item_extend_2.quantity)  # 3
 
-
 # =========================================================================================
 # 4. __innit__ add constraints and type annotations
 # =========================================================================================
@@ -131,7 +128,6 @@ class ItemWithConstraints:
         # Method to calculate total price of the item
         return (self.price * self.quantity) * (1 - discount)
 
-
 # Example usage
 item_with_constraints = ItemWithConstraints("Tablet", 300, 10)
 print(item_with_constraints.name)      # "Tablet"
@@ -146,13 +142,11 @@ try:
 except AssertionError as e:
     print(f"Error: {e}") # Output: Error: Price must be greater than zero
 
-
 # Attempting to create an item with invalid quantity
 try:
     invalid_item = ItemWithConstraints("Invalid Item", 100, -5)
 except AssertionError as e:
     print(f"Error: {e}") # Output: Error: Quantity must be greater than or equal to zero
-
 
 # Attempting to create an item with invalid type for name
 try:

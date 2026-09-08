@@ -58,7 +58,6 @@
 Tips and Best Practices
 """
 
-
 # ==============================================================================================
 # 1. Installation and Demo
 # ==============================================================================================
@@ -82,7 +81,6 @@ for i in tldm(range(100)):
     time.sleep(0.02)
 
 # Output: 100%|██████████| 100/100 [00:01<00:00, 99.00it/s]
-
 
 # ==============================================================================================
 # 2. Basic Usage
@@ -152,7 +150,6 @@ for i in tldm(range(50), desc='Task', colour='green'):
     time.sleep(0.05)
 
 # Output: Task: 100%|██████████| 50/50 [00:02<00:00, 20.00it/s] (in green)
-
 
 # ==============================================================================================
 # 3. Unknown Mode
@@ -268,7 +265,6 @@ while count < 100:
 pbar.close()
 
 # Output: Transitions from indefinite to definite progress
-
 
 # ==============================================================================================
 # 4. Manual Mode
@@ -392,7 +388,6 @@ with tldm(total=len(tasks)) as pbar:
 
 # Output: Pipeline: Done: 100%|██████████| 5/5 [00:05<00:00, 1.00it/s]
 
-
 # ==============================================================================================
 # 6. Customization
 # ==============================================================================================
@@ -489,7 +484,6 @@ for i in tldm(range(100), smoothing=0.9):  # More stable
     time.sleep(0.01)
 # Output: Speed changes slowly
 
-
 # ==============================================================================================
 # 7. Auto-detection with auto_tldm
 # ==============================================================================================
@@ -539,7 +533,6 @@ for i in trange(50, desc='Processing'):
     time.sleep(0.05)
 
 # Output: Automatically adapts to environment
-
 
 # ==============================================================================================
 # 8. Advanced Features
@@ -635,7 +628,6 @@ pbar.close()
 
 # Output: Starts at 50/100 and goes to 100/100
 
-
 # ==============================================================================================
 # 9. Writing Custom Formats
 # ==============================================================================================
@@ -683,7 +675,6 @@ fortmat = '{desc}: {percentage:3.0f}%|{bar}| {n}/{total} [{elapsed}<{remaining},
 for i in tldm(range(50), bar_format=fortmat):
     time.sleep(0.05)
 
-
 # ==============================================================================================
 # 10. Real-world Examples
 # ==============================================================================================
@@ -693,7 +684,6 @@ for i in tldm(range(50), bar_format=fortmat):
 ##-----------------##
 
 import os
-
 
 def process_files(directory):
     '''Process all files in a directory with progress bar'''
@@ -865,7 +855,6 @@ result = process_stream(my_generator())
 
 from concurrent.futures import ThreadPoolExecutor
 
-
 def process_item(item):
     time.sleep(0.1)
     return item * 2
@@ -903,7 +892,6 @@ def read_large_file(filename, total_size):
                 pbar.update(len(chunk))
 
 # read_large_file('large_file.dat', 1024*1024*100)  # 100MB file
-
 
 # ==============================================================================================
 # 11. Convenience Functions
@@ -959,7 +947,6 @@ for a, b, c in tzip(list1, list2, list3, desc='Zipping'):
 
 from tldm import tmap
 
-
 def square(x):
     time.sleep(0.01)
     return x ** 2
@@ -996,7 +983,6 @@ for batch in tbatched(data, n=10, desc='Batching'):
     time.sleep(0.1)
 
 # Output: Batching: 100%|██████████| 10/10 [00:01<00:00, 9.90it/s]
-
 
 # ==============================================================================================
 # Tips and Best Practices

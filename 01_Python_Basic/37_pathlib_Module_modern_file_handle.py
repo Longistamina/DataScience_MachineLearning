@@ -44,11 +44,9 @@ from pathlib import Path, PosixPath, WindowsPath
 path = Path('parent_dir', 'child_dir', 'example.txt')  # Works like os.path.join()
 print(path)  # parent_dir/child_dir/example.txt
 
-
 # Create a PosixPath object for POSIX-style paths (Linux, macOS).
 posix_path = PosixPath('/home', 'user/documents', 'example.txt')
 print(posix_path)  # /home/user/documents/example.txt
-
 
 # Create a WindowsPath object for Windows-style paths (Raise error since this is Linux).
 try:
@@ -57,7 +55,6 @@ except Exception as e:
     logger.error(e) # | ERROR    | __main__:<module>:4 - cannot instantiate 'WindowsPath' on your system
 else:
     print(windows_path)
-
 
 # Trying to perform file system operations on Path objects will work as expected.
 print(posix_path.exists()) # False
@@ -103,16 +100,13 @@ from pathlib import PurePath, PurePosixPath, PureWindowsPath
 pure_path = PurePath('parent_dir', 'child_dir', 'example.txt') # Works like os.path.join()
 print(pure_path) # parent_dir/child_dir/example.txt
 
-
 # Create a PurePosixPath object for POSIX-style paths (Linux, macOS).
 pure_posix_path = PurePosixPath('/home', 'user/documents', 'example.txt')
 print(pure_posix_path)  # /home/user/documents/example.txt
 
-
 # Create a PureWindowsPath object for Windows-style paths.
 pure_windows_path = PureWindowsPath('C:\\', 'Users', 'User', 'Documents', 'example.txt')
 print(pure_windows_path)  # C:\Users\User\Documents\example.txt
-
 
 # Trying to perform file system operations on PurePath objects will raise an AttributeError.
 try:
@@ -145,7 +139,6 @@ child_path = parent_path / 'child_dir' / 'example.txt'
 
 print(child_path)  # parent_dir/child_dir/example.txt)
 
-
 # ==============================================================================================
 # 2. Get current working directory and home directory
 # ==============================================================================================
@@ -167,7 +160,6 @@ print(current_working_directory) # /home/longdpt/Documents/Academic/DataScience_
 # The Path.home() method returns the home directory of the current user as a Path object. (like os.path.expanduser('~'))
 home_directory = Path.home()
 print(home_directory) # /home/longdpt
-
 
 # ==============================================================================================
 # 3. Extract path object components
@@ -250,7 +242,6 @@ The pathlib.Path().parent DOES NOT return a string !!!!!!
 print(type(demo_file_path.parent)) # <class 'pathlib.PosixPath'>
 print(type(file_parent.parent)) # <class 'pathlib.PosixPath'>
 
-
 '''
              BE CAREFUL parent_2
 If the path has only the destination file name or directory name.
@@ -317,7 +308,6 @@ print(file_root)  # (empty string, since the file path is relative)
 
 dir_root = demo_dir_path.root
 print(dir_root)  # / (the root directory of the file system)
-
 
 # ==============================================================================================
 # 4. Checking path properties
@@ -409,7 +399,6 @@ print(exist_dir_path.is_relative_to('/home/longdpt/Documents/Academic/'))  # Tru
 
 print(demo_dir_path.is_relative_to('/home/longdpt/'))  # False (since it's not relative to the specified path)
 
-
 # ==============================================================================================
 # 5. Get Absolute Path - Path Resolution
 # ==============================================================================================
@@ -482,7 +471,6 @@ print(relative_symlink_path.absolute())  # /home/longdpt/Documents/Academic/Data
 >> but rather the absolute path from the current working directory to the symlink itself.
 '''
 
-
 # ==============================================================================================
 # 6. Directory and File operations
 # ==============================================================================================
@@ -498,7 +486,6 @@ data_dir = Path('./data0')
 data_dir.mkdir(exist_ok=True)  # Create 'data' directory (at existed parent dir) like os.mkdir()
                                # Don't fail if exists (not overwrite)
 
-
 # mkdir() with joinpath()
 Path('/home/longdpt/Documents/Academic/DataScience_MachineLearning/').joinpath('new_dir').mkdir(exist_ok=True)
 # Add "new_dir" to the path with .joinpath() method
@@ -507,7 +494,6 @@ Path('/home/longdpt/Documents/Academic/DataScience_MachineLearning/').joinpath('
 # mkdir() with parents=True like os.makedirs()
 data_dir_with_parents = Path('./data0/subdir')
 data_dir_with_parents.mkdir(parents=True, exist_ok=True) # Don't fail if exists, and create all parent
-
 
 # Create a structured directory
 project_structure = [
@@ -524,7 +510,6 @@ project_structure = [
 
 for path_str in project_structure:
     Path(path_str).mkdir(parents=True, exist_ok=True)
-
 
 '''
 WRONG USAGE:
@@ -589,7 +574,6 @@ symlink_path = Path('demo_symlink.txt')
 symlink_path.symlink_to(symlink_target, target_is_directory=False)  # Create a symlink to the file
 print(symlink_path.is_symlink())  # True
 
-
 # Create a symbolic link to a directory
 dir_symlink_target = Path('01_Python_Basic')
 dir_symlink_path = Path('dir_symlink')
@@ -611,12 +595,10 @@ the symlink will still be created, but it will be broken (pointing to a non-exis
 Path.cwd().joinpath('demo_file.txt').unlink(missing_ok=True)  # Remove the file if it exists
                                                               # Don't raise an error if the file does not exist
 
-
 # Remove a symbolic link to a file
 symlink_path = Path('./demo_symlink.txt')
 symlink_path.unlink(missing_ok=True)  # Remove the symlink if it exists
                                       # Don't raise an error if the symlink does not exist
-
 
 # Remove a symbolic link to a directory
 dir_symlink_path = Path('./dir_symlink')
@@ -667,7 +649,6 @@ Path('./destination_dir').joinpath('demo_dir').replace(Path.cwd() / 'renamed_dir
 ##----------------------------------------------------------##
 
 # Refer to file 31_shutil_os_Module_copy_move_chown_rm_archive_which.py
-
 
 # ==============================================================================================
 # 7. File metadata - stat()
@@ -782,7 +763,6 @@ import stat
 print(f"Permissions: {oct(file_stats.st_mode)}") # 0o100777
 print(f"Permissions (human-readable): {stat.filemode(file_stats.st_mode)}")  # -rwxrwxrwx
 
-
 # ==============================================================================================
 # 8. Change file permissions - chmod()
 # ==============================================================================================
@@ -794,10 +774,8 @@ cwd_path = Path.cwd()
 # Add execute permission to a file
 cwd_path.joinpath("README.md").chmod(0o755)
 
-
 # Remove execute permission, retain read and write permissions only
 cwd_path.joinpath("README.md").chmod(0o644)
-
 
 '''
 Octal    Symbolic     Common Use

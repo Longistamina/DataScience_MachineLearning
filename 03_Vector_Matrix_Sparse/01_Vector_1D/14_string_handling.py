@@ -92,7 +92,6 @@ print(vector_tz)
 #  'Europe/Samara' 'Europe/Copenhagen' 'Europe/Zaporozhye'
 #  'America/Eirunepe' 'Africa/Ndjamena' 'America/Havana' 'Brazil/DeNoronha']
 
-
 # =========================================================================================
 # 0. Create a 1D string vector
 # =========================================================================================
@@ -146,7 +145,6 @@ vector_unlimited = np.array(["cat", "dog", "birds", "blounder fish"], dtype=np.d
 repr(vector_unlimited)
 # "array(['cat', 'dog', 'birds', 'blounder fish'], dtype=StringDType())"
 
-
 # =========================================================================================
 # 1. Slicing: np.strings.slice(start, stop, step)
 # =========================================================================================
@@ -164,7 +162,6 @@ print(np.strings.slice(vector_tz, None, None, -1)) # Reverse each string
 #  'dirdaM/eporuE' 'gnihcuK/aisA' 'alapmaK/acirfA' 'nuiaA_lE/acirfA'
 #  'aramaS/eporuE' 'negahnepoC/eporuE' 'eyhzoropaZ/eporuE'
 #  'epenuriE/aciremA' 'anemajdN/acirfA' 'anavaH/aciremA' 'ahnoroNeD/lizarB']
-
 
 # =========================================================================================
 # 2. Case conversions
@@ -224,7 +221,6 @@ print(np.strings.swapcase(vector_tz))
 #  'eUROPE/sAMARA' 'eUROPE/cOPENHAGEN' 'eUROPE/zAPOROZHYE'
 #  'aMERICA/eIRUNEPE' 'aFRICA/nDJAMENA' 'aMERICA/hAVANA' 'bRAZIL/dEnORONHA']
 
-
 # =========================================================================================
 # 3. Stripping
 # =========================================================================================
@@ -262,7 +258,6 @@ print(np.strings.rstrip(strip_space))
 print(np.strings.rstrip(strip_other, '*'))
 # ['***hello' 'hellob' '***hello' 'no_other']
 
-
 # =========================================================================================
 # 4. Length and Count
 # =========================================================================================
@@ -283,7 +278,6 @@ print(np.strings.count(vector_tz, 'a'))
 
 print(np.strings.count(vector_tz, 'Asia'))
 # [1 1 0 0 0 1 0 0 0 0 0 0 0 0 0]
-
 
 # =========================================================================================
 # 5. Find and Search
@@ -339,7 +333,6 @@ print(np.strings.rindex(vector_tz, 'a'))
 print(np.strings.rindex(vector_tz, '###'))
 # ValueError: substring not found
 
-
 # =========================================================================================
 # 6. Replacement
 # =========================================================================================
@@ -361,7 +354,6 @@ print(np.strings.replace(vector_tz, 'a', '@', 2)) # Replace first 2 occurrences 
 #  'Europe/M@drid' 'Asi@/Kuching' 'Afric@/K@mpala' 'Afric@/El_A@iun'
 #  'Europe/S@m@ra' 'Europe/Copenh@gen' 'Europe/Z@porozhye'
 #  'Americ@/Eirunepe' 'Afric@/Ndj@mena' 'Americ@/H@vana' 'Br@zil/DeNoronh@']
-
 
 # =========================================================================================
 # 7. Alignment
@@ -408,7 +400,6 @@ print(np.strings.rjust(vector_fruits, 12, '+'))
 print(np.strings.zfill(vector_fruits, 10))
 # ['00000apple' '0000banana' '0000cherry' '000000date']
 
-
 # =========================================================================================
 # 8. Expand Tabs
 # =========================================================================================
@@ -419,7 +410,6 @@ print(tabbed_strings)
 
 print(np.strings.expandtabs(tabbed_strings, tabsize=4))
 # ['Hello   World' 'NumPy   is  great' 'String  handling    in  Python']
-
 
 # =========================================================================================
 # 9. Partitioning
@@ -459,7 +449,6 @@ The second array(['-', '-', '-']) contains the separator itself.
 The third array(['cherry', 'grape', 'papaya']) contains the substrings after the last occurrence of '-'.
 '''
 
-
 # =========================================================================================
 # 10. Combination
 # =========================================================================================
@@ -495,7 +484,6 @@ multiplicands = np.array([1, 2, 3])
 print(np.strings.multiply(vector1, multiplicands))
 # ['Hello' 'NumPyNumPy' 'StringStringString']
 
-
 # =========================================================================================
 # 11. Formatting
 # =========================================================================================
@@ -506,7 +494,6 @@ values = np.array([8, 64, 1024])
 formatted = np.strings.mod(original, values)
 print(formatted)
 # ['8 bytes' '64 bits' '1024 KB']
-
 
 # =========================================================================================
 # 12. Translation
@@ -526,7 +513,6 @@ print(translated_vector)
 #  'Eur0p3/M@dr1d' 'As1@/Kuch1ng' 'Afr1c@/K@mp@l@' 'Afr1c@/El_A@1un'
 #  'Eur0p3/S@m@r@' 'Eur0p3/C0p3nh@g3n' 'Eur0p3/Z@p0r0zhy3'
 #  'Am3r1c@/E1run3p3' 'Afr1c@/Ndj@m3n@' 'Am3r1c@/H@v@n@' 'Br@z1l/D3N0r0nh@']
-
 
 # =========================================================================================
 # 13. Encoding and Decoding
@@ -551,7 +537,6 @@ original_encoded_vector = np.array([b'Hello World', b'NumPy is great', b'String 
 decoded_vector = np.strings.decode(original_encoded_vector, encoding='utf-8', errors='strict')
 print(decoded_vector)
 # ['Hello World' 'NumPy is great' 'String handling in Python']
-
 
 # =========================================================================================
 # 14. Boolean checks
@@ -667,7 +652,6 @@ print(np.strings.istitle(test_vector))
 print(test_vector[np.strings.istitle(test_vector)])
 # ['Hello' 'Hello123']
 
-
 # =========================================================================================
 # 15. Prefix and Suffix checks
 # =========================================================================================
@@ -691,7 +675,6 @@ print(np.strings.endswith(vector_tz, 'e'))
 
 print(vector_tz[np.strings.endswith(vector_tz, 'e')])
 # ['Europe/Zaporozhye' 'America/Eirunepe']
-
 
 # =========================================================================================
 # 16. Comparison

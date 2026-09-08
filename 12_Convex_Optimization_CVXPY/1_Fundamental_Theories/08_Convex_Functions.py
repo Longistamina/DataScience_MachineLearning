@@ -20,7 +20,6 @@ Visually, convex functions are "cup-shaped" (∪) while concave functions are "c
 **Epigraph Characterization**: A function is convex if and only if its epigraph (the set of points on or above the graph) 
 forms a convex set [1][3].
 
-
 ##----------------------------------------------##
 ## EXTENDED-VALUE EXTENSION OF CONVEX FUNCTIONS ##
 ##----------------------------------------------##
@@ -40,7 +39,6 @@ its extended-value extension f̃ : Rⁿ → R ∪ {∞} is defined as[3][4][6]:
                     ∞,     if x ∉ dom f
                 }
 
-
 ##-------------------------------------##
 ## First-Order Condition for Convexity ##
 ##-------------------------------------##
@@ -51,7 +49,6 @@ For a differentiable function f, convexity is equivalent to:
 
 **Interpretation**: The first-order Taylor approximation (tangent line) at any point serves as a global underestimator 
                     of the function. This means every tangent line lies entirely below the function graph [9][12][15].
-
 
 ##--------------------------------------##
 ## Second-Order Condition for Convexity ##
@@ -64,7 +61,6 @@ For twice-differentiable functions, f is convex if and only if:
 The Hessian matrix must be positive semidefinite everywhere in the domain. 
 For single-variable functions, this reduces to f''(x) ≥ 0 [2][10][15].
 
-
 ##-----------------##
 ## Common Examples ##
 ##-----------------##
@@ -75,7 +71,6 @@ For single-variable functions, this reduces to f''(x) ≥ 0 [2][10][15].
 - Exponential: f(x) = eˣ (always convex)
 - Logarithm: f(x) = -log(x) on x > 0 (convex)
 
-
 **Multivariable**:
 - Quadratic forms: f(x) = ½xᵀPx + qᵀx + r (convex if P ⪰ 0)
 - Least-squares: f(x) = ||Ax - b||²₂
@@ -84,7 +79,6 @@ For single-variable functions, this reduces to f''(x) ≥ 0 [2][10][15].
 - Quadratic-over-linear: f(x,y) = x²/y for y > 0
 - Geometric mean: f(x) = (x₁ · x₂ · … · xₙ)^(1/n)
                        = exp((1/n) · (log x₁ + log x₂ + … + log xₙ))
-
 
 ##---------------------------------##
 ## Operations Preserving Convexity ##
@@ -98,7 +92,6 @@ For single-variable functions, this reduces to f''(x) ≥ 0 [2][10][15].
 
 **Partial Minimization**: If g(x,y) is convex in both variables and C is convex, then f(x) = min_{y∈C} g(x,y) is convex [17][18][21].
 
-
 ##---------------------##
 ## Jensen's Inequality ##
 ##---------------------##
@@ -109,7 +102,6 @@ f(∑λᵢxᵢ) ≤ ∑λᵢf(xᵢ)
 
 **Probabilistic Form**: If X is a random variable and φ is convex, then φ(E[X]) ≤ E[φ(X)]. 
 This fundamental inequality underlies many important results in probability and analysis.
-
 
 ##--------------##
 ## Sublevel Set ##
@@ -131,7 +123,6 @@ For a one-dimensional function, this represents the x-coordinates where the grap
 f(θx + (1-θ)y) ≤ θf(x) + (1-θ)f(y) ≤ θα + (1-θ)α = α
 
 Therefore, θx + (1-θ)y ∈ C_α, proving the sublevel set is convex.
-
 
 ##-----------##
 ## Epigraphs ##

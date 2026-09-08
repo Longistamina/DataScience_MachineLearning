@@ -2,7 +2,6 @@
 
 import time
 
-
 def calc_square(numbers):
     print("Calculate square numbers:")
     for n in numbers:
@@ -32,7 +31,6 @@ print("\nDone single-thread calculating in:", time.time() - t0) # Get the curren
 # After function calc_square terminates its process, function calc_cube will jump in
 # Then, like before, calc_cube will also keep processing, then sleeping, then processing, ... til the end
 # => Make the total processing time delayed and cost upto 1.602s to finish
-
 
 # ==============================================================================================
 # Multithreading
@@ -124,7 +122,6 @@ print("\nDone double-thread calculating in:", time.time() - t0)
 
 # If we defined more threads like 6, then we have 6/2 = 3 CORES (can achive true parallelism)
 
-
 ##------------------## Dynamic Multithread process using "threading" and "ThreadPoolExecutor" ##---------------------##
 ##------------------## Enable defining the maximum number of threads (worker) to use          ##---------------------##
 ##------------------## Automatically create thread, start thread and join thread              ##---------------------##
@@ -133,7 +130,6 @@ print("\nDone double-thread calculating in:", time.time() - t0)
 
 import threading
 from concurrent.futures import ThreadPoolExecutor
-
 
 def target_function(single_block):
     # Replace with your actual processing logic
@@ -166,11 +162,9 @@ outputs = multithread_process(func=target_function, input_blocks=inputs, max_thr
 print(outputs)
 # Output: [[3, 2, 1], ['c', 'b', 'a'], [40, 30, 20, 10], [200, 100], ['z', 'y', 'x']]
 
-
 ##-## Write outputs into  files ##-##
 
 from concurrent.futures import ThreadPoolExecutor
-
 
 def reversing(single_block):
     # Replace with your actual processing logic
@@ -209,13 +203,11 @@ multithread_process(func=write_output_file,input_blocks=inputs, max_threads=4, o
 # After running, you will find files output_0.txt, output_1.txt, ..., output_4.txt in the "output_files" folder,
 # each containing the reversed block as a string.
 
-
 # ==============================================================================================
 # using a list of tuples as argument
 # ==============================================================================================
 
 from concurrent.futures import ThreadPoolExecutor
-
 
 # Function with two parameters
 def add_numbers(x, y):
@@ -228,7 +220,6 @@ def square(x):
 # Function with three parameters
 def calculate(x, y, z):
     return x * y + z
-
 
 # ✅ Multi-argument inputs using list comprehension
 multi_arg_inputs = [(i, i+1) for i in range(1, 7, 2)]  # [(1, 2), (3, 4), (5, 6)]
@@ -247,7 +238,6 @@ three_arg_inputs = [(i, i*2, i+1) for i in range(1, 4)]  # [(1, 2, 2), (2, 4, 3)
 with ThreadPoolExecutor(max_workers=4) as executor:
     results_three = list(executor.map(lambda args: calculate(*args), three_arg_inputs))
 print(f"Three-arg results: {results_three}")  # [4, 11, 22]
-
 
 # ==============================================================================================
 # difference between Multithreading and Multiprocessing

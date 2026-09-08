@@ -19,7 +19,6 @@ df_testing_cases = pl.DataFrame(
 pl.Config.set_tbl_rows(-1)   # -1  ➜ unlimited rows
 pl.Config.set_tbl_cols(-1)   # -1  ➜ unlimited columns
 
-
 print(df_testing_cases)
 # shape: (140, 3)
 # ┌──────────────┬───────────────┬─────────────────┐

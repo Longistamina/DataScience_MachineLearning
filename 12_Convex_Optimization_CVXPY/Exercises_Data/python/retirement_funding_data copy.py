@@ -47,7 +47,6 @@ def phi(omega, beta, eta, phi_beta, K):
           return phi_beta[k] + eta[k] * (omega - beta[k])
   return phi_beta[-1] + eta[-1] * (omega - beta[-1])
 
-
 def plot_optimal_account_values(B, I, R):
   ages = np.arange(65,65+len(B))
   plt.figure(figsize=(10, 6))

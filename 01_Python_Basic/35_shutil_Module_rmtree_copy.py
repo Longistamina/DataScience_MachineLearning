@@ -17,7 +17,6 @@ Flow of contents:
 7. Miscellaneous utilities: shutil.get_terminal_size(), shutil.chown()
 '''
 
-
 # ==============================================================================================
 # 1. Copying files and directories
 # ==============================================================================================
@@ -67,7 +66,6 @@ It copies all files and subdirectories recursively.
 shutil.copytree('./02_Python_class_OOP',  # source directory
                 '/home/longdpt/Documents/Academic/DataScience_MachineLearning/demo_dir_copy') # Destination copied directory
 
-
 # ==============================================================================================
 # 2. Moving files and directories
 # ==============================================================================================
@@ -86,7 +84,6 @@ shutil.move('./demo_file.txt',  # source file
 shutil.move('./demo_dir_copy',  # source directory
             './empty_dest_dir/')  # Destination moved directory (now it will be ./empty_dest_dir/demo_dir_copy)
 
-
 # ==============================================================================================
 # 3. Renaming files and directories
 # ==============================================================================================
@@ -100,7 +97,6 @@ shutil.move('./demo_file.txt',  # source file
 
 shutil.move('./original_name_dir',  # source directory
             './renamed_dir')  # Destination renamed directory
-
 
 # ==============================================================================================
 # 4. Deleting files and directories
@@ -119,7 +115,6 @@ shutil.rmtree('/home/longdpt/Documents/Academic/DataScience_MachineLearning/demo
 
 # os.remove(path) is used to delete a single file at the specified path (path).
 os.remove('./demo_file.txt')  # Delete the demo file
-
 
 # ==============================================================================================
 # 5. Creating and Extracting archives
@@ -161,7 +156,6 @@ shutil.unpack_archive('./demo_archive.zip',  # source archive file to extract
                       './extracted_demo_archive',  # dst directory to extract the contents
                       'zip')  # format (optional, inferred from the filename)
 
-
 # ==============================================================================================
 # 6. Disk usage and Cmd Location
 # ==============================================================================================
@@ -195,7 +189,6 @@ else:
     print("Python executable not found in PATH.")
 
 # Python executable found at: /home/longdpt/miniconda3/envs/data/bin/python3
-
 
 # ==============================================================================================
 # 7. Miscellaneous utilities
@@ -231,7 +224,6 @@ os.system('echo "echo Hello World!!!" > demo_permission.sh')  # Create a demo ex
 
 shutil.chown('./demo_permission.sh', user='longdpt')  # Change ownership to 'longdpt'
 shutil.chown('./demo_permission.sh', group='longdpt')  # Change group
-
 
 # Check the file ownership after changing
 os.system('ls -l ./demo_permission.sh')

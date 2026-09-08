@@ -15,7 +15,6 @@ P = [
     [2, 7], [3, 7], [3, 8], [5, 9], [6, 9], [8, 9]
 ]
 
-
 def visualize_schedule(s, f, save=None):
     """
     Visualize a schedule.

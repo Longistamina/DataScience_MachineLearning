@@ -20,7 +20,6 @@ print(matrix)
 #  [ 4.81  9.81 10.6 ]
 #  [ 4.22  8.71  5.82]]
 
-
 # =========================================================================================
 # 1. matrix.tolist()
 # =========================================================================================
@@ -32,7 +31,6 @@ list_matrix = matrix.tolist()
 print(type(list_matrix)) # <class 'list'>
 print(list_matrix) # [[6.04, 7.87, 6.63], [5.99, 4.66, 7.1], [4.81, 9.81, 10.6], [4.22, 8.71, 5.82]]
 
-
 # =========================================================================================
 # 2. tuple(map(tuple, matrix))
 # =========================================================================================
@@ -43,7 +41,6 @@ print(tuple(map(tuple, matrix)))
 tuple_matrix = tuple(map(tuple, matrix))
 print(type(tuple_matrix)) # <class 'tuple'>
 print(tuple_matrix) # ((np.float64(6.04), np.float64(7.87), np.float64(6.63)), (np.float64(5.99), np.float64(4.66), np.float64(7.1)), (np.float64(4.81), np.float64(9.81), np.float64(10.6)), (np.float64(4.22), np.float64(8.71), np.float64(5.82)))
-
 
 # =========================================================================================
 # 3. matrix.flatten() / matrix.ravel()
@@ -57,7 +54,6 @@ print(type(flattened_matrix)) # <class 'numpy.ndarray'>
 print(flattened_matrix) # [6.04 7.87 6.63 5.99 4.66 7.1  4.81 7.89 1.32 9.52 6.9  4.53]
 
 '''NOTE: flatten() returns a copy, while ravel() returns a view when possible. Both convert 2D to 1D.'''
-
 
 # =========================================================================================
 # 4. pd.DataFrame(matrix)

@@ -45,7 +45,6 @@ print(matrix.shape)
 # (8, 6)
 # (8 rows, 6 columns)
 
-
 # =========================================================================================
 # 1. Basic indexing: matrix[row, col]
 # =========================================================================================
@@ -80,7 +79,6 @@ print(matrix[:, 2])
 # [12 22 32 42 52 62 72 82]
 # (Entire column at index 2, i.e the 3rd column)
 
-
 # =========================================================================================
 # 2. Fancy indexing: matrix[list_of_rows, list_of_cols]
 # =========================================================================================
@@ -112,7 +110,6 @@ print(matrix[:, [0, 2, 4]])
 #  [70 72 74]
 #  [80 82 84]]
 # (All rows with columns 0, 2, and 4)
-
 
 # =========================================================================================
 # 3. Slicing: matrix[row_start:row_stop:row_step, col_start:col_stop:col_step]
@@ -187,7 +184,6 @@ print(matrix[::-1, ::-1])
 #  [35 34 33 32 31 30]
 #  [25 24 23 22 21 20]
 #  [15 14 13 12 11 10]]
-
 
 # =========================================================================================
 # 4. Advanced indexing (using methods)
@@ -373,7 +369,6 @@ print(np.take_along_axis(matrix_scores, argmax_indices[np.newaxis, :], axis=0))
 # [[93 92 94 95 92]]
 '''np.newaxis is used to convert 1D array argmax_indices to 2D for proper broadcasting'''
 
-
 # =========================================================================================
 # 5. Modifying elements: matrix[row, col] = new_value
 # =========================================================================================
@@ -429,7 +424,6 @@ matrix_demo.put(np.arange(6, 12), 0)
 print(f"Modified slice (flat): {matrix_demo.flat[6:12]}\nOriginal slice (flat): {matrix.flat[6:12]}")
 # Modified slice (flat): [0 0 0 0 0 0]
 # Original slice (flat): [20 21 22 23 24 25]
-
 
 # =========================================================================================
 # 6. Examples for 3D and 4D matrices
@@ -619,7 +613,6 @@ print(tensor_4d.take([0], axis=0).shape)
 print(tensor_4d.take([1, 3], axis=2).shape)
 # (2, 3, 2, 5)
 # (Take rows 1 and 3 from all batches and channels)
-
 
 # =========================================================================================
 # 7. Elipsis for skipping elements: arr[..., indices]

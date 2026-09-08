@@ -42,7 +42,6 @@ Key Differences from Pandas:
 import datetime as dt
 import polars as pl
 
-
 # =========================================================================================
 # 0. Polars .filter() Basics
 # =========================================================================================
@@ -66,7 +65,6 @@ mask_with_null = pl.Series("mask", [True, None, False])
 
 print(s_null_mask.filter(mask_with_null).to_list())
 # [10]
-
 
 # =========================================================================================
 # 1. Single Condition Examples
@@ -259,7 +257,6 @@ mask_quarter_end = s_datetime.dt.month().is_in([3, 6, 9, 12]) & (s_datetime == s
 print(s_datetime.filter(mask_quarter_end).dt.strftime("%Y-%m-%d").to_list())
 # ['2023-03-31', '2023-06-30']
 
-
 # =========================================================================================
 # 2. Negation of Condition: ~ (tilde) operator
 # =========================================================================================
@@ -285,7 +282,6 @@ print(s_mammals.filter(~s_mammals.is_in(["cow", "llama"])).to_list())
 
 print(s_datetime.filter(~mask_quarter_end).dt.strftime("%Y-%m-%d").to_list())
 # ['2023-01-01', '2023-01-31', '2023-02-28', '2023-04-30', '2023-05-31']
-
 
 # =========================================================================================
 # 3. Combine Multiple Conditions
@@ -346,7 +342,6 @@ print(s_timezones.filter(mask_asia_ending_e_or_u_or_tokyo).to_list())
 Though "Tokyo" does not end with "e" or "u" (first condition),
 it satisfies the second condition, so it is returned.
 '''
-
 
 # =========================================================================================
 # 4. DataFrame Filtering with .filter()

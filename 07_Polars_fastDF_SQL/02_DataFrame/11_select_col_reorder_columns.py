@@ -46,7 +46,6 @@ pl.Config.set_tbl_rows(12)
 pl.Config.set_tbl_cols(12)
 pl.Config.set_float_precision(2)
 
-
 # =========================================================================================
 # 0. Example Data
 # =========================================================================================
@@ -82,7 +81,6 @@ print(df_emp)
 
 print(df_emp.schema)
 # Schema({'id': Int64, 'name': String, 'salary': Float64, 'start_date': Date, 'dept': String})
-
 
 # =========================================================================================
 # 1. Explicit column selection and reordering
@@ -365,7 +363,6 @@ print(df_name)
 # shape: (8, 1)
 # columns: name
 
-
 # =========================================================================================
 # 2. pandas reindex(columns=...) equivalent
 # =========================================================================================
@@ -407,7 +404,6 @@ raises an error because "bonus" does not exist.
 Use a helper when you intentionally want pandas-like "add missing columns as null" behavior.
 '''
 
-
 def select_or_null(df: pl.DataFrame, columns: list[str]) -> pl.DataFrame:
     """Select columns in the requested order; create missing columns as null."""
 
@@ -417,7 +413,6 @@ def select_or_null(df: pl.DataFrame, columns: list[str]) -> pl.DataFrame:
             for col in columns
         ]
     )
-
 
 df_like_reindex = select_or_null(df_emp, ["dept", "bonus", "salary"])
 print(df_like_reindex)
@@ -436,7 +431,6 @@ print(df_like_reindex)
 # │ Operations ┆ null  ┆ 632.80 │
 # │ Finance    ┆ null  ┆ 722.50 │
 # └────────────┴───────┴────────┘
-
 
 # =========================================================================================
 # 3. Selecting all except some columns
@@ -478,7 +472,6 @@ print(df_emp.select(pl.exclude("start_date")))
 print(df_emp.select(pl.all().exclude(["id", "start_date"])))
 # shape: (8, 3)
 # columns: name, salary, dept
-
 
 # =========================================================================================
 # 4. Programmatic reordering patterns
@@ -557,7 +550,6 @@ df_date_first = df_emp.select(date_cols + non_date_cols)
 print(df_date_first)
 # columns: start_date, id, name, salary, dept
 
-
 # =========================================================================================
 # 5. Expression selection and light transformation
 # =========================================================================================
@@ -604,7 +596,6 @@ df_suffixed = df_emp.select(pl.all().name.suffix("_raw"))
 print(df_suffixed)
 # columns: id_raw, name_raw, salary_raw, start_date_raw, dept_raw
 
-
 # =========================================================================================
 # 6. LazyFrame selection
 # =========================================================================================
@@ -639,7 +630,6 @@ print(result)
 # │ Operations ┆ Simon    ┆ 632.80 │
 # │ Finance    ┆ Guru     ┆ 722.50 │
 # └────────────┴──────────┴────────┘
-
 
 # =========================================================================================
 # 7. pl.col(): Create an expression representing column(s) in a DataFrame

@@ -26,7 +26,6 @@ import json
 
 parent_dir = "/home/longdpt/Documents/Academic/DataScience_MachineLearning/01_Python_Basic/demo_data/json_files"
 
-
 # ==============================================================================================
 # json.loads() and json.load()
 # ==============================================================================================
@@ -99,7 +98,6 @@ print(python_dict_from_file)
 # 'StartDate': ['1/1/2012', '9/23/2013', '11/15/2014', '5/11/2014', '3/27/2015', '5/21/2013', '7/30/2013', '6/17/2014'],
 # 'Dept': ['IT', 'Operations', 'IT', 'HR', 'Finance', 'IT', 'Operations', 'Finance']}
 
-
 # ==============================================================================================
 # json.dumps() and json.dump()
 # ==============================================================================================
@@ -151,7 +149,6 @@ dictionary_to_write = {
 # Open the JSON file in write mode
 with open(f"{parent_dir}/new_written_jsondump.json", "w") as json_pointer:
     json.dump(dictionary_to_write, json_pointer, indent=4)
-
 
 # ==============================================================================================
 # data conversion

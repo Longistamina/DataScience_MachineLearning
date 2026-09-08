@@ -33,7 +33,6 @@ pl.Config.set_tbl_cols(9)
 pl.Config.set_float_precision(3)
 pl.Config.set_tbl_width_chars(140)
 
-
 # =========================================================================================
 # 0. Setup data
 # =========================================================================================
@@ -88,7 +87,6 @@ print(df_orders)
 
 print(df_orders.schema)
 
-
 # =========================================================================================
 # 1. Arithmetic expressions in SELECT
 # =========================================================================================
@@ -140,7 +138,6 @@ out_native = lf_orders.select(
     (c.quantity * c.unit_price * (1 - c.discount_rate) + c.shipping_fee).alias("net_sales"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 2. Literal values
@@ -195,7 +192,6 @@ out_native = lf_orders.select(
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 3. Operator precedence and parentheses
 # =========================================================================================
@@ -238,7 +234,6 @@ out_native = lf_orders.select(
     ((c.quantity + 2) * c.unit_price).alias("explicit_parentheses"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 4. Boolean expressions as computed output columns
@@ -284,7 +279,6 @@ out_native = lf_orders.select(
     ((c.status == "paid") & c.is_priority).alias("paid_priority_order"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 5. CAST: strict conversion
@@ -339,7 +333,6 @@ out_native = lf_orders.select(
 print(out_native.collect())
 print(out_native.collect_schema())
 
-
 # =========================================================================================
 # 6. PostgreSQL-style shorthand casts
 # =========================================================================================
@@ -375,7 +368,6 @@ print(out_sql.collect_schema())
 # │ 1005     ┆ 4.000        ┆ 2024-03-01 │
 # │ 1006     ┆ 2.000        ┆ 2024-03-15 │
 # └──────────┴──────────────┴────────────┘
-
 
 # =========================================================================================
 # 7. TRY_CAST: safe conversion
@@ -421,7 +413,6 @@ print(out_sql.collect_schema())
 # │ 1006     ┆ 91.0       ┆ 91.000 │
 # └──────────┴────────────┴────────┘
 
-
 out_native = lf_orders.select(
     "order_id",
     "score_text",
@@ -429,7 +420,6 @@ out_native = lf_orders.select(
 )
 print(out_native.collect())
 print(out_native.collect_schema())
-
 
 # =========================================================================================
 # 8. Searched CASE WHEN expression
@@ -491,7 +481,6 @@ out_native = lf_orders.select(
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 9. Simple CASE expression
 # =========================================================================================
@@ -552,7 +541,6 @@ out_native = lf_orders.select(
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 10. CASE without ELSE returns NULL when no match
 # =========================================================================================
@@ -596,7 +584,6 @@ out_native = lf_orders.select(
     .alias("promo_segment"),
 )
 print(out_native.collect())
-
 
 # =========================================================================================
 # 11. Conditional helper functions related to CASE
@@ -653,7 +640,6 @@ out_native = lf_orders.select(
 )
 print(out_native.collect())
 
-
 # =========================================================================================
 # 12. Using SQL expressions in an eager DataFrame
 # =========================================================================================
@@ -677,7 +663,6 @@ out_eager_sql = df_orders.sql(
 )
 print(out_eager_sql)
 print(type(out_eager_sql))
-
 
 # =========================================================================================
 # 13. Quick summary

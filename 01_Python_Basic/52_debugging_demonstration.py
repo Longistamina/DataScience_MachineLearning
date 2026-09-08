@@ -8,14 +8,12 @@ from pathlib import Path
 
 from loguru import logger
 
-
 def get_input():
     """Prompt the user for rectangle dimensions and return them."""
     length = input("Enter the length of the rectangle: ")
     width = input("Enter the width of the rectangle: ")
     filepath = input("Enter the file path to save the results (or press Enter to skip): ")
     return length, width, filepath
-
 
 def rectangle_perimeter(length, width):
     """Calculate the perimeter of a rectangle."""
@@ -27,7 +25,6 @@ def rectangle_perimeter(length, width):
     else:
         return 2 * (length + width)
 
-
 def rectangle_area(length, width):
     """Calculate the area of a rectangle."""
     try:
@@ -37,7 +34,6 @@ def rectangle_area(length, width):
         return None
     else:
         return length * width
-
 
 def save_results(out_message, filepath):
     """Save the results to a file."""
@@ -50,7 +46,6 @@ def save_results(out_message, filepath):
         with open(filepath, 'w') as file: # Save the results to the specified file
             file.write(out_message)
         logger.info(f"Results saved to {filepath}")
-
 
 
 # ==============================================================================================
@@ -89,7 +84,6 @@ def main():
     except Exception as e:
         logger.error(e)
         return None
-
 
 # ==============================================================================================
 # Run the main() function

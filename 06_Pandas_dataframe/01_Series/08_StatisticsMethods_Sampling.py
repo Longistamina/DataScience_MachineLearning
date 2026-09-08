@@ -31,7 +31,6 @@ print(s_demo.count())
 print(s_demo.size)
 # 10
 
-
 ##--------##
 ## .sum() ##
 ##--------##
@@ -41,7 +40,6 @@ print(s_demo.sum())
 
 print(np.sum([2, 5.8, 4.6, 14, 37, 25.2, 9.3, 10.5]))
 # 108.4
-
 
 ##------------##
 ## .product() ##
@@ -53,14 +51,12 @@ print(s_demo.product())
 print(2*5.8*4.6*14*37*25.2*9.3*10.5)
 # 68017140.37439999
 
-
 ##---------##
 ## .mean() ##
 ##---------##
 # .mean() returns the mean (average) of the values in the Series, excluding NA/null values.
 print(s_demo.mean())
 # 13.549999999999999
-
 
 ##-----------##
 ## .median() ##
@@ -69,14 +65,12 @@ print(s_demo.mean())
 print(s_demo.median())
 # 9.9
 
-
 ##-------------##
 ## .variance() ##
 ##-------------##
 # .var() returns the variance of the values in the Series, excluding NA/null values.
 print(s_demo.var())
 # 140.9657142857143
-
 
 ##--------##
 ## .std() ##
@@ -85,7 +79,6 @@ print(s_demo.var())
 print(s_demo.std())
 # 11.872898310257455
 
-
 ##--------##
 ## .min() ##
 ##--------##
@@ -93,14 +86,12 @@ print(s_demo.std())
 print(s_demo.min())
 # 2.0
 
-
 ##--------##
 ## .max() ##
 ##--------##
 # .max() returns the maximum value in the Series, excluding NA/null values.
 print(s_demo.max())
 # 37.0
-
 
 ##-------------##
 ## .quantile() ##
@@ -145,14 +136,12 @@ print(s_demo.quantile(q=[0.25, 0.5, 0.75], interpolation='lower'))
 # 0.75    14.0
 # dtype: float64
 
-
 ##---------##
 ## .skew() ##
 ##---------##
 # .skew() returns the skewness of the distribution of values in the Series, excluding NA/null values.
 print(s_demo.skew())
 # 1.325643580258475
-
 
 ##-------------##
 ## .kurtosis() ##
@@ -161,14 +150,12 @@ print(s_demo.skew())
 print(s_demo.kurtosis())
 # 1.122395658614919
 
-
 ##--------##
 ## .sem() ##
 ##--------##
 # .sem() returns the standard error of the mean of the values in the Series, excluding NA/null values.
 print(s_demo.sem())
 # 4.197703453760673
-
 
 ##-------------##
 ## .describe() ##
@@ -184,7 +171,6 @@ print(s_demo.describe())
 # 75%      16.800000
 # max      37.000000
 # dtype: float64
-
 
 '''
 # ## Cumulative methods
@@ -208,7 +194,6 @@ print(s_demo.cumsum())
 # 8     97.9
 # 9    108.4
 # dtype: float64
-
 
 ##------------##
 ## .cumprod() ##
@@ -244,7 +229,6 @@ print(s_demo.cummin())
 # 9    2.0
 # dtype: float64
 
-
 ##-----------##
 ## .cummax() ##
 ##-----------##
@@ -261,7 +245,6 @@ print(s_demo.cummax())
 # 8    37.0
 # 9    37.0
 
-
 ##---------------##
 ## .pct_change() ##
 ##---------------##
@@ -274,7 +257,6 @@ print(s_demo_pctchange.pct_change())
 # 2    0.250000
 # 3   -0.133333
 # 4    0.230769
-
 
 '''
 # ## Covariance and Correlation methods
@@ -295,7 +277,6 @@ print(s1.cov(s2))
 print(s1.cov(s3))
 # -62.5
 
-
 ##---------##
 ## .corr() ##
 ##---------##
@@ -307,7 +288,6 @@ print(s1.corr(s2, method='pearson'))  # Pearson correlation (default)
 
 print(s1.corr(s3, method='kendall'))  # Kendall correlation
 # -0.9999999999999999
-
 
 # =========================================================================================
 # 2. Sampling
@@ -326,7 +306,6 @@ print(s_sampled_n)
 # 9    10.5
 # 6    25.2
 # dtype: float64
-
 
 ##----------------##
 ## .sample(frac=) ##

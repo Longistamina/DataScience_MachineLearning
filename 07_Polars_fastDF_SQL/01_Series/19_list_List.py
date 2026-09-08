@@ -74,7 +74,6 @@ s_variable = pl.Series("variable", [[1], [1, 2], [1, 2, 3]], dtype=pl.List(pl.In
 print(s_variable)
 # This is valid because pl.List is variable-length.
 
-
 # =========================================================================================
 # 1. Aggregation & Reduction
 # =========================================================================================
@@ -164,7 +163,6 @@ print(s_dups.list.n_unique())
 # [3, 2, 0, null]
 # Number of distinct values in each sub-list.
 
-
 # =========================================================================================
 # 2. Boolean Aggregation
 # =========================================================================================
@@ -236,7 +234,6 @@ print(s_bools.list.any(ignore_nulls=False))
 # 	false
 # 	null
 # ]
-
 
 # =========================================================================================
 # 3. Element Access & Indexing
@@ -359,7 +356,6 @@ print(s_vals.list.gather_every(2))
 print(s_vals.list.gather_every(2, offset=1))
 # [[20], [5], [], []]
 
-
 # =========================================================================================
 # 4. Searching, Counting, and Cleaning
 # =========================================================================================
@@ -422,7 +418,6 @@ print(s_trend.list.diff())
 print(s_trend.list.diff(n=2, null_behavior="drop"))
 # [[3, 5], [-7]]
 
-
 # =========================================================================================
 # 5. Expression Logic
 # =========================================================================================
@@ -480,7 +475,6 @@ Because filtering changes lengths, the result is still a variable-length List.
 
 print(s_scores.list.filter(pl.element() > 3))
 # [[4], [8, 5], []]
-
 
 # =========================================================================================
 # 6. Combining and Set Operations
@@ -561,7 +555,6 @@ print(s_a.list.set_union(s_b))
 
 # Stable display order for set outputs if desired:
 print(s_a.list.set_union(s_b).list.sort())
-
 
 # =========================================================================================
 # 7. Ordering and Sampling
@@ -686,7 +679,6 @@ print(s_dups.list.unique())
 print(s_dups.list.unique(maintain_order=True))
 # Unique values while preserving first-seen order.
 
-
 # =========================================================================================
 # 8. Structural Operations
 # =========================================================================================
@@ -796,7 +788,6 @@ print(
 # │ 3         ┆ 4         ┆ 5         │
 # │ 6         ┆ null      ┆ null      │
 # └───────────┴───────────┴───────────┘
-
 
 # =========================================================================================
 # 9. Real applications

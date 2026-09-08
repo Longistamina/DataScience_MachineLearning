@@ -324,7 +324,6 @@ print(result)
 # Line 2
 # Line 3
 
-
 # ==============================================================================================
 # 2. Command chaining and piping
 # ==============================================================================================
@@ -398,7 +397,6 @@ print(result)
 # 
 from plumbum.cmd import grep, ps, wc
 
-
 # Pipeline to count processes matching a pattern
 def count_processes(pattern):
     pipeline = ps["aux"] | grep[pattern] | wc["-l"]
@@ -436,7 +434,6 @@ print(result)
 # 
 from plumbum.cmd import grep, ls
 
-
 def find_files(extension, pattern=None):
     cmd = ls["-1"] | grep[f".{extension}"]
 
@@ -455,7 +452,6 @@ print(py_files)
 test_files = find_files("py", pattern="test")
 print(test_files)
 # test_GPU.py
-
 
 # ==============================================================================================
 # 3. Redirection
@@ -583,7 +579,6 @@ from plumbum.cmd import cat, sort, uniq
 
 # Read file, sort, get unique lines, save
 ((cat < "input.txt") | sort | uniq > "output.txt")()
-
 
 # ==============================================================================================
 # 4. Working with paths and directories
@@ -770,7 +765,6 @@ old_path = local.cwd / "old_name.txt"
 new_path = local.cwd / "new_name.txt"
 old_path.move(new_path)
 
-
 # ==============================================================================================
 # 5. Foreground and background execution
 # ==============================================================================================
@@ -950,7 +944,6 @@ print(f"Output: {stdout}")
 print(f"Return code: {return_code}")
 # Return code: 0
 
-
 # ==============================================================================================
 # 6. Advanced local operations
 # ==============================================================================================
@@ -1108,7 +1101,6 @@ try:
     print("Command succeeded")
 except ProcessExecutionError:
     print("Unexpected return code")
-
 
 # ==============================================================================================
 # 8. Remote commands via SSH
@@ -1296,7 +1288,6 @@ with SshMachine("user@example.com") as remote:
     # Download directory
     remote.download(remote.path("/etc/config"), local.path("./config_backup"))
 
-
 # ==============================================================================================
 # 9. Command modifiers and utilities
 # ==============================================================================================
@@ -1385,7 +1376,6 @@ result2 = grep_ignore_case["warning", "log.txt"]()
 # 
 from plumbum.cmd import find
 
-
 def find_files(extension, directory="."):
     """Create find command for specific file extension"""
     return find[directory, "-name", f"*.{extension}"]
@@ -1410,7 +1400,6 @@ Create command libraries for common tasks
 # ## Command library for common operations
 # 
 from plumbum.cmd import find, gzip, tar
-
 
 class BackupCommands:
     @staticmethod
@@ -1442,7 +1431,6 @@ print(large_files)
 # ## Parameterized command builder
 # 
 from plumbum.cmd import awk, grep, ps
-
 
 def process_monitor(process_name, sort_by="memory"):
     """Monitor specific process with sorting"""

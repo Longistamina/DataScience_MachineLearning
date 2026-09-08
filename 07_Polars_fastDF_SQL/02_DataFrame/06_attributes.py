@@ -87,7 +87,6 @@ except StopIteration:
         pl.col(["Team", "Position", "PosCategory"]).cast(pl.Categorical)
     )
 
-
 print(df_baseball.head())
 # shape: (5, 7)
 # ┌─────────────────┬──────┬───────────────┬────────┬────────┬───────┬─────────────┐
@@ -114,7 +113,6 @@ print(df_baseball.glimpse(return_type="string"))
 # $ Weight      <i64> 180, 215, ...
 # $ Age         <f64> 22.99, 34.69, ...
 # $ PosCategory <cat> 'Catcher', 'Catcher', ...
-
 
 # =========================================================================================
 # 1. Shape and size-like attributes
@@ -199,7 +197,6 @@ print(hasattr(df_baseball, "ndim"))
 
 print(len(df_baseball.shape))
 # 2
-
 
 # =========================================================================================
 # 2. Data types and structure attributes
@@ -340,7 +337,6 @@ print(column_names)
 print(hasattr(df_baseball, "axes"))
 # False
 
-
 # =========================================================================================
 # 3. Data access and conversion replacements
 # =========================================================================================
@@ -441,7 +437,6 @@ print(df_small.transpose(include_header=True))
 # │ b      ┆ 4        ┆ 5        ┆ 6        │
 # └────────┴──────────┴──────────┴──────────┘
 
-
 print(df_small.transpose(include_header=True, header_name="original_column", column_names=["row_0", "row_1", "row_2"]))
 # shape: (2, 4)
 # ┌─────────────────┬───────┬───────┬───────┐
@@ -475,7 +470,6 @@ print(df_baseball.filter(pl.col("Age") > 200).is_empty())
 
 print(pl.DataFrame().is_empty())
 # True
-
 
 # =========================================================================================
 # 4. Advanced attributes
@@ -570,7 +564,6 @@ except (ImportError, ModuleNotFoundError) as err:
 except AttributeError as err:
     print("Your Polars version does not expose df.plot:", err)
 
-
 # =========================================================================================
 # 5. Pandas-to-Polars attributes cheat sheet
 # =========================================================================================
@@ -595,7 +588,6 @@ df.style                         df.style, backed by optional Great Tables
 df.flags                         df.flags
 df.plot                          df.plot, backed by optional Altair
 '''
-
 
 # =========================================================================================
 # 6. Current Polars DataFrame attributes list

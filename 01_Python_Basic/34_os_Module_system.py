@@ -44,7 +44,6 @@ This can be useful to determine the platform your code is running on.
 print(os.name)  # posix
 # (Linux, macOS)
 
-
 # Example of using os.name to check the platform
 if os.name == 'nt':
     print("Running on Windows")
@@ -67,7 +66,6 @@ print(os.uname())
 # posix.uname_result(sysname='Linux', nodename='zbook', release='6.18.7-061807-generic',
 # version='#202601231045 SMP PREEMPT_DYNAMIC Fri Jan 23 11:25:00 UTC 2026', machine='x86_64')
 
-
 # Example of using os.uname() to get system information
 system_info = os.uname()
 print(f"System: {system_info.sysname}") # System: Linux
@@ -84,7 +82,6 @@ print(f"Machine: {system_info.machine}") # Machine: x86_64
 print(os.cpu_count()) # 32
 # 32 (threads)
 # 16 (cores)
-
 
 # ==============================================================================================
 # 2. Working Directory Navigation
@@ -111,7 +108,6 @@ os.chdir('..')  # The '..' means the parent directory of the current working dir
 # Verify the change
 print(os.getcwd())  # /home/longdpt/Documents
 
-
 # ==============================================================================================
 # 3. File and Directory Operations
 # ==============================================================================================
@@ -125,11 +121,9 @@ print(os.getcwd())  # /home/longdpt/Documents
 print(os.listdir('.'))
 # ['01_Python_Basic', 'merge_mp4.sh', 'Unrar_file.txt', '.git', 'Python_Important_packages.txt', 'vscode_install_settings.txt', 'Calculus_ConvexOptimization', '.gitignore', '02_Python_class_OOP']
 
-
 # List files in a specific directory
 print(os.listdir('/home/longdpt/Documents/Academic'))
 # ['Biotech_books_summary', 'MachineLearning_ThayLoi', 'Cancer_NGS_ThayLoi', 'DataScience_HCMUS', 'LDS9 Chapter 12 Cung cấp tài nguyên triển khai hệ thống Master - Workers.rar', 'LDS9 Bigdata.rar', 'LDS8.rar', 'HTDS_272.rar', 'Biotechnology_HCMUS', 'Toan_hoc_chan_phuong.pdf', 'git_practice', 'Bioinformatics_Linux_R_Python', 'DataScience_MachineLearning', 'Programming_Materials']
-
 
 # Store output of os.listdir() in a variable
 dir_contents = os.listdir('/home/longdpt/Documents/Academic')
@@ -162,7 +156,6 @@ with os.scandir('/home/longdpt/Documents/Academic') as entries:
         # <DirEntry 'Bioinformatics_Linux_R_Python'>
         # <DirEntry 'DataScience_MachineLearning'>
         # <DirEntry 'Programming_Materials'>
-
 
 # scan then printout each entry's attributes (name, type, size)
 with os.scandir('/home/longdpt/Documents/Academic') as entries:
@@ -214,7 +207,6 @@ os.mkdir('new_directory')
 # Create a new directory in an EXISTED parent directory
 os.mkdir('/home/longdpt/Documents/Academic/DataScience_MachineLearning/new_directory_2')
 
-
 '''NOTE: if the parent directory does not exist, it will raise a FileNotFoundError.'''
 try:
     os.mkdir('parent_dir/child_dir')
@@ -235,7 +227,6 @@ os.makedirs('parent_dir/child_dir/grandchild_dir')
 # This will create 'parent_dir', 'child_dir', and 'grandchild_dir'
 # even if 'parent_dir' or 'child_dir' does not exist.
 
-
 '''NOTE: if the parent directory exists, it will raise a FileNotFoundError.'''
 try:
     os.makedirs('parent_dir/child_dir/grandchild_dir')
@@ -252,7 +243,6 @@ NOTE: This will raise an error if the directory is not empty.
 
 # Remove an empty directory
 os.rmdir('new_directory')  # This will remove the empty 'new_directory' created earlier
-
 
 ## Try to remove a non-empty directory (will raise an error) ##
 try:
@@ -311,7 +301,6 @@ os.rename('./demo_os_remname.txt', './bury_the_light.txt')  # Rename the file to
 
 # os.remove('./bury_the_light.txt') ## remove after demo ##
 
-
 # ==============================================================================================
 # 4. Running System Commands
 # ==============================================================================================
@@ -328,14 +317,12 @@ os.system('echo "forsaken i am awakened"')  # Execute the shell command and disp
 # forsaken i am awakened
 # 0  (Exit status, 0 means success)
 
-
 ## Store the exit status in a variable ##d
 exit_status = os.system('echo "forsaken i am awakened"')
 # forsaken i am awakened
 # (not return exit status)
 
 print(exit_status)  # 0
-
 
 ## Create a string variable with multiple commands ##
 commands = """
@@ -378,7 +365,6 @@ with os.popen('ls -l .', "r") as wrap_object:
     # -rw-r--r--. 1 longdpt longdpt 1462 Jun 16 13:27 Python_Important_packages.txt
     # -rwxrwxrwx. 1 longdpt longdpt  106 May 19 12:35 Unrar_file.txt
     # -rw-r--r--. 1 longdpt longdpt 1697 Jun  8 16:13 vscode_install_settings.txt
-
 
 ## Open a pipe to the 'sort' command and WRITE to its input ##
 fruits = "orange\napple\nbanana"
@@ -464,7 +450,6 @@ print("This line will not be executed if os.execvp() is called")  # This line wi
 import os
 import subprocess
 
-
 def get_conda_env(env_name):
     """Get environment variables from a conda environment"""
     # Run a command in the conda environment to dump its environment
@@ -497,7 +482,6 @@ so the following lines or commands will not be executed.
 
 print("This line will not be executed if os.execvp() is called")  # This line will not be executed
 
-
 # ==============================================================================================
 # 5. Working with file permissions
 # ==============================================================================================
@@ -509,7 +493,6 @@ at the specified path (path) to the given mode (mode).
 os.system('echo "echo Hello World!!!" > demo_permission.sh')  # Create a demo executable .sh file
 os.system('ls -l ./demo_permission.sh')  # Check the file permissions before changing
 # -rw-r--r--. 1 longdpt longdpt 20 Jul 18 11:26 ./demo_permission.sh
-
 
 os.chmod('./demo_permission.sh', 0o755)  # Change permissions to make it executable
 
@@ -539,7 +522,6 @@ Octal    Symbolic     Common Use
 0o777    rwxrwxrwx    Read, write, and execute files for everyone
 '''
 
-
 # ==============================================================================================
 # 6. Environment Variables
 # ==============================================================================================
@@ -560,7 +542,6 @@ print(os.environ)
 # Example of accessing an environment variable (dictionary-like access)
 print(os.environ['HOME'])  # /home/longdpt
 print(os.environ.get('HOME'))  # /home/longdpt
-
 
 # Example of checking if an environment variable exists
 if 'HOME' in os.environ:

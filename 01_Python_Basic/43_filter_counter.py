@@ -14,7 +14,6 @@
    + Other examples
 '''
 
-
 # ==============================================================================================
 # 1. filter() function
 # ==============================================================================================
@@ -99,7 +98,6 @@ print(working_age)  # Output: [35, 28, 41, 33, 29, 38, 45, 26]
 emails = ['john@company.com', 'alice@gmail.com', 'bob@company.com']
 company_emails = list(filter(lambda email: '@company.com' in email, emails))
 print(company_emails)  # Output: ['john@company.com', 'bob@company.com']
-
 
 # ==============================================================================================
 # 2. collections.Counter (from collections import Counter)

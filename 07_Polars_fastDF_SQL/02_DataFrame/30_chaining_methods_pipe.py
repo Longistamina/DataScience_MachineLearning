@@ -44,7 +44,6 @@ pl.Config.set_float_precision(4)
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 alt.renderers.enable("browser")
 
-
 # =========================================================================================
 # 1. General Chaining Methods
 # =========================================================================================
@@ -90,7 +89,6 @@ print(lf_aq_paris.head().collect())
 # │ 2019-05-07 05:00:00 UTC ┆ 72.4000 │
 # └─────────────────────────┴─────────┘
 
-
 # =========================================================================================
 # 2. Apply with .pipe() for custom functions
 # =========================================================================================
@@ -132,7 +130,6 @@ print(lf_pokemon.head().collect())
 # │ Charmander     ┆ Fire   ┆ null   ┆ 309   ┆ 39  ┆ 52     ┆ 43      ┆ 60     ┆ 50     ┆ 65    ┆ 1          ┆ false     │
 # └────────────────┴────────┴────────┴───────┴─────┴────────┴─────────┴────────┴────────┴───────┴────────────┴───────────┘
 
-
 # Example with Boston Housing dataset and reframing technique.
 # SciPy functions need materialized scalar inputs, so this is a deliberate collect() + pipe() fallback.
 lf_boston_stats = (
@@ -166,7 +163,6 @@ print(lf_boston_stats.collect())
 # columns: index, rm_norm, lstat_expon, medv_gamma
 # q=1 gives inf for these continuous distributions.
 
-
 # =========================================================================================
 # 3. Apply with .group_by()
 # =========================================================================================
@@ -191,7 +187,6 @@ print(
 )
 # shape: depends on observed Type_1 + Type_2 combinations
 # columns: Type_1, Type_2, min_HP, max_HP, mean_HP
-
 
 # =========================================================================================
 # 4. Apply with .plot
@@ -244,7 +239,6 @@ chart_attack_defense = (
     )
 )
 chart_attack_defense.show()
-
 
 # =========================================================================================
 # 5. All-in-one workflow
@@ -336,7 +330,6 @@ print(lf_bac.collect())
 # │ HUI014542 ┆ VŨ THỊ YẾN     ┆ Female ┆ 5.75 ┆ 6.0        ┆ … ┆ null    ┆ 2.88    ┆ null    ┆ 7.4     ┆ 4.8       │
 # │ HUI014543 ┆ VƯƠNG THỊ YẾN  ┆ Female ┆ 2.5  ┆ 4.25       ┆ … ┆ null    ┆ 3.0     ┆ 4.4     ┆ 4.2     ┆ 4.4       │
 # └───────────┴─────────────────┴────────┴──────┴────────────┴───┴─────────┴─────────┴─────────┴─────────┴───────────┘
-
 
 
 # =========================================================================================

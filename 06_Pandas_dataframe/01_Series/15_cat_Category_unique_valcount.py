@@ -52,7 +52,6 @@ print(s_gender)
 # dtype: category
 # Categories (3, object): ['F', 'LGBTQ', 'M']
 
-
 ##----------------------------------##
 ## Using .astype('category') method ##
 ##----------------------------------##
@@ -81,7 +80,6 @@ print(s_gender)
 # 9        M
 # dtype: category
 # Categories (3, object): ['F', 'LGBTQ', 'M']
-
 
 ##--------------------------------##
 ## Using pd.Categorical() method  ##
@@ -128,7 +126,6 @@ print(s_gender_categ)
 # dtype: category
 # Categories (3, object): ['F', 'LGBTQ', 'M']
 
-
 ## With ordered = True
 s_gender_categ = pd.Series(pd.Categorical(
     values = lst_gender,
@@ -171,7 +168,6 @@ print(s_price_levels_categ)
 # Categories (5, int64): [1, 2, 3, 4, 5]
 '''Here, the NaN and None values are not included in the categories.'''
 
-
 ## With ordered = True
 s_price_levels_categ = pd.Series(pd.Categorical(
     values = lst_price_levels,
@@ -192,7 +188,6 @@ print(s_price_levels_categ)
 # 10      3
 # dtype: category
 # Categories (5, int64): [1 < 2 < 3 < 4 < 5]
-
 
 # =========================================================================================
 # 1. Core attributes
@@ -218,7 +213,6 @@ print(s_gender.cat.categories)
 
 print(s_levels.cat.categories)
 # Index([1, 2, 3, 4, 5], dtype='int64')
-
 
 ##------------##
 ## .cat.codes ##
@@ -252,7 +246,6 @@ print(s_levels.cat.codes)
 # 10    2
 # dtype: int8
 
-
 ##--------------##
 ## .cat.ordered ##
 ##--------------##
@@ -263,7 +256,6 @@ print(s_gender.cat.ordered)
 
 print(s_levels.cat.ordered)
 # True
-
 
 # =========================================================================================
 # 2. Adding and Removing Categories
@@ -323,7 +315,6 @@ print(s_added)
 # dtype: category
 # Categories (4, object): ['Bachelor' < 'Master' < 'PhD' < 'PostDoc']
 
-
 ##--------------------------##
 ## .cat.remove_categories() ##
 ##--------------------------##
@@ -349,7 +340,6 @@ print(s_removed)
 # 4    Bachelor
 # dtype: category
 # Categories (3, object): ['Bachelor' < 'PhD' < 'PostDoc']
-
 
 ##---------------------------------##
 ## .cat.remove_unused_categories() ##
@@ -378,7 +368,6 @@ print(s_removed_unused)
 # dtype: category
 # Categories (2, object): ['Bachelor' < 'Master']
 '''Here, 'PhD' and 'PostDoc' were removed as they were not used in the Series.'''
-
 
 ##-----------------------##
 ## .cat.set_categories() ##
@@ -414,7 +403,6 @@ print(s_degrees_set)
 # dtype: category
 # Categories (2, object): ['BSc' < 'MSc']
 
-
 # =========================================================================================
 # 3. Renaming Categories
 # =========================================================================================
@@ -434,7 +422,6 @@ print(s_gender)
 # 9        M
 # dtype: category
 # Categories (3, object): ['F', 'LGBTQ', 'M']
-
 
 ##-----------------------##
 ## new_categories = list ##
@@ -457,7 +444,6 @@ print(s_renamed_lst)
 # dtype: category
 # Categories (3, object): ['Female', 'LGBTQ+', 'Male']
 
-
 ##-----------------------##
 ## new_categories = dict ##
 ##-----------------------##
@@ -478,7 +464,6 @@ print(s_renamed_dict)
 # 9      Male
 # dtype: category
 # Categories (3, object): ['Female', 'Other', 'Male']
-
 
 # =========================================================================================
 # 4. Reordering Categories
@@ -530,7 +515,6 @@ print(s_renamed)
 # dtype: category
 # Categories (5, object): ['1st' < '2nd' < '3rd' < '4th' < '5th']
 
-
 ##---------------------------##
 ## .cat.reorder_categories() ##
 ##---------------------------##
@@ -551,7 +535,6 @@ print(s_reordered)
 # 8    3rd
 # dtype: category
 # Categories (5, object): ['5th' < '4th' < '3rd' < '2nd' < '1st']
-
 
 # =========================================================================================
 # 5. Ordered Categories
@@ -578,7 +561,6 @@ print(s_sizes)
 
 print(s_sizes.cat.ordered)
 # False
-
 
 ##--------------------------------------------------------##
 ## Use .cat.as_ordered() to convert to ordered categories ##
@@ -636,7 +618,6 @@ print(s_sizes_ordered)
 # dtype: category
 # Categories (3, object): ['Small' < 'Medium' < 'Large']
 
-
 ##-------------------------------------##
 ## Meaningful min(), max() and sorting ##
 ##-------------------------------------##
@@ -663,7 +644,6 @@ print(s_sizes_ordered.sort_values(ascending=False))
 # 4     Small
 # dtype: category
 # Categories (3, object): ['Small' < 'Medium' < 'Large']
-
 
 # =========================================================================================
 # 6. Unordered Categories
@@ -700,7 +680,6 @@ print(s_gender)
 print(s_gender.cat.ordered)
 # True
 
-
 ##------------------------------------------------------------##
 ## Use .cat.as_unordered() to convert to unordered categories ##
 ##------------------------------------------------------------##
@@ -724,13 +703,11 @@ print(s_gender_unordered)
 # dtype: category
 # Categories (3, object): ['LGBTQ', 'F', 'M']
 
-
 print(s_gender_unordered.min())
 '''
 TypeError: Categorical is not ordered for operation min
 you can use .as_ordered() to change the Categorical to an ordered one
 '''
-
 
 # =========================================================================================
 # 7. Exploring Categorical
@@ -751,7 +728,6 @@ print(uniques)
 lst_uniques = s_gender.unique().tolist()
 print(lst_uniques)
 # ['M', 'F', 'LGBTQ']
-
 
 ##-----------------##
 ## .value_counts() ##

@@ -12,7 +12,6 @@
 s = "abcxyz"
 print(type(s)) # <class 'str'>
 
-
 ## int() to convert into integer number
 x = int(1)    # x will be 1
 y = int(2.8)  # y will be 2
@@ -72,7 +71,6 @@ complex("inf+2j") # (inf+2j)
 complex("+inf+2j") # (inf+2j)
 complex("-inf+2j") # (-inf+2j)
 
-
 # ## image part
 # 
 complex("3+infinityj") # (3+infj)
@@ -80,7 +78,6 @@ complex("3-infinityj") # (3-infj)
 
 complex("3+infj") # (3+infj)
 complex("3-infj") # (3-infj)
-
 
 # ==============================================================================================
 # 3. isinstance()

@@ -168,7 +168,6 @@ with open(file=f'{parent_dir}/ADream.txt', mode='r') as file_pointer:
     for line in file_pointer:
         print(line.strip())
 
-
 # ==============================================================================================
 # Write to a file
 # ==============================================================================================
@@ -186,7 +185,6 @@ with open(file=f'{parent_dir}/StudentScores.txt', mode='w') as file_pointer:
     file_pointer.write("Alice: 90\n")
     file_pointer.write("Bob: 85\n")
     file_pointer.write("Charlie: 95\n")
-
 
 # Check the content of the file
 with open(file=f'{parent_dir}/StudentScores.txt', mode='r') as file_pointer:
@@ -266,7 +264,6 @@ NOTE: if the file has previous contents, then when you open it in write mode ('w
       Even if you write nothing to the file, it will still create an empty file !!!!
 => That's why in this part, we use append mode ('a') to avoid truncating the file to zero length.
 '''
-
 
 # ==============================================================================================
 # Write with append mode - file_pointer.seek(position)

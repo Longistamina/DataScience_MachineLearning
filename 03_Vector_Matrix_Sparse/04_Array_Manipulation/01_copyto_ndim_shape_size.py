@@ -39,7 +39,6 @@ print(A)
 # [[4 5 6]
 #  [7 8 9]]
 
-
 #
 # --------------------------------- 2. np.ndim()
 #
@@ -75,7 +74,6 @@ tensor = np.random.rand(2, 3, 4)
 print(np.ndim(tensor))
 # 3
 
-
 #
 # --------------------------------- 3. np.shape()
 #
@@ -103,7 +101,6 @@ print(np.shape(tensor)[1])
 
 print(np.shape(tensor)[2])
 # 4
-
 
 #
 # --------------------------------- 4. np.size()

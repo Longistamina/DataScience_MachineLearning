@@ -121,7 +121,6 @@ y_noisy = np.sin(x_noisy) + 0.15 * rng.standard_normal(50)
 y_true_fine  = np.sin(x_fine)
 y_true_nodes = np.sin(x_nodes)
 
-
 # =========================================================================================
 # 1. Univariate interpolation — modern OOP API
 # =========================================================================================
@@ -415,7 +414,6 @@ print(krogh.derivative(np.pi/4, der=1).round(4))
 # [ 0.6366 -0.6366]
 # ≈ [cos(π/4)] ≈ [0.7071]
 
-
 # =========================================================================================
 # 2. B-spline interpolation — make_interp_spline + BSpline
 # =========================================================================================
@@ -530,7 +528,6 @@ print(B1(x_b).max().round(4))
 colloc = BSpline.design_matrix(x_nodes[1:-1], bspl.t, bspl.k)
 print(colloc.shape)
 # (7, 9)  — 7 interior evaluation points, 9 B-spline basis functions
-
 
 # =========================================================================================
 # 3. 1-D spline smoothing & approximation
@@ -671,7 +668,6 @@ print(np.sqrt(xy_smooth[0]**2 + xy_smooth[1]**2).mean().round(3))
 # 0.991
 # ≈ 1.0  (smooth unit circle)
 
-
 # =========================================================================================
 # 4. Low-level piecewise structures
 # =========================================================================================
@@ -779,7 +775,6 @@ print(bp.derivative()(1.).round(4)) # 0.0   (prescribed derivative at x=1)
 print(bp(0.5).round(4))
 # 0.75
 # value between 0 and 1 — monotone
-
 
 # =========================================================================================
 # 5. Multivariate interpolation — unstructured data
@@ -944,7 +939,6 @@ print(np.nanmean(np.abs(result_gd_cub  - true_grid.ravel())).round(4)) # 0.0034 
 print(np.nanmean(np.abs(result_gd_lin  - true_grid.ravel())).round(4)) # 0.0162
 print(np.nanmean(np.abs(result_gd_near - true_grid.ravel())).round(4)) # 0.0967 # worst
 
-
 # =========================================================================================
 # 6. Grid-based multivariate interpolation
 # =========================================================================================
@@ -1093,7 +1087,6 @@ Z_noisy = Z_rbs + 0.02 * np.random.default_rng(2).standard_normal(Z_rbs.shape)
 rbs_smooth = RectBivariateSpline(x_rbs, y_rbs, Z_noisy, s=0.5)
 print(np.abs(rbs_smooth(x_fine2, y_fine2) - true_Z).max().round(4))
 # 0.00391
-
 
 # =========================================================================================
 # 7. Additional tools
@@ -1262,7 +1255,6 @@ print(real_poles.round(4))
 # [0.5]
 # ≈ [0.5]  (correctly identifies the pole)
 
-
 # =========================================================================================
 # 8. Legacy API
 # =========================================================================================
@@ -1391,7 +1383,6 @@ print(make_lsq_spline(x_noisy, y_noisy, t=t_fixed_full)(np.pi).round(4))  # repl
 # Modern replacements
 print(make_smoothing_spline(x_noisy, y_noisy)(np.pi).round(4))    # 0.0054 # replaces UnivariateSpline
 print(make_interp_spline(x_nodes, y_nodes)(np.pi).round(4))       # 0.0075 # replaces InterpolatedUnivariateSpline
-
 
 # =========================================================================================
 # 9. NumPy supportive parts

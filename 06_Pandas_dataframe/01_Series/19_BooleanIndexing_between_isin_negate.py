@@ -53,7 +53,6 @@ print(s2_nums)
 # 9    18.93
 # dtype: float64
 
-
 # =========================================================================================
 # 1. Single Condition Examples
 # =========================================================================================
@@ -234,7 +233,6 @@ print(s_mamals[s_mamals.isin(['llama'])]) # Returns values that are 'llama'
 # 4    llama
 # dtype: object
 
-
 ##------------------------------##
 ##        String Boolean        ##
 ##------------------------------##
@@ -310,7 +308,6 @@ print(s_datetime[s_datetime.dt.is_quarter_end]) # Returns values that are the en
 # 6   2023-06-30
 # dtype: datetime64[ns]
 
-
 # =========================================================================================
 # 2. Negation of Condition: ~ (tilde) operator
 # =========================================================================================
@@ -368,7 +365,6 @@ print(s_datetime[~s_datetime.dt.is_quarter_end]) # Returns values that are NOT t
 # 4   2023-04-30
 # 5   2023-05-31
 # dtype: datetime64[ns]
-
 
 # =========================================================================================
 # 3. Combine Multiple Conditions

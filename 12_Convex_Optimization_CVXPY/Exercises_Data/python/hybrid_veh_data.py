@@ -24,7 +24,6 @@ plt.plot(list(range(Preq.size)),Preq)
 plt.xlabel('time'); plt.ylabel('Preq'); plt.title('Required power')
 plt.show()
 
-
 T = sum(l)
 Peng_max = 20.0
 Pmg_min = -6.0

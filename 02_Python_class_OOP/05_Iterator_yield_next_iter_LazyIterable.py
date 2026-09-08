@@ -17,7 +17,6 @@ that would otherwise crash your program due to memory limits.
 4. Example: loading big 3D shapes efficiently and batch-wise
 '''
 
-
 # =========================================================================================
 # 1. ``yield`` and next()
 # =========================================================================================
@@ -118,7 +117,6 @@ fib_series = list(fib_gen) # can be tuple(), set(), dict() etc. as well
 print(fib_series)
 # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
 
-
 # =========================================================================================
 # 2. iter() converts iterable to iterator
 # =========================================================================================
@@ -150,7 +148,6 @@ print(fruits_iter[0]) # TypeError: 'list_iterator' object is not subscriptable
 ##----------------------------------##
 
 import random
-
 
 def roll_dice(): # A callable that simulates rolling a six-sided die
     return random.randint(1, 6)
@@ -203,7 +200,6 @@ However, you should use it manually when:
                                       you can pass it to different functions or loops,
                                       and it will continue exactly where the last one stopped.
 """
-
 
 # =========================================================================================
 # 3. use "class" to create custom Iterable and Iterator
@@ -302,7 +298,6 @@ Because the MyRangeIterable class computes each item one by one
 -> more memory efficient for large datasets, as it doesn't store all items in memory at once.
 '''
 
-
 # =========================================================================================
 # 4. Example: loading big 3D shapes efficiently
 # =========================================================================================
@@ -364,7 +359,6 @@ plot_iterator_single(data_iterator)
 ##-------------------------------------------------------------##
 
 import random
-
 
 class StructureLoader():
     def __init__(self, entries: list[Path], batch_size: int = 1, shuffle: bool = False):

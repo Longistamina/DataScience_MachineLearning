@@ -24,7 +24,6 @@ for name, age  in zip(lst_name, lst_age):
 # Plato: 57 years old
 # Aristotle: 35 years old
 
-
 # ==============================================================================================
 # for Nest
 # ==============================================================================================
@@ -53,7 +52,6 @@ for n in range(1, 11, 1):
         time.sleep(0.2)
     print()
 
-
 # ==============================================================================================
 # for enumerate()
 # ==============================================================================================
@@ -67,7 +65,6 @@ print(enumerate(lst_fruits))  # Output: <enumerate object at 0x...>
 
 print(list(enumerate(lst_fruits)))  # Output: [(0, 'apple'), (1, 'banana'), (2, 'cherry')]
 
-
 # Use enumerate in a for loop
 for index, fruit in enumerate(lst_fruits):
     print(f'Index: {index}, Fruit: {fruit}')
@@ -76,7 +73,6 @@ for index, fruit in enumerate(lst_fruits):
 # Index: 1, Fruit: banana
 # Index: 2, Fruit: cherry
 
-
 # Use enumerate with a start index
 for index, fruit in enumerate(lst_fruits, start=1):
     print(f'Index: {index}, Fruit: {fruit}')
@@ -84,7 +80,6 @@ for index, fruit in enumerate(lst_fruits, start=1):
 # Index: 1, Fruit: apple
 # Index: 2, Fruit: banana
 # Index: 3, Fruit: cherry
-
 
 # Use enumerate with _, vals to ignore the index
 for _, fruit in enumerate(lst_fruits):

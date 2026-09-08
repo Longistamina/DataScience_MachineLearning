@@ -7,7 +7,6 @@ import numba as nb
 import numpy as np
 from scipy.integrate import quad
 
-
 # =========================================================================================
 # 1. @cfunc and ctypes
 # =========================================================================================
@@ -61,7 +60,6 @@ print(quad(nb_integrand.ctypes, 1, np.inf))
 
 %timeit quad(integrand, 1, np.inf) # 31 μs ± 54.2 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
 %timeit quad(nb_integrand.ctypes, 1, np.inf) # 5.56 μs ± 12.6 ns per loop (mean ± std. dev. of 7 runs, 100,000 loops each)
-
 
 # =========================================================================================
 # 2. Dealing with pointers and array

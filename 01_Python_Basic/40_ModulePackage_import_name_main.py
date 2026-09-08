@@ -61,7 +61,6 @@ _ = subtract(10, 4)
 # | INFO     | demo_module_same_directory:subtract:15 - This module is being imported
 # 10 - 4 = 6
 
-
 # ==============================================================================================
 # Import the module from a package (different directory)
 # ==============================================================================================
@@ -80,7 +79,6 @@ os.chdir(str(working_dir))
 # demo_package is in this directory
 # => must move the current directory to this path to import the demo_package
 
-
 # ## Import a module from module_1
 #
 from demo_package.package_module_1 import subtract
@@ -88,7 +86,6 @@ from demo_package.package_module_1 import subtract
 _ = subtract(1255, 250)
 # | INFO     | demo_package.package_module_1:subtract:15 - This module is being imported
 # 1255 - 250 = 1005
-
 
 # ## Import all modules from module_2
 #
@@ -101,7 +98,6 @@ _ = multiply(6, 2)
 _ = divide(10, 2)
 # | INFO     | demo_package.package_module_2:divide:15 - This module is being imported
 # 10 / 2 = 5.0
-
 
 # ==============================================================================================
 # Note about "from package import *"

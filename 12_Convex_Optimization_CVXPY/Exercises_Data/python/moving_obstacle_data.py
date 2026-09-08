@@ -26,7 +26,6 @@ ob_v = np.array([
 
 obstacles = [p0 + np.arange(T)[:, None] * h * v for p0, v in zip(ob_p0, ob_v)]  # shape (4, T, 2)
 
-
 # plot
 
 def visualize(p, save=None):

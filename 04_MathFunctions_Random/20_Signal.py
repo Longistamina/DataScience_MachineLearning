@@ -214,7 +214,6 @@ x_multi  = (np.sin(2*np.pi*50*t) +
              0.3*np.sin(2*np.pi*300*t))
 x_noisy  = np.sin(2*np.pi*50*t) + rng.normal(0, 0.3, len(t))   # 50 Hz + Gaussian noise
 
-
 # =========================================================================================
 #  PART A — CONVOLUTION & CORRELATION 
 # =========================================================================================
@@ -414,7 +413,6 @@ print(method_choice)   # 'direct' or 'fft' depending on lengths
 method_timed, times = choose_conv_method(x_long, h_long, mode='same', measure=True)
 print(method_timed)    # 'fft' for long signals
 
-
 # =========================================================================================
 #  PART B — FILTER APPLICATION 
 # =========================================================================================
@@ -454,7 +452,6 @@ print(y_lfilter.shape)  # (1000,)
 
 # Note: energy at 50 Hz is preserved; 150 Hz and 300 Hz are attenuated
 from scipy.fft import rfft, rfftfreq
-
 
 def peak_amp(y, freq, fs=1000):
     '''Return amplitude at a given frequency (rough estimate via DFT peak).'''
@@ -737,7 +734,6 @@ x_detrend_lin = detrend(x_drift, type='linear')   # remove linear trend
 x_detrend_dc  = detrend(x_drift, type='constant') # remove mean only
 print(f"After detrend: mean={x_detrend_lin.mean():.4f}")  # ~0.0
 
-
 # =========================================================================================
 #  PART C — FIR FILTER DESIGN 
 # =========================================================================================
@@ -938,7 +934,6 @@ print(f"beta for 60 dB: {beta_direct:.4f}")
 # kaiser_atten: what attenuation does a given design achieve?
 atten = kaiser_atten(numtaps_k, trans_hz / (fs/2))
 print(f"Predicted attenuation: {atten:.1f} dB") # 60.2 dB
-
 
 # =========================================================================================
 #  PART D — IIR FILTER DESIGN 
@@ -1185,7 +1180,6 @@ b_comb, a_comb = iircomb(50., Q=30., ftype='notch', fs=fs)
 y_comb = filtfilt(b_comb, a_comb, x_noise50)
 # All harmonics of 50 Hz are suppressed
 
-
 # =========================================================================================
 #  PART E — FREQUENCY RESPONSE & FILTER REPRESENTATIONS 
 # =========================================================================================
@@ -1363,7 +1357,6 @@ print(f"Z-domain poles: {p_z.round(4)}")   # [0.5 1. ]
 b_rtz, a_rtz = invresz(r_z, p_z, k_z)
 print(np.allclose(np.real(b_rtz), b_z, atol=1e-8))  # True
 
-
 # =========================================================================================
 #  PART F — WINDOW FUNCTIONS 
 # =========================================================================================
@@ -1448,7 +1441,6 @@ print(f"Concentration ratios: {dpss_ratios.round(6)}")
 w_nuttall = win.nuttall(N_win, sym=False)
 w_parzen  = win.parzen(N_win, sym=False)
 w_lanczos = win.lanczos(N_win, sym=False)   # sinc window; good for image resampling
-
 
 # =========================================================================================
 #  PART G — SPECTRAL ANALYSIS 
@@ -1710,7 +1702,6 @@ x_dt_dc   = detrend(x_trend, type='constant')
 print(f"After linear detrend: slope ~ {np.polyfit(t, x_dt_lin, 1)[0]:.4f}")  # ~0
 print(f"After constant detrend: mean = {x_dt_dc.mean():.4f}")               # ~0
 
-
 # =========================================================================================
 #  PART H — LTI SYSTEMS 
 # =========================================================================================
@@ -1812,7 +1803,6 @@ print(f"Discrete simulation output shape: {y_disc.shape}")  # (500, 1)
 # Discrete Bode
 w_dbode, mag_d, phase_d = dbode(sys_dlti, n=200)
 print(f"Max gain: {mag_d.max():.2f} dB") # 0.00 dB
-
 
 # =========================================================================================
 #  PART I — PEAK FINDING 
@@ -1925,7 +1915,6 @@ print(f"Minima at: {minima[0]}")   # []
 extrema = argrelextrema(x_argrel, np.greater_equal, order=5)
 print(f"Found {len(extrema[0])} extrema")
 # Found 1 extrema
-
 
 # =========================================================================================
 #  PART J — WAVEFORMS & CHIRP Z-TRANSFORM 

@@ -18,7 +18,6 @@ print(item1_name.upper()) # PHONE
 # => this .upper() is called a method, i.e a function created inside a specific class
 # => here .upper() is a method of string object from string class
 
-
 # =========================================================================================
 # first example of class: Attributes
 # =========================================================================================
@@ -59,7 +58,6 @@ print(item2.quantity) # 3
 # => class Student:
 # => class MyNewClass:
 # => class RemoveMissingValues:
-
 
 # =========================================================================================
 # Method()

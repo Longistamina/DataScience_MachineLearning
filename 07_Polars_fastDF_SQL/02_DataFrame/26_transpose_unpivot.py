@@ -28,7 +28,6 @@ pl.Config.set_float_precision(6)
 
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 
-
 # =========================================================================================
 # 0. Setup Data
 # =========================================================================================
@@ -51,7 +50,6 @@ print(lf_mkt.head(5).collect())
 
 print(lf_mkt.collect_schema())
 # Schema([...])
-
 
 # =========================================================================================
 # 1. One-row wide summary: stay lazy before reshaping
@@ -81,7 +79,6 @@ lf_not_null_count_wide = lf_mkt.select(
 print(lf_not_null_count_wide.collect())
 # shape: (1, 26)
 # one row, one non-null-count column per original column
-
 
 # =========================================================================================
 # 2. Lazy alternative to transpose: use unpivot()
@@ -122,7 +119,6 @@ print(lf_null_count_long.collect())
 # │ market_share             ┆ 0          │
 # │ ...                      ┆ ...        │
 # └──────────────────────────┴────────────┘
-
 
 # =========================================================================================
 # 3. Filter after reshaping: still lazy
@@ -169,7 +165,6 @@ print(lf_incomplete_cols.collect())
 # shape: (..., 3)
 # columns: column, n_not_null, n_rows
 
-
 # =========================================================================================
 # 4. Multiple summary metrics in long format
 # =========================================================================================
@@ -203,7 +198,6 @@ lf_missing_report = (
 print(lf_missing_report.collect())
 # shape: (26, 5)
 # columns: column, null_count, n_not_null, n_rows, null_rate, not_null_rate
-
 
 # =========================================================================================
 # 5. Numeric summary report: lazy unpivot + split names
@@ -239,7 +233,6 @@ lf_numeric_summary_long = (
 print(lf_numeric_summary_long.collect())
 # shape: (..., 3)
 # columns: metric, column, value
-
 
 # =========================================================================================
 # 6. Eager fallback: DataFrame.transpose()
@@ -278,7 +271,6 @@ print(
 )
 # Filter columns whose non-null count is less than the total row count.
 
-
 # =========================================================================================
 # 7. True matrix-style transpose
 # =========================================================================================
@@ -302,7 +294,6 @@ print(
 )
 # shape: (3, 6)
 # original numeric columns become rows; the original 5 observations become row_0 ... row_4 columns.
-
 
 # =========================================================================================
 # 8. Quick summary

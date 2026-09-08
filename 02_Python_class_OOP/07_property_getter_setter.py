@@ -26,7 +26,6 @@ class Item:
     def __repr__(self):
         return f"Item({self.name}, {self.price}, {self.quantity})"
 
-
 item1 = Item("Laptop", 1500, 3)
 
 print(item1)  # Output: Item(Laptop, 1500, 3)
@@ -39,7 +38,6 @@ print(item1.total_price)  # Output: 4500 (1500 * 3)
 ## ATTENTION: @property is read-only by default
 item1.total_price = 5000
 '''This will raise an "AttributeError: can't set attribute'''
-
 
 # =========================================================================================
 # 2. @property Decorator: setter
@@ -77,7 +75,6 @@ class ItemWithSetter:
         self._total_price = value
         # do not need to return a value from a property setter in Python
         # because setter methods are only meant to set the value, not to return anything.
-
 
 
 item2 = ItemWithSetter("Phone", 1000, 5)

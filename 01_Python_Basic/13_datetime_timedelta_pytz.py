@@ -62,7 +62,6 @@ min: datetime.datetime(1, 1, 1, 0, 0) the miniimum datetime value in python.
 It means year 1, January, day 1st, at 0h 0m
 '''
 
-
 # ==============================================================================================
 # 2. datetime.date() and datetime.datetime()
 # ==============================================================================================
@@ -80,7 +79,6 @@ Difference between date() and datetime():
 - date() creates a date object, which only contains year, month, and day.
 - datetime() creates a datetime object, which contains year, month, day, hour, minute, second, and microsecond.
 '''
-
 
 # ==============================================================================================
 # 3. datetime.strptime() and datetime.strftime()
@@ -137,7 +135,6 @@ print(index_week_day) # 6
 
 # (0: Monday, 1: Tuesday,....., 6: Sunday)
 
-
 # ==============================================================================================
 # 4. timedelta
 # ==============================================================================================
@@ -186,7 +183,6 @@ t = timedelta(days=5, hours=1, minutes=10, seconds=30)
 
 total_delta_seconds = t.total_seconds() # Convert all the timedelta into seconds  = 436230 seconds
 print(total_delta_seconds)
-
 
 # ==============================================================================================
 # 5. pytz module

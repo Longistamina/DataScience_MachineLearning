@@ -14,7 +14,6 @@ import pandas as pd
 
 s_demo = pd.Series([5.8, 4.6, 2, np.nan, 14, 4.6, 25.2, np.nan, 9.3, 10.5])
 
-
 # =========================================================================================
 # 1. Ranking and Sorting methods
 # =========================================================================================
@@ -73,7 +72,6 @@ print(s_demo.rank(method='max'))
 # 9    6.0
 # dtype: float64
 
-
 ##----------------##
 ## .sort_values() ##
 ##----------------##
@@ -103,7 +101,6 @@ print(s_demo.sort_values(ascending=False))
 # 3     NaN
 # 7     NaN
 # dtype: float64
-
 
 ##---------------##
 ## .sort_index() ##
@@ -141,7 +138,6 @@ print(s_demo_indexed.sort_index(ascending=False))
 # 0     2.0
 # dtype: float64
 
-
 ##------------##
 ## .argsort() ##
 ##------------##
@@ -178,7 +174,6 @@ print(s_demo_default_index.nlargest(3))
 # 3    14.0
 # 0     5.8
 # dtype: float64
-
 
 ##--------------##
 ## .nsmallest() ##

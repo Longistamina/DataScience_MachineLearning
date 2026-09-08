@@ -24,7 +24,6 @@ Set and Fronzeset do not support indexing, slicing, or other sequence-like behav
 #### .copy() method and sorted() set
 '''
 
-
 # ==============================================================================================
 # Create set and frozenset
 # ==============================================================================================
@@ -44,7 +43,6 @@ print(type(empty_set)) # 'dict' not 'set'
 
 set_5_elements = {"Metal", "Wood", "Earth", "Water", "Fire", "Metal"}
 print(set_5_elements) # {'Fire', 'Metal', 'Wood', 'Earth', 'Water'} lose one "Metal"
-
 
 set_float = set([1.5, 3.7, 2.0, 4.9, 2.0]) # convert list to set
 print(set_float) # {1.5, 2.0, 3.7, 4.9} lose one 2.0
@@ -76,7 +74,6 @@ tuple_data = (2.5, ("True", False, (4.5 + 3j)), 6, (2.5 + 4j), 2.5)
 tuple_fset = frozenset(tuple_data)
 print(tuple_fset) # frozenset({2.5, ('True', False, (4.5+3j)), 6, (2.5+4j)})
 
-
 # ==============================================================================================
 # Check if element exists
 # ==============================================================================================
@@ -90,7 +87,6 @@ print(6 in set_2)  # False
 fset_2 = frozenset([1, 2, 3, 4, 5])
 print(3 in fset_2)  # True
 print(6 in fset_2)  # False
-
 
 # ==============================================================================================
 # Add and Remove elements for SET
@@ -158,7 +154,6 @@ frozenset.add() and frozenset.remove() will raise error (same for other modifyin
 fset_1 = frozenset([1, 2, 3])
 fset_1.add(4)  # AttributeError: 'frozenset' object has no attribute 'add'
 
-
 # ==============================================================================================
 # Loop through elements
 # ==============================================================================================
@@ -176,7 +171,6 @@ for element in fset:
 NOTE: cannot use enumerate() with set or frozenset directly because they are unordered collections
 (meaning they do not have an index)
 '''
-
 
 # ==============================================================================================
 # Set Operations
@@ -253,9 +247,7 @@ print(set_b > set_d)            # True
 print(set_a.isdisjoint(set_b))   # False
 print(set_a.isdisjoint({7, 8}))  # True, because {7, 8} has no common elements with set_a
 
-
 '''Fronzeset operations are similar to set operations, but they are immutable'''
-
 
 # ==============================================================================================
 # .copy() method and sorted() set

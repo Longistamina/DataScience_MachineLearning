@@ -62,4 +62,3 @@ def plot_memory(M, save_file="allocating_memory_py.pdf"):
     plt.show
     plt.savefig(save_file)
 
-

@@ -44,7 +44,6 @@ pl.Config.set_tbl_rows(12)
 pl.Config.set_tbl_cols(8)
 pl.Config.set_float_precision(2)
 
-
 # =========================================================================================
 # 1. Create example Series
 # =========================================================================================
@@ -99,7 +98,6 @@ print(s_players.name)   # player
 print(s_players.dtype)  # String
 print(len(s_players))   # 10
 
-
 # =========================================================================================
 # 2. s.sample(n=..., seed=...)
 # =========================================================================================
@@ -132,7 +130,6 @@ s_sample_one = s_players.sample(seed=42)
 print(s_sample_one)
 # shape: (1,)
 # Series: 'player' [str]
-
 
 # =========================================================================================
 # 3. s.sample(fraction=..., seed=...)
@@ -169,7 +166,6 @@ Choose either:
 + n=... for an exact number of values
 + fraction=... for a proportion of the Series
 '''
-
 
 # =========================================================================================
 # 4. Sampling with replacement / oversampling
@@ -210,7 +206,6 @@ print(s_sample_replace_fraction)
 
 print(len(s_sample_replace_fraction))
 # 15
-
 
 # =========================================================================================
 # 5. Shuffle all values with fraction=1.0 and shuffle=True
@@ -255,7 +250,6 @@ Polars Series also has .shuffle(seed=...), which is convenient when your only go
 
 But this lesson focuses on .sample(...), because it translates directly from pandas sampling.
 '''
-
 
 # =========================================================================================
 # 7. Expression sampling with pl.col(...).sample(...)
@@ -322,7 +316,6 @@ df_independent_column_samples = df_players.select(
 print(df_independent_column_samples)
 # The sampled_player and sampled_age columns were sampled independently.
 
-
 # =========================================================================================
 # 8. What pandas Series.sample features do not translate directly
 # =========================================================================================
@@ -358,7 +351,6 @@ print(df_group_sample)
 The group-wise example above samples rows, not just standalone Series values.
 That is usually the safer Polars workflow because row relationships are preserved.
 '''
-
 
 # =========================================================================================
 # 9. Quick pandas-to-Polars summary

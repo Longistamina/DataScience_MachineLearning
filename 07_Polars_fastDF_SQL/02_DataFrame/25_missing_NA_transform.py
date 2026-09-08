@@ -53,10 +53,8 @@ pl.Config.set_tbl_cols(10)
 pl.Config.set_tbl_width_chars(120)
 pl.Config.set_float_precision(6)
 
-
 data_dir = Path('/home').rglob('*/DataScience_MachineLearning/data')
 data_dir = next(data_dir)
-
 
 lf_mkt = (
     pl.scan_csv(
@@ -82,7 +80,6 @@ print(lf_mkt.collect().glimpse())
 
 print(lf_mkt.collect_schema().names())
 # ['week', 'year', 'market_share', 'av_price_per_kg', 'non_promo_price_per_kg', 'promo_vol_share', 'total_weigh', 'share_of_ean_weigh', 'avg_price_vs_plb', 'non_promo_price_vs_plb', 'promo_vol_sh_index_vs_plb', 'total_cm_shelf', 'shelf_share', 'top_of_mind', 'spontaneous', 'aided', 'penetration', 'competitor', 'grp_radio', 'reach_radio', 'grp_tv', 'reach_tv', 'reach_cinema', 'grp_outdoor', 'grp_print', 'share_of_spend']
-
 
 # =========================================================================================
 # 1. Detect missing values
@@ -134,7 +131,6 @@ print(
 # │ 0    ┆ 0    ┆ 0            ┆ 0               ┆ 0                      ┆ 0               │
 # └──────┴──────┴──────────────┴─────────────────┴────────────────────────┴─────────────────┘
 
-
 # If you want a vertical, easy-to-read version:
 print(
     lf_mkt
@@ -168,7 +164,6 @@ print(
 '''Provides a compact summary of shape, column names, dtypes, and sample values.'''
 
 print(lf_mkt.collect().glimpse())
-
 
 # =========================================================================================
 # 2. Detect non-missing values
@@ -246,7 +241,6 @@ So, if any column has n_not_null < n_rows,
 this means that column has null value
 -> filter them!!!
 '''
-
 
 # =========================================================================================
 # 3. Drop missing values along columns
@@ -362,7 +356,6 @@ print(
 # │ 23   ┆ 2010 ┆ 32.370000   ┆ 7.700000    ┆ 7.780000   ┆ … ┆ null       ┆ null  ┆ null       ┆ null       ┆ null       │
 # └──────┴──────┴─────────────┴─────────────┴────────────┴───┴────────────┴───────┴────────────┴────────────┴────────────┘
 
-
 # =========================================================================================
 # 4. Drop missing values along rows
 # =========================================================================================
@@ -459,7 +452,6 @@ print(
     .shape
 )
 # (123, 19)
-
 
 # =========================================================================================
 # 5. Fill missing values
@@ -577,7 +569,6 @@ print(s_missing.fill_null(strategy='forward'))
 
 print(s_missing.fill_null(strategy='backward'))
 # [1, 4, 4, 4, 5, 7, 7]
-
 
 # =========================================================================================
 # 6. Interpolate missing values
@@ -715,7 +706,6 @@ print(
 # │ 4      ┆ -12128.780807        │
 # └────────┴──────────────────────┘
 
-
 # =========================================================================================
 # 7. Conditional filling
 # =========================================================================================
@@ -780,7 +770,6 @@ print(
 # │ null           ┆ null   ┆ null      ┆ 0.000000                        │
 # │ null           ┆ null   ┆ null      ┆ 0.000000                        │
 # └────────────────┴────────┴───────────┴─────────────────────────────────┘
-
 
 
 # =========================================================================================
@@ -875,7 +864,6 @@ print(lf_group_filled.head().collect())
 # │ 22   ┆ 35.030000 ┆ 7.220000  ┆ 7.760000  ┆ 52.480000 ┆ … ┆ 20.382000 ┆ null      ┆ null      ┆ null      ┆ 34.323685 │
 # │ 23   ┆ 32.370000 ┆ 7.700000  ┆ 7.780000  ┆ 16.110000 ┆ … ┆ 40.245000 ┆ null      ┆ null      ┆ null      ┆ 50.000000 │
 # └──────┴───────────┴───────────┴───────────┴───────────┴───┴───────────┴───────────┴───────────┴───────────┴───────────┘
-
 
 '''
 Some missing values may remain because certain week groups have all-null values

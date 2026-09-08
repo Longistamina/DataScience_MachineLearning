@@ -16,7 +16,6 @@ import numpy as np
 n = 5
 N = 50
 
-
 X = np.array(
     [
         [
@@ -991,7 +990,6 @@ D_test = np.array(
         [47, 49],
     ]
 )
-
 
 # # code used to generate the data
 # np.random.seed(0)

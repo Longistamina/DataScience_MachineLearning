@@ -35,7 +35,6 @@ print(s_mixed_Null.dtype) # Output: Object
 s_mixed_nan = pl.Series(values=[1, np.nan, 3.0], strict=False)
 print(s_mixed_nan.dtype)  # Output: Float64
 
-
 # =========================================================================================
 # 2. Some important Series attributes
 # =========================================================================================
@@ -50,7 +49,6 @@ s = pl.Series("a", [1, 2, 3])
 print(s.shape)
 # (3,)
 
-
 ##--------##
 ## .flags ##
 ##--------##
@@ -61,7 +59,6 @@ Telling whether the series are sorted in ascending or descending order, or not s
 
 print(s.flags)
 # {'SORTED_ASC': False, 'SORTED_DESC': False}
-
 
 # =========================================================================================
 # 3. ``s.name`` and ``s.rename()``: getting and setting name for a series

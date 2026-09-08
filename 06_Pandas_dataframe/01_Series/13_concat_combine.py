@@ -32,7 +32,6 @@ print(s_concat)
 # 1    d
 # dtype: object
 
-
 ##----------------------------------##
 ## Concatenation with ignore_index= ##
 ##----------------------------------##
@@ -45,7 +44,6 @@ print(s_concat)
 # 3    d
 # dtype: object
 
-
 ##--------------------------##
 ## Concatenation with keys= ##
 ##--------------------------##
@@ -57,7 +55,6 @@ print(s_concat)
 # second  0    c
 #         1    d
 # dtype: object
-
 
 # =========================================================================================
 # 2. pd.combine()
@@ -88,7 +85,6 @@ print(s_combined)
 # dtype: float64
 
 '''MUST always specify the func= parameter, otherwise it will raise an error.'''
-
 
 ##----------------------------------------##
 ## Combine with fill_value= to handle NaN ##

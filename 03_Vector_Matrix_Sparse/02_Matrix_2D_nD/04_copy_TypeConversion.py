@@ -14,7 +14,6 @@ print(matrix)
 #  [ 2.56   1.581  9.662  7.011  8.081]
 #  [ 1.206 10.699  9.324  3.123  2.818]]
 
-
 # =========================================================================================
 # 1. array.copy(): Creates a copy of the array.
 # =========================================================================================
@@ -32,7 +31,6 @@ print(id(copied_matrix))   # 129000837850352
 By using array.copy(), we create a new array that is a copy of the original array.
 So when the original array is modified, the copied array remains unchanged, as they occupy different memory locations.
 '''
-
 
 # =========================================================================================
 # 2. array.astype(new_dtype): Converts the array to a different data type.

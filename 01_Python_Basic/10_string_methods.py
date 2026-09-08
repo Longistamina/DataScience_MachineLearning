@@ -39,7 +39,6 @@ Flow of contents:
     - Text encoding: .encode()
 """
 
-
 # ==============================================================================================
 # 1. Basic Transformations
 # ==============================================================================================
@@ -91,7 +90,6 @@ k12 = s3.rstrip('-')    # '---Hello World' - remove '-' from right only
 print(f"Custom strip example: '{s3}' -> '{k10}'")
 # '---Hello World---' -> 'Hello World'
 
-
 # ==============================================================================================
 # 2. Count and Search
 # ==============================================================================================
@@ -125,7 +123,6 @@ print(f"rfind(' '): {full_name.rfind(' ')}")         # 12 (Index of the first sp
 
 print(f"index(' '): {full_name.index(' ')}")         # 4 (Like find but raises error if not found)
 print(f"rindex(' '): {full_name.rindex(' ')}")       # 12 (Like rfind but raises error if not found)
-
 
 # ==============================================================================================
 # 3. Boolean Checks
@@ -426,7 +423,6 @@ for s in test_strings:
 print(list(filter(lambda s: s.isidentifier(), test_strings)))
 # ['Hello', 'WORLD', 'Hello123', 'café', 'MyVar']
 
-
 # ==============================================================================================
 # 4. Prefix/Suffix Checks
 # ==============================================================================================
@@ -464,7 +460,6 @@ print(greeting.startswith('World', 6))  # True (check 'World' starting from inde
 print(greeting.endswith('Hello', 0, 5)) # True (check 'Hello' in substring [0:5])
 
 print(greeting.endswith('World', 0, 5)) # False (check 'World' in substring [0:5])
-
 
 # ==============================================================================================
 # 5. Splitting and Joining
@@ -527,7 +522,6 @@ print(' | '.join(lst)) # 'A | B | C | D | E'
 
 print('_'.join(['A', 'B', 'C'])) # 'A_B_C'
 
-
 # ==============================================================================================
 # 6. Replacement and Removal
 # ==============================================================================================
@@ -551,7 +545,6 @@ suffixed = 'dataXYZ_suffix'
 
 print(prefixed.removeprefix('prefix_')) # 'dataABC'
 print(suffixed.removesuffix('_suffix')) # 'dataXYZ'
-
 
 # ==============================================================================================
 # 7. Formatting and Alignment
@@ -596,7 +589,6 @@ number = '42'
 
 print(number.zfill(5)) # '00042' (added leading zeros to make width 5)
 
-
 # ==============================================================================================
 # 8. Tab Expansion
 # ==============================================================================================
@@ -606,7 +598,6 @@ tabbed_text = 'Hello\tWorld\tPython'
 print(f"Original with tabs: '{tabbed_text}'")            # 'Hello      World   Python'
 print(f"expandtabs(): '{tabbed_text.expandtabs()}'")     # 'Hello   World   Python'
 print(f"expandtabs(4): '{tabbed_text.expandtabs(10)}'")  # 'Hello     World     Python'
-
 
 # ==============================================================================================
 # 9. Translation
@@ -636,7 +627,6 @@ translated2 = text2.translate(translation_table2)
 
 print(f"'{text2}' => '{translated2}'")
 # 'Hello World' => 'H24 W4rd'
-
 
 # ==============================================================================================
 # 10. Encoding/Decoding

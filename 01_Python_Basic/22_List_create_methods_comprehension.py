@@ -19,7 +19,6 @@ Last element has index = len(list) - 1 (or -1)
 ## map() and list comprehension for list element-wise calculation
 '''
 
-
 # ==============================================================================================
 # Create a list
 # ==============================================================================================
@@ -43,7 +42,6 @@ text_str = "What,can,I,do,for,you,?"
 list_split = text_str.split(",")
 print(list_split)
 # ['What', 'can', 'I', 'do', 'for', 'you', '?']
-
 
 # ==============================================================================================
 # Index / Access list's elements
@@ -92,7 +90,6 @@ print(fruits[-4:-1]) # ['orange', 'kiwi', 'melon']
 if "apple" in fruits:
     print("Yes, 'apple' is in the fruits list")
 
-
 # ==============================================================================================
 # Update list item
 # ==============================================================================================
@@ -113,7 +110,6 @@ print(predators) # ['bear', 'eagle']
 predators[1:] = "eagle"
 print(predators) # return ['bear', 'e', 'a', 'g', 'l', 'e']
 '''
-
 
 # ==============================================================================================
 # List methods
@@ -303,7 +299,6 @@ list_mix = ["Lentani", 35.5, 20, date(1885, 12, 21), False]
 list_mix.reverse()
 print(list_mix) # [False, datetime.date(1885, 12, 21), 20, 35.5, 'Lentani']
 
-
 # ==============================================================================================
 # List concat and multiply
 # ==============================================================================================
@@ -323,7 +318,6 @@ print(lst_multiply) # [1, 3, 5, 1, 3, 5, 1, 3, 5]
 print(lst3*4) # ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C']
 
 print(lst1*2 + lst3*3) # [1, 3, 5, 1, 3, 5, 'A', 'B', 'C', 'A', 'B', 'C', 'A', 'B', 'C']
-
 
 # ==============================================================================================
 # List and Loops and 2D list
@@ -383,7 +377,6 @@ for first_name, purchase in lst_customers:
 it raises error because the number of iterators and the number of items are not corresponding
 '''
 
-
 # ==============================================================================================
 # List comprehension
 # ==============================================================================================
@@ -401,7 +394,6 @@ print(even_numbers) # [0, 2, 4, 6, 8, 10, 12, 14, 16, 18]
 
 even_numbers = [number if (number % 2 == 0) else "odd" for number in range(10)]
 print(even_numbers) # [0, 'odd', 2, 'odd', 4, 'odd', 6, 'odd', 8, 'odd']
-
 
 # ==============================================================================================
 # Numeric List calculating with Aggregate Functions
@@ -432,7 +424,6 @@ list_bools = [True, False, True, True, False]
 
 print(np.sum(list_bools))
 # 3 | True = 1, False = 0
-
 
 # ==============================================================================================
 # map() and list comprehension for list element-wise calculation

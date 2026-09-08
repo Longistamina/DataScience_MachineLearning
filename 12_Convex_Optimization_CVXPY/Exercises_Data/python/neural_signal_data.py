@@ -92,7 +92,6 @@ for i in range(len(t)-1):
     V += dt * (I_app - I_ion) / Cm
     V_trace.append(V)
 
-
 # We subsample the template in time for shorter final result
 t_sub = t[::10]
 V_sub = V_trace[::10]

@@ -44,7 +44,6 @@ print(df_baseball >> dr.slice_head(4))
 # 2  Ramon_Hernandez        BAL      72     210
 # 3     Kevin_Millar        BAL      72     210
 
-
 #
 # -------------------------------------------- 1. register_verb()
 #
@@ -69,7 +68,6 @@ print(df_baseball >> dr.filter((f.Height > 75) & (f.Weight <= 200)) >> dr.slice_
 # 30      James_Hoey        BAL      78     200
 # 42    Ryan_Sweeney        CWS      76     200
 # 57  Mike_MacDougal        CWS      76     195
-
 
 #
 # -------------------------------------------- 2. register_func()
@@ -137,7 +135,6 @@ print(
 #                   <float64>       <float64>
 # W-statistic    9.805285e-01    9.805285e-01
 # p_value        2.075369e-10    2.075369e-10
-
 
 #
 # ---------------------------------------------- 3. dr.pipe()
@@ -228,7 +225,6 @@ print(
 # ppf_50th     73.689655    168.966550
 # ppf_75th     75.250379    271.079323
 # ppf_100th          inf           inf
-
 
 #
 # --------------------------------------- 4. Set __ast_fallback="normal"

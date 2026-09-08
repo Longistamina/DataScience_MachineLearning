@@ -62,7 +62,6 @@ print(current_timestamp_ns) # 1762842952081597696
 # Shorter version:
 print(time.time_ns()) # 1762842972445317760
 
-
 # ==============================================================================================
 # 2. time.sleep(secs)
 # ==============================================================================================
@@ -93,7 +92,6 @@ duration = end - start
 
 print(f"Total time taken: {duration} seconds")
 
-
 # ==============================================================================================
 # 3. time.localtime([secs])
 # ==============================================================================================
@@ -119,7 +117,6 @@ specific_time = time.localtime(1609459200)  # Timestamp for January 1, 2021
 
 print(specific_time)
 # time.struct_time(tm_year=2021, tm_mon=1, tm_mday=1, tm_hour=9, tm_min=0, tm_sec=0, tm_wday=4, tm_yday=1, tm_isdst=0)
-
 
 # ==============================================================================================
 # 4. struct_time object
@@ -171,7 +168,6 @@ time_tuple = (2025, 11, 11, 14, 30, 0, 0, 315, 0)
 # Convert struct_time to timestamp
 timestamp = time.mktime(time_tuple)
 print(timestamp)  # 1762839000.0
-
 
 # ==============================================================================================
 # 5. Format and Parsing
@@ -237,7 +233,6 @@ print(time.asctime(usa_revo))  # Mon Jul  4 12:00:00 1776
 
 print(time.asctime())  # Tue Nov 11 16:57:30 2025
                        # Automatically gets current time if struct_time not provided
-
 
 # ==============================================================================================
 # 6. Performance Timing and Benchmarking
@@ -327,7 +322,6 @@ print(f"CPU time used: {cpu_time:.6f} seconds") # 0.009294 seconds
 
 import threading
 
-
 def worker():
     start = time.thread_time()
     # Thread work
@@ -339,7 +333,6 @@ thread = threading.Thread(target=worker)
 thread.start()
 thread.join()
 # Thread CPU time: 0.001383s
-
 
 # ==============================================================================================
 # 7. Timezone Handling

@@ -4,7 +4,6 @@ similar to switch-case statements in other programming languages.
 
 This feature enables structural pattern matching and makes code more readable and maintainable
 
-
 match expression:
     case pattern1:
         # code block 1
@@ -15,7 +14,6 @@ match expression:
 
 "case _" works like "else", it catches all the remaining situations
 '''
-
 
 # ==============================================================================================
 # Example 1: input operator
@@ -38,7 +36,6 @@ match operator:
         result = "Invalid operator"
 
 print(result)
-
 
 # ==============================================================================================
 # Example 2: def and match-case
@@ -67,7 +64,6 @@ print(weekday(3))  # Output: Thursday
 print(weekday(6))  # Output: Sunday
 print(weekday(7))  # Output: Invalid day number
 
-
 # ==============================================================================================
 # Example 3: combine values
 # ==============================================================================================
@@ -87,7 +83,6 @@ def classify_grade(grade):
 
 print(classify_grade(9))  # Output: Excellent
 print(classify_grade(7))   # Output: Good
-
 
 # ==============================================================================================
 # Example 4: match case with if

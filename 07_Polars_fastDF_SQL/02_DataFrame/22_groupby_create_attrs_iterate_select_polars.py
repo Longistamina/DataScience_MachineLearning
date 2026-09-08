@@ -38,9 +38,7 @@ pl.Config.set_tbl_cols(20)
 pl.Config.set_float_precision(6)
 pl.Config.set_tbl_width_chars(120)
 
-
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
-
 
 # =========================================================================================
 # 0. Setup Data
@@ -84,12 +82,10 @@ print(lf_pokemon.collect_schema())
 # 'Generation': Enum(categories=['1', '2', '3', '4', '5', '6']),
 # 'Legendary': Boolean})
 
-
 # We collect once here because several examples below inspect or iterate over
 # physical groups. LazyFrame group_by is best for query pipelines, but eager
 # DataFrame group_by is needed for Python-level group iteration.
 df_pokemon = lf_pokemon.collect()
-
 
 # =========================================================================================
 # 1. Create group-by object
@@ -132,7 +128,6 @@ print(lazy_grouped_single_key)
 lazy_grouped_multi_keys = lf_pokemon.group_by(["Type_1", "Type_2"])
 print(lazy_grouped_multi_keys)
 # <polars.lazyframe.group_by.LazyGroupBy object at ...>
-
 
 # =========================================================================================
 # 2. Group object attributes: Polars-style equivalents
@@ -294,7 +289,6 @@ print(
 # │ 136                    │
 # └────────────────────────┘
 
-
 # =========================================================================================
 # 3. Iterate over groups within a GroupBy object
 # =========================================================================================
@@ -434,7 +428,6 @@ print(
 # │ Flying ┆ Noibat         ┆ Dragon ┆ 245   ┆ 40  ┆ 30     ┆ 35      ┆ 45     ┆ 40     ┆ 55    ┆ 6          ┆ false     │
 # └────────┴────────────────┴────────┴───────┴─────┴────────┴─────────┴────────┴────────┴───────┴────────────┴───────────┘
 
-
 # =========================================================================================
 # 4. Select specific groups: filter instead
 # =========================================================================================
@@ -511,7 +504,6 @@ print(
     .head()
     .collect()
 )
-
 
 # =========================================================================================
 # 5. Summary: pandas idea vs Polars
