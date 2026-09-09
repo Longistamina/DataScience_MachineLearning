@@ -1,43 +1,47 @@
-'''
-Polars column-name changes and row-name/index-like replacements.
+"""
+There are many ways to change the column names of the frame.
 
-1. Change Column Names:
-   + df.columns = new_names
-   + lf.rename({...})
-   + lf.select(pl.col(old).alias(new) for old, new in pairs)
-   + lf.rename(dict(zip(old_names, new_names)))
-   + lf.rename(mapping, strict=False)
-   + lf.rename(lambda x: ...)
-   + lf.select(pl.all().name.replace(...))
-   + lf.select(pl.all().name.prefix('pre_'))
-   + lf.select(pl.all().name.suffix('_suf'))
-   + Example: clean Pokemon dataframe column names (lazyframe implementation)
+About row names, frames from polars and tidypyrs don't have index system.
+Therefore, if we want to create row names, we need to treat them as a column of the frames.
 
-2. Change Row Names / Index:
-   + Polars does NOT have pandas-style custom row indexes or MultiIndex.
-     Rows are addressed by integer position.
-     Index-like labels should be stored as normal columns.
-   + lf.with_row_index(name='row_id', offset=0)
-   + Create row index with `with_ow_index` then modify it
-'''
+1. Change Column names:
+    + tf.as_polars().columns = new_names
+    + tl.set_names(new_names)
+    + tl.rename({...})
+    + tl.select(f(old).alias(new) for old, new in pairs)
+    + tl.rename(dict(zip(old_names, new_names)))
+    + tl.rename(mapping, strict=False)
+    + tl.rename(function)
+    + tl.rename(lambda x: ...)
+    + tl.select(f.all().name.replace(...))
+    + tl.select(f.all().name.map(function))
+    + tl.select(f.all().name.prefix('pre_'))
+    + tl.select(f.all().name.suffix('_suf'))
+    + Example: clean Pokemon dataframe column names (lazyframe implementation)
+
+2. Change Row names:
+    + tl.row_index(name='row_id', offset=0)
+    + Create row index with `row_index` then modify it
+"""
 
 import re
 from pathlib import Path
 
 import polars as pl
-from polars import col as c
+import tidypyrs as tp
+from tidypyrs import f
 
-pl.Config.set_tbl_width_chars(120)
+pl.Config(tbl_width_chars=120)
 data_dir = next(Path("/home").glob("**/DataScience*/data"))
 
-# =========================================================================================
-# 1. Change Column Names
-# =========================================================================================
+# ==============================================================================
+# 1. Change column names
+# ==============================================================================
 
-df_lifexp = pl.read_csv(data_dir/"life_expectancy.csv", schema_overrides={"Population":pl.Float64})
-lf_lifexp = df_lifexp.lazy()
+tf_lifexp = tp.read_csv(data_dir/"life_expectancy.csv", schema_overrides={"Population":pl.Float64})
+tl_lifexp = tf_lifexp.lazy()
 
-print(df_lifexp.glimpse(max_items_per_column=5, return_type="string"))
+print(tf_lifexp.glimpse(max_items_per_column=5, return_type="string"))
 # Rows: 2938
 # Columns: 22
 # $ Country                         <str> 'Afghanistan', 'Afghanistan', 'Afghanistan', 'Afghanistan', 'Afghanistan'
@@ -64,18 +68,19 @@ print(df_lifexp.glimpse(max_items_per_column=5, return_type="string"))
 # $ Schooling                       <f64> 10.1, 10.0, 9.9, 9.8, 9.5
 '''Very bad column names!!!'''
 
-##-----------------------------##
-## df.columns = new_names_list ##
-##-----------------------------##
+##------------------------------------##
+## tf.as_polars().columns = new_names ##
+##------------------------------------##
 '''
-Polars DataFrame.columns can be used to get or set the full list of column names.
+To use this assignment method, must convert to polars first.
+`tf.as_polars().columns = new_names`
 
-NOTE: this method only works with DataFrame
+NOTE: this method only works with TibbleFrame
 
 Important:
     + The new list must have exactly the same length as the number of columns.
-    + This mutates that DataFrame object.
-    + Use df.clone() first if you do not want to change your original variable.
+    + This mutates that TibbleFrame object.
+    + Use tf.clone() first if you do not want to change your original variable.
 '''
 
 new_colnames = [
@@ -103,10 +108,11 @@ new_colnames = [
     "schooling",
 ]
 
-df_new = df_lifexp.clone()
-df_new.columns = new_colnames
+tf_new = tf_lifexp.clone()
 
-print(df_new.head(2))
+tf_new.as_polars().columns = new_colnames
+
+print(tf_new.head(2))
 # shape: (2, 22)
 # ┌─────────────┬──────┬────────────┬─────────────────┬───┬────────────────┬────────────────┬────────────────┬───────────┐
 # │ country     ┆ year ┆ status     ┆ life_expectancy ┆ … ┆ thinness_1_19_ ┆ thinness_5_9_y ┆ income_composi ┆ schooling │
@@ -119,88 +125,71 @@ print(df_new.head(2))
 # │ Afghanistan ┆ 2014 ┆ Developing ┆ 59.9            ┆ … ┆ 17.5           ┆ 17.5           ┆ 0.476          ┆ 10.0      │
 # └─────────────┴──────┴────────────┴─────────────────┴───┴────────────────┴────────────────┴────────────────┴───────────┘
 
+print(tf_new.colnames[:6])
+# shape: (6,)
+# Series: '' [str]
+# [
+# 	"country"
+# 	"year"
+# 	"status"
+# 	"life_expectancy"
+# 	"adult_mortality"
+# 	"infant_deaths"
+# ]
 
-print(df_new.columns[:6])
-# ['country', 'year', 'status', 'life_expectancy', 'adult_mortality', 'infant_deaths']
-
-##-------------------------------------##
-## lf.rename({'old_name': 'new_name'}) ##
-##-------------------------------------##
-'''
-Use df.rename({...}) to rename one or more specific columns.
-
-Polars does not use inplace=True/False. Most Polars methods return a new DataFrame.
-Assign the result back to the same variable if you want to overwrite it.
-'''
+##-------------------------##
+## tl.set_names(new_names) ##
+##-------------------------##
 
 print(
-    lf_lifexp
+    tl_lifexp
+    .set_names(new_colnames)
+    .head(2)
+    .collect()
+)
+# shape: (2, 22)
+# ┌─────────────┬──────┬────────────┬─────────────────┬───┬────────────────┬────────────────┬────────────────┬───────────┐
+# │ country     ┆ year ┆ status     ┆ life_expectancy ┆ … ┆ thinness_1_19_ ┆ thinness_5_9_y ┆ income_composi ┆ schooling │
+# │ ---         ┆ ---  ┆ ---        ┆ ---             ┆   ┆ years          ┆ ears           ┆ tion_of_resour ┆ ---       │
+# │ str         ┆ i64  ┆ str        ┆ f64             ┆   ┆ ---            ┆ ---            ┆ ce…            ┆ f64       │
+# │             ┆      ┆            ┆                 ┆   ┆ f64            ┆ f64            ┆ ---            ┆           │
+# │             ┆      ┆            ┆                 ┆   ┆                ┆                ┆ f64            ┆           │
+# ╞═════════════╪══════╪════════════╪═════════════════╪═══╪════════════════╪════════════════╪════════════════╪═══════════╡
+# │ Afghanistan ┆ 2015 ┆ Developing ┆ 65.0            ┆ … ┆ 17.2           ┆ 17.3           ┆ 0.479          ┆ 10.1      │
+# │ Afghanistan ┆ 2014 ┆ Developing ┆ 59.9            ┆ … ┆ 17.5           ┆ 17.5           ┆ 0.476          ┆ 10.0      │
+# └─────────────┴──────┴────────────┴─────────────────┴───┴────────────────┴────────────────┴────────────────┴───────────┘
+
+##------------------##
+## tl.rename({...}) ##
+##------------------##
+
+print(
+    tl_lifexp
     .rename({
-        "Life expectancy ": "life_expectancy",
-        "Adult Mortality": "adult_mortality",
-        "infant deaths": "infant_deaths",
+        " thinness  1-19 years": "thinness_1_19_years",
+        "Adult Mortality": "adult_mortality"
     })
-    .select("life_expectancy", "adult_mortality", "infant_deaths")
+    .select(f("thinness_1_19_years", "adult_mortality"))
     .head(2)
     .collect()
 )
-# shape: (2, 3)
-# ┌─────────────────┬─────────────────┬───────────────┐
-# │ life_expectancy ┆ adult_mortality ┆ infant_deaths │
-# │ ---             ┆ ---             ┆ ---           │
-# │ f64             ┆ i64             ┆ i64           │
-# ╞═════════════════╪═════════════════╪═══════════════╡
-# │ 65.0            ┆ 263             ┆ 62            │
-# │ 59.9            ┆ 271             ┆ 64            │
-# └─────────────────┴─────────────────┴───────────────┘
-
-##---------------------------------------------------------##
-## lf.select(pl.col(old).alias(new) for old, new in pairs) ##
-##---------------------------------------------------------##
-'''
-.alias() is the expression-level way to name outputs.
-It is useful when you are selecting a subset of columns and renaming them at the same time.
-'''
-
-print(
-    lf_lifexp
-    .select(
-        c("Country").alias("country"),
-        c("Year").alias("year"),
-        c("Life expectancy ").alias("life_expectancy"),
-        c("Adult Mortality").alias("adult_mortality"),
-    )
-    .head(2)
-    .collect()
-)
-# shape: (2, 4)
-# ┌─────────────┬──────┬─────────────────┬─────────────────┐
-# │ country     ┆ year ┆ life_expectancy ┆ adult_mortality │
-# │ ---         ┆ ---  ┆ ---             ┆ ---             │
-# │ str         ┆ i64  ┆ f64             ┆ i64             │
-# ╞═════════════╪══════╪═════════════════╪═════════════════╡
-# │ Afghanistan ┆ 2015 ┆ 65.0            ┆ 263             │
-# │ Afghanistan ┆ 2014 ┆ 59.9            ┆ 271             │
-# └─────────────┴──────┴─────────────────┴─────────────────┘
-'''Only contains the 4 columns specified in `.select()`'''
+# shape: (2, 2)
+# ┌─────────────────────┬─────────────────┐
+# │ thinness_1_19_years ┆ adult_mortality │
+# │ ---                 ┆ ---             │
+# │ f64                 ┆ i64             │
+# ╞═════════════════════╪═════════════════╡
+# │ 17.2                ┆ 263             │
+# │ 17.5                ┆ 271             │
+# └─────────────────────┴─────────────────┘
 
 ##--------------------------------------------##
-## lf.rename(dict(zip(old_names, new_names))) ##
+## tl.rename(dict(zip(old_names, new_names))) ##
 ##--------------------------------------------##
-'''
-If you prefer a method-chaining style, build a mapping from old names to new names
-and pass it to `lf.rename()`. This returns a new DataFrame.
-
-This is close to pandas df.set_axis(new_names, axis=1, copy=True),
-but it uses an explicit mapping.
-'''
-
-print(dict(zip(lf_lifexp.collect_schema().names(), new_colnames)))
-# {'Country': 'country', 'Year': 'year', 'Status': 'status', 'Life expectancy ': 'life_expectancy', 'Adult Mortality': 'adult_mortality', 'infant deaths': 'infant_deaths', 'Alcohol': 'alcohol', 'percentage expenditure': 'percentage_expenditure', 'Hepatitis B': 'hepatitis_b', 'Measles ': 'measles', ' BMI ': 'bmi', 'under-five deaths ': 'under_five_deaths', 'Polio': 'polio', 'Total expenditure': 'total_expenditure', 'Diphtheria ': 'diphtheria', ' HIV/AIDS': 'hiv_aids', 'GDP': 'gdp', 'Population': 'population', ' thinness  1-19 years': 'thinness_1_19_years', ' thinness 5-9 years': 'thinness_5_9_years', 'Income composition of resources': 'income_composition_of_resources', 'Schooling': 'schooling'}
 
 print(
-    lf_lifexp
-    .rename(dict(zip(lf_lifexp.collect_schema().names(), new_colnames))) # For DataFrame, use `dict(zip(df.columns, new_colnames))`
+    tl_lifexp
+    .rename(dict(zip(tl_lifexp.colnames, new_colnames)))
     .head(2)
     .collect()
 )
@@ -217,7 +206,7 @@ print(
 # └─────────────┴──────┴────────────┴─────────────────┴───┴────────────────┴────────────────┴────────────────┴───────────┘
 
 ##----------------------------------##
-## lf.rename(mapping, strict=False) ##
+## tl.rename(mapping, strict=False) ##
 ##----------------------------------##
 '''
 By default, Polars validates that every key in the rename mapping exists.
@@ -231,7 +220,7 @@ safe_mapping = {
 }
 
 print(
-    lf_lifexp
+    tl_lifexp
     .rename(safe_mapping, strict=False) # set `strict=True` and it will raise errors
     .head(2)
     .collect()
@@ -248,16 +237,40 @@ print(
 # │ Afghanistan ┆ 2014 ┆ Developing ┆ 59.9        ┆ … ┆ 17.5                 ┆ 17.5         ┆ 0.476          ┆ 10.0      │
 # └─────────────┴──────┴────────────┴─────────────┴───┴──────────────────────┴──────────────┴────────────────┴───────────┘
 
-##---------------------##
-## lf.rename(function) ##
-##---------------------##
+##----------------------------------------------------##
+## tl.select(f(old).alias(new) for old, new in pairs) ##
+##----------------------------------------------------##
 '''
-Use a function when you want to clean every column name.
-This is the closest Polars equivalent to pandas patterns such as:
-    df.columns.str.strip().str.replace(...)
-    df.columns.map(...)
-    df.rename(columns=lambda col: ...)
+.alias() is the expression-level way to name outputs.
+It is useful when you are selecting a subset of columns and renaming them at the same time.
 '''
+
+print(
+    tl_lifexp
+    .select(
+        f("Country").alias("country"),
+        f("Year").alias("year"),
+        f("Life expectancy ").alias("life_expectancy"),
+        f("Adult Mortality").alias("adult_mortality"),
+    )
+    .head(2)
+    .collect()
+)
+# shape: (2, 4)
+# ┌─────────────┬──────┬─────────────────┬─────────────────┐
+# │ country     ┆ year ┆ life_expectancy ┆ adult_mortality │
+# │ ---         ┆ ---  ┆ ---             ┆ ---             │
+# │ str         ┆ i64  ┆ f64             ┆ i64             │
+# ╞═════════════╪══════╪═════════════════╪═════════════════╡
+# │ Afghanistan ┆ 2015 ┆ 65.0            ┆ 263             │
+# │ Afghanistan ┆ 2014 ┆ 59.9            ┆ 271             │
+# └─────────────┴──────┴─────────────────┴─────────────────┘
+'''Only contains the 4 columns specified in `.select()`'''
+
+
+##---------------------##
+## tl.rename(function) ##
+##---------------------##
 
 def clean_column_name(column_name: str) -> str:
     """Convert messy column names to snake_case."""
@@ -267,7 +280,7 @@ def clean_column_name(column_name: str) -> str:
     return column_name
 
 print(
-    lf_lifexp
+    tl_lifexp
     .rename(clean_column_name)
     .head(2)
     .collect()
@@ -285,11 +298,11 @@ print(
 # └─────────────┴──────┴────────────┴─────────────────┴───┴────────────────┴────────────────┴────────────────┴───────────┘
 
 ##--------------------------##
-## lf.rename(lambda x: ...) ##
+## tl.rename(lambda x: ...) ##
 ##--------------------------##
 
 print(
-    lf_lifexp
+    tl_lifexp
     .rename(lambda x: x.strip().lower()) # `x` is Python string
     .rename(lambda x: re.sub(r"\s+", "_", x))
     .rename(lambda x: x.replace("-", "_").replace("/", "_"))
@@ -308,15 +321,15 @@ print(
 # │ Afghanistan ┆ 2014 ┆ Developing ┆ 59.9            ┆ … ┆ 17.5           ┆ 17.5           ┆ 0.476          ┆ 10.0      │
 # └─────────────┴──────┴────────────┴─────────────────┴───┴────────────────┴────────────────┴────────────────┴───────────┘
 
-##---------------------------------------##
-## lf.select(pl.all().name.replace(...)) ##
-##---------------------------------------##
+##--------------------------------------##
+## tl.select(f.all().name.replace(...)) ##
+##--------------------------------------##
 '''NO NEED `import re` !!!'''
 
 print(
-    lf_lifexp
+    tl_lifexp
     .select(
-        pl.all()
+        f.all()
         .name.to_lowercase()
         .name.replace(r"\s+", "_")
         .name.replace("-", "_", literal=True) # `literal=True` to turn off regular expression
@@ -337,17 +350,17 @@ print(
 # │ Afghanistan ┆ 2014 ┆ Developing ┆ 59.9            ┆ … ┆ 17.5           ┆ 17.5           ┆ 0.476          ┆ 10.0      │
 # └─────────────┴──────┴────────────┴─────────────────┴───┴────────────────┴────────────────┴────────────────┴───────────┘
 
-##----------------------------------------##
-## lf.select(pl.all().name.map(function)) ##
-##----------------------------------------##
+##---------------------------------------##
+## tl.select(f.all().name.map(function)) ##
+##---------------------------------------##
 '''
 Expr.name.map applies a Python function to the root column name of an expression.
 This is useful for more customized naming inside a select expression.
 '''
 
 print(
-    lf_lifexp
-    .select(pl.all().name.map(clean_column_name))
+    tl_lifexp
+    .select(f.all().name.map(clean_column_name))
     .head(2)
     .collect()
 )
@@ -363,13 +376,13 @@ print(
 # │ Afghanistan ┆ 2014 ┆ Developing ┆ 59.9            ┆ … ┆ 17.5           ┆ 17.5           ┆ 0.476          ┆ 10.0      │
 # └─────────────┴──────┴────────────┴─────────────────┴───┴────────────────┴────────────────┴────────────────┴───────────┘
 
-##-----------------------------------------##
-## lf.select(pl.all().name.prefix('pre_')) ##
-##-----------------------------------------##
+##----------------------------------------##
+## tl.select(f.all().name.prefix('pre_')) ##
+##----------------------------------------##
 '''The reversal function is `.strip_prefix()`'''
 
-lf_emp = pl.scan_csv(data_dir/"emp.csv")
-print(lf_emp.head(2).collect())
+tl_emp = tp.scan_csv(data_dir/"emp.csv")
+print(tl_emp.head(2).collect())
 # shape: (2, 5)
 # ┌─────┬──────┬────────┬────────────┬────────────┐
 # │ id  ┆ name ┆ salary ┆ start_date ┆ dept       │
@@ -381,8 +394,8 @@ print(lf_emp.head(2).collect())
 # └─────┴──────┴────────┴────────────┴────────────┘
 
 print(
-    lf_emp
-    .select(pl.all().name.prefix('pre_'))
+    tl_emp
+    .select(f.all().name.prefix('pre_'))
     .head(2)
     .collect()
 )
@@ -396,13 +409,13 @@ print(
 # │ 2      ┆ Dan      ┆ 515.2      ┆ 2013-09-23     ┆ Operations │
 # └────────┴──────────┴────────────┴────────────────┴────────────┘
 
-##-----------------------------------------##
-## lf.select(pl.all().name.suffix('_suf')) ##
-##-----------------------------------------##
+##----------------------------------------##
+## tl.select(f.all().name.suffix('_suf')) ##
+##----------------------------------------##
 '''The reversal function is `.strip_suffix()`'''
 
-lf_emp = pl.scan_csv(data_dir/"emp.csv")
-print(lf_emp.head(2).collect())
+tl_emp = tp.scan_csv(data_dir/"emp.csv")
+print(tl_emp.head(2).collect())
 # shape: (2, 5)
 # ┌─────┬──────┬────────┬────────────┬────────────┐
 # │ id  ┆ name ┆ salary ┆ start_date ┆ dept       │
@@ -414,14 +427,14 @@ print(lf_emp.head(2).collect())
 # └─────┴──────┴────────┴────────────┴────────────┘
 
 print(
-    lf_emp
-    .select(pl.all().name.suffix('_suf'))
+    tl_emp
+    .select(f.all().name.suffix('_sub'))
     .head(2)
     .collect()
 )
 # shape: (2, 5)
 # ┌────────┬──────────┬────────────┬────────────────┬────────────┐
-# │ id_suf ┆ name_suf ┆ salary_suf ┆ start_date_suf ┆ dept_suf   │
+# │ id_sub ┆ name_sub ┆ salary_sub ┆ start_date_sub ┆ dept_sub   │
 # │ ---    ┆ ---      ┆ ---        ┆ ---            ┆ ---        │
 # │ i64    ┆ str      ┆ f64        ┆ str            ┆ str        │
 # ╞════════╪══════════╪════════════╪════════════════╪════════════╡
@@ -429,14 +442,14 @@ print(
 # │ 2      ┆ Dan      ┆ 515.2      ┆ 2013-09-23     ┆ Operations │
 # └────────┴──────────┴────────────┴────────────────┴────────────┘
 
-##----------------------------------------------------------------------------------------##
-##        Example: clean Pokemon dataframe column names (lazyframe implementation)        ##
-##----------------------------------------------------------------------------------------##
+##--------------------------------------------------------------------------##
+## Example: clean Pokemon dataframe column names (lazyframe implementation) ##
+##--------------------------------------------------------------------------##
 
-lf_pokemon = pl.scan_csv(data_dir/"pokemon.csv")
+tl_pokemon = tp.scan_csv(data_dir/"pokemon.csv")
 
 with pl.Config(tbl_cols=15, tbl_width_chars=140):
-    print(lf_pokemon.head(2).collect())
+    print(tl_pokemon.head(2).collect())
     # shape: (2, 13)
     # ┌─────┬───────────┬────────┬────────┬───────┬─────┬────────┬─────────┬─────────┬─────────┬───────┬────────────┬───────────┐
     # │ #   ┆ Name      ┆ Type 1 ┆ Type 2 ┆ Total ┆ HP  ┆ Attack ┆ Defense ┆ Sp. Atk ┆ Sp. Def ┆ Speed ┆ Generation ┆ Legendary │
@@ -449,8 +462,8 @@ with pl.Config(tbl_cols=15, tbl_width_chars=140):
 
 with pl.Config(tbl_cols=15, tbl_width_chars=140):
     print(
-        lf_pokemon
-        .select(pl.all().name.to_lowercase().name.replace(r"\s+", "_").name.replace(".", "", literal=True))
+        tl_pokemon
+        .select(f.all().name.to_lowercase().name.replace(r"\s+", "_").name.replace(".", "", literal=True))
         .head(2)
         .collect()
     )
@@ -464,23 +477,13 @@ with pl.Config(tbl_cols=15, tbl_width_chars=140):
     # │ 2   ┆ Ivysaur   ┆ Grass  ┆ Poison ┆ 405   ┆ 60  ┆ 62     ┆ 63      ┆ 80     ┆ 80     ┆ 60    ┆ 1          ┆ false     │
     # └─────┴───────────┴────────┴────────┴───────┴─────┴────────┴─────────┴────────┴────────┴───────┴────────────┴───────────┘
 
-# =========================================================================================
+# ==============================================================================
 # 2. Change Row Names / Index
-# =========================================================================================
-'''
-The most important Polars concept in this section:
+# ==============================================================================
 
-    Polars has no pandas-style row index.
+tl_emp = tp.scan_csv(data_dir/"emp.csv").drop("id")
 
-So there are no true row names to change. When you need row labels, create an
-ordinary column such as 'row_id', 'row_name', 'id', 'Country', or 'Year'.
-Because these are normal columns, you can select, filter, join, group, rename,
-and update them explicitly.
-'''
-
-lf_emp = pl.scan_csv(data_dir/"emp.csv").drop("id")
-
-print(lf_emp.collect())
+print(tl_emp.collect())
 # shape: (8, 4)
 # ┌──────────┬────────┬────────────┬────────────┐
 # │ name     ┆ salary ┆ start_date ┆ dept       │
@@ -497,17 +500,13 @@ print(lf_emp.collect())
 # │ Guru     ┆ 722.5  ┆ 2014-06-17 ┆ Finance    │
 # └──────────┴────────┴────────────┴────────────┘
 
-##--------------------------------------------##
-## lf.with_row_index(name='row_id', offset=0) ##
-##--------------------------------------------##
-'''
-Use with_row_index() when you need visible row positions.
-The result is an ordinary column, not a special index.
-'''
+##---------------------------------------##
+## tl.row_index(name='row_id', offset=0) ##
+##---------------------------------------##
 
 print(
-    lf_emp
-    .with_row_index()
+    tl_emp
+    .row_index()
     .collect()
 )
 # shape: (8, 5)
@@ -527,8 +526,8 @@ print(
 # └───────┴──────────┴────────┴────────────┴────────────┘
 
 print(
-    lf_emp
-    .with_row_index(name="id", offset=1)
+    tl_emp
+    .row_index(name="id", offset=1)
     .collect()
 )
 # shape: (8, 5)
@@ -551,74 +550,32 @@ print(
 ## Create row index with `row_index` then modify it ##
 ##--------------------------------------------------##
 
-lf_pokemon = pl.scan_csv(data_dir/"pokemon.csv")
+tl_pokemon = tp.scan_csv(data_dir/"pokemon.csv")
 
 print(
-    lf_pokemon
-    .with_row_index(name="id", offset=1)
-    .with_columns(
-        id = (pl.lit("pkm") + c("id").cast(pl.String).str.zfill(c("id").log10().ceil().max().cast(pl.Int64)))
-        # (pl.lit("pkm") + c("id").cast(pl.String).str.zfill(c("id").log10().ceil().max().cast(pl.Int64))).alias("id")
+    tl_pokemon
+    .row_index(name="id", offset=1)
+    .mutate(
+        id = (tp.lit("pkm") + f("id").cast(tp.String).str.zfill(f("id").log10().ceil().max().cast(tp.Int64)))
+        # (tp.lit("pkm") + f("id").cast(tp.String).str.zfill(f("id").log10().ceil().max().cast(tp.Int64))).alias("id),
     )
     .collect()
 )
 # shape: (800, 14)
-# ┌────────┬─────┬───────────────────────┬─────────┬───┬────────┬───────┬────────────┬───────────┐
-# │ id     ┆ #   ┆ name                  ┆ type_1  ┆ … ┆ sp_def ┆ speed ┆ generation ┆ legendary │
-# │ ---    ┆ --- ┆ ---                   ┆ ---     ┆   ┆ ---    ┆ ---   ┆ ---        ┆ ---       │
-# │ str    ┆ i64 ┆ str                   ┆ str     ┆   ┆ i64    ┆ i64   ┆ i64        ┆ bool      │
-# ╞════════╪═════╪═══════════════════════╪═════════╪═══╪════════╪═══════╪════════════╪═══════════╡
-# │ pkm001 ┆ 1   ┆ Bulbasaur             ┆ Grass   ┆ … ┆ 65     ┆ 45    ┆ 1          ┆ false     │
-# │ pkm002 ┆ 2   ┆ Ivysaur               ┆ Grass   ┆ … ┆ 80     ┆ 60    ┆ 1          ┆ false     │
-# │ pkm003 ┆ 3   ┆ Venusaur              ┆ Grass   ┆ … ┆ 100    ┆ 80    ┆ 1          ┆ false     │
-# │ pkm004 ┆ 3   ┆ VenusaurMega Venusaur ┆ Grass   ┆ … ┆ 120    ┆ 80    ┆ 1          ┆ false     │
-# │ pkm005 ┆ 4   ┆ Charmander            ┆ Fire    ┆ … ┆ 50     ┆ 65    ┆ 1          ┆ false     │
-# │ …      ┆ …   ┆ …                     ┆ …       ┆ … ┆ …      ┆ …     ┆ …          ┆ …         │
-# │ pkm796 ┆ 719 ┆ Diancie               ┆ Rock    ┆ … ┆ 150    ┆ 50    ┆ 6          ┆ true      │
-# │ pkm797 ┆ 719 ┆ DiancieMega Diancie   ┆ Rock    ┆ … ┆ 110    ┆ 110   ┆ 6          ┆ true      │
-# │ pkm798 ┆ 720 ┆ HoopaHoopa Confined   ┆ Psychic ┆ … ┆ 130    ┆ 70    ┆ 6          ┆ true      │
-# │ pkm799 ┆ 720 ┆ HoopaHoopa Unbound    ┆ Psychic ┆ … ┆ 130    ┆ 80    ┆ 6          ┆ true      │
-# │ pkm800 ┆ 721 ┆ Volcanion             ┆ Fire    ┆ … ┆ 90     ┆ 70    ┆ 6          ┆ true      │
-# └────────┴─────┴───────────────────────┴─────────┴───┴────────┴───────┴────────────┴───────────┘
-
-# =========================================================================================
-# 4. Quick Pandas-to-Polars Map
-# =========================================================================================
-'''
-Quick map:
-
-Pandas                                             Polars
-------                                             ------
-df.set_axis(new_names, axis=1)                     df.columns = new_names
-                                                   df.rename(dict(zip(df.columns, new_names)))
-
-df.columns = new_names                             df.columns = new_names
-
-df.columns.str.strip().str.replace(...)           df.rename(clean_function)
-                                                   df.select(pl.all().name.replace(...))
-
-df.columns.map(function)                           df.rename(function)
-                                                   df.select(pl.all().name.map(function))
-
-df.rename(columns={'old': 'new'})                  df.rename({'old': 'new'})
-
-df.rename(columns=lambda col: ...)                 df.rename(lambda col: ...)
-
-df.add_prefix('pre_')                              df.select(pl.all().name.prefix('pre_'))
-
-df.add_suffix('_suf')                              df.select(pl.all().name.suffix('_suf'))
-
-df.rename(columns={...}, level=...)                No MultiIndex columns; use flat names or Structs.
-
-df.set_axis(new_indices, axis=0)                   No row names; create a normal column.
-
-df.index = new_indices                             Add/update a normal row-label column.
-
-df.set_index('id')                                 Keep 'id' as a normal key column.
-
-df.reset_index(drop=True)                          Usually no-op; add fresh row ids with with_row_index().
-
-df.rename(index={'old': 'new'})                    Update values in a row-label column with replace().
-
-df.rename(index={...}, level=...)                  No MultiIndex rows; use multiple normal key columns.
-'''
+# ┌────────┬─────┬───────────────────────┬─────────┬───┬─────────┬───────┬────────────┬───────────┐
+# │ id     ┆ #   ┆ Name                  ┆ Type 1  ┆ … ┆ Sp. Def ┆ Speed ┆ Generation ┆ Legendary │
+# │ ---    ┆ --- ┆ ---                   ┆ ---     ┆   ┆ ---     ┆ ---   ┆ ---        ┆ ---       │
+# │ str    ┆ i64 ┆ str                   ┆ str     ┆   ┆ i64     ┆ i64   ┆ i64        ┆ bool      │
+# ╞════════╪═════╪═══════════════════════╪═════════╪═══╪═════════╪═══════╪════════════╪═══════════╡
+# │ pkm001 ┆ 1   ┆ Bulbasaur             ┆ Grass   ┆ … ┆ 65      ┆ 45    ┆ 1          ┆ false     │
+# │ pkm002 ┆ 2   ┆ Ivysaur               ┆ Grass   ┆ … ┆ 80      ┆ 60    ┆ 1          ┆ false     │
+# │ pkm003 ┆ 3   ┆ Venusaur              ┆ Grass   ┆ … ┆ 100     ┆ 80    ┆ 1          ┆ false     │
+# │ pkm004 ┆ 3   ┆ VenusaurMega Venusaur ┆ Grass   ┆ … ┆ 120     ┆ 80    ┆ 1          ┆ false     │
+# │ pkm005 ┆ 4   ┆ Charmander            ┆ Fire    ┆ … ┆ 50      ┆ 65    ┆ 1          ┆ false     │
+# │ …      ┆ …   ┆ …                     ┆ …       ┆ … ┆ …       ┆ …     ┆ …          ┆ …         │
+# │ pkm796 ┆ 719 ┆ Diancie               ┆ Rock    ┆ … ┆ 150     ┆ 50    ┆ 6          ┆ true      │
+# │ pkm797 ┆ 719 ┆ DiancieMega Diancie   ┆ Rock    ┆ … ┆ 110     ┆ 110   ┆ 6          ┆ true      │
+# │ pkm798 ┆ 720 ┆ HoopaHoopa Confined   ┆ Psychic ┆ … ┆ 130     ┆ 70    ┆ 6          ┆ true      │
+# │ pkm799 ┆ 720 ┆ HoopaHoopa Unbound    ┆ Psychic ┆ … ┆ 130     ┆ 80    ┆ 6          ┆ true      │
+# │ pkm800 ┆ 721 ┆ Volcanion             ┆ Fire    ┆ … ┆ 90      ┆ 70    ┆ 6          ┆ true      │
+# └────────┴─────┴───────────────────────┴─────────┴───┴─────────┴───────┴────────────┴───────────┘
