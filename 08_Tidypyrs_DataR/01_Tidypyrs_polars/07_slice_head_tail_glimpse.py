@@ -7,7 +7,7 @@ They all have `over` parameter to perform group-by operations
 
 1. `head(n)` and `slice_head(n)`: shows the first n rows
 2. `tail(n)` and `slice_tail(n)`: shows the last n rows
-3. `glimpse()`: give an overview of the frame
+3. `glimpse(max_items_per_column, max_colname_length, return_type)`: give an overview of the frame
 '''
 
 import tidypyrs as tp  # noqa: I001
@@ -247,18 +247,110 @@ print(
 )
 # Rows: 800
 # Columns: 13
-# $ #           <i64> 1, 2, 3, 3, 4, 5, 6, 6, 6, 7
-# $ name        <str> 'Bulbasaur', 'Ivysaur', 'Venusaur', 'VenusaurMega Venusaur', 'Charmander', 'Charmeleon', 'Charizard', 'Chari
-# zardMega Charizard X', 'CharizardMega Charizard Y', 'Squirtle'
-# $ type_1      <cat> Grass, Grass, Grass, Grass, Fire, Fire, Fire, Fire, Fire, Water
-# $ type_2      <cat> Poison, Poison, Poison, Poison, null, null, Flying, Dragon, Flying, null
-# $ total       <i64> 318, 405, 525, 625, 309, 405, 534, 634, 634, 314
-# $ hp          <i64> 45, 60, 80, 80, 39, 58, 78, 78, 78, 44
-# $ attack      <i64> 49, 62, 82, 100, 52, 64, 84, 130, 104, 48
-# $ defense     <i64> 49, 63, 83, 123, 43, 58, 78, 111, 78, 65
-# $ sp_atk      <i64> 65, 80, 100, 122, 60, 80, 109, 130, 159, 50
-# $ sp_def      <i64> 65, 80, 100, 120, 50, 65, 85, 85, 115, 64
-# $ speed       <i64> 45, 60, 80, 80, 65, 80, 100, 100, 100, 43
-# $ generation <enum> 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-# $ legendary  <bool> False, False, False, False, False, False, False, False, False, False
+# $ #           <i64> 1, 2, 3, 3, 4
+# $ name        <str> 'Bulbasaur', 'Ivysaur', 'Venusaur', 'VenusaurMega Venusaur', 'Charmander'
+# $ type_1      <cat> Grass, Grass, Grass, Grass, Fire
+# $ type_2      <cat> Poison, Poison, Poison, Poison, null
+# $ total       <i64> 318, 405, 525, 625, 309
+# $ hp          <i64> 45, 60, 80, 80, 39
+# $ attack      <i64> 49, 62, 82, 100, 52
+# $ defense     <i64> 49, 63, 83, 123, 43
+# $ sp_atk      <i64> 65, 80, 100, 122, 60
+# $ sp_def      <i64> 65, 80, 100, 120, 50
+# $ speed       <i64> 45, 60, 80, 80, 65
+# $ generation <enum> 1, 1, 1, 1, 1
+# $ legendary  <bool> False, False, False, False, False
 # None
+
+print(
+    tl_pokemon
+    .collect()
+    .glimpse(max_items_per_column=3)
+)
+# Rows: 800
+# Columns: 13
+# $ #           <i64> 1, 2, 3
+# $ name        <str> 'Bulbasaur', 'Ivysaur', 'Venusaur'
+# $ type_1      <cat> Grass, Grass, Grass
+# $ type_2      <cat> Poison, Poison, Poison
+# $ total       <i64> 318, 405, 525
+# $ hp          <i64> 45, 60, 80
+# $ attack      <i64> 49, 62, 82
+# $ defense     <i64> 49, 63, 83
+# $ sp_atk      <i64> 65, 80, 100
+# $ sp_def      <i64> 65, 80, 100
+# $ speed       <i64> 45, 60, 80
+# $ generation <enum> 1, 1, 1
+# $ legendary  <bool> False, False, False
+# None
+
+print(
+    tl_pokemon
+    .collect()
+    .glimpse(max_colname_length=4)
+)
+# Rows: 800
+# Columns: 13
+# $ #     <i64> 1, 2, 3, 3, 4
+# $ name  <str> 'Bulbasaur', 'Ivysaur', 'Venusaur', 'VenusaurMega Venusaur', 'Charmander'
+# $ typ…  <cat> Grass, Grass, Grass, Grass, Fire
+# $ typ…  <cat> Poison, Poison, Poison, Poison, null
+# $ tot…  <i64> 318, 405, 525, 625, 309
+# $ hp    <i64> 45, 60, 80, 80, 39
+# $ att…  <i64> 49, 62, 82, 100, 52
+# $ def…  <i64> 49, 63, 83, 123, 43
+# $ sp_…  <i64> 65, 80, 100, 122, 60
+# $ sp_…  <i64> 65, 80, 100, 120, 50
+# $ spe…  <i64> 45, 60, 80, 80, 65
+# $ gen… <enum> 1, 1, 1, 1, 1
+# $ leg… <bool> False, False, False, False, False
+# None
+
+print(
+    tl_pokemon
+    .collect()
+    .glimpse(return_type="frame")
+)
+# shape: (13, 3)
+# ┌────────────┬───────┬─────────────────────────────────┐
+# │ column     ┆ dtype ┆ values                          │
+# │ ---        ┆ ---   ┆ ---                             │
+# │ str        ┆ str   ┆ list[str]                       │
+# ╞════════════╪═══════╪═════════════════════════════════╡
+# │ #          ┆ i64   ┆ ["1", "2", … "4"]               │
+# │ name       ┆ str   ┆ ["'Bulbasaur'", "'Ivysaur'", …… │
+# │ type_1     ┆ cat   ┆ ["Grass", "Grass", … "Fire"]    │
+# │ type_2     ┆ cat   ┆ ["Poison", "Poison", … null]    │
+# │ total      ┆ i64   ┆ ["318", "405", … "309"]         │
+# │ …          ┆ …     ┆ …                               │
+# │ sp_atk     ┆ i64   ┆ ["65", "80", … "60"]            │
+# │ sp_def     ┆ i64   ┆ ["65", "80", … "50"]            │
+# │ speed      ┆ i64   ┆ ["45", "60", … "65"]            │
+# │ generation ┆ enum  ┆ ["1", "1", … "1"]               │
+# │ legendary  ┆ bool  ┆ ["False", "False", … "False"]   │
+# └────────────┴───────┴─────────────────────────────────┘
+
+# Use positional arguments
+print(
+    tl_pokemon
+    .collect()
+    .glimpse(10, 10, "frame")
+)
+# shape: (13, 3)
+# ┌────────────┬───────┬─────────────────────────────────┐
+# │ column     ┆ dtype ┆ values                          │
+# │ ---        ┆ ---   ┆ ---                             │
+# │ str        ┆ str   ┆ list[str]                       │
+# ╞════════════╪═══════╪═════════════════════════════════╡
+# │ #          ┆ i64   ┆ ["1", "2", … "7"]               │
+# │ name       ┆ str   ┆ ["'Bulbasaur'", "'Ivysaur'", …… │
+# │ type_1     ┆ cat   ┆ ["Grass", "Grass", … "Water"]   │
+# │ type_2     ┆ cat   ┆ ["Poison", "Poison", … null]    │
+# │ total      ┆ i64   ┆ ["318", "405", … "314"]         │
+# │ …          ┆ …     ┆ …                               │
+# │ sp_atk     ┆ i64   ┆ ["65", "80", … "50"]            │
+# │ sp_def     ┆ i64   ┆ ["65", "80", … "64"]            │
+# │ speed      ┆ i64   ┆ ["45", "60", … "43"]            │
+# │ generation ┆ enum  ┆ ["1", "1", … "1"]               │
+# │ legendary  ┆ bool  ┆ ["False", "False", … "False"]   │
+# └────────────┴───────┴─────────────────────────────────┘
