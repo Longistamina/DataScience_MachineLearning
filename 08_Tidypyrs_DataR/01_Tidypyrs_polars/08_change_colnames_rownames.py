@@ -556,8 +556,8 @@ print(
     tl_pokemon
     .row_index(name="id", offset=1)
     .mutate(
-        id = (tp.lit("pkm") + f("id").cast(tp.String).str.zfill(f("id").log10().ceil().max().cast(tp.Int64)))
-        # (tp.lit("pkm") + f("id").cast(tp.String).str.zfill(f("id").log10().ceil().max().cast(tp.Int64))).alias("id),
+        id = (tp.lit("pkm") + f("id").cast(tp.String).str.zfill(f("id").max().log10().ceil().cast(tp.Int64)))
+        # (tp.lit("pkm") + f("id").cast(tp.String).str.zfill(f("id").max().log10().ceil().cast(tp.Int64))).alias("id),
     )
     .collect()
 )
