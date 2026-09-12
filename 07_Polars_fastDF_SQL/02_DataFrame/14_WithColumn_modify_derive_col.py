@@ -65,7 +65,7 @@ If the expression keeps the same column name, it replaces the existing column.
 '''
 
 # ## Modify a single column: Height from inches to cm
-# 
+#
 lf_demo = lf_baseball.with_columns(
     (c("Height") * 2.54).alias("Height")
 )
@@ -83,7 +83,7 @@ print(lf_demo.head(3).collect())
 # └─────────────────┴──────┴────────┴────────┘
 
 # ## Modify a string/categorical column: Team to lowercase
-# '''
+'''
 For string operations, use the .str namespace.
 Because Team is categorical here, cast to String first, transform, then cast back to Categorical.
 '''
@@ -105,7 +105,7 @@ print(lf_demo.head(3).collect())
 # └─────────────────┴──────┴────────┴────────┘
 
 # ## Modify multiple existing columns
-# 
+#
 lf_demo = lf_baseball.with_columns(
     (c("Height") * 2.54).alias("Height"),
     (c("Weight") * 0.453592).alias("Weight"),
@@ -138,7 +138,7 @@ If the alias is a new name, Polars adds a new column.
 '''
 
 # ## Derive a single new column
-# 
+#
 lf_demo = lf_baseball.with_columns(
     (c("Height") * 0.0254).alias("Height_m")
 )
@@ -156,7 +156,7 @@ print(lf_demo.head(3).collect())
 # └─────────────────┴──────┴────────┴────────┴──────────┘
 
 # ## Derive multiple independent new columns
-# 
+#
 lf_demo = lf_baseball.with_columns(
     (c("Height") * 0.0254).alias("Height_m"),
     (c("Weight") * 0.453592).alias("Weight_kg"),
@@ -175,7 +175,7 @@ print(lf_demo.head(3).collect())
 # └─────────────────┴──────┴────────┴────────┴──────────┴───────────┘
 
 # ## Derive a column from original columns directly
-# '''
+'''
 BMI can be computed directly from original Height and Weight.
 This avoids needing to refer to newly-created intermediate columns.
 '''
@@ -199,7 +199,7 @@ print(lf_demo.head(3).collect())
 # └─────────────────┴──────┴────────┴────────┴─────────┘
 
 # ## Derive columns that depend on newly-created columns
-# '''
+'''
 Important Polars pattern:
 If BMI depends on Height_m and Weight_kg, use a second .with_columns(...).
 
@@ -249,7 +249,7 @@ Keyword syntax is concise when the output column name is a valid Python identifi
 '''
 
 # ## Modify a single column using keyword syntax
-# 
+#
 lf_demo = lf_baseball.with_columns(
     Weight=c("Weight") * 0.453592
 )
@@ -267,7 +267,7 @@ print(lf_demo.head(3).collect())
 # └─────────────────┴──────┴────────┴─────────┘
 
 # ## Modify multiple columns using keyword syntax
-# 
+#
 lf_demo = lf_baseball.with_columns(
     Height=c("Height") * 2.54,
     Weight=c("Weight") * 0.453592,
@@ -291,7 +291,7 @@ print(lf_demo.head(3).collect())
 ##----------------------------##
 
 # ## Derive a single new column using keyword syntax
-# 
+#
 lf_demo = lf_baseball.with_columns(
     BMI=(c("Weight") * 0.453592) / ((c("Height") * 0.0254) ** 2)
 )
@@ -301,7 +301,7 @@ print(lf_demo.head(3).collect())
 # columns: Name, Team, Height, Weight, BMI
 
 # ## Add a literal/scalar column
-# '''
+'''
 Non-expression values are often wrapped with pl.lit(...).
 A scalar literal is broadcast to every row.
 '''
@@ -315,7 +315,7 @@ print(lf_demo.head(3).collect())
 # columns: Name, Team, Height, Weight, Raise
 
 # ## Add a column from a Python list
-# '''
+'''
 For row-by-row values from Python, pass a Series or a list literal.
 Make sure the list length matches the DataFrame height.
 '''
@@ -339,7 +339,7 @@ print(lf_demo.head(3).collect())
 # └─────────────────┴──────┴────────┴────────┴───────┘
 
 # ## Derive multiple new columns
-# 
+#
 lf_demo = (
     lf_baseball
     .with_columns(
@@ -369,7 +369,7 @@ use positional expressions with .alias("...") or unpack a dictionary with **{...
 '''
 
 # ## Add a "raise" column
-# '''
+'''
 "raise" is a Python keyword, so it is clearer to use alias(...).
 '''
 
@@ -382,7 +382,7 @@ print(lf_demo.head(3).collect())
 # columns: Name, Team, Height, Weight, raise
 
 # ## Add columns with spaces/special characters
-# 
+#
 lf_demo = lf_baseball.with_columns(
     ((c("Height") * 2.54).alias("Height cm")),
     ((c("Weight") * 0.453592).alias("Weight kg")),
@@ -402,7 +402,7 @@ print(lf_demo.head(3).collect())
 # columns include: Height cm, Weight kg, BMI score
 
 # ## Dictionary unpacking style
-# '''
+'''
 This is the closest visual equivalent to pandas assign(**{...}).
 '''
 
@@ -416,7 +416,7 @@ print(lf_demo.head(3).collect())
 # columns: Name, Team, Height, Weight, height_cm, weight_kg
 
 # ## Apply the same transformation to several columns
-# '''
+'''
 Pandas often uses assign(**{col: ... for col in cols}).
 In Polars, build a list of expressions.
 '''
@@ -432,7 +432,7 @@ print(lf_demo.head(5).collect())
 # columns Height and Weight are now Float64
 
 # ## Use c.column_name shorthand when names are simple
-# '''
+'''
 Because we imported:
 
     from polars import col as c
