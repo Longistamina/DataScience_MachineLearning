@@ -568,11 +568,9 @@ print(
 # columns: dept, start_date, salary, name, id
 
 # Put columns matching a rule first.
-date_cols = [col for col in lf_emp.collect_schema().names() if col.endswith("_date")]
-df_date_first = df_emp.select(date_cols + non_date_cols)
 print(
     lf_emp
-    .select(pl.col(".*_date"), pl.exclude(".*_date"))
+    .select(pl.col("^.*_date$"), pl.exclude("^.*_date$"))
     .collect()
 )
 # columns: start_date, id, name, salary, dept
@@ -585,13 +583,19 @@ Unlike pandas df[[...]], Polars select() can select columns AND create transform
 columns in the same call because it accepts expressions.
 '''
 
-# Select raw columns and a transformed column.
-df_selected_expr = df_emp.select(
-    "name",
-    "dept",
-    pl.col("salary").round(0).alias("salary_rounded"),
+##---------------------------------------------##
+## Select raw columns and a transformed column ##
+##---------------------------------------------##
+
+print(
+    lf_emp
+    .select(
+        "name",
+        "dept",
+        pl.col("salary").round(0).alias("salary_rounded"),
+    )
+    .collect()
 )
-print(df_selected_expr)
 # shape: (8, 3)
 # ┌──────────┬────────────┬────────────────┐
 # │ name     ┆ dept       ┆ salary_rounded │
@@ -608,55 +612,29 @@ print(df_selected_expr)
 # │ Guru     ┆ Finance    ┆ 722.00         │
 # └──────────┴────────────┴────────────────┘
 
-# Rename while selecting.
-df_selected_renamed = df_emp.select(
-    pl.col("id").alias("employee_id"),
-    pl.col("name").alias("employee_name"),
-    "dept",
+##------------------------##
+## Rename while selecting ##
+##------------------------##
+
+print(
+    lf_emp
+    .select(
+        pl.col("id").alias("employee_id"),
+        pl.col("name").alias("employee_name"),
+        "dept",
+    )
+    .collect()
 )
-print(df_selected_renamed)
 # shape: (8, 3)
 # columns: employee_id, employee_name, dept
 
 # Select all columns and add a suffix to their names.
-df_suffixed = df_emp.select(pl.all().name.suffix("_raw"))
-print(df_suffixed)
-# columns: id_raw, name_raw, salary_raw, start_date_raw, dept_raw
-
-# =========================================================================================
-# 6. LazyFrame selection
-# =========================================================================================
-'''
-The same select() style works on LazyFrame.
-LazyFrame selection is not executed until collect().
-
-This is one reason df.select(...) is better to teach than pandas-style df[[...]]:
-it transfers directly to lazy Polars workflows.
-'''
-
-lf_emp = df_emp.lazy()
-
-result = (
+print(
     lf_emp
-    .select("dept", "name", "salary")
+    .select(pl.all().name.suffix("_raw"))
     .collect()
 )
-print(result)
-# shape: (8, 3)
-# ┌────────────┬──────────┬────────┐
-# │ dept       ┆ name     ┆ salary │
-# │ ---        ┆ ---      ┆ ---    │
-# │ str        ┆ str      ┆ f64    │
-# ╞════════════╪══════════╪════════╡
-# │ IT         ┆ Rick     ┆ 623.30 │
-# │ Operations ┆ Dan      ┆ 515.20 │
-# │ IT         ┆ Michelle ┆ 611.00 │
-# │ HR         ┆ Ryan     ┆ 729.00 │
-# │ Finance    ┆ Gary     ┆ 843.25 │
-# │ IT         ┆ Nina     ┆ 578.00 │
-# │ Operations ┆ Simon    ┆ 632.80 │
-# │ Finance    ┆ Guru     ┆ 722.50 │
-# └────────────┴──────────┴────────┘
+# columns: id_raw, name_raw, salary_raw, start_date_raw, dept_raw
 
 # =========================================================================================
 # 7. pl.col(): Create an expression representing column(s) in a DataFrame
@@ -665,13 +643,12 @@ print(result)
 pl.col(...) creates an Expr, not an immediate Series.
 
 That expression is evaluated only inside a Polars context such as:
-+ df.select(...)
-+ df.with_columns(...)
-+ df.filter(...)
-+ df.group_by(...).agg(...)
-+ LazyFrame select/filter/with_columns pipelines
++ lf.select(...)
++ lf.with_columns(...)
++ lf.filter(...)
++ lf.group_by(...).agg(...)
 
-In df.select("salary"), the string "salary" is convenient shorthand for selecting a column.
+In lf.select("salary"), the string "salary" is convenient shorthand for selecting a column.
 However, as soon as you want to transform, compare, aggregate, rename, or reuse a column,
 use pl.col("salary") or the imported alias c("salary").
 '''
@@ -684,7 +661,7 @@ The call syntax pl.col("col_name") is the safest and most explicit form.
 It works for every valid column name, including names with spaces and punctuation.
 '''
 
-df_col_demo = pl.DataFrame(
+lf_col_demo = pl.LazyFrame(
     {
         "col_name": [10, 20, 30],
         "other_col": [1, 2, 3],
@@ -692,7 +669,7 @@ df_col_demo = pl.DataFrame(
     }
 )
 
-print(df_col_demo)
+print(lf_col_demo.collect())
 # shape: (3, 3)
 # ┌──────────┬───────────┬──────┐
 # │ col_name ┆ other_col ┆ dept │
@@ -705,7 +682,11 @@ print(df_col_demo)
 # └──────────┴───────────┴──────┘
 
 # Select one column using pl.col("col_name").
-print(df_col_demo.select(pl.col("col_name")))
+print(
+    lf_col_demo
+    .select(pl.col("col_name"))
+    .collect()
+)
 # shape: (3, 1)
 # ┌──────────┐
 # │ col_name │
@@ -719,11 +700,13 @@ print(df_col_demo.select(pl.col("col_name")))
 
 # Select and transform using pl.col("col_name").
 print(
-    df_col_demo.select(
+    lf_col_demo
+    .select(
         pl.col("col_name"),
         (pl.col("col_name") + pl.col("other_col")).alias("col_sum"),
         pl.col("dept").str.to_lowercase().alias("dept_lower"),
     )
+    .collect()
 )
 # shape: (3, 3)
 # ┌──────────┬─────────┬────────────┐
@@ -737,7 +720,11 @@ print(
 # └──────────┴─────────┴────────────┘
 
 # Use pl.col(...) in filter().
-print(df_col_demo.filter(pl.col("col_name") >= 20))
+print(
+    lf_col_demo
+    .filter(pl.col("col_name") >= 20)
+    .collect()
+)
 # shape: (2, 3)
 # ┌──────────┬───────────┬──────┐
 # │ col_name ┆ other_col ┆ dept │
@@ -750,9 +737,11 @@ print(df_col_demo.filter(pl.col("col_name") >= 20))
 
 # Use pl.col(...) in with_columns().
 print(
-    df_col_demo.with_columns(
+    lf_col_demo
+    .with_columns(
         (pl.col("col_name") * 2).alias("col_name_x2")
     )
+    .collect()
 )
 # shape: (3, 4)
 # ┌──────────┬───────────┬──────┬─────────────┐
@@ -787,7 +776,7 @@ Again, regex column-name patterns should be written as full-name patterns:
 + end with $
 '''
 
-df_col_pattern = pl.DataFrame(
+lf_col_pattern = pl.LazyFrame(
     {
         "ham": [1, 2, 3],
         "hamburger": [10, 20, 30],
@@ -797,30 +786,44 @@ df_col_pattern = pl.DataFrame(
     }
 )
 
-print(df_col_pattern)
+print(lf_col_pattern.collect())
 # shape: (3, 5)
 # columns: ham, hamburger, hammer, spam, eggs
 
 # pl.col("*") selects every column.
-print(df_col_pattern.select(pl.col("*")))
+print(
+    lf_col_pattern
+    .select(pl.col("*"))
+    .collect()
+)
 # shape: (3, 5)
 # columns: ham, hamburger, hammer, spam, eggs
 
 # pl.col("*").exclude("ham") selects every column except "ham".
-print(df_col_pattern.select(pl.col("*").exclude("ham")))
+print(
+    lf_col_pattern
+    .select(pl.col("*").exclude("ham"))
+    .collect()
+)
 # shape: (3, 4)
 # columns: hamburger, hammer, spam, eggs
 
 # pl.col("^ham.*$") selects columns matching the regex pattern.
-print(df_col_pattern.select(pl.col("^ham.*$")))
+print(
+    lf_col_pattern
+    .select(pl.col("^ham.*$"))
+    .collect()
+)
 # shape: (3, 3)
 # columns: ham, hamburger, hammer
 
 # You can also combine wildcard/regex selection with transformations.
 print(
-    df_col_pattern.select(
+    lf_col_pattern
+    .select(
         pl.col("^ham.*$") * 10,
     )
+    .collect()
 )
 # shape: (3, 3)
 # columns: ham, hamburger, hammer
@@ -839,7 +842,11 @@ This creates the same kind of expression as pl.col("col_name").
 It is convenient for quick examples, but the call syntax is more robust.
 '''
 
-print(df_col_demo.select(pl.col.col_name))
+print(
+    lf_col_demo
+    .select(pl.col.col_name)
+    .collect()
+)
 # shape: (3, 1)
 # ┌──────────┐
 # │ col_name │
@@ -852,10 +859,12 @@ print(df_col_demo.select(pl.col.col_name))
 # └──────────┘
 
 print(
-    df_col_demo.select(
+    lf_col_demo
+    .select(
         pl.col.col_name,
         (pl.col.col_name + pl.col.other_col).alias("col_sum"),
     )
+    .collect()
 )
 # shape: (3, 2)
 # columns: col_name, col_sum
@@ -872,7 +881,11 @@ This makes c("col_name") a shorter alias for pl.col("col_name").
 Some people like this style in expression-heavy code because it reduces repetition.
 '''
 
-print(df_col_demo.select(c("col_name")))
+print(
+    lf_col_demo
+    .select(c("col_name"))
+    .collect()
+)
 # shape: (3, 1)
 # ┌──────────┐
 # │ col_name │
@@ -885,10 +898,12 @@ print(df_col_demo.select(c("col_name")))
 # └──────────┘
 
 print(
-    df_col_demo.select(
+    lf_col_demo
+    .select(
         c("dept"),
         (c("col_name") / c("other_col")).alias("ratio"),
     )
+    .collect()
 )
 # shape: (3, 2)
 # ┌──────┬───────┐
@@ -905,7 +920,7 @@ print(
 ## c("*"), c("*").exclude(...), and regex names ##
 ##----------------------------------------------##
 
-print(df_col_pattern)
+print(lf_col_pattern.collect())
 # shape: (3, 5)
 # ┌─────┬───────────┬────────┬──────┬──────┐
 # │ ham ┆ hamburger ┆ hammer ┆ spam ┆ eggs │
@@ -918,23 +933,25 @@ print(df_col_pattern)
 # └─────┴───────────┴────────┴──────┴──────┘
 
 # The same multi-column patterns work with the alias c.
-print(df_col_pattern.select(c("*")))
+print(lf_col_pattern.select(c("*")).collect())
 # shape: (3, 5)
 # columns: ham, hamburger, hammer, spam, eggs
 
-print(df_col_pattern.select(c("*").exclude("ham")))
+print(lf_col_pattern.select(c("*").exclude("ham")).collect())
 # shape: (3, 4)
 # columns: hamburger, hammer, spam, eggs
 
-print(df_col_pattern.select(c("^ham.*$")))
+print(lf_col_pattern.select(c("^ham.*$")).collect())
 # shape: (3, 3)
 # columns: ham, hamburger, hammer
 
 # You can also combine wildcard/regex selection with transformations.
 print(
-    df_col_pattern.select(
+    lf_col_pattern
+    .select(
         c("^ham.*$") * 10,
     )
+    .collect()
 )
 # shape: (3, 3)
 # columns: ham, hamburger, hammer
@@ -951,7 +968,7 @@ This is the shortest form, but it has the same limitation as pl.col.col_name:
 it is only appropriate when the column name is a clean Python identifier.
 '''
 
-print(df_col_demo.select(c.col_name))
+print(lf_col_demo.select(c.col_name).collect())
 # shape: (3, 1)
 # ┌──────────┐
 # │ col_name │
@@ -964,11 +981,13 @@ print(df_col_demo.select(c.col_name))
 # └──────────┘
 
 print(
-    df_col_demo.select(
+    lf_col_demo
+    .select(
         c.dept,
         c.col_name.alias("value"),
         (c.col_name > 15).alias("is_large"),
     )
+    .collect()
 )
 # shape: (3, 3)
 # ┌──────┬───────┬──────────┐
@@ -995,7 +1014,7 @@ For these columns, use the call syntax:
 Do NOT use attribute syntax for these cases.
 '''
 
-df_special_names = pl.DataFrame(
+lf_special_names = pl.LazyFrame(
     {
         "col name": [10, 20, 30],      # contains a space
         "sales($)": [100.5, 200.0, 150.25],  # contains punctuation
@@ -1004,7 +1023,7 @@ df_special_names = pl.DataFrame(
     }
 )
 
-print(df_special_names)
+print(lf_special_names.collect())
 # shape: (3, 4)
 # ┌──────────┬──────────┬────────────┬─────────────┐
 # │ col name ┆ sales($) ┆ 2024 score ┆ class.level │
@@ -1017,12 +1036,14 @@ print(df_special_names)
 # └──────────┴──────────┴────────────┴─────────────┘
 
 print(
-    df_special_names.select(
+    lf_special_names
+    .select(
         pl.col("col name"),
         c("sales($)").round(0).alias("sales_rounded"),
         pl.col("2024 score").alias("score_2024"),
         c("class.level").alias("class_level"),
     )
+    .collect()
 )
 # shape: (3, 4)
 # ┌──────────┬───────────────┬────────────┬─────────────┐
