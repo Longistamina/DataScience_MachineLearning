@@ -209,7 +209,7 @@ If inference does not succeed, the column remains pl.String.
 '''
 
 # ## Automatic date parsing
-# 
+#
 df = pl.read_csv(
     source=data_dir / "emp.csv",
     schema_overrides={
@@ -223,7 +223,7 @@ print(df.schema)
 # start_date is typically parsed as Date for ISO-like values such as 2012-01-01.
 
 # ## Explicit date parsing after reading
-# 
+#
 df = (
     pl.read_csv(data_dir / "emp.csv")
     .with_columns(
@@ -233,8 +233,8 @@ df = (
 print(df.schema)
 # Schema({'id': Int64, 'name': String, 'salary': Float64, 'start_date': Date, 'dept': String})
 
-# ## pandas parse_dates=True with index_col= is not a Polars pattern
-# '''
+# pandas parse_dates=True with index_col= is not a Polars pattern
+'''
 Pandas often reads a date column as the index.
 In Polars, keep the date as a regular column and mark/sort/filter by that column.
 '''
@@ -270,7 +270,6 @@ print(df)
 # shape: (8, 5)
 # columns: ID, NAME, SALARY, START_DATE, DEPT
 
-# 
 '''
 If a CSV has no header row, set has_header=False and provide new_columns=.
 Polars will otherwise create names such as column_1, column_2, ...
@@ -302,7 +301,7 @@ print(df)
 # shape: (8, 5)
 # columns may include: Unnamed: 0, name, salary, start_date, dept
 
-# '''
+'''
 No index_col= in Polars.
 If the first column is an ID-like column, keep it or rename it.
 '''
@@ -339,7 +338,7 @@ print(df)
 print(df.null_count())
 # Shows null counts by column.
 
-# 
+#
 # You can also specify null values per column.
 df = pl.read_csv(
     source=data_dir / "emp.tsv",
@@ -371,7 +370,7 @@ df = pl.read_csv(
 print(df)
 # shape: (8, 5)
 
-# 
+#
 # Skip 2 rows and read only 4 rows.
 df = pl.read_csv(
     source=data_dir/"emp_skiprows.tsv",
@@ -417,7 +416,7 @@ df = pl.read_csv(
 print(df)
 # Footer lines starting with # are skipped.
 
-# 
+#
 # Option 2: read first, then remove the final 2 rows.
 df_raw = pl.read_csv(
     source=data_dir / "emp_skipfooter.csv",
@@ -675,7 +674,7 @@ print(df)
 # shape: (8, 2)
 # columns: name, city
 
-# '''
+'''
 Polars sheet_id is 1-based.
 Pandas sheet_name=1 means second sheet.
 Polars sheet_id=2 means second sheet.
@@ -688,7 +687,7 @@ df = pl.read_excel(
 print(df)
 # second sheet
 
-# 
+#
 # Load all sheets as a dictionary of {sheet_name: DataFrame}.
 all_sheets = pl.read_excel(
     source=data_dir/"emp_sheetname.xlsx",
@@ -787,7 +786,7 @@ df = pl.read_json(data_dir/"emps.json")
 print(df)
 # shape depends on the JSON orientation/structure.
 
-# 
+#
 # For a JSON string or file-like object.
 json_str = '''
 [
@@ -803,7 +802,7 @@ print(df)
 # shape: (3, 4)
 # columns: id, name, salary, dept
 
-# 
+#
 # Declare or override schema.
 df = pl.read_json(
     StringIO(json_str),
@@ -844,7 +843,7 @@ df_books = pl.json_normalize(
 print(df_books)
 # Nested dict fields are flattened with dot-separated names.
 
-# 
+#
 # You can normalize to a limited depth.
 df_books_level_1 = pl.json_normalize(
     books,
@@ -876,7 +875,7 @@ df = pl.read_ndjson(StringIO(ndjson_str))
 print(df)
 # shape: (3, 3)
 
-# 
+#
 # From a file path.
 # df = pl.read_ndjson(
 #     source=data_dir / "employees.ndjson",

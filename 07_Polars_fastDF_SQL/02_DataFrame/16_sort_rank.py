@@ -1,19 +1,21 @@
 '''
-Polars version of the pandas sort/rank guide.
-
 Key differences from pandas:
 1. Sorting rows:
-   + pandas: df.sort_values(by=..., ascending=..., inplace=...)
-   + Polars: df.sort(by=..., descending=..., nulls_last=..., maintain_order=...)
+   + lf.sort(by=..., descending=..., nulls_last=..., maintain_order=...)
+   + sort by single column
+   + sort by multiple columns and orders
+   + sort by expression
+   + sort with null handling
 
-2. Sorting row names/index:
-   + pandas: df.sort_index(axis=0, ascending=...)
-   + Polars: there is NO custom row index.
-             Store row labels as a normal column, then sort that column.
+2. Sorting rows:
+   + sort row-label ascending
+   + sort row-label descending
+   + use `.with_row_index()` to add index column then use it to sort
 
 3. Sorting column names:
-   + pandas: df.sort_index(axis=1, ascending=...)
-   + Polars: reorder columns with df.select(sorted(df.columns))
+   + sort ascending
+   + sort descending
+   + sort with custom order
 
 4. Ranking:
    + pandas: df["score"].rank(method="average", ascending=True, pct=False)
@@ -37,10 +39,10 @@ Key differences from pandas:
 import polars as pl
 
 # =========================================================================================
-# 1. Sort
+# 1. Sorting rows
 # =========================================================================================
 
-df_raw_sort = pl.DataFrame(
+lf_unsort = pl.LazyFrame(
     {
         "name": ["Alice", "Alice", "Alice", "Bob", "Bob", "Charlie"],
         "subject": ["Math", "English", "Science", "Math", "English", "Math"],
@@ -51,7 +53,7 @@ df_raw_sort = pl.DataFrame(
 
 # In pandas this would often be an index.
 # In Polars, row labels should be stored as a normal column.
-df_raw_idx = pl.DataFrame(
+lf_idx = pl.LazyFrame(
     {
         "row_label": [100, 29, 234, 1, 150],
         "Numbers": [1, 2, 3, 4, 5],
@@ -59,18 +61,15 @@ df_raw_idx = pl.DataFrame(
     }
 )
 
-##-----------##
-## df.sort() ##
-##-----------##
+##-----------------------------##
+## lf.sort(): by single column ##
+##-----------------------------##
 
-# ## Sort by single column
-# 
-# pandas:
-# df_raw_sort.sort_values(by="score", ascending=False)
-
-# Polars uses descending=True instead of ascending=False.
-df_sorted = df_raw_sort.sort(by="score", descending=True)
-print(df_sorted)
+print(
+    lf_unsort
+    .sort(by="score", descending=True)
+    .collect()
+)
 # shape: (6, 4)
 # ┌─────────┬─────────┬───────┬─────┐
 # │ name    ┆ subject ┆ score ┆ age │
@@ -85,15 +84,15 @@ print(df_sorted)
 # │ Alice   ┆ Science ┆ 78    ┆ 20  │
 # └─────────┴─────────┴───────┴─────┘
 
-# ## Sort by multiple columns and orders
-# 
-# pandas:
-# df_raw_sort.sort_values(by=["name", "score"], ascending=[False, True])
+##-------------------------------------------##
+## lf.sort(): by multiple columns and orders ##
+##-------------------------------------------##
 
-# Polars equivalent:
-# name descending, score ascending => descending=[True, False]
-df_sorted = df_raw_sort.sort(by=["name", "score"], descending=[True, False])
-print(df_sorted)
+print(
+    lf_unsort
+    .sort(by=["name", "score"], descending=[True, False])
+    .collect()
+)
 # shape: (6, 4)
 # ┌─────────┬─────────┬───────┬─────┐
 # │ name    ┆ subject ┆ score ┆ age │
@@ -108,17 +107,19 @@ print(df_sorted)
 # │ Alice   ┆ English ┆ 90    ┆ 20  │
 # └─────────┴─────────┴───────┴─────┘
 
-# ## Sort by expression
-# '''
+##--------------------------##
+## lf.sort(): by expression ##
+##--------------------------##
+'''
 Polars can sort by an expression, not only an existing column name.
 Here we sort by score per age: score / age.
 '''
 
-df_sorted = df_raw_sort.sort(
-    by=pl.col("score") / pl.col("age"),
-    descending=True,
+print(
+    lf_unsort
+    .sort(by=pl.col("score") / pl.col("age"), descending=True)
+    .collect()
 )
-print(df_sorted)
 # shape: (6, 4)
 # ┌─────────┬─────────┬───────┬─────┐
 # │ name    ┆ subject ┆ score ┆ age │
@@ -134,9 +135,11 @@ print(df_sorted)
 # └─────────┴─────────┴───────┴─────┘
 # Highest score-per-age rows appear first.
 
-# ## Sort with null handling
-# 
-df_with_nulls = pl.DataFrame(
+##------------------------------------##
+## lf.sort(): sort with null handling ##
+##------------------------------------##
+
+lf_nulls = pl.LazyFrame(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva"],
         "score": [85, None, 78, 92, None],
@@ -145,8 +148,11 @@ df_with_nulls = pl.DataFrame(
 
 # By default, null ordering depends on the sort operation.
 # Set nulls_last=True when you want missing values to appear at the bottom.
-df_sorted = df_with_nulls.sort("score", descending=True, nulls_last=True)
-print(df_sorted)
+print(
+    lf_nulls
+    .sort("score", descending=True, nulls_last=True)
+    .collect()
+)
 # shape: (5, 2)
 # ┌─────────┬───────┐
 # │ name    ┆ score │
@@ -160,21 +166,26 @@ print(df_sorted)
 # │ Eva     ┆ null  │
 # └─────────┴───────┘
 
-# ## Stable sort for ties
-# '''
+##---------------------------------##
+## lf.sort(): stable sort for ties ##
+##---------------------------------##
+'''
 If rows have equal sort keys, maintain_order=True preserves their original order.
 This is similar in spirit to using a stable sorting algorithm.
 '''
 
-df_stable = pl.DataFrame(
+lf_stable = pl.LazyFrame(
     {
         "student": ["A", "B", "C", "D"],
         "score": [90, 90, 85, 90],
     }
 )
 
-df_sorted = df_stable.sort("score", descending=True, maintain_order=True)
-print(df_sorted)
+print(
+    lf_stable
+    .sort("score", descending=True, maintain_order=True)
+    .collect()
+)
 # shape: (4, 2)
 # ┌─────────┬───────┐
 # │ student ┆ score │
@@ -188,27 +199,15 @@ print(df_sorted)
 # └─────────┴───────┘
 # A, B, and D all have score 90, and they keep their original order among ties.
 
-##---------------##
-## Series.sort() ##
-##---------------##
+# =========================================================================================
+# 2. Sorting row names (index)
+# =========================================================================================
+'''
+Polars does not have index system
+=> store index as an explicit column and use it to sort
+'''
 
-s_score = pl.Series("score", [85, 90, 78, 92, 88, 95])
-
-print(s_score.sort())
-# shape: (6,)
-# Series: 'score' [i64]
-# [78, 85, 88, 90, 92, 95]
-
-print(s_score.sort(descending=True))
-# shape: (6,)
-# Series: 'score' [i64]
-# [95, 92, 90, 88, 85, 78]
-
-##--------------------##
-## sort_index(axis=0) ##
-##--------------------##
-
-print(df_raw_idx)
+print(lf_idx.collect())
 # shape: (5, 3)
 # ┌───────────┬─────────┬─────────┐
 # │ row_label ┆ Numbers ┆ Letters │
@@ -222,15 +221,15 @@ print(df_raw_idx)
 # │ 150       ┆ 5       ┆ e       │
 # └───────────┴─────────┴─────────┘
 
-# ## Sort by row-label column, ascending=True
-# 
-# pandas:
-# df_raw_idx.sort_index(axis=0, ascending=True)
+##--------------------------------------------##
+## sort row-label, descending=False (default) ##
+##--------------------------------------------##
 
-# Polars equivalent:
-# Sort the explicit row-label column.
-df_sorted = df_raw_idx.sort("row_label")
-print(df_sorted)
+print(
+    lf_idx
+    .sort("row_label")
+    .collect()
+)
 # shape: (5, 3)
 # ┌───────────┬─────────┬─────────┐
 # │ row_label ┆ Numbers ┆ Letters │
@@ -244,10 +243,15 @@ print(df_sorted)
 # │ 234       ┆ 3       ┆ c       │
 # └───────────┴─────────┴─────────┘
 
-# ## Sort by row-label column, ascending=False
-# 
-df_sorted = df_raw_idx.sort("row_label", descending=True)
-print(df_sorted)
+##---------------------------------##
+## sort row-label, descending=True ##
+##---------------------------------##
+
+print(
+    lf_idx
+    .sort("row_label", descending=True)
+    .collect()
+)
 # shape: (5, 3)
 # ┌───────────┬─────────┬─────────┐
 # │ row_label ┆ Numbers ┆ Letters │
@@ -261,83 +265,109 @@ print(df_sorted)
 # │ 1         ┆ 4       ┆ d       │
 # └───────────┴─────────┴─────────┘
 
-# ## Add a visible row number if needed
-# '''
+##-----------------------------------------------------------------##
+## Use `.with_row_index()` to add index column then use it to sort ##
+##-----------------------------------------------------------------##
+'''
 Polars has no hidden index. If you need a visible row number, add one with with_row_index().
 The created row number is a normal column.
 '''
 
-df_with_row_number = df_raw_sort.with_row_index(name="row_nr")
-print(df_with_row_number)
+print(
+    lf_unsort
+    .with_row_index(name="index", offset=1)
+    .sort("index", descending=True)
+    .collect()
+)
 # shape: (6, 5)
-# ┌────────┬─────────┬─────────┬───────┬─────┐
-# │ row_nr ┆ name    ┆ subject ┆ score ┆ age │
-# │ ---    ┆ ---     ┆ ---     ┆ ---   ┆ --- │
-# │ u32    ┆ str     ┆ str     ┆ i64   ┆ i64 │
-# ╞════════╪═════════╪═════════╪═══════╪═════╡
-# │ 0      ┆ Alice   ┆ Math    ┆ 85    ┆ 20  │
-# │ 1      ┆ Alice   ┆ English ┆ 90    ┆ 20  │
-# │ ...
-# └────────┴─────────┴─────────┴───────┴─────┘
-
-##--------------------##
-## sort_index(axis=1) ##
-##--------------------##
-
-# pandas:
-# df_raw_idx.sort_index(axis=1, ascending=True)
-
-# Polars equivalent:
-# Reorder the columns explicitly with select().
-df_sorted_cols = df_raw_idx.select(sorted(df_raw_idx.columns))
-print(df_sorted_cols)
-# shape: (5, 3)
-# ┌─────────┬─────────┬───────────┐
-# │ Letters ┆ Numbers ┆ row_label │
-# │ ---     ┆ ---     ┆ ---       │
-# │ str     ┆ i64     ┆ i64       │
-# ╞═════════╪═════════╪═══════════╡
-# │ a       ┆ 1       ┆ 100       │
-# │ b       ┆ 2       ┆ 29        │
-# │ c       ┆ 3       ┆ 234       │
-# │ d       ┆ 4       ┆ 1         │
-# │ e       ┆ 5       ┆ 150       │
-# └─────────┴─────────┴───────────┘
-
-# Descending column-name order:
-df_sorted_cols = df_raw_idx.select(sorted(df_raw_idx.columns, reverse=True))
-print(df_sorted_cols)
-# shape: (5, 3)
-# ┌───────────┬─────────┬─────────┐
-# │ row_label ┆ Numbers ┆ Letters │
-# │ ---       ┆ ---     ┆ ---     │
-# │ i64       ┆ i64     ┆ str     │
-# ╞═══════════╪═════════╪═════════╡
-# │ 100       ┆ 1       ┆ a       │
-# │ 29        ┆ 2       ┆ b       │
-# │ 234       ┆ 3       ┆ c       │
-# │ 1         ┆ 4       ┆ d       │
-# │ 150       ┆ 5       ┆ e       │
-# └───────────┴─────────┴─────────┘
-
-# Custom column order:
-df_custom_order = df_raw_idx.select(["Letters", "row_label", "Numbers"])
-print(df_custom_order)
-# shape: (5, 3)
-# ┌─────────┬───────────┬─────────┐
-# │ Letters ┆ row_label ┆ Numbers │
-# │ ---     ┆ ---       ┆ ---     │
-# │ str     ┆ i64       ┆ i64     │
-# ╞═════════╪═══════════╪═════════╡
-# │ a       ┆ 100       ┆ 1       │
-# │ b       ┆ 29        ┆ 2       │
-# │ c       ┆ 234       ┆ 3       │
-# │ d       ┆ 1         ┆ 4       │
-# │ e       ┆ 150       ┆ 5       │
-# └─────────┴───────────┴─────────┘
+# ┌───────┬─────────┬─────────┬───────┬─────┐
+# │ index ┆ name    ┆ subject ┆ score ┆ age │
+# │ ---   ┆ ---     ┆ ---     ┆ ---   ┆ --- │
+# │ u32   ┆ str     ┆ str     ┆ i64   ┆ i64 │
+# ╞═══════╪═════════╪═════════╪═══════╪═════╡
+# │ 6     ┆ Charlie ┆ Math    ┆ 95    ┆ 23  │
+# │ 5     ┆ Bob     ┆ English ┆ 88    ┆ 22  │
+# │ 4     ┆ Bob     ┆ Math    ┆ 92    ┆ 22  │
+# │ 3     ┆ Alice   ┆ Science ┆ 78    ┆ 20  │
+# │ 2     ┆ Alice   ┆ English ┆ 90    ┆ 20  │
+# │ 1     ┆ Alice   ┆ Math    ┆ 85    ┆ 20  │
+# └───────┴─────────┴─────────┴───────┴─────┘
 
 # =========================================================================================
-# 2. Rank
+# 3. Sorting column names
+# =========================================================================================
+
+##---------------------------##
+## Ascending order (default) ##
+##---------------------------##
+
+print(
+    lf_unsort
+    .select(sorted(lf_unsort.collect_schema().names())) # use `sorted(df.columns)` for eager DataFrame
+    .collect()
+)
+# shape: (6, 4)
+# ┌─────┬─────────┬───────┬─────────┐
+# │ age ┆ name    ┆ score ┆ subject │
+# │ --- ┆ ---     ┆ ---   ┆ ---     │
+# │ i64 ┆ str     ┆ i64   ┆ str     │
+# ╞═════╪═════════╪═══════╪═════════╡
+# │ 20  ┆ Alice   ┆ 85    ┆ Math    │
+# │ 20  ┆ Alice   ┆ 90    ┆ English │
+# │ 20  ┆ Alice   ┆ 78    ┆ Science │
+# │ 22  ┆ Bob     ┆ 92    ┆ Math    │
+# │ 22  ┆ Bob     ┆ 88    ┆ English │
+# │ 23  ┆ Charlie ┆ 95    ┆ Math    │
+# └─────┴─────────┴───────┴─────────┘
+
+##------------------##
+## Descending order ##
+##------------------##
+
+print(
+    lf_unsort
+    .select(sorted(lf_unsort.collect_schema().names(), reverse=True))
+    .collect()
+)
+# shape: (6, 4)
+# ┌─────────┬───────┬─────────┬─────┐
+# │ subject ┆ score ┆ name    ┆ age │
+# │ ---     ┆ ---   ┆ ---     ┆ --- │
+# │ str     ┆ i64   ┆ str     ┆ i64 │
+# ╞═════════╪═══════╪═════════╪═════╡
+# │ Math    ┆ 85    ┆ Alice   ┆ 20  │
+# │ English ┆ 90    ┆ Alice   ┆ 20  │
+# │ Science ┆ 78    ┆ Alice   ┆ 20  │
+# │ Math    ┆ 92    ┆ Bob     ┆ 22  │
+# │ English ┆ 88    ┆ Bob     ┆ 22  │
+# │ Math    ┆ 95    ┆ Charlie ┆ 23  │
+# └─────────┴───────┴─────────┴─────┘
+
+##--------------##
+## Custom order ##
+##--------------##
+
+print(
+    lf_unsort
+    .select("score", "age", "subject", "name")
+    .collect()
+)
+# shape: (6, 4)
+# ┌───────┬─────┬─────────┬─────────┐
+# │ score ┆ age ┆ subject ┆ name    │
+# │ ---   ┆ --- ┆ ---     ┆ ---     │
+# │ i64   ┆ i64 ┆ str     ┆ str     │
+# ╞═══════╪═════╪═════════╪═════════╡
+# │ 85    ┆ 20  ┆ Math    ┆ Alice   │
+# │ 90    ┆ 20  ┆ English ┆ Alice   │
+# │ 78    ┆ 20  ┆ Science ┆ Alice   │
+# │ 92    ┆ 22  ┆ Math    ┆ Bob     │
+# │ 88    ┆ 22  ┆ English ┆ Bob     │
+# │ 95    ┆ 23  ┆ Math    ┆ Charlie │
+# └───────┴─────┴─────────┴─────────┘
+
+# =========================================================================================
+# 4. Rank
 # =========================================================================================
 '''
 In pandas, df.rank(axis=0) can rank columns directly.
@@ -345,17 +375,17 @@ In Polars, ranking is usually an expression:
 
     pl.col("score").rank(method="average")
 
-Use it inside select(), with_columns(), group_by().agg(), or a LazyFrame pipeline.
+Use it inside `select(), with_columns(), group_by().agg()` or a LazyFrame pipeline.
 '''
 
-df_raw_rank = pl.DataFrame(
+lf_unrank = pl.LazyFrame(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva", "Freddy", "George", "Hannah"],
         "score": [85, 92, 85, 88, 90, 66, 66, 66],
     }
 )
 
-print(df_raw_rank)
+print(lf_unrank.collect())
 # shape: (8, 2)
 # ┌─────────┬───────┐
 # │ name    ┆ score │
@@ -372,47 +402,17 @@ print(df_raw_rank)
 # │ Hannah  ┆ 66    │
 # └─────────┴───────┘
 
-##-------------------------------##
-## Series.rank(method="average") ##
-##-------------------------------##
-
-# Series-level ranking.
-print(df_raw_rank["score"].rank(method="average"))
-# shape: (8,)
-# Series: 'score' [f64]
-# [4.5, 8.0, 4.5, 6.0, 7.0, 2.0, 2.0, 2.0]
-
-# Add the ranking as a new DataFrame column.
-df_ranked = df_raw_rank.with_columns(
-    pl.col("score").rank(method="average").alias("rank_average")
-)
-print(df_ranked)
-# shape: (8, 3)
-# ┌─────────┬───────┬──────────────┐
-# │ name    ┆ score ┆ rank_average │
-# │ ---     ┆ ---   ┆ ---          │
-# │ str     ┆ i64   ┆ f64          │
-# ╞═════════╪═══════╪══════════════╡
-# │ Alice   ┆ 85    ┆ 4.5          │
-# │ Bob     ┆ 92    ┆ 8.0          │
-# │ Charlie ┆ 85    ┆ 4.5          │
-# │ David   ┆ 88    ┆ 6.0          │
-# │ Eva     ┆ 90    ┆ 7.0          │
-# │ Freddy  ┆ 66    ┆ 2.0          │
-# │ George  ┆ 66    ┆ 2.0          │
-# │ Hannah  ┆ 66    ┆ 2.0          │
-# └─────────┴───────┴──────────────┘
-# Alice and Charlie share rank (4 + 5) / 2 = 4.5.
-# Freddy, George, and Hannah share rank (1 + 2 + 3) / 3 = 2.0.
-
 ##-------------------------##
 ## Expr.rank(method="max") ##
 ##-------------------------##
 
-df_ranked = df_raw_rank.with_columns(
-    pl.col("score").rank(method="max").alias("rank_max")
+print(
+    lf_unrank
+    .with_columns(
+        pl.col("score").rank(method="max").alias("rank_max")
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (8, 3)
 # ┌─────────┬───────┬──────────┐
 # │ name    ┆ score ┆ rank_max │
@@ -435,10 +435,13 @@ print(df_ranked)
 ## Expr.rank(method="min") ##
 ##-------------------------##
 
-df_ranked = df_raw_rank.with_columns(
-    pl.col("score").rank(method="min").alias("rank_min")
+print(
+    lf_unrank
+    .with_columns(
+        pl.col("score").rank(method="min").alias("rank_min")
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (8, 3)
 # ┌─────────┬───────┬──────────┐
 # │ name    ┆ score ┆ rank_min │
@@ -472,10 +475,13 @@ Scores in ascending order:
 92 -> dense rank 5
 '''
 
-df_ranked = df_raw_rank.with_columns(
-    pl.col("score").rank(method="dense").alias("rank_dense")
+print(
+    lf_unrank
+    .with_columns(
+        pl.col("score").rank(method="dense").alias("rank_dense")
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (8, 3)
 # ┌─────────┬───────┬────────────┐
 # │ name    ┆ score ┆ rank_dense │
@@ -496,16 +502,18 @@ print(df_ranked)
 ##-----------------------------##
 ## Expr.rank(method="ordinal") ##
 ##-----------------------------##
-
 '''
 Pandas method="first" equivalent in Polars is method="ordinal".
 It gives tied values distinct ranks according to their order of appearance.
 '''
 
-df_ranked = df_raw_rank.with_columns(
-    pl.col("score").rank(method="ordinal").alias("rank_ordinal")
+print(
+    lf_unrank
+    .with_columns(
+        pl.col("score").rank(method="ordinal").alias("ordinal")
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (8, 3)
 # ┌─────────┬───────┬──────────────┐
 # │ name    ┆ score ┆ rank_ordinal │
@@ -532,10 +540,13 @@ method="random" is similar to ordinal because every tied row receives a distinct
 but the order within ties is randomized. Use seed= for reproducible examples.
 '''
 
-df_ranked = df_raw_rank.with_columns(
-    pl.col("score").rank(method="random", seed=42).alias("rank_random")
+print(
+    lf_unrank
+    .with_columns(
+        pl.col("score").rank(method="random", seed=42).alias("rank_random")
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (8, 3)
 # ┌─────────┬───────┬─────────────┐
 # │ name    ┆ score ┆ rank_random │
@@ -556,14 +567,17 @@ print(df_ranked)
 ## All rank methods together ##
 ##---------------------------##
 
-df_ranked_all = df_raw_rank.with_columns(
-    pl.col("score").rank(method="average").alias("rank_average"),
-    pl.col("score").rank(method="max").alias("rank_max"),
-    pl.col("score").rank(method="min").alias("rank_min"),
-    pl.col("score").rank(method="dense").alias("rank_dense"),
-    pl.col("score").rank(method="ordinal").alias("rank_ordinal"),
+print(
+    lf_unrank
+    .with_columns(
+        pl.col("score").rank(method="average").alias("rank_average"),
+        pl.col("score").rank(method="max").alias("rank_max"),
+        pl.col("score").rank(method="min").alias("rank_min"),
+        pl.col("score").rank(method="dense").alias("rank_dense"),
+        pl.col("score").rank(method="ordinal").alias("rank_ordinal"),
+    )
+    .collect()
 )
-print(df_ranked_all)
 # shape: (8, 7)
 # ┌─────────┬───────┬──────────────┬──────────┬──────────┬────────────┬──────────────┐
 # │ name    ┆ score ┆ rank_average ┆ rank_max ┆ rank_min ┆ rank_dense ┆ rank_ordinal │
@@ -584,14 +598,14 @@ print(df_ranked_all)
 ## Rank UNIQUE values only  ##
 ##--------------------------##
 
-df_raw_unique = pl.DataFrame(
+lf_unique = pl.LazyFrame(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva", "Freddy", "George", "Hannah"],
         "score": [85, 92, 86, 88, 90, 54, 25, 42],
     }
 )
 
-print(df_raw_unique)
+print(lf_unique.collect())
 # shape: (8, 2)
 # ┌─────────┬───────┐
 # │ name    ┆ score │
@@ -608,14 +622,17 @@ print(df_raw_unique)
 # │ Hannah  ┆ 42    │
 # └─────────┴───────┘
 
-df_ranked = df_raw_unique.with_columns(
-    pl.col("score").rank(method="average").alias("rank_average"),
-    pl.col("score").rank(method="max").alias("rank_max"),
-    pl.col("score").rank(method="min").alias("rank_min"),
-    pl.col("score").rank(method="dense").alias("rank_dense"),
-    pl.col("score").rank(method="ordinal").alias("rank_ordinal"),
+print(
+    lf_unique
+    .with_columns(
+        pl.col("score").rank(method="average").alias("rank_average"),
+        pl.col("score").rank(method="max").alias("rank_max"),
+        pl.col("score").rank(method="min").alias("rank_min"),
+        pl.col("score").rank(method="dense").alias("rank_dense"),
+        pl.col("score").rank(method="ordinal").alias("rank_ordinal"),
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (8, 7)
 # ┌─────────┬───────┬──────────────┬──────────┬──────────┬────────────┬──────────────┐
 # │ name    ┆ score ┆ rank_average ┆ rank_max ┆ rank_min ┆ rank_dense ┆ rank_ordinal │
@@ -649,12 +666,14 @@ use:
     rank / pl.count("score")
 '''
 
-# ## With UNIQUE values
-# 
-df_ranked = df_raw_unique.with_columns(
-    (pl.col("score").rank(method="average") / pl.len()).alias("rank_pct")
+# With UNIQUE values
+print(
+    lf_unique
+    .with_columns(
+        (pl.col("score").rank(method="average") / pl.len()).alias("rank_pct")
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (8, 3)
 # ┌─────────┬───────┬──────────┐
 # │ name    ┆ score ┆ rank_pct │
@@ -674,20 +693,18 @@ print(df_ranked)
 # Alice score 85 => rank 4 => 4 / 8 = 0.5
 # Bob score 92   => rank 8 => 8 / 8 = 1.0
 
-# ## With DUPLICATE values
-# 
-# pandas-like percentage ranks for average/min/max/ordinal:
-# divide by the total number of rows.
-# pandas-like dense percentage rank:
-# divide by the number of unique values / dense-rank groups.
-df_ranked = df_raw_rank.with_columns(
-    (pl.col("score").rank(method="average") / pl.len()).alias("rank_average_pct"),
-    (pl.col("score").rank(method="min") / pl.len()).alias("rank_min_pct"),
-    (pl.col("score").rank(method="max") / pl.len()).alias("rank_max_pct"),
-    (pl.col("score").rank(method="dense") / pl.col("score").n_unique()).alias("rank_dense_pct"),
-    (pl.col("score").rank(method="ordinal") / pl.len()).alias("rank_ordinal_pct"),
+# With DUPLICATE values
+print(
+    lf_unrank
+    .with_columns(
+        (pl.col("score").rank(method="average") / pl.len()).alias("rank_average_pct"),
+        (pl.col("score").rank(method="min") / pl.len()).alias("rank_min_pct"),
+        (pl.col("score").rank(method="max") / pl.len()).alias("rank_max_pct"),
+        (pl.col("score").rank(method="dense") / pl.col("score").n_unique()).alias("rank_dense_pct"),
+        (pl.col("score").rank(method="ordinal") / pl.len()).alias("rank_ordinal_pct"),
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (8, 7)
 # ┌─────────┬───────┬────────────────┬──────────────┬──────────────┬────────────────┬────────────────┐
 # │ name    ┆ score ┆ rank_average_p ┆ rank_min_pct ┆ rank_max_pct ┆ rank_dense_pct ┆ rank_ordinal_p │
@@ -710,20 +727,15 @@ print(df_ranked)
 # DENSE for score 66:   rank 1   / 5 distinct scores = 0.2
 # ORDINAL for score 66: Freddy=1/8, George=2/8, Hannah=3/8
 
-# ## Percentage ranks with null values
-# 
-df_null_rank = pl.DataFrame(
-    {
-        "name": ["Alice", "Bob", "Charlie", "David", "Eva"],
-        "score": [85, None, 78, 92, None],
-    }
+# Percentage ranks with null values
+print(
+    lf_nulls
+    .with_columns(
+        (pl.col("score").rank(method="average") / pl.len()).alias("pct_all_rows"),
+        (pl.col("score").rank(method="average") / pl.count("score")).alias("pct_non_null"),
+    )
+    .collect()
 )
-
-df_ranked = df_null_rank.with_columns(
-    (pl.col("score").rank(method="average") / pl.len()).alias("pct_all_rows"),
-    (pl.col("score").rank(method="average") / pl.count("score")).alias("pct_non_null"),
-)
-print(df_ranked)
 # shape: (5, 4)
 # ┌─────────┬───────┬──────────────┬──────────────┐
 # │ name    ┆ score ┆ pct_all_rows ┆ pct_non_null │
@@ -744,13 +756,13 @@ print(df_ranked)
 ## Descending ranks ##
 ##------------------##
 
-# In pandas: ascending=False
-# In Polars: descending=True
-
-df_ranked = df_raw_rank.with_columns(
-    pl.col("score").rank(method="dense", descending=True).alias("rank_highest_score_1")
+print(
+    lf_unrank
+    .with_columns(
+        pl.col("score").rank(method="dense", descending=True).alias("rank_highest_score_1")
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (8, 3)
 # ┌─────────┬───────┬──────────────────────┐
 # │ name    ┆ score ┆ rank_highest_score_1 │
@@ -772,15 +784,15 @@ print(df_ranked)
 # score 85 -> rank 4
 # score 66 -> rank 5
 
-##-------------------##
-## Group-wise ranks  ##
-##-------------------##
+##------------------##
+## Group-wise ranks ##
+##------------------##
 '''
 Use .over("group_column") for rankings within groups.
 This is similar to pandas groupby(...)["score"].rank(...).
 '''
 
-df_subject_scores = pl.DataFrame(
+lf_scores = pl.LazyFrame(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva", "Freddy"],
         "subject": ["Math", "Math", "Math", "English", "English", "English"],
@@ -788,10 +800,13 @@ df_subject_scores = pl.DataFrame(
     }
 )
 
-df_ranked = df_subject_scores.with_columns(
-    pl.col("score").rank(method="dense", descending=True).over("subject").alias("rank_in_subject")
+print(
+    lf_scores
+    .with_columns(
+        pl.col("score").rank(method="dense", descending=True).over("subject").alias("rank_in_subject")
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (6, 4)
 # ┌─────────┬─────────┬───────┬─────────────────┐
 # │ name    ┆ subject ┆ score ┆ rank_in_subject │
@@ -816,7 +831,7 @@ If you have several numeric columns and want to rank each column independently,
 use expression expansion with pl.col([...]).rank().
 '''
 
-df_multi_scores = pl.DataFrame(
+lf_multi_scores = pl.LazyFrame(
     {
         "student": ["Alice", "Bob", "Charlie"],
         "math": [85, 92, 85],
@@ -824,10 +839,13 @@ df_multi_scores = pl.DataFrame(
     }
 )
 
-df_ranked = df_multi_scores.with_columns(
-    pl.col(["math", "english"]).rank(method="average").name.suffix("_rank")
+print(
+    lf_multi_scores
+    .with_columns(
+        pl.col(["math", "english"]).rank(method="average").name.suffix("_rank")
+    )
+    .collect()
 )
-print(df_ranked)
 # shape: (3, 5)
 # ┌─────────┬──────┬─────────┬───────────┬──────────────┐
 # │ student ┆ math ┆ english ┆ math_rank ┆ english_rank │
@@ -839,36 +857,3 @@ print(df_ranked)
 # │ Charlie ┆ 85   ┆ 95      ┆ 1.5       ┆ 3.0          │
 # └─────────┴──────┴─────────┴───────────┴──────────────┘
 # Adds math_rank and english_rank.
-
-##-------------------##
-## LazyFrame sorting ##
-##-------------------##
-'''
-The same expression-based logic works lazily.
-Nothing runs until collect().
-'''
-
-lf_ranked = (
-    df_raw_rank.lazy()
-    .sort("score", descending=True)
-    .with_columns(
-        pl.col("score").rank(method="dense", descending=True).alias("rank_desc_dense")
-    )
-)
-
-print(lf_ranked.collect())
-# shape: (8, 3)
-# ┌─────────┬───────┬─────────────────┐
-# │ name    ┆ score ┆ rank_desc_dense │
-# │ ---     ┆ ---   ┆ ---             │
-# │ str     ┆ i64   ┆ u32             │
-# ╞═════════╪═══════╪═════════════════╡
-# │ Bob     ┆ 92    ┆ 1               │
-# │ Eva     ┆ 90    ┆ 2               │
-# │ David   ┆ 88    ┆ 3               │
-# │ Alice   ┆ 85    ┆ 4               │
-# │ Charlie ┆ 85    ┆ 4               │
-# │ Freddy  ┆ 66    ┆ 5               │
-# │ George  ┆ 66    ┆ 5               │
-# │ Hannah  ┆ 66    ┆ 5               │
-# └─────────┴───────┴─────────────────┘

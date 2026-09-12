@@ -160,7 +160,6 @@ print(s_convert)
 # =========================================================================================
 # 2. pd.to_numeric()
 # =========================================================================================
-
 '''
 pd.to_numeric() works like .astype("int64") or .astype("float64"), but it is safer.
 It can handle errors more gracefully, allowing you to specify how to deal with invalid parsing.
@@ -174,7 +173,7 @@ s_str_float = pd.Series(['1.5', '2.3', '3.6', '4.2', '5.0'])
 s_mixed = pd.Series([1, 'a', 3.0, '4.5', False])
 
 # ## Try with valid numeric strings
-# 
+#
 s_convert = pd.to_numeric(s_str_float)
 print(s_convert)
 # 0    1.5
@@ -185,12 +184,12 @@ print(s_convert)
 # dtype: float64
 
 # ## Try with invalid mixed data (will raise an error)
-# 
+#
 s_convert = pd.to_numeric(s_mixed)
 """ValueError: Unable to parse string "a" at position 1"""
 
 # ## Try with mixed data, but coerce errors to NaN
-# 
+#
 s_convert = pd.to_numeric(s_mixed, errors='coerce')
 print(s_convert)
 # 0    1.0
@@ -232,7 +231,7 @@ NOTE: THIS WILL NOT CREATE A pd.Series OBJECT, IT CREATES A pd.Categorical OBJEC
 lst_gender = ["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"]
 
 # ## With ordered = False
-# 
+#
 s_gender_categ = pd.Series(pd.Categorical(lst_gender, ordered=False))
 print(s_gender_categ)
 # 0        M
@@ -249,7 +248,7 @@ print(s_gender_categ)
 # Categories (3, object): ['F', 'LGBTQ', 'M']
 
 # ## With ordered = True
-# 
+#
 s_gender_categ = pd.Series(pd.Categorical(
     values = lst_gender,
     categories = ["LGBTQ", "F", "M"],  # Specify the order of categories
@@ -278,7 +277,7 @@ import numpy as np
 lst_price_levels = [1, 1, 3, 2, 5, 2, None, 4, 4, np.nan, 3]
 
 # ## With ordered = False
-# 
+#
 s_price_levels_categ = pd.Series(pd.Categorical(lst_price_levels, ordered=False))
 print(s_price_levels_categ)
 # 0       1
@@ -297,7 +296,7 @@ print(s_price_levels_categ)
 '''Here, the NaN and None values are not included in the categories.'''
 
 # ## With ordered = True
-# 
+#
 s_price_levels_categ = pd.Series(pd.Categorical(
     values = lst_price_levels,
     categories = [1, 2, 3, 4, 5], # Define the level
@@ -336,7 +335,7 @@ s_dates = pd.Series(['2023-01-01', '2023-02-15', '2023-03-10', '2023-04-20'])
 s_dates_invalid = pd.Series(['2023-01-01', '2023-02-15', '2023-03-10', 'invalid_date'])
 
 # ## Convert valid date strings to datetime
-# 
+#
 s_dates_converted = pd.to_datetime(s_dates)
 print(s_dates_converted)
 # 0   2023-01-01
@@ -346,12 +345,12 @@ print(s_dates_converted)
 # dtype: datetime64[ns]
 
 # ## Convert invalid date strings to datetime (will raise an error)
-# 
+#
 s_dates_converted = pd.to_datetime(s_dates_invalid)
 """ValueError: time data "invalid_date" doesn't match format "%Y-%m-%d", at position 3"""
 
 # ## Convert invalid date strings to datetime, but coerce errors to NaT
-# 
+#
 s_dates_converted = pd.to_datetime(
     arg = s_dates_invalid,
     errors='coerce'
@@ -381,7 +380,7 @@ s_timedeltas = pd.Series(['2 days', '4 days 3 hours', '6 days 1 hours 15 minutes
 s_timedeltas_invalid = pd.Series(['1 days', '2 days 3 hours', '3 days 4 hours 5 minutes', 'invalid_time'])
 
 # ## Convert valid timedelta strings to timedelta
-# 
+#
 s_timedeltas_converted = pd.to_timedelta(s_timedeltas)
 print(s_timedeltas_converted)
 # 0   2 days 00:00:00
@@ -390,12 +389,12 @@ print(s_timedeltas_converted)
 # dtype: timedelta64[ns]
 
 # ## Convert invalid timedelta strings to timedelta (will raise an error)
-# 
+#
 s_timedeltas_converted = pd.to_timedelta(s_timedeltas_invalid)
 """ValueError: Could not convert 'invalid_time' to NumPy timedelta"""
 
 # ## Convert invalid timedelta strings to timedelta, but coerce errors to NaT
-# 
+#
 s_timedeltas_converted = pd.to_timedelta(
     arg = s_timedeltas_invalid,
     errors='coerce'

@@ -69,7 +69,7 @@ or raise an error unless you specify how to handle nulls (e.g., filling them fir
 
 # =========================================================================================
 # 2. .to_list()
-#
+# =========================================================================================
 
 list_mixed = s_mixed.to_list()
 print(list_mixed)  # [1, 2.5, 'three', None, True]
@@ -87,15 +87,15 @@ Polars natively represents missing values as Python `None` in lists.
 
 # =========================================================================================
 # 3. Dictionary Conversion
-#
+# =========================================================================================
 '''
 Polars Series DO NOT have a .to_dict() method because they lack an index.
 In pandas, s.to_dict() maps the index labels to the values.
 '''
 
-##---------------------------------------##
-## Workaround 1: Emulating default integer index (Positional mapping)
-##---------------------------------------##
+##--------------------------------------------------------------------##
+## Workaround 1: Emulating default integer index (Positional mapping) ##
+##--------------------------------------------------------------------##
 
 dict_numeric = dict(enumerate(s_numeric.to_list()))
 print(dict_numeric)
@@ -126,7 +126,7 @@ print(dict_indexed)
 
 # =========================================================================================
 # 4. String Representation
-#
+# =========================================================================================
 '''
 Polars Series DO NOT have a .to_string() method like pandas.
 To get a raw newline-separated string of values (equivalent to pandas' s.to_string(index=False)),

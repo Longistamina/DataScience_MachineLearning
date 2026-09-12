@@ -1,6 +1,6 @@
 '''
 Boolean Indexing Boolean Filtering is a powerful technique
-that allows you to filter data based on specific conditions. 
+that allows you to filter data based on specific conditions.
 
 ##---------------------------##
 
@@ -62,7 +62,7 @@ print(s2_nums)
 ##---------------------------------------------------##
 
 # ## > (greater than)
-# 
+#
 print(s1_nums > 15)
 # 0    False
 # 1     True
@@ -94,7 +94,7 @@ print(s2_nums[s2_nums > s1_nums]) # Returns values greater than corresponding va
 # dtype: float64
 
 # ## < (less than)
-# 
+#
 print(s1_nums[s1_nums < 13]) # Returns values less than 13 (True)
 # 4    11.56
 # 5    11.56
@@ -110,7 +110,7 @@ print(s2_nums[s2_nums < s1_nums]) # Returns values less than corresponding value
 # dtype: float64
 
 # ## >= (greater than or equal to)
-# 
+#
 print(s1_nums[s1_nums >= 15.99]) # Returns values greater than or equal to 15.99 (True)
 # 1    19.51
 # 2    17.32
@@ -129,7 +129,7 @@ print(s2_nums[s2_nums >= s1_nums]) # Returns values greater than or equal to cor
 # dtype: float64
 
 # ## <= (less than or equal to)
-# 
+#
 print(s1_nums[s1_nums <= 11.56]) # Returns values less than or equal to 13 (True)
 # 4    11.56
 # 5    11.56
@@ -145,7 +145,7 @@ print(s2_nums[s2_nums <= s1_nums]) # Returns values less than or equal to corres
 # dtype: float64
 
 # ## .between()
-# '''
+'''
 inclusive = "both" (default): [left, right] or left <= x <= right
 inclusive = "neither": (left, right) or left < x < right
 inclusive = "left": [left, right) or left <= x < right
@@ -169,7 +169,7 @@ print(s1_nums[s1_nums.between(10, 15.99, inclusive="left")]) # Returns values be
 '''The value 15.99 is excluded because the right endpoint is not inclusive.'''
 
 # ## == (equal to)
-# 
+#
 print(s1_nums[s1_nums == 11.56]) # Returns values equal to 11.56 (True)
 # 4    11.56
 # 5    11.56
@@ -179,7 +179,7 @@ print(s2_nums[s2_nums == s1_nums]) # Returns values equal to corresponding value
 # Series([], dtype: float64)
 
 # ## != (not equal to)
-# 
+#
 print(s1_nums[s1_nums != 11.56]) # Returns values not equal to 11.56 (True)
 # 0    13.75
 # 1    19.51
