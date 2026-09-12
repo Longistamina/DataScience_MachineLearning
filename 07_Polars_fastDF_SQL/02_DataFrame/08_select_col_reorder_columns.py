@@ -1,10 +1,6 @@
 '''
 Selecting and reordering columns in Polars.
 
-This file is adapted from pandas workflows such as:
-+ df[["col3", "col1", "col2"]]
-+ df.reindex(columns=["col3", "col1", "col2"])
-
 In Polars, the central idea is df.select(...):
 + It selects columns.
 + It controls output column order.

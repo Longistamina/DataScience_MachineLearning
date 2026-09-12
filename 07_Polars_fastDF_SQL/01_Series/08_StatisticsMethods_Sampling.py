@@ -7,6 +7,7 @@
 
 2. Sampling: .sample()
 '''
+
 import polars as pl
 
 # =========================================================================================
@@ -14,27 +15,31 @@ import polars as pl
 # =========================================================================================
 
 '''
-# ## Reduction methods
-# '''
+REDUCTION METHODS
+'''
 
 s_demo = pl.Series([2.0, 5.8, None, 4.6, 14.0, 37.0, 25.2, None, 9.3, 10.5])
 
 ##----------##
 ## .count() ##
 ##----------##
-# .count() returns the number of non-null observations in the Series.
+'''.count() returns the number of non-null observations in the Series.'''
 
 print(s_demo.count())
 # 8
 
-# .len() returns the total number of elements (including nulls).
+##--------##
+## .len() ##
+##--------##
+'''.len() returns the total number of elements (including nulls).'''
+
 print(s_demo.len())
 # 10
 
 ##--------##
 ## .sum() ##
 ##--------##
-# .sum() returns the sum of the values in the Series, excluding null values.
+'''.sum() returns the sum of the values in the Series, excluding null values.'''
 
 print(s_demo.sum())
 # 108.4
@@ -42,7 +47,7 @@ print(s_demo.sum())
 ##------------##
 ## .product() ##
 ##------------##
-# .product() returns the product of the values in the Series, excluding null values.
+'''.product() returns the product of the values in the Series, excluding null values.'''
 
 print(s_demo.product())
 # 68017140.37439999
@@ -50,14 +55,15 @@ print(s_demo.product())
 ##---------##
 ## .mean() ##
 ##---------##
-# .mean() returns the mean (average) of the values in the Series, excluding null values.
+'''.mean() returns the mean (average) of the values in the Series, excluding null values.'''
+
 print(s_demo.mean())
 # 13.55
 
 ##-----------##
 ## .median() ##
 ##-----------##
-# .median() returns the median (middle value) of the values in the Series, excluding null values.
+'''.median() returns the median (middle value) of the values in the Series, excluding null values.'''
 
 print(s_demo.median())
 # 9.9
@@ -65,8 +71,10 @@ print(s_demo.median())
 ##-----------------##
 ## .var() / .std() ##
 ##-----------------##
-# .var() and .std() return the variance and standard deviation, excluding null values.
-# By default, Polars uses ddof=1 (Delta Degrees of Freedom), just like pandas.
+'''
+.var() and .std() return the variance and standard deviation, excluding null values.
+By default, Polars uses ddof=1 (Delta Degrees of Freedom), just like pandas.
+'''
 
 print(s_demo.var())
 # 140.9657142857143
@@ -91,8 +99,10 @@ print(s_demo.max())
 ##-------------##
 ## .quantile() ##
 ##-------------##
-# .quantile(quantile, interpolation="linear") returns the q-th quantile.
-# Polars interpolation options: "nearest", "higher", "lower", "midpoint", "linear"
+'''
+.quantile(quantile, interpolation="linear") returns the q-th quantile.
+Polars interpolation options: "nearest", "higher", "lower", "midpoint", "linear"
+'''
 
 print(s_demo.quantile(0.25, interpolation="linear"))  # Q1 (25th percentile)
 # 5.5
@@ -163,114 +173,56 @@ print(s_demo.describe())
 # └────────────┴───────────┘
 
 '''
-# ## Cumulative methods
-# '''
+CUMMULATIVE METHODS
+'''
 
 s_demo = pl.Series([5.8, 4.6, 2.0, None, 14.0, 37.0, 25.2, None, 9.3, 10.5])
 
 ##------------##
 ## .cum_sum() ##
 ##------------##
-# Polars uses snake_case for cumulative methods.
-# Nulls are preserved in their original positions, but do not break the running total.
+'''
+Polars uses snake_case for cumulative methods.
+Nulls are preserved in their original positions, but do not break the running total.
+'''
 
-print(s_demo.cum_sum())
-# shape: (10,)
-# Series: '' [f64]
-# [
-# 	5.8
-# 	10.4
-# 	12.4
-# 	null
-# 	26.4
-# 	63.4
-# 	88.6
-# 	null
-# 	97.9
-# 	108.4
-# ]
+print(s_demo.cum_sum().round(2).to_list())
+# [5.8, 10.4, 12.4, None, 26.4, 63.4, 88.6, None, 97.9, 108.4]
 
 ##-------------##
 ## .cum_prod() ##
 ##-------------##
 
-print(s_demo.cum_prod())
-# shape: (10,)
-# Series: '' [f64]
-# [
-# 	5.8
-# 	26.68
-# 	53.36
-# 	null
-# 	747.04
-# 	27640.48
-# 	696540.096
-# 	null
-# 	6477822.8832
-# 	6.801714e7
-# ]
+print(s_demo.cum_prod().round(2).to_list())
+# [5.8, 26.68, 53.36, None, 747.04, 27640.48, 696540.1, None, 6477822.89, 68017140.37]
 
 ##------------##
 ## .cum_min() ##
 ##------------##
 
-print(s_demo.cum_min())
-# shape: (10,)
-# Series: '' [f64]
-# [
-# 	5.8
-# 	4.6
-# 	2.0
-# 	null
-# 	2.0
-# 	2.0
-# 	2.0
-# 	null
-# 	2.0
-# 	2.0
-# ]
+print(s_demo.cum_min().to_list())
+# [5.8, 4.6, 2.0, None, 2.0, 2.0, 2.0, None, 2.0, 2.0]
 
 ##------------##
 ## .cum_max() ##
 ##------------##
 
-print(s_demo.cum_max())
-# shape: (10,)
-# Series: '' [f64]
-# [
-# 	5.8
-# 	5.8
-# 	5.8
-# 	null
-# 	14.0
-# 	37.0
-# 	37.0
-# 	null
-# 	37.0
-# 	37.0
-# ]
+print(s_demo.cum_max().to_list())
+# [5.8, 5.8, 5.8, None, 14.0, 37.0, 37.0, None, 37.0, 37.0]
 
 ##---------------##
 ## .pct_change() ##
 ##---------------##
+'''.pct_change() calculates the percentage change between the current and previous element.'''
 
 s_demo_pctchange = pl.Series([100.0, 120.0, 150.0, 130.0, 160.0])
-# .pct_change() calculates the percentage change between the current and previous element.
 
-print(s_demo_pctchange.pct_change())
-# shape: (5,)
-# Series: '' [f64]
-# [
-# 	null
-# 	0.2
-# 	0.25
-# 	-0.133333
-# 	0.230769
-# ]
+print(s_demo_pctchange.pct_change().to_list())
+# [None, 0.2, 0.25, -0.13333333333333333, 0.23076923076923078]
 
 '''
-# ## Covariance and Correlation methods
-# '''
+COVARIANCE AND CORRELATION
+'''
 
 s1 = pl.Series([10.0, 20.0, 30.0, 40.0, 50.0])
 s2 = pl.Series([5.0, 25.0, 20.0, 44.0, 48.0])
@@ -315,32 +267,20 @@ s_demo = pl.Series([5.8, 4.6, 2.0, None, 14.0, 4.6, 25.2, None, 9.3, 10.5])
 ##-------------##
 ## .sample(n=) ##
 ##-------------##
-# Polars uses `seed` instead of pandas' `random_state`.
+'''Polars uses `seed` instead of pandas' `random_state`.'''
 
 s_sampled_n = s_demo.sample(n=3, seed=1)
-print(s_sampled_n)
-# shape: (3,)
-# Series: '' [f64]
-# [
-# 	2.0
-# 	10.5
-# 	25.2
-# ]
+print(s_sampled_n.to_list())
+# [9.3, 25.2, 4.6]
 
 ##--------------------##
 ## .sample(fraction=) ##
 ##--------------------##
-# Polars uses `fraction` instead of pandas' `frac`.
-# Because Polars Series do not have custom index labels, there is no need for `ignore_index=True`.
+'''
+Polars uses `fraction` instead of pandas' `frac`.
+Because Polars Series do not have custom index labels, there is no need for `ignore_index=True`.
+'''
 
 s_sampled_frac = s_demo.sample(fraction=0.5, seed=1)
-print(s_sampled_frac)
-# shape: (5,)
-# Series: '' [f64]
-# [
-# 	2.0
-# 	10.5
-# 	25.2
-# 	14.0
-# 	5.8
-# ]
+print(s_sampled_frac.to_list())
+# [14.0, 4.6, 5.8, 25.2, 4.6]

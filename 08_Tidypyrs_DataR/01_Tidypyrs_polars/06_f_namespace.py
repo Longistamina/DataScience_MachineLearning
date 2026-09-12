@@ -7,12 +7,15 @@ This pushes `polars.col()` one step further from a mere column expression.
 3. `f["x"]` and `f["x", "y", "z"]`
 4. `f.select("x")` designed for `tp.as_enum()` and `tp.as_ordered()`
 5. `f.pull("x")` designed for `tp.as_enum()` and `tp.as_ordered()`
+6. `f` namespace with `numpy` functions
 '''
 
-import tidypyrs as tp  # noqa: I001
-import polars as pl
-from tidypyrs import f
 from pathlib import Path
+
+import numpy as np
+import polars as pl
+import tidypyrs as tp  # noqa: I001
+from tidypyrs import f
 
 pl.Config(tbl_width_chars=120, tbl_rows=5)
 data_dir = next(Path("/home").glob("**/DataScience*/data"))
@@ -343,3 +346,63 @@ print(
 # │ HoopaHoopa Unbound ┆ 6          ┆ 6                  │
 # │ Volcanion          ┆ 6          ┆ 6                  │
 # └────────────────────┴────────────┴────────────────────┘
+
+# =========================================================================================
+# 6. `f` namespace with `numpy` functions
+# =========================================================================================
+
+print(
+    tl_pokemon
+    .select(f("name", "speed"))
+    .mutate(
+        speed_log = np.log(f("speed")),
+        speed_log10 = np.log10(f("speed")),
+    )
+    .collect()
+)
+# shape: (800, 4)
+# ┌────────────────────┬───────┬───────────┬─────────────┐
+# │ name               ┆ speed ┆ speed_log ┆ speed_log10 │
+# │ ---                ┆ ---   ┆ ---       ┆ ---         │
+# │ str                ┆ i64   ┆ f64       ┆ f64         │
+# ╞════════════════════╪═══════╪═══════════╪═════════════╡
+# │ Bulbasaur          ┆ 45    ┆ 3.806662  ┆ 1.653213    │
+# │ Ivysaur            ┆ 60    ┆ 4.094345  ┆ 1.778151    │
+# │ Venusaur           ┆ 80    ┆ 4.382027  ┆ 1.90309     │
+# │ …                  ┆ …     ┆ …         ┆ …           │
+# │ HoopaHoopa Unbound ┆ 80    ┆ 4.382027  ┆ 1.90309     │
+# │ Volcanion          ┆ 70    ┆ 4.248495  ┆ 1.845098    │
+# └────────────────────┴───────┴───────────┴─────────────┘
+
+print(
+    tl_pokemon
+    .select(f("name", "total"))
+    .mutate(
+        f("total").pipe(np.sin).alias("total_sin"),
+        f("total").pipe(np.cos).alias("total_cos"),
+    )
+    .collect()
+)
+# shape: (800, 4)
+# ┌────────────────────┬───────┬───────────┬───────────┐
+# │ name               ┆ total ┆ total_sin ┆ total_cos │
+# │ ---                ┆ ---   ┆ ---       ┆ ---       │
+# │ str                ┆ i64   ┆ f64       ┆ f64       │
+# ╞════════════════════╪═══════╪═══════════╪═══════════╡
+# │ Bulbasaur          ┆ 318   ┆ -0.643561 ┆ -0.765395 │
+# │ Ivysaur            ┆ 405   ┆ 0.262346  ┆ -0.964974 │
+# │ Venusaur           ┆ 525   ┆ -0.346678 ┆ -0.937984 │
+# │ …                  ┆ …     ┆ …         ┆ …         │
+# │ HoopaHoopa Unbound ┆ 680   ┆ 0.988041  ┆ 0.154192  │
+# │ Volcanion          ┆ 600   ┆ 0.044182  ┆ -0.999023 │
+# └────────────────────┴───────┴───────────┴───────────┘
+
+print(
+    tl_pokemon
+    .select(
+        f("total").pipe(np.mean).alias("total_mean"),
+        f("hp").pipe(np.max).alias("hp_max")
+    )
+    .collect()
+)
+'''Raise Error!!!'''

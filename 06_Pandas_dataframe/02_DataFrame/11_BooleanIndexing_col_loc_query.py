@@ -1,6 +1,6 @@
 '''
 Boolean Indexing Boolean Filtering is a powerful technique
-that allows you to filter data based on specific conditions. 
+that allows you to filter data based on specific conditions.
 
 ##---------------------------##
 
@@ -16,7 +16,7 @@ that allows you to filter data based on specific conditions.
    + & (and),
    + | (or)
    + Combine & and |
-   
+
 4. Using pd.col() or c() for faster access to columns for querying (for Pandas >= 3.x.x only)
 
 5. Using .loc[] for Boolean Filtering within specific columns
@@ -87,7 +87,7 @@ print(df_pokemon['Generation'])
 ##---------------------------------------------------##
 
 # ## > (greater than)
-# 
+#
 print(df_pokemon[df_pokemon['HP'] > 200]) # HP greater than 200
 #         Name  Type_1 Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
 # 121  Chansey  Normal    NaN    450  250       5        5      35     105     50          1      False
@@ -102,7 +102,7 @@ print(df_pokemon[df_pokemon["Sp_Atk"] > df_pokemon["Attack"]*2]) # Sp_Atk greate
 # 88               Magnemite  Electric    Steel    325   25      35       70      95      55     45          1      False
 
 # ## < (less than)
-# 
+#
 print(df_pokemon[df_pokemon['Speed'] < 15]) # Speed less than 20
 #           Name  Type_1 Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
 # 230    Shuckle     Bug   Rock    505   20      10      230      10     230      5          2      False
@@ -124,7 +124,7 @@ THE SAME FOR ">=" (greater or equal) and "<=" (less or equal)
 '''
 
 # ## .between()
-# '''
+'''
 inclusive = "both" (default): [left, right] or left <= x <= right
 inclusive = "neither": (left, right) or left < x < right
 inclusive = "left": [left, right) or left <= x < right
@@ -140,7 +140,7 @@ print(df_pokemon[df_pokemon['Speed'].between(5, 10)]) # Speed between 100 and 15
 # 658  Ferroseed   Grass  Steel    305   44      50       91      24      86     10          5      False
 
 # ## == (equal)
-# 
+#
 print(df_pokemon[df_pokemon['Type_1'] == 'Fire']) # Type_1 equal to 'Fire'
 #                           Name Type_1    Type_2  Total   HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
 # 4                   Charmander   Fire       NaN    309   39      52       43      60      50     65          1      False
@@ -158,7 +158,7 @@ print(df_pokemon[df_pokemon["Legendary"] == True]) # Legendary equal to True
 # 163  MewtwoMega Mewtwo X   Psychic  Fighting    780  106     190      100     154     100    130          1       True
 
 # ## != (not equal)
-# 
+#
 print(df_pokemon[df_pokemon['Type_2'] != 'Flying']) # Type_2 not equal to 'Flying'
 #                       Name   Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
 # 0                Bulbasaur    Grass  Poison    318  45      49       49      65      65     45          1      False
@@ -538,10 +538,9 @@ print(
     .reindex(columns=['Name', 'Attack', 'Legendary'])
 )
 #                         Name  Attack  Legendary
-# #                                              
+# #
 # 150      MewtwoMega Mewtwo X     190       True
 # 214  HeracrossMega Heracross     185      False
 # 383    GroudonPrimal Groudon     180       True
 # 384    RayquazaMega Rayquaza     180       True
 # 386       DeoxysAttack Forme     180       True
-

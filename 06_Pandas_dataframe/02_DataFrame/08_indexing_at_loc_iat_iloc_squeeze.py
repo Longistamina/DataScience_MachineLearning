@@ -41,7 +41,7 @@ print(df_emp)
 df_set_id = df_emp.set_index("id", drop=True, inplace=False)
 print(df_set_id)
 #         name  salary  start_date        dept
-# id                                          
+# id
 # 1       Rick  623.30  2012-01-01          IT
 # 2        Dan  515.20  2013-09-23  Operations
 # 3   Michelle  611.00  2014-11-15          IT
@@ -111,7 +111,7 @@ print(df_emp[["name", "salary"]])
 '''
 Access single column using attribute style
 
-NOTE: This style only works when the column name is a valid Python identifier 
+NOTE: This style only works when the column name is a valid Python identifier
       (e.g., no spaces, doesn't start with a number, etc.)
 '''
 
@@ -161,10 +161,10 @@ print(df_emp[::2])
 # 6   7     Simon  632.80  2013-07-30  Operations
 
 # ## Try with non-default-integer index
-# 
+#
 print(df_set_id[2:5])
 #         name  salary  start_date     dept
-# id                                       
+# id
 # 3   Michelle  611.00  2014-11-15       IT
 # 4       Ryan  729.00  2014-05-11       HR
 # 5       Gary  843.25  2015-03-27  Finance
@@ -272,7 +272,7 @@ print(df_emp.loc[:, ["name", "dept"]]) # All rows and specific columns
 
 print(df_set_id.loc[3:5, ["name", "salary"]])
 #         name  salary
-# id                  
+# id
 # 3   Michelle  611.00
 # 4       Ryan  729.00
 # 5       Gary  843.25
@@ -284,7 +284,7 @@ print(df_indexed.loc["row_3":"row_5", ["name", "dept"]])
 # row_5      Gary  Finance
 
 # ## Try BOOLEAN indexing
-# '''
+'''
 The CONDITION is on the side of the ROW selection
 
 df.loc[condition, ["columns"]]
@@ -304,7 +304,7 @@ print(df_emp.loc[df_emp["dept"] == "IT", ["name", "salary"]])
 
 print(df_set_id.loc[df_set_id["name"].str.startswith("R"), ["name", "salary", "dept"]])
 #     name  salary dept
-# id                   
+# id
 # 1   Rick   623.3   IT
 # 4   Ryan   729.0   HR
 
@@ -432,7 +432,7 @@ print(type(salary))
 '''Still a DataFrame'''
 
 # ## Use df.squeeze()
-# 
+#
 s_salary = df_emp.reindex(columns=["salary"]).squeeze()
 
 print(s_salary)

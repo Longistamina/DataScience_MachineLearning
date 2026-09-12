@@ -105,6 +105,10 @@ In Polars, you use expressions inside .with_columns() and the .over() method
 for group-wise transformations.
 '''
 
+##-----------------##
+## .with_columns() ##
+##-----------------##
+
 df_date_value = pl.DataFrame({
     "Date": ["1st", "2nd", "3rd", "4th", "1st", "2nd", "3rd", "4th"],
     "Data": [5, 8, 6, 1, 50, 100, 60, 120],
@@ -132,9 +136,15 @@ print(df_transformed)
 # │ 4th  ┆ 120  ┆ 121         ┆ 240          │
 # └──────┴──────┴─────────────┴──────────────┘
 
-# Group-wise transform (Equivalent to pandas df.groupby("Date").transform("sum"))
-# The .over() method calculates the aggregation per group but broadcasts
-# the result back to the original shape of the DataFrame!
+##---------##
+## .over() ##
+##---------##
+'''
+Group-wise transform (Equivalent to pandas df.groupby("Date").transform("sum"))
+The .over() method calculates the aggregation per group but broadcasts
+the result back to the original shape of the DataFrame!
+'''
+
 df_group_transformed = df_date_value.with_columns(
     pl.col("Data").sum().over("Date").alias("Data_group_sum")
 )

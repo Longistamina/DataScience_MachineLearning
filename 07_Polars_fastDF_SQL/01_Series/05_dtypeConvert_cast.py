@@ -13,6 +13,7 @@ The primary method for type conversion in Polars is `.cast()`.
 '''
 
 import polars as pl
+from loguru import logger
 
 # =========================================================================================
 # 1. .cast()
@@ -120,6 +121,10 @@ print(s_convert)
 # 	false
 # ]
 
+##------------------------##
+## from String to Boolean ##
+##------------------------##
+
 s_bool_str = pl.Series(["true", "false", "True", "False"])
 print(s_bool_str.cast(pl.Boolean))
 """InvalidOperationError: casting from Utf8View to Boolean not supported"""
@@ -162,12 +167,20 @@ When strict=False, any values that cannot be parsed are converted to `null` inst
 
 s_mixed_str = pl.Series(['1.5', 'a', '3.6', '4.2', 'False'])
 
-# ## Try with mixed data (will raise an error if strict=True, which is the default)
-# s_mixed_str.cast(pl.Float64)
-"""InvalidOperationError: conversion from `str` to `f64` failed..."""
+##-------------------------------------------------##
+## `strict=True`: raise error with fail conversion ##
+##-------------------------------------------------##
 
-# ## Try with mixed data, but coerce errors to null (strict=False)
-# 
+try:
+    s_mixed_str.cast(pl.Float64)
+except Exception as e:
+    logger.error(e)
+"""InvalidOperationError: conversion from `str` to `f64` failed in column '' for 2 out of 5 values: ["a", "False"]"""
+
+##------------------------------------------------##
+## `strict=False`: coerce fail attempts into null ##
+##------------------------------------------------##
+
 s_convert = s_mixed_str.cast(pl.Float64, strict=False)
 print(s_convert)
 # shape: (5,)
@@ -192,8 +205,10 @@ Polars has two distinct types for categorical data:
 lst_gender = ["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"]
 s_gender = pl.Series(lst_gender)
 
-# ## Unordered Categorical (pl.Categorical)
-# 
+##----------------------------------------##
+## Unordered Categorical (pl.Categorical) ##
+##----------------------------------------##
+
 s_cat = s_gender.cast(pl.Categorical)
 print(s_cat)
 # shape: (10,)
@@ -211,8 +226,10 @@ print(s_cat)
 # 	"M"
 # ]
 
-# ## Ordered Categories (pl.Enum)
-# '''
+##------------------------------##
+## Ordered Categories (pl.Enum) ##
+##------------------------------##
+'''
 To specify the exact order of categories (like Pandas' pd.Categorical(..., ordered=True, categories=[...])),
 Polars uses the `pl.Enum` data type.
 '''
@@ -220,7 +237,7 @@ Polars uses the `pl.Enum` data type.
 enum_dtype = pl.Enum(["LGBTQ", "F", "M"])
 s_enum = s_gender.cast(enum_dtype)
 print(s_enum)
-shape: (10,)
+# shape: (10,)
 # Series: '' [enum]
 # [
 # 	"M"
@@ -238,9 +255,9 @@ shape: (10,)
 print(s_enum.dtype)
 # Enum(categories=['LGBTQ', 'F', 'M'])
 
-##------------------------------------------------##
-##            numeric example with nulls          ##
-##------------------------------------------------##
+##----------------------------##
+## numeric example with nulls ##
+##----------------------------##
 
 lst_price_levels = [1, 1, 3, 2, 5, 2, None, 4, 4, None, 3]
 s_price = pl.Series(lst_price_levels)
@@ -278,8 +295,10 @@ In Polars, string parsing is accessed via the `.str` namespace using `.str.to_da
 s_dates = pl.Series(['2023-01-01', '2023-02-15', '2023-03-10', '2023-04-20'])
 s_dates_invalid = pl.Series(['2023-01-01', '2023-02-15', '2023-03-10', 'invalid_date'])
 
-# ## Convert valid date strings to datetime
-# 
+##----------------------------------------##
+## Convert valid date strings to datetime ##
+##----------------------------------------##
+
 s_dates_converted = s_dates.str.to_datetime(format="%Y-%m-%d")
 print(s_dates_converted)
 # shape: (4,)
@@ -291,13 +310,27 @@ print(s_dates_converted)
 # 	2023-04-20 00:00:00
 # ]
 
-# ## Convert invalid date strings (strict=True will raise an error)
-# 
-s_dates_invalid.str.to_datetime(format="%Y-%m-%d")
-"""polars.exceptions.ComputeError: conversion from `str` to `datetime[μs]` failed..."""
+##----------------------------------------------------------------##
+## Convert invalid date strings (strict=True will raise an error) ##
+##----------------------------------------------------------------##
 
-# ## Coerce errors to null (strict=False)
-# 
+try:
+    s_dates_invalid.str.to_datetime(format="%Y-%m-%d")
+except Exception as e:
+    logger.error(e)
+"""
+InvalidOperationError: conversion from `str` to `datetime[μs]` failed in column '' for 1 out of 4 values: ["invalid_date"]
+You might want to try:
+- setting `strict=False` to set values that cannot be converted to `null`
+- using `str.strptime`, `str.to_date`, or `str.to_datetime` and providing a format string
+This error occurred in the following expression:
+	col("").str.strptime(["raise"])
+"""
+
+##--------------------------------------##
+## Coerce errors to null (strict=False) ##
+##--------------------------------------##
+
 s_dates_converted = s_dates_invalid.str.to_datetime(
     format="%Y-%m-%d",
     strict=False
@@ -325,8 +358,10 @@ Instead, Polars expects:
 2. Constructing durations programmatically using `pl.duration()` in an expression context.
 '''
 
-# ## 1. Casting numeric values to Duration
-# # By default, casting integers to Duration assumes microseconds (us)
+##------------------------------------##
+## Casting numeric values to Duration ##
+##------------------------------------##
+'''By default, casting integers to Duration assumes microseconds (us)'''
 
 s_microseconds = pl.Series([1000000, 2000000, 3000000])
 s_duration = s_microseconds.cast(pl.Duration)
@@ -339,8 +374,10 @@ print(s_duration)
 # 	3s
 # ]
 
-# ## 2. Creating durations from components (Days, Hours, Minutes)
-# '''
+##-----------------------------------------------------------##
+## Creating durations from components (Days, Hours, Minutes) ##
+##-----------------------------------------------------------##
+'''
 If you have separate columns/series for days, hours, etc., you use `pl.duration()`
 inside a DataFrame context.
 '''

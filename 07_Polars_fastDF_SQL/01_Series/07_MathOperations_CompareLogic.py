@@ -5,17 +5,18 @@ You simply use the standard operators (+, -, *, /, <, >, ==, etc.).
 
 ##--------------------------------------##
 1. Mathematical Operations:
-round(),
-+ (Addition), - (Subtraction),
-* (Multiplication), / (Division),
-// (Floor Division), % (Modulus),
-** (Power)
+    round(),
+    + (Addition), - (Subtraction),
+    * (Multiplication), / (Division),
+    // (Floor Division), % (Modulus),
+    ** (Power)
+
 2. Logic Boolean Comparisons:
-< , <= ,
-> , >= ,
-.is_between(lower, upper, closed='both'),
-== , !=
-Boolean to Binary 0/1 (using .cast(pl.Int8))
+    < , <= ,
+    > , >= ,
+    .is_between(lower, upper, closed='both'),
+    == , !=
+    Boolean to Binary 0/1 (using .cast(pl.Int8))
 '''
 
 import numpy as np
@@ -27,96 +28,34 @@ import polars as pl
 
 # Generate a Series of random numbers
 np.random.seed(42)  # For reproducibility
-s1 = pl.Series("Numbers", np.random.normal(15.6, 5, 10))
-s2 = pl.Series("Numbers", np.random.normal(20, 5, 10))
+s1 = pl.Series("Numbers", np.random.normal(15.6, 5, 10)).round(3)
+s2 = pl.Series("Numbers", np.random.normal(20, 5, 10)).round(3)
 
-print(s1)
-# shape: (10,)
-# Series: 'Numbers' [f64]
-# [
-# 	18.083571
-# 	14.908678
-# 	18.838443
-# 	23.215149
-# 	14.429233
-# 	14.429315
-# 	23.496064
-# 	19.437174
-# 	13.252628
-# 	18.312800
-# ]
+print(s1.to_list())
+# [18.084, 14.909, 18.838, 23.215, 14.429, 14.429, 23.496, 19.437, 13.253, 18.313]
 
-print(s2)
-# shape: (10,)
-# Series: 'Numbers' [f64]
-# [
-# 	17.682912
-# 	17.671351
-# 	21.209811
-# 	10.433599
-# 	11.375411
-# 	17.188562
-# 	14.935844
-# 	21.571237
-# 	15.459880
-# 	12.938481
-# ]
+print(s2.to_list())
+# [17.683, 17.671, 21.21, 10.434, 11.375, 17.189, 14.936, 21.571, 15.46, 12.938]
 
 ##---------##
 ## round() ##
 ##---------##
 
-print(s1.round(2))  # Round to 2 decimal places
-# shape: (10,)
-# Series: 'Numbers' [f64]
-# [
-# 	18.08
-# 	14.91
-# 	18.84
-# 	23.22
-# 	14.43
-# 	14.43
-# 	23.5
-# 	19.44
-# 	13.25
-# 	18.31
-# ]
+print(s1.round(2).to_list())  # Round to 2 decimal places
+# [18.08, 14.91, 18.84, 23.22, 14.43, 14.43, 23.5, 19.44, 13.25, 18.31]
 
-print(s2.round(1))  # Round to 1 decimal place
-# shape: (10,)
-# Series: 'Numbers' [f64]
-# [
-# 	17.7
-# 	17.7
-# 	21.2
-# 	10.4
-# 	11.4
-# 	17.2
-# 	14.9
-# 	21.6
-# 	15.5
-# 	12.9
-# ]
+print(s2.round(1).to_list())  # Round to 1 decimal place
+# [17.7, 17.7, 21.2, 10.4, 11.4, 17.2, 14.9, 21.6, 15.5, 12.9]
 
 ##-------##
 ##   +   ##
 ##-------##
 
-print(s1 + 3)
-# shape: (10,)
-# Series: 'Numbers' [f64]
-# [
-# 	21.083571
-# 	17.908678
-# ...
+print((s1 + 3.).to_list())
+# [21.084, 17.909, 21.838, 26.215, 17.429000000000002, 17.429000000000002, 26.496, 22.437, 16.253, 21.313]
 
-print(s1 + s2)
-# shape: (10,)
-# Series: 'Numbers' [f64]
-# [
-# 	35.766483
-# 	32.580029
-# ...
+print((s1 + s2).to_list())
+# [35.766999999999996, 32.58, 40.048, 33.649, 25.804000000000002, 31.618000000000002, 38.432, 41.008, 28.713, 31.250999999999998]
 
 ##-------##
 ##   -   ##
