@@ -289,3 +289,10 @@
       * `pd.Series`: explore Series' dtype, attributes and name
       * `pd.Series`: select and access Series' elements
       * `pd.Series`: update, add and drop Series' elements
+  + [06_Pandas_dataframe_part_02](https://youtu.be/kzyS7wlqqZY): 12th/09/2026
+      * `pd.Series`: dtype conversion
+      * `pd.Series`: convert to numpy, list, dictionary, string
+      * `pd.Series`: math operations, comparison and logic operations
+      * `pd.Series`: statistics methods and sampling
+      * `pd.Series`: sorting, ranking, n largest, n smallest
+      * `pd.Series`: rolling, expanding, ewm

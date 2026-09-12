@@ -1,5 +1,5 @@
 '''
-The below methods convert a pandas Series to a completely different data type, 
+The below methods convert a pandas Series to a completely different data type,
 such as NumPy array, list, dictionary, or string representation.
 
 ##--------------------------------------##
@@ -58,7 +58,7 @@ As we can see, in ndarray, there are no "," separators between elements
 
 # =========================================================================================
 # 2. .to_list()
-#
+# =========================================================================================
 
 list_mixed = s_mixed.to_list()
 print(list_mixed)  # [1, 2.5, 'three', nan, True]
@@ -76,10 +76,10 @@ As we can see, in list, there are "," separators between elements
 
 # =========================================================================================
 # 3. .to_dict()
-#
+# =========================================================================================
 
 dict_mixed = s_mixed.to_dict()
-print(dict_mixed)  
+print(dict_mixed)
 # {0: 1, 1: 2.5, 2: 'three', 3: nan, 4: True}
 
 ##---------------------------------------##
@@ -95,7 +95,7 @@ and the values are the corresponding elements of the Series.
 
 # =========================================================================================
 # 4. .to_string()
-#
+# =========================================================================================
 
 string_mixed = s_mixed.to_string(index=False) # set index to False to not show the index
 print(string_mixed)

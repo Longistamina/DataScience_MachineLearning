@@ -27,9 +27,9 @@ s_str_int = pd.Series(['1', '2', '3', '4', '5'])
 s_str_float = pd.Series(['1.5', '2.3', '3.6', '4.2', '5.0'])
 s_mixed = pd.Series([1, 'a', 3.0, '4.5', False])
 
-##----------------##
-## .astype(int64) ##
-##----------------##
+##------------------##
+## .astype('int64') ##
+##------------------##
 
 s_convert = s_str_int.astype('int64')
 print(s_convert)
@@ -88,7 +88,7 @@ print(s_convert)
 # 2    3
 # 3    4
 # 4    5
-# dtype: object
+# dtype: str
 
 s_convert = s_mixed.astype('str')
 print(s_convert)
@@ -97,7 +97,7 @@ print(s_convert)
 # 2      3.0
 # 3      4.5
 # 4    False
-# dtype: object
+# dtype: str
 
 print(s_convert[4])
 # 'False'
@@ -202,7 +202,6 @@ print(s_convert)
 # =========================================================================================
 # 3. pd.Categorical()
 # =========================================================================================
-
 '''
 pd.Categorical() is used to create categorical data from a Series.
 
@@ -250,9 +249,9 @@ print(s_gender_categ)
 # ## With ordered = True
 #
 s_gender_categ = pd.Series(pd.Categorical(
-    values = lst_gender,
-    categories = ["LGBTQ", "F", "M"],  # Specify the order of categories
-    ordered = True  # Set to True if you want to treat categories as ordered
+    values=lst_gender,
+    categories=["LGBTQ", "F", "M"],  # Specify the order of categories
+    ordered=True  # Set to True if you want to treat categories as ordered
 ))
 print(s_gender_categ)
 # 0        M
@@ -298,9 +297,9 @@ print(s_price_levels_categ)
 # ## With ordered = True
 #
 s_price_levels_categ = pd.Series(pd.Categorical(
-    values = lst_price_levels,
-    categories = [1, 2, 3, 4, 5], # Define the level
-    ordered = True  # Set to True if you want to treat categories as ordered
+    values=lst_price_levels,
+    categories=[1, 2, 3, 4, 5], # Define the level
+    ordered=True  # Set to True if you want to treat categories as ordered
 ))
 print(s_price_levels_categ)
 # 0       1
@@ -320,7 +319,6 @@ print(s_price_levels_categ)
 # =========================================================================================
 # 4. pd.to_datetime()
 # =========================================================================================
-
 '''
 pd.to_datetime() is used to convert a Series or DataFrame column to datetime format.
 It can handle various date formats and is very flexible in parsing dates.
@@ -352,7 +350,7 @@ s_dates_converted = pd.to_datetime(s_dates_invalid)
 # ## Convert invalid date strings to datetime, but coerce errors to NaT
 #
 s_dates_converted = pd.to_datetime(
-    arg = s_dates_invalid,
+    arg=s_dates_invalid,
     errors='coerce'
 )
 print(s_dates_converted)
@@ -365,7 +363,6 @@ print(s_dates_converted)
 # =========================================================================================
 # 5. pd.to_timedelta()
 # =========================================================================================
-
 '''
 pd.to_timedelta() is used to convert a Series or DataFrame column to timedelta format.
 It can handle various time formats and is useful for representing durations or differences between dates.
@@ -396,7 +393,7 @@ s_timedeltas_converted = pd.to_timedelta(s_timedeltas_invalid)
 # ## Convert invalid timedelta strings to timedelta, but coerce errors to NaT
 #
 s_timedeltas_converted = pd.to_timedelta(
-    arg = s_timedeltas_invalid,
+    arg=s_timedeltas_invalid,
     errors='coerce'
 )
 print(s_timedeltas_converted)
@@ -426,7 +423,7 @@ print(s_str)
 # 2     2.7
 # 3     8.6
 # 4    10.0
-# dtype: object
+# dtype: str
 
 ##-----------##
 ## .map(str) ##
@@ -439,7 +436,7 @@ print(s_str_map)
 # 2     2.7
 # 3     8.6
 # 4    10.0
-# dtype: object
+# dtype: str
 
 ##-------------##
 ## .apply(str) ##
@@ -452,7 +449,7 @@ print(s_str_apply)
 # 2     2.7
 # 3     8.6
 # 4    10.0
-# dtype: object
+# dtype: str
 
 ##--------------------------##
 ## .apply(lambda x: str(x)) ##
@@ -465,4 +462,4 @@ print(s_str_lambda)
 # 2     2.7
 # 3     8.6
 # 4    10.0
-# dtype: object
+# dtype: str
