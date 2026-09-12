@@ -99,7 +99,7 @@ print(lf_pokemon.collect().schema)
 ##---------------------------------------------------##
 
 # ## > (greater than)
-# 
+#
 # HP greater than 200.
 print(lf_pokemon.filter(c.HP > 200).collect())
 # Expected rows include Chansey and Blissey.
@@ -115,7 +115,7 @@ print(
 # Expected rows include Abra, Kadabra, Alakazam, Mega Alakazam, Magnemite, etc.
 
 # ## < (less than)
-# 
+#
 # Speed less than 15.
 print(
     lf_pokemon
@@ -141,7 +141,7 @@ THE SAME PATTERN WORKS FOR:
 '''
 
 # ## .is_between()
-# '''
+'''
 Pandas:
     df["Speed"].between(left, right, inclusive="both")
 
@@ -172,7 +172,7 @@ print(
 # The value 10 is excluded because the right endpoint is not closed.
 
 # ## == (equal)
-# 
+#
 # Type_1 equal to Fire.
 print(
     lf_pokemon
@@ -200,7 +200,7 @@ print(
 )
 
 # ## != (not equal)
-# 
+#
 # Type_2 not equal to Flying.
 # Important: null comparisons evaluate to null in Polars, and filter() discards null predicates.
 # Therefore this drops rows where Type_2 is null.

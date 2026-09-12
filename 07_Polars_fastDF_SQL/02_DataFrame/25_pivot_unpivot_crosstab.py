@@ -101,7 +101,7 @@ print(df_sales.head())
 # └─────┴────────────┴────────┴───────────┴──────────┴────────────┴─────────┘
 
 # ## Basic usage
-# 
+#
 df_pivoted = df_sales.pivot(
     on="region",      # Values in this column become new column names.
     index="ID",       # This remains a normal column in Polars.
@@ -124,7 +124,7 @@ print(df_pivoted.head())
 # └─────┴─────────┴─────────┴───────┴──────┘
 
 # ## Restrict or order generated pivot columns with on_columns=
-# '''
+'''
 If you know the desired output columns, use on_columns=.
 This is useful for stable column order and for lazy pivot examples later.
 '''
@@ -151,7 +151,7 @@ print(df_pivoted_ordered.head())
 # └─────┴─────────┴───────┴─────────┴──────┘
 
 # ## Using multiple variables for on=
-# '''
+'''
 Pandas can create MultiIndex columns after pivoting with multiple columns=.
 Polars does not create MultiIndex columns; it creates flat column names (cartesian product).
 
@@ -190,7 +190,7 @@ print(df_pivoted_multi_on.head())
 # columns look like: ID, East_Doochickey, East_Gadget, East_Widget, ...
 
 # ## Using multiple variables for values=
-# '''
+'''
 Pandas may create MultiIndex columns when values=[...].
 Polars creates flat names using separator=.
 
@@ -266,7 +266,7 @@ print(df_duplicates)
 # └─────┴───────┴───────┴────────┴──────────────┘
 
 # ## Duplicate cells without aggregation raise an error
-# 
+#
 try:
     df_duplicates.pivot(
         on="class",
@@ -278,7 +278,7 @@ except Exception as err:
     # Example: ComputeError / DuplicateError depending on Polars version.
 
 # ## Use aggregate_function= to handle duplicates
-# 
+#
 df_pivoted_tbl = df_duplicates.pivot(
     on="class",
     index="ID",
@@ -299,7 +299,7 @@ print(df_pivoted_tbl)
 # └─────┴───────┴───────┘
 
 # ## Multiple values with the same aggregation
-# 
+#
 df_pivoted_tbl_multi_values = df_duplicates.pivot(
     on="size",
     index="ID",
@@ -321,7 +321,7 @@ print(df_pivoted_tbl_multi_values)
 # └─────┴──────────────┴──────────────┴────────────────────┴────────────────────┘
 
 # ## Multiple aggregation functions: pre-aggregate, then pivot
-# '''
+'''
 Polars pivot accepts one aggregate_function at a time.
 To reproduce pandas aggfunc=["mean", "sum"], first build those summaries with
 GroupBy.agg(), then pivot the summary columns.
@@ -368,7 +368,7 @@ print(df_pivoted_tbl_multi_agg)
 # └─────┴─────────────────────────┴─────────────────────────┴────────────────────────┴────────────────────────┘
 
 # ## Multiple grouping columns for the pivoted columns
-# '''
+'''
 Pandas:
     columns=["size", "class"]
 
@@ -403,7 +403,7 @@ print(df_pivoted_tbl_multi_on)
 # └─────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┘
 
 # ## LazyFrame pivot
-# '''
+'''
 LazyFrame.pivot() needs on_columns= because Polars must know the output schema
 before executing the lazy plan.
 '''
@@ -515,7 +515,7 @@ print(df_unpivoted.head())
 # └────────────┴─────┴─────────────────┴────────────────┘
 
 # ## Selector-based unpivot
-# '''
+'''
 Selectors are very useful in Polars.
 Here, cs.matches(...) selects all columns whose names look like BP_day1, HR_day2, etc.
 '''
@@ -542,7 +542,7 @@ print(df_unpivoted_selector.head())
 # └────────────┴─────┴─────────────────┴────────────────┘
 
 # ## Legacy df.melt() note
-# '''
+'''
 Polars still has df.melt(id_vars=..., value_vars=...), but it is deprecated.
 Use df.unpivot(index=..., on=...) for new code.
 
@@ -636,7 +636,7 @@ print(df_wtl.head(10))
 # └────────────┴─────┴─────┴─────┴─────┘
 
 # ## LazyFrame unpivot
-# 
+#
 lf_unpivoted = (
     df_measurements
     .lazy()
@@ -822,7 +822,7 @@ print(contingency_table)
 # └────────┴──────┴───────┴────────┴─────┴────────┘
 
 # ## With margins=True equivalent
-# 
+#
 contingency_with_margins = add_margins(
     table=contingency_table,
     row="gender",
@@ -843,7 +843,7 @@ print(contingency_with_margins)
 # └────────┴──────┴───────┴────────┴─────┴────────┴─────┘
 
 # ## normalize='index' equivalent: row percentages
-# 
+#
 intent_order = ["Definitely", "Maybe", "Never", "Probably", "Unlikely"]
 
 intent_counts = crosstab_counts(
@@ -869,7 +869,7 @@ print(row_percentages)
 # Each row sums to approximately 1.0.
 
 # ## normalize='columns' equivalent: column percentages
-# 
+#
 column_percentages = normalize_columns(intent_counts, row="gender")
 
 print(column_percentages)
@@ -886,7 +886,7 @@ print(column_percentages)
 # Each purchase_intent column sums to approximately 1.0.
 
 # ## normalize='all' equivalent: share of all observations
-# 
+#
 all_percentages = normalize_all(intent_counts, row="gender")
 
 print(all_percentages)
@@ -903,7 +903,7 @@ print(all_percentages)
 # The entire numeric part sums to approximately 1.0.
 
 # ## Multiple columns= equivalent
-# '''
+'''
 Pandas crosstab can use multiple columns= and create MultiIndex columns.
 Polars does not create MultiIndex columns. A simple Polars approach is to
 combine the categorical columns into a single flat key, then crosstab that key.
@@ -931,7 +931,7 @@ print(contingency_multi_columns)
 # gender, Blue_Definitely, Blue_Maybe, ..., Yellow_Probably, Yellow_Unlikely
 
 # ## Long-form frequency table: often better than a very wide crosstab
-# '''
+'''
 For statistical modeling and plotting, long-form counts are often more useful
 than a very wide crosstab.
 '''
@@ -963,7 +963,7 @@ print(freq_long.head(10))
 # └────────┴────────────────┴─────────────────┴───────┘
 
 # ## Lazy cross-table
-# '''
+'''
 For lazy crosstabs, build the counts lazily, then use LazyFrame.pivot().
 As with any lazy pivot, you must provide on_columns=.
 '''

@@ -88,7 +88,7 @@ print(s2_nums)
 ##------------------------------------------------------##
 
 # ## > (greater than)
-# 
+#
 print((s1_nums > 15).to_list())
 # [False, True, True, True, False, False, False, True, True, True]
 
@@ -99,7 +99,7 @@ print(s2_nums.filter(s2_nums > s1_nums).to_list())  # Element-wise comparison by
 # [19.0, 15.34, 12.47, 16.72, 18.93]
 
 # ## < (less than)
-# 
+#
 print(s1_nums.filter(s1_nums < 13).to_list())  # Returns values less than 13
 # [11.56, 11.56, 10.58]
 
@@ -107,7 +107,7 @@ print(s2_nums.filter(s2_nums < s1_nums).to_list())  # Element-wise comparison by
 # [13.21, 13.66, 17.1, 15.62, 15.43]
 
 # ## >= (greater than or equal to)
-# 
+#
 print(s1_nums.filter(s1_nums >= 15.99).to_list())
 # [19.51, 17.32, 15.99, 18.66, 16.01, 17.08]
 
@@ -115,7 +115,7 @@ print(s2_nums.filter(s2_nums >= s1_nums).to_list())
 # [19.0, 15.34, 12.47, 16.72, 18.93]
 
 # ## <= (less than or equal to)
-# 
+#
 print(s1_nums.filter(s1_nums <= 11.56).to_list())
 # [11.56, 11.56, 10.58]
 
@@ -123,7 +123,7 @@ print(s2_nums.filter(s2_nums <= s1_nums).to_list())
 # [13.21, 13.66, 17.1, 15.62, 15.43]
 
 # ## .is_between()
-# '''
+'''
 Pandas: s.between(left, right, inclusive="both")
 Polars: s.is_between(lower_bound, upper_bound, closed="both")
 
@@ -141,7 +141,7 @@ print(s1_nums.filter(s1_nums.is_between(10, 15.99, closed="left")).to_list())
 '''The value 15.99 is excluded because the right endpoint is not closed.'''
 
 # ## == (equal to)
-# 
+#
 print(s1_nums.filter(s1_nums == 11.56).to_list())
 # [11.56, 11.56]
 
@@ -149,7 +149,7 @@ print(s2_nums.filter(s2_nums == s1_nums).to_list())
 # []
 
 # ## != (not equal to)
-# 
+#
 print(s1_nums.filter(s1_nums != 11.56).to_list())
 # [13.75, 19.51, 17.32, 15.99, 10.58, 18.66, 16.01, 17.08]
 
