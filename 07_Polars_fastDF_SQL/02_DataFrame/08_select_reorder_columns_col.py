@@ -9,21 +9,29 @@ In Polars, the central idea is df.select(...):
 
 Content flow:
 1. Explicit column selection and reordering
-   -> df.select([...]), df.select("col1", "col2"), eager bracket selection,
-      df.select(df.columns[slice_of_indices]) to select columns by slice of indices
-      df.select(pl.nth(list_of_indices)) to select columns by discrete indices
+   -> lf.select([...]), lf.select("col1", "col2"), eager bracket selection,
+      lf.select(lf.collect_schema().names()[slice_of_indices]) to select columns by slice of indices
+      lf.select(pl.nth(list_of_indices)) to select columns by discrete indices
       pl.col("*"), pl.col("*").exclude(...), and regex column-name selection
-2. pandas reindex(columns=...) equivalent
-   -> df.select([...]) for existing columns; helper for missing columns filled with null
-3. Selecting all except some columns
-   -> df.drop(...), pl.exclude(...), pl.all().exclude(...)
-4. Programmatic reordering patterns
-   -> move columns to the front/end; alphabetical, reverse, and rule-based ordering
-5. Expression selection and light transformation
-   -> select raw columns, transform columns, rename with alias(), and rename all outputs
-6. LazyFrame selection
-   -> the same select(...) style, executed only after collect()
-7. pl.col() column-expression styles
+
+2. Selecting all except some columns
+   -> lf.drop(...)
+   -> pl.exclude(...)
+   => pl.all().exclude(...)
+
+3. Programmatic reordering patterns
+   -> move columns to the front/end
+   -> alphabetical ordering
+   -> reverse ordering
+   -> rule-based ordering
+
+4. Expression selection and light transformation
+   -> select raw columns
+   -> transform columns
+   -> rename with alias()
+   -> rename all outputs
+
+5. pl.col() column-expression styles
    -> pl.col("name"), pl.col.name, c("name"), c.name, pl.col("*"),
       pl.col("*").exclude(...), regex patterns such as pl.col("^ham.*$"),
       and special-character column names
@@ -53,12 +61,12 @@ a fallback DataFrame is created so the examples remain readable elsewhere.
 
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 
-df_emp = pl.read_csv(
+lf_emp = pl.scan_csv(
     data_dir / "emp.csv",
     try_parse_dates=True,
 )
 
-print(df_emp)
+print(lf_emp.collect())
 # shape: (8, 5)
 # ┌─────┬──────────┬────────┬────────────┬────────────┐
 # │ id  ┆ name     ┆ salary ┆ start_date ┆ dept       │
@@ -75,7 +83,7 @@ print(df_emp)
 # │ 8   ┆ Guru     ┆ 722.50 ┆ 2014-06-17 ┆ Finance    │
 # └─────┴──────────┴────────┴────────────┴────────────┘
 
-print(df_emp.schema)
+print(lf_emp.collect_schema())
 # Schema({'id': Int64, 'name': String, 'salary': Float64, 'start_date': Date, 'dept': String})
 
 # =========================================================================================
@@ -83,20 +91,21 @@ print(df_emp.schema)
 # =========================================================================================
 
 ##-------------------------------------##
-## df.select(["col3", "col1", "col2"]) ##
+## lf.select(["col3", "col1", "col2"]) ##
 ##-------------------------------------##
 '''
-The closest Polars equivalent of pandas df[[...]] is df.select([...]).
-
 Important:
 + The order you write is the order of the output columns.
-+ select() returns a new DataFrame.
++ select() returns a new frame.
 + Polars has no custom row index, so there is no row-index side effect.
 '''
 
 # Reorder all columns.
-df_reordered = df_emp.select(["dept", "name", "salary", "id", "start_date"])
-print(df_reordered)
+print(
+    lf_emp
+    .select(["dept", "name", "salary", "id", "start_date"])
+    .collect()
+)
 # shape: (8, 5)
 # ┌────────────┬──────────┬────────┬─────┬────────────┐
 # │ dept       ┆ name     ┆ salary ┆ id  ┆ start_date │
@@ -114,8 +123,11 @@ print(df_reordered)
 # └────────────┴──────────┴────────┴─────┴────────────┘
 
 # Select only a subset of columns.
-df_subset = df_emp.select(["salary", "id", "dept"])
-print(df_subset)
+print(
+    lf_emp
+    .select(["salary", "id", "dept"])
+    .collect()
+)
 # shape: (8, 3)
 # ┌────────┬─────┬────────────┐
 # │ salary ┆ id  ┆ dept       │
@@ -131,9 +143,17 @@ print(df_subset)
 # │ 632.80 ┆ 7   ┆ Operations │
 # │ 722.50 ┆ 8   ┆ Finance    │
 # └────────┴─────┴────────────┘
+
+##-----------------------------------##
+## lf.select("col3", "col1", "col2") ##
+##-----------------------------------##
 
 # Equivalent positional-argument style.
-df_subset = df_emp.select("salary", "id", "dept")
+print(
+    lf_emp
+    .select("salary", "id", "dept")
+    .collect()
+)
 # shape: (8, 3)
 # ┌────────┬─────┬────────────┐
 # │ salary ┆ id  ┆ dept       │
@@ -150,16 +170,27 @@ df_subset = df_emp.select("salary", "id", "dept")
 # │ 722.50 ┆ 8   ┆ Finance    │
 # └────────┴─────┴────────────┘
 
-##-----------------------------------------##
-## df.select(df.columns[slice_of_indices]) ##
-##-----------------------------------------##
+##----------------------------------------------------------##
+## lf.select(lf.collect_schema().names()[slice_of_indices]) ##
+##----------------------------------------------------------##
 '''
-df.select(df.columns[slice_of_indices]) to select columns by slice of indices
+lf.select(lf.collect_schema().names()[slice_of_indices])
+-> to select columns by slice of indices
 
-For example: df.select(df.columns[::2]) or df.select(df.columns[-1])
+NOTE: this requires collect_schema()
+
+For DataFrame, use: df.select(df.columns[slice_of_indices])
+
+For example:
+    + lf.select(lf.collect_schema().names()[::2]
+    + lf.select(lf.collect_schema().names()[-1]
 '''
 
-print(df_emp.select(df_emp.columns[::2]))
+print(
+    lf_emp
+    .select(lf_emp.collect_schema().names()[::2])
+    .collect()
+)
 # shape: (8, 3)
 # ┌─────┬────────┬────────────┐
 # │ id  ┆ salary ┆ dept       │
@@ -176,7 +207,11 @@ print(df_emp.select(df_emp.columns[::2]))
 # │ 8   ┆ 722.50 ┆ Finance    │
 # └─────┴────────┴────────────┘
 
-print(df_emp.select(df_emp.columns[-1]))
+print(
+    lf_emp
+    .select(lf_emp.collect_schema().names()[-1])
+    .collect()
+)
 # shape: (8, 1)
 # ┌────────────┐
 # │ dept       │
@@ -194,18 +229,22 @@ print(df_emp.select(df_emp.columns[-1]))
 # └────────────┘
 
 ##------------------------------------##
-## df.select(pl.nth(list_of_indices)) ##
+## lf.select(pl.nth(list_of_indices)) ##
 ##------------------------------------##
 '''
-df.select(pl.nth(list_of_indices, strict=True)) to select columns by discrete indices
+lf.select(pl.nth(list_of_indices, strict=True)) to select columns by discrete indices
 
-For example: df.select(pl.nth([0, 2, 4])) or just df.select(pl.nth(0, 2, 4))
+For example: lf.select(pl.nth([0, 2, 4])) or just lf.select(pl.nth(0, 2, 4))
 
 if set strict=False, out-of-bounds indices are ignored.
 if set strict=True, out-of-bounds indices cause error (default)
 '''
 
-print(df_emp.select(pl.nth([0, 2, 4])))
+print(
+    lf_emp
+    .select(pl.nth([0, 2, 4]))
+    .collect()
+)
 # shape: (8, 3)
 # ┌─────┬────────┬────────────┐
 # │ id  ┆ salary ┆ dept       │
@@ -222,7 +261,11 @@ print(df_emp.select(pl.nth([0, 2, 4])))
 # │ 8   ┆ 722.50 ┆ Finance    │
 # └─────┴────────┴────────────┘
 
-print(df_emp.select(pl.nth(1, 3)))
+print(
+    lf_emp
+    .select(pl.nth(1, 3))
+    .collect()
+)
 # shape: (8, 2)
 # ┌──────────┬────────────┐
 # │ name     ┆ start_date │
@@ -239,14 +282,14 @@ print(df_emp.select(pl.nth(1, 3)))
 # │ Guru     ┆ 2014-06-17 │
 # └──────────┴────────────┘
 
-##-------------------------------------------##
-## df.select(pl.col("*"))                    ##
-## df.select(pl.col("*").exclude("ham"))     ##
-## df.select(pl.col("^ham.*$"))              ##
-##-------------------------------------------##
+##--------------------------------- -----##
+## lf.select(pl.col("*"))                ##
+## lf.select(pl.col("*").exclude("ham")) ##
+## lf.select(pl.col("^ham.*$"))          ##
+##---------------------------------------##
 '''
-Inside df.select(...), pl.col(...) can select columns by name, wildcard,
-or regular-expression pattern.
+Inside lf.select(...), pl.col(...) can select columns by name,
+wildcard, or regular-expression pattern.
 
 Common multi-column patterns:
 + pl.col("*") selects all columns.
@@ -258,7 +301,7 @@ Regex note:
 + "^ham.*$" means: column names that start with "ham".
 '''
 
-df_select_pattern = pl.DataFrame(
+lf_select_pattern = pl.LazyFrame(
     {
         "ham": [1, 2, 3],
         "hamburger": [10, 20, 30],
@@ -267,7 +310,7 @@ df_select_pattern = pl.DataFrame(
         "eggs": [7, 8, 9],
     }
 )
-print(df_select_pattern)
+print(lf_select_pattern.collect())
 # shape: (3, 5)
 # ┌─────┬───────────┬────────┬──────┬──────┐
 # │ ham ┆ hamburger ┆ hammer ┆ spam ┆ eggs │
@@ -280,7 +323,11 @@ print(df_select_pattern)
 # └─────┴───────────┴────────┴──────┴──────┘
 
 # Select all columns using the wildcard expression.
-print(df_select_pattern.select(pl.col("*")))
+print(
+    lf_select_pattern
+    .select(pl.col("*"))
+    .collect()
+)
 # shape: (3, 5)
 # ┌─────┬───────────┬────────┬──────┬──────┐
 # │ ham ┆ hamburger ┆ hammer ┆ spam ┆ eggs │
@@ -293,7 +340,11 @@ print(df_select_pattern.select(pl.col("*")))
 # └─────┴───────────┴────────┴──────┴──────┘
 
 # Select all columns except one column.
-print(df_select_pattern.select(pl.col("*").exclude("ham")))
+print(
+    lf_select_pattern
+    .select(pl.col("*").exclude("ham"))
+    .collect()
+)
 # shape: (3, 4)
 # ┌───────────┬────────┬──────┬──────┐
 # │ hamburger ┆ hammer ┆ spam ┆ eggs │
@@ -307,7 +358,11 @@ print(df_select_pattern.select(pl.col("*").exclude("ham")))
 
 # Select columns by regular-expression pattern.
 # This selects column names beginning with "ham": ham, hamburger, hammer.
-print(df_select_pattern.select(pl.col("^ham.*$")))
+print(
+    lf_select_pattern
+    .select(pl.col("^ham.*$"))
+    .collect()
+)
 # shape: (3, 3)
 # ┌─────┬───────────┬────────┐
 # │ ham ┆ hamburger ┆ hammer │
@@ -326,13 +381,29 @@ print(df_select_pattern.select(pl.col("^ham.*$")))
 Polars DataFrame also supports bracket selection for eager DataFrames.
 However, df.select(...) is the recommended teaching style because it is also
 the style used in expressions and LazyFrame pipelines.
+
+ONLY DATA FRAME CAN DO THIS (lazy frame does not)
 '''
 
+df_emp = lf_emp.collect()
+
 # This is accepted for eager DataFrames, but is less Polars-idiomatic.
-df_subset_brackets = df_emp[["salary", "id", "dept"]]
-print(df_subset_brackets)
+print(df_emp[["salary", "id", "dept"]])
 # shape: (8, 3)
-# columns: salary, id, dept
+# ┌────────┬─────┬────────────┐
+# │ salary ┆ id  ┆ dept       │
+# │ ---    ┆ --- ┆ ---        │
+# │ f64    ┆ i64 ┆ str        │
+# ╞════════╪═════╪════════════╡
+# │ 623.30 ┆ 1   ┆ IT         │
+# │ 515.20 ┆ 2   ┆ Operations │
+# │ 611.00 ┆ 3   ┆ IT         │
+# │ 729.00 ┆ 4   ┆ HR         │
+# │ 843.25 ┆ 5   ┆ Finance    │
+# │ 578.00 ┆ 6   ┆ IT         │
+# │ 632.80 ┆ 7   ┆ Operations │
+# │ 722.50 ┆ 8   ┆ Finance    │
+# └────────┴─────┴────────────┘
 
 ##------------------------------------##
 ## Single column: Series vs DataFrame ##
@@ -343,6 +414,8 @@ A common beginner question:
 + df_emp["name"] or df_emp.get_column("name") returns a Series.
 + df_emp.select("name") returns a DataFrame with one column.
 '''
+
+df_emp = lf_emp.collect()
 
 s_name = df_emp["name"]
 print(s_name)
@@ -360,92 +433,29 @@ print(df_name)
 # columns: name
 
 # =========================================================================================
-# 2. pandas reindex(columns=...) equivalent
-# =========================================================================================
-
-##---------------------------------------------##
-## Existing columns only: use df.select([...]) ##
-##---------------------------------------------##
-'''
-In pandas, df.reindex(columns=[...]) is often used to reorder columns.
-If all requested columns exist, Polars uses the same df.select([...]) pattern.
-'''
-
-df_reindexed_style = df_emp.select(["dept", "name", "salary", "id", "start_date"])
-print(df_reindexed_style)
-# shape: (8, 5)
-# columns: dept, name, salary, id, start_date
-
-df_reindexed_style = df_emp.select(["salary", "id", "dept"])
-print(df_reindexed_style)
-# shape: (8, 3)
-# columns: salary, id, dept
-
-##-----------------------------------------------------##
-## Missing columns: pandas reindex fills with NaN/null ##
-##-----------------------------------------------------##
-'''
-A key difference:
-
-pandas:
-    df.reindex(columns=["dept", "bonus", "salary"])
-
-will create a missing "bonus" column filled with NaN.
-
-Polars:
-    df.select(["dept", "bonus", "salary"])
-
-raises an error because "bonus" does not exist.
-
-Use a helper when you intentionally want pandas-like "add missing columns as null" behavior.
-'''
-
-def select_or_null(df: pl.DataFrame, columns: list[str]) -> pl.DataFrame:
-    """Select columns in the requested order; create missing columns as null."""
-
-    return df.select(
-        [
-            pl.col(col) if col in df.columns else pl.lit(None).alias(col)
-            for col in columns
-        ]
-    )
-
-df_like_reindex = select_or_null(df_emp, ["dept", "bonus", "salary"])
-print(df_like_reindex)
-# shape: (8, 3)
-# ┌────────────┬───────┬────────┐
-# │ dept       ┆ bonus ┆ salary │
-# │ ---        ┆ ---   ┆ ---    │
-# │ str        ┆ null  ┆ f64    │
-# ╞════════════╪═══════╪════════╡
-# │ IT         ┆ null  ┆ 623.30 │
-# │ Operations ┆ null  ┆ 515.20 │
-# │ IT         ┆ null  ┆ 611.00 │
-# │ HR         ┆ null  ┆ 729.00 │
-# │ Finance    ┆ null  ┆ 843.25 │
-# │ IT         ┆ null  ┆ 578.00 │
-# │ Operations ┆ null  ┆ 632.80 │
-# │ Finance    ┆ null  ┆ 722.50 │
-# └────────────┴───────┴────────┘
-
-# =========================================================================================
-# 3. Selecting all except some columns
+# 2. Selecting all except some columns
 # =========================================================================================
 
 ##--------------##
-## df.drop(...) ##
+## lf.drop(...) ##
 ##--------------##
 '''
 For "all columns except these", df.drop(...) is the most direct Polars method.
 '''
 
-df_without_start_date = df_emp.drop("start_date")
-print(df_without_start_date)
+print(
+    lf_emp
+    .drop("start_date")
+    .collect()
+)
 # shape: (8, 4)
 # columns: id, name, salary, dept
 
-df_without_many = df_emp.drop(["id", "start_date"])
-print(df_without_many)
+print(
+    lf_emp
+    .drop("id", "start_date") # or `.drop(["id", "start_date"])`
+    .collect()
+)
 # shape: (8, 3)
 # columns: name, salary, dept
 
@@ -458,14 +468,22 @@ Inside select(), you can also use expressions.
 Useful patterns:
 + pl.exclude("col")
 + pl.all().exclude("col")
-+ pl.all().exclude(["col1", "col2"])
++ pl.all().exclude("col1", "col2")
 '''
 
-print(df_emp.select(pl.exclude("start_date")))
+print(
+    lf_emp
+    .select(pl.exclude("start_date"))
+    .collect()
+)
 # shape: (8, 4)
 # columns: id, name, salary, dept
 
-print(df_emp.select(pl.all().exclude(["id", "start_date"])))
+print(
+    lf_emp
+    .select(pl.all().exclude("id", "start_date")) # or `.exclude(["id", "start_date"])`
+    .collect()
+)
 # shape: (8, 3)
 # columns: name, salary, dept
 
@@ -478,11 +496,13 @@ print(df_emp.select(pl.all().exclude(["id", "start_date"])))
 ##------------------------------------##
 
 front_cols = ["dept", "name"]
-other_cols = [col for col in df_emp.columns if col not in front_cols]
 
+print(
+    lf_emp
+    .select(*front_cols, pl.exclude(front_cols))
+    .collect()
+)
 # dept and name first; all other columns keep their original relative order.
-df_front = df_emp.select(front_cols + other_cols)
-print(df_front)
 # shape: (8, 5)
 # ┌────────────┬──────────┬─────┬────────┬────────────┐
 # │ dept       ┆ name     ┆ id  ┆ salary ┆ start_date │
@@ -504,11 +524,13 @@ print(df_front)
 ##----------------------------------##
 
 end_cols = ["id", "start_date"]
-other_cols = [col for col in df_emp.columns if col not in end_cols]
 
+print(
+    lf_emp
+    .select(pl.exclude(end_cols), *end_cols)
+    .collect()
+)
 # id and start_date last; all other columns keep their original relative order.
-df_end = df_emp.select(other_cols + end_cols)
-print(df_end)
 # shape: (8, 5)
 # ┌──────────┬────────┬────────────┬─────┬────────────┐
 # │ name     ┆ salary ┆ dept       ┆ id  ┆ start_date │
@@ -530,20 +552,29 @@ print(df_end)
 ##----------------------------------------------##
 
 # Alphabetical order by column name.
-df_alpha = df_emp.select(sorted(df_emp.columns))
-print(df_alpha)
+print(
+    lf_emp
+    .select(sorted(lf_emp.collect_schema().names()))
+    .collect()
+)
 # columns: dept, id, name, salary, start_date
 
 # Reverse the current column order.
-df_reverse = df_emp.select(list(reversed(df_emp.columns)))
-print(df_reverse)
+print(
+    lf_emp
+    .select(list(reversed(lf_emp.collect_schema().names())))
+    .collect()
+)
 # columns: dept, start_date, salary, name, id
 
 # Put columns matching a rule first.
-date_cols = [col for col in df_emp.columns if col.endswith("_date")]
-non_date_cols = [col for col in df_emp.columns if col not in date_cols]
+date_cols = [col for col in lf_emp.collect_schema().names() if col.endswith("_date")]
 df_date_first = df_emp.select(date_cols + non_date_cols)
-print(df_date_first)
+print(
+    lf_emp
+    .select(pl.col(".*_date"), pl.exclude(".*_date"))
+    .collect()
+)
 # columns: start_date, id, name, salary, dept
 
 # =========================================================================================

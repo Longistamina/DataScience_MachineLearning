@@ -23,9 +23,8 @@ print(s_nums)
 # =========================================================================================
 # 1. .rolling()
 # =========================================================================================
-
 '''
-The .rolling() method creates a fixed-size moving window that slides through your data. 
+The .rolling() method creates a fixed-size moving window that slides through your data.
 
 It calculates statistics over a consistent number of observations
 
@@ -53,7 +52,7 @@ print(s_rolling)
 # 0      NaN (mean of [NaN, 0-indexed])
 # 1    3.355 (mean of [0-indexed, 1-indexed])
 # 2    3.510 (mean of [1-indexed, 2-indexed])
-# 3    5.175 
+# 3    5.175
 # 4    4.290
 # dtype: float64
 
@@ -71,20 +70,28 @@ print(s_rolling)
 ##-------------------------------##
 
 s_nums_time = pd.Series(
-    data = s_nums.values,
-    index = [pd.Timestamp('20130101 09:00:00'),
-             pd.Timestamp('20130101 09:00:02'),
-             pd.Timestamp('20130101 09:00:03'),
-             pd.Timestamp('20130101 09:00:05'),
-             pd.Timestamp('20130101 09:00:06')]
+    data=s_nums.values,
+    index=[pd.Timestamp('20130101 09:00:00'),
+            pd.Timestamp('20130101 09:00:02'),
+            pd.Timestamp('20130101 09:00:03'),
+            pd.Timestamp('20130101 09:00:05'),
+            pd.Timestamp('20130101 09:00:06')]
 )
+print(s_nums_time)
+# 2013-01-01 09:00:00    3.99
+# 2013-01-01 09:00:02    2.72
+# 2013-01-01 09:00:03    4.30
+# 2013-01-01 09:00:05    6.05
+# 2013-01-01 09:00:06    2.53
+# dtype: float64
+
 
 s_rolling = s_nums_time.rolling(window='2s').mean()  # Calculate rolling mean with a 2-second window
-# for each timestamp t, 
-# take all observations whose timestamps fall in the interval (t − 2 seconds, t], 
+# for each timestamp t,
+# take all observations whose timestamps fall in the interval (t − 2 seconds, t],
 # then compute the mean.
 
-print(s_rolling)                                       
+print(s_rolling)
 # 2013-01-01 09:00:00    3.99
 # 2013-01-01 09:00:02    2.72
 # 2013-01-01 09:00:03    3.51
@@ -112,10 +119,9 @@ print(s_rolling)
 # =========================================================================================
 # 2. .expanding()
 # =========================================================================================
-
 '''
-The .expanding() method creates a growing window that starts from the first observation 
-and includes all data up to the current point. 
+The .expanding() method creates a growing window that starts from the first observation
+and includes all data up to the current point.
 
 This produces cumulative statistics ideal for long-term trend analysis.
 
@@ -170,10 +176,9 @@ print(s_expanding)
 # =========================================================================================
 # 3. .ewm()
 # =========================================================================================
-
 '''
-The .ewm() method applies exponentially decreasing weights to observations, 
-giving more importance to recent data while still considering historical values. 
+The .ewm() method applies exponentially decreasing weights to observations,
+giving more importance to recent data while still considering historical values.
 
 This method is particularly valuable in financial analysis and forecasting.
 

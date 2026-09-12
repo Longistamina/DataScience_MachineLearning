@@ -4,17 +4,17 @@ These operations can be performed on Series objects, allowing for efficient data
 
 ##--------------------------------------##
 
-1. Mathematical Operations: 
-   round(), 
-   + add(), - sub(), 
-   * mul(), / div(), 
-   // floordiv(), % mod(), 
+1. Mathematical Operations:
+   round(),
+   + add(), - sub(),
+   * mul(), / div(),
+   // floordiv(), % mod(),
    ** pow()
 
-2. Logic Boolean Comparisons: 
-   < lt(), <= le(), 
-   > gt(), >= ge(), 
-   between(left, right, inclusive='both'), 
+2. Logic Boolean Comparisons:
+   < lt(), <= le(),
+   > gt(), >= ge(),
+   between(left, right, inclusive='both'),
    == eq(), != ne()
    Boolean to Binary 0/1 (using astype(int))
 '''
@@ -352,21 +352,20 @@ inclusive = "right": (left, right] or left < x <= right
 
 print(s1.between(20, 40))  # Default inclusive='both'
 # 0    False
-# 1    False
-# 2    False
+# 1     True
+# 2     True
 # 3     True
 # 4    False
-# 5    False
+# dtype: bool
 
 print(s2.between(20, 40, inclusive='neither'))
 # 0    False
-# 1    False
-# 2     True
+# 1     True
+# 2    False
 # 3    False
 # 4    False
-# 5    False
+# dtype: bool
 
- 
 ##---------##
 ## == eq() ##
 ##---------##
@@ -387,7 +386,14 @@ print(s1 == s2) # s1.eq(s2)
 # 4    False
 # dtype: bool
 
-print(s1 == s1_str) # ERROR
+print(s1 == s1_str)
+# 0    False
+# 1    False
+# 2    False
+# 3    False
+# 4    False
+# dtype: bool
+'''All are False'''
 
 print(s1_str == s2_str) # s1_str.eq(s2_str)
 # 0     True
@@ -417,7 +423,14 @@ print(s1 != s2) # s1.ne(s2)
 # 4    True
 # dtype: bool
 
-print(s1 != s1_str) # ERROR
+print(s1 != s1_str)
+# 0    True
+# 1    True
+# 2    True
+# 3    True
+# 4    True
+# dtype: bool
+'''All are True'''
 
 print(s1_str != s2_str) # s1_str.ne(s2_str)
 # 0    False

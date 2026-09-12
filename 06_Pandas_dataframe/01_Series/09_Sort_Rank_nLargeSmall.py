@@ -1,8 +1,8 @@
 '''
 1. Ranking and Sorting methods
-    + .rank() 
-    + .sort_values(), .sort_index(), .argsort() 
-    
+    + .rank()
+    + .sort_values(), .sort_index(), .argsort()
+
 
 2. N-Largest and N-Smallest methods
    + .nlargest()
@@ -21,7 +21,8 @@ s_demo = pd.Series([5.8, 4.6, 2, np.nan, 14, 4.6, 25.2, np.nan, 9.3, 10.5])
 ##---------##
 ## .rank() ##
 ##---------##
-# .rank() returns the ranks of the values in the Series, with ties getting the average rank.
+'''.rank() returns the ranks of the values in the Series, with ties getting the average rank.'''
+
 print(s_demo.rank())
 # 0    4.0
 # 1    2.5
@@ -75,7 +76,8 @@ print(s_demo.rank(method='max'))
 ##----------------##
 ## .sort_values() ##
 ##----------------##
-# .sort_values() sorts the values in the Series in ascending order by default.
+'''.sort_values() sorts the values in the Series in ascending order by default.'''
+
 print(s_demo.sort_values())
 # 2     2.0
 # 1     4.6
@@ -105,10 +107,12 @@ print(s_demo.sort_values(ascending=False))
 ##---------------##
 ## .sort_index() ##
 ##---------------##
-# .sort_index() sorts the Series by its index in ascending order by default.
-s_demo_indexed = pd.Series([5.8, 4.6, 2, 14, 4.6, 25.2],
-                           index = [3, 1, 0, 4, 5, 2])
+'''.sort_index() sorts the Series by its index in ascending order by default.'''
 
+s_demo_indexed = pd.Series(
+    data=[5.8, 4.6, 2, 14, 4.6, 25.2],
+    index=[3, 1, 0, 4, 5, 2]
+)
 print(s_demo_indexed)
 # 3     5.8
 # 1     4.6
@@ -141,9 +145,10 @@ print(s_demo_indexed.sort_index(ascending=False))
 ##------------##
 ## .argsort() ##
 ##------------##
-s_demo_default_index = pd.Series([5.8, 4.6, 2, 14, 4.6, 25.2]) 
+'''.argsort() returns the indices that would sort the Series in ascending order.'''
 
-# .argsort() returns the indices that would sort the Series in ascending order.
+s_demo_default_index = pd.Series([5.8, 4.6, 2, 14, 4.6, 25.2])
+
 print(s_demo_default_index.argsort())
 # 0    2 (index of value 2)
 # 1    1 (index of value 4.6)
@@ -165,10 +170,12 @@ This is important to keep in mind when working with string data, as it can affec
 # =========================================================================================
 # 2. N-Largest and N-Smallest methods
 # =========================================================================================
+
 ##-------------##
 ## .nlargest() ##
 ##-------------##
-# .nlargest(n) returns the n largest values in the Series.
+'''.nlargest(n) returns the n largest values in the Series.'''
+
 print(s_demo_default_index.nlargest(3))
 # 5    25.2
 # 3    14.0
@@ -178,7 +185,8 @@ print(s_demo_default_index.nlargest(3))
 ##--------------##
 ## .nsmallest() ##
 ##--------------##
-# .nsmallest(n) returns the n smallest values in the Series.
+'''.nsmallest(n) returns the n smallest values in the Series.'''
+
 print(s_demo_default_index.nsmallest(3))
 # 2    2.0
 # 1    4.6
