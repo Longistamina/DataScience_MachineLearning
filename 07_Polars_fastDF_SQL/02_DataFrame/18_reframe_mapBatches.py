@@ -10,19 +10,23 @@ In Polars, reframing is achieved via:
 3. `.map_batches(...)` + Python/SciPy functions (keeps the step inside a LazyFrame pipeline, but needs schema).
 
 ##--------------------------------##
-1. Native LazyFrame Reframing: Quantiles as Rows
-2. External Function Fallback: SciPy Statistical Tests (Shapiro-Wilk)
-   - `.collect().pipe(...)` version
-   - `.map_batches(...)` version
-3. External Function Fallback: SciPy Distribution PPFs
-   - `.collect().pipe(...)` version
-   - `.map_batches(...)` version
-4. Summary: `.pipe(...)` vs `.map_batches(...)`
+
+1. Using `pl.concat()` for native operations that produce single-row dataframe (like `.quantile`)
+
+2. Use `pl.Expr.map_batches()` for mapping custom functions to selected columns as realized Series
+
+3. Use `pl.LazyFrame.map_batches()` to apply a custom function with a realized DataFrame
+
+4. Use `pl.LazyFrame.collect().pipe()` as an alternative to `pl.LazyFrame.map_batches`
+
+5. Native polars operations vs `.pipe(...)` vs `.map_batches(...)`
 '''
 
 from pathlib import Path
 
+import numpy as np
 import polars as pl
+from polars import col as c
 from scipy import stats
 
 # Optional display settings
@@ -56,17 +60,14 @@ print(lf_boston.head().collect())
 # │ 0.06905 ┆ 0.0  ┆ 2.18  ┆ 0.458 ┆ 7.147 ┆ 54.2 ┆ 6.0622   ┆ 222  ┆ 18.7    ┆ 5.33  ┆ 36.2 │
 # └─────────┴──────┴───────┴───────┴───────┴──────┴──────────┴──────┴─────────┴───────┴──────┘
 
-# =========================================================================================
-# 1. Native LazyFrame Reframing: Quantiles as Rows
-# =========================================================================================
+# =====================================================================================================
+# 1. Using `pl.concat()` for native operations that produce single-row dataframe (like `.quantile`)
+# =====================================================================================================
 '''
-Pandas:
-df[["rm", "lstat", "medv"]].apply(lambda col: np.quantile(col, q=[0.25, 0.5, 0.75, 1]), axis=0)
+Here, we natively compute the quantiles inside `select()`
+and use `pl.concat()` to stack them into rows.
 
-Polars:
-Because Polars is columnar and lazy, we do NOT use `.apply()` with `axis=0`.
-Instead, we natively compute the quantiles inside `select()` and use `pl.concat()`
-to stack them into rows. This remains 100% lazy and highly optimized!
+This remains 100% lazy and highly optimized!
 '''
 
 qs = [0.25, 0.50, 0.75, 1.00]
@@ -75,9 +76,7 @@ labels = ["Q1", "Q2", "Q3", "Q4"]
 lf_quantiles = pl.concat([
     lf_boston.select(
         pl.lit(label).alias("index"),
-        pl.col("rm").quantile(q),
-        pl.col("lstat").quantile(q),
-        pl.col("medv").quantile(q)
+        c("rm", "lstat", "medv").quantile(q),
     )
     for q, label in zip(qs, labels)
 ])
@@ -95,41 +94,59 @@ print(lf_quantiles.collect())
 # │ Q4    ┆ 8.725    ┆ 37.97     ┆ 50.0     │
 # └───────┴──────────┴───────────┴──────────┘
 
-# =========================================================================================
-# 2. External Function Fallback: SciPy Statistical Tests (Shapiro-Wilk)
-# =========================================================================================
+# ========================================================================================================
+# 2. Use `pl.Expr.map_batches()` for mapping custom functions to selected columns as realized Series
+# =========================================================================================================
 '''
-Pandas:
-df[["rm", "lstat", "medv"]].apply(stats.shapiro, axis=0)
+When we use `pl.col("name1", "name2", "name3").map_batches(lambda x: custom_func(x), return_type=pl.Float64)`,
+the `x` in the `map_batches` is the realized Series evaluated from pl.col("name") expression!!!
+This meaning the input for the function will be a Series representing that column, not a column expression.
 
-Polars:
-Since `scipy.stats.shapiro` is an external Python statistical test, it is not a
-native Polars expression. It needs each selected column as a fully materialized
-1D array and returns Python values.
+The good thing is that `pl.Series` is compatible with `numpy` functions,
+hence also compatible with `scipy` functions!!!
 
-Two practical Polars patterns are shown below:
-1. `.collect().pipe(...)`: collect the selected columns, then construct the reframed result.
-2. `.map_batches(...)`: keep the operation inside the LazyFrame chain, but specify the output schema.
+However, since polars has to realize the column expressions into Series,
+the performance is reduced significantly, meaning it is less optimized.
+
+Moreover, we also need to provide `return_type` for the `pl.Expr.map_batches()`
 '''
 
-# # 2A. `.collect().pipe(...)` version: simple and explicit.
-# 
-lf_shapiro_pipe = (
+##----------------------------##
+## Example with `np.quantile` ##
+##----------------------------##
+
+qs = [0.25, 0.50, 0.75, 1.00]
+labels = ["Q1", "Q2", "Q3", "Q4"]
+
+print(
     lf_boston
-    .select("rm", "lstat", "medv")
-    .collect()
-    .pipe(
-        lambda df:
-            pl.LazyFrame({
-                col: list(stats.shapiro(df[col].to_numpy()))
-                for col in df.columns
-            })
-            .with_columns(pl.Series("stat", ["W-statistic", "p-value"]))
-            .select(["stat", *df.columns])
+    .select(
+        c("rm", "lstat", "medv")
+        .map_batches(lambda x: pl.Series(np.quantile(x, qs)), return_dtype=pl.Float64),
     )
+    .select(
+        pl.Series("index", labels),
+        pl.all()
+    )
+    .collect()
 )
 
-print(lf_shapiro_pipe.collect())
+##------------------------------------##
+## Example with `scipy.stats.shapiro` ##
+##------------------------------------##
+
+print(
+    lf_boston
+    .select(
+        c("rm", "lstat", "medv")
+        .map_batches(lambda x: pl.Series(stats.shapiro(x.to_numpy())), return_dtype=pl.Float64), # Don't actually need `to_numpy` here
+    )
+    .select(
+        pl.Series("stat", ["W-statistic", "p-value"]),
+        pl.all()
+    )
+    .collect()
+)
 # shape: (2, 4)
 # ┌─────────────┬──────────┬──────────┬──────────┐
 # │ stat        ┆ rm       ┆ lstat    ┆ medv     │
@@ -140,8 +157,78 @@ print(lf_shapiro_pipe.collect())
 # │ p-value     ┆ 0.000000 ┆ 0.000000 ┆ 0.000000 │
 # └─────────────┴──────────┴──────────┴──────────┘
 
-# # 2B. `.map_batches(...)` version: stays inside the LazyFrame chain.
-# 
+##-------------------------------------------------##
+## Example with many other `scipy.stats` functions ##
+##-------------------------------------------------##
+'''
+The cumulative distribution function (CDF) takes a value and returns the probability
+that a random variable is less than or equal to that value;
+
+The percent-point function (PPF), also called the inverse CDF or quantile function,
+takes a probability and returns the corresponding value whose CDF equals that probability.
+
+In short: CDF input is a value and output is a probability;
+PPF input is a probability in and output is a value on the distribution's scale.
+
+##--------------------##
+
+In this example,  for the sake of reframing demonstration,
+we will calculate the PPF values for the 25th, 50th, 75th, and 100th percentiles,
+but for different distributions: normal, exponential and gamma.
+
+rm ~ normal distribution
+lstat ~ exponential distribution
+medv ~ gamma distribution
+'''
+
+qs = [0.25, 0.50, 0.75, 1.00]
+ppfs = ["25th", "50th", "75th", "100th"]
+
+print(
+    lf_boston
+    .select(
+        c("rm").map_batches(lambda x: stats.norm.ppf(q=qs, loc=x.mean(), scale=x.std()), pl.Float64).alias("rm_norm"),
+        c("lstat").map_batches(lambda x: stats.expon.ppf(q=qs, scale=x.mean()), pl.Float64).alias("lstat_expon"),
+        c("medv").map_batches(lambda x: stats.gamma.ppf(q=qs, a=2, scale=x.mean()/2), pl.Float64).alias("medv_gamma")
+    )
+    .select(
+        pl.Series("ppf", ppfs),
+        pl.all()
+    )
+    .collect()
+)
+# shape: (4, 4)
+# ┌───────┬──────────┬─────────────┬────────────┐
+# │ ppf   ┆ rm_norm  ┆ lstat_expon ┆ medv_gamma │
+# │ ---   ┆ ---      ┆ ---         ┆ ---        │
+# │ str   ┆ f64      ┆ f64         ┆ f64        │
+# ╞═══════╪══════════╪═════════════╪════════════╡
+# │ 25th  ┆ 5.810726 ┆ 3.640059    ┆ 10.830154  │
+# │ 50th  ┆ 6.284634 ┆ 8.770435    ┆ 18.908934  │
+# │ 75th  ┆ 6.758542 ┆ 17.540870   ┆ 30.336306  │
+# │ 100th ┆ inf      ┆ inf         ┆ inf        │
+# └───────┴──────────┴─────────────┴────────────┘
+
+# ===============================================================================================
+# 3. Use `pl.LazyFrame.map_batches()` to apply a custom function with a realized DataFrame
+# ===============================================================================================
+'''
+When we write `lf.map_batches(lambda df: custom_function(df))`,
+the `df` here is the realized DataFrame from the given LazyFrame.
+
+Only by doing so, other custom functions can access realized data to process.
+
+However, since polars has to realize the LazyFrame into DataFrame,
+the performance is reduced significantly, meaning it is less optimized.
+
+Moreover, we have to provide the `schema` for the whole `lf.map_batches()`,
+just like when we provide `return_type` for `pl.Expr.map_batches()`
+'''
+
+##------------------------------------##
+## Example with `scipy.stats.shapiro` ##
+##------------------------------------##
+
 lf_shapiro_map_batches = (
     lf_boston
     .select("rm", "lstat", "medv")
@@ -151,8 +238,10 @@ lf_shapiro_map_batches = (
                 col: list(stats.shapiro(df[col].to_numpy()))
                 for col in df.columns
             })
-            .with_columns(pl.Series("stat", ["W-statistic", "p-value"]))
-            .select(["stat", *df.columns]),
+            .select(
+                pl.Series("stat", ["W-statistic", "p-value"]),
+                pl.all()
+            ),
         schema={
             "stat": pl.String,
             "rm": pl.Float64,
@@ -173,96 +262,26 @@ print(lf_shapiro_map_batches.collect())
 # │ p-value     ┆ 0.000000 ┆ 0.000000 ┆ 0.000000 │
 # └─────────────┴──────────┴──────────┴──────────┘
 
-# =========================================================================================
-# 3. External Function Fallback: SciPy Distribution PPFs
-# =========================================================================================
-'''
-Pandas:
-df.pipe(lambda df: pd.DataFrame({
-    "rm_norm": stats.norm.ppf(q=[...], loc=df["rm"].mean(), scale=df["rm"].std()),
-    ...
-}))
+##--------------------------------------------##
+## Example with other `scipy.stats` functions ##
+##--------------------------------------------##
 
-Polars:
-The SciPy PPF functions are external Python functions, so the final PPF values
-are not native Polars expressions. However, the parameters passed into SciPy are
-just scalar summaries such as mean and standard deviation.
+qs = [0.25, 0.50, 0.75, 1.00]
+ppfs = ["25th", "50th", "75th", "100th"]
 
-Two practical Polars patterns are shown below:
-1. `.collect().pipe(...)`: collect the selected columns, compute scalar summaries, then build a new LazyFrame.
-2. `.map_batches(...)`: keep the operation inside the LazyFrame chain, but specify the output schema.
-
-Note: `q=1` returns `inf` for these distributions because the 100th percentile is
-the upper bound of unbounded continuous distributions. Use `0.99` for a finite value.
-'''
-
-# # 3A. `.collect().pipe(...)` version: simple and avoids manually specifying schema.
-# 
-lf_ppf_pipe = (
-    lf_boston
-    .select("rm", "lstat", "medv")
-    .collect()
-    .pipe(
-        lambda df:
-            pl.LazyFrame({
-                "index": ["ppf_25th", "ppf_50th", "ppf_75th", "ppf_100th"],
-                "rm_norm": stats.norm.ppf(
-                    q=[0.25, 0.5, 0.75, 1],
-                    loc=df.select("rm").mean().item(),
-                    scale=df.select("rm").std().item(),
-                ),
-                "lstat_expon": stats.expon.ppf(
-                    q=[0.25, 0.5, 0.75, 1],
-                    scale=df.select("lstat").mean().item(),
-                ),
-                "medv_gamma": stats.gamma.ppf(
-                    q=[0.25, 0.5, 0.75, 1],
-                    a=2,
-                    scale=df.select("medv").mean().item() / 2,
-                ),
-            })
-    )
-)
-
-print(lf_ppf_pipe.collect())
-# shape: (4, 4)
-# ┌───────────┬──────────┬─────────────┬────────────┐
-# │ index     ┆ rm_norm  ┆ lstat_expon ┆ medv_gamma │
-# │ ---       ┆ ---      ┆ ---         ┆ ---        │
-# │ str       ┆ f64      ┆ f64         ┆ f64        │
-# ╞═══════════╪══════════╪═════════════╪════════════╡
-# │ ppf_25th  ┆ 5.810726 ┆ 3.640059    ┆ 10.830154  │
-# │ ppf_50th  ┆ 6.284634 ┆ 8.770435    ┆ 18.908934  │
-# │ ppf_75th  ┆ 6.758542 ┆ 17.540870   ┆ 30.336306  │
-# │ ppf_100th ┆ inf      ┆ inf         ┆ inf        │
-# └───────────┴──────────┴─────────────┴────────────┘
-
-# # 3B. `.map_batches(...)` version: stays inside the LazyFrame chain.
-# 
 lf_ppf_map_batches = (
     lf_boston
     .select("rm", "lstat", "medv")
     .map_batches(
         lambda df:
             pl.DataFrame({
-                "index": ["ppf_25th", "ppf_50th", "ppf_75th", "ppf_100th"],
-                "rm_norm": stats.norm.ppf(
-                    q=[0.25, 0.5, 0.75, 1],
-                    loc=df.select("rm").mean().item(),
-                    scale=df.select("rm").std().item(),
-                ),
-                "lstat_expon": stats.expon.ppf(
-                    q=[0.25, 0.5, 0.75, 1],
-                    scale=df.select("lstat").mean().item(),
-                ),
-                "medv_gamma": stats.gamma.ppf(
-                    q=[0.25, 0.5, 0.75, 1],
-                    a=2,
-                    scale=df.select("medv").mean().item() / 2,
-                ),
+                "ppf": ppfs,
+                "rm_norm": stats.norm.ppf(q=qs, loc=df.select("rm").mean().item(), scale=df.select("rm").std().item()),
+                "lstat_expon": stats.expon.ppf(q=qs, scale=df.select("lstat").mean().item()),
+                "medv_gamma": stats.gamma.ppf(q=qs, a=2, scale=df.select("medv").mean().item()/2),
             }),
         schema={
-            "index": pl.String,
+            "ppf": pl.String,
             "rm_norm": pl.Float64,
             "lstat_expon": pl.Float64,
             "medv_gamma": pl.Float64,
@@ -283,8 +302,84 @@ print(lf_ppf_map_batches.collect())
 # │ ppf_100th ┆ inf      ┆ inf         ┆ inf        │
 # └───────────┴──────────┴─────────────┴────────────┘
 
+# ===============================================================================================
+# 4. Use `pl.LazyFrame.collect().pipe()` as an alternative to `pl.LazyFrame.map_batches`
+# ===============================================================================================
+'''
+After calling `.collect()`, we materialize everything, meaning the performance cost is significant.
+
+However, when using `.collect().pipe()`, we don't need to provide the schema.
+'''
+
+##------------------------------------##
+## Example with `scipy.stats.shapiro` ##
+##------------------------------------##
+
+lf_shapiro_pipe = (
+    lf_boston
+    .select("rm", "lstat", "medv")
+    .collect()
+    .pipe(
+        lambda df:
+            pl.LazyFrame({
+                col: list(stats.shapiro(df[col].to_numpy()))
+                for col in df.columns
+            })
+            .select(
+                pl.Series("stat", ["W-statistic", "p-value"]),
+                pl.all()
+            ),
+    )
+)
+
+print(lf_shapiro_pipe.collect())
+# shape: (2, 4)
+# ┌─────────────┬──────────┬──────────┬──────────┐
+# │ stat        ┆ rm       ┆ lstat    ┆ medv     │
+# │ ---         ┆ ---      ┆ ---      ┆ ---      │
+# │ str         ┆ f64      ┆ f64      ┆ f64      │
+# ╞═════════════╪══════════╪══════════╪══════════╡
+# │ W-statistic ┆ 0.960872 ┆ 0.936906 ┆ 0.917176 │
+# │ p-value     ┆ 0.000000 ┆ 0.000000 ┆ 0.000000 │
+# └─────────────┴──────────┴──────────┴──────────┘
+
+##--------------------------------------------##
+## Example with other `scipy.stats` functions ##
+##--------------------------------------------##
+
+qs = [0.25, 0.50, 0.75, 1.00]
+ppfs = ["25th", "50th", "75th", "100th"]
+
+lf_ppf_pipe = (
+    lf_boston
+    .select("rm", "lstat", "medv")
+    .collect()
+    .pipe(
+        lambda df:
+            pl.LazyFrame({
+                "ppf": ppfs,
+                "rm_norm": stats.norm.ppf(q=qs, loc=df.select("rm").mean().item(), scale=df.select("rm").std().item()),
+                "lstat_expon": stats.expon.ppf(q=qs, scale=df.select("lstat").mean().item()),
+                "medv_gamma": stats.gamma.ppf(q=qs, a=2, scale=df.select("medv").mean().item()/2),
+            }),
+    )
+)
+
+print(lf_ppf_pipe.collect())
+# shape: (4, 4)
+# ┌───────┬──────────┬─────────────┬────────────┐
+# │ ppf   ┆ rm_norm  ┆ lstat_expon ┆ medv_gamma │
+# │ ---   ┆ ---      ┆ ---         ┆ ---        │
+# │ str   ┆ f64      ┆ f64         ┆ f64        │
+# ╞═══════╪══════════╪═════════════╪════════════╡
+# │ 25th  ┆ 5.810726 ┆ 3.640059    ┆ 10.830154  │
+# │ 50th  ┆ 6.284634 ┆ 8.770435    ┆ 18.908934  │
+# │ 75th  ┆ 6.758542 ┆ 17.540870   ┆ 30.336306  │
+# │ 100th ┆ inf      ┆ inf         ┆ inf        │
+# └───────┴──────────┴─────────────┴────────────┘
+
 # =========================================================================================
-# 4. `.pipe(...)` vs `.map_batches(...)`
+# 5. Native polars operations vs `.pipe(...)` vs `.map_batches(...)`
 # =========================================================================================
 '''
 Summary:
