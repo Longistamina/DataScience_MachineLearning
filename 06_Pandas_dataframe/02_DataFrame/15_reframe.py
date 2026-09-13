@@ -85,7 +85,7 @@ that a random variable is less than or equal to that value;
 The percent-point function (PPF), also called the inverse CDF or quantile function,
 takes a probability and returns the corresponding value whose CDF equals that probability.
 
-In short: CDF input is a value and output is a probability in ;
+In short: CDF input is a value and output is a probability;
 PPF input is a probability in and output is a value on the distribution's scale.
 
 ##--------------------##
@@ -100,7 +100,7 @@ medv ~ gamma distribution
 '''
 
 df_ppf = (
-    df_boston[["rm", "lstat", "medv"]]
+    df_boston
     .pipe(
         lambda df: pd.DataFrame(
             {
