@@ -33,8 +33,6 @@ polars_query = (
     ))
 )
 
-end = time.perf_counter()
-
 ##---------------------------##
 ## tidypyrs TibbleLazy query ##
 ##---------------------------##
