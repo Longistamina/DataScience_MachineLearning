@@ -255,8 +255,8 @@ lf_pokemon = (
     )
     .with_columns(cs.string().exclude("Name").cast(pl.Categorical))
     .pipe(lambda lf: lf.with_columns(
-        c.Generation.cast(pl.String).cast(pl.Enum(lf.select("Generation").collect().to_series().cast(pl.String).unique().sort())))
-    )
+        c.Generation.cast(pl.String).cast(pl.Enum(lf.select("Generation").collect().to_series().cast(pl.String).unique().sort()))
+    ))
 )
 
 print(lf_pokemon.head(5).collect())

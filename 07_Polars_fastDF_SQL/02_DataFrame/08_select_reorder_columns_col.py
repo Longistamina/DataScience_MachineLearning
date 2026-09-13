@@ -1,7 +1,7 @@
 '''
 Selecting and reordering columns in Polars.
 
-In Polars, the central idea is df.select(...):
+In Polars, the central idea is lf.select(...):
 + It selects columns.
 + It controls output column order.
 + It can accept raw column names and expressions.
@@ -62,7 +62,7 @@ a fallback DataFrame is created so the examples remain readable elsewhere.
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 
 lf_emp = pl.scan_csv(
-    data_dir / "emp.csv",
+    data_dir/"emp.csv",
     try_parse_dates=True,
 )
 
