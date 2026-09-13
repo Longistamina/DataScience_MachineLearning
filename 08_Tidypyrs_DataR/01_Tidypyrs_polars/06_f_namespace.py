@@ -1,13 +1,20 @@
 '''
-tidypyrs provides a very convenient `f` namespace to allow fast selecting and accessing columns.
-This pushes `polars.col()` one step further from a mere column expression.
+Tidypyrs provides the convenient `f` namespace for constructing Polars
+expressions and referring to the frame currently executing a verb.
+
+Some forms return an immediate `pl.Expr`; others return a deferred operation
+that is resolved only after `select()` or `mutate()` supplies the current
+DataFrame/LazyFrame.
 
 1. `f.x` -> `pl.col("x")`
 2. `f("x")` and `f("x", "y", "z")`
 3. `f["x"]` and `f["x", "y", "z"]`
-4. `f.select("x")` designed for `tp.as_enum()` and `tp.as_ordered()`
-5. `f.pull("x")` designed for `tp.as_enum()` and `tp.as_ordered()`
-6. `f` namespace with `numpy` functions
+4. `f.all()` and the Polars expression namespace
+5. `f.colnames` and automatic deferred method forwarding
+6. `f.select("x")` for selecting from the current frame later
+7. `f.pull("x")` for extracting concrete values later
+8. Deferred operations in sequential mutation
+9. `f` expressions with NumPy functions
 '''
 
 from pathlib import Path
@@ -45,8 +52,7 @@ print(tl_pokemon.collect())
 
 print(tl_pokemon.collect_schema())
 # Schema({'#': Int64, 'name': String, 'type_1': Categorical, 'type_2': Categorical, 'total': Int64, 'hp': Int64, 'attack': Int64,
-# 'defense': Int64, 'sp_atk': Int64, 'sp_def': Int64, 'speed': Int64, 'generation': Enum(categories=['1', '2', '3', '4', '5', '6']
-# ), 'legendary': Boolean})
+# 'defense': Int64, 'sp_atk': Int64, 'sp_def': Int64, 'speed': Int64, 'generation': Int64, 'legendary': Boolean})
 
 # =========================================================================================
 # 1. `f.x` -> `pl.col("x")`
@@ -178,15 +184,120 @@ print(
 # │ Volcanion          ┆ 110    ┆ 120     ┆ 55.0        ┆ 60.0         │
 # └────────────────────┴────────┴─────────┴─────────────┴──────────────┘
 
-# ============================================================================
-# 4. `f.select("x")` designed for `tp.as_enum()` and `tp.as_ordered()`
-# ============================================================================
+# =========================================================================================
+# 4. `f.all()` and the Polars expression namespace
+# =========================================================================================
 '''
-For now, the only situation where you need to use `f.select()`
-is when you are trying converting into Enum with `tp.as_enum`
-                                         or with `tp.as_ordered`
+`f.all()` is equivalent to `pl.all()`. Because it immediately returns a normal
+Polars expression, all expression namespaces remain available. The example
+below transforms every column name without listing the columns individually.
+'''
 
-It should be use with `.mutate()` like below
+print(
+    tl_pokemon
+    .select(
+        f.all()
+        .name.to_uppercase()
+        .name.replace("_", " ", literal=True)
+    )
+    .slice_head(3)
+    .collect()
+)
+# shape: (3, 13)
+# ┌─────┬───────────┬────────┬────────┬───┬────────┬───────┬────────────┬───────────┐
+# │ #   ┆ NAME      ┆ TYPE 1 ┆ TYPE 2 ┆ … ┆ SP DEF ┆ SPEED ┆ GENERATION ┆ LEGENDARY │
+# │ --- ┆ ---       ┆ ---    ┆ ---    ┆   ┆ ---    ┆ ---   ┆ ---        ┆ ---       │
+# │ i64 ┆ str       ┆ cat    ┆ cat    ┆   ┆ i64    ┆ i64   ┆ i64        ┆ bool      │
+# ╞═════╪═══════════╪════════╪════════╪═══╪════════╪═══════╪════════════╪═══════════╡
+# │ 1   ┆ Bulbasaur ┆ Grass  ┆ Poison ┆ … ┆ 65     ┆ 45    ┆ 1          ┆ false     │
+# │ 2   ┆ Ivysaur   ┆ Grass  ┆ Poison ┆ … ┆ 80     ┆ 60    ┆ 1          ┆ false     │
+# │ 3   ┆ Venusaur  ┆ Grass  ┆ Poison ┆ … ┆ 100    ┆ 80    ┆ 1          ┆ false     │
+# └─────┴───────────┴────────┴────────┴───┴────────┴───────┴────────────┴───────────┘
+
+# =========================================================================================
+# 5. `f.colnames` and automatic deferred method forwarding
+# =========================================================================================
+'''
+Unlike `f.all()`, `f.colnames` needs to know the current frame. It therefore
+resolves later to a Polars Series containing the column names.
+
+Indexing, attribute access, and method calls are automatically forwarded to
+that future Series. Tidypyrs does not need to implement `sort()`, `filter()`,
+`head()`, and other Series methods separately.
+'''
+
+# Select alternating columns. `[::2]` is applied after `f.colnames` resolves.
+print(
+    tl_pokemon
+    .select(f.colnames[::2])
+    .slice_head(3)
+    .collect()
+)
+# shape: (3, 7)
+# ┌─────┬────────┬───────┬────────┬────────┬───────┬───────────┐
+# │ #   ┆ type_1 ┆ total ┆ attack ┆ sp_atk ┆ speed ┆ legendary │
+# │ --- ┆ ---    ┆ ---   ┆ ---    ┆ ---    ┆ ---   ┆ ---       │
+# │ i64 ┆ cat    ┆ i64   ┆ i64    ┆ i64    ┆ i64   ┆ bool      │
+# ╞═════╪════════╪═══════╪════════╪════════╪═══════╪═══════════╡
+# │ 1   ┆ Grass  ┆ 318   ┆ 49     ┆ 65     ┆ 45    ┆ false     │
+# │ 2   ┆ Grass  ┆ 405   ┆ 62     ┆ 80     ┆ 60    ┆ false     │
+# │ 3   ┆ Grass  ┆ 525   ┆ 82     ┆ 100    ┆ 80    ┆ false     │
+# └─────┴────────┴───────┴────────┴────────┴───────┴───────────┘
+
+
+# Sort the future column-name Series, then select columns in that order.
+print(
+    tl_pokemon
+    .select(f.colnames.sort())
+    .slice_head(3)
+    .collect()
+)
+# shape: (3, 13)
+# ┌─────┬────────┬─────────┬────────────┬───┬───────┬───────┬────────┬────────┐
+# │ #   ┆ attack ┆ defense ┆ generation ┆ … ┆ speed ┆ total ┆ type_1 ┆ type_2 │
+# │ --- ┆ ---    ┆ ---     ┆ ---        ┆   ┆ ---   ┆ ---   ┆ ---    ┆ ---    │
+# │ i64 ┆ i64    ┆ i64     ┆ i64        ┆   ┆ i64   ┆ i64   ┆ cat    ┆ cat    │
+# ╞═════╪════════╪═════════╪════════════╪═══╪═══════╪═══════╪════════╪════════╡
+# │ 1   ┆ 49     ┆ 49      ┆ 1          ┆ … ┆ 45    ┆ 318   ┆ Grass  ┆ Poison │
+# │ 2   ┆ 62     ┆ 63      ┆ 1          ┆ … ┆ 60    ┆ 405   ┆ Grass  ┆ Poison │
+# │ 3   ┆ 82     ┆ 83      ┆ 1          ┆ … ┆ 80    ┆ 525   ┆ Grass  ┆ Poison │
+# └─────┴────────┴─────────┴────────────┴───┴───────┴───────┴────────┴────────┘
+
+# Deferred operations can be chained. Both the Series being filtered and the
+# Boolean mask are resolved against the same current frame.
+print(
+    tl_pokemon
+    .select(
+        f.colnames.filter(f.colnames.str.contains(r"^(name|type|generation)"))
+    )
+    .slice_head(3)
+    .collect()
+)
+# shape: (3, 4)
+# ┌───────────┬────────┬────────┬────────────┐
+# │ name      ┆ type_1 ┆ type_2 ┆ generation │
+# │ ---       ┆ ---    ┆ ---    ┆ ---        │
+# │ str       ┆ cat    ┆ cat    ┆ i64        │
+# ╞═══════════╪════════╪════════╪════════════╡
+# │ Bulbasaur ┆ Grass  ┆ Poison ┆ 1          │
+# │ Ivysaur   ┆ Grass  ┆ Poison ┆ 1          │
+# │ Venusaur  ┆ Grass  ┆ Poison ┆ 1          │
+# └───────────┴────────┴────────┴────────────┘
+
+# =========================================================================================
+# 6. `f.select("x")` for selecting from the current frame later
+# =========================================================================================
+'''
+`f.select()` describes a selection from the frame that will be executing the
+verb. It returns a deferred one-column frame here because no current frame is
+available while Python is evaluating the arguments to `mutate()`.
+
+`tp.as_enum()` and its alias `tp.as_ordered()` are defer-aware. They can accept
+that future one-column frame, infer its observed categories, and return an Enum
+expression when `mutate()` eventually supplies the frame.
+
+Inferring categories from a LazyFrame requires an internal collection. Supply
+explicit categories when preserving full laziness is more important.
 '''
 
 # with `tp.as_enum`
@@ -236,15 +347,15 @@ print(
 # └────────────────────┴────────────┴────────────────────┘
 
 # =========================================================================================
-# 5. `f.pull("x")` designed for `tp.as_enum()` and `tp.as_ordered()`
+# 7. `f.pull("x")` for extracting concrete values later
 # =========================================================================================
 '''
-For now, the only situation where you need to use `f.pull()`
-is when you are trying converting into Enum with `tp.as_enum`
-                                         or with `tp.as_ordered`
+`f.pull()` defers extracting one column as a concrete Polars Series. This is
+useful whenever a function needs actual values rather than a column expression.
 
-It could be used with `.pipe()` or `.mutate()`
-like below to provide `categories`
+Here it supplies observed categories to `tp.as_enum()` and `tp.as_ordered()`.
+Like `f.colnames`, its future Series supports automatic deferred method calls,
+so category preparation can be chained directly onto `f.pull()`.
 '''
 
 ##------------------------------------------##
@@ -297,6 +408,33 @@ print(
 # │ Volcanion          ┆ 6          ┆ 6                  │
 # └────────────────────┴────────────┴────────────────────┘
 
+##----------------------------------------------------------------##
+## automatic forwarding on the future Series returned by f.pull() ##
+##----------------------------------------------------------------##
+
+print(
+    tl_pokemon
+    .mutate(
+        generation_enum=tp.as_enum(
+            f.generation,
+            categories=f.pull("generation").unique().sort(),
+        )
+    )
+    .select(f("name", "generation", "generation_enum"))
+    .slice_head(3)
+    .collect()
+)
+# shape: (3, 3)
+# ┌───────────┬────────────┬─────────────────┐
+# │ name      ┆ generation ┆ generation_enum │
+# │ ---       ┆ ---        ┆ ---             │
+# │ str       ┆ i64        ┆ enum            │
+# ╞═══════════╪════════════╪═════════════════╡
+# │ Bulbasaur ┆ 1          ┆ 1               │
+# │ Ivysaur   ┆ 1          ┆ 1               │
+# │ Venusaur  ┆ 1          ┆ 1               │
+# └───────────┴────────────┴─────────────────┘
+
 ##---------------------------------------------------##
 ## mutate(new_col = tp.as_enum("col", f.pull("col")) ##
 ##---------------------------------------------------##
@@ -348,7 +486,48 @@ print(
 # └────────────────────┴────────────┴────────────────────┘
 
 # =========================================================================================
-# 6. `f` namespace with `numpy` functions
+# 8. Deferred operations in sequential mutation
+# =========================================================================================
+'''
+By default, `mutate(parallel=True)` resolves every expression against the
+original input frame. This is efficient for independent expressions.
+
+Use `parallel=False` when a later expression refers to a column created by an
+earlier expression in the same `mutate()` call. Expressions are then resolved
+and added from left to right.
+
+The named argument `ordered=...` also demonstrates automatic deferred
+`.alias("ordered")` handling. The generic `_Deferred` forwarding machinery
+records that future method call; no dedicated `_Deferred.alias()` is needed.
+'''
+
+print(
+    tl_pokemon
+    .select(f("name", "generation"))
+    .mutate(
+        copied_generation=f.generation,
+        ordered=tp.as_ordered(f.select("copied_generation")),
+        parallel=False,
+    )
+    .slice_head(3)
+    .collect()
+)
+# shape: (3, 4)
+# ┌───────────┬────────────┬───────────────────┬─────────┐
+# │ name      ┆ generation ┆ copied_generation ┆ ordered │
+# │ ---       ┆ ---        ┆ ---               ┆ ---     │
+# │ str       ┆ i64        ┆ i64               ┆ enum    │
+# ╞═══════════╪════════════╪═══════════════════╪═════════╡
+# │ Bulbasaur ┆ 1          ┆ 1                 ┆ 1       │
+# │ Ivysaur   ┆ 1          ┆ 1                 ┆ 1       │
+# │ Venusaur  ┆ 1          ┆ 1                 ┆ 1       │
+# └───────────┴────────────┴───────────────────┴─────────┘
+
+# This would fail with `parallel=True`: `copied_generation` would not yet
+# exist when `f.select("copied_generation")` is resolved.
+
+# =========================================================================================
+# 9. `f` expressions with NumPy functions
 # =========================================================================================
 
 print(

@@ -152,7 +152,7 @@ print(utc_time)
 # time.struct_time(tm_year=2025, tm_mon=11, tm_mday=11, tm_hour=7, tm_min=26, tm_sec=37, tm_wday=1, tm_yday=315, tm_isdst=0)
 '''tm_isdst is always 0 for UTC'''
 
-# 
+#
 specific_time = time.gmtime(1627987508) # Convert specific timestamp
 print(specific_time)
 # time.struct_time(tm_year=2021, tm_mon=8, tm_mday=3, tm_hour=10, tm_min=45, tm_sec=8, tm_wday=1, tm_yday=215, tm_isdst=0)
@@ -355,7 +355,7 @@ print(time.tzname)     # ('KST', 'KST') (Standard and DST timezone names)
 import os
 
 # ## Set timezone to Hong Kong
-# 
+#
 os.environ['TZ'] = 'Asia/Hong_Kong'  # Set tz to Hong Kong
 time.tzset()  # Apply the timezone change
 
@@ -364,7 +364,7 @@ print(time.strftime('%X %x %Z'))
 # (Current time in Hong Kong timezone)
 
 # ## Set back to Seoul timezone
-# 
+#
 os.environ['TZ'] = 'Asia/Seoul'  # Set tz back to Seoul
 time.tzset()  # Apply the timezone change
 
