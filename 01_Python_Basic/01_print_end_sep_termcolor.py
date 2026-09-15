@@ -48,11 +48,9 @@ came into existence without a Creator?"
 ##----------------------------------##
 
 print(
-    (
-        "This is the first line."
-        "\nThis is the second line."
-        "\nThis is the third line."
-    )
+    "This is the first line.\n"
+    "This is the second line.\n"
+    "This is the third line."
 )
 # This is the first line.
 # This is the second line.
