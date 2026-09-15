@@ -22,7 +22,7 @@ Just need to change one line of code
 For AMD GPUs, check out this link:
 https://rocm.docs.amd.com/projects/hipDF/en/latest/install/INSTALL.html
 
-pip3 install amd-hipdf==2.0.0 --extra-index-url=https://pypi.amd.com/rocm-7.0.2/simple
+pip3 install amd-hipdf==3.0.0 --extra-index-url https://pypi.amd.com/rocm-7.2.3/simple --index-strategy unsafe-best-match
 pip3 install -U requests aiohttp
 
 ##-----------------------##
@@ -30,20 +30,21 @@ pip3 install -U requests aiohttp
 For NVIDIA GPUs, check out this link:
 https://docs.rapids.ai/install/
 
-For cuda 12: 
+For cuda 12:
 pip3 install "cudf-cu12==25.12.*"
 
 For cuda 13:
 pip3 install "cudf-cu13==25.12.*"
 '''
 
-import hipdf
+import os
+os.environ["ROCM_HOME"] = "/opt/rocm"
 
+import hipdf
 print(hipdf.__version__)
 # 2.0.00
 
 import cudf
-
 print(cudf.__version__)
 # 25.12.00
 
