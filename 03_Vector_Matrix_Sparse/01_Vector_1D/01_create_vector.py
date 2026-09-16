@@ -25,6 +25,15 @@ import numpy as np
 # =========================================================================================
 # 1. Create 1D vector using np.array()
 # =========================================================================================
+'''
+Beside `np.array()`, you can also use `np.asaray()`.
+
+`np.array()` makes a copy of the object by default `(copy=True)`.
+
+`np.asarray()` avoids copying and creates a view `(copy=False)`
+if the input is already a compatible NumPy array.
+This saves memory and processing time.
+'''
 
 ##-------------##
 ## From a list ##

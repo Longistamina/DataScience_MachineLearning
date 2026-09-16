@@ -15,6 +15,7 @@
    + np.tril(), np.triu()
    + np.fromfunction()
    + np.meshgrid() (build coordinate grids)
+   + np.mgrid[::j, ::j] (like np.meshgrid)
 
 3. Create matrix using _like() functions
    + np.zeros_like(a)
@@ -42,6 +43,15 @@ import numpy as np
 # =========================================================================================
 # 1. Create 2D matrix using np.array()
 # =========================================================================================
+'''
+Beside `np.array()`, you can also use `np.asaray()`.
+
+`np.array()` makes a copy of the object by default `(copy=True)`.
+
+`np.asarray()` avoids copying and creates a view `(copy=False)`
+if the input is already a compatible NumPy array.
+This saves memory and processing time.
+'''
 
 ##--------------------##
 ## From a nested list ##
@@ -267,6 +277,38 @@ These outputs mean generated a grid of (x, y) coordinates:
 (-1, 0),  (-0.5, 0),  (0, 0),  (0.5, 0),  (1, 0)
 (-1, 2),  (-0.5, 2),  (0, 2),  (0.5, 2),  (1, 2)
 '''
+
+##--------------------------##
+## Using np.mgrid[::j, ::j] ##
+##--------------------------##
+'''
+When you write `np.mgrid[-1:2:5j]`
+-> -1 is lower bound
+-> 2 is upper bound
+-> 5j is the length
+-> so the outcome is like `np.linspace(-1, 1, 5)`
+-> 2 will be inclusive
+
+When you write `np.mgrid[-1:2]`
+-> the outcome is like `np.arange(-1, 2)`
+-> 2 will be exclusive
+'''
+
+X, Y = np.mgrid[-1:1:5j, 2:4]
+
+print(X)
+# [[-1.  -1. ]
+#  [-0.5 -0.5]
+#  [ 0.   0. ]
+#  [ 0.5  0.5]
+#  [ 1.   1. ]]
+
+print(Y)
+# [[2. 3.]
+#  [2. 3.]
+#  [2. 3.]
+#  [2. 3.]
+#  [2. 3.]]
 
 # =========================================================================================
 # 3. Create matrix using _like() functions
