@@ -32,8 +32,10 @@ Content flow:
    -> rename all outputs
 
 5. pl.col() column-expression styles
-   -> pl.col("name"), pl.col.name, c("name"), c.name, pl.col("*"),
-      pl.col("*").exclude(...), regex patterns such as pl.col("^ham.*$"),
+   -> pl.col("name"), pl.col.name,
+      c("name"), c.name,
+      pl.col("*"), pl.col("*").exclude(...),
+      regex patterns such as pl.col("^ham.*$"),
       and special-character column names
 
 Note:
@@ -435,7 +437,7 @@ print(df_name)
 ## lf.drop(...) ##
 ##--------------##
 '''
-For "all columns except these", df.drop(...) is the most direct Polars method.
+For "all columns except these", lf.drop(...) is the most direct Polars method.
 '''
 
 print(
@@ -483,7 +485,7 @@ print(
 # columns: name, salary, dept
 
 # =========================================================================================
-# 4. Programmatic reordering patterns
+# 3. Programmatic reordering patterns
 # =========================================================================================
 
 ##------------------------------------##
@@ -571,7 +573,7 @@ print(
 # columns: start_date, id, name, salary, dept
 
 # =========================================================================================
-# 5. Expression selection and light transformation
+# 4. Expression selection and light transformation
 # =========================================================================================
 '''
 Unlike pandas df[[...]], Polars select() can select columns AND create transformed
@@ -632,7 +634,7 @@ print(
 # columns: id_raw, name_raw, salary_raw, start_date_raw, dept_raw
 
 # =========================================================================================
-# 7. pl.col(): Create an expression representing column(s) in a DataFrame
+# 5. pl.col(): Create an expression representing column(s) in a DataFrame
 # =========================================================================================
 '''
 pl.col(...) creates an Expr, not an immediate Series.
@@ -643,9 +645,9 @@ That expression is evaluated only inside a Polars context such as:
 + lf.filter(...)
 + lf.group_by(...).agg(...)
 
-In lf.select("salary"), the string "salary" is convenient shorthand for selecting a column.
+In `lf.select("salary")`, the string "salary" is convenient shorthand for selecting a column.
 However, as soon as you want to transform, compare, aggregate, rename, or reuse a column,
-use pl.col("salary") or the imported alias c("salary").
+use `pl.col("salary")` or the imported alias `c("salary")`.
 '''
 
 ##------------------------------------------##
@@ -828,8 +830,8 @@ print(
 ## pl.col.col_name -- convenient attribute form ##
 ##----------------------------------------------##
 '''
-For simple column names that are valid Python identifiers, Polars also allows
-attribute-style column access:
+For simple column names that are valid Python identifiers,
+Polars also allows attribute-style column access:
 
     pl.col.col_name
 
@@ -956,7 +958,8 @@ print(
 ## c.col_name -- short attribute form ##
 ##------------------------------------##
 '''
-Because c is just an alias for polars.col, c.col_name also works for simple
+Because c is just an alias for polars.col,
+c.col_name also works for simple
 identifier-like column names.
 
 This is the shortest form, but it has the same limitation as pl.col.col_name:
@@ -1063,12 +1066,11 @@ print(
 '''
 Recommended habit:
 
-1. Use pl.col("column_name") when teaching beginners or writing robust examples.
-2. Use c("column_name") when you want shorter expression-heavy code.
-3. Use pl.col.column_name or c.column_name only for quick code with clean column names.
-4. Use pl.col("*") or c("*") for all-column wildcard selection.
-5. Use pl.col("*").exclude("name") or c("*").exclude("name") for all except some columns.
-6. Use pl.col("^pattern$") or c("^pattern$") for regex column-name selection.
-7. Always use pl.col("col name") or c("col name") when the column name has spaces,
+1. Use pl.col("column_name") or c("column_name") is prioritized
+2. Use pl.col.column_name or c.column_name only for quick code with clean column names.
+3. Use pl.col("*") or c("*") for all-column wildcard selection.
+4. Use pl.col("*").exclude("name") or c("*").exclude("name") for all except some columns.
+5. Use pl.col("^pattern$") or c("^pattern$") for regex column-name selection.
+6. Always use pl.col("col name") or c("col name") when the column name has spaces,
    punctuation, leading digits, dots, or other special characters.
 '''
