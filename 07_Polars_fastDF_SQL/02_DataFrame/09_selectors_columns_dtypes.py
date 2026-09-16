@@ -8,28 +8,25 @@ Selectors are useful when you want to select columns by:
 + set logic: union, intersection, difference, symmetric difference, complement
 
 Recommended import:
-    import polars.selectors as cs
+    `import polars.selectors as cs`
 
 Content flow:
 1. What selectors are and when to use them
-2. Select columns by data type
-3. Select columns by exact dtype and nested dtype
+2. Select columns by data type: `cs.numeric()`, `cs.string()`, ...
+3. Select columns by exact dtype and nested dtype:  `cs.by_dtype`, `cs.list()`, `cs.array()`, `cs.struct()`, `cs.nested()`
 4. Select columns by name or name pattern
 5. Select columns by position
 6. Combine selectors with set operations
 7. Use selectors with expressions in select(), with_columns(), and group_by()
 8. Avoid operator ambiguity with as_expr()
 9. Debug selectors with is_selector() and expand_selector()
-10. Use selectors in LazyFrame pipelines
-11. Categorized list of supported selector APIs
+10. Categorized list of supported selector APIs
 
 Important distinction:
 + pl.col("name") is best when you know exact column names.
-+ cs.numeric(), cs.string(), cs.starts_with(...), etc. are best when the matching
-  columns should be discovered from the DataFrame schema.
++ cs.numeric(), cs.string(), cs.starts_with(...), etc. are best
+  when the matching columns should be discovered from the frame schema.
 '''
-
-from __future__ import annotations
 
 import datetime as dt
 from decimal import Decimal
@@ -56,7 +53,7 @@ have something meaningful to match.
 priority_dtype = pl.Enum(["low", "medium", "high"])
 
 # A basic mixed-type DataFrame.
-df_people = pl.DataFrame(
+lf_people = pl.LazyFrame(
     {
         "id": [1, 2, 3, 4],
         "employee name": ["Ada", "Bob", "Charlie", "Dana"],
@@ -73,10 +70,10 @@ df_people = pl.DataFrame(
             dt.date(2018, 3, 10),
         ],
         "last_login": [
-            dt.datetime(2024, 1, 1, 9, 0),
-            dt.datetime(2024, 1, 2, 10, 30),
-            dt.datetime(2024, 1, 3, 8, 45),
-            dt.datetime(2024, 1, 4, 14, 15),
+            dt.datetime(2024, 1, 1, 9, 0),  # noqa: DTZ001
+            dt.datetime(2024, 1, 2, 10, 30), # noqa: DTZ001
+            dt.datetime(2024, 1, 3, 8, 45), # noqa: DTZ001
+            dt.datetime(2024, 1, 4, 14, 15), # noqa: DTZ001
         ],
         "login_time": [
             dt.time(9, 0),
@@ -112,7 +109,7 @@ df_people = pl.DataFrame(
 )
 
 # Add categorical, enum, array, and struct columns.
-df_people = df_people.with_columns(
+lf_people = lf_people.with_columns(
     pl.col("dept").cast(pl.Categorical).alias("dept_cat"),
     pl.Series("priority", ["high", "medium", "high", "low"]).cast(priority_dtype),
     pl.Series(
@@ -123,7 +120,7 @@ df_people = df_people.with_columns(
     pl.struct("salary_usd", "bonus_usd").alias("pay_info"),
 )
 
-print(df_people.select(df_people.columns[0:9])) # first 9 columns
+print(lf_people.select(pl.nth(range(9))).collect()) # first 9 columns
 # shape: (4, 9)
 # ┌─────┬───────────────┬─────────┬────────────┬───────────┬────────────┬────────────┬────────────┬────────────┐
 # │ id  ┆ employee name ┆ dept    ┆ salary_usd ┆ bonus_usd ┆ score_2023 ┆ score_2024 ┆ is_manager ┆ hire_date  │
@@ -136,7 +133,7 @@ print(df_people.select(df_people.columns[0:9])) # first 9 columns
 # │ 4   ┆ Dana          ┆ Finance ┆ 130000.00  ┆ 12000     ┆ 89.50      ┆ 92.00      ┆ true       ┆ 2018-03-10 │
 # └─────┴───────────────┴─────────┴────────────┴───────────┴────────────┴────────────┴────────────┴────────────┘
 
-print(df_people.schema)
+print(lf_people.collect_schema())
 # Expected idea:
 # + string columns: employee name, dept, note text
 # + numeric columns: id, salary_usd, bonus_usd, score_2023, score_2024, 2024, commission
@@ -154,7 +151,7 @@ Selectors are not ordinary column expressions like pl.col("salary_usd").
 They are schema-aware objects that expand to one or more columns.
 
 Typical use:
-    df.select(cs.numeric())
+    lf.select(cs.numeric())
 
 This means:
     "Look at the DataFrame schema and select all columns whose dtype is numeric."
@@ -162,14 +159,14 @@ This means:
 Selectors are especially useful when you do not want to hard-code all column names.
 '''
 
-print(df_people.select(cs.numeric()))
+print(lf_people.select(cs.numeric()).collect())
 # Selects all numeric columns in the DataFrame schema.
 
-print(df_people.select(cs.string()))
+print(lf_people.select(cs.string()).collect())
 # Selects all String columns.
 # Categorical and Enum are not automatically the same thing as String.
 
-print(df_people.select(cs.temporal()))
+print(lf_people.select(cs.temporal()).collect())
 # Selects temporal columns, such as Date, Datetime, Duration, and Time columns.
 
 # =========================================================================================
@@ -184,7 +181,7 @@ cs.numeric() selects all numeric columns.
 This includes integers, floats, and Decimal columns.
 '''
 
-print(df_people.select(cs.numeric()))
+print(lf_people.select(cs.numeric()).collect())
 # shape: (4, 7)
 # ┌─────┬────────────┬───────────┬────────────┬────────────┬──────────────┬──────┐
 # │ id  ┆ salary_usd ┆ bonus_usd ┆ score_2023 ┆ score_2024 ┆ commission   ┆ 2024 │
@@ -205,7 +202,7 @@ print(df_people.select(cs.numeric()))
 cs.integer() selects all integer columns, signed and unsigned.
 '''
 
-print(df_people.select(cs.integer()))
+print(lf_people.select(cs.integer()).collect())
 # shape: (4, 3)
 # ┌─────┬───────────┬──────┐
 # │ id  ┆ bonus_usd ┆ 2024 │
@@ -219,16 +216,16 @@ print(df_people.select(cs.integer()))
 # └─────┴───────────┴──────┘
 # columns include: id, bonus_usd, 2024
 
-##------------------------##
-## cs.signed_integer()    ##
-## cs.unsigned_integer()  ##
-##------------------------##
+##-----------------------##
+## cs.signed_integer()   ##
+## cs.unsigned_integer() ##
+##-----------------------##
 '''
 Use signed_integer() or unsigned_integer() when you care about integer signedness.
 Most small tutorial DataFrames infer signed integers by default.
 '''
 
-print(df_people.select(cs.signed_integer()))
+print(lf_people.select(cs.signed_integer()).collect())
 # shape: (4, 3)
 # ┌─────┬───────────┬──────┐
 # │ id  ┆ bonus_usd ┆ 2024 │
@@ -242,7 +239,7 @@ print(df_people.select(cs.signed_integer()))
 # └─────┴───────────┴──────┘
 # signed integer columns
 
-print(df_people.select(cs.unsigned_integer()))
+print(lf_people.select(cs.unsigned_integer()).collect())
 # usually empty here unless your schema contains unsigned integer dtypes
 
 ##------------##
@@ -252,7 +249,7 @@ print(df_people.select(cs.unsigned_integer()))
 cs.float() selects all floating-point columns.
 '''
 
-print(df_people.select(cs.float()))
+print(lf_people.select(cs.float()).collect())
 # shape: (4, 3)
 # ┌────────────┬────────────┬────────────┐
 # │ salary_usd ┆ score_2023 ┆ score_2024 │
@@ -274,7 +271,7 @@ cs.decimal() selects Decimal columns.
 Decimal is useful for exact fixed-scale values such as money or rates.
 '''
 
-print(df_people.select(cs.decimal()))
+print(lf_people.select(cs.decimal()).collect())
 # shape: (4, 1)
 # ┌──────────────┐
 # │ commission   │
@@ -295,7 +292,7 @@ print(df_people.select(cs.decimal()))
 cs.boolean() selects Boolean columns.
 '''
 
-print(df_people.select(cs.boolean()))
+print(lf_people.select(cs.boolean()).collect())
 # shape: (4, 1)
 # ┌────────────┐
 # │ is_manager │
@@ -319,7 +316,7 @@ If you also want Categorical columns that represent strings, use:
     cs.string(include_categorical=True)
 '''
 
-print(df_people.select(cs.string()))
+print(lf_people.select(cs.string()).collect())
 # shape: (4, 3)
 # ┌───────────────┬─────────┬───────────┐
 # │ employee name ┆ dept    ┆ note text │
@@ -333,7 +330,7 @@ print(df_people.select(cs.string()))
 # └───────────────┴─────────┴───────────┘
 # columns include: employee name, dept, note text
 
-print(df_people.select(cs.string(include_categorical=True)))
+print(lf_people.select(cs.string(include_categorical=True)).collect())
 # shape: (4, 4)
 # ┌───────────────┬─────────┬───────────┬──────────┐
 # │ employee name ┆ dept    ┆ note text ┆ dept_cat │
@@ -354,7 +351,7 @@ print(df_people.select(cs.string(include_categorical=True)))
 cs.categorical() selects Categorical columns.
 '''
 
-print(df_people.select(cs.categorical()))
+print(lf_people.select(cs.categorical()).collect())
 # shape: (4, 1)
 # ┌──────────┐
 # │ dept_cat │
@@ -376,7 +373,7 @@ cs.enum() selects Enum columns.
 Enum columns have a fixed set of allowed categories and a defined order.
 '''
 
-print(df_people.select(cs.enum()))
+print(lf_people.select(cs.enum()).collect())
 # shape: (4, 1)
 # ┌──────────┐
 # │ priority │
@@ -397,7 +394,7 @@ print(df_people.select(cs.enum()))
 cs.binary() selects Binary columns.
 '''
 
-print(df_people.select(cs.binary()))
+print(lf_people.select(cs.binary()).collect())
 # shape: (4, 1)
 # ┌─────────┐
 # │ payload │
@@ -418,7 +415,7 @@ print(df_people.select(cs.binary()))
 cs.temporal() selects temporal columns, such as Date, Datetime, Duration, and Time columns.
 '''
 
-print(df_people.select(cs.temporal()))
+print(lf_people.select(cs.temporal()).collect())
 # shape: (4, 4)
 # ┌────────────┬─────────────────────┬────────────┬──────────────┐
 # │ hire_date  ┆ last_login          ┆ login_time ┆ tenure       │
@@ -432,7 +429,7 @@ print(df_people.select(cs.temporal()))
 # └────────────┴─────────────────────┴────────────┴──────────────┘
 
 # =========================================================================================
-# 3. Select columns by exact dtype and nested dtype
+# 3. Select columns by exact dtype and nested dtype: `cs.by_dtype`
 # =========================================================================================
 
 ##-------------##
@@ -445,7 +442,7 @@ This is useful when you need more exact control than broad selectors such as
 cs.numeric(), cs.integer(), or cs.temporal().
 '''
 
-print(df_people.select(cs.by_dtype(pl.Float64)))
+print(lf_people.select(cs.by_dtype(pl.Float64)).collect())
 # shape: (4, 3)
 # ┌────────────┬────────────┬────────────┐
 # │ salary_usd ┆ score_2023 ┆ score_2024 │
@@ -458,7 +455,7 @@ print(df_people.select(cs.by_dtype(pl.Float64)))
 # │ 130000.00  ┆ 89.50      ┆ 92.00      │
 # └────────────┴────────────┴────────────┘
 
-print(df_people.select(cs.by_dtype(pl.Date, pl.Datetime)))
+print(lf_people.select(cs.by_dtype(pl.Date, pl.Datetime)).collect())
 # shape: (4, 2)
 # ┌────────────┬─────────────────────┐
 # │ hire_date  ┆ last_login          │
@@ -471,7 +468,7 @@ print(df_people.select(cs.by_dtype(pl.Date, pl.Datetime)))
 # │ 2018-03-10 ┆ 2024-01-04 14:15:00 │
 # └────────────┴─────────────────────┘
 
-print(df_people.select(cs.by_dtype([pl.Date, pl.Datetime])))
+print(lf_people.select(cs.by_dtype([pl.Date, pl.Datetime])).collect())
 # A list of dtypes is also accepted.
 
 ##-------------##
@@ -486,11 +483,11 @@ Temporal selectors:
 + cs.temporal()  -> all temporal columns
 '''
 
-print(df_people.select(cs.date()))
-print(df_people.select(cs.datetime()))
-print(df_people.select(cs.time()))
-print(df_people.select(cs.duration()))
-print(df_people.select(cs.temporal()))
+print(lf_people.select(cs.date()).collect())
+print(lf_people.select(cs.datetime()).collect())
+print(lf_people.select(cs.time()).collect())
+print(lf_people.select(cs.duration()).collect())
+print(lf_people.select(cs.temporal()).collect())
 
 ##-------------##
 ## cs.nested() ##
@@ -503,19 +500,19 @@ Nested selectors:
 + cs.nested() -> all nested columns
 '''
 
-print(df_people.select(cs.list()))
+print(lf_people.select(cs.list()).collect())
 # columns include: tags
 
-print(df_people.select(cs.array()))
+print(lf_people.select(cs.array()).collect())
 # columns include: rgb
 
-print(df_people.select(cs.array(width=3)))
+print(lf_people.select(cs.array(width=3)).collect())
 # array columns whose fixed width is 3
 
-print(df_people.select(cs.struct()))
+print(lf_people.select(cs.struct()).collect())
 # columns include: pay_info
 
-print(df_people.select(cs.nested()))
+print(lf_people.select(cs.nested()).collect())
 # columns include: tags, rgb, pay_info
 
 # =========================================================================================
@@ -532,10 +529,10 @@ Use require_all=False if you want to ignore missing names instead of raising an 
 This can be useful in reusable pipelines where some optional columns may or may not exist.
 '''
 
-print(df_people.select(cs.by_name("id", "dept", "salary_usd")))
+print(lf_people.select(cs.by_name("id", "dept", "salary_usd")).collect())
 # Exact column names.
 
-print(df_people.select(cs.by_name("id", "optional_missing_col", require_all=False)))
+print(lf_people.select(cs.by_name("id", "optional_missing_col", require_all=False)).collect())
 # Selects id and silently ignores optional_missing_col.
 
 ##----------------##
@@ -545,10 +542,10 @@ print(df_people.select(cs.by_name("id", "optional_missing_col", require_all=Fals
 cs.starts_with(...) selects columns whose names start with one or more prefixes.
 '''
 
-print(df_people.select(cs.starts_with("score_")))
+print(lf_people.select(cs.starts_with("score_")).collect())
 # columns: score_2023, score_2024
 
-print(df_people.select(cs.starts_with("salary", "bonus")))
+print(lf_people.select(cs.starts_with("salary", "bonus")).collect())
 # columns: salary_usd, bonus_usd
 
 ##--------------##
@@ -558,10 +555,10 @@ print(df_people.select(cs.starts_with("salary", "bonus")))
 cs.ends_with(...) selects columns whose names end with one or more suffixes.
 '''
 
-print(df_people.select(cs.ends_with("_usd")))
+print(lf_people.select(cs.ends_with("_usd")).collect())
 # columns: salary_usd, bonus_usd
 
-print(df_people.select(cs.ends_with("_2023", "_2024")))
+print(lf_people.select(cs.ends_with("_2023", "_2024")).collect())
 # columns: score_2023, score_2024
 
 ##-------------##
@@ -572,10 +569,10 @@ cs.contains(...) selects columns whose names contain a literal substring.
 This is not regex; use cs.matches(...) for regex patterns.
 '''
 
-print(df_people.select(cs.contains("score")))
+print(lf_people.select(cs.contains("score")).collect())
 # columns: score_2023, score_2024
 
-print(df_people.select(cs.contains("date", "login")))
+print(lf_people.select(cs.contains("date", "login")).collect())
 # columns with names containing date or login
 
 ##------------##
@@ -589,10 +586,10 @@ Common patterns:
 + r".*_usd$"       -> names ending with _usd
 '''
 
-print(df_people.select(cs.matches(r"^score_\d{4}$")))
+print(lf_people.select(cs.matches(r"^score_\d{4}$")).collect())
 # columns: score_2023, score_2024
 
-print(df_people.select(cs.matches(r".*_usd$")))
+print(lf_people.select(cs.matches(r".*_usd$")).collect())
 # columns: salary_usd, bonus_usd
 
 ##-------------------------------------------##
@@ -607,7 +604,7 @@ These selectors are about the characters in the column names:
 These are useful for quickly checking or selecting columns based on naming rules.
 '''
 
-df_name_rules = pl.DataFrame(
+lf_name_rules = pl.LazyFrame(
     {
         "abc": [1, 2],
         "abc123": [3, 4],
@@ -617,16 +614,16 @@ df_name_rules = pl.DataFrame(
     }
 )
 
-print(df_name_rules.select(cs.alpha()))
+print(lf_name_rules.select(cs.alpha()).collect())
 # columns: abc
 
-print(df_name_rules.select(cs.alphanumeric()))
+print(lf_name_rules.select(cs.alphanumeric()).collect())
 # columns: abc, abc123, 123
 
-print(df_name_rules.select(cs.digit()))
+print(lf_name_rules.select(cs.digit()).collect())
 # columns: 123
 
-print(df_name_rules.select(cs.alpha(ignore_spaces=True)))
+print(lf_name_rules.select(cs.alpha(ignore_spaces=True)).collect())
 # columns: abc, has space
 
 # =========================================================================================
@@ -641,7 +638,7 @@ cs.all() selects all columns.
 It is similar in spirit to pl.all(), but it is a selector.
 '''
 
-print(df_people.select(cs.all()))
+print(lf_people.select(cs.all()).collect())
 # all columns
 
 ##----------##
@@ -651,7 +648,7 @@ print(df_people.select(cs.all()))
 cs.first() selects the first column in the current schema/context.
 '''
 
-print(df_people.select(cs.first()))
+print(lf_people.select(cs.first()).collect())
 # column: id
 
 ##---------##
@@ -661,7 +658,7 @@ print(df_people.select(cs.first()))
 cs.last() selects the last column in the current schema/context.
 '''
 
-print(df_people.select(cs.last()))
+print(lf_people.select(cs.last()).collect())
 # column: pay_info
 
 ##-------------##
@@ -672,13 +669,13 @@ cs.by_index(...) selects columns by their zero-based positions.
 It also accepts range objects.
 '''
 
-print(df_people.select(cs.by_index(0, 1, 2)))
+print(lf_people.select(cs.by_index(0, 1, 2)).collect())
 # first three columns by position
 
-print(df_people.select(cs.by_index(range(3, 7))))
+print(lf_people.select(cs.by_index(range(3, 7))).collect())
 # columns at positions 3, 4, 5, 6
 
-print(df_people.select(cs.by_index(-1)))
+print(lf_people.select(cs.by_index(-1)).collect())
 # last column by position
 
 # =========================================================================================
@@ -702,30 +699,30 @@ set expression you wrote.
 ## Union: A | B ##
 ##--------------##
 
-print(df_people.select(cs.string() | cs.boolean()))
+print(lf_people.select(cs.string() | cs.boolean()).collect())
 # all string columns plus boolean columns, in schema order
 
-print(df_people.select(cs.temporal() | cs.starts_with("score_")))
+print(lf_people.select(cs.temporal() | cs.starts_with("score_")).collect())
 # temporal columns plus score columns
 
 ##---------------------##
 ## Intersection: A & B ##
 ##---------------------##
 
-print(df_people.select(cs.numeric() & cs.ends_with("_usd")))
+print(lf_people.select(cs.numeric() & cs.ends_with("_usd")).collect())
 # numeric columns whose names end with _usd: salary_usd, bonus_usd
 
-print(df_people.select(cs.float() & cs.contains("score")))
+print(lf_people.select(cs.float() & cs.contains("score")).collect().collect())
 # float columns whose names contain score: score_2023, score_2024
 
 ##-------------------##
 ## Difference: A - B ##
 ##-------------------##
 
-print(df_people.select(cs.numeric() - cs.by_name("id")))
+print(lf_people.select(cs.numeric() - cs.by_name("id")).collect())
 # numeric columns except id
 
-print(df_people.select(cs.all() - cs.nested()))
+print(lf_people.select(cs.all() - cs.nested()).collect())
 # all columns except List, Array, and Struct columns
 
 ##-----------------------------##
@@ -735,17 +732,17 @@ print(df_people.select(cs.all() - cs.nested()))
 A ^ B means columns that are in A or B, but not both (exclusive OR).
 '''
 
-print(df_people.select(cs.starts_with("score") ^ cs.ends_with("_2024")))
+print(lf_people.select(cs.starts_with("score") ^ cs.ends_with("_2024")).collect())
 # score_2023 is selected; score_2024 is in both sides, so it is removed
 
 ##----------------##
 ## Complement: ~A ##
 ##----------------##
 
-print(df_people.select(~cs.numeric()))
+print(lf_people.select(~cs.numeric()).collect())
 # all non-numeric columns
 
-print(df_people.select(~cs.by_name("id", "employee name")))
+print(lf_people.select(~cs.by_name("id", "employee name")).collect())
 # all columns except id and employee name
 
 # =========================================================================================
@@ -762,16 +759,18 @@ Example: round all float columns.
 '''
 
 print(
-    df_people.select(
+    lf_people.select(
         cs.float().round(1)
     )
+    .collect()
 )
 # Every float column is rounded.
 
 print(
-    df_people.select(
+    lf_people.select(
         (cs.numeric() * 2).name.suffix("_x2")
     )
+    .collect()
 )
 # Every numeric column is multiplied by 2 and renamed with a suffix.
 
@@ -785,16 +784,18 @@ Example: uppercase all string columns.
 '''
 
 print(
-    df_people.with_columns(
+    lf_people.with_columns(
         cs.string().str.to_uppercase()
     )
+    .collect()
 )
 # String columns are uppercased in place.
 
 print(
-    df_people.with_columns(
+    lf_people.with_columns(
         (cs.ends_with("_usd") / 1000).name.suffix("_thousands")
     )
+    .collect()
 )
 # Adds salary_usd_thousands and bonus_usd_thousands.
 
@@ -810,16 +811,22 @@ A common pattern:
 '''
 
 print(
-    df_people.group_by(cs.by_name("dept")).agg(
+    lf_people
+    .group_by(cs.by_name("dept"))
+    .agg(
         cs.ends_with("_usd").sum()
     )
+    .collect()
 )
 # Sum all _usd columns by department.
 
 print(
-    df_people.group_by(cs.categorical()).agg(
+    lf_people
+    .group_by(cs.categorical())
+    .agg(
         cs.numeric().mean()
     )
+    .collect()
 )
 # Group by categorical columns and compute the mean of numeric columns.
 
@@ -832,10 +839,10 @@ Selector objects also have an .exclude(...) method.
 This is convenient when you first select a broad group, then remove a few columns.
 '''
 
-print(df_people.select(cs.numeric().exclude("id")))
+print(lf_people.select(cs.numeric().exclude("id")).collect())
 # numeric columns except id
 
-print(df_people.select(cs.all().exclude("payload", "pay_info")))
+print(lf_people.select(cs.all().exclude("payload", "pay_info")).collect())
 # all columns except payload and pay_info
 
 ##-----------------##
@@ -846,13 +853,13 @@ cs.exclude(...) is a selector-level helper for selecting everything except the
 specified names, dtypes, or selectors.
 '''
 
-print(df_people.select(cs.exclude("payload", "pay_info")))
+print(lf_people.select(cs.exclude("payload", "pay_info")).collect())
 # all columns except payload and pay_info
 
-print(df_people.select(cs.exclude(cs.nested())))
+print(lf_people.select(cs.exclude(cs.nested())).collect())
 # all columns except nested columns
 
-print(df_people.select(cs.exclude(pl.Boolean)))
+print(lf_people.select(cs.exclude(pl.Boolean)).collect())
 # all columns except Boolean columns
 
 # =========================================================================================
@@ -868,7 +875,7 @@ Example:
 Use .as_expr() when you want expression behavior instead of selector-set behavior.
 '''
 
-df_flags = pl.DataFrame(
+lf_flags = pl.LazyFrame(
     {
         "name": ["Ada", "Bob", "Charlie"],
         "has_badge": [True, False, True],
@@ -878,7 +885,7 @@ df_flags = pl.DataFrame(
 )
 
 # Selector complement: select non-Boolean columns.
-print(df_flags.select(~cs.boolean()))
+print(lf_flags.select(~cs.boolean()).collect())
 # shape: (3, 2)
 # ┌─────────┬───────┐
 # │ name    ┆ score │
@@ -891,7 +898,7 @@ print(df_flags.select(~cs.boolean()))
 # └─────────┴───────┘
 
 # Expression negation: keep Boolean columns and invert their values.
-print(df_flags.select((~cs.boolean().as_expr()).name.prefix("not_")))
+print(lf_flags.select((~cs.boolean().as_expr()).name.prefix("not_")).collect())
 # shape: (3, 2)
 # ┌───────────────┬────────────────┐
 # │ not_has_badge ┆ not_has_laptop │
@@ -906,13 +913,14 @@ print(df_flags.select((~cs.boolean().as_expr()).name.prefix("not_")))
 ##----------------------------##
 
 # Another example: use OR on selector sets vs OR on expression values.
-print(df_flags.select(cs.starts_with("has_") | cs.by_name("score")))
+print(lf_flags.select(cs.starts_with("has_") | cs.by_name("score")).collect())
 # selector union: has_badge, has_laptop, score
 
 print(
-    df_flags.select(
+    lf_flags.select(
         (cs.starts_with("has_").as_expr() | (pl.col("score") > 90)).name.suffix("_or_high_score")
     )
+    .collect()
 )
 # expression OR: Boolean logic applied to the values.
 
@@ -946,61 +954,18 @@ for a particular DataFrame, LazyFrame, or schema.
 This is one of the best ways to debug selector logic.
 '''
 
-print(cs.expand_selector(df_people, cs.numeric()))
+print(cs.expand_selector(lf_people, cs.numeric()))
 # ('id', 'salary_usd', 'bonus_usd', 'score_2023', 'score_2024', 'commission', '2024')
 # tuple of numeric column names
 
-print(cs.expand_selector(df_people, cs.numeric() & cs.ends_with("_usd")))
+print(cs.expand_selector(lf_people, cs.numeric() & cs.ends_with("_usd")))
 # ('salary_usd', 'bonus_usd')
 
-print(cs.expand_selector(df_people, cs.all() - cs.nested()))
+print(cs.expand_selector(lf_people, cs.all() - cs.nested()))
 # all non-nested column names
 
 # =========================================================================================
-# 10. Selectors in LazyFrame
-# =========================================================================================
-'''
-Selectors work naturally in LazyFrame pipelines because they resolve against the
-LazyFrame schema.
-
-Like other lazy operations, nothing is executed until collect().
-'''
-
-lf_people = df_people.lazy()
-
-lazy_query = (
-    lf_people
-    .select(
-        cs.by_name("dept"),
-        cs.ends_with("_usd"),
-        cs.starts_with("score_"),
-    )
-    .with_columns(
-        (cs.ends_with("_usd") / 1000).name.suffix("_k")
-    )
-)
-
-print(lazy_query.collect())
-# shape: (4, 7)
-# ┌─────────┬────────────┬───────────┬────────────┬────────────┬──────────────┬─────────────┐
-# │ dept    ┆ salary_usd ┆ bonus_usd ┆ score_2023 ┆ score_2024 ┆ salary_usd_k ┆ bonus_usd_k │
-# │ ---     ┆ ---        ┆ ---       ┆ ---        ┆ ---        ┆ ---          ┆ ---         │
-# │ str     ┆ f64        ┆ i64       ┆ f64        ┆ f64        ┆ f64          ┆ f64         │
-# ╞═════════╪════════════╪═══════════╪════════════╪════════════╪══════════════╪═════════════╡
-# │ IT      ┆ 120000.00  ┆ 10000     ┆ 91.50      ┆ 93.00      ┆ 120.00       ┆ 10.00       │
-# │ HR      ┆ 90000.00   ┆ 5000      ┆ 88.00      ┆ 90.00      ┆ 90.00        ┆ 5.00        │
-# │ IT      ┆ 110000.00  ┆ 7500      ┆ 95.00      ┆ 96.50      ┆ 110.00       ┆ 7.50        │
-# │ Finance ┆ 130000.00  ┆ 12000     ┆ 89.50      ┆ 92.00      ┆ 130.00       ┆ 12.00       │
-# └─────────┴────────────┴───────────┴────────────┴────────────┴──────────────┴─────────────┘
-
-print(lazy_query.explain())
-# WITH_COLUMNS:
-# [[(col("salary_usd")) / (1000.00)].alias("salary_usd_k"), [(col("bonus_usd")) / (1000)].alias("bonus_usd_k")]
-#  DF ["id", "employee name", "dept", "salary_usd", ...]; PROJECT["dept", "salary_usd", "bonus_usd", "score_2023", ...] 5/21 COLUMNS
-# Shows the lazy query plan.
-
-# =========================================================================================
-# 11. Categorized selector API list
+# 10. Categorized selector API list
 # =========================================================================================
 '''
 Below is a categorized map of the selector APIs documented in Polars.
