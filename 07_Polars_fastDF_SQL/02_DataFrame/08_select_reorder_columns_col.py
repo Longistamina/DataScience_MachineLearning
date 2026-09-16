@@ -53,11 +53,6 @@ pl.Config.set_float_precision(2)
 # =========================================================================================
 # 0. Example Data
 # =========================================================================================
-'''
-The pandas file uses emp.csv and focuses on two ways to select/reorder columns.
-Here we try to load the same teaching data. If the data folder is not available,
-a fallback DataFrame is created so the examples remain readable elsewhere.
-'''
 
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 

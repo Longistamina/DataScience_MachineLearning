@@ -11,11 +11,10 @@ They all have `over` parameter to perform group-by operations
 '''
 
 import tidypyrs as tp  # noqa: I001
-import polars as pl
 from tidypyrs import f
 from pathlib import Path
 
-pl.Config(tbl_width_chars=120)
+tp.Config(tbl_width_chars=120)
 data_dir = next(Path("/home").glob("**/DataScience*/data"))
 
 tl_pokemon = (

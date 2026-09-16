@@ -27,18 +27,17 @@ Therefore, if we want to create row names, we need to treat them as a column of 
 import re
 from pathlib import Path
 
-import polars as pl
 import tidypyrs as tp
 from tidypyrs import f
 
-pl.Config(tbl_width_chars=120)
+tp.Config(tbl_width_chars=120)
 data_dir = next(Path("/home").glob("**/DataScience*/data"))
 
 # ==============================================================================
 # 1. Change column names
 # ==============================================================================
 
-tf_lifexp = tp.read_csv(data_dir/"life_expectancy.csv", schema_overrides={"Population":pl.Float64})
+tf_lifexp = tp.read_csv(data_dir/"life_expectancy.csv", schema_overrides={"Population":tp.Float64})
 tl_lifexp = tf_lifexp.lazy()
 
 print(tf_lifexp.glimpse(max_items_per_column=5, return_type="string"))
@@ -448,7 +447,7 @@ print(
 
 tl_pokemon = tp.scan_csv(data_dir/"pokemon.csv")
 
-with pl.Config(tbl_cols=15, tbl_width_chars=140):
+with tp.Config(tbl_cols=15, tbl_width_chars=140):
     print(tl_pokemon.head(2).collect())
     # shape: (2, 13)
     # ┌─────┬───────────┬────────┬────────┬───────┬─────┬────────┬─────────┬─────────┬─────────┬───────┬────────────┬───────────┐
@@ -460,7 +459,7 @@ with pl.Config(tbl_cols=15, tbl_width_chars=140):
     # │ 2   ┆ Ivysaur   ┆ Grass  ┆ Poison ┆ 405   ┆ 60  ┆ 62     ┆ 63      ┆ 80      ┆ 80      ┆ 60    ┆ 1          ┆ false     │
     # └─────┴───────────┴────────┴────────┴───────┴─────┴────────┴─────────┴─────────┴─────────┴───────┴────────────┴───────────┘
 
-with pl.Config(tbl_cols=15, tbl_width_chars=140):
+with tp.Config(tbl_cols=15, tbl_width_chars=140):
     print(
         tl_pokemon
         .select(f.all().name.to_lowercase().name.replace(r"\s+", "_").name.replace(".", "", literal=True))
