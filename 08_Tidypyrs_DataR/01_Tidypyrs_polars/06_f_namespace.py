@@ -20,11 +20,10 @@ DataFrame/LazyFrame.
 from pathlib import Path
 
 import numpy as np
-import polars as pl
 import tidypyrs as tp  # noqa: I001
 from tidypyrs import f
 
-pl.Config(tbl_width_chars=120, tbl_rows=5)
+tp.Config(tbl_width_chars=120, tbl_rows=5)
 data_dir = next(Path("/home").glob("**/DataScience*/data"))
 
 tl_pokemon = (
@@ -579,9 +578,16 @@ print(
 print(
     tl_pokemon
     .select(
-        f("total").pipe(np.mean).alias("total_mean"),
-        f("hp").pipe(np.max).alias("hp_max")
+        f("total").map_batches(lambda s: np.mean(s.to_numpy()), return_dtype=tp.Float64, returns_scalar=True).alias("total_mean"),
+        f("hp").map_batches(lambda s: np.max(s.to_numpy()), return_dtype=tp.Float64, returns_scalar=True).alias("hp_max")
     )
     .collect()
 )
-'''Raise Error!!!'''
+# shape: (1, 2)
+# ┌────────────┬────────┐
+# │ total_mean ┆ hp_max │
+# │ ---        ┆ ---    │
+# │ f64        ┆ f64    │
+# ╞════════════╪════════╡
+# │ 435.1025   ┆ 255.0  │
+# └────────────┴────────┘
