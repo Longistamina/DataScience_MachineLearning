@@ -4,7 +4,8 @@ we can use `.gather(indices)` method
 
 1. `lf.gather(list_of_indices)`
 2. `lf.gather(range(start, stop))`
-3. `lf.gather(range(start, stop, step))`: works like `gather_every`
+3. `lf.gather(range(start, stop, step))`
+4. `lf.gather_every(n, offset)`
 '''
 
 from pathlib import Path
@@ -93,7 +94,10 @@ print(
 # =============================================
 # 3. `lf.gather(range(start, stop, step))`
 # =============================================
-'''This works like `gather_every`'''
+
+##--------------------------##
+## range(start, stop, step) ##
+##--------------------------##
 
 print(
     lf_baseball
@@ -133,3 +137,32 @@ print(
 # │ 50    ┆ Charlie_Haeger ┆ CWS  ┆ Starting_Pitcher ┆ 73     ┆ 200    ┆ 23.45 ┆ Pitcher     │
 # │ 55    ┆ Javier_Vazquez ┆ CWS  ┆ Starting_Pitcher ┆ 74     ┆ 205    ┆ 30.60 ┆ Pitcher     │
 # └───────┴────────────────┴──────┴──────────────────┴────────┴────────┴───────┴─────────────┘
+
+# =============================================
+# 4. `lf.gather_every(n, offset)`
+# =============================================
+
+print(
+    lf_baseball
+    .with_row_index()
+    .gather_every(n=3, offset=10) # Starts at index=10, gather to the end, with step=3
+    .collect()
+)
+# shape: (335, 8)
+# ┌───────┬─────────────────┬──────┬──────────────────┬────────┬────────┬───────┬─────────────┐
+# │ index ┆ Name            ┆ Team ┆ Position         ┆ Height ┆ Weight ┆ Age   ┆ PosCategory │
+# │ ---   ┆ ---             ┆ ---  ┆ ---              ┆ ---    ┆ ---    ┆ ---   ┆ ---         │
+# │ u32   ┆ str             ┆ cat  ┆ cat              ┆ i64    ┆ i64    ┆ f64   ┆ cat         │
+# ╞═══════╪═════════════════╪══════╪══════════════════╪════════╪════════╪═══════╪═════════════╡
+# │ 10    ┆ Jeff_Fiorentino ┆ BAL  ┆ Outfielder       ┆ 73     ┆ 188    ┆ 23.88 ┆ Outfielder  │
+# │ 13    ┆ Brandon_Fahey   ┆ BAL  ┆ Outfielder       ┆ 74     ┆ 160    ┆ 26.11 ┆ Outfielder  │
+# │ 16    ┆ Erik_Bedard     ┆ BAL  ┆ Starting_Pitcher ┆ 73     ┆ 189    ┆ 27.99 ┆ Pitcher     │
+# │ 19    ┆ Daniel_Cabrera  ┆ BAL  ┆ Starting_Pitcher ┆ 79     ┆ 230    ┆ 25.76 ┆ Pitcher     │
+# │ 22    ┆ Kris_Benson     ┆ BAL  ┆ Starting_Pitcher ┆ 76     ┆ 195    ┆ 32.31 ┆ Pitcher     │
+# │ …     ┆ …               ┆ …    ┆ …                ┆ …      ┆ …      ┆ …     ┆ …           │
+# │ 1000  ┆ Anthony_Reyes   ┆ STL  ┆ Starting_Pitcher ┆ 74     ┆ 215    ┆ 25.37 ┆ Pitcher     │
+# │ 1003  ┆ Chris_Carpenter ┆ STL  ┆ Starting_Pitcher ┆ 78     ┆ 230    ┆ 31.84 ┆ Pitcher     │
+# │ 1006  ┆ Ricardo_Rincon  ┆ STL  ┆ Relief_Pitcher   ┆ 69     ┆ 190    ┆ 36.88 ┆ Pitcher     │
+# │ 1009  ┆ Josh_Hancock    ┆ STL  ┆ Relief_Pitcher   ┆ 75     ┆ 205    ┆ 28.89 ┆ Pitcher     │
+# │ 1012  ┆ Chris_Narveson  ┆ STL  ┆ Relief_Pitcher   ┆ 75     ┆ 205    ┆ 25.19 ┆ Pitcher     │
+# └───────┴─────────────────┴──────┴──────────────────┴────────┴────────┴───────┴─────────────┘
