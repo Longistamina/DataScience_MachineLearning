@@ -11,7 +11,7 @@ DataFrame/LazyFrame.
 3. `f["x"]` and `f["x", "y", "z"]`
 4. `f.all()` and the Polars expression namespace
 5. `f.colnames` and automatic deferred method forwarding
-6. `f.select("x")` for selecting from the current frame later
+6. `f.select("x")` and `f.sl("x")` for selecting from the current frame later
 7. `f.pull("x")` for extracting concrete values later
 8. Deferred operations in sequential mutation
 9. `f` expressions with NumPy functions
@@ -284,7 +284,7 @@ print(
 # └───────────┴────────┴────────┴────────────┘
 
 # =========================================================================================
-# 6. `f.select("x")` for selecting from the current frame later
+# 6. `f.select("x")` and `f.sl("x")` for selecting from the current frame later
 # =========================================================================================
 '''
 `f.select()` describes a selection from the frame that will be executing the
@@ -297,7 +297,15 @@ expression when `mutate()` eventually supplies the frame.
 
 Inferring categories from a LazyFrame requires an internal collection. Supply
 explicit categories when preserving full laziness is more important.
+
+-----------------------------------------------------------------------------
+
+`f.sl()` is the short form of `f.select()`
 '''
+
+##------------##
+## f.select() ##
+##------------##
 
 # with `tp.as_enum`
 print(
@@ -344,6 +352,30 @@ print(
 # │ HoopaHoopa Unbound ┆ 6          ┆ 6                  │
 # │ Volcanion          ┆ 6          ┆ 6                  │
 # └────────────────────┴────────────┴────────────────────┘
+
+##--------##
+## f.sl() ##
+##--------##
+
+# with `tp.as_enum`
+print(
+    tl_pokemon
+    .mutate(
+        generation_enum = tp.as_enum(f.sl("generation"))
+    )
+    .select(f("name", "generation", "generation_enum"))
+    .collect()
+)
+
+# with `tp.as_ordered`
+print(
+    tl_pokemon
+    .mutate(
+        generation_ordered = tp.as_ordered(f.sl("generation"), reverse=True)
+    )
+    .select(f("name", "generation", "generation_ordered"))
+    .collect()
+)
 
 # =========================================================================================
 # 7. `f.pull("x")` for extracting concrete values later
