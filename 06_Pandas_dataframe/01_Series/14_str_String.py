@@ -1,5 +1,5 @@
 '''
-The pandas.Series.str accessor provides vectorized string operations
+The `pandas.Series.str` accessor provides vectorized string operations
 for Series and Index objects containing string data.
 
 It's one of pandas' most powerful features for text processing,
@@ -23,7 +23,7 @@ while handling missing values automatically and operating efficiently on entire 
 3. Checking methods (Boolean returns):
    - Character type checks: .isalpha(), .isdigit(), .isnumeric(), .isdecimal(), .isalnum(), .isspace()
    - Case checks: .isupper(), .islower(), .istitle()
-   - Pattern checks: .startswith(prefix), .endswith(suffix), .contain(pattern)
+   - Pattern checks: .startswith(prefix), .endswith(suffix), .contains(pattern)
 
 4. Split and Partion:
    - Spliting: .split(delimiter), .rsplit(delimiter)
@@ -106,7 +106,7 @@ print(s_nums.astype(str))
 # 2    3.0
 # 3    nan
 # 4    5.0
-# dtype: object
+# dtype: str
 
 '''
 NOTE: After using .astype(str), all the numeric values have the format with a decimal point (e.g., '1.0', '2.0', etc.),
@@ -126,14 +126,13 @@ print(s_nums.astype(str).str.fullmatch(r"\d+\.\d+"))
 # =========================================================================================
 
 s_heroes = pd.Series(
-    data = ["Tony_Stark", "Steve_Rogers", "Bruce_Banner", "Pietro_Maximoff"],
-    index = ["Ironman", "CaptainAmerica", "Hulk", "Quicksilver"]
+    data=["Tony_Stark", "Steve_Rogers", "Bruce_Banner", "Pietro_Maximoff"],
+    index=["Ironman", "CaptainAmerica", "Hulk", "Quicksilver"]
 )
 
 ##-----------------##
 ## .slice() method ##
 ##-----------------##
-
 '''
 .str.slice(start=None, stop=None, step=None)
 '''
@@ -169,7 +168,6 @@ print(s_heroes.str.slice(step=2))
 ##-------------------------##
 ## .slice_replace() method ##
 ##-------------------------##
-
 '''
 .str.slice_replace(start=None, stop=None, repl=None)
 '''
@@ -184,19 +182,18 @@ print(s_heroes.str.slice_replace(start=0, stop=4, repl="Dr"))
 ##---------------##
 ## .get() method ##
 ##---------------##
-
 '''
 .str.get(i) (works like .str[i] but handles out-of-bounds gracefully)
 '''
 
-print(s_heroes.str.get(0))
+print(s_heroes.str.get(0)) # works like `s_heroes.str[0]`
 # Ironman           T
 # CaptainAmerica    S
 # Hulk              B
 # Quicksilver       P
 # dtype: object
 
-print(s_heroes.str.get(-2))
+print(s_heroes.str.get(-2)) # works like `s_heroes.str[-2]`
 # Ironman           r
 # CaptainAmerica    r
 # Hulk              e
@@ -213,13 +210,13 @@ print(s_heroes.str.get(20))  # Out-of-bounds
 # ## With dictionary-type series
 #
 s_ff4_dict = pd.Series(
-    data = [
+    data=[
          {"name": "Reed_Richards", "code": "MrFantastic"},
          {"name": "Johnny_Storm", "code": "HumanTorch"},
          {"name": "Susan_Storm", "code": "InvisibleWoman"},
          {"name": "Ben_Grimm", "code": "TheThing"}
     ],
-    name = "Fantastic Four"
+    name="Fantastic Four"
 )
 
 print(s_ff4_dict)
@@ -329,25 +326,21 @@ s_spaced = pd.Series(['  hello  ', '  pandas  ', '  data science  '])
 
 # ## .strip()
 # # Remove leading and trailing whitespace
-
 print(s_spaced.str.strip())
 # 0           hello
 # 1          pandas
 # 2    data science
 # dtype: object
-
 print(s_spaced.str.strip().to_list())
 # ['hello', 'pandas', 'data science']
 
 # ## .lstrip()
 # # Remove leading whitespace only
-
 print(s_spaced.str.lstrip().to_list())
 # ['hello  ', 'pandas  ', 'data science  ']
 
 # ## .rstrip()
 # # Remove trailing whitespace only
-
 print(s_spaced.str.rstrip().to_list())
 # ['  hello', '  pandas', '  data science']
 
@@ -363,13 +356,12 @@ s_check = pd.Series(['Hello', 'WORLD', '123', '225.2', '⅕', '³', 'Hello123', 
 
 # ## .isalpha()
 # # Check if all characters are alphabetic
-
 print(s_check.str.isalpha())
 # 0     True ('Hello')
 # 1     True ('WORLD')
 # 2    False
 # 3    False
-# 4     True
+# 4    False
 # 5    False
 # 6    False
 # 7    False
@@ -378,13 +370,12 @@ print(s_check.str.isalpha())
 
 # ## .isdigit()
 # # Check if all characters are digits
-
 print(s_check.str.isdigit())
 # 0    False
 # 1    False
 # 2     True ('123')
 # 3    False
-# 4    False
+# 4    True ('⅕')
 # 5    True ('³')
 # 6    False
 # 7    False
@@ -393,7 +384,6 @@ print(s_check.str.isdigit())
 
 # ## .isnumeric()
 # # Check if all characters are numeric (includes digits and numeric characters like fractions)
-
 print(s_check.str.isnumeric())
 # 0    False
 # 1    False
@@ -408,7 +398,6 @@ print(s_check.str.isnumeric())
 
 # ## .isdecimal()
 # # Checks for characters used to form numbers in base 10
-
 print(s_check.str.isdecimal())
 # 0    False
 # 1    False
@@ -423,7 +412,6 @@ print(s_check.str.isdecimal())
 
 # ## .isalnum()
 # # Check if all characters are alphanumeric (letters and numbers)
-
 print(s_check.str.isalnum())
 # 0     True ('Hello')
 # 1     True ('WORLD')
@@ -438,7 +426,6 @@ print(s_check.str.isalnum())
 
 # ## .isspace()
 # # Check if all characters are whitespace
-
 print(s_check.str.isspace())
 # 0    False
 # 1    False
@@ -459,7 +446,6 @@ s_check = pd.Series(['Hello', 'WORLD', 'Hello World', 'hello123', '   ', ''])
 
 # ## .isupper()
 # # Check if all characters are uppercase
-
 print(s_check.str.isupper())
 # 0    False
 # 1     True ('WORLD')
@@ -471,7 +457,6 @@ print(s_check.str.isupper())
 
 # ## .islower()
 # # Check if all characters are lowercase
-
 print(s_check.str.islower())
 # 0    False
 # 1    False
@@ -483,7 +468,6 @@ print(s_check.str.islower())
 
 # ## .istitle()
 # # Check if the string is titlecased (first letter of each word is uppercase)
-
 print(s_check.str.istitle())
 # 0     True ('Hello')
 # 1    False
@@ -499,15 +483,13 @@ print(s_check.str.istitle())
 
 # ## .startswith(prefix)
 # # Check if strings start with the specified prefix
-
 s_start = s = pd.Series(['bat', 'Bear', 'cat', np.nan])
-
 print(s_start.str.startswith('b'))
 # 0     True ('bat')
 # 1    False
 # 2    False
-# 3      NaN
-# dtype: object
+# 3    False
+# dtype: boolean
 
 print(s_start.str.startswith(pat=('b', 'B'), na=False)) # Treat NaN as False
 # 0     True
@@ -518,15 +500,13 @@ print(s_start.str.startswith(pat=('b', 'B'), na=False)) # Treat NaN as False
 
 # ## .endswith(suffix)
 # # Check if strings end with the specified suffix
-
 s_end = pd.Series(['bat', 'bear', 'caT', np.nan])
-
 print(s_end.str.endswith('t'))
 # 0     True ('bat')
 # 1    False
 # 2    False
-# 3      NaN
-# dtype: object
+# 3    False
+# dtype: boolean
 
 print(s_end.str.endswith(pat=('t', 'T'), na=False)) # Treat NaN as False
 # 0     True ('bat')
@@ -535,26 +515,24 @@ print(s_end.str.endswith(pat=('t', 'T'), na=False)) # Treat NaN as False
 # 3    False
 # dtype: bool
 
-# ## .contai(pattern)
+# ## .contains(pattern)
 # # Check if strings contain the specified pattern (can be a substring or regex)
-
 s_contain = pd.Series(['Mouse', 'dog', 'house and parrot', '23', np.nan])
-
 print(s_contain.str.contains(pat='og', regex=False))
 # 0    False
 # 1     True ('dog')
 # 2    False
 # 3    False
-# 4      NaN
-# dtype: object
+# 4    False
+# dtype: bool
 
 print(s_contain.str.contains(pat='oG', regex=False))
 # 0    False
 # 1    False
 # 2    False
 # 3    False
-# 4      NaN
-# dtype: object
+# 4    False
+# dtype: bool
 
 print(s_contain.str.contains(pat='oG', case=False, regex=False, na=False)) # Case insensitive, Treat NaN as False
 # 0    False
@@ -585,7 +563,6 @@ s_split = pd.Series(['apple_banana_cherry', 'dog_cat', 'one_two_three_four', np.
 # ## .split(delimiter)
 # # Split strings by the specified delimiter
 # By default, pat='\s+' (whitespace) and n=-1 (all occurrences)
-
 print(s_split.str.split('_'))
 # 0    [apple, banana, cherry]
 # 1                 [dog, cat]
@@ -600,7 +577,7 @@ print(s_split.str.split(pat='_', n=2))  # Split up to 2 delimiters only (results
 # 3                        NaN
 # dtype: object
 
-print(s_split.str.split(pat='_', expand= True))  # Expand into separate columns
+print(s_split.str.split(pat='_', expand=True))  # Expand into separate columns
 #        0       1       2     3
 # 0  apple  banana  cherry  None
 # 1    dog     cat    None  None
@@ -610,7 +587,6 @@ print(s_split.str.split(pat='_', expand= True))  # Expand into separate columns
 # ## .rsplit(delimiter)
 # # Split strings by the specified delimiter from the right
 # By default, pat='\s+' (whitespace) and n=-1 (all occurrences)
-
 print(s_split.str.rsplit('_'))
 # 0    [apple, banana, cherry]
 # 1                 [dog, cat]
@@ -658,7 +634,7 @@ print(s_split.str.split('_')[5]) # nan
 
 '''------------------------'''
 
-print(s_split.str.split(pat='_', expand= True))  # Expand into separate columns
+print(s_split.str.split(pat='_', expand=True))  # Expand into separate columns
 #       0        1
 # 0  day1  sample1
 # 1  day1  sample2
@@ -667,7 +643,7 @@ print(s_split.str.split(pat='_', expand= True))  # Expand into separate columns
 # 4  day2  sample5
 # 5   NaN      NaN
 
-print(s_split.str.split('_').str[1])
+print(s_split.str.split('_').str[1]) # or using `s_split.str.split('_').str.get(1)`
 # 0    sample1
 # 1    sample2
 # 2    sample3
@@ -688,7 +664,6 @@ s_partition = pd.Series(['apple-banana-cherry', 'dog-cat', 'one-two-three-four',
 # ## .partition(separator)
 # # Split strings at the first occurrence of the specified separator
 # By default, sep=' ' (whitespace)
-
 print(s_partition.str.partition('-'))
 #        0    1               2
 # 0  apple    -   banana-cherry
@@ -713,7 +688,6 @@ print(s_partition.str.partition(sep='-', expand=False)) # Return as tuples, not 
 # ## .rpartition(separator)
 # # Split strings at the last occurrence of the specified separator
 # By default, sep=' ' (whitespace)
-
 print(s_partition.str.rpartition('-'))
 #                0    1       2
 # 0   apple-banana    -  cherry
@@ -738,12 +712,18 @@ print(s_partition.str.rpartition(sep='-', expand=False)) # Return as tuples, not
 # =========================================================================================
 # 5. Joinning
 # =========================================================================================
-
 '''
 join(separator) - Join list elements with separator
 '''
 
 s_join = pd.Series([['apple', 'banana', 'cherry'], ['dog', 'cat'], ['one', 'two', 'three', 'four'], np.nan])
+print(s_join)
+# 0    [apple, banana, cherry]
+# 1                 [dog, cat]
+# 2    [one, two, three, four]
+# 3                        NaN
+# dtype: object
+
 
 print(s_join.str.join('-'))
 # 0    apple-banana-cherry
@@ -872,7 +852,6 @@ s_match = pd.Series(['abc123', 'def456', 'ghi789', '123abc', np.nan])
 
 # ## .match(pattern)
 # # Check if the BEGINNING of each string matches the regex pattern
-
 print(s_match.str.match(r'^[a-z]{3}'))  # Starts with exactly 3 lowercase letters
 # 0     True
 # 1     True
@@ -891,7 +870,6 @@ print(s_match.str.match(r'^[a-z]{3}', na=False))  # Treat NaN as False
 
 # ## .fullmatch(pattern)
 # # Check if the ENTIRE string matches the regex pattern
-
 print(s_match.str.fullmatch(r'[a-z]{3}\d{3}'))  # Exactly 3 lowercase letters followed by exactly 3 digits
 # 0     True
 # 1     True
@@ -910,7 +888,6 @@ print(s_match.str.fullmatch(r"\d{3}.*", na=False))  # Treat NaN as False, check 
 
 # ## .contains(pattern, regex=True)
 # # Check if each string contains the regex pattern
-
 print(s_match.str.contains(r'\d{3}', regex=True, na=False))  # Contains a sequence of exactly 3 digits
 # 0    True ('abc123' contains digits '123')
 # 1    True ('def456' contains digits '456')
@@ -928,7 +905,6 @@ s_index = pd.Series(["cow_", "duck_", "do_v_e"])
 
 # ## .find(pattern)
 # # Find the first occurrence of the substring pattern and return its LOWEST index
-
 print(s_find.str.find('_'))  # Find the first occurrence of '_'
 # 0    3.0 ('cow_' has '_' at index 3 as the lowest)
 # 1    4.0
@@ -939,7 +915,6 @@ print(s_find.str.find('_'))  # Find the first occurrence of '_'
 
 # ## .rfind(pattern)
 # # Find the last occurrence of the substring pattern and return its HIGHEST index
-
 print(s_find.str.rfind('_'))  # Find the last occurrence of '_'
 # 0    3.0
 # 1    4.0
@@ -950,7 +925,6 @@ print(s_find.str.rfind('_'))  # Find the last occurrence of '_'
 
 # ## .findall(pattern)
 # # Find all occurrences of the regex pattern and return them as a list
-
 print(s_find.str.findall(r'[a-z]{2}'))  # Find all occurrences of exactly 2 lowercase letters
 # 0            [co]
 # 1        [du, ck]
@@ -962,7 +936,6 @@ print(s_find.str.findall(r'[a-z]{2}'))  # Find all occurrences of exactly 2 lowe
 # ## .index(pattern)
 # # Find the first occurrence of the substring pattern and return its LOWEST index
 # Raises ValueError if the pattern is not found (or encounters NaN)
-
 print(s_find.str.index(sub='_'))
 """Raise  ValueError because s_find contains NaN and 'abcxyz' which does not contain '_' """
 
@@ -975,7 +948,6 @@ print(s_index.str.index(sub='_'))  # Find the first occurrence of '_' in s_index
 # ## .rindex(pattern)
 # # Find the last occurrence of the substring pattern and return its HIGHEST index
 # Raises ValueError if the pattern is not found (or encounters NaN)
-
 print(s_index.str.rindex(sub='_'))  # Find the last occurrence of '_' in s_index
 # 0    3
 # 1    4
@@ -989,9 +961,7 @@ print(s_index.str.rindex(sub='_'))  # Find the last occurrence of '_' in s_index
 # ## .extract(pattern)
 # # Extract capture groups from the first match of the regex pattern
 # By default, expand=True (returns DataFrame)
-
 s_extract = pd.Series(['a1', 'b2', 'c3'])
-
 print(s_extract.str.extract(r'[ab](\d)')) # Returns only one group (the digit after 'a' or 'b')
 #      0                                  # This is a DATAFRAME since expand=True by default
 # 0    1
@@ -1021,9 +991,7 @@ print(s_extract.str.extract(r'([ab])?(\d)'))  # Make the first group optional
 # ## .extractall(pattern)
 # # Extract all capture groups from all matches of the regex pattern
 # By default, expand=True (returns DataFrame)
-
 s_extall = pd.Series(["a2a4", "b63", "ccc"], index=["A", "B", "C"])
-
 print(s_extall.str.extractall(r'[ab](\d)'))  # Extract all occurrences of letter-digit pairs with one group
 #          0
 #   match
@@ -1045,7 +1013,6 @@ print(s_extall.str.extractall(r'([ab])(\d)'))  # Extract all occurrences of lett
 # =========================================================================================
 # 8. Concatenation
 # =========================================================================================
-
 '''
 .str.cat(others=None, sep='', na_rep=None)
 
@@ -1160,7 +1127,6 @@ s_align = pd.Series(['dog', 'bird', 'mouse'])
 
 # ## .ljust(width, fillchar)
 # # Left-align strings, padding on the right
-
 print(s_align.str.ljust(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 0    dog.....
 # 1    bird....
@@ -1169,7 +1135,6 @@ print(s_align.str.ljust(width=8, fillchar='.')) # Default fillchar=' ' (space)
 
 # ## .rjust(width, fillchar)
 # # Right-align strings, padding on the left
-
 print(s_align.str.rjust(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 0    .....dog
 # 1    ....bird
@@ -1178,7 +1143,6 @@ print(s_align.str.rjust(width=8, fillchar='.')) # Default fillchar=' ' (space)
 
 # ## .center(width, fillchar)
 # # Center-align strings, padding on both sides
-
 print(s_align.str.center(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # 0    ..dog...
 # 1    ..bird..
@@ -1188,7 +1152,6 @@ print(s_align.str.center(width=8, fillchar='.')) # Default fillchar=' ' (space)
 # =========================================================================================
 # 10. Categorical Encoding
 # =========================================================================================
-
 '''
 Categorical Encoding is the process of converting categorical variables into numerical representations.
 This is useful for machine learning algorithms that require numerical input.
@@ -1199,7 +1162,6 @@ s_gender = pd.Series(["M", "M", "F", "M", "LGBTQ", "F", "M", "F", "LGBTQ", "M"])
 ##--------------------------------------##
 ##            pd.factorize()            ##
 ##--------------------------------------##
-
 '''
 pd.factorize() assigns a unique integer to each category in the Series.
 It returns an array of integers and an Index of unique categories.
@@ -1229,7 +1191,6 @@ print(codes)
 ##----------------------------------------##
 ##            pd.get_dummies()            ##
 ##----------------------------------------##
-
 '''
 pd.get_dummies() creates a DataFrame with binary columns for each category in the Series.
 Each column represents a category, and the values are 0 or 1 indicating the presence of that category.

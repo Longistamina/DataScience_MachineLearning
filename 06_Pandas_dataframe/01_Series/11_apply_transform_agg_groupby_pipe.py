@@ -18,7 +18,6 @@ import pandas as pd
 s_mixed = pd.Series(["apple", "banana", "cherry", 42, 3.14, None])
 
 np.random.seed(42)
-
 s_nums = pd.Series(np.random.normal(loc=3, scale=2, size=5)).round(2)
 print(s_nums)
 # 0    3.99
@@ -31,7 +30,6 @@ print(s_nums)
 # =========================================================================================
 # 1. .apply()
 # =========================================================================================
-
 '''
 .apply()  method invokes a function on each element or the entire Series.
 
@@ -72,7 +70,6 @@ print(s_applied)
 # =========================================================================================
 # 2. .map()
 # =========================================================================================
-
 '''
 The map() method transforms each element by mapping values using dictionaries, Series, or functions.
 
@@ -83,7 +80,7 @@ Key Features:
 '''
 
 s_mapped = s_nums.map(np.sin)  # Applying sine function to each element
-# print(s_mapped)
+print(s_mapped)
 # 0   -0.750228
 # 1    0.409214
 # 2   -0.916166
@@ -119,7 +116,6 @@ print(s_mapped)
 # =========================================================================================
 # 3. .transform()
 # =========================================================================================
-
 '''
 The transform() method applies functions while maintaining the same shape as the input Series.
 
@@ -130,7 +126,7 @@ Key Features:
 '''
 
 # Single function transformation
-s_transformed = s_nums.transform(lambda x: x+ 1)
+s_transformed = s_nums.transform(lambda x: x + 1)
 print(s_transformed)
 # 0    4.99
 # 1    3.72
@@ -140,7 +136,7 @@ print(s_transformed)
 # dtype: float64
 
 # Multiple functions transformation
-s_transformed = s_nums.transform(func={'x+1':lambda x: x+1, 'x*2':lambda x: x*2})
+s_transformed = s_nums.transform(func={'x+1': lambda x: x+1, 'x*2': lambda x: x*2})
 print(s_transformed)
 #     x+1    x*2
 # 0  4.99   7.98
@@ -159,7 +155,6 @@ df_date_value = pd.DataFrame({
         "1st", "2nd", "3rd", "4th"],
     "Data": [5, 8, 6, 1, 50, 100, 60, 120],
 })
-
 print(df_date_value)
 #   Date  Data
 # 0  1st     5
@@ -191,7 +186,6 @@ The 0-indexed row and the 4-indexed row share the same value (55) because they b
 # =========================================================================================
 # 4. .agg()
 # =========================================================================================
-
 '''
 The agg() method applies aggregation functions to Series or DataFrame, returning a single value or a Series of values.
 
@@ -215,8 +209,8 @@ print(s_agg)
 
 s_agg = s_nums.agg(
     {
-        "custom_mean": "mean", 
-        "custom_sum": "sum", 
+        "custom_mean": "mean",
+        "custom_sum": "sum",
         "custom_range": lambda x: x.max() - x.min()
     }
 )
@@ -237,7 +231,6 @@ df_date_value = pd.DataFrame({
         "1st", "2nd", "3rd", "4th"],
     "Data": [5, 8, 6, 1, 50, 100, 60, 120],
 })
-
 print(df_date_value)
 #   Date  Data
 # 0  1st     5
@@ -252,9 +245,9 @@ print(df_date_value)
 '''Apply agg with groupby'''
 df_agg = df_date_value.groupby("Date").agg({"Date": "count", "Data": ["mean", "sum"]})
 print(df_agg)
-#       Date  Data     
+#       Date  Data
 #      count  mean  sum
-# Date                 
+# Date
 # 1st      2  27.5   55
 # 2nd      2  54.0  108
 # 3rd      2  33.0   66
@@ -264,7 +257,7 @@ print(df_agg)
 df_agg.columns = ['_'.join(col).strip() for col in df_agg.columns]
 print(df_agg)
 #       Date_count  Data_mean  Data_sum
-# Date                                 
+# Date
 # 1st            2       27.5        55
 # 2nd            2       54.0       108
 # 3rd            2       33.0        66
@@ -273,7 +266,6 @@ print(df_agg)
 # =========================================================================================
 # 5. .groupby()
 # =========================================================================================
-
 '''
 The groupby() method splits data into groups for separate analysis.
 
@@ -284,10 +276,9 @@ Key Features:
 '''
 
 s_birds_flight = pd.Series(
-    data = [390., 350., 30., 20.],
-    index = ['Falcon', 'Falcon', 'Parrot', 'Parrot']
+    data=[390., 350., 30., 20.],
+    index=['Falcon', 'Falcon', 'Parrot', 'Parrot']
 )
-
 print(s_birds_flight)
 # Falcon    390.0
 # Falcon    350.0
@@ -325,7 +316,6 @@ In this case:
 # =========================================================================================
 # 6. .pipe()
 # =========================================================================================
-
 '''
 The pipe() method enables method chaining by applying functions that expect Series or DataFrames.
 
@@ -342,7 +332,6 @@ import scipy as sp
 ##----------------------------##
 
 np.random.seed(42)
-
 query = (
     pd.Series(np.random.normal(loc=3, scale=2, size=30))
     .round(2)
@@ -360,7 +349,8 @@ print(query)
 s_gender = pd.Series(["F", "LGBTQ", "M", "F", "M", "LGBTQ", "F", "M", "F", "M", "M", "LGBTQ"])
 
 query = (
-    s_gender.copy()
+    s_gender
+    .copy()
     .value_counts()
     .pipe(lambda ser: ser/ser.sum() * 100)  # Calculate percentage
     .round(2) # Round to 2 decimal places

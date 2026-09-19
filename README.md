@@ -296,3 +296,8 @@
       * `pd.Series`: statistics methods and sampling
       * `pd.Series`: sorting, ranking, n largest, n smallest
       * `pd.Series`: rolling, expanding, ewm
+  + [06_Pandas_dataframe_part_03](https://youtu.be/hKbrXDmMTww): 19th/09/2026
+      * `pd.Series`: apply, transform, agg, groupby, pipe
+      * `pd.Series`: filter, where
+      * `pd.Series`: concat, combine
+      * `pd.Series`: str - String
