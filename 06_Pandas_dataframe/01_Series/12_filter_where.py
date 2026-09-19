@@ -10,7 +10,6 @@ import pandas as pd
 # =========================================================================================
 # 1. .filter()
 # =========================================================================================
-
 '''
 The filter() method subsets Series based on index labels, not content.
 
@@ -21,13 +20,13 @@ Key Features:
 '''
 
 s_birds_flight = pd.Series(
-    data = [390., 350., 30., 20., 55],
-    index = ['Bird_1', 'Bird_2', 'Bird_3', 'Bird_4', 'Sparrow']
+    data=[390., 350., 30., 20., 55],
+    index=['Bird_1', 'Bird_2', 'Bird_3', 'Bird_4', 'Sparrow']
 )
 
-##---------------------##
-## Filter using items= ##
-##---------------------##
+##-----------------------##
+## Filter using `items=` ##
+##-----------------------##
 
 s_filtered = s_birds_flight.filter(items=['Bird_1', 'Bird_2'])  # Filtering by index labels
 print(s_filtered)
@@ -35,9 +34,9 @@ print(s_filtered)
 # Bird_2    350.0
 # dtype: float64
 
-##---------------------##
-## Filter using regex= ##
-##---------------------##
+##-----------------------##
+## Filter using `regex=` ##
+##-----------------------##
 
 s_filtered = s_birds_flight.filter(regex='[24]$')  # Filtering by index labels ending with '2' or '4'
 print(s_filtered)
@@ -45,9 +44,9 @@ print(s_filtered)
 # Bird_4     20.0
 # dtype: float64
 
-##--------------------##
-## Filter using like= ##
-##--------------------##
+##----------------------##
+## Filter using `like=` ##
+##----------------------##
 
 s_filtered = s_birds_flight.filter(like='rd_')  # Filtering by index labels containing 'Bird'
 print(s_filtered)
@@ -60,7 +59,6 @@ print(s_filtered)
 # =========================================================================================
 # 2. .where()
 # =========================================================================================
-
 '''
 The where() method replaces values where conditions are False.
 
@@ -71,7 +69,6 @@ Key Features:
 '''
 
 np.random.seed(42)
-
 s_nums = pd.Series(np.random.normal(loc=3, scale=2, size=5)).round(2)
 print(s_nums)
 # 0    3.99
@@ -119,11 +116,9 @@ print(s_where)
 # 4    2.53
 # dtype: float64
 
-# 
+
 s_mixed = pd.Series(["apple", "banana", "cherry", 42, 3.14, None])
-
-is_string = is_string = s_mixed.apply(lambda x: isinstance(x, str))
-
+is_string = s_mixed.apply(lambda x: isinstance(x, str))
 s_where = s_mixed.where(is_string, other="Unknown")
 print(s_where)
 # 0      apple

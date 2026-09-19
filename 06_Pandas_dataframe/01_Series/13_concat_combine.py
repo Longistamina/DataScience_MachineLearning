@@ -8,7 +8,6 @@ import pandas as pd
 # =========================================================================================
 # 1. pd.concat()
 # =========================================================================================
-
 '''
 The concat() function concatenates Series along a specified axis.
 
@@ -44,9 +43,9 @@ print(s_concat)
 # 3    d
 # dtype: object
 
-##--------------------------##
-## Concatenation with keys= ##
-##--------------------------##
+##----------------------------##
+## Concatenation with `keys=` ##
+##----------------------------##
 
 s_concat = pd.concat([s1, s2], keys=['first', 'second'])
 print(s_concat)
@@ -59,7 +58,6 @@ print(s_concat)
 # =========================================================================================
 # 2. pd.combine()
 # =========================================================================================
-
 '''
 The combine() method combines Series with another Series or scalar using a function.
 (works like merging two dataframes)
@@ -71,11 +69,21 @@ Key Features:
 '''
 
 s1 = pd.Series({'falcon': 330.0, 'eagle': 160.0})
-s2 = pd.Series({'falcon': 345.0, 'eagle': 200.0, 'duck': 30.0})
+print(s1)
+# falcon    330.0
+# eagle     160.0
+# dtype: float64
 
-##-------------------------------------##
-## Basic combine with other= and func= ##
-##-------------------------------------##
+s2 = pd.Series({'falcon': 345.0, 'eagle': 200.0, 'duck': 30.0})
+print(s2)
+# falcon    345.0
+# eagle     200.0
+# duck       30.0
+# dtype: float64
+
+##-----------------------------------------##
+## Basic combine with `other=` and `func=` ##
+##-----------------------------------------##
 
 s_combined = s1.combine(other=s2, func=max)
 print(s_combined)
@@ -86,9 +94,16 @@ print(s_combined)
 
 '''MUST always specify the func= parameter, otherwise it will raise an error.'''
 
-##----------------------------------------##
-## Combine with fill_value= to handle NaN ##
-##----------------------------------------##
+s_combined = s1.combine(other=s2, func=lambda x, y: x + y)
+print(s_combined)
+# duck        NaN
+# eagle     360.0
+# falcon    675.0
+# dtype: float64
+
+##------------------------------------------##
+## Combine with `fill_value=` to handle NaN ##
+##------------------------------------------##
 
 s_combined = s1.combine(other=s2, func=max, fill_value=0)
 print(s_combined)
@@ -98,7 +113,7 @@ print(s_combined)
 # dtype: float64
 
 '''
-In this case, since s1 does not have a value for 'duck', 
+In this case, since s1 does not have a value for 'duck',
 it is filled with 0.
 
 Therefore, the max function compares 0 with 30.0,
