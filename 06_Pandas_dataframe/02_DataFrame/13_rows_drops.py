@@ -1,9 +1,5 @@
 '''
-1. Drop columns:
-   + .drop(labels=..., axis=1, inplace=True/False)
-   + .drop(columns=..., inplace=True/False)
-
-2. Drop rows:
+Drop rows:
    + .drop(labels=..., axis=0, inplace=True/False)
     + .drop(index=..., inplace=True/False)
 '''
@@ -44,46 +40,6 @@ print(df_indexed)
 # row_6   6      Nina  578.00  2013-05-21          IT
 # row_7   7     Simon  632.80  2013-07-30  Operations
 # row_8   8      Guru  722.50  2014-06-17     Finance
-
-# =========================================================================================
-# 1. Drop columns
-# =========================================================================================
-
-##-----------------------------------------------##
-## .drop(labels=..., axis=1, inplace=True/False) ##
-##-----------------------------------------------##
-
-df_dropped = df_emp.drop(labels=["start_date", "dept"], axis=1, inplace=False)
-print(df_dropped)
-#    id      name  salary
-# 0   1      Rick  623.30
-# 1   2       Dan  515.20
-# 2   3  Michelle  611.00
-# 3   4      Ryan  729.00
-# 4   5      Gary  843.25
-# 5   6      Nina  578.00
-# 6   7     Simon  632.80
-# 7   8      Guru  722.50
-
-##----------------------------------------##
-## .drop(columns=..., inplace=True/False) ##
-##----------------------------------------##
-
-df_dropped = df_emp.drop(columns=["id", "start_date"], inplace=False)
-print(df_dropped)
-#        name  salary        dept
-# 0      Rick  623.30          IT
-# 1       Dan  515.20  Operations
-# 2  Michelle  611.00          IT
-# 3      Ryan  729.00          HR
-# 4      Gary  843.25     Finance
-# 5      Nina  578.00          IT
-# 6     Simon  632.80  Operations
-# 7      Guru  722.50     Finance
-
-# =========================================================================================
-# 2. Drop rows
-# =========================================================================================
 
 ##-----------------------------------------------##
 ## .drop(labels=..., axis=0, inplace=True/False) ##

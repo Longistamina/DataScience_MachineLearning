@@ -1,5 +1,5 @@
 '''
-1. Changing Column Names:
+Changing Column Names:
    + df = df.set_axis(new_names_list, axis=1, copy=True/False)
    + df = df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True), axis=1, copy=True/False) # using str methods
    + df = df.pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True), axis=1, copy=True/False)) # using str methods in pipe
@@ -12,20 +12,11 @@
    + df.add_prefix('pre_')
    + df.add_suffix('_suf')
    + df.rename(columns={'old1':'new1'}, level=0, inplace=True/False) # for MultiIndex
-
-2. Changing Row Names (Index):
-   + df = df.set_axis(new_indices_list, axis=0, copy=True/False)
-   + df.index = new_indices_list
-   + df.index = df.index.astype(str).str.replace(r'\d+', 'row', regex=True)
-   + df.index = df.index.astype(str).map(lambda s: s.center(len(s) + 2, "_"))
-   + df.set_index('col_name') **set an existed column as index**
-   + df.reset_index(drop=True, inplace=True/False) **reset index to default integer index**
-   + df.rename(index={'old_name': 'new_name'}, inplace=True/False)
-   + df.rename(index={'old1':'new1'}, level=0, inplace=True/False) # for MultiIndex
 '''
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
@@ -56,43 +47,42 @@ print(df_lifexp.dtypes)
 # Income composition of resources    float64
 # Schooling                          float64
 
+##----------------------------------------------------##
+
 df_emp = pd.read_csv(data_dir/"emp.csv")
-print(df_emp.dtypes)
-# id              int64
-# name           object
-# salary        float64
-# start_date     object
-# dept           object
+print(df_emp)
+#    id      name  salary  start_date        dept
+# 0   1      Rick  623.30  2012-01-01          IT
+# 1   2       Dan  515.20  2013-09-23  Operations
+# 2   3  Michelle  611.00  2014-11-15          IT
+# 3   4      Ryan  729.00  2014-05-11          HR
+# 4   5      Gary  843.25  2015-03-27     Finance
+# 5   6      Nina  578.00  2013-05-21          IT
+# 6   7     Simon  632.80  2013-07-30  Operations
+# 7   8      Guru  722.50  2014-06-17     Finance
+
+##----------------------------------------------------##
 
 # ## Create MultiIndex DataFrame
-# 
-import numpy as np
-
+#
 rows = pd.MultiIndex.from_tuples(
     [('Argentina', 2018), ('Argentina', 2019), ('Brazil', 2018), ('Brazil', 2019)],
     names=['Country', 'Year']
 )
-
 cols = pd.MultiIndex.from_tuples(
     [('Economic', 'GDP (bn $)'), ('Demographic', 'Population (m)')],
     names=['Domain', 'Metric']
 )
-
 np.random.seed(0)
 df_multindex = pd.DataFrame(np.round(np.random.rand(len(rows), len(cols)) * 100, 2), index=rows, columns=cols)
-
 print(df_multindex)
 # Domain           Economic    Demographic
 # Metric         GDP (bn $) Population (m)
-# Country   Year                          
+# Country   Year
 # Argentina 2018      54.88          71.52
 #           2019      60.28          54.49
 # Brazil    2018      42.37          64.59
 #           2019      43.76          89.18
-
-# =========================================================================================
-# 1. Changing Column Names
-# =========================================================================================
 
 ##-----------------------------------------------------##
 ## df = df.set_axis(new_names_list, axis=1, copy=True) ##
@@ -142,7 +132,7 @@ print(df_new_cols_pipe.head(3))
 ## df.columns = new_names_list ##
 ##-----------------------------##
 
-df_new_cols = df_lifexp.copy() 
+df_new_cols = df_lifexp.copy()
 
 new_colnames = ['country', 'year', 'status', 'life_expectancy', 'adult_mortality', 'infant_deaths', 'alcohol',
                 'percentage_expenditure', 'hepatitis_b', 'measles', 'bmi', 'under_five_deaths', 'polio',
@@ -164,7 +154,7 @@ print(df_new_cols.head(3))
 ## df.columns = df.columns.str.replace(old_pat, new_pat) ##
 ##-------------------------------------------------------##
 
-df_new_cols = df_lifexp.copy() 
+df_new_cols = df_lifexp.copy()
 
 # Change column names
 df_new_cols.columns = df_new_cols.columns.str.strip().str.replace(r"\s+", "_", regex=True)
@@ -234,7 +224,7 @@ df_new_cols = df_lifexp.copy()
 
 # Change column names
 df_new_cols.rename(
-    columns=lambda col: re.sub(r"\s+", "_", col.strip().lower()), 
+    columns=lambda col: re.sub(r"\s+", "_", col.strip().lower()),
     inplace=True
 )
 
@@ -288,181 +278,8 @@ df_new_cols.rename(
 print(df_new_cols)
 # Domain              Economic        Demographic
 # Metric         GDP_billion_$ Population_million
-# Country   Year                                 
+# Country   Year
 # Argentina 2018         54.88              71.52
 #           2019         60.28              54.49
 # Brazil    2018         42.37              64.59
 #           2019         43.76              89.18
-
-# =========================================================================================
-# 2. Changing Row Names (Index)
-# =========================================================================================
-
-print(df_emp)
-#    id      name  salary  start_date        dept
-# 0   1      Rick  623.30  2012-01-01          IT
-# 1   2       Dan  515.20  2013-09-23  Operations
-# 2   3  Michelle  611.00  2014-11-15          IT
-# 3   4      Ryan  729.00  2014-05-11          HR
-# 4   5      Gary  843.25  2015-03-27     Finance
-# 5   6      Nina  578.00  2013-05-21          IT
-# 6   7     Simon  632.80  2013-07-30  Operations
-# 7   8      Guru  722.50  2014-06-17     Finance
-
-##-------------------------------------------------------##
-## df = df.set_axis(new_indices_list, axis=0, copy=True) ##
-##-------------------------------------------------------##
-
-df_new_idx = df_emp.copy()
-
-new_indices = [f'row_{i+1}' for i in range(df_emp.shape[0])]
-
-# Change row names
-df_new_idx = df_new_idx.set_axis(new_indices, axis=0, copy=True)
-
-print(df_new_idx.head(3))
-#        id      name  salary  start_date        dept
-# row_1   1      Rick   623.3  2012-01-01          IT
-# row_2   2       Dan   515.2  2013-09-23  Operations
-# row_3   3  Michelle   611.0  2014-11-15          IT
-
-##-----------------------------##
-## df.index = new_indices_list ##
-##-----------------------------##
-
-df_new_idx = df_emp.copy()
-
-new_indices = [f'Row_{i+1}' for i in range(df_emp.shape[0])]
-
-# Change row names
-df_new_idx.index = new_indices
-
-print(df_new_idx.head(3))
-#        id      name  salary  start_date        dept
-# Row_1   1      Rick   623.3  2012-01-01          IT
-# Row_2   2       Dan   515.2  2013-09-23  Operations
-# Row_3   3  Michelle   611.0  2014-11-15          IT
-
-##------------------------------------------------------------------------##
-## df.index = df.index.astype(str).str.replace(r'\d+', 'row', regex=True) ##
-##------------------------------------------------------------------------##
-
-df_new_idx = df_emp.copy()
-
-# Change row names
-df_new_idx.index = df_new_idx.index.astype(str).str.replace(r'\d+', 'row', regex=True)
-
-print(df_new_idx.head(3))
-#      id      name  salary  start_date        dept
-# row   1      Rick   623.3  2012-01-01          IT
-# row   2       Dan   515.2  2013-09-23  Operations
-# row   3  Michelle   611.0  2014-11-15          IT
-
-##--------------------------------------------------------------------------##
-## df.index = df.index.astype(str).map(lambda s: s.center(len(s) + 2, "_")) ##
-##--------------------------------------------------------------------------##
-
-df_new_idx = df_emp.copy()
-
-# Change row names
-df_new_idx.index = df_new_idx.index.astype(str).map(lambda s: s.center(len(s) + 2, "_"))
-
-print(df_new_idx.head(3))
-#      id      name  salary  start_date        dept
-# _0_   1      Rick   623.3  2012-01-01          IT
-# _1_   2       Dan   515.2  2013-09-23  Operations
-# _2_   3  Michelle   611.0  2014-11-15          IT
-
-##--------------------------##
-## df.set_index('col_name') ##
-##--------------------------##
-'''This method sets an existing column as the index of the DataFrame.'''
-
-df_new_idx = df_emp.copy()
-
-# Set "id" column as index
-df_new_idx.set_index('id', inplace=True)
-
-print(df_new_idx.head(3))
-#         name  salary  start_date        dept
-# id                                          
-# 1       Rick   623.3  2012-01-01          IT
-# 2        Dan   515.2  2013-09-23  Operations
-# 3   Michelle   611.0  2014-11-15          IT
-
-##---------------------------##
-## df.reset_index(drop=True) ##
-##---------------------------##
-'''This method resets the index of the DataFrame to the default integer index.'''
-
-df_lifexp_2004 = df_lifexp[df_lifexp['Year'] == 2004]
-print(df_lifexp_2004.head())
-#                 Country  Year      Status  ...   thinness 5-9 years  Income composition of resources  Schooling
-# 11          Afghanistan  2004  Developing  ...                 19.7                            0.381        6.8
-# 27              Albania  2004  Developing  ...                  1.9                            0.681       10.9
-# 43              Algeria  2004  Developing  ...                  6.1                            0.673       11.7
-# 59               Angola  2004  Developing  ...                  1.1                            0.415        6.4
-# 75  Antigua and Barbuda  2004  Developing  ...                  3.4                            0.000        0.0
-
-# Reset index with drop=True to avoid adding the old index as a new column
-df_lifexp_2004.reset_index(drop=True, inplace=True)
-
-print(df_lifexp_2004.head())
-#                Country  Year      Status  ...   thinness 5-9 years  Income composition of resources  Schooling
-# 0          Afghanistan  2004  Developing  ...                 19.7                            0.381        6.8
-# 1              Albania  2004  Developing  ...                  1.9                            0.681       10.9
-# 2              Algeria  2004  Developing  ...                  6.1                            0.673       11.7
-# 3               Angola  2004  Developing  ...                  1.1                            0.415        6.4
-# 4  Antigua and Barbuda  2004  Developing  ...                  3.4                            0.000        0.0
-
-##---------------------------------------------------------------##
-## df.rename(index={'old_name': 'new_name'}, inplace=True/False) ##
-##---------------------------------------------------------------##
-
-df_new_idx = df_emp.copy()
-
-# Change row names (set inplace=True to modify the original DataFrame)
-df_new_idx.rename(
-    index={0: 'row_0', 1: 'row_1', 2: 'row_2'},
-    inplace=True
-)
-
-print(df_new_idx.head())
-#        id      name  salary  start_date        dept
-# row_0   1      Rick  623.30  2012-01-01          IT
-# row_1   2       Dan  515.20  2013-09-23  Operations
-# row_2   3  Michelle  611.00  2014-11-15          IT
-# 3       4      Ryan  729.00  2014-05-11          HR
-# 4       5      Gary  843.25  2015-03-27     Finance
-
-df_new_idx.rename(index={row: f"row_{idx + 1}" for idx, row in enumerate(df_new_idx.index)}, inplace=True)
-print(df_new_idx.head())
-#        id      name  salary  start_date        dept
-# row_1   1      Rick  623.30  2012-01-01          IT
-# row_2   2       Dan  515.20  2013-09-23  Operations
-# row_3   3  Michelle  611.00  2014-11-15          IT
-# row_4   4      Ryan  729.00  2014-05-11          HR
-# row_5   5      Gary  843.25  2015-03-27     Finance
-
-##---------------------------------------------------------------##
-## df.rename(index={'old1':'new1'}, level=0, inplace=True/False) ##
-##---------------------------------------------------------------##
-'''This is for MultiIndex DataFrame.'''
-
-df_new_idx = df_multindex.copy()
-
-# Change row names (set inplace=True to modify the original DataFrame)
-df_new_idx.rename(
-    index={2018: 'Year_2018', 2019: 'Year_2019'},
-    level=1,
-    inplace=True
-)
-
-print(df_new_idx)
-# Domain                Economic    Demographic
-# Metric              GDP (bn $) Population (m)
-# Country   Year                               
-# Argentina Year_2018      54.88          71.52
-#           Year_2019      60.28          54.49
-# Brazil    Year_2018      42.37          64.59
-#           Year_2019      43.76          89.18
