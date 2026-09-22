@@ -20,7 +20,7 @@ data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 lf_baseball = pl.scan_csv(
-    source=data_dir / "baseball.csv",
+    source=data_dir/"baseball.csv",
     schema_overrides={
         "Team": pl.Categorical,
         "Position": pl.Categorical,
@@ -95,10 +95,6 @@ print(
 # 3. `lf.gather(range(start, stop, step))`
 # =============================================
 
-##--------------------------##
-## range(start, stop, step) ##
-##--------------------------##
-
 print(
     lf_baseball
     .with_row_index()
@@ -141,6 +137,14 @@ print(
 # =============================================
 # 4. `lf.gather_every(n, offset)`
 # =============================================
+'''
+It will slice from start index to the end,
+with given step.
+
+Use this when you want to slice till the end of the frame.
+
+Something like `df[start::step]`
+'''
 
 print(
     lf_baseball

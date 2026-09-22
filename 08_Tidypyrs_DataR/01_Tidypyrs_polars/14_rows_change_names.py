@@ -7,7 +7,6 @@ Change Row names:
     + Create row index with `row_index` then modify it
 """
 
-import re
 from pathlib import Path
 
 import tidypyrs as tp
