@@ -1,0 +1,157 @@
+'''
+Sometime, the dataframe workflow results in a single-column dataframe.
+
+Though it has only one column, its type is still TibbleFrame (or TibbleLazy), not Series.
+So if you mistake a single-column dataframe with a series, and you try to use series method,
+it could lead to errors.
+
+This script shows some cases when it:
+   + results in a single-column dataframe,
+   + or results in a series
+
+Then shows how to convert a 2D single-column dataframe into a 1D series
+
+##-----------------------------------##
+
+1. Single-column DataFrame (2D) vs Series (1D)
+2. Convert single-column DataFrame to a Series
+'''
+
+from pathlib import Path
+
+import tidypyrs as tp
+
+data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+
+tl_emp = tp.scan_csv(
+    data_dir/"emp.csv",
+    try_parse_dates=True,
+)
+
+print(tl_emp.collect())
+# shape: (8, 5)
+# ┌─────┬──────────┬────────┬────────────┬────────────┐
+# │ id  ┆ name     ┆ salary ┆ start_date ┆ dept       │
+# │ --- ┆ ---      ┆ ---    ┆ ---        ┆ ---        │
+# │ i64 ┆ str      ┆ f64    ┆ date       ┆ str        │
+# ╞═════╪══════════╪════════╪════════════╪════════════╡
+# │ 1   ┆ Rick     ┆ 623.3  ┆ 2012-01-01 ┆ IT         │
+# │ 2   ┆ Dan      ┆ 515.2  ┆ 2013-09-23 ┆ Operations │
+# │ 3   ┆ Michelle ┆ 611.0  ┆ 2014-11-15 ┆ IT         │
+# │ 4   ┆ Ryan     ┆ 729.0  ┆ 2014-05-11 ┆ HR         │
+# │ 5   ┆ Gary     ┆ 843.25 ┆ 2015-03-27 ┆ Finance    │
+# │ 6   ┆ Nina     ┆ 578.0  ┆ 2013-05-21 ┆ IT         │
+# │ 7   ┆ Simon    ┆ 632.8  ┆ 2013-07-30 ┆ Operations │
+# │ 8   ┆ Guru     ┆ 722.5  ┆ 2014-06-17 ┆ Finance    │
+# └─────┴──────────┴────────┴────────────┴────────────┘
+
+# =========================================================================================
+# 1. Single-column DataFrame (2D) vs Series (1D)
+# =========================================================================================
+
+##------------------------------##
+## Single-column DataFrame (2D) ##
+##------------------------------##
+'''
+`tl_emp.select("name").collect()` returns a DataFrame with one column.
+'''
+
+print(
+    tl_emp
+    .select("name")
+    .collect()
+)
+# shape: (8, 1)
+# ┌──────────┐
+# │ name     │
+# │ ---      │
+# │ str      │
+# ╞══════════╡
+# │ Rick     │
+# │ Dan      │
+# │ Michelle │
+# │ Ryan     │
+# │ Gary     │
+# │ Nina     │
+# │ Simon    │
+# │ Guru     │
+# └──────────┘
+
+##-------------##
+## Series (1D) ##
+##-------------##
+'''
+df["col_name"] and df.get_column("col_name") returns a 1D Series
+
+NOTE: but they only work for EAGER DATAFRAME, not lazyframe
+'''
+
+tf_emp = tl_emp.collect()
+
+s_name = tf_emp["name"]
+print(s_name)
+# shape: (8,)
+# Series: 'name' [str]
+# [
+# 	"Rick"
+# 	"Dan"
+# 	"Michelle"
+# 	"Ryan"
+# 	"Gary"
+# 	"Nina"
+# 	"Simon"
+# 	"Guru"
+# ]
+'''NOTE: only works with eager dataframe, not lazyframe'''
+
+s_name = tf_emp.pull("name")
+print(s_name)
+# shape: (8,)
+# Series: 'name' [str]
+# [
+# 	"Rick"
+# 	"Dan"
+# 	"Michelle"
+# 	"Ryan"
+# 	"Gary"
+# 	"Nina"
+# 	"Simon"
+# 	"Guru"
+# ]
+'''NOTE: only works with eager dataframe, not lazyframe'''
+
+# =========================================================================================
+# 2. Convert single-column DataFrame to a Series
+# =========================================================================================
+'''
+So, df.select("single_col_name") works with both eager and lazy dataframe,
+but it results in a 2D single-column dataframe, how could we convert it to a series?
+
+Unfortunately, polars does not support converting a single-column lazyframe into a series
+(because there is no equivalent class like ``LazySeries`` for it to convert to).
+
+So, for a single-column lazyframe, we have to ``collect()`` it first, then ``to_series()``
+
+Or, we can ``collect()`` a multiple-columns lazyframe first, then use ``get_column()`` or subscript ``df["col_name"]``
+to get that column as a 1D series
+'''
+
+s_name = (
+    tl_emp
+    .select("name")
+    .collect()
+    .to_series()
+)
+print(s_name)
+# shape: (8,)
+# Series: 'name' [str]
+# [
+# 	"Rick"
+# 	"Dan"
+# 	"Michelle"
+# 	"Ryan"
+# 	"Gary"
+# 	"Nina"
+# 	"Simon"
+# 	"Guru"
+# ]

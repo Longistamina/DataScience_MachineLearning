@@ -1,7 +1,7 @@
 '''
-Sometime, the dataframe workflow results in a single-column dataframe, like this:
+Sometime, the dataframe workflow results in a single-column dataframe.
 
-Though it has only one column, its type is still polars.DataFrame, not polars.Series.
+Though it has only one column, its type is still DataFrame (or LazyFrame), not Series.
 So if you mistake a single-column dataframe with a series, and you try to use series method,
 it could lead to errors.
 
@@ -20,16 +20,15 @@ Then shows how to convert a 2D single-column dataframe into a 1D series
 from pathlib import Path
 
 import polars as pl
-from polars import col as c
 
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 
-df_emp = pl.read_csv(
-    data_dir / "emp.csv",
+lf_emp = pl.scan_csv(
+    data_dir/"emp.csv",
     try_parse_dates=True,
 )
 
-print(df_emp)
+print(lf_emp.collect())
 # shape: (8, 5)
 # ┌─────┬──────────┬────────┬────────────┬────────────┐
 # │ id  ┆ name     ┆ salary ┆ start_date ┆ dept       │
@@ -54,13 +53,14 @@ print(df_emp)
 ## Single-column DataFrame (2D) ##
 ##------------------------------##
 '''
-df_emp.select("name") returns a DataFrame with one column.
-
-Can work with lazyframe
+`lf_emp.select("name").collect()` returns a DataFrame with one column.
 '''
 
-df_name = df_emp.select("name")
-print(df_name)
+print(
+    lf_emp
+    .select("name")
+    .collect()
+)
 # shape: (8, 1)
 # ┌──────────┐
 # │ name     │
@@ -77,6 +77,7 @@ print(df_name)
 # │ Guru     │
 # └──────────┘
 
+df_name = lf_emp.select("name").collect()
 print(len(df_name.shape))
 # 2
 
@@ -88,6 +89,8 @@ df["col_name"] and df.get_column("col_name") returns a 1D Series
 
 NOTE: but they only work for EAGER DATAFRAME, not lazyframe
 '''
+
+df_emp = lf_emp.collect()
 
 s_name = df_emp["name"]
 print(s_name)
@@ -136,8 +139,6 @@ So, for a single-column lazyframe, we have to ``collect()`` it first, then ``to_
 Or, we can ``collect()`` a multiple-columns lazyframe first, then use ``get_column()`` or subscript ``df["col_name"]``
 to get that column as a 1D series
 '''
-
-lf_emp = df_emp.lazy()
 
 s_name = (
     lf_emp
