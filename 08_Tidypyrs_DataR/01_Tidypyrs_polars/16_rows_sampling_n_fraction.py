@@ -2,39 +2,37 @@
 Random sampling rows and values in Polars.
 
 Content flow:
-1. `lf.select(pl.all().sample(n=..., seed=...))`
-2. `lf.select(pl.all().sample(fraction=..., seed=...))`
+1. `tl.select(f.all().sample(n=..., seed=...))`
+2. `tl.select(f.all().sample(fraction=..., seed=...))`
 3. Sampling `with_replacement` / oversampling
-4. Sampling within specified columns: `pl.col().sample()`
+4. Sampling within specified columns: `tp.col().sample()`
 5. Sampling `over` group
 6. `df.sample()` for DataFrame
 '''
 
 from pathlib import Path
 
-import polars as pl
-from polars import col as c
+import tidypyrs as tp
+from tidypyrs import f
 
 # Optional display settings for tutorial output.
-pl.Config.set_tbl_rows(12)
-pl.Config.set_tbl_cols(10)
-pl.Config.set_float_precision(2)
+tp.Config.set_tbl_rows(12)
+tp.Config.set_tbl_cols(10)
+tp.Config.set_float_precision(2)
 
 data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-lf_baseball = pl.scan_csv(
+tl_baseball = tp.scan_csv(
     source=data_dir / "baseball.csv",
     schema_overrides={
-        "Team": pl.Categorical,
-        "Position": pl.Categorical,
-        "PosCategory": pl.Categorical,
+        "Team": tp.Categorical,
+        "Position": tp.Categorical,
+        "PosCategory": tp.Categorical,
     },
 )
 
-df_baseball = lf_baseball.collect()
-
-print(df_baseball.glimpse(return_type="string"))
+print(tl_baseball.collect().glimpse(return_type="string"))
 # Rows: 1015
 # Columns: 7
 # $ Name        <str> Adam_Donachie, Paul_Bako, Ramon_Hernandez, Kevin_Millar, Chris_Gomez, ...
@@ -46,7 +44,7 @@ print(df_baseball.glimpse(return_type="string"))
 # $ PosCategory <cat> Catcher, Catcher, Catcher, Infielder, Infielder, ...
 
 # =========================================================================================
-# 1. `lf.select(pl.all().sample(n=..., seed=...))`
+# 1. `tl.select(f.all().sample(n=..., seed=...))`
 # =========================================================================================
 '''
 `n` argument specifies the number of rows to return.
@@ -55,8 +53,8 @@ print(df_baseball.glimpse(return_type="string"))
 
 # Sample exactly 5 rows.
 print(
-    lf_baseball
-    .select(pl.all().sample(n=5, seed=42))
+    tl_baseball
+    .select(f.all().sample(n=5, seed=42))
     .collect()
 )
 # shape: (5, 7)
@@ -74,8 +72,8 @@ print(
 
 # If you omit n and fraction, Polars samples 1 row by default.
 print(
-    lf_baseball
-    .select(pl.all().sample(seed=42))
+    tl_baseball
+    .select(f.all().sample(seed=42))
     .collect()
 )
 # shape: (1, 7)
@@ -88,7 +86,7 @@ print(
 # └────────────────┴──────┴────────────┴────────┴────────┴───────┴─────────────┘
 
 # =========================================================================================
-# 2. `lf.select(pl.all().sample(fraction=..., seed=...))`
+# 2. `tl.select(f.all().sample(fraction=..., seed=...))`
 # =========================================================================================
 '''
 `fraction` argument specifies the fraction of rows to return.
@@ -96,8 +94,8 @@ print(
 
 # Sample about 1% of the rows.
 print(
-    lf_baseball
-    .select(pl.all().sample(fraction=0.01))
+    tl_baseball
+    .select(f.all().sample(fraction=0.01))
     .collect()
 )
 # shape: around (10, 7) for a 1015-row DataFrame
@@ -145,8 +143,8 @@ If you want repeated rows to be possible, use:
 # Sample more rows than the original DataFrame size.
 # This requires with_replacement=True.
 print(
-    lf_baseball
-    .select(pl.all().sample(n=1200, with_replacement=True))
+    tl_baseball
+    .select(f.all().sample(n=1200, with_replacement=True))
     .collect()
 )
 # (1200, 7)
@@ -154,25 +152,25 @@ print(
 # Oversample by fraction.
 # For fraction > 1, use with_replacement=True.
 print(
-    lf_baseball
-    .select(pl.all().sample(fraction=1.10, with_replacement=True))
+    tl_baseball
+    .select(f.all().sample(fraction=1.10, with_replacement=True))
     .collect()
 )
 # (1116, 7) - More rows than df_baseball.
 
 # =========================================================================================
-# 4. Sampling within specified columns: `pl.col().sample()`
+# 4. Sampling within specified columns: `f("col").sample()`
 # =========================================================================================
 '''
 Polars expressions also support .sample(...):
 
-    pl.col("Age").sample(n=5, seed=42)
+    `f("Age").sample(n=5, seed=42)`
 
 This samples values from a column expression.
 
 Important warning:
-+ `pl.all().sample(...)` samples full rows and keeps row values together.
-+ `pl.col("some_col").sample(...)` samples values from that one column expression.
++ `f.all().sample(...)` samples full rows and keeps row values together.
++ `f("some_col").sample(...)` samples values from that one column expression.
 + If you sample multiple columns independently, you can break the original row relationship.
 
 So, for normal row sampling, prefer df.sample(...).
@@ -180,9 +178,9 @@ So, for normal row sampling, prefer df.sample(...).
 
 # Sample values from one column expression.
 print(
-    lf_baseball
+    tl_baseball
     .select(
-        c("Age").sample(n=5, seed=42).alias("sampled_age")
+        f("Age").sample(n=5, seed=42).alias("sampled_age")
     )
     .collect()
 )
@@ -191,9 +189,9 @@ print(
 
 # Sample with replacement from one expression.
 print(
-    lf_baseball
+    tl_baseball
     .select(
-        c("Age").sample(
+        f("Age").sample(
             fraction=1.0,
             with_replacement=True,
             seed=1,
@@ -206,10 +204,10 @@ print(
 
 # Do NOT do this if you need original row relationships preserved.
 print(
-    lf_baseball
+    tl_baseball
     .select(
-        c("Name").sample(n=5, seed=1).alias("sampled_name"),
-        c("Age").sample(n=5, seed=2).alias("sampled_age"),
+        f("Name").sample(n=5, seed=1).alias("sampled_name"),
+        f("Age").sample(n=5, seed=2).alias("sampled_age"),
     )
     .collect()
 )
@@ -234,7 +232,7 @@ A. `.group_by().map_groups(...)`
    + slower because it uses a Python function per group
    + for LazyFrame, must provide schema
 
-B. `pl.all().sample().over("group", mapping_strategy="explode")`
+B. `f.all().sample().over("group", mapping_strategy="explode")`
    + more Polars-native
    + better for larger data
 '''
@@ -245,11 +243,11 @@ B. `pl.all().sample().over("group", mapping_strategy="explode")`
 
 # Simple and readable: sample 2 rows from each PosCategory.
 print(
-    lf_baseball
+    tl_baseball
     .group_by("PosCategory")
     .map_groups(
         lambda group_df: group_df.sample(n=2, seed=42, shuffle=True),
-        schema=lf_baseball.collect_schema()
+        schema=f.schema
     )
     .collect()
 )
@@ -270,13 +268,13 @@ print(
 # └────────────────┴──────┴────────────────┴────────┴────────┴───────┴─────────────┘
 
 ##------------------------------------------------------------------##
-## B. `pl.all().sample().over("group", mapping_strategy="explode")` ##
+## B. `f.all().sample().over("group", mapping_strategy="explode")` ##
 ##------------------------------------------------------------------##
 
 print(
-    lf_baseball
+    tl_baseball
     .select(
-        pl.all().sample(fraction=0.1).over("Team", mapping_strategy="explode")
+        f.all().sample(fraction=0.1).over("Team", mapping_strategy="explode")
     )
     .collect()
 )
@@ -300,50 +298,3 @@ print(
 # │ Randy_Keisler  ┆ STL  ┆ Relief_Pitcher   ┆ 75     ┆ 212    ┆ 31.14 ┆ Infielder   │
 # │ Albert_Pujols  ┆ STL  ┆ Outfielder       ┆ 79     ┆ 240    ┆ 25.19 ┆ Outfielder  │
 # └────────────────┴──────┴──────────────────┴────────┴────────┴───────┴─────────────┘
-
-# =========================================================================================
-# 6. `df.sample()` for DataFrame
-# =========================================================================================
-'''
-polars.DataFrame has built-in `sample` method,
-thus you can call it directly.
-'''
-
-print(
-    df_baseball
-    .sample(n=5)
-)
-# shape: (5, 7)
-# ┌────────────────┬──────┬──────────────────┬────────┬────────┬───────┬─────────────┐
-# │ Name           ┆ Team ┆ Position         ┆ Height ┆ Weight ┆ Age   ┆ PosCategory │
-# │ ---            ┆ ---  ┆ ---              ┆ ---    ┆ ---    ┆ ---   ┆ ---         │
-# │ str            ┆ cat  ┆ cat              ┆ i64    ┆ i64    ┆ f64   ┆ cat         │
-# ╞════════════════╪══════╪══════════════════╪════════╪════════╪═══════╪═════════════╡
-# │ Mariano_Rivera ┆ NYY  ┆ Relief_Pitcher   ┆ 74     ┆ 170    ┆ 37.25 ┆ Pitcher     │
-# │ C.C._Sabathia  ┆ CLE  ┆ Starting_Pitcher ┆ 79     ┆ 290    ┆ 26.61 ┆ Pitcher     │
-# │ Ryan_Howard    ┆ PHI  ┆ First_Baseman    ┆ 76     ┆ 230    ┆ 27.28 ┆ Infielder   │
-# │ Jake_Woods     ┆ SEA  ┆ Relief_Pitcher   ┆ 73     ┆ 190    ┆ 25.49 ┆ Pitcher     │
-# │ Randy_Wolf     ┆ LA   ┆ Starting_Pitcher ┆ 72     ┆ 200    ┆ 30.52 ┆ Pitcher     │
-# └────────────────┴──────┴──────────────────┴────────┴────────┴───────┴─────────────┘
-
-print(
-    df_baseball
-    .sample(fraction=0.01)
-)
-# shape: (10, 7)
-# ┌──────────────────┬──────┬────────────────┬────────┬────────┬───────┬─────────────┐
-# │ Name             ┆ Team ┆ Position       ┆ Height ┆ Weight ┆ Age   ┆ PosCategory │
-# │ ---              ┆ ---  ┆ ---            ┆ ---    ┆ ---    ┆ ---   ┆ ---         │
-# │ str              ┆ cat  ┆ cat            ┆ i64    ┆ i64    ┆ f64   ┆ cat         │
-# ╞══════════════════╪══════╪════════════════╪════════╪════════╪═══════╪═════════════╡
-# │ Jay_Marshall     ┆ OAK  ┆ Relief_Pitcher ┆ 77     ┆ 185    ┆ 24.01 ┆ Pitcher     │
-# │ Wilfredo_Ledezma ┆ DET  ┆ Relief_Pitcher ┆ 76     ┆ 212    ┆ 26.11 ┆ Pitcher     │
-# │ Juan_Rincon      ┆ MIN  ┆ Relief_Pitcher ┆ 71     ┆ 201    ┆ 28.10 ┆ Pitcher     │
-# │ Troy_Glaus       ┆ TOR  ┆ Third_Baseman  ┆ 77     ┆ 240    ┆ 30.57 ┆ Infielder   │
-# │ Brooks_Conrad    ┆ HOU  ┆ Second_Baseman ┆ 71     ┆ 190    ┆ 27.12 ┆ Infielder   │
-# │ Martin_Prado     ┆ ATL  ┆ Second_Baseman ┆ 73     ┆ 170    ┆ 23.34 ┆ Infielder   │
-# │ Brian_Giles      ┆ SD   ┆ Outfielder     ┆ 70     ┆ 205    ┆ 36.11 ┆ Outfielder  │
-# │ Alex_Escobar     ┆ WAS  ┆ Outfielder     ┆ 73     ┆ 190    ┆ 28.48 ┆ Outfielder  │
-# │ Geoff_Jenkins    ┆ MLW  ┆ Outfielder     ┆ 73     ┆ 212    ┆ 32.61 ┆ Outfielder  │
-# │ Terrmel_Sledge   ┆ SD   ┆ Outfielder     ┆ 72     ┆ 185    ┆ 29.95 ┆ Outfielder  │
-# └──────────────────┴──────┴────────────────┴────────┴────────┴───────┴─────────────┘

@@ -11,10 +11,11 @@ DataFrame/LazyFrame.
 3. `f["x"]` and `f["x", "y", "z"]`
 4. `f.all()` and the Polars expression namespace
 5. `f.colnames` and automatic deferred method forwarding
-6. `f.select("x")` and `f.sl("x")` for selecting from the current frame later
-7. `f.pull("x")` for extracting concrete values later
-8. Deferred operations in sequential mutation
-9. `f` expressions with NumPy functions
+6. `f.schema` for conveniently retrieving schema (suitable for `map_groups`)
+7. `f.select("x")` and `f.sl("x")` for selecting from the current frame later
+8. `f.pull("x")` for extracting concrete values later
+9. Deferred operations in sequential mutation
+10. `f` expressions with NumPy functions and `map_batches`
 '''
 
 from pathlib import Path
@@ -284,7 +285,51 @@ print(
 # └───────────┴────────┴────────┴────────────┘
 
 # =========================================================================================
-# 6. `f.select("x")` and `f.sl("x")` for selecting from the current frame later
+# 6. `f.schema` for conveniently retrieving schema (suitable for `map_groups`)
+# =========================================================================================
+
+print(
+    tl_pokemon
+    .group_by("type_1")
+    .map_groups(lambda group: group.gather(range(3)), schema=f.schema)
+    .collect()
+)
+# shape: (54, 13)
+# ┌─────┬──────────┬────────┬────────┬───┬────────┬───────┬────────────┬───────────┐
+# │ #   ┆ name     ┆ type_1 ┆ type_2 ┆ … ┆ sp_def ┆ speed ┆ generation ┆ legendary │
+# │ --- ┆ ---      ┆ ---    ┆ ---    ┆   ┆ ---    ┆ ---   ┆ ---        ┆ ---       │
+# │ i64 ┆ str      ┆ cat    ┆ cat    ┆   ┆ i64    ┆ i64   ┆ i64        ┆ bool      │
+# ╞═════╪══════════╪════════╪════════╪═══╪════════╪═══════╪════════════╪═══════════╡
+# │ 92  ┆ Gastly   ┆ Ghost  ┆ Poison ┆ … ┆ 35     ┆ 80    ┆ 1          ┆ false     │
+# │ 93  ┆ Haunter  ┆ Ghost  ┆ Poison ┆ … ┆ 55     ┆ 95    ┆ 1          ┆ false     │
+# │ 94  ┆ Gengar   ┆ Ghost  ┆ Poison ┆ … ┆ 75     ┆ 110   ┆ 1          ┆ false     │
+# │ …   ┆ …        ┆ …      ┆ …      ┆ … ┆ …      ┆ …     ┆ …          ┆ …         │
+# │ 2   ┆ Ivysaur  ┆ Grass  ┆ Poison ┆ … ┆ 80     ┆ 60    ┆ 1          ┆ false     │
+# │ 3   ┆ Venusaur ┆ Grass  ┆ Poison ┆ … ┆ 100    ┆ 80    ┆ 1          ┆ false     │
+# └─────┴──────────┴────────┴────────┴───┴────────┴───────┴────────────┴───────────┘
+
+print(
+    tl_pokemon
+    .group_by("generation")
+    .map_groups(lambda group: group.gather_every(offset=1, n=3), schema=f.schema)
+    .collect()
+)
+# shape: (265, 13)
+# ┌─────┬──────────┬─────────┬────────┬───┬────────┬───────┬────────────┬───────────┐
+# │ #   ┆ name     ┆ type_1  ┆ type_2 ┆ … ┆ sp_def ┆ speed ┆ generation ┆ legendary │
+# │ --- ┆ ---      ┆ ---     ┆ ---    ┆   ┆ ---    ┆ ---   ┆ ---        ┆ ---       │
+# │ i64 ┆ str      ┆ cat     ┆ cat    ┆   ┆ i64    ┆ i64   ┆ i64        ┆ bool      │
+# ╞═════╪══════════╪═════════╪════════╪═══╪════════╪═══════╪════════════╪═══════════╡
+# │ 495 ┆ Snivy    ┆ Grass   ┆ null   ┆ … ┆ 55     ┆ 63    ┆ 5          ┆ false     │
+# │ 498 ┆ Tepig    ┆ Fire    ┆ null   ┆ … ┆ 45     ┆ 45    ┆ 5          ┆ false     │
+# │ 501 ┆ Oshawott ┆ Water   ┆ null   ┆ … ┆ 45     ┆ 45    ┆ 5          ┆ false     │
+# │ …   ┆ …        ┆ …       ┆ …      ┆ … ┆ …      ┆ …     ┆ …          ┆ …         │
+# │ 247 ┆ Pupitar  ┆ Rock    ┆ Ground ┆ … ┆ 70     ┆ 51    ┆ 2          ┆ false     │
+# │ 249 ┆ Lugia    ┆ Psychic ┆ Flying ┆ … ┆ 154    ┆ 110   ┆ 2          ┆ true      │
+# └─────┴──────────┴─────────┴────────┴───┴────────┴───────┴────────────┴───────────┘
+
+# =========================================================================================
+# 7. `f.select("x")` and `f.sl("x")` for selecting from the current frame later
 # =========================================================================================
 '''
 `f.select()` describes a selection from the frame that will be executing the
@@ -378,7 +423,7 @@ print(
 )
 
 # =========================================================================================
-# 7. `f.pull("x")` for extracting concrete values later
+# 8. `f.pull("x")` for extracting concrete values later
 # =========================================================================================
 '''
 `f.pull()` defers extracting one column as a concrete Polars Series. This is
@@ -517,7 +562,7 @@ print(
 # └────────────────────┴────────────┴────────────────────┘
 
 # =========================================================================================
-# 8. Deferred operations in sequential mutation
+# 9. Deferred operations in sequential mutation
 # =========================================================================================
 '''
 By default, `mutate(parallel=True)` resolves every expression against the
@@ -558,7 +603,7 @@ print(
 # exist when `f.select("copied_generation")` is resolved.
 
 # =========================================================================================
-# 9. `f` expressions with NumPy functions
+# 10. `f` expressions with NumPy functions and `map_batches`
 # =========================================================================================
 
 print(
