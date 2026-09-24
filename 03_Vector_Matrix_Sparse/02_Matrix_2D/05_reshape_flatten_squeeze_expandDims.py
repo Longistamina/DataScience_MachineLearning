@@ -19,27 +19,18 @@
                           (and it modifies the original array in-place)
    + np.resize(arr, newshape): resize with repeated copies of the original array
 
-4. arr.transpose() or arr.T: Transpose the array (swap rows and columns)
-   + np.transpose(arr) or np.T(arr): similar to arr.transpose() or arr.T
-
-5. Squeeze:
+4. Squeeze:
    + arr.squeeze(): Remove single-dimensional entries from the shape of an array
    + np.squeeze(arr): similar to arr.squeeze()
 
-6. Expand dims:
+5. Expand dimensions with `np.expand_dims`:
    + np.expand_dims(arr, axis): Expand the shape of an array by inserting a new axis at the specified position
+
+6. Expand dimensions with `np.newaxis` and `None`:
    + arr[np.newaxis, :, :] ||| arr[np.newaxis, ...]: equivalent to np.expand_dims(arr, axis=0)
    + arr[:, np.newaxis, :]: equivalent to np.expand_dims(arr, axis=1)
    + arr[:, :, np.newaxis] ||| arr[..., np.newaxis]: equivalent to np.expand_dims(arr, axis=2)
    + arr[:, None, :]: use None instead of np.newaxis also works
-
-7. swapaxes:
-   + np.swapaxes(arr, axis1, axis2): swap two axes of an array; for 2D, swapping 0 and 1 is equivalent to transpose
-   + arr.swapaxes(axis1, axis2): similar to np.swapaxes(arr, axis1, axis2)
-
-8. permute_dims:
-   + np.permute_dims(arr, axes): permute (reorder) all axes according to axes
-                                 Works conceptually like torch.permute (available in newer NumPy / array API)
 '''
 
 import numpy as np
@@ -317,53 +308,7 @@ print(matrix4)
 # original matrix4 is unchanged
 
 # =========================================================================================
-# 4. arr.transpose() or arr.T: Transpose the array
-# =========================================================================================
-
-np.random.seed(4)
-matrix5 = np.random.randint(1, 21, size=(3, 4))
-
-print(matrix5)
-# [[15  6  2  9]
-#  [ 9 19 10  8]
-#  [14  9  5 19]]
-# shape: (3, 4)
-
-##-----------------##
-## arr.transpose() ##
-##-----------------##
-
-print(matrix5.transpose())
-# [[15  9 14]
-#  [ 6 19  9]
-#  [ 2 10  5]
-#  [ 9  8 19]]
-# shape: (4, 3)
-
-##-------##
-## arr.T ##
-##-------##
-
-print(matrix5.T)
-# [[15  9 14]
-#  [ 6 19  9]
-#  [ 2 10  5]
-#  [ 9  8 19]]
-# shape: (4, 3)
-
-##-------------------##
-## np.transpose(arr) ##
-##-------------------##
-
-print(np.transpose(matrix5))
-# [[15  9 14]
-#  [ 6 19  9]
-#  [ 2 10  5]
-#  [ 9  8 19]]
-# same result as arr.T or arr.transpose()
-
-# =========================================================================================
-# 5. Squeeze: remove 1-sized dims
+# 4. Squeeze: remove 1-sized dims
 # =========================================================================================
 '''
 For 2D shapes:
@@ -447,7 +392,7 @@ print(mat_2x3.squeeze())
 #  [4 5 6]]
 
 # =========================================================================================
-# 6. np.expand_dims: expand shape by inserting new axis
+# 5. Expand dimensions with `np.expand_dims`:
 # =========================================================================================
 
 np.random.seed(5)
@@ -463,8 +408,6 @@ print(matrix6)
 ## axis=0: (1, 3, 4) ##
 ##-------------------##
 
-# ## np.expand_dims()
-# 
 expanded_axis0 = np.expand_dims(matrix6, axis=0)
 
 print(expanded_axis0)
@@ -474,26 +417,10 @@ print(expanded_axis0)
 
 print(expanded_axis0.shape) # (1, 3, 4)
 
-# ## arr[np.newaxis, :, :]
-# 
-print(matrix6[np.newaxis, :, :])
-# [[[ 4 15 16  7]
-#   [17 10  9  5]
-#   [ 8 17 17  8]]]
-
-# ## arr[np.newaxis, ...]
-# 
-print(matrix6[np.newaxis, ...])
-# [[[ 4 15 16  7]
-#   [17 10  9  5]
-#   [ 8 17 17  8]]]
-
 ##-------------------##
 ## axis=1: (3, 1, 4) ##
 ##-------------------##
 
-# ## np.expand_dims()
-# 
 expanded_axis1 = np.expand_dims(matrix6, axis=1)
 
 print(expanded_axis1)
@@ -504,15 +431,6 @@ print(expanded_axis1)
 #  [[ 8 17 17  8]]]
 
 print(expanded_axis1.shape) # (3, 1, 4)
-
-# ## arr[:, np.newaxis, :]
-# 
-print(matrix6[:, np.newaxis, :])
-# [[[ 4 15 16  7]]
-
-#  [[17 10  9  5]]
-
-#  [[ 8 17 17  8]]]
 
 ##-------------------##
 ## axis=2: (3, 4, 1) ##
@@ -538,8 +456,43 @@ print(expanded_axis2)
 
 print(expanded_axis2.shape) # (3, 4, 1)
 
-# ## arr[:, :, np.newaxis]
-# 
+# =========================================================================================
+# 6. Expand dimensions with `np.newaxis` and `None`
+# =========================================================================================
+
+##-------------------------------------------------------------------------------------------##
+## arr[np.newaxis, :, :] ||| arr[np.newaxis, ...]: equivalent to np.expand_dims(arr, axis=0) ##
+##-------------------------------------------------------------------------------------------##
+
+# arr[np.newaxis, :, :]
+print(matrix6[np.newaxis, :, :])
+# [[[ 4 15 16  7]
+#   [17 10  9  5]
+#   [ 8 17 17  8]]]
+
+# arr[np.newaxis, ...]
+print(matrix6[np.newaxis, ...])
+# [[[ 4 15 16  7]
+#   [17 10  9  5]
+#   [ 8 17 17  8]]]
+
+##------------------------------------------------------------------##
+## arr[:, np.newaxis, :]: equivalent to np.expand_dims(arr, axis=1) ##
+##------------------------------------------------------------------##
+
+print(matrix6[:, np.newaxis, :])
+# [[[ 4 15 16  7]]
+
+#  [[17 10  9  5]]
+
+#  [[ 8 17 17  8]]]
+
+##-------------------------------------------------------------------------------------------##
+## arr[:, :, np.newaxis] ||| arr[..., np.newaxis]: equivalent to np.expand_dims(arr, axis=2) ##
+##-------------------------------------------------------------------------------------------##
+
+
+# arr[:, :, np.newaxis]
 print(matrix6[:, :, np.newaxis])
 # [[[ 4]
 #   [15]
@@ -556,8 +509,7 @@ print(matrix6[:, :, np.newaxis])
 #   [17]
 #   [ 8]]]
 
-# ## arr[..., np.newaxis]
-# 
+# arr[..., np.newaxis]
 print(matrix6[..., np.newaxis])
 # [[[ 4]
 #   [15]
@@ -574,9 +526,10 @@ print(matrix6[..., np.newaxis])
 #   [17]
 #   [ 8]]]
 
-##-----------------------##
-## using arr[:, :, None] ##
-##-----------------------##
+##------------------------------------------------------------##
+## arr[:, None, :]: use None instead of np.newaxis also works ##
+##------------------------------------------------------------##
+
 
 print(matrix6[:, None, :]) # same as arr[:, np.newaxis, :]
 # [[[ 4 15 16  7]]
@@ -600,175 +553,3 @@ print(matrix6[..., None]) # same as arr[:, :, np.newaxis]
 #   [17]
 #   [17]
 #   [ 8]]]
-
-# =========================================================================================
-# 7. np.swapaxes(): swap two axes
-# =========================================================================================
-'''
-np.swapaxes(arr, axis1, axis2):
-
-For 2D (m, n):
-   + np.swapaxes(arr, 0, 1) is equivalent to transpose: shape becomes (n, m)
-
-For higher dimensions:
-   + only the two specified axes are swapped, others stay in place
-'''
-
-np.random.seed(6)
-matrix7 = np.random.randint(1, 21, size=(3, 4))
-
-print(matrix7)
-# [[11 10  4 11]
-#  [14 16 11 17]
-#  [ 2 12 14 16]]
-
-print(matrix7.shape)   # (3, 4)
-
-##----##
-## 2D ##
-##----##
-
-swapped_2d = np.swapaxes(matrix7, 0, 1)
-print(swapped_2d)
-# [[11 14  2]
-#  [10 16 12]
-#  [ 4 11 14]
-#  [11 17 16]]
-
-print(swapped_2d.shape)  # (4, 3), same as transpose
-
-##----##
-## 3D ##
-##----##
-
-np.random.seed(0)
-tensor3d = np.random.randint(1, 10, size=(2, 3, 4))
-
-print(tensor3d)
-# [[[6 7 4 6]
-#   [2 3 4 7]
-#   [9 1 4 8]]
-
-#  [[5 9 2 3]
-#   [5 2 6 6]
-#   [7 2 1 6]]]
-
-print(tensor3d.shape)
-# (2, 3, 4)
-
-# =========================================================================================
-
-swapped_3d = np.swapaxes(tensor3d, 0, 2)
-
-print(swapped_3d)
-# [[[6 5]
-#   [2 5]
-#   [9 7]]
-
-#  [[7 9]
-#   [3 2]
-#   [1 2]]
-
-#  [[4 2]
-#   [4 6]
-#   [4 1]]
-
-#  [[6 3]
-#   [7 6]
-#   [8 6]]]
-
-print(swapped_3d.shape)
-# (4, 3, 2)
-
-##----------------------##
-## using arr.swapaxes() ##
-##----------------------##
-
-swapped_3d_method = tensor3d.swapaxes(1, 2)
-print(swapped_3d_method)
-# [[[6 8 5]
-#   [1 4 8]
-#   [4 6 7]
-#   [4 3 9]]
-
-#  [[9 8 9]
-#   [2 9 5]
-#   [7 2 4]
-#   [8 6 1]]]
-
-print(swapped_3d_method.shape)
-# (2, 4, 3)
-'''from (2, 3, 4) to (2, 4, 3), only axes 1 and 2 are swapped.'''
-
-# =========================================================================================
-# 8. np.permute_dims(): permute axes
-# =========================================================================================
-'''
-np.permute_dims(arr, axes):
-
-   + Permute (reorder) all axes according to axes
-   + For a 3D tensor with shape (d0, d1, d2):
-
-        np.permute_dims(arr, (1, 0, 2)) -> shape (d1, d0, d2)
-        np.permute_dims(arr, (2, 0, 1)) -> shape (d2, d0, d1)
-
-   + In newer NumPy / array API, permute_dims is available; if not, np.transpose(arr, axes) does the same thing.
-'''
-
-'''NOTE: when use np.permute_dims(), must specify ALL axes in the new order.'''
-
-np.random.seed(7)
-tensor3d_2 = np.random.randint(1, 10, size=(2, 3, 4))
-
-print(tensor3d_2)
-# [[[5 7 4 4]
-#   [8 8 8 9]
-#   [9 8 7 5]]
-
-#  [[1 8 1 8]
-#   [7 4 6 9]
-#   [9 8 6 1]]]
-
-print(tensor3d_2.shape)
-# (2, 3, 4)
-
-##-----------------------##
-## (1, 0, 2) permutation ##
-##-----------------------##
-
-perm_1 = np.permute_dims(tensor3d_2, (1, 0, 2))
-
-print(perm_1)
-# [[[5 7 4 4]
-#   [1 8 1 8]]
-
-#  [[8 8 8 9]
-#   [7 4 6 9]]
-
-#  [[9 8 7 5]
-#   [9 8 6 1]]]
-
-print(perm_1.shape)
-# (3, 2, 4)
-
-##-----------------------##
-## (2, 0, 1) permutation ##
-##-----------------------##
-
-perm_2 = np.permute_dims(tensor3d_2, (2, 0, 1))
-
-print(perm_2)
-# [[[5 8 9]
-#   [1 7 9]]
-
-#  [[7 8 8]
-#   [8 4 8]]
-
-#  [[4 8 7]
-#   [1 6 6]]
-
-#  [[4 9 5]
-#   [8 9 1]]]
-
-print(perm_2.shape)
-# (4, 2, 3)
