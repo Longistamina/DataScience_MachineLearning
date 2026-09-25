@@ -9,6 +9,7 @@
 3. permute_dims:
    + np.permute_dims(arr, axes): permute (reorder) all axes according to axes
                                  Works conceptually like torch.permute (available in newer NumPy / array API)
+   + arr.transpose(axes): do the same thing
 '''
 
 import numpy as np
@@ -163,6 +164,7 @@ print(swapped_3d_method.shape)
 # =========================================================================================
 '''
 np.permute_dims(arr, axes):
+(arr.transpose(axes))
 
    + Permute (reorder) all axes according to axes
    + For a 3D tensor with shape (d0, d1, d2):
@@ -230,3 +232,13 @@ print(perm_2)
 
 print(perm_2.shape)
 # (4, 2, 3)
+
+##---------------------##
+## arr.transpose(axes) ##
+##---------------------##
+
+print(
+    tensor3d_2.transpose(1, 0, 2)
+    .shape
+)
+# (3, 2, 4)
