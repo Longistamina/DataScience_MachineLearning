@@ -1,8 +1,7 @@
 '''
-
 The pandas.Timestamp class is pandas' replacement for Python's datetime.datetime object.
 
-It's the fundamental building block for time series data in pandas and is interchangeable 
+It's the fundamental building block for time series data in pandas and is interchangeable
 with Python's datetime.datetime in most cases.
 
 Key Features: Nanosecond precision, timezone awareness, extensive date/time manipulation methods
@@ -185,7 +184,7 @@ print(ts_full)
 # 2023-01-15 14:30:45
 
 # With microseconds and nanoseconds
-ts_precise = pd.Timestamp(year=2023, month=1, day=15, hour=14, minute=30, 
+ts_precise = pd.Timestamp(year=2023, month=1, day=15, hour=14, minute=30,
                           second=45, microsecond=123456, nanosecond=789)
 print(ts_precise)
 # 2023-01-15 14:30:45.123456789

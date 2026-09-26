@@ -301,3 +301,6 @@
       * `pd.Series`: filter, where
       * `pd.Series`: concat, combine
       * `pd.Series`: str - String
+  + [06_Pandas_dataframe_part_04](https://youtu.be/jgHbfwcwH6Y): 26th/09/2026
+      * `pd.Series`: cat - Categorical (ordered and unordered), unique, value_counts
+      * `pd.Series`: dt - DateTime and TimeZone handling, Grouper by datetime
