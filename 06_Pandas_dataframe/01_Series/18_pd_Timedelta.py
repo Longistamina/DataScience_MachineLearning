@@ -1,8 +1,7 @@
 '''
-
 The pandas.Timedelta class represents a duration, the difference between two dates or times.
 
-It's the pandas equivalent of Python's datetime.timedelta and is interchangeable 
+It's the pandas equivalent of Python's datetime.timedelta and is interchangeable
 with it in most cases.
 
 Key Features: Nanosecond precision, flexible construction, arithmetic operations with timestamps
@@ -167,7 +166,7 @@ td_complex = pd.Timedelta(days=1, hours=2, minutes=30, seconds=45)
 print(td_complex)
 # 1 days 02:30:45
 
-td_precise = pd.Timedelta(days=2, hours=5, minutes=30, seconds=15, 
+td_precise = pd.Timedelta(days=2, hours=5, minutes=30, seconds=15,
                           milliseconds=500, microseconds=250)
 print(td_precise)
 # 2 days 05:30:15.500250
@@ -288,7 +287,7 @@ print(pd_td_hours)
 # 1. Basic Timedelta attributes
 # =========================================================================================
 
-td = pd.Timedelta(days=5, hours=12, minutes=30, seconds=45, 
+td = pd.Timedelta(days=5, hours=12, minutes=30, seconds=45,
                   milliseconds=123, microseconds=456, nanoseconds=789)
 print(td)
 # 5 days 12:30:45.123456789
