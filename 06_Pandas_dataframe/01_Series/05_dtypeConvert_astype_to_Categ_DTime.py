@@ -14,6 +14,8 @@ Converting and casting data types is a fundamental operation in pandas data mani
 5. pd.to_timedelta(): Convert to Timedelta
 
 6. String conversion: .astype(str), .map(str), .apply(str), .apply(lambda x: str(x))
+
+7. Convert to single-column DataFrame: `series.to_frame()`
 '''
 
 import pandas as pd
@@ -463,3 +465,25 @@ print(s_str_lambda)
 # 3     8.6
 # 4    10.0
 # dtype: str
+
+# =========================================================================================
+# 7. Convert to single-column DataFrame: `series.to_frame()`
+# =========================================================================================
+
+s_no_name = pd.Series([1, 5, 3.2, 4, .7], dtype="float32")
+print(s_no_name.to_frame())
+#      0
+# 0  1.0
+# 1  5.0
+# 2  3.2
+# 3  4.0
+# 4  0.7
+
+s_named = pd.Series(data=["A", "b", "C", "c", "A"], name="level")
+print(s_named.to_frame())
+#   level
+# 0     A
+# 1     b
+# 2     C
+# 3     c
+# 4     A

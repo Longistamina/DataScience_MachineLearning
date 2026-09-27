@@ -10,6 +10,7 @@ The primary method for type conversion in Polars is `.cast()`.
 4. String to Datetime Conversion (.str.to_datetime)
 5. Timedelta / Duration Handling (pl.Duration)
 6. String conversion (.cast(pl.String))
+7. Convert to single-column DataFrame: `series.to_frame()`
 '''
 
 import polars as pl
@@ -463,3 +464,37 @@ print(s_nums.map_elements(str, return_dtype=pl.String))
 # with this one instead:
 #   + s.cast(pl.String)
 #   print(s_nums.map_elements(str, return_dtype=pl.String))
+
+# =========================================================================================
+# 7. Convert to single-column DataFrame: `series.to_frame()`
+# =========================================================================================
+
+s_no_name = pl.Series([1, 5, 3.2, 4, .7], dtype=pl.Float32)
+print(s_no_name.to_frame())
+# shape: (5, 1)
+# ┌─────┐
+# │     │
+# │ --- │
+# │ f32 │
+# ╞═════╡
+# │ 1.0 │
+# │ 5.0 │
+# │ 3.2 │
+# │ 4.0 │
+# │ 0.7 │
+# └─────┘
+
+s_named = pl.Series(values=["A", "b", "C", "c", "A"], name="level")
+print(s_named.to_frame())
+# shape: (5, 1)
+# ┌───────┐
+# │ level │
+# │ ---   │
+# │ str   │
+# ╞═══════╡
+# │ A     │
+# │ b     │
+# │ C     │
+# │ c     │
+# │ A     │
+# └───────┘
