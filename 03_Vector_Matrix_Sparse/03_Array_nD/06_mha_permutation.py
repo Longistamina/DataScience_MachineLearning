@@ -155,7 +155,7 @@ dim = 16
 heads = 2
 
 array_equi = np.random.randn(batch, n, channels) # [B, N, C]
-linear_equi = Linear(1, dim)
+linear_equi = Linear(1, dim, bias=False) # must set `bias=False` !!!
 
 out_equi = linear_equi(array_equi[..., None]) # [B, N, C] -> [B, N, C, 1] -> [B, N, C, D]
 out_equi = out_equi.reshape(batch, n, channels, heads, -1) # [B, N, C, D] -> [B, N, C, heads, dim_head]
