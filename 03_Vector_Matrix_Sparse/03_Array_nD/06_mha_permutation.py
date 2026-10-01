@@ -70,7 +70,7 @@ Incorrect:
    [B, N, low] -> [B, N, D] -> [B, N, H, Dh] -> [B, H, N, Dh]
 
 2. Example with equivariant arrays/tensors:
-   [B, N, L] -> [B, N, L, 1] -> [B, N, L, D] -> [B, N, L, H, Dh] -> [B, H, N, L, Dh] -> [B, H, N, L*Dh]
+   [B, N, C] -> [B, N, C, 1] -> [B, N, C, D] -> [B, N, C, H, Dh] -> [B, H, N, C, Dh] -> [B, H, N, C*Dh]
 '''
 
 import numpy as np
@@ -105,9 +105,81 @@ class Linear:
         else:
             return input @ self.weights.reshape(*dims_to_expand, self.out_features, self.in_features).swapaxes(-1, -2)
 
+# ========================================================================================
+# 1. Example with common arrays/tensors:
+#    [B, N, low] -> [B, N, D] -> [B, N, H, Dh] -> [B, H, N, Dh]
+# ========================================================================================
 
-linear = Linear(8, 16)
-x = np.random.randn(10, 8)
-y = linear(x)
+batch = 3
+n = 15
+dim = 16
+heads = 2
 
-print(y.round(3))
+array_common = np.random.randn(batch, n, 4)
+linear_common = Linear(4, dim)
+
+out_common = linear_common(array_common) # [B, N, low] -> [B, N, dim]
+out_common = out_common.reshape(batch, n, heads, -1) # [B, N, dim] -> [B, N, heads, dim_head]
+out_common = out_common.swapaxes(1, 2) # [B, N, heads, dim_head] -> [B, heads, N, dim_head]
+
+print(out_common.shape)
+# (3, 2, 15, 8)
+
+# =============================================================================================================
+# 2. Example with equivariant arrays/tensors:
+#    [B, N, C] -> [B, N, C, 1] -> [B, N, C, D] -> [B, N, C, H, Dh] -> [B, H, N, C, Dh] -> [B, H, N, C*Dh]
+# =============================================================================================================
+'''
+For arrays/tensors operations that require equivariance,
+we cannot transform directly from [B, N, C] -> [B, N, D]
+because it will break equivariance.
+(The typical examples are batches of 3D point cloud coordinates [B, N, 3])
+=> Why? Because directly transform like above
+   makes different channels C (x-y-z axes) mix together,
+   which destroys the equivariance.
+
+In such situations, we need to unsqueeze the arrays/tensors into [B, N, C, 1] first,
+then transform into higher dimension [B, N, C, D] laters.
+This keeps the channels C unmixed -> Preserve equivariance.
+
+Moreover, in order to maintain equivariance, we must not apply bias (bias=False),
+meaning `out = in @ A.T` only (not `out = in @ A.T + bias`).
+
+After achieving [B, N, C, D], we can then split into multiple heads and permute the dimensions.
+'''
+
+batch = 4
+n = 15
+channels = 3
+dim = 16
+heads = 2
+
+array_equi = np.random.randn(batch, n, channels) # [B, N, C]
+linear_equi = Linear(1, dim)
+
+out_equi = linear_equi(array_equi[..., None]) # [B, N, C] -> [B, N, C, 1] -> [B, N, C, D]
+out_equi = out_equi.reshape(batch, n, channels, heads, -1) # [B, N, C, D] -> [B, N, C, heads, dim_head]
+out_equi = out_equi.transpose(0, 3, 1, 2, 4) # [B, heads, N, C, dim_head]
+out_equi = out_equi.reshape(batch, heads, n, -1) # [B, heads, N, C*dim_head]
+
+print(out_equi.shape)
+# (4, 2, 15, 24)
+
+'''
+At the final step, why convert the arrays to [B, heads, N, C*dim_head]
+but not keep it as [B, heads, N, C, dim_head]?
+
+Because, we need to perform the matmul(Q, K.transpose())
+to get the [B, heads, N, N] attention score array.
+
+Q = [B, heads, N, C*dim_head]
+K.transpose() = [B, heads, C*dim_head, N]
+
+=> matmul(Q, K.transpose()) = [B, heads, N, N]
+
+(
+If we keep [B, heads, N, C, dim_head],
+then the output will be [B, heads, N, C, C]
+=> wrong
+)
+'''
