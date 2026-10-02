@@ -154,10 +154,10 @@ print(
 ###  == (equal)  ###
 ### pl.Expr.eq() ###
 
-# type_1 equal to fire.
+# type_1 equal to Fire.
 print(
     lf_pokemon
-    .filter(c.type_1 == "fire")
+    .filter(c.type_1 == "Fire")
     .select("name", "type_1", "type_2", "total", "generation", "legendary")
     .head(8)
     .collect()
