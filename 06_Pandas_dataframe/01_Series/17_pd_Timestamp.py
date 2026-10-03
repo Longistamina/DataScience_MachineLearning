@@ -84,7 +84,6 @@ Key Features: Nanosecond precision, timezone awareness, extensive date/time mani
 ##-------------------------------##
 
 '''
-
 COMMON UNIT CODES FOR TIMESTAMP CONSTRUCTION:
 
 'D' - Day
@@ -94,14 +93,11 @@ COMMON UNIT CODES FOR TIMESTAMP CONSTRUCTION:
 'ms' - Millisecond
 'us' - Microsecond
 'ns' - Nanosecond (default)
-
 '''
 
 from datetime import datetime, timedelta
 
-import numpy as np
 import pandas as pd
-import pytz
 
 # =========================================================================================
 # 0. Creating Timestamp objects
@@ -147,21 +143,21 @@ print(ts5)
 ##------------------------------------------##
 
 # From integer (Unix timestamp in specified unit)
-ts_epoch = pd.Timestamp(1513393355, unit='s')
+ts_epoch = pd.Timestamp(1_513_393_355, unit='s')
 print(ts_epoch)
 # 2017-12-16 03:02:35
 
 # From float (fractional seconds)
-ts_epoch_float = pd.Timestamp(1513393355.5, unit='s')
+ts_epoch_float = pd.Timestamp(1_513_393_355.5, unit='s')
 print(ts_epoch_float)
 # 2017-12-16 03:02:35.500000
 
 # Different units
-ts_ms = pd.Timestamp(1513393355000, unit='ms')
+ts_ms = pd.Timestamp(1_513_393_355_000, unit='ms')
 print(ts_ms)
 # 2017-12-16 03:02:35
 
-ts_ns = pd.Timestamp(1513393355000000000, unit='ns')
+ts_ns = pd.Timestamp(1_513_393_355_000_000_000, unit='ns')
 print(ts_ns)
 # 2017-12-16 03:02:35
 
@@ -225,15 +221,6 @@ ts_today = pd.Timestamp.today()
 print(ts_today)
 # 2025-12-28 17:20:15.123456 (example output)
 
-##-----------------------##
-## pd.Timestamp.utcnow() ##
-##-----------------------##
-
-# Get current UTC time
-ts_utcnow = pd.Timestamp.utcnow()
-print(ts_utcnow)
-# 2025-12-28 08:20:15.123456 (example output, no timezone info)
-
 '''
 # ## From Python datetime
 # '''
@@ -259,9 +246,9 @@ ts = pd.Timestamp('2023-03-15 14:30:45.123456789', tz='US/Pacific')
 print(ts)
 # 2023-03-15 14:30:45.123456789-07:00
 
-##--------------------------##
+##---------------------##
 ## .year, .month, .day ##
-##--------------------------##
+##---------------------##
 
 print(ts.year)
 # 2023
@@ -416,9 +403,9 @@ print(date_obj)
 print(type(date_obj))
 # <class 'datetime.date'>
 
-##----------##
+##---------##
 ## .time() ##
-##----------##
+##---------##
 
 # Extract time object (loses date and timezone info)
 time_obj = ts.time()
@@ -1045,8 +1032,6 @@ print(ts_past)
 # 2023-03-05 14:30:00
 
 # Using Python timedelta
-from datetime import timedelta
-
 ts_future3 = ts1 + timedelta(weeks=2)
 print(ts_future3)
 # 2023-03-29 14:30:00

@@ -304,3 +304,9 @@
   + [06_Pandas_dataframe_part_04](https://youtu.be/jgHbfwcwH6Y): 26th/09/2026
       * `pd.Series`: cat - Categorical (ordered and unordered), unique, value_counts
       * `pd.Series`: dt - DateTime and TimeZone handling, Grouper by datetime
+  + [06_Pandas_dataframe_part_05](https://youtu.be/eNFXzdZgtXY): 03rd/10/2026
+      * `pd.Series`: pd.Timestamp and pd.timedelta
+      * `pd.Series`: sampling (n or fraction)
+      * `pd.Series`: boolean indexing, conditional filtering, `between`, `isin`, `~` negate
+      * `pd.Series`: category encoding, quantitative discretizing
+      * `pd.Series`: sparse series
