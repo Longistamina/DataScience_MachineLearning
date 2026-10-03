@@ -1,7 +1,7 @@
 '''
 Drop rows:
    + .drop(labels=..., axis=0, inplace=True/False)
-    + .drop(index=..., inplace=True/False)
+   + .drop(index=..., inplace=True/False)
 '''
 
 from pathlib import Path
