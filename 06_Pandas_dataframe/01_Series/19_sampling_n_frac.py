@@ -300,7 +300,7 @@ print(sampling_weights)
 # p10    10
 # Name: sampling_weight, dtype: int64
 
-s_weighted = s_players.sample(n=5, weights=sampling_weights, random_state=42)
+s_weighted = s_players.sample(n=5, weights=sampling_weights, replace=True, random_state=42)
 print(s_weighted)
 # p09    Wilson
 # p10      Mark

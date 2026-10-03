@@ -2,7 +2,7 @@
 Boolean Indexing Boolean Filtering is a powerful technique
 that allows you to filter data based on specific conditions.
 
-##---------------------------##
+##----------------------------------------------------------##
 
 1. Single Condition Examples:
    + Logic Operators: >, <, >=, <=, .between(), ==, !=
@@ -18,8 +18,8 @@ that allows you to filter data based on specific conditions.
    + Combine & and |
 '''
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 np.random.seed(42)
 s1_nums = pd.Series(np.random.uniform(10, 20, 10)).round(2)
@@ -61,8 +61,8 @@ print(s2_nums)
 ## Logic Operators: >, <, >=, <=, .between(), ==, != ##
 ##---------------------------------------------------##
 
-# ## > (greater than)
-#
+### > (greater than) ###
+
 print(s1_nums > 15)
 # 0    False
 # 1     True
@@ -93,8 +93,8 @@ print(s2_nums[s2_nums > s1_nums]) # Returns values greater than corresponding va
 # 9    18.93 (> 17.08)
 # dtype: float64
 
-# ## < (less than)
-#
+### < (less than) ###
+
 print(s1_nums[s1_nums < 13]) # Returns values less than 13 (True)
 # 4    11.56
 # 5    11.56
@@ -109,8 +109,8 @@ print(s2_nums[s2_nums < s1_nums]) # Returns values less than corresponding value
 # 8    15.43
 # dtype: float64
 
-# ## >= (greater than or equal to)
-#
+### >= (greater than or equal to) ###
+
 print(s1_nums[s1_nums >= 15.99]) # Returns values greater than or equal to 15.99 (True)
 # 1    19.51
 # 2    17.32
@@ -128,8 +128,8 @@ print(s2_nums[s2_nums >= s1_nums]) # Returns values greater than or equal to cor
 # 9    18.93
 # dtype: float64
 
-# ## <= (less than or equal to)
-#
+### <= (less than or equal to) ###
+
 print(s1_nums[s1_nums <= 11.56]) # Returns values less than or equal to 13 (True)
 # 4    11.56
 # 5    11.56
@@ -144,7 +144,7 @@ print(s2_nums[s2_nums <= s1_nums]) # Returns values less than or equal to corres
 # 8    15.43
 # dtype: float64
 
-# ## .between()
+### .between() ###
 '''
 inclusive = "both" (default): [left, right] or left <= x <= right
 inclusive = "neither": (left, right) or left < x < right
@@ -168,8 +168,8 @@ print(s1_nums[s1_nums.between(10, 15.99, inclusive="left")]) # Returns values be
 # dtype: float64
 '''The value 15.99 is excluded because the right endpoint is not inclusive.'''
 
-# ## == (equal to)
-#
+### == (equal to) ###
+
 print(s1_nums[s1_nums == 11.56]) # Returns values equal to 11.56 (True)
 # 4    11.56
 # 5    11.56
@@ -178,8 +178,8 @@ print(s1_nums[s1_nums == 11.56]) # Returns values equal to 11.56 (True)
 print(s2_nums[s2_nums == s1_nums]) # Returns values equal to corresponding values (same index) in s1_nums
 # Series([], dtype: float64)
 
-# ## != (not equal to)
-#
+### != (not equal to) ###
+
 print(s1_nums[s1_nums != 11.56]) # Returns values not equal to 11.56 (True)
 # 0    13.75
 # 1    19.51
@@ -209,7 +209,7 @@ print(s2_nums[s2_nums != s1_nums]) # Returns values not equal to corresponding v
 ##          .isin()          ##
 ##---------------------------##
 
-s_mamals =  pd.Series(['llama', 'cow', 'llama', 'beetle', 'llama', 'hippo'])
+s_mamals =  pd.Series(['llama', 'cow', 'llama', 'echidna', 'llama', 'hippo'])
 
 print(s_mamals.isin(['cow', 'llama']))
 # 0     True ('llama')
@@ -311,7 +311,6 @@ print(s_datetime[s_datetime.dt.is_quarter_end]) # Returns values that are the en
 # =========================================================================================
 # 2. Negation of Condition: ~ (tilde) operator
 # =========================================================================================
-
 '''
 The tilde (~) operator is used to negate a boolean condition in Pandas.
 From True to False, and from False to True.
@@ -352,11 +351,11 @@ print(s1_nums[~(s1_nums > 15)]) # Returns values NOT greater than 15
 # 6    10.58
 # dtype: float64
 
-s_mamals =  pd.Series(['llama', 'cow', 'llama', 'beetle', 'llama', 'hippo'])
+s_mamals =  pd.Series(['llama', 'cow', 'llama', 'echidna', 'llama', 'hippo'])
 print(s_mamals[~s_mamals.isin(['cow', 'llama'])]) # Returns values that are neither 'cow' nor 'llama'
-# 3    beetle
-# 5     hippo
-# dtype: object
+# 3    echidna
+# 5      hippo
+# dtype: str
 
 print(s_datetime[~s_datetime.dt.is_quarter_end]) # Returns values that are NOT the end of a quarter
 # 0   2023-01-01
@@ -408,9 +407,9 @@ print(s_timezones[s_timezones.str.contains("Asia") & s_timezones.str.endswith(pa
 # 329    Asia/Vientiane
 # dtype: object
 
-##-----------------------##
-##       | (or)          ##
-##-----------------------##
+##----------------------##
+##       | (or)         ##
+##----------------------##
 '''False if only all the conditions (clauses) are False.'''
 
 print(s1_nums[(s1_nums < 12) | (s1_nums > 18)]) # Returns values less than 12 OR greater than 18
