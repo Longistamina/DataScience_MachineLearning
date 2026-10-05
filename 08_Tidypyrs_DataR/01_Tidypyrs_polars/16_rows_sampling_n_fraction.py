@@ -7,7 +7,6 @@ Content flow:
 3. Sampling `with_replacement` / oversampling
 4. Sampling within specified columns: `tp.col().sample()`
 5. Sampling `over` group
-6. `df.sample()` for DataFrame
 '''
 
 from pathlib import Path

@@ -1,39 +1,39 @@
 '''
-In Polars, the main tool for both modifying existing columns or deriving new columns is:
+In Tidypyrs, the main tool for both modifying existing columns or deriving new columns is:
 
-    lf.with_columns(...)
+    tl.mutate(...)
 
 NOTE: we also have `expr.map_elements()` but it is less optimized
 
-1. `lf.with_columns(expr.alias("name"))`
-2. `lf.with_columns(name = expr)`
-3. `lf.with_columns(expr.map_elements(func/lambda))`: map a custom/user-defined function (UDF) to each element of a column.
-4. `lf.with_columns(**{"name": expr})`: avoid overlapping with Python keywords
+1. `tl.mutate(expr.alias("name"))`
+2. `tl.mutate(name = expr)`
+3. `tl.mutate(expr.map_elements(func/lambda))`: map a custom/user-defined function (UDF) to each element of a column.
+4. `tl.mutate(**{"name": expr})`: avoid overlapping with Python keywords
 '''
 
 from pathlib import Path
 
 import numpy as np
-import polars as pl
-from polars import col as c
+import tidypyrs as tp
+from tidypyrs import f
 
 # Optional display settings for tutorial output.
-pl.Config.set_tbl_rows(12)
-pl.Config.set_tbl_cols(12)
-pl.Config.set_float_precision(4)
+tp.Config.set_tbl_rows(12)
+tp.Config.set_tbl_cols(12)
+tp.Config.set_float_precision(4)
 
 data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
 
-lf_baseball = (
-     pl.scan_csv(
+tl_baseball = (
+     tp.scan_csv(
         data_dir/"baseball.csv",
-        schema_overrides={"Team": pl.Categorical},
+        schema_overrides={"Team": tp.Categorical},
     )
     .select("Name", "Team", "Height", "Weight")
-    .select(pl.all().name.to_lowercase())
+    .select(tp.all().name.to_lowercase())
 )
 
-print(lf_baseball.head(3).collect())
+print(tl_baseball.head(3).collect())
 # shape: (3, 4)
 # ┌─────────────────┬──────┬────────┬────────┐
 # │ name            ┆ team ┆ height ┆ weight │
@@ -45,11 +45,11 @@ print(lf_baseball.head(3).collect())
 # │ Ramon_Hernandez ┆ BAL  ┆ 72     ┆ 210    │
 # └─────────────────┴──────┴────────┴────────┘
 
-print(lf_baseball.collect_schema())
+print(tl_baseball.collect_schema())
 # Schema({'name': String, 'team': Categorical, 'height': Int64, 'weight': Int64})
 
 # =========================================================================================
-# 1. `lf.with_columns(expr.alias("name"))`
+# 1. `tl.mutate(expr.alias("name"))`
 # =========================================================================================
 
 ##---------------------------------##
@@ -57,9 +57,9 @@ print(lf_baseball.collect_schema())
 ##---------------------------------##
 
 print(
-    lf_baseball
-    .with_columns(
-        (c("height") * 2.54).alias("height")
+    tl_baseball
+    .mutate(
+        (f("height") * 2.54).alias("height")
     )
     .head(3)
     .collect()
@@ -76,9 +76,9 @@ print(
 # └─────────────────┴──────┴────────┴────────┘
 
 print(
-    lf_baseball
-    .with_columns(
-        c("team").cast(pl.String).str.to_lowercase().cast(pl.Categorical).alias("team")
+    tl_baseball
+    .mutate(
+        f("team").cast(tp.String).str.to_lowercase().cast(tp.Categorical).alias("team")
     )
     .head(3)
     .collect()
@@ -96,10 +96,10 @@ print(
 
 # Modify multiple existing columns
 print(
-    lf_baseball.with_columns(
-        (c("height") * 2.54).alias("height"),
-        (c("weight") * 0.453592).alias("weight"),
-        c("team").cast(pl.String).str.to_lowercase().cast(pl.Categorical).alias("team"),
+    tl_baseball.mutate(
+        (f("height") * 2.54).alias("height"),
+        (f("weight") * 0.453592).alias("weight"),
+        f("team").cast(tp.String).str.to_lowercase().cast(tp.Categorical).alias("team"),
     )
     .head(3)
     .collect()
@@ -120,9 +120,9 @@ print(
 ##----------------------------##
 
 print(
-    lf_baseball
-    .with_columns(
-        (c("height") * 2.54).alias("height_m")
+    tl_baseball
+    .mutate(
+        (f("height") * 2.54).alias("height_m")
     )
     .head(3)
     .collect()
@@ -140,10 +140,10 @@ print(
 
 # Derive multiple independent new columns
 print(
-    lf_baseball.with_columns(
-        (c("height") * 2.54).alias("height_m"),
-        (c("weight") * 0.453592).alias("weight_kg"),
-        c("team").cast(pl.String).str.to_lowercase().cast(pl.Categorical).alias("team"),
+    tl_baseball.mutate(
+        (f("height") * 2.54).alias("height_m"),
+        (f("weight") * 0.453592).alias("weight_kg"),
+        f("team").cast(tp.String).str.to_lowercase().cast(tp.Categorical).alias("team"),
     )
     .head(3)
     .collect()
@@ -161,9 +161,9 @@ print(
 
 # Derive a column from original columns directly
 print(
-    lf_baseball
-    .with_columns(
-        ((c("weight") * 0.453592) / ((c("height") * 0.0254) ** 2)).alias("bmi")
+    tl_baseball
+    .mutate(
+        ((f("weight") * 0.453592) / ((f("height") * 0.0254) ** 2)).alias("bmi")
     )
     .head(3)
     .collect()
@@ -181,23 +181,22 @@ print(
 
 # Derive columns that depend on newly-created columns
 '''
-Important Polars pattern:
-if bmi depends on height_m and weight_kg, use a second .with_columns(...).
+Important Ttidypyrs pattern:
+if bmi depends on height_m and weight_kg, use `.mutate(..., parallel=False)`.
 
 Reason:
-Expressions in the same .with_columns(...) call are normally evaluated in parallel.
+Expressions in the same `.mutate(...)` call are normally evaluated in parallel.
 Therefore, if a derived column depends on another not yet present derived column,
 it will fail.
 '''
 
 print(
-    lf_baseball
-    .with_columns(
-        (c("height") * 0.0254).alias("height_m"),
-        (c("weight") * 0.453592).alias("weight_kg"),
-    )
-    .with_columns(
-        (c("weight_kg") / (c("height_m") ** 2)).alias("bmi")
+    tl_baseball
+    .mutate(
+        (f("height") * 0.0254).alias("height_m"),
+        (f("weight") * 0.453592).alias("weight_kg"),
+        (f("weight_kg") / (f("height_m") ** 2)).alias("bmi"),
+        parallel=False
     )
     .head(3)
     .collect()
@@ -214,7 +213,7 @@ print(
 # └─────────────────┴──────┴────────┴────────┴──────────┴───────────┴─────────┘
 
 # =========================================================================================
-# 2. `lf.with_columns(name = expr)`
+# 2. `tl.mutate(name = expr)`
 # =========================================================================================
 
 ##---------------------------------##
@@ -222,9 +221,9 @@ print(
 ##---------------------------------##
 
 print(
-    lf_baseball
-    .with_columns(
-        height = c("height") * 2.54
+    tl_baseball
+    .mutate(
+        height = f("height") * 2.54
     )
     .head(3)
     .collect()
@@ -241,9 +240,9 @@ print(
 # └─────────────────┴──────┴────────┴────────┘
 
 print(
-    lf_baseball
-    .with_columns(
-        team = c("team").cast(pl.String).str.to_lowercase().cast(pl.Categorical)
+    tl_baseball
+    .mutate(
+        team = f("team").cast(tp.String).str.to_lowercase().cast(tp.Categorical)
     )
     .head(3)
     .collect()
@@ -261,10 +260,10 @@ print(
 
 # Modify multiple existing columns
 print(
-    lf_baseball.with_columns(
-        height = (c("height") * 2.54),
-        weight = (c("weight") * 0.453592),
-        team = c("team").cast(pl.String).str.to_lowercase().cast(pl.Categorical)
+    tl_baseball.mutate(
+        height = (f("height") * 2.54),
+        weight = (f("weight") * 0.453592),
+        team = f("team").cast(tp.String).str.to_lowercase().cast(tp.Categorical)
     )
     .head(3)
     .collect()
@@ -285,9 +284,9 @@ print(
 ##----------------------------##
 
 print(
-    lf_baseball
-    .with_columns(
-        height_m = c("height") * 2.54
+    tl_baseball
+    .mutate(
+        height_m = f("height") * 2.54
     )
     .head(3)
     .collect()
@@ -305,10 +304,10 @@ print(
 
 # Derive multiple independent new columns
 print(
-    lf_baseball.with_columns(
-        height_m = c("height") * 2.54,
-        weight_kg = c("weight") * 0.453592,
-        team = c("team").cast(pl.String).str.to_lowercase().cast(pl.Categorical),
+    tl_baseball.mutate(
+        height_m = f("height") * 2.54,
+        weight_kg = f("weight") * 0.453592,
+        team = f("team").cast(tp.String).str.to_lowercase().cast(tp.Categorical),
     )
     .head(3)
     .collect()
@@ -326,9 +325,9 @@ print(
 
 # Derive a column from original columns directly
 print(
-    lf_baseball
-    .with_columns(
-        bmi = (c("weight") * 0.453592) / ((c("height") * 0.0254) ** 2)
+    tl_baseball
+    .mutate(
+        bmi = (f("weight") * 0.453592) / ((f("height") * 0.0254) ** 2)
     )
     .head(3)
     .collect()
@@ -346,18 +345,17 @@ print(
 
 # Derive columns that depend on newly-created columns
 '''
-Important Polars pattern:
-if bmi depends on height_m and weight_kg, use a second .with_columns(...).
+Important Ttidypyrs pattern:
+if bmi depends on height_m and weight_kg, use a second `.mutate(..., parallel=False)`.
 '''
 
 print(
-    lf_baseball
-    .with_columns(
-        height_m = c("height") * 0.0254,
-        weight_kg = c("weight") * 0.453592,
-    )
-    .with_columns(
-        bmi = c("weight_kg") / (c("height_m") ** 2)
+    tl_baseball
+    .mutate(
+        height_m = f("height") * 0.0254,
+        weight_kg = f("weight") * 0.453592,
+        bmi = f("weight_kg") / (f("height_m") ** 3),
+        parallel=False
     )
     .head(3)
     .collect()
@@ -374,10 +372,10 @@ print(
 # └─────────────────┴──────┴────────┴────────┴──────────┴───────────┴─────────┘
 
 # =========================================================================================
-# 3. `lf.with_columns(expr.map_elements(func/lambda))`
+# 3. `tl.mutate(expr.map_elements(func/lambda))`
 # =========================================================================================
 '''
-`pl.col("name").map_elements()`:
+`tp.col("name").map_elements()`:
 Map a custom/user-defined function (UDF) to each element of a column.
 
 To create a brandnew column from existing columns,
@@ -385,15 +383,15 @@ wrap existing columns into a struct, then apply `.map_elements` on that struct
 '''
 
 print(
-    lf_baseball
-    .with_columns(
-        c("height").map_elements(lambda x: x * 0.0254),
-        c("weight").map_elements(lambda x: x * 0.453592)
+    tl_baseball
+    .mutate(
+        f("height").map_elements(lambda x: x * 0.0254),
+        f("weight").map_elements(lambda x: x * 0.453592)
     )
-    .with_columns(
-        bmi = pl.struct(["height","weight"]).map_elements(
+    .mutate(
+        bmi = tp.struct(["height","weight"]).map_elements(
             lambda s: s.get("weight") / (s.get("height") ** 2),
-            return_dtype=pl.Float64 # MUST HAVE DTYPE
+            return_dtype=tp.Float64 # MUST HAVE DTYPE
         )#.alias("bmi")
     )
     .collect()
@@ -436,13 +434,13 @@ print(
 #   c("weight").map_elements(lambda x: x * 0.453592)
 
 # =========================================================================================
-# 4. `lf.with_columns(**{"name": expr})`: avoid overlapping with Python keywords
+# 4. `tl.mutate(**{"name": expr})`: avoid overlapping with Python keywords
 # =========================================================================================
 
 print(
-    lf_baseball
-    .with_columns(**{
-        "raise": c("height").map_elements(lambda _: np.random.rand() > 0.5) # True if > 0.5, else False
+    tl_baseball
+    .mutate(**{
+        "raise": f("height").map_elements(lambda _: np.random.rand() > 0.5) # True if > 0.5, else False
     })
     .collect()
 )

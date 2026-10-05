@@ -1,6 +1,6 @@
 '''
 1. Sorting:
-   + lf.sort(by=..., descending=..., nulls_last=..., maintain_order=...)
+   + tl.sort(by=..., descending=..., nulls_last=..., maintain_order=...)
    + sort by single column
    + sort by multiple columns and orders
    + sort by expression
@@ -14,19 +14,20 @@
    + "dense"    : compact ranks with no gaps between tie groups
    + "ordinal"  : pandas method="first" equivalent; ties get ranks by order of appearance
    + "random"   : ties get randomly ordered ranks; use seed= for reproducibility
-   + percentage rank: rank(...) / pl.len(), or rank(...) / pl.count("col") if nulls exist
+   + percentage rank: rank(...) / tp.len(), or rank(...) / tp.count("col") if nulls exist
    + descending rank
    + group-wise rank
    + rank multiple columns with the same method
 '''
 
-import polars as pl
+import tidypyrs as tp
+from tidypyrs import f
 
 # =========================================================================================
 # 1. Sorting
 # =========================================================================================
 
-lf_unsort = pl.LazyFrame(
+tl_unsort = tp.TibbleLazy(
     {
         "name": ["Alice", "Alice", "Alice", "Bob", "Bob", "Charlie"],
         "subject": ["Math", "English", "Science", "Math", "English", "Math"],
@@ -36,11 +37,11 @@ lf_unsort = pl.LazyFrame(
 )
 
 ##-----------------------------##
-## lf.sort(): by single column ##
+## tl.sort(): by single column ##
 ##-----------------------------##
 
 print(
-    lf_unsort
+    tl_unsort
     .sort(by="score", descending=True)
     .collect()
 )
@@ -59,11 +60,11 @@ print(
 # └─────────┴─────────┴───────┴─────┘
 
 ##-------------------------------------------##
-## lf.sort(): by multiple columns and orders ##
+## tl.sort(): by multiple columns and orders ##
 ##-------------------------------------------##
 
 print(
-    lf_unsort
+    tl_unsort
     .sort(by=["name", "score"], descending=[True, False])
     .collect()
 )
@@ -82,16 +83,16 @@ print(
 # └─────────┴─────────┴───────┴─────┘
 
 ##--------------------------##
-## lf.sort(): by expression ##
+## tl.sort(): by expression ##
 ##--------------------------##
 '''
-Polars can sort by an expression, not only an existing column name.
+Tidypyrs can sort by an expression, not only an existing column name.
 Here we sort by score per age: score / age.
 '''
 
 print(
-    lf_unsort
-    .sort(by=pl.col("score") / pl.col("age"), descending=True)
+    tl_unsort
+    .sort(by=f("score") / f("age"), descending=True)
     .collect()
 )
 # shape: (6, 4)
@@ -110,10 +111,10 @@ print(
 # Highest score-per-age rows appear first.
 
 ##------------------------------------##
-## lf.sort(): sort with null handling ##
+## tl.sort(): sort with null handling ##
 ##------------------------------------##
 
-lf_nulls = pl.LazyFrame(
+tl_nulls = tp.TibbleLazy(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva"],
         "score": [85, None, 78, 92, None],
@@ -123,7 +124,7 @@ lf_nulls = pl.LazyFrame(
 # By default, null ordering depends on the sort operation.
 # Set nulls_last=True when you want missing values to appear at the bottom.
 print(
-    lf_nulls
+    tl_nulls
     .sort("score", descending=True, nulls_last=True)
     .collect()
 )
@@ -141,14 +142,14 @@ print(
 # └─────────┴───────┘
 
 ##---------------------------------##
-## lf.sort(): stable sort for ties ##
+## tl.sort(): stable sort for ties ##
 ##---------------------------------##
 '''
 If rows have equal sort keys, maintain_order=True preserves their original order.
 This is similar in spirit to using a stable sorting algorithm.
 '''
 
-lf_stable = pl.LazyFrame(
+tl_stable = tp.TibbleLazy(
     {
         "student": ["A", "B", "C", "D"],
         "score": [90, 90, 85, 90],
@@ -156,7 +157,7 @@ lf_stable = pl.LazyFrame(
 )
 
 print(
-    lf_stable
+    tl_stable
     .sort("score", descending=True, maintain_order=True)
     .collect()
 )
@@ -177,21 +178,21 @@ print(
 # 2. Ranking
 # =========================================================================================
 '''
-In Polars, ranking is usually an expression:
+In Tidypyrs, ranking is usually an expression:
 
-    pl.col("score").rank(method="average")
+    f("score").rank(method="average")
 
-Use it inside `select(), with_columns(), group_by().agg()` or a LazyFrame pipeline.
+Use it inside `select(), with_columns(), group_by().agg()` or a TibbleLazy pipeline.
 '''
 
-lf_unrank = pl.LazyFrame(
+tl_unrank = tp.TibbleLazy(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva", "Freddy", "George", "Hannah"],
         "score": [85, 92, 85, 88, 90, 66, 66, 66],
     }
 )
 
-print(lf_unrank.collect())
+print(tl_unrank.collect())
 # shape: (8, 2)
 # ┌─────────┬───────┐
 # │ name    ┆ score │
@@ -213,9 +214,9 @@ print(lf_unrank.collect())
 ##-------------------------##
 
 print(
-    lf_unrank
-    .with_columns(
-        pl.col("score").rank(method="max").alias("rank_max")
+    tl_unrank
+    .mutate(
+        f("score").rank(method="max").alias("rank_max")
     )
     .collect()
 )
@@ -242,9 +243,9 @@ print(
 ##-------------------------##
 
 print(
-    lf_unrank
-    .with_columns(
-        pl.col("score").rank(method="min").alias("rank_min")
+    tl_unrank
+    .mutate(
+        f("score").rank(method="min").alias("rank_min")
     )
     .collect()
 )
@@ -282,9 +283,9 @@ Scores in ascending order:
 '''
 
 print(
-    lf_unrank
-    .with_columns(
-        pl.col("score").rank(method="dense").alias("rank_dense")
+    tl_unrank
+    .mutate(
+        f("score").rank(method="dense").alias("rank_dense")
     )
     .collect()
 )
@@ -309,14 +310,14 @@ print(
 ## Expr.rank(method="ordinal") ##
 ##-----------------------------##
 '''
-Pandas method="first" equivalent in Polars is method="ordinal".
+Pandas method="first" equivalent in Tidypyrs is method="ordinal".
 It gives tied values distinct ranks according to their order of appearance.
 '''
 
 print(
-    lf_unrank
-    .with_columns(
-        pl.col("score").rank(method="ordinal").alias("ordinal")
+    tl_unrank
+    .mutate(
+        f("score").rank(method="ordinal").alias("ordinal")
     )
     .collect()
 )
@@ -347,9 +348,9 @@ but the order within ties is randomized. Use seed= for reproducible examples.
 '''
 
 print(
-    lf_unrank
-    .with_columns(
-        pl.col("score").rank(method="random", seed=42).alias("rank_random")
+    tl_unrank
+    .mutate(
+        f("score").rank(method="random", seed=42).alias("rank_random")
     )
     .collect()
 )
@@ -374,13 +375,13 @@ print(
 ##---------------------------##
 
 print(
-    lf_unrank
-    .with_columns(
-        pl.col("score").rank(method="average").alias("rank_average"),
-        pl.col("score").rank(method="max").alias("rank_max"),
-        pl.col("score").rank(method="min").alias("rank_min"),
-        pl.col("score").rank(method="dense").alias("rank_dense"),
-        pl.col("score").rank(method="ordinal").alias("rank_ordinal"),
+    tl_unrank
+    .mutate(
+        f("score").rank(method="average").alias("rank_average"),
+        f("score").rank(method="max").alias("rank_max"),
+        f("score").rank(method="min").alias("rank_min"),
+        f("score").rank(method="dense").alias("rank_dense"),
+        f("score").rank(method="ordinal").alias("rank_ordinal"),
     )
     .collect()
 )
@@ -404,14 +405,14 @@ print(
 ## Rank UNIQUE values only  ##
 ##--------------------------##
 
-lf_unique = pl.LazyFrame(
+tl_unique = tp.TibbleLazy(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva", "Freddy", "George", "Hannah"],
         "score": [85, 92, 86, 88, 90, 54, 25, 42],
     }
 )
 
-print(lf_unique.collect())
+print(tl_unique.collect())
 # shape: (8, 2)
 # ┌─────────┬───────┐
 # │ name    ┆ score │
@@ -429,13 +430,13 @@ print(lf_unique.collect())
 # └─────────┴───────┘
 
 print(
-    lf_unique
-    .with_columns(
-        pl.col("score").rank(method="average").alias("rank_average"),
-        pl.col("score").rank(method="max").alias("rank_max"),
-        pl.col("score").rank(method="min").alias("rank_min"),
-        pl.col("score").rank(method="dense").alias("rank_dense"),
-        pl.col("score").rank(method="ordinal").alias("rank_ordinal"),
+    tl_unique
+    .mutate(
+        f("score").rank(method="average").alias("rank_average"),
+        f("score").rank(method="max").alias("rank_max"),
+        f("score").rank(method="min").alias("rank_min"),
+        f("score").rank(method="dense").alias("rank_dense"),
+        f("score").rank(method="ordinal").alias("rank_ordinal"),
     )
     .collect()
 )
@@ -461,22 +462,22 @@ print(
 ## Percentage ranks ##
 ##------------------##
 '''
-Polars rank() does not have pct=True.
+Tidypyrs rank() does not have pct=True.
 Compute percentage ranks manually:
 
-    rank / pl.len()
+    rank / tp.len()
 
 If the column contains nulls and you want to divide by the number of non-null values,
 use:
 
-    rank / pl.count("score")
+    rank / tp.count("score")
 '''
 
 # With UNIQUE values
 print(
-    lf_unique
-    .with_columns(
-        (pl.col("score").rank(method="average") / pl.len()).alias("rank_pct")
+    tl_unique
+    .mutate(
+        (f("score").rank(method="average") / tp.len()).alias("rank_pct")
     )
     .collect()
 )
@@ -501,13 +502,13 @@ print(
 
 # With DUPLICATE values
 print(
-    lf_unrank
-    .with_columns(
-        (pl.col("score").rank(method="average") / pl.len()).alias("rank_average_pct"),
-        (pl.col("score").rank(method="min") / pl.len()).alias("rank_min_pct"),
-        (pl.col("score").rank(method="max") / pl.len()).alias("rank_max_pct"),
-        (pl.col("score").rank(method="dense") / pl.col("score").n_unique()).alias("rank_dense_pct"),
-        (pl.col("score").rank(method="ordinal") / pl.len()).alias("rank_ordinal_pct"),
+    tl_unrank
+    .mutate(
+        (f("score").rank(method="average") / tp.len()).alias("rank_average_pct"),
+        (f("score").rank(method="min") / tp.len()).alias("rank_min_pct"),
+        (f("score").rank(method="max") / tp.len()).alias("rank_max_pct"),
+        (f("score").rank(method="dense") / f("score").n_unique()).alias("rank_dense_pct"),
+        (f("score").rank(method="ordinal") / tp.len()).alias("rank_ordinal_pct"),
     )
     .collect()
 )
@@ -535,10 +536,10 @@ print(
 
 # Percentage ranks with null values
 print(
-    lf_nulls
-    .with_columns(
-        (pl.col("score").rank(method="average") / pl.len()).alias("pct_all_rows"),
-        (pl.col("score").rank(method="average") / pl.count("score")).alias("pct_non_null"),
+    tl_nulls
+    .mutate(
+        (f("score").rank(method="average") / tp.len()).alias("pct_all_rows"),
+        (f("score").rank(method="average") / tp.count("score")).alias("pct_non_null"),
     )
     .collect()
 )
@@ -554,7 +555,7 @@ print(
 # │ David   ┆ 92    ┆ 0.6          ┆ 1.0          │
 # │ Eva     ┆ null  ┆ null         ┆ null         │
 # └─────────┴───────┴──────────────┴──────────────┘
-# Polars preserves null ranks as null.
+# Tidypyrs preserves null ranks as null.
 # pct_all_rows divides by 5 rows.
 # pct_non_null divides by 3 non-null scores.
 
@@ -563,9 +564,9 @@ print(
 ##------------------##
 
 print(
-    lf_unrank
-    .with_columns(
-        pl.col("score").rank(method="dense", descending=True).alias("rank_highest_score_1")
+    tl_unrank
+    .mutate(
+        f("score").rank(method="dense", descending=True).alias("rank_highest_score_1")
     )
     .collect()
 )
@@ -598,7 +599,7 @@ Use .over("group_column") for rankings within groups.
 This is similar to pandas groupby(...)["score"].rank(...).
 '''
 
-lf_scores = pl.LazyFrame(
+tl_scores = tp.TibbleLazy(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva", "Freddy"],
         "subject": ["Math", "Math", "Math", "English", "English", "English"],
@@ -607,9 +608,9 @@ lf_scores = pl.LazyFrame(
 )
 
 print(
-    lf_scores
-    .with_columns(
-        pl.col("score").rank(method="dense", descending=True).over("subject").alias("rank_in_subject")
+    tl_scores
+    .mutate(
+        f("score").rank(method="dense", descending=True).over("subject").alias("rank_in_subject")
     )
     .collect()
 )
@@ -634,10 +635,10 @@ print(
 ##--------------------------------------------##
 '''
 If you have several numeric columns and want to rank each column independently,
-use expression expansion with pl.col([...]).rank().
+use expression expansion with f([...]).rank().
 '''
 
-lf_multi_scores = pl.LazyFrame(
+tl_multi_scores = tp.TibbleLazy(
     {
         "student": ["Alice", "Bob", "Charlie"],
         "math": [85, 92, 85],
@@ -646,9 +647,9 @@ lf_multi_scores = pl.LazyFrame(
 )
 
 print(
-    lf_multi_scores
-    .with_columns(
-        pl.col(["math", "english"]).rank(method="average").name.suffix("_rank")
+    tl_multi_scores
+    .mutate(
+        f(["math", "english"]).rank(method="average").name.suffix("_rank")
     )
     .collect()
 )
