@@ -1,8 +1,5 @@
-# FILE VERSION: 18_lit_literal_v1
 '''
 Polars literals with pl.lit(...).
-
-This file explains how to use literal values inside Polars expressions.
 
 Main idea:
     pl.lit(value) creates an expression that represents a fixed literal value.
@@ -28,8 +25,22 @@ For example:
 is usually equivalent to:
     pl.col("amount") * pl.lit(1.08)
 
-However, explicit pl.lit(...) is clearer and is sometimes necessary, especially
-for string values in conditional expressions.
+However, explicit pl.lit(...) is clearer and is sometimes necessary,
+especially for string values in conditional expressions.
+
+-------------------------------------------------------------------------------------
+
+1. What does pl.lit(...) create?
+2. Constant columns with with_columns()
+3. Scalars can sometimes be implicit literals
+4. dtype inference and dtype=
+5. String literals in when-then-otherwise
+6. Literal nulls and fill_null()
+7. Literal date/datetime values
+8. Literal lists and Series
+9. pl.lit(...) inside structs
+10. Grouped summaries with literals
+11. Evaluate a literal expression alone
 '''
 
 import datetime as dt
@@ -46,15 +57,8 @@ pl.Config.set_tbl_width_chars(120)
 # =========================================================================================
 # 0. Example Data
 # =========================================================================================
-'''
-The examples are self-contained so the file can run without external data files.
 
-We create both:
-+ an eager DataFrame: df_sales
-+ a LazyFrame:        lf_sales
-'''
-
-df_sales = pl.DataFrame(
+lf_sales = pl.LazyFrame(
     {
         "order_id": [1, 2, 3, 4, 5, 6],
         "customer": ["Alice", "Bob", "Alice", "Diana", "Bob", "Evan"],
@@ -74,9 +78,7 @@ df_sales = pl.DataFrame(
     schema_overrides={"region": pl.Categorical, "date": pl.Date}
 )
 
-lf_sales = df_sales.lazy()
-
-print(df_sales)
+print(lf_sales.collect())
 # shape: (6, 7)
 # ┌──────────┬──────────┬────────┬──────────┬──────────┬───────────────┬────────────┐
 # │ order_id ┆ customer ┆ region ┆ amount   ┆ quantity ┆ discount_rate ┆ date       │
@@ -90,8 +92,6 @@ print(df_sales)
 # │ 5        ┆ Bob      ┆ West   ┆ 90.0000  ┆ 1        ┆ null          ┆ 2024-03-01 │
 # │ 6        ┆ Evan     ┆ North  ┆ 310.0000 ┆ 4        ┆ 0.2000        ┆ 2024-03-15 │
 # └──────────┴──────────┴────────┴──────────┴──────────┴───────────────┴────────────┘
-
-print(df_sales.schema)
 
 # =========================================================================================
 # 1. What does pl.lit(...) create?
@@ -107,15 +107,17 @@ literal_expr = pl.lit(100).alias("literal_100")
 print(literal_expr)
 # lit(100).alias("literal_100")
 
-# A select containing only literals returns a one-row DataFrame.
+# A select containing only literals returns a one-row frame.
 print(
-    df_sales.select(
+    lf_sales
+    .select(
         pl.lit(100).alias("int_literal"),
         pl.lit(5.5).alias("float_literal"),
         pl.lit("hello").alias("string_literal"),
         pl.lit(True).alias("bool_literal"),
         pl.lit(None).alias("null_literal"),
     )
+    .collect()
 )
 # shape: (1, 5)
 # ┌─────────────┬───────────────┬────────────────┬──────────────┬──────────────┐
@@ -128,12 +130,14 @@ print(
 
 # A literal used alongside real columns is broadcast to every output row.
 print(
-    df_sales.select(
+    lf_sales
+    .select(
         "order_id",
         "customer",
         pl.lit("online").alias("sales_channel"),
         pl.lit("USD").alias("currency"),
     )
+    .collect()
 )
 # shape: (6, 4)
 # ┌──────────┬──────────┬───────────────┬──────────┐
@@ -159,12 +163,15 @@ This works in both eager DataFrame and LazyFrame pipelines.
 The literal is broadcast to match the number of rows in the DataFrame.
 '''
 
-out_eager = df_sales.with_columns(
-    pl.lit("USD").alias("currency"),
-    pl.lit(0.08).alias("tax_rate"),
-    pl.lit(True).alias("is_active"),
+print(
+    lf_sales
+    .with_columns(
+        pl.lit("USD").alias("currency"),
+        pl.lit(0.08).alias("tax_rate"),
+        pl.lit("v1").alias("report_version"),
+    )
+    .collect()
 )
-print(out_eager)
 # shape: (6, 10)
 # ┌──────────┬──────────┬────────┬──────────┬──────────┬───────────────┬────────────┬──────────┬──────────┬───────────┐
 # │ order_id ┆ customer ┆ region ┆ amount   ┆ quantity ┆ discount_rate ┆ date       ┆ currency ┆ tax_rate ┆ is_active │
@@ -178,17 +185,6 @@ print(out_eager)
 # │ 5        ┆ Bob      ┆ West   ┆ 90.0000  ┆ 1        ┆ null          ┆ 2024-03-01 ┆ USD      ┆ 0.0800   ┆ true      │
 # │ 6        ┆ Evan     ┆ North  ┆ 310.0000 ┆ 4        ┆ 0.2000        ┆ 2024-03-15 ┆ USD      ┆ 0.0800   ┆ true      │
 # └──────────┴──────────┴────────┴──────────┴──────────┴───────────────┴────────────┴──────────┴──────────┴───────────┘
-
-out_lazy = (
-    lf_sales
-    .with_columns(
-        pl.lit("USD").alias("currency"),
-        pl.lit(0.08).alias("tax_rate"),
-        pl.lit("v1").alias("report_version"),
-    )
-    .collect()
-)
-print(out_lazy)
 
 # =========================================================================================
 # 3. Scalars can sometimes be implicit literals
@@ -204,13 +200,16 @@ These two expressions are usually equivalent:
 The explicit pl.lit(...) version is often clearer in teaching code.
 '''
 
-out = df_sales.select(
-    "order_id",
-    "amount",
-    (c("amount") * 1.08).alias("amount_times_1_08_implicit"),
-    (c("amount") * pl.lit(1.08)).alias("amount_times_1_08_explicit"),
+print(
+    lf_sales
+    .select(
+        "order_id",
+        "amount",
+        (c("amount") * 1.08).alias("amount_times_1_08_implicit"),
+        (c("amount") * pl.lit(1.08)).alias("amount_times_1_08_explicit"),
+    )
+    .collect()
 )
-print(out)
 # shape: (6, 4)
 # ┌──────────┬──────────┬────────────────────────────┬────────────────────────────┐
 # │ order_id ┆ amount   ┆ amount_times_1_08_implicit ┆ amount_times_1_08_explicit │
@@ -226,36 +225,7 @@ print(out)
 # └──────────┴──────────┴────────────────────────────┴────────────────────────────┘
 
 # =========================================================================================
-# 4. Derive columns using literal constants
-# =========================================================================================
-'''
-A common use of pl.lit(...) is to combine a fixed value with one or more columns.
-'''
-
-out = df_sales.with_columns(
-    (c("amount") * c("quantity")).alias("gross_revenue"),
-).with_columns(
-    (c("gross_revenue") * pl.lit(0.08)).alias("tax"),
-    (c("gross_revenue") * (pl.lit(1.0) + pl.lit(0.08))).alias("gross_plus_tax"),
-)
-print(out)
-# shape: (6, 10)
-# ┌──────────┬──────────┬────────┬──────────┬──────────┬──────────────┬────────────┬─────────────┬─────────┬─────────────┐
-# │ order_id ┆ customer ┆ region ┆ amount   ┆ quantity ┆ discount_rat ┆ date       ┆ gross_reven ┆ tax     ┆ gross_plus_ │
-# │ ---      ┆ ---      ┆ ---    ┆ ---      ┆ ---      ┆ e            ┆ ---        ┆ ue          ┆ ---     ┆ tax         │
-# │ i64      ┆ str      ┆ cat    ┆ f64      ┆ i64      ┆ ---          ┆ date       ┆ ---         ┆ f64     ┆ ---         │
-# │          ┆          ┆        ┆          ┆          ┆ f64          ┆            ┆ f64         ┆         ┆ f64         │
-# ╞══════════╪══════════╪════════╪══════════╪══════════╪══════════════╪════════════╪═════════════╪═════════╪═════════════╡
-# │ 1        ┆ Alice    ┆ East   ┆ 120.0000 ┆ 2        ┆ 0.1000       ┆ 2024-01-03 ┆ 240.0000    ┆ 19.2000 ┆ 259.2000    │
-# │ 2        ┆ Bob      ┆ West   ┆ 80.0000  ┆ 1        ┆ null         ┆ 2024-01-05 ┆ 80.0000     ┆ 6.4000  ┆ 86.4000     │
-# │ 3        ┆ Alice    ┆ East   ┆ 220.0000 ┆ 3        ┆ 0.1500       ┆ 2024-02-10 ┆ 660.0000    ┆ 52.8000 ┆ 712.8000    │
-# │ 4        ┆ Diana    ┆ North  ┆ 150.0000 ┆ 2        ┆ 0.0000       ┆ 2024-02-12 ┆ 300.0000    ┆ 24.0000 ┆ 324.0000    │
-# │ 5        ┆ Bob      ┆ West   ┆ 90.0000  ┆ 1        ┆ null         ┆ 2024-03-01 ┆ 90.0000     ┆ 7.2000  ┆ 97.2000     │
-# │ 6        ┆ Evan     ┆ North  ┆ 310.0000 ┆ 4        ┆ 0.2000       ┆ 2024-03-15 ┆ 1240.0000   ┆ 99.2000 ┆ 1339.2000   │
-# └──────────┴──────────┴────────┴──────────┴──────────┴──────────────┴────────────┴─────────────┴─────────┴─────────────┘
-
-# =========================================================================================
-# 5. dtype inference and dtype=
+# 4. dtype inference and dtype=
 # =========================================================================================
 '''
 By default, Polars infers the dtype of the literal from the Python value.
@@ -267,22 +237,35 @@ This is especially useful for:
 + dates, datetimes, and durations
 '''
 
-out = df_sales.select(
-    pl.lit(1).alias("inferred_int"),
-    pl.lit(1, dtype=pl.Int32).alias("int32_literal"),
-    pl.lit(1.5).alias("inferred_float"),
-    pl.lit(1.5, dtype=pl.Float32).alias("float32_literal"),
-    pl.lit(None).alias("untyped_null"),
-    pl.lit(None, dtype=pl.Float64).alias("typed_null_float"),
-    pl.lit(dt.date(2024, 1, 1)).alias("date_literal"),
-    pl.lit(dt.datetime(2024, 1, 1, 12, 30, 0)).alias("datetime_literal"),
-    pl.lit(dt.timedelta(days=7)).alias("duration_literal"),
+print(
+    lf_sales
+    .select(
+        pl.lit(1).alias("inferred_int"),
+        pl.lit(1, dtype=pl.Int32).alias("int32_literal"),
+        pl.lit(1.5).alias("inferred_float"),
+        pl.lit(1.5, dtype=pl.Float32).alias("float32_literal"),
+        pl.lit(None).alias("untyped_null"),
+        pl.lit(None, dtype=pl.Float64).alias("typed_null_float"),
+        pl.lit(dt.date(2024, 1, 1)).alias("date_literal"),
+        pl.lit(dt.datetime(2024, 1, 1, 12, 30, 0)).alias("datetime_literal"),
+        pl.lit(dt.timedelta(days=7)).alias("duration_literal"),
+    )
+    .collect()
 )
-print(out)
-print(out.schema)
+# shape: (1, 9)
+# ┌─────────────┬─────────────┬────────────┬────────────┬────────────┬────────────┬────────────┬────────────┬────────────┐
+# │ inferred_in ┆ int32_liter ┆ inferred_f ┆ float32_li ┆ untyped_nu ┆ typed_null ┆ date_liter ┆ datetime_l ┆ duration_l │
+# │ t           ┆ al          ┆ loat       ┆ teral      ┆ ll         ┆ _float     ┆ al         ┆ iteral     ┆ iteral     │
+# │ ---         ┆ ---         ┆ ---        ┆ ---        ┆ ---        ┆ ---        ┆ ---        ┆ ---        ┆ ---        │
+# │ i32         ┆ i32         ┆ f64        ┆ f32        ┆ null       ┆ f64        ┆ date       ┆ datetime[μ ┆ duration[μ │
+# │             ┆             ┆            ┆            ┆            ┆            ┆            ┆ s]         ┆ s]         │
+# ╞═════════════╪═════════════╪════════════╪════════════╪════════════╪════════════╪════════════╪════════════╪════════════╡
+# │ 1           ┆ 1           ┆ 1.5000     ┆ 1.5000     ┆ null       ┆ null       ┆ 2024-01-01 ┆ 2024-01-01 ┆ 7d         │
+# │             ┆             ┆            ┆            ┆            ┆            ┆            ┆ 12:30:00   ┆            │
+# └─────────────┴─────────────┴────────────┴────────────┴────────────┴────────────┴────────────┴────────────┴────────────┘
 
 # =========================================================================================
-# 6. String literals in when-then-otherwise
+# 5. String literals in when-then-otherwise
 # =========================================================================================
 '''
 This is one of the most important practical uses of pl.lit(...).
@@ -299,15 +282,18 @@ Avoid:
 The second version can be interpreted as looking for columns named "high" and "normal".
 '''
 
-out = df_sales.with_columns(
-    pl.when(c("amount") >= 200)
-    .then(pl.lit("high"))
-    .when(c("amount") >= 100)
-    .then(pl.lit("medium"))
-    .otherwise(pl.lit("low"))
-    .alias("amount_band")
+print(
+    lf_sales
+    .with_columns(
+        pl.when(c("amount") >= 200)
+        .then(pl.lit("high"))
+        .when(c("amount") >= 100)
+        .then(pl.lit("medium"))
+        .otherwise(pl.lit("low"))
+        .alias("amount_band")
+    )
+    .collect()
 )
-print(out)
 # shape: (6, 8)
 # ┌──────────┬──────────┬────────┬──────────┬──────────┬───────────────┬────────────┬─────────────┐
 # │ order_id ┆ customer ┆ region ┆ amount   ┆ quantity ┆ discount_rate ┆ date       ┆ amount_band │
@@ -323,13 +309,16 @@ print(out)
 # └──────────┴──────────┴────────┴──────────┴──────────┴───────────────┴────────────┴─────────────┘
 
 # Numeric branches can also use pl.lit(...), though Python numeric scalars often work directly.
-out = df_sales.with_columns(
-    pl.when(c("region") == "East")
-    .then(pl.lit(1))
-    .otherwise(pl.lit(0))
-    .alias("is_east_int")
+print(
+    lf_sales
+    .with_columns(
+        pl.when(c("region") == "East")
+        .then(pl.lit(1))
+        .otherwise(pl.lit(0))
+        .alias("is_east_int")
+    )
+    .collect()
 )
-print(out)
 # shape: (6, 8)
 # ┌──────────┬──────────┬────────┬──────────┬──────────┬───────────────┬────────────┬─────────────┐
 # │ order_id ┆ customer ┆ region ┆ amount   ┆ quantity ┆ discount_rate ┆ date       ┆ is_east_int │
@@ -345,7 +334,7 @@ print(out)
 # └──────────┴──────────┴────────┴──────────┴──────────┴───────────────┴────────────┴─────────────┘
 
 # =========================================================================================
-# 7. Literal nulls and fill_null()
+# 6. Literal nulls and fill_null()
 # =========================================================================================
 '''
 pl.lit(None) creates a null literal.
@@ -354,14 +343,18 @@ For fill_null(...), Python scalar values are usually accepted directly, but usin
 pl.lit(...) keeps the expression style explicit.
 '''
 
-out = df_sales.with_columns(
-    c("discount_rate").fill_null(pl.lit(0.0)).alias("discount_rate_filled"),
-    pl.when(c("discount_rate").is_null())
-    .then(pl.lit("missing_discount"))
-    .otherwise(pl.lit("has_discount"))
-    .alias("discount_status"),
+print(
+    lf_sales
+    .with_columns(
+        c("discount_rate").fill_null(pl.lit(0.0)).alias("discount_rate_filled"),
+        pl.when(c("discount_rate").is_null())
+        .then(pl.lit("missing_discount"))
+        .otherwise(pl.lit("has_discount"))
+        .alias("discount_status"),
+    )
+    .select("order_id", "discount_rate", "discount_rate_filled", "discount_status")
+    .collect()
 )
-print(out.select("order_id", "discount_rate", "discount_rate_filled", "discount_status"))
 # shape: (6, 4)
 # ┌──────────┬───────────────┬──────────────────────┬──────────────────┐
 # │ order_id ┆ discount_rate ┆ discount_rate_filled ┆ discount_status  │
@@ -377,11 +370,14 @@ print(out.select("order_id", "discount_rate", "discount_rate_filled", "discount_
 # └──────────┴───────────────┴──────────────────────┴──────────────────┘
 
 # A typed null column can be useful when you want to create a placeholder column.
-out = df_sales.with_columns(
-    pl.lit(None, dtype=pl.String).alias("future_note"),
-    pl.lit(None, dtype=pl.Float64).alias("future_score"),
+print(
+    lf_sales
+    .with_columns(
+        pl.lit(None, dtype=pl.String).alias("future_note"),
+        pl.lit(None, dtype=pl.Float64).alias("future_score"),
+    )
+    .collect()
 )
-print(out)
 # shape: (6, 9)
 # ┌──────────┬──────────┬────────┬──────────┬──────────┬───────────────┬────────────┬─────────────┬──────────────┐
 # │ order_id ┆ customer ┆ region ┆ amount   ┆ quantity ┆ discount_rate ┆ date       ┆ future_note ┆ future_score │
@@ -397,13 +393,13 @@ print(out)
 # └──────────┴──────────┴────────┴──────────┴──────────┴───────────────┴────────────┴─────────────┴──────────────┘
 
 # =========================================================================================
-# 8. Literal date/datetime values
+# 7. Literal date/datetime values
 # =========================================================================================
 '''
 Use pl.lit(date_or_datetime) when comparing a parsed date/datetime column to a fixed cutoff.
 '''
 
-out = (
+print(
     lf_sales
     .filter(c("date") >= pl.lit(dt.date(2024, 2, 1)))
     .select(
@@ -415,7 +411,6 @@ out = (
     )
     .collect()
 )
-print(out)
 # shape: (4, 5)
 # ┌──────────┬──────────┬────────────┬──────────┬─────────────┐
 # │ order_id ┆ customer ┆ date       ┆ amount   ┆ cutoff_date │
@@ -429,7 +424,7 @@ print(out)
 # └──────────┴──────────┴────────────┴──────────┴─────────────┘
 
 # =========================================================================================
-# 9. Literal lists and Series
+# 8. Literal lists and Series
 # =========================================================================================
 '''
 pl.lit(...) can also hold list-like data.
@@ -474,11 +469,14 @@ print(
 # └────────────────┘
 
 # Broadcast the same list to every row in a DataFrame.
-out = df_sales.select(
-    "order_id",
-    pl.lit(["new", "repeat", "vip"]).alias("available_tags"),
+print(
+    lf_sales
+    .select(
+        "order_id",
+        pl.lit(["new", "repeat", "vip"]).alias("available_tags"),
+    )
+    .collect()
 )
-print(out)
 # shape: (6, 2)
 # ┌──────────┬──────────────────────────┐
 # │ order_id ┆ available_tags           │
@@ -494,7 +492,7 @@ print(out)
 # └──────────┴──────────────────────────┘
 
 # =========================================================================================
-# 10. pl.lit(...) inside structs
+# 9. pl.lit(...) inside structs
 # =========================================================================================
 '''
 pl.lit(...) is also useful when building struct columns.
@@ -503,15 +501,18 @@ Here, schema_version and source are fixed literal fields, while order_id and cus
 come from existing columns.
 '''
 
-out = df_sales.select(
-    pl.struct(
-        c("order_id"),
-        c("customer"),
-        pl.lit("manual_demo").alias("source"),
-        pl.lit(1).alias("schema_version"),
-    ).alias("metadata")
+print(
+    lf_sales
+    .select(
+        pl.struct(
+            c("order_id"),
+            c("customer"),
+            pl.lit("manual_demo").alias("source"),
+            pl.lit(1).alias("schema_version"),
+        ).alias("metadata")
+    )
+    .collect()
 )
-print(out)
 # shape: (6, 1)
 # ┌─────────────────────────────┐
 # │ metadata                    │
@@ -527,7 +528,7 @@ print(out)
 # └─────────────────────────────┘
 
 # =========================================================================================
-# 11. Grouped summaries with literals
+# 10. Grouped summaries with literals
 # =========================================================================================
 '''
 Literals can appear inside aggregation queries too.
@@ -536,7 +537,7 @@ This is useful for adding fixed metadata to summary tables, such as a report lab
 or metric name.
 '''
 
-out = (
+print(
     lf_sales
     .group_by("region")
     .agg(
@@ -551,7 +552,6 @@ out = (
     .sort("region")
     .collect()
 )
-print(out)
 # shape: (3, 6)
 # ┌────────┬──────────┬────────────┬────────────┬────────────────┬──────────┐
 # │ region ┆ n_orders ┆ avg_amount ┆ sum_amount ┆ report_type    ┆ currency │
@@ -564,7 +564,7 @@ print(out)
 # └────────┴──────────┴────────────┴────────────┴────────────────┴──────────┘
 
 # =========================================================================================
-# 12. Evaluate a literal expression alone
+# 11. Evaluate a literal expression alone
 # =========================================================================================
 '''
 Because pl.lit(...) returns an expression, you cannot use it like a normal Python value.
@@ -591,35 +591,3 @@ print(pl.select(expr))
 
 print(pl.select(expr).item())
 # 0.5
-
-# =========================================================================================
-# 13. Quick practical summary
-# =========================================================================================
-'''
-Quick mental map:
-
-1. Refer to a column:
-       pl.col("amount")
-
-2. Refer to a fixed value:
-       pl.lit(100)
-       pl.lit("USD")
-       pl.lit(None, dtype=pl.Float64)
-
-3. Add a constant column:
-       df.with_columns(pl.lit("USD").alias("currency"))
-
-4. Use a string as a conditional result:
-       pl.when(c("amount") > 100).then(pl.lit("big")).otherwise(pl.lit("small"))
-
-5. Compare to a fixed date:
-       c("date") >= pl.lit(dt.date(2024, 1, 1))
-
-6. Use a list literal:
-       pl.lit([1, 2, 3])
-
-Rule of thumb:
-+ If you mean "a column", use pl.col(...).
-+ If you mean "a fixed value", use pl.lit(...).
-+ If a bare Python scalar works but the code looks ambiguous, use pl.lit(...) for clarity.
-'''
