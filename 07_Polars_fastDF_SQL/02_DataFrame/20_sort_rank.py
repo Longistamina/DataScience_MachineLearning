@@ -7,7 +7,7 @@
    + sort with null handling
 
 2. Ranking:
-   + Polars Series: s.rank(method="average", descending=False)
+   + General syntax: Expr.rank(method="average", descending=False)
    + "average"  : average rank for ties
    + "max"      : maximum rank for ties
    + "min"      : minimum rank for ties

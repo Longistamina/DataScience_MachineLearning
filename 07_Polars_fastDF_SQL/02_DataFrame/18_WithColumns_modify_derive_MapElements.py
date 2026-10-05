@@ -45,7 +45,7 @@ print(lf_baseball.head(3).collect())
 # │ Ramon_Hernandez ┆ BAL  ┆ 72     ┆ 210    │
 # └─────────────────┴──────┴────────┴────────┘
 
-print(lf_baseball.collect().schema)
+print(lf_baseball.collect_schema())
 # Schema({'name': String, 'team': Categorical, 'height': Int64, 'weight': Int64})
 
 # =========================================================================================
