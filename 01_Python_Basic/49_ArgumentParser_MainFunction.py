@@ -98,16 +98,20 @@ def parse_args():
     parser.add_argument("-l", "--length", required=True, metavar="\b", help="Length of the rectangle (expected to be a positive number).")
     parser.add_argument("-w", "--width", required=True, metavar="\b", help="Width of the rectangle (expected to be a positive number).")
     parser.add_argument("-o", "--out", required=False, metavar="\b", type=str, default="", help="Path to the output file saving the results.")
+    parser.add_argument("--true", action="store_true", help="True if enabled, otherwise False")
 
     return parser.parse_args()  # Parse the command-line arguments and return them
 
 # -o means short flag
 # --out means long flag
+#
 # required=True means that the argument is mandatory (False means optional)
 # metavar="\b" to hide the metavar like LENGTH and WIDTH, and avoid the space character like "-l , --length" (if set metavar="")
 # type=str means that the argument MUST be a string
 # default="" means that if the user doesn't provide this argument, an empty string will be parsed as default value
 # help="..." is the description of the argument that will be shown in the help message
+#
+# `action="store_true"` or `action="store_false" is very handy for boolean arguments
 
 # ==============================================================================================
 # Define main() function
@@ -123,6 +127,8 @@ def main():
             length=args.length, # Get the length from the parsed arguments
             width=args.width # Get the width from the parsed arguments
         )
+
+        print(f"Output of `action`: {args.tof}") # True if `--true` is turned on, else False
 
         if perimeter is None:
             return None
