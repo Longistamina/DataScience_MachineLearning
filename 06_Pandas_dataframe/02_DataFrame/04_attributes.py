@@ -18,7 +18,7 @@
 4. Advanced attributes:
    + df.attrs: Dictionary for storing custom metadata
    + df.style: Returns a Styler object for HTML/CSS formatting
-   + df.flags: Configuration object controlling DataFrame behavior. 
+   + df.flags: Configuration object controlling DataFrame behavior.
 '''
 
 from pathlib import Path
@@ -29,8 +29,8 @@ data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 df_baseball = pd.read_csv(
-    filepath_or_buffer = data_dir/"baseball.csv",
-    dtype = {"Team": "category", "Position": "category", "PosCategory": "category"}
+    filepath_or_buffer=data_dir/"baseball.csv",
+    dtype={"Team": "category", "Position": "category", "PosCategory": "category"}
 )
 
 df_baseball.head()
@@ -42,23 +42,23 @@ df_baseball.head()
 # 4      Chris_Gomez  BAL  First_Baseman      73     188  35.71   Infielder
 
 df_baseball.info()
-# <class 'pandas.core.frame.DataFrame'>
+# <class 'pandas.DataFrame'>
 # RangeIndex: 1015 entries, 0 to 1014
 # Data columns (total 7 columns):
-#  #   Column       Non-Null Count  Dtype   
-# ---  ------       --------------  -----   
-#  0   Name         1015 non-null   object  
+#  #   Column       Non-Null Count  Dtype
+# ---  ------       --------------  -----
+#  0   Name         1015 non-null   str
 #  1   Team         1015 non-null   category
 #  2   Position     1015 non-null   category
-#  3   Height       1015 non-null   int64   
-#  4   Weight       1015 non-null   int64   
-#  5   Age          1015 non-null   float64 
+#  3   Height       1015 non-null   int64
+#  4   Weight       1015 non-null   int64
+#  5   Age          1015 non-null   float64
 #  6   PosCategory  1015 non-null   category
-# dtypes: category(3), float64(1), int64(2), object(1)
-# memory usage: 36.5+ KB
+# dtypes: category(3), float64(1), int64(2), str(1)
+# memory usage: 49.0 KB
 
 '''
-Here, if leave the "Team", "Position", "PosCategory" columns as "object" type, 
+Here, if leave the "Team", "Position", "PosCategory" columns as "object" type,
 the memory usage will be 55.6+ KB.
 '''
 
@@ -137,7 +137,7 @@ The 1015 is excluded
 
 print(df_baseball.axes)
 # [
-#     RangeIndex(start=0, stop=1015, step=1), 
+#     RangeIndex(start=0, stop=1015, step=1),
 #     Index(['Name', 'Team', 'Position', 'Height', 'Weight', 'Age', 'PosCategory'], dtype='object')
 # ]
 
@@ -182,7 +182,7 @@ print(df_baseball.T)
 ##----------##
 '''df.empty returns True if the DataFrame is empty (has no elements), else False.'''
 
-print(df_baseball.empty)  
+print(df_baseball.empty)
 # False
 
 df_void = pd.DataFrame()
@@ -198,7 +198,7 @@ print(df_void.empty)
 ##----------##
 '''df.attrs is a dictionary for storing custom metadata about the DataFrame.'''
 
-print(df_baseball.attrs)  
+print(df_baseball.attrs)
 # {}
 # Initially empty dictionary.
 
@@ -206,7 +206,7 @@ df_baseball.attrs['source'] = 'Baseball Dataset 2023'
 df_baseball.attrs['description'] = 'Player statistics including height, weight, age, and position.'
 print(df_baseball.attrs)
 # {
-#     'source': 'Baseball Dataset 2023', 
+#     'source': 'Baseball Dataset 2023',
 #     'description': 'Player statistics including height, weight, age, and position.'
 # }
 

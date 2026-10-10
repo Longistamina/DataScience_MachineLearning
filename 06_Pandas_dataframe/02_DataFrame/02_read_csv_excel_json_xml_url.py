@@ -26,7 +26,7 @@ Pandas offers many functions to read data from various file formats into DataFra
 
 4. pd.read_xml() - Read XML files
    + Installation: conda install -c conda-forge lxml / pip3 install lxml
-   
+
 5. pd.read_csv(url) - Read data from a URL
 '''
 
@@ -40,9 +40,8 @@ data_dir = next(data_dir)
 # =========================================================================================
 # 1. pd.read_csv()
 # =========================================================================================
-
 '''
-read_csv() is the most commonly used pandas I/O function, designed to read CSV files into DataFrames. 
+read_csv() is the most commonly used pandas I/O function, designed to read CSV files into DataFrames.
 It supports over 50 parameters for comprehensive data control.
 
 Detailed documentation: https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html#pandas.read_csv
@@ -95,13 +94,13 @@ print(df)
 ##--------------------##
 
 df = pd.read_csv(
-    filepath_or_buffer=data_dir/'emp.csv', 
+    filepath_or_buffer=data_dir/'emp.csv',
     index_col='id'
 )
 
 print(df)
 #         name  salary  start_date        dept
-# id                                          
+# id
 # 1       Rick  623.30  2012-01-01          IT
 # 2        Dan  515.20  2013-09-23  Operations
 # 3   Michelle  611.00  2014-11-15          IT
@@ -117,7 +116,7 @@ print(df)
 ##------------------##
 
 df = pd.read_csv(
-    filepath_or_buffer=data_dir/'emp.csv', 
+    filepath_or_buffer=data_dir/'emp.csv',
     usecols=['name', 'salary', 'dept']
 )
 
@@ -132,9 +131,9 @@ print(df)
 # 6     Simon  632.80  Operations
 # 7      Guru  722.50     Finance
 
-# 
+# use integer-based indices
 df = pd.read_csv(
-    filepath_or_buffer=data_dir/'emp.csv', 
+    filepath_or_buffer=data_dir/'emp.csv',
     usecols=[1, 2, 4]
 )
 
@@ -154,7 +153,7 @@ print(df)
 ##----------------##
 
 df = pd.read_csv(
-    filepath_or_buffer=data_dir/'emp.csv', 
+    filepath_or_buffer=data_dir/'emp.csv',
     usecols=['name', 'salary', 'dept', 'start_date'],
     dtype={
         'name': 'str', # If set as 'string', it will be "string[python]", not "object"
@@ -166,7 +165,7 @@ df = pd.read_csv(
 print(df.dtypes)
 # name            object
 # salary         float64
-# start_date      object
+# start_date         str
 # dept          category
 # dtype: object
 
@@ -175,9 +174,9 @@ print(df.dtypes)
 ##----------------------##
 
 # ## parse_dates = ['col1', 'col2'] or 'col1'
-# 
+#
 df = pd.read_csv(
-    filepath_or_buffer=data_dir/'emp.csv', 
+    filepath_or_buffer=data_dir/'emp.csv',
     dtype={
         'name': 'str', # If set as 'string', it will be "string[python]", not "object"
         'salary': 'float64',
@@ -195,9 +194,9 @@ print(df.dtypes)
 # dtype: object
 
 # ## parse_dates=True with index_col="date_col"
-# 
+#
 df = pd.read_csv(
-    filepath_or_buffer=data_dir/'emp.csv', 
+    filepath_or_buffer=data_dir/'emp.csv',
     dtype={
         'name': 'str', # If set as 'string', it will be "string[python]", not "object"
         'salary': 'float64',
@@ -209,7 +208,7 @@ df = pd.read_csv(
 
 print(df)
 #             id      name  salary        dept
-# start_date                                  
+# start_date
 # 2012-01-01   1      Rick  623.30          IT
 # 2013-09-23   2       Dan  515.20  Operations
 # 2014-11-15   3  Michelle  611.00          IT
@@ -231,7 +230,7 @@ If the original CSV does not have a header row, set "header=None".
 '''
 
 df = pd.read_csv(
-    filepath_or_buffer=data_dir/'emp.csv', 
+    filepath_or_buffer=data_dir/'emp.csv',
     header=0, # The first row (0-indexed) is the header
     names=["ID", "NAME", "SALARY", "START_DATE", "DEPT"] # Custom column names
 )
@@ -252,7 +251,7 @@ print(df)
 ##-----------------------------##
 
 df = pd.read_csv(
-    filepath_or_buffer=data_dir/'emp.tsv', 
+    filepath_or_buffer=data_dir/'emp.tsv',
     sep='\t' # Tab-separated values
 )
 
@@ -267,9 +266,9 @@ print(df)
 # 6          7     Simon  632.80  2013-07-30  Operations
 # 7          8      Guru  722.50  2014-06-17     Finance
 
-# 
+#
 df = pd.read_csv(
-    filepath_or_buffer=data_dir/'emp.tsv', 
+    filepath_or_buffer=data_dir/'emp.tsv',
     sep='\t', # Tab-separated values
     index_col=0 # Set the first column as index
 )
@@ -289,15 +288,15 @@ print(df)
 ## Handle NA values  ##
 ##-------------------##
 '''
-By default the following values are interpreted as NaN: 
+By default the following values are interpreted as NaN:
 
-“ “, “#N/A”, “#N/A N/A”, “#NA”, “-1.#IND”, “-1.#QNAN”, 
-“-NaN”, “-nan”, “1.#IND”, “1.#QNAN”, “<NA>”, “N/A”, 
+“ “, “#N/A”, “#N/A N/A”, “#NA”, “-1.#IND”, “-1.#QNAN”,
+“-NaN”, “-nan”, “1.#IND”, “1.#QNAN”, “<NA>”, “N/A”,
 “NA”, “NULL”, “NaN”, “None”, “n/a”, “nan”, “null “.
 '''
 
 df = pd.read_csv(
-    filepath_or_buffer=data_dir/'emp.tsv', 
+    filepath_or_buffer=data_dir/'emp.tsv',
     sep='\t', # Tab-separated values
     na_values=['?'], # Additional strings to recognize as NA/NaN
     index_col=0 # Set the first column as index
@@ -326,14 +325,12 @@ df = pd.read_csv(
 )
 '''pandas.errors.ParserError: Error tokenizing data. C error: Expected 1 fields in line 3, saw 5'''
 
-# 
 # Skip the first 2 corrupted rows
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp_skiprows.tsv',
     sep='\t', # Tab-separated values
     skiprows=2 # Skip the first 2 rows
 )
-
 print(df)
 #   Unnamed: 0      name  salary  start_date        dept
 # 0          1      Rick  623.30  2012-01-01          IT
@@ -345,7 +342,6 @@ print(df)
 # 6          7     Simon  632.80  2013-07-30  Operations
 # 7          8      Guru  722.50  2014-06-17     Finance
 
-# 
 # skiprows= and nrows=
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp_skiprows.tsv',
@@ -354,7 +350,6 @@ df = pd.read_csv(
     nrows=4, # Read only 4 rows
     index_col=0 # Set the first column as index
 )
-
 print(df)
 #        name  salary  start_date        dept
 # 1      Rick   623.3  2012-01-01          IT
@@ -370,7 +365,6 @@ print(df)
 df = pd.read_csv(
     filepath_or_buffer = data_dir/'emp_skipfooter.csv'
 )
-
 print(df)
 #                    id      name  salary  start_date        dept
 # 0                   1      Rick  623.30  2012-01-01          IT
@@ -384,7 +378,6 @@ print(df)
 # 8  # Footer to skip 1       NaN     NaN         NaN         NaN
 # 9  # Footer to skip 2       NaN     NaN         NaN         NaN
 
-# 
 # Skip the last 2 footer rows
 df = pd.read_csv(
     filepath_or_buffer=data_dir/'emp_skipfooter.csv',
@@ -393,10 +386,9 @@ df = pd.read_csv(
     na_values=[" "],
     index_col=0 # Set the first column as index
 )
-
 print(df)
 #          name  salary  start_date        dept
-# id                                           
+# id
 # 1.0      Rick  623.30  2012-01-01          IT
 # 2.0       Dan  515.20  2013-09-23  Operations
 # 3.0  Michelle  611.00  2014-11-15          IT
@@ -409,9 +401,8 @@ print(df)
 # =========================================================================================
 # 2. pd.read_excel()
 # =========================================================================================
-
 '''
-read_excel() handles Microsoft Excel files (.xlsx, .xls, .xlsb) 
+read_excel() handles Microsoft Excel files (.xlsx, .xls, .xlsb)
 with support for multiple sheets and complex formatting.
 
 Detailed documentation: https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html#pandas.read_excel
@@ -457,10 +448,9 @@ print(df)
 ##---------------------##
 
 df = pd.read_excel(
-    io=data_dir/'emp_sheetname.xlsx', 
+    io=data_dir/'emp_sheetname.xlsx',
     sheet_name='city' # Specify the sheet name
 )
-
 print(df)
 #        name     city
 # 0      Rick  Seattle
@@ -472,12 +462,11 @@ print(df)
 # 6     Simon   Mumbai
 # 7      Guru   Dallas
 
-# 
+# integer-based index
 df = pd.read_excel(
-    io=data_dir/'emp_sheetname.xlsx', 
+    io=data_dir/'emp_sheetname.xlsx',
     sheet_name=1 # Specify the sheet index (1 means the second sheet)
 )
-
 print(df)
 #        name     city
 # 0      Rick  Seattle
@@ -492,9 +481,8 @@ print(df)
 # =========================================================================================
 # 3. pd.read_json()
 # =========================================================================================
-
 '''
-read_json() supports multiple JSON orientations and structures, 
+read_json() supports multiple JSON orientations and structures,
 making it versatile for API data and nested records.
 
 Detailed documentation: https://pandas.pydata.org/docs/reference/api/pandas.read_json.html#pandas.read_json
@@ -510,13 +498,12 @@ Detailed documentation: https://pandas.pydata.org/docs/reference/api/pandas.read
 ##-------------##
 ## Basic Usage ##
 ##-------------##
-
 '''
-{ 
+{
    "ID":["1","2","3","4","5","6","7","8" ],
    "Name":["Rick","Dan","Michelle","Ryan","Gary","Nina","Simon","Guru" ],
    "Salary":["623.3","515.2","611","729","843.25","578","632.8","722.5" ],
-   
+
    "StartDate":[ "1/1/2012","9/23/2013","11/15/2014","5/11/2014","3/27/2015","5/21/2013",
       "7/30/2013","6/17/2014"],
    "Dept":[ "IT","Operations","IT","HR","Finance","IT","Operations","Finance"]
@@ -543,7 +530,6 @@ print(df)
 df_corrupted = pd.read_json(
     path_or_buf=data_dir/"books.json",
 )
-
 print(df_corrupted)
 #                                             Mathematics
 # book  [{'title': 'Applied Linear Statistical Models'...
@@ -551,7 +537,6 @@ print(df_corrupted)
 '''Let's normalize this nested JSON into a flat table.'''
 
 df_processed = pd.json_normalize(df_corrupted['Mathematics']['book'])
-
 print(df_processed)
 #                                                title  ...                                attribute
 # 0                  Applied Linear Statistical Models  ...  [Exercises, Illustrations, Readability]
@@ -567,7 +552,7 @@ with open(data_dir/"books.json", "r", encoding="utf-8") as f:
     json_obj = json.load(f)        # json_obj is a dict, not a DataFrame [1]
 
 df_processed = pd.json_normalize(
-    data=json_obj, 
+    data=json_obj,
     record_path=["Mathematics", "book"]   # list of dicts to rows [10]
 )
 
@@ -581,7 +566,6 @@ print(df_processed)
 # =========================================================================================
 # 4. pd.read_xml()
 # =========================================================================================
-
 '''
 read_xml() handles XML documents with XPath expressions and namespace support.
 

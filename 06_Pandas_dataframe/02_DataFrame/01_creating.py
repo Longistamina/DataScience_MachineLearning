@@ -50,7 +50,7 @@ print(df)
 ##-----------------##
 
 df = pd.DataFrame(
-    data ={
+    data={
         "one": pd.Series([1.0, 2.0, 3.0], index=["a", "b", "c"]),
         "two": pd.Series([1.0, 2.0, 3.0, 4.0], index=["a", "b", "c", "d"]),
     }
@@ -72,7 +72,7 @@ print(df)
 ##------------##
 
 df = pd.DataFrame(
-    data = {
+    data={
         "column_1": [1, 3, 5, 7],
         "column_2": [2.0, 4.0, 6.0, 8.0],
         "column_3": ["a", "b", "c", "d"],
@@ -91,7 +91,7 @@ print(df)
 ##---------------##
 
 df = pd.DataFrame(
-    data = {
+    data={
         "column_1": np.array([1.5, 3.2, 5.7, 6.8]),
         "column_2": np.array([2, 4.9, 2.3, 1.2]),
     }
@@ -133,22 +133,21 @@ print(df_score)
 ## from 2D-List ##
 ##--------------##
 
-df_3d_list = pd.DataFrame(
-    data = [
+df_2d_list = pd.DataFrame(
+    data=[
         [1, 2.0, "a"],
         [3, 4.0, "b"],
         [5, 6.0, "c"],
         [7, 8.0, "d"]
     ],
-    columns = ["column_1", "column_2", "column_3"],
-    index = ["row_1", "row_2", "row_3", "row_4"]
+    columns=["column_1", "column_2", "column_3"],
+    index=["row_1", "row_2", "row_3", "row_4"]
 )
 
-print(df_3d_list)
+print(df_2d_list)
 #        column_1  column_2 column_3
 # row_1         1       2.0        a
 # row_2         3       4.0        b
-
 # row_3         5       6.0        c
 # row_4         7       8.0        d
 
@@ -156,18 +155,18 @@ print(df_3d_list)
 ## from 2D-Array ##
 ##---------------##
 
-df_3d_array = pd.DataFrame(
+df_2d_array = pd.DataFrame(
     data = np.array([
         [1.5, 2, "a"],
         [3.2, 4, "b"],
         [5.7, 6, "c"],
         [6.8, 8, "d"]
     ]),
-    columns = ["col_1", "col_2", "col_3"],
-    index = ["idx_1", "idx_2", "idx_3", "idx_4"]
+    columns=["col_1", "col_2", "col_3"],
+    index=["idx_1", "idx_2", "idx_3", "idx_4"]
 )
 
-print(df_3d_array)
+print(df_2d_array)
 #       col_1 col_2 col_3
 # idx_1   1.5     2     a
 # idx_2   3.2     4     b
@@ -180,11 +179,11 @@ print(df_3d_array)
 
 # Create an empty structured record
 record = np.zeros(
-    shape = (2,), # 1D array with 2 elements
-    dtype = [("A", "i4"), ("B", "f4"), ("C", "a10")] # Define the data types for each field "A", "B", "C"
+    shape=(2,), # 1D array with 2 elements
+    dtype=[("A", "i4"), ("B", "f4"), ("C", "S10")] # Define the data types for each field "A", "B", "C"
 )                                                    # "i4" means 4-byte integer,
                                                      # "f4" means 4-byte float,
-                                                     # "a10" means string of length 10 (bytes
+                                                     # "S10" means string of length 10 bytes
 print(record)
 # [(0, 0., b'') (0, 0., b'')]
 
@@ -224,11 +223,11 @@ print(df)
 ##-----------------##
 
 df = pd.DataFrame(
-    data = [
+    data=[
         {"a": 1.4, "b": 2.3},
         {"a": 5, "b": 10, "c": 20}
     ],
-    index = ["row_1", "row_2"]
+    index=["row_1", "row_2"]
 )
 
 print(df)
@@ -270,7 +269,7 @@ from collections import namedtuple
 point_2d = namedtuple("Point", "x y")
 
 df = pd.DataFrame(
-    data = [point_2d(0, 0), point_2d(1, 2), point_2d(2, 4), point_2d(3, 6)],
+    data=[point_2d(0, 0), point_2d(1, 2), point_2d(2, 4), point_2d(3, 6)],
 
 )
 

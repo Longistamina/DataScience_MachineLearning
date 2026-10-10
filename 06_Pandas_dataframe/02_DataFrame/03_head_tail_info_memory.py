@@ -1,5 +1,5 @@
 '''
-1. df.head(n=5): Returns the first n rows of the DataFrame (default is 5) 
+1. df.head(n=5): Returns the first n rows of the DataFrame (default is 5)
 
 2. df.tail(n=5): Returns the last n rows of the DataFrame (default is 5)
 
@@ -16,14 +16,13 @@ data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 df_medals = pd.read_csv(
-    filepath_or_buffer =data_dir/"medals.csv",
-    skiprows = 4
+    filepath_or_buffer=data_dir/"medals.csv",
+    skiprows=4
 )
 
 # =========================================================================================
 # 1. df.head()
 # =========================================================================================
-
 '''df.head(n=5): Returns the first n rows of the DataFrame (default is 5)'''
 
 df_medals.head()
@@ -43,7 +42,6 @@ df_medals.head(3)
 # =========================================================================================
 # 2. df.tail()
 # =========================================================================================
-
 '''df.tail(n=5): Returns the last n rows of the DataFrame (default is 5)'''
 
 df_medals.tail()
@@ -70,40 +68,40 @@ df_medals.tail(3)
 '''df.info(memory_usage='deep'): Provides a concise summary of the DataFrame'''
 
 df_medals.info()
-# <class 'pandas.core.frame.DataFrame'>
+# <class 'pandas.DataFrame'>
 # RangeIndex: 2311 entries, 0 to 2310
 # Data columns (total 8 columns):
-#  #   Column        Non-Null Count  Dtype 
-# ---  ------        --------------  ----- 
-#  0   Year          2311 non-null   int64 
-#  1   City          2311 non-null   object
-#  2   Sport         2311 non-null   object
-#  3   Discipline    2311 non-null   object
-#  4   NOC           2311 non-null   object
-#  5   Event         2311 non-null   object
-#  6   Event gender  2311 non-null   object
-#  7   Medal         2311 non-null   object
-# dtypes: int64(1), object(7)
-# memory usage: 144.6+ KB
+#  #   Column        Non-Null Count  Dtype
+# ---  ------        --------------  -----
+#  0   Year          2311 non-null   int64
+#  1   City          2311 non-null   str
+#  2   Sport         2311 non-null   str
+#  3   Discipline    2311 non-null   str
+#  4   NOC           2311 non-null   str
+#  5   Event         2311 non-null   str
+#  6   Event gender  2311 non-null   str
+#  7   Medal         2311 non-null   str
+# dtypes: int64(1), str(7)
+# memory usage: 248.9 KB
 
 df_medals.info(memory_usage='deep')
-# <class 'pandas.core.frame.DataFrame'>
+# <class 'pandas.DataFrame'>
 # RangeIndex: 2311 entries, 0 to 2310
 # Data columns (total 8 columns):
-#  #   Column        Non-Null Count  Dtype 
-# ---  ------        --------------  ----- 
-#  0   Year          2311 non-null   int64 
-#  1   City          2311 non-null   object
-#  2   Sport         2311 non-null   object
-#  3   Discipline    2311 non-null   object
-#  4   NOC           2311 non-null   object
-#  5   Event         2311 non-null   object
-#  6   Event gender  2311 non-null   object
-#  7   Medal         2311 non-null   object
-# dtypes: int64(1), object(7)
-# memory usage: 896.6 KB
+#  #   Column        Non-Null Count  Dtype
+# ---  ------        --------------  -----
+#  0   Year          2311 non-null   int64
+#  1   City          2311 non-null   str
+#  2   Sport         2311 non-null   str
+#  3   Discipline    2311 non-null   str
+#  4   NOC           2311 non-null   str
+#  5   Event         2311 non-null   str
+#  6   Event gender  2311 non-null   str
+#  7   Medal         2311 non-null   str
+# dtypes: int64(1), str(7)
+# memory usage: 248.9 KB
 '''
-With deep memory introspection, 
+With deep memory introspection,
 a real memory usage calculation is performed at the cost of computational resources
 '''
 
@@ -115,23 +113,23 @@ a real memory usage calculation is performed at the cost of computational resour
 df_medals.memory_usage()
 # Index             132
 # Year            18488
-# City            18488
-# Sport           18488
-# Discipline      18488
-# NOC             18488
-# Event           18488
-# Event gender    18488
-# Medal           18488
+# City            40354
+# Sport           33916
+# Discipline      46793
+# NOC             25421
+# Event           38124
+# Event gender    20799
+# Medal           30806
 # dtype: int64
 
 df_medals.memory_usage(deep=True)
-# Index              132
-# Year             18488
-# City            135105
-# Sport           128667
-# Discipline      141544
-# NOC             120172
-# Event           132875
-# Event gender    115550
-# Medal           125557
+# Index             132
+# Year            18488
+# City            40354
+# Sport           33916
+# Discipline      46793
+# NOC             25421
+# Event           38124
+# Event gender    20799
+# Medal           30806
 # dtype: int64
