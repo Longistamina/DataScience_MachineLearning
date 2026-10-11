@@ -36,7 +36,7 @@ from pathlib import Path
 
 import polars as pl
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 # Same dataset used in the pandas version of this guide.

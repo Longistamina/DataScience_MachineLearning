@@ -33,7 +33,7 @@ pl.Config.set_tbl_cols(20)
 pl.Config.set_float_precision(6)
 pl.Config.set_tbl_width_chars(120)
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 # =========================================================================================
 # PART 1: pl.Categorical (Unordered)

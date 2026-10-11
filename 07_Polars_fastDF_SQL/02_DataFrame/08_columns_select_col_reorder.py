@@ -56,7 +56,7 @@ pl.Config.set_float_precision(2)
 # 0. Example Data
 # =========================================================================================
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 lf_emp = pl.scan_csv(
     data_dir/"emp.csv",

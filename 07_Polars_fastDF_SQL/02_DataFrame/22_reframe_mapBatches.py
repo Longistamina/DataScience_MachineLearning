@@ -37,7 +37,7 @@ pl.Config.set_float_precision(6)
 # 0. Setup Data
 # =========================================================================================
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 lf_boston = (
     pl.scan_csv(data_dir / "BostonHousing.csv")
@@ -124,10 +124,7 @@ print(
         c("rm", "lstat", "medv")
         .map_batches(lambda x: pl.Series(np.quantile(x, qs)), return_dtype=pl.Float64),
     )
-    .select(
-        pl.Series("index", labels),
-        pl.all()
-    )
+    .select(pl.Series("index", labels), pl.all())
     .collect()
 )
 
@@ -191,10 +188,7 @@ print(
         c("lstat").map_batches(lambda x: stats.expon.ppf(q=qs, scale=x.mean()), pl.Float64).alias("lstat_expon"),
         c("medv").map_batches(lambda x: stats.gamma.ppf(q=qs, a=2, scale=x.mean()/2), pl.Float64).alias("medv_gamma")
     )
-    .select(
-        pl.Series("ppf", ppfs),
-        pl.all()
-    )
+    .select(pl.Series("ppf", ppfs), pl.all())
     .collect()
 )
 # shape: (4, 4)

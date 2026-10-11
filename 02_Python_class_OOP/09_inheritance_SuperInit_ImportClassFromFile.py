@@ -70,7 +70,7 @@ print(Phone.all_items)
 import os
 from pathlib import Path
 
-dir_path = next(Path("/home").glob("**/item.py")).parent
+dir_path = next(Path.home().glob("**/item.py")).parent
 print(dir_path) # /home/longdpt/Documents/Academic/DataScience_MachineLearning/02_Python_class_OOP
 
 os.chdir(dir_path)

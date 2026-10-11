@@ -9,7 +9,7 @@ import pandas as pd
 import plotnine as pln
 from datar import f
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 ##--------------------##

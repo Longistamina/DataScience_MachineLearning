@@ -5,7 +5,7 @@ import polars as pl
 from polars import col as c
 from polars import selectors as cs
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 # Optional display settings

@@ -9,7 +9,7 @@ tidypyrs supports several wrappers of polars reading functions, including:
 import tidypyrs as tp  # noqa: I001
 from pathlib import Path
 
-data_dir = next(Path("/home").glob("**/DataScience*/data"))
+data_dir = next(Path.home().glob("**/DataScience*/data"))
 
 # =========================================================================================
 # 1. tp.read_csv()

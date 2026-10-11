@@ -10,7 +10,7 @@ __name__ is a special variable that indicates whether the script is being run di
 
 from pathlib import Path
 
-working_dir = next(Path("/home").glob("**/01_Python_Basic/*.py")).parent
+working_dir = next(Path.home().glob("**/01_Python_Basic/*.py")).parent
 
 # ==============================================================================================
 # Import the module in the same directory

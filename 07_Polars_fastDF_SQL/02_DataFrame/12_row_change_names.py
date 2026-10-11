@@ -14,7 +14,7 @@ import polars as pl
 from polars import col as c
 
 pl.Config.set_tbl_width_chars(120)
-data_dir = next(Path("/home").glob("**/DataScience*/data"))
+data_dir = next(Path.home().glob("**/DataScience*/data"))
 
 lf_emp = pl.scan_csv(data_dir/"emp.csv").drop("id")
 print(lf_emp.collect())

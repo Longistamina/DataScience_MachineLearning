@@ -171,7 +171,7 @@ Why scan can be better:
 '''
 
 # Make a tiny CSV file so this example is runnable.
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 scan_query = (

@@ -42,7 +42,7 @@ The GPU engine is selected at collection time.
 The query construction remains normal Polars lazy code.
 '''
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 q = (
     pl.scan_csv(data_dir / "pokemon.csv")

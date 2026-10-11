@@ -15,7 +15,7 @@ from tidypyrs import f
 from pathlib import Path
 
 tp.Config(tbl_width_chars=120)
-data_dir = next(Path("/home").glob("**/DataScience*/data"))
+data_dir = next(Path.home().glob("**/DataScience*/data"))
 
 tl_pokemon = (
     tp.scan_csv(data_dir/"pokemon.csv")

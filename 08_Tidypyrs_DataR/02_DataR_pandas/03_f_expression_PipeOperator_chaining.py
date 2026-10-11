@@ -14,7 +14,7 @@ from datar import f
 
 pd.set_option("display.width", 200)
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 '''

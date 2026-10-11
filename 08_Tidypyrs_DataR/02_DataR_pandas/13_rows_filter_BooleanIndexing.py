@@ -24,7 +24,7 @@ from pipda import register_verb
 dr.filter = register_verb(func=dr.filter_)
 
 from pathlib import Path
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 ##--------------------##

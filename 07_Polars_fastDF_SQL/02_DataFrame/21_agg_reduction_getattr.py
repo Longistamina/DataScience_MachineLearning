@@ -1,33 +1,20 @@
 '''
 Aggregation and reduction in Polars with a LazyFrame-first workflow.
 
-This file is adapted from pandas workflows such as:
-+ df[["Height", "Weight"]].agg("mean")
-+ df[["Height", "Weight"]].agg(["mean", "median", "std"])
-+ df.agg({"Height": ["min", "max", "mean"], "Weight": ["median", "var", "std"]})
-+ df.agg(mean_height=("Height", "mean"), median_weight=("Weight", "median"))
-
-Important Polars differences:
-+ LazyFrame does not use pandas-style df.agg(...).
-+ LazyFrame reductions are usually expressed as:
+LazyFrame reductions are usually expressed as:
     - lf.select(... aggregation expressions ...).collect()
     - lf.mean().collect(), lf.sum().collect(), lf.min().collect(), etc.
-+ Most examples in this file stay lazy until .collect().
-+ Eager DataFrame is used only in the final section for APIs that are available
-  as direct DataFrame aggregation methods but not as direct LazyFrame methods.
 
 Content flow:
-1. Example data with pl.scan_csv(...)
-2. Single reductions with LazyFrame.select(...).collect()
-3. Direct LazyFrame reduction methods
-4. Multiple reductions with expression aliases
-5. Dictionary-style aggregation replacement
-6. Named aggregation-style output with alias(...)
-7. Quantiles and custom percentile labels
-8. Count, null_count, and distinct-count style summaries
-9. Boolean and string reductions in lazy queries
-10. Eager-only fallback for DataFrame-only aggregation helpers
-11. Categorized API list
+1. Single reductions with `lf.select(...).collect()
+2. Direct LazyFrame reduction methods: `lf.mean()`, `lf.median()`, ...
+3. Multiple reductions with expression aliases: `col_expr.agg_func().alias("name")`
+4. Vertical summary table using `pl.concat()` and `getattr()`
+5. Quantiles and custom percentile labels
+6. `lf.count()`, `lf.null_count()`, and `lf.select(pl.all().n_unique())`
+7. Boolean and string reductions in lazy queries
+8. Eager-only fallback for DataFrame-only aggregation helpers
+9. Categorized API list
 '''
 
 from pathlib import Path
@@ -41,33 +28,28 @@ pl.Config.set_tbl_cols(12)
 pl.Config.set_float_precision(3)
 
 # =========================================================================================
-# 1. Example data
+# 0. Example data
 # =========================================================================================
-'''
-The pandas source file uses baseball.csv with Name, Team, Height, and Weight.
-Here we load the same file lazily with pl.scan_csv(...).
-'''
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
-lf_baseball = pl.scan_csv(
-    data_dir / "baseball.csv",
-).select("Name", "Team", "Height", "Weight")
-
-# Convert Height from inches to cm and Weight from pounds to kg.
-# Cast Team to Categorical to match the pandas tutorial's category dtype.
-lf_baseball = lf_baseball.with_columns(
-    c.Height * 2.54,
-    c.Weight * 0.453592,
-    c.Team.cast(pl.Categorical),
+lf_baseball = (
+    pl.scan_csv(data_dir/"baseball.csv")
+    .select(pl.all().name.to_lowercase())
+    .select("name", "team", "height", "weight")
+    .with_columns(
+        c.height * 2.54, # convert height from inches to cm and weight from pounds to kg.
+        c.weight * 0.453592,
+        c.team.cast(pl.Categorical), # Cast Team to Categorical to match the pandas tutorial's category dtype.
+    )
 )
 
 print(lf_baseball.head(3).collect())
 # shape: (3, 4)
 # ┌─────────────────┬──────┬─────────┬────────┐
-# │ Name            ┆ Team ┆ Height  ┆ Weight │
+# │ name            ┆ team ┆ height  ┆ weight │
 # │ ---             ┆ ---  ┆ ---     ┆ ---    │
-# │ str             ┆ cat  ┆ f64     ┆ f64    │
+# │ str             ┆ cat  ┆ f6ount
 # ╞═════════════════╪══════╪═════════╪════════╡
 # │ Adam_Donachie   ┆ BAL  ┆ 187.960 ┆ 81.647 │
 # │ Paul_Bako       ┆ BAL  ┆ 187.960 ┆ 97.522 │
@@ -75,37 +57,27 @@ print(lf_baseball.head(3).collect())
 # └─────────────────┴──────┴─────────┴────────┘
 
 print(lf_baseball.collect_schema())
-# Schema({'Name': String, 'Team': Categorical, 'Height': Float64, 'Weight': Float64})
-
-# A reusable lazy subset for numeric columns.
-lf_hw = lf_baseball.select("Height", "Weight")
+# Schema({'name': String, 'team': Categorical, 'height': Float64, 'weight': Float64})
 
 # =========================================================================================
-# 2. Single reductions with LazyFrame.select(...).collect()
+# 1. Single reductions with `lf.select(...).collect()
 # =========================================================================================
 
 ##----------------------------------##
 ## Mean of selected numeric columns ##
 ##----------------------------------##
-'''
-Pandas:
-    df[["Height", "Weight"]].agg("mean")
-
-Polars LazyFrame:
-    Use aggregation expressions inside select(...), then collect().
-'''
 
 print(
     lf_baseball
     .select(
-        c.Height.mean(),
-        c.Weight.mean(),
+        c.height.mean(),
+        c.weight.mean(),
     )
     .collect()
 )
 # shape: (1, 2)
 # ┌─────────┬────────┐
-# │ Height  ┆ Weight │
+# │ height  ┆ weight │
 # │ ---     ┆ ---    │
 # │ f64     ┆ f64    │
 # ╞═════════╪════════╡
@@ -119,13 +91,19 @@ print(
 print(
     lf_baseball
     .select(
-        c.Height.median(),
-        c.Weight.median(),
+        c.height.median(),
+        c.weight.median(),
     )
     .collect()
 )
 # shape: (1, 2)
-# columns: Height, Weight
+# ┌─────────┬────────┐
+# │ height  ┆ weight │
+# │ ---     ┆ ---    │
+# │ f64     ┆ f64    │
+# ╞═════════╪════════╡
+# │ 187.960 ┆ 90.718 │
+# └─────────┴────────┘
 
 ##-------------------------------##
 ## Min and max in the same query ##
@@ -134,10 +112,10 @@ print(
 print(
     lf_baseball
     .select(
-        c.Height.min().alias("height_min"),
-        c.Height.max().alias("height_max"),
-        c.Weight.min().alias("weight_min"),
-        c.Weight.max().alias("weight_max"),
+        c.height.min().alias("height_min"),
+        c.height.max().alias("height_max"),
+        c.weight.min().alias("weight_min"),
+        c.weight.max().alias("weight_max"),
     )
     .collect()
 )
@@ -151,7 +129,7 @@ print(
 # └────────────┴────────────┴────────────┴────────────┘
 
 # =========================================================================================
-# 3. Direct LazyFrame reduction methods
+# 2. Direct LazyFrame reduction methods: `lf.mean()`, `lf.median()`, ...
 # =========================================================================================
 '''
 LazyFrame also has direct aggregation methods.
@@ -160,6 +138,8 @@ These are concise when you want the same reduction applied to compatible columns
 Because lf_hw contains only numeric columns, methods like mean(), median(), std(),
 var(), min(), max(), sum(), and quantile() are straightforward.
 '''
+
+lf_hw = lf_baseball.select("height", "weight")
 
 print(lf_hw.mean().collect())
 # one-row result with the mean of Height and Weight
@@ -192,34 +172,18 @@ print(lf_baseball.null_count().collect())
 # count of null values for each column
 
 # =========================================================================================
-# 4. Multiple reductions with expression aliases
+# 3. Multiple reductions with expression aliases: `col_expr.agg_func().alias("name")`
 # =========================================================================================
-
-##----------------------------------##
-## Equivalent of agg(["mean", ...]) ##
-##----------------------------------##
-'''
-Pandas returns function names as row labels.
-Polars usually returns one row and uses explicit column names.
-
-This is clearer for downstream processing:
-+ height_mean
-+ height_median
-+ height_std
-+ weight_mean
-+ weight_median
-+ weight_std
-'''
 
 print(
     lf_baseball
     .select(
-        c.Height.mean().alias("height_mean"),
-        c.Height.median().alias("height_median"),
-        c.Height.std().alias("height_std"),
-        c.Weight.mean().alias("weight_mean"),
-        c.Weight.median().alias("weight_median"),
-        c.Weight.std().alias("weight_std"),
+        c.height.mean().alias("height_mean"),
+        c.height.median().alias("height_median"),
+        c.height.std().alias("height_std"),
+        c.weight.mean().alias("weight_mean"),
+        c.weight.median().alias("weight_median"),
+        c.weight.std().alias("weight_std"),
     )
     .collect()
 )
@@ -232,120 +196,37 @@ print(
 # │ 187.172     ┆ 187.960       ┆ 5.877      ┆ 91.330      ┆ 90.718        ┆ 9.445      │
 # └─────────────┴───────────────┴────────────┴─────────────┴───────────────┴────────────┘
 
-##---------------------------------------##
-## Generate many aggregation expressions ##
-##---------------------------------------##
-
-metrics = {
-    "mean": lambda expr: expr.mean(),
-    "median": lambda expr: expr.median(),
-    "std": lambda expr: expr.std(),
-}
-
-exprs = [
-    func(c(column)).alias(f"{column.lower()}_{metric}")
-    for column in ["Height", "Weight"]
-    for metric, func in metrics.items()
-]
-
-print(lf_baseball.select(exprs).collect())
-# same idea as applying several functions to several columns
-
 # =========================================================================================
-# 5. Dictionary-style aggregation replacement
+# 4. Vertical summary table using `pl.concat()` and `getattr()`
 # =========================================================================================
-
-##-------------------------##
-## Pandas dictionary style ##
-##-------------------------##
-'''
-Pandas:
-    df.agg({
-        "Height": ["min", "max", "mean"],
-        "Weight": ["median", "var", "std"],
-    })
-
-Polars:
-    Build an explicit list of expressions.
-'''
-
-agg_spec = {
-    "Height": ["min", "max", "mean"],
-    "Weight": ["median", "var", "std"],
-}
-
-operation_map = {
-    "min": lambda expr: expr.min(),
-    "max": lambda expr: expr.max(),
-    "mean": lambda expr: expr.mean(),
-    "median": lambda expr: expr.median(),
-    "var": lambda expr: expr.var(),
-    "std": lambda expr: expr.std(),
-}
-
-exprs = [
-    operation_map[operation](c(column)).alias(f"{column.lower()}_{operation}")
-    for column, operations in agg_spec.items()
-    for operation in operations
-]
-
-print(lf_baseball.select(exprs).collect())
-# shape: (1, 6)
-# columns: height_min, height_max, height_mean, weight_median, weight_var, weight_std
-
-# =========================================================================================
-# 6. Named aggregation-style output with alias
-# =========================================================================================
-
-##-----------------------##
-## Named summary columns ##
-##-----------------------##
-'''
-Pandas named aggregation:
-    df.agg(mean_height=("Height", "mean"), median_weight=("Weight", "median"))
-
-Polars:
-    Put the desired output names directly in alias(...).
-'''
-
-print(
-    lf_baseball
-    .select(
-        c.Height.mean().alias("mean_height"),
-        c.Weight.median().alias("median_weight"),
-        c.Weight.std().alias("std_weight"),
-    )
-    .collect()
-)
-# shape: (1, 3)
-# columns: mean_height, median_weight, std_weight
-
-##--------------------------##
-## Long summary table style ##
-##--------------------------##
 '''
 If you prefer pandas-like rows such as mean/median/std, create one lazy query
 per metric and concatenate the lazy results.
 '''
 
+##------------------------##
+## Explicit `pl.concat()` ##
+##------------------------##
+
 lf_summary_long = pl.concat(
     [
         lf_baseball.select(
             pl.lit("mean").alias("metric"),
-            c.Height.mean().alias("Height"),
-            c.Weight.mean().alias("Weight"),
+            c.height.mean().alias("height"),
+            c.weight.mean().alias("weight"),
         ),
         lf_baseball.select(
             pl.lit("median").alias("metric"),
-            c.Height.median().alias("Height"),
-            c.Weight.median().alias("Weight"),
+            c.height.median().alias("height"),
+            c.weight.median().alias("weight"),
         ),
         lf_baseball.select(
             pl.lit("std").alias("metric"),
-            c.Height.std().alias("Height"),
-            c.Weight.std().alias("Weight"),
+            c.height.std().alias("height"),
+            c.weight.std().alias("weight"),
         ),
-    ]
+    ],
+    how="vertical_relaxed" # use "vertical_relaxed" because it's safer
 )
 
 print(lf_summary_long.collect())
@@ -360,32 +241,71 @@ print(lf_summary_long.collect())
 # │ std    ┆ 5.877   ┆ 9.445  │
 # └────────┴─────────┴────────┘
 
+##-----------------------------------##
+## Use `pl.concat()` and `getattr()` ##
+##-----------------------------------##
+
+print(getattr(c("height"), "mean"))
+# <bound method Expr.mean of <Expr ['col("height")'] at 0x7F41CDFC2300>>
+
+print(
+    getattr(c("height"), "mean")()
+)
+# col("height").mean()
+
+print(
+    getattr(c("height", "weight"), "median")()
+)
+# cs.by_name('height', 'weight', require_all=true).median()
+
+print(
+    getattr(lf_baseball.select(c.height), "std")()
+)
+# lf_baseball.select(c.height).std()
+
+# SHORTEN the summary query with `getattr`
+metrics = ["mean", "median", "std"]
+lf_summary_short = (
+    pl.concat(
+        [
+            lf_baseball.select(getattr(c("height", "weight"), metric)()) # or `getattr(lf_baseball.select("height", "weight"), metric)()`
+            for metric in metrics
+        ],
+        how="vertical_relaxed"
+    )
+    .select(pl.Series("metrics", metrics), pl.all())
+)
+print(lf_summary_short.collect())
+# shape: (3, 3)
+# ┌─────────┬─────────┬────────┐
+# │ metrics ┆ height  ┆ weight │
+# │ ---     ┆ ---     ┆ ---    │
+# │ str     ┆ f64     ┆ f64    │
+# ╞═════════╪═════════╪════════╡
+# │ mean    ┆ 187.172 ┆ 91.330 │
+# │ median  ┆ 187.960 ┆ 90.718 │
+# │ std     ┆ 5.877   ┆ 9.445  │
+# └─────────┴─────────┴────────┘
+
 # =========================================================================================
-# 7. Quantiles and custom percentile labels
+# 5. Quantiles and custom percentile labels
 # =========================================================================================
 
 ##--------------------------------##
 ## Quantiles from a single column ##
 ##--------------------------------##
-'''
-Pandas example:
-    agg(lambda col: np.quantile(col, q=[0.25, 0.5, 0.75, 1]))
-
-Polars:
-    For a small set of quantiles, write each percentile explicitly.
-'''
 
 print(
     lf_baseball
     .select(
-        c.Height.quantile(0.25).alias("height_q1"),
-        c.Height.quantile(0.50).alias("height_q2"),
-        c.Height.quantile(0.75).alias("height_q3"),
-        c.Height.quantile(1.00).alias("height_q4"),
-        c.Weight.quantile(0.25).alias("weight_q1"),
-        c.Weight.quantile(0.50).alias("weight_q2"),
-        c.Weight.quantile(0.75).alias("weight_q3"),
-        c.Weight.quantile(1.00).alias("weight_q4"),
+        c.height.quantile(0.25).alias("height_q1"),
+        c.height.quantile(0.50).alias("height_q2"),
+        c.height.quantile(0.75).alias("height_q3"),
+        c.height.quantile(1.00).alias("height_q4"),
+        c.weight.quantile(0.25).alias("weight_q1"),
+        c.weight.quantile(0.50).alias("weight_q2"),
+        c.weight.quantile(0.75).alias("weight_q3"),
+        c.weight.quantile(1.00).alias("weight_q4"),
     )
     .collect()
 )
@@ -403,38 +323,39 @@ print(
 ##---------------------------------##
 
 quantile_rows = [
-    ("Q1", 0.25),
-    ("Q2", 0.50),
-    ("Q3", 0.75),
-    ("Q4", 1.00),
+    ("q1", 0.25),
+    ("q2", 0.50),
+    ("q3", 0.75),
+    ("q4", 1.00),
 ]
 
 lf_quantiles_long = pl.concat(
     [
         lf_baseball.select(
             pl.lit(label).alias("quantile"),
-            c.Height.quantile(q).alias("Height"),
-            c.Weight.quantile(q).alias("Weight"),
+            c.height.quantile(q).alias("height"),
+            c.weight.quantile(q).alias("weight"),
         )
         for label, q in quantile_rows
-    ]
+    ],
+    how="vertical"
 )
 
 print(lf_quantiles_long.collect())
 # shape: (4, 3)
 # ┌──────────┬─────────┬─────────┐
-# │ quantile ┆ Height  ┆ Weight  │
+# │ quantile ┆ height  ┆ weight  │
 # │ ---      ┆ ---     ┆ ---     │
 # │ str      ┆ f64     ┆ f64     │
 # ╞══════════╪═════════╪═════════╡
-# │ Q1       ┆ 182.880 ┆ 84.368  │
-# │ Q2       ┆ 187.960 ┆ 90.718  │
-# │ Q3       ┆ 190.500 ┆ 97.522  │
-# │ Q4       ┆ 210.820 ┆ 131.542 │
+# │ q1       ┆ 182.880 ┆ 84.368  │
+# │ q2       ┆ 187.960 ┆ 90.718  │
+# │ q3       ┆ 190.500 ┆ 97.522  │
+# │ q4       ┆ 210.820 ┆ 131.542 │
 # └──────────┴─────────┴─────────┘
 
 # =========================================================================================
-# 8. Count, null_count, and distinct-count style summaries
+# 6. `lf.count()`, `lf.null_count()`, and `lf.select(pl.all().n_unique())`
 # =========================================================================================
 
 ##----------------##
@@ -443,6 +364,14 @@ print(lf_quantiles_long.collect())
 
 print(lf_baseball.count().collect())
 # non-null count for every column
+# shape: (1, 4)
+# ┌──────┬──────┬────────┬────────┐
+# │ name ┆ team ┆ height ┆ weight │
+# │ ---  ┆ ---  ┆ ---    ┆ ---    │
+# │ u32  ┆ u32  ┆ u32    ┆ u32    │
+# ╞══════╪══════╪════════╪════════╡
+# │ 1015 ┆ 1015 ┆ 1015   ┆ 1015   │
+# └──────┴──────┴────────┴────────┘
 
 ##-------------##
 ## Null counts ##
@@ -450,10 +379,18 @@ print(lf_baseball.count().collect())
 
 print(lf_baseball.null_count().collect())
 # null count for every column
+# shape: (1, 4)
+# ┌──────┬──────┬────────┬────────┐
+# │ name ┆ team ┆ height ┆ weight │
+# │ ---  ┆ ---  ┆ ---    ┆ ---    │
+# │ u32  ┆ u32  ┆ u32    ┆ u32    │
+# ╞══════╪══════╪════════╪════════╡
+# │ 0    ┆ 0    ┆ 0      ┆ 0      │
+# └──────┴──────┴────────┴────────┘
 
-##------------------------##
-## Distinct count summary ##
-##------------------------##
+##--------------##
+## `n_unique()` ##
+##--------------##
 '''
 There is no direct LazyFrame.n_unique() aggregation method in the LazyFrame
 aggregation page, but distinct counts are common expression reductions.
@@ -462,17 +399,41 @@ aggregation page, but distinct counts are common expression reductions.
 print(
     lf_baseball
     .select(
-        c.Name.n_unique().alias("unique_names"),
-        c.Team.n_unique().alias("unique_teams"),
-        c.Height.n_unique().alias("unique_heights"),
-        c.Weight.n_unique().alias("unique_weights"),
+        c.name.n_unique().alias("unique_names"),
+        c.team.n_unique().alias("unique_teams"),
+        c.height.n_unique().alias("unique_heights"),
+        c.weight.n_unique().alias("unique_weights"),
     )
     .collect()
 )
 # shape: (1, 4)
+# ┌──────────────┬──────────────┬────────────────┬────────────────┐
+# │ unique_names ┆ unique_teams ┆ unique_heights ┆ unique_weights │
+# │ ---          ┆ ---          ┆ ---            ┆ ---            │
+# │ u32          ┆ u32          ┆ u32            ┆ u32            │
+# ╞══════════════╪══════════════╪════════════════╪════════════════╡
+# │ 1013         ┆ 30           ┆ 17             ┆ 88             │
+# └──────────────┴──────────────┴────────────────┴────────────────┘
+# shape: (1, 4)
+
+# Shorter version
+print(
+    lf_baseball
+    .select(pl.all().n_unique())
+    .select(pl.all().name.prefix("unique_").name.suffix("s")) # Must split this into another `select` block
+    .collect()
+)
+# shape: (1, 4)
+# ┌──────────────┬──────────────┬────────────────┬────────────────┐
+# │ unique_names ┆ unique_teams ┆ unique_heights ┆ unique_weights │
+# │ ---          ┆ ---          ┆ ---            ┆ ---            │
+# │ u32          ┆ u32          ┆ u32            ┆ u32            │
+# ╞══════════════╪══════════════╪════════════════╪════════════════╡
+# │ 1013         ┆ 30           ┆ 17             ┆ 88             │
+# └──────────────┴──────────────┴────────────────┴────────────────┘
 
 # =========================================================================================
-# 9. Boolean and string reductions in lazy queries
+# 7. Boolean and string reductions in lazy queries
 # =========================================================================================
 
 ##-------------------##
@@ -489,14 +450,21 @@ Boolean conditions can be aggregated just like boolean columns:
 print(
     lf_baseball
     .select(
-        (c.Height > 190).sum().alias("n_height_gt_190"),
-        (c.Height > 190).mean().alias("pct_height_gt_190"),
-        (c.Weight > 100).any().alias("any_weight_gt_100"),
-        (c.Weight > 100).all().alias("all_weight_gt_100"),
+        (c.height > 190).sum().alias("n_height_gt_190"),
+        (c.height > 190).mean().alias("pct_height_gt_190"),
+        (c.weight > 100).any().alias("any_weight_gt_100"),
+        (c.weight > 100).all().alias("all_weight_gt_100"),
     )
     .collect()
 )
 # shape: (1, 4)
+# ┌─────────────────┬───────────────────┬───────────────────┬───────────────────┐
+# │ n_height_gt_190 ┆ pct_height_gt_190 ┆ any_weight_gt_100 ┆ all_weight_gt_100 │
+# │ ---             ┆ ---               ┆ ---               ┆ ---               │
+# │ u32             ┆ f64               ┆ bool              ┆ bool              │
+# ╞═════════════════╪═══════════════════╪═══════════════════╪═══════════════════╡
+# │ 362             ┆ 0.357             ┆ true              ┆ false             │
+# └─────────────────┴───────────────────┴───────────────────┴───────────────────┘
 
 ##----------------##
 ## String summary ##
@@ -505,9 +473,9 @@ print(
 print(
     lf_baseball
     .select(
-        c.Team.n_unique().alias("n_teams"),
-        c.Team.first().alias("first_team"),
-        c.Team.last().alias("last_team"),
+        c.team.n_unique().alias("n_teams"),
+        c.team.first().alias("first_team"),
+        c.team.last().alias("last_team"),
     )
     .collect()
 )
@@ -540,7 +508,7 @@ you can often express similar logic with expressions. This section exists only
 to document the DataFrame-only API difference.
 '''
 
-df_hw = lf_hw.collect()
+df_hw = lf_baseball.select("height", "weight").collect()
 
 print(df_hw.product())
 # direct DataFrame product over columns

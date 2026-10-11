@@ -16,7 +16,7 @@ import numpy as np
 import pandas as pd
 from datar import f
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 ##--------------------##
