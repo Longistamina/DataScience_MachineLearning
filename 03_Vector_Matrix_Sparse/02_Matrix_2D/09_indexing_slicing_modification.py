@@ -267,7 +267,7 @@ print(row_indices.shape)
 # (4, 3)
 
 # ## Taking along axis=1 (columns)
-# 
+#
 result_axis1 = np.take_along_axis(matrix[:4], row_indices, axis=1)
 print(result_axis1)
 # [[10 12 14]
@@ -283,7 +283,7 @@ print(f"Result for row 0: {result_axis1[0]}")
 # Result for row 0: [10 12 14]
 
 # ## Taking along axis=0 (rows)
-# 
+#
 col_indices = np.array([[0, 1, 2, 3, 4, 5],
                         [7, 6, 5, 4, 3, 2],
                         [2, 2, 2, 2, 2, 2]])
@@ -317,7 +317,7 @@ print(f"Result for col 0: {result_axis0[:, 0]}")
 # Result for col 0: [10 80 30]
 
 # ## Using with custom index patterns
-# 
+#
 # Create indices to select specific elements from each row
 # For rows that have values > 40, select columns 0, 1, 2
 # For rows that don't, select column 0 three times
@@ -347,7 +347,7 @@ print(f"Indices [0, 1, 2]: {matrix[7][[0, 1, 2]]}")
 # Indices [0, 1, 2]: [80 81 82]
 
 # ## Practical example: combine with argsort to get sorted elements
-# 
+#
 matrix_scores = np.array([
     [85, 92, 78, 95, 88],
     [76, 88, 91, 84, 79],
@@ -456,7 +456,7 @@ print(f"Shape: {tensor_3d.shape}")
 # Shape: (3, 4, 5)
 
 # ## Basic indexing: tensor_3d[layer, row, col]
-# 
+#
 print(tensor_3d[0, 1, 2])
 # 7
 # (Layer 0, row 1, column 2)
@@ -520,7 +520,7 @@ print(tensor_3d.take([0, 2], axis=0))
 # (Take layers 0 and 2)
 
 # ## Modifying 3D tensor
-# 
+#
 tensor_3d_demo = tensor_3d.copy()
 tensor_3d_demo[1, 2, 3] = 999
 
@@ -545,7 +545,7 @@ print(f"Shape: {tensor_4d.shape}")
 # Shape: (2, 3, 4, 5)
 
 # ## Basic indexing: tensor_4d[batch, channel, row, col]
-# 
+#
 print(tensor_4d[0, 0, 0, 0])
 # 0
 # (Batch 0, channel 0, row 0, column 0)
@@ -592,7 +592,7 @@ print(tensor_4d[::1, ::2, ::2, ::2])
 # (All batches, every 2nd channel, every 2nd row, every 2nd column)
 
 # ## Modifying 4D tensor
-# 
+#
 tensor_4d_demo = tensor_4d.copy()
 tensor_4d_demo[1, 1, 2, 3] = 777
 
