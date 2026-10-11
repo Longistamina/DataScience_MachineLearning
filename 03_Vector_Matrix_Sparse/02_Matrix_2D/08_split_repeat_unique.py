@@ -295,3 +295,28 @@ Element 8 appears 3 times.
 count_dict = dict(zip(unique_elements, counts))
 print(count_dict)
 # {2: 3, 5: 4, 7: 2, 8: 3}
+
+##---------------------##
+## np.unique(axis=...) ##
+##---------------------##
+
+yin_yang = np.random.choice(a=[0, 1], size=(10, 2))
+print(yin_yang)
+# [[0 0]
+#  [0 1]
+#  [0 0]
+#  [1 0]
+#  [0 0]
+#  [1 0]
+#  [1 1]
+#  [1 0]
+#  [1 0]
+#  [1 0]]
+
+print(
+    np.unique(yin_yang, axis=0)
+)
+# [[0 0]
+#  [0 1]
+#  [1 0]
+#  [1 1]]
