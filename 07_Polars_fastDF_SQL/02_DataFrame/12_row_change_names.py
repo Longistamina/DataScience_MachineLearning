@@ -94,8 +94,8 @@ print(
     lf_pokemon
     .with_row_index(name="id", offset=1)
     .with_columns(
-        id = (pl.lit("pkm") + c("id").cast(pl.String).str.zfill(c("id").max().log10().ceil().cast(pl.Int64)))
-        # (pl.lit("pkm") + c("id").cast(pl.String).str.zfill(c("id").max().log10().ceil().cast(pl.Int64))).alias("id")
+        id = (pl.lit("pkm") + c("id").cast(pl.String).str.zfill(c("id").max().cast(pl.String).str.len_chars()))
+        # (pl.lit("pkm") + c("id").cast(pl.String).str.zfill(c("id").max().cast(pl.String).str.len_chars())).alias("id")
     )
     .collect()
 )
