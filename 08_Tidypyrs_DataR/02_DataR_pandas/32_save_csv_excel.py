@@ -16,10 +16,10 @@ import datar.all as dr
 import pandas as pd
 from datar import f
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-save_dir = Path("/home").rglob("*/08_DataR_Ibis/save")
+save_dir = Path.home().rglob("*/08_DataR_Ibis/save")
 save_dir = next(save_dir)
 
 # =========================================================================================

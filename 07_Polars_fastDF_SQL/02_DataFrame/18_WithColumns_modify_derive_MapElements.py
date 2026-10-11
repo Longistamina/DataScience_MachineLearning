@@ -22,7 +22,7 @@ pl.Config.set_tbl_rows(12)
 pl.Config.set_tbl_cols(12)
 pl.Config.set_float_precision(4)
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 lf_baseball = (
      pl.scan_csv(

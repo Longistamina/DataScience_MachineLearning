@@ -19,7 +19,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 df_lifexp = pd.read_csv(data_dir/"life_expectancy.csv")

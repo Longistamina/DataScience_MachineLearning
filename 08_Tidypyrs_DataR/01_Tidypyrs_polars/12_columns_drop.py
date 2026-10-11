@@ -16,7 +16,7 @@ from tidypyrs import selectors as cs
 tp.Config.set_tbl_cols(12)
 tp.Config.set_float_precision(2)
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 tl_emp = tp.scan_csv(
     data_dir/"emp.csv",

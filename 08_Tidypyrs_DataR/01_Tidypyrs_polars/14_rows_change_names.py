@@ -13,7 +13,7 @@ import tidypyrs as tp
 from tidypyrs import f
 
 tp.Config(tbl_width_chars=120)
-data_dir = next(Path("/home").glob("**/DataScience*/data"))
+data_dir = next(Path.home().glob("**/DataScience*/data"))
 
 tl_emp = tp.scan_csv(data_dir/"emp.csv").drop("id")
 print(tl_emp.collect())

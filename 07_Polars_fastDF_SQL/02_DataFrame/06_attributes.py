@@ -60,7 +60,7 @@ this file is still easy to read and test elsewhere.
 '''
 
 try:
-    data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+    data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
     df_baseball = pl.read_csv(
         data_dir / "baseball.csv",

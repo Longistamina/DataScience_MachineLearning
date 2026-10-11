@@ -16,7 +16,7 @@ import polars as pl
 pl.Config.set_tbl_cols(10)
 pl.Config.set_float_precision(2)
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 lf_baseball = pl.scan_csv(

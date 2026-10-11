@@ -19,7 +19,7 @@ import polars as pl
 from polars import col as c
 
 pl.Config.set_tbl_width_chars(120)
-data_dir = next(Path("/home").glob("**/DataScience*/data"))
+data_dir = next(Path.home().glob("**/DataScience*/data"))
 
 df_lifexp = pl.read_csv(data_dir/"life_expectancy.csv", schema_overrides={"Population":pl.Float64})
 lf_lifexp = df_lifexp.lazy()

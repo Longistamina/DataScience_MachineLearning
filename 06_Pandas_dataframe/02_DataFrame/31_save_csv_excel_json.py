@@ -12,7 +12,7 @@ import numpy as np
 import pandas as pd
 from pandas import col as c
 
-save_dir = Path("/home").rglob("*/06_Pandas_dataframe/save")
+save_dir = Path.home().rglob("*/06_Pandas_dataframe/save")
 save_dir = next(save_dir)
 
 df = pd.DataFrame(

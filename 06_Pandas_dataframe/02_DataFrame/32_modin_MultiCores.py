@@ -19,7 +19,7 @@ from pathlib import Path
 
 import modin.pandas as pd  # Change only this line to use modin instead of pandas
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 dict_subjects = {

@@ -42,7 +42,7 @@ from pathlib import Path
 import tidypyrs as tp
 from tidypyrs import f
 
-data_dir = next(Path("/home").glob("**/DataScience*/data"))
+data_dir = next(Path.home().glob("**/DataScience*/data"))
 
 # Optional display settings for tutorial output.
 tp.Config.set_tbl_rows(12)
@@ -53,7 +53,7 @@ tp.Config.set_float_precision(2)
 # 0. Example Data
 # =========================================================================================
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 tl_emp = tp.scan_csv(
     data_dir/"emp.csv",

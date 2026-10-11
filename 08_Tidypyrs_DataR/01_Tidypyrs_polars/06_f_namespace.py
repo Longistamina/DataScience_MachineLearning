@@ -25,7 +25,7 @@ import tidypyrs as tp  # noqa: I001
 from tidypyrs import f
 
 tp.Config(tbl_width_chars=120, tbl_rows=5)
-data_dir = next(Path("/home").glob("**/DataScience*/data"))
+data_dir = next(Path.home().glob("**/DataScience*/data"))
 
 tl_pokemon = (
     tp.scan_csv(data_dir/"pokemon.csv")

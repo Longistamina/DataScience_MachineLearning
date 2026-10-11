@@ -21,7 +21,7 @@ import numpy as np
 import pandas as pd
 from pandas import col as c
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 df_baseball = pd.read_csv(

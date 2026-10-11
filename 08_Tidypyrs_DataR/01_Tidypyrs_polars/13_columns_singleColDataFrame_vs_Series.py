@@ -21,7 +21,7 @@ from pathlib import Path
 
 import tidypyrs as tp
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 tl_emp = tp.scan_csv(
     data_dir/"emp.csv",

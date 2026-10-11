@@ -26,7 +26,7 @@ from tidypyrs import f
 from tidypyrs import selectors as cs
 
 tp.Config(tbl_width_chars=130, tbl_rows=5, tbl_cols=13)
-data_dir = next(Path("/home").glob("**/DataScience*/data"))
+data_dir = next(Path.home().glob("**/DataScience*/data"))
 
 tl_pokemon = (
     tp.scan_csv(data_dir/"pokemon.csv")

@@ -17,7 +17,7 @@ from pandas import col as c
 
 warnings.filterwarnings("ignore")
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 df_pokemon = (

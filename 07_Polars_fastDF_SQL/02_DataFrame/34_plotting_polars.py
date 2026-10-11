@@ -67,7 +67,7 @@ except ImportError:
 
 alt.renderers.enable("browser") # open plot in browser
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 # =========================================================================================
 # 1. Setup Data

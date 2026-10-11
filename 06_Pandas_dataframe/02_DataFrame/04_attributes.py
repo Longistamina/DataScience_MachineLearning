@@ -25,7 +25,7 @@ from pathlib import Path
 
 import pandas as pd
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 df_baseball = pd.read_csv(

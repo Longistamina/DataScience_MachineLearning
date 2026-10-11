@@ -36,7 +36,7 @@ tp.Config.set_tbl_width_chars(120)
 # 0. Example Data
 # =========================================================================================
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 # Cleaned version for most examples.
 tl_pokemon = (

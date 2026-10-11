@@ -19,7 +19,7 @@ tp.Config.set_float_precision(2)
 # Example data
 # =========================================================================================
 
-data_dir = next(Path("/home").rglob("*/DataScience_MachineLearning/data"))
+data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 tl_emp = tp.scan_csv(
     data_dir / "emp.csv",

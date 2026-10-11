@@ -20,7 +20,7 @@ import tidypyrs as tp
 tp.Config.set_tbl_cols(10)
 tp.Config.set_float_precision(2)
 
-data_dir = Path("/home").rglob("*/DataScience_MachineLearning/data")
+data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
 tl_baseball = tp.scan_csv(
