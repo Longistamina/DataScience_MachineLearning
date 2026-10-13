@@ -14,7 +14,6 @@ Content flow:
 6. `lf.count()`, `lf.null_count()`, and `lf.select(pl.all().n_unique())`
 7. Boolean and string reductions in lazy queries
 8. Eager-only fallback for DataFrame-only aggregation helpers
-9. Categorized API list
 '''
 
 from pathlib import Path
@@ -208,28 +207,29 @@ per metric and concatenate the lazy results.
 ## Explicit `pl.concat()` ##
 ##------------------------##
 
-lf_summary_long = pl.concat(
-    [
-        lf_baseball.select(
-            pl.lit("mean").alias("metric"),
-            c.height.mean().alias("height"),
-            c.weight.mean().alias("weight"),
-        ),
-        lf_baseball.select(
-            pl.lit("median").alias("metric"),
-            c.height.median().alias("height"),
-            c.weight.median().alias("weight"),
-        ),
-        lf_baseball.select(
-            pl.lit("std").alias("metric"),
-            c.height.std().alias("height"),
-            c.weight.std().alias("weight"),
-        ),
-    ],
-    how="vertical_relaxed" # use "vertical_relaxed" because it's safer
+print(
+    pl.concat(
+        [
+            lf_baseball.select(
+                pl.lit("mean").alias("metric"),
+                c.height.mean().alias("height"),
+                c.weight.mean().alias("weight"),
+            ),
+            lf_baseball.select(
+                pl.lit("median").alias("metric"),
+                c.height.median().alias("height"),
+                c.weight.median().alias("weight"),
+            ),
+            lf_baseball.select(
+                pl.lit("std").alias("metric"),
+                c.height.std().alias("height"),
+                c.weight.std().alias("weight"),
+            ),
+        ],
+        how="diagonal_relaxed" # use "diagonal_relaxed" because it's the safest
+    )
+    .collect()
 )
-
-print(lf_summary_long.collect())
 # shape: (3, 3)
 # ┌────────┬─────────┬────────┐
 # │ metric ┆ Height  ┆ Weight │
@@ -245,37 +245,29 @@ print(lf_summary_long.collect())
 ## Use `pl.concat()` and `getattr()` ##
 ##-----------------------------------##
 
-print(getattr(c("height"), "mean"))
-# <bound method Expr.mean of <Expr ['col("height")'] at 0x7F41CDFC2300>>
+print(getattr(pl.Expr, "mean"))
+# <function Expr.mean at 0x7ff7999bf380>
 
-print(
-    getattr(c("height"), "mean")()
-)
-# col("height").mean()
-
-print(
-    getattr(c("height", "weight"), "median")()
-)
-# cs.by_name('height', 'weight', require_all=true).median()
-
-print(
-    getattr(lf_baseball.select(c.height), "std")()
-)
-# lf_baseball.select(c.height).std()
+print(pl.Expr.mean)
+# <function Expr.mean at 0x7ff7999bf380>
 
 # SHORTEN the summary query with `getattr`
 metrics = ["mean", "median", "std"]
-lf_summary_short = (
+aggs = [getattr(pl.Expr, metric) for metric in metrics] # [pl.Expr.mean, pl.Expr.median, pl.Expr.std]
+print(
     pl.concat(
         [
-            lf_baseball.select(getattr(c("height", "weight"), metric)()) # or `getattr(lf_baseball.select("height", "weight"), metric)()`
-            for metric in metrics
+            lf_baseball.select(
+                pl.lit(metric).alias("metrics"),
+                c("height", "weight").pipe(agg)
+            )
+            for metric, agg in zip(metrics, aggs)
         ],
-        how="vertical_relaxed"
+        how="diagonal_relaxed"
     )
-    .select(pl.Series("metrics", metrics), pl.all())
+    #.select(tp.Series("metrics", metrics), f.all())
+    .collect()
 )
-print(lf_summary_short.collect())
 # shape: (3, 3)
 # ┌─────────┬─────────┬────────┐
 # │ metrics ┆ height  ┆ weight │
@@ -546,66 +538,3 @@ print(df_hw_horizontal.head(5))
 # │ 182.880 ┆ 95.254 ┆ 278.134 ┆ 139.067  ┆ 95.254  ┆ 182.880 │
 # │ 185.420 ┆ 85.275 ┆ 270.695 ┆ 135.348  ┆ 85.275  ┆ 185.420 │
 # └─────────┴────────┴─────────┴──────────┴─────────┴─────────┘
-
-# =========================================================================================
-# 11. Categorized API list
-# =========================================================================================
-'''
-A. LazyFrame aggregation APIs
-
-These are direct LazyFrame aggregation/reduction methods:
-+ lf.count()
-+ lf.max()
-+ lf.mean()
-+ lf.median()
-+ lf.min()
-+ lf.null_count()
-+ lf.quantile(...)
-+ lf.std()
-+ lf.sum()
-+ lf.var()
-
-B. Common expression reductions used inside LazyFrame.select(...)
-
-These are not direct LazyFrame methods, but they are the main way to write
-flexible lazy aggregations:
-+ c.column.mean()
-+ c.column.median()
-+ c.column.std()
-+ c.column.var()
-+ c.column.min()
-+ c.column.max()
-+ c.column.sum()
-+ c.column.quantile(...)
-+ c.column.count()
-+ c.column.n_unique()
-+ c.column.first()
-+ c.column.last()
-+ boolean_expr.any()
-+ boolean_expr.all()
-
-C. Direct eager DataFrame aggregation APIs
-
-The DataFrame aggregation page includes these direct methods:
-+ df.count()
-+ df.max()
-+ df.max_horizontal()
-+ df.mean()
-+ df.mean_horizontal()
-+ df.median()
-+ df.min()
-+ df.min_horizontal()
-+ df.product()
-+ df.quantile(...)
-+ df.std()
-+ df.sum()
-+ df.sum_horizontal()
-+ df.var()
-
-D. Teaching summary
-
-+ Use LazyFrame scan + lazy select expressions for most aggregation lessons.
-+ Use .collect() only when showing output.
-+ Use direct eager DataFrame helpers only when the API exists only there or when
-  row-wise horizontal reductions are the lesson topic.
-'''
