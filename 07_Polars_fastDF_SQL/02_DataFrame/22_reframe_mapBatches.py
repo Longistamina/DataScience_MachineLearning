@@ -1,13 +1,13 @@
 '''
-In pandas, "reframing" means returning a DataFrame with a completely different shape
+In Tidyverse, "reframing" means returning a DataFrame with a completely different shape
 (e.g., reducing columns to summary statistics, or generating new rows from distributions).
 Unlike `.with_columns()` (which preserves row count) or `.group_by()` (which preserves column semantics),
 reframing changes both dimensions.
 
 In Polars, reframing is achieved via:
 1. Native LazyFrame aggregations + `pl.concat()` (fully lazy, highly optimized).
-2. `.collect().pipe(...)` + Python/SciPy functions (simple fallback for external libraries).
-3. `.map_batches(...)` + Python/SciPy functions (keeps the step inside a LazyFrame pipeline, but needs schema).
+2. `.map_batches(...)` + Python/SciPy functions (keeps the step inside a LazyFrame pipeline, but needs schema).
+3. `.collect().pipe(...)` + Python/SciPy functions (simple fallback for external libraries).
 
 ##--------------------------------##
 
@@ -40,7 +40,7 @@ pl.Config.set_float_precision(6)
 data_dir = next(Path.home().rglob("*/DataScience_MachineLearning/data"))
 
 lf_boston = (
-    pl.scan_csv(data_dir / "BostonHousing.csv")
+    pl.scan_csv(data_dir/"BostonHousing.csv")
     .drop(["CHAS", "RAD", "CAT. MEDV"])
     # Polars natively supports passing a callable to .rename() to clean column names
     .rename(lambda col: col.lower())
@@ -73,13 +73,16 @@ This remains 100% lazy and highly optimized!
 qs = [0.25, 0.50, 0.75, 1.00]
 labels = ["Q1", "Q2", "Q3", "Q4"]
 
-lf_quantiles = pl.concat([
-    lf_boston.select(
-        pl.lit(label).alias("index"),
-        c("rm", "lstat", "medv").quantile(q),
-    )
-    for q, label in zip(qs, labels)
-])
+lf_quantiles = pl.concat(
+    [
+        lf_boston.select(
+            pl.lit(label).alias("index"),
+            c("rm", "lstat", "medv").quantile(q),
+        )
+        for q, label in zip(qs, labels)
+    ],
+    how="diagonal_relaxed"
+)
 
 print(lf_quantiles.collect())
 # shape: (4, 4)
@@ -121,8 +124,7 @@ labels = ["Q1", "Q2", "Q3", "Q4"]
 print(
     lf_boston
     .select(
-        c("rm", "lstat", "medv")
-        .map_batches(lambda x: pl.Series(np.quantile(x, qs)), return_dtype=pl.Float64),
+        c("rm", "lstat", "medv").map_batches(lambda x: pl.Series(np.quantile(x, qs)), return_dtype=pl.Float64),
     )
     .select(pl.Series("index", labels), pl.all())
     .collect()
@@ -135,8 +137,7 @@ print(
 print(
     lf_boston
     .select(
-        c("rm", "lstat", "medv")
-        .map_batches(lambda x: pl.Series(stats.shapiro(x.to_numpy())), return_dtype=pl.Float64), # Don't actually need `to_numpy` here
+        c("rm", "lstat", "medv").map_batches(lambda x: pl.Series(stats.shapiro(x.to_numpy())), return_dtype=pl.Float64), # Don't actually need `to_numpy` here
     )
     .select(
         pl.Series("stat", ["W-statistic", "p-value"]),
@@ -410,7 +411,7 @@ Summary:
 
 Rule of thumb:
 - Use native Polars expressions first.
-- Use `.collect().pipe(...)` for clean, final SciPy/Python summaries.
 - Use `.map_batches(..., schema=...)` when the custom Python step should remain inside
   a LazyFrame pipeline.
+- Use `.collect().pipe(...)` for clean, final SciPy/Python summaries.
 '''
