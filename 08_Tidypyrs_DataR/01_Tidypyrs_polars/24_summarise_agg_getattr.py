@@ -17,10 +17,12 @@ Content flow:
 5. Quantiles and custom percentile labels
 6. `tl.count()`, `tl.null_count()`, and `tl.select(f.all().n_unique())`
 7. Boolean and string reductions in lazy queries
+8. Horizontal operations: sum, mean, min, max, cum_sum, all, any
 '''
 
 from pathlib import Path
 
+import numpy as np
 import tidypyrs as tp
 from tidypyrs import f
 
@@ -479,3 +481,159 @@ print(
 # ╞═════════╪════════════╪═══════════╡
 # │ 30      ┆ BAL        ┆ STL       │
 # └─────────┴────────────┴───────────┘
+
+# =========================================================================================
+# 8. Horizontal operations: sum, mean, min, max, cum_sum, all, any
+# =========================================================================================
+
+def random_score(length: int, seed: int):
+    np.random.seed(seed)
+    return np.random.uniform(0, 10 + 1e-3, length).clip(max=10.)
+
+tl_scores = (
+    tp.TibbleLazy({
+        "math": random_score(5, 42),
+        "physics": random_score(5, 43),
+        "chemistry": random_score(5, 44)
+    })
+    .row_index("id", offset=1)
+    .mutate(
+        (tp.lit("student") + f("id").cast(tp.String).str.zfill(f("id").max().cast(tp.String).str.len_chars())).alias("id")
+    )
+)
+
+print(tl_scores.collect())
+# shape: (5, 4)
+# ┌───────────┬───────┬─────────┬───────────┐
+# │ id        ┆ math  ┆ physics ┆ chemistry │
+# │ ---       ┆ ---   ┆ ---     ┆ ---       │
+# │ str       ┆ f64   ┆ f64     ┆ f64       │
+# ╞═══════════╪═══════╪═════════╪═══════════╡
+# │ student01 ┆ 3.746 ┆ 1.151   ┆ 8.349     │
+# │ student02 ┆ 9.508 ┆ 6.091   ┆ 1.048     │
+# │ student03 ┆ 7.321 ┆ 1.334   ┆ 7.447     │
+# │ student04 ┆ 5.987 ┆ 2.406   ┆ 3.605     │
+# │ student05 ┆ 1.560 ┆ 3.272   ┆ 3.593     │
+# └───────────┴───────┴─────────┴───────────┘
+
+##---------------------##
+## tp.sum_horizontal() ##
+##---------------------##
+
+print(
+    tl_scores
+    .mutate(
+        tp.sum_horizontal("math", "physics", "chemistry").alias("total_score")
+    )
+    .collect()
+)
+# shape: (5, 5)
+# ┌──────────┬───────┬─────────┬───────────┬─────────────┐
+# │ id       ┆ math  ┆ physics ┆ chemistry ┆ total_score │
+# │ ---      ┆ ---   ┆ ---     ┆ ---       ┆ ---         │
+# │ str      ┆ f64   ┆ f64     ┆ f64       ┆ f64         │
+# ╞══════════╪═══════╪═════════╪═══════════╪═════════════╡
+# │ student1 ┆ 3.746 ┆ 1.151   ┆ 8.349     ┆ 13.246      │
+# │ student2 ┆ 9.508 ┆ 6.091   ┆ 1.048     ┆ 16.647      │
+# │ student3 ┆ 7.321 ┆ 1.334   ┆ 7.447     ┆ 16.102      │
+# │ student4 ┆ 5.987 ┆ 2.406   ┆ 3.605     ┆ 11.999      │
+# │ student5 ┆ 1.560 ┆ 3.272   ┆ 3.593     ┆ 8.426       │
+# └──────────┴───────┴─────────┴───────────┴─────────────┘
+
+##----------------------##
+## tp.mean_horizontal() ##
+##----------------------##
+
+print(
+    tl_scores
+    .mutate(
+        tp.mean_horizontal(tp.exclude("id")).alias("mean_score")
+    )
+    .collect()
+)
+# shape: (5, 5)
+# ┌──────────┬───────┬─────────┬───────────┬────────────┐
+# │ id       ┆ math  ┆ physics ┆ chemistry ┆ mean_score │
+# │ ---      ┆ ---   ┆ ---     ┆ ---       ┆ ---        │
+# │ str      ┆ f64   ┆ f64     ┆ f64       ┆ f64        │
+# ╞══════════╪═══════╪═════════╪═══════════╪════════════╡
+# │ student1 ┆ 3.746 ┆ 1.151   ┆ 8.349     ┆ 4.415      │
+# │ student2 ┆ 9.508 ┆ 6.091   ┆ 1.048     ┆ 5.549      │
+# │ student3 ┆ 7.321 ┆ 1.334   ┆ 7.447     ┆ 5.367      │
+# │ student4 ┆ 5.987 ┆ 2.406   ┆ 3.605     ┆ 4.000      │
+# │ student5 ┆ 1.560 ┆ 3.272   ┆ 3.593     ┆ 2.809      │
+# └──────────┴───────┴─────────┴───────────┴────────────┘
+
+##---------------------------------------------##
+## tp.min_horizontal() and tp.max_horizontal() ##
+##---------------------------------------------##
+
+print(
+    tl_scores
+    .mutate(
+        tp.min_horizontal(tp.exclude("id")).alias("min_score"),
+        tp.max_horizontal(f("math", "physics", "chemistry")).alias("max_score"),
+    )
+    .collect()
+)
+# shape: (5, 6)
+# ┌──────────┬───────┬─────────┬───────────┬───────────┬───────────┐
+# │ id       ┆ math  ┆ physics ┆ chemistry ┆ min_score ┆ max_score │
+# │ ---      ┆ ---   ┆ ---     ┆ ---       ┆ ---       ┆ ---       │
+# │ str      ┆ f64   ┆ f64     ┆ f64       ┆ f64       ┆ f64       │
+# ╞══════════╪═══════╪═════════╪═══════════╪═══════════╪═══════════╡
+# │ student1 ┆ 3.746 ┆ 1.151   ┆ 8.349     ┆ 1.151     ┆ 8.349     │
+# │ student2 ┆ 9.508 ┆ 6.091   ┆ 1.048     ┆ 1.048     ┆ 9.508     │
+# │ student3 ┆ 7.321 ┆ 1.334   ┆ 7.447     ┆ 1.334     ┆ 7.447     │
+# │ student4 ┆ 5.987 ┆ 2.406   ┆ 3.605     ┆ 2.406     ┆ 5.987     │
+# │ student5 ┆ 1.560 ┆ 3.272   ┆ 3.593     ┆ 1.560     ┆ 3.593     │
+# └──────────┴───────┴─────────┴───────────┴───────────┴───────────┘
+
+##-------------------------##
+## tp.cum_sum_horizontal() ##
+##-------------------------##
+
+print(
+    tl_scores
+    .mutate(
+        tp.cum_sum_horizontal(tp.exclude("id")).alias("cumsum_score"),
+    )
+    .collect()
+)
+# shape: (5, 5)
+# ┌──────────┬───────┬─────────┬───────────┬───────────────────────┐
+# │ id       ┆ math  ┆ physics ┆ chemistry ┆ cumsum_score          │
+# │ ---      ┆ ---   ┆ ---     ┆ ---       ┆ ---                   │
+# │ str      ┆ f64   ┆ f64     ┆ f64       ┆ struct[3]             │
+# ╞══════════╪═══════╪═════════╪═══════════╪═══════════════════════╡
+# │ student1 ┆ 3.746 ┆ 1.151   ┆ 8.349     ┆ {3.746,4.896,13.246}  │
+# │ student2 ┆ 9.508 ┆ 6.091   ┆ 1.048     ┆ {9.508,15.599,16.647} │
+# │ student3 ┆ 7.321 ┆ 1.334   ┆ 7.447     ┆ {7.321,8.655,16.102}  │
+# │ student4 ┆ 5.987 ┆ 2.406   ┆ 3.605     ┆ {5.987,8.393,11.999}  │
+# │ student5 ┆ 1.560 ┆ 3.272   ┆ 3.593     ┆ {1.560,4.832,8.426}   │
+# └──────────┴───────┴─────────┴───────────┴───────────────────────┘
+
+##---------------------------------------------##
+## tp.all_horizontal() and tp.any_horizontal() ##
+##---------------------------------------------##
+
+print(
+    tl_scores
+    .mutate(
+        tp.all_horizontal(tp.exclude("id") >= 5).alias("all_>=5"),
+        tp.any_horizontal(tp.exclude("id") >= 5).alias("any_>=5"),
+    )
+    .collect()
+)
+# shape: (5, 6)
+# ┌──────────┬───────┬─────────┬───────────┬─────────┬─────────┐
+# │ id       ┆ math  ┆ physics ┆ chemistry ┆ all_>=5 ┆ any_>=5 │
+# │ ---      ┆ ---   ┆ ---     ┆ ---       ┆ ---     ┆ ---     │
+# │ str      ┆ f64   ┆ f64     ┆ f64       ┆ bool    ┆ bool    │
+# ╞══════════╪═══════╪═════════╪═══════════╪═════════╪═════════╡
+# │ student1 ┆ 3.746 ┆ 1.151   ┆ 8.349     ┆ false   ┆ true    │
+# │ student2 ┆ 9.508 ┆ 6.091   ┆ 1.048     ┆ false   ┆ true    │
+# │ student3 ┆ 7.321 ┆ 1.334   ┆ 7.447     ┆ false   ┆ true    │
+# │ student4 ┆ 5.987 ┆ 2.406   ┆ 3.605     ┆ false   ┆ true    │
+# │ student5 ┆ 1.560 ┆ 3.272   ┆ 3.593     ┆ false   ┆ false   │
+# └──────────┴───────┴─────────┴───────────┴─────────┴─────────┘
