@@ -13,11 +13,12 @@ Content flow:
 5. Quantiles and custom percentile labels
 6. `lf.count()`, `lf.null_count()`, and `lf.select(pl.all().n_unique())`
 7. Boolean and string reductions in lazy queries
-8. Eager-only fallback for DataFrame-only aggregation helpers
+8. Horizontal operations: sum, mean, min, max, cum_sum, all, any
 '''
 
 from pathlib import Path
 
+import numpy as np
 import polars as pl
 from polars import col as c
 
@@ -481,60 +482,157 @@ print(
 # └─────────┴────────────┴───────────┘
 
 # =========================================================================================
-# 10. Eager-only fallback for direct DataFrame aggregation helpers
+# 8. Horizontal operations: sum, mean, min, max, cum_sum, all, any
 # =========================================================================================
-'''
-Most of this file stays lazy. This section intentionally collects to an eager
-DataFrame because some direct aggregation helpers are available as DataFrame
-methods but not as direct LazyFrame aggregation methods.
 
-Examples include:
-+ product()
-+ sum_horizontal()
-+ mean_horizontal()
-+ min_horizontal()
-+ max_horizontal()
+def random_score(length: int, seed: int):
+    np.random.seed(seed)
+    return np.random.uniform(0, 10 + 1e-3, length).clip(max=10.)
 
-If you are already working lazily and do not need these direct DataFrame methods,
-you can often express similar logic with expressions. This section exists only
-to document the DataFrame-only API difference.
-'''
-
-df_hw = lf_baseball.select("height", "weight").collect()
-
-print(df_hw.product())
-# direct DataFrame product over columns
-
-print(df_hw.sum_horizontal())
-# row-wise Height + Weight
-
-print(df_hw.mean_horizontal())
-# row-wise mean of Height and Weight
-
-print(df_hw.min_horizontal())
-# row-wise min of Height and Weight
-
-print(df_hw.max_horizontal())
-# row-wise max of Height and Weight
-
-# Put horizontal reductions back into a DataFrame for easier viewing.
-df_hw_horizontal = df_hw.with_columns(
-    row_sum=df_hw.sum_horizontal(),
-    row_mean=df_hw.mean_horizontal(),
-    row_min=df_hw.min_horizontal(),
-    row_max=df_hw.max_horizontal(),
+lf_scores = (
+    pl.LazyFrame({
+        "math": random_score(5, 42),
+        "physics": random_score(5, 43),
+        "chemistry": random_score(5, 44)
+    })
+    .with_row_index("id", offset=1)
+    .with_columns(
+        (pl.lit("student") + c("id").cast(pl.String).str.zfill(c("id").max().cast(pl.String).str.len_chars())).alias("id")
+    )
 )
 
-print(df_hw_horizontal.head(5))
+print(lf_scores.collect())
+# shape: (5, 4)
+# ┌───────────┬───────┬─────────┬───────────┐
+# │ id        ┆ math  ┆ physics ┆ chemistry │
+# │ ---       ┆ ---   ┆ ---     ┆ ---       │
+# │ str       ┆ f64   ┆ f64     ┆ f64       │
+# ╞═══════════╪═══════╪═════════╪═══════════╡
+# │ student01 ┆ 3.746 ┆ 1.151   ┆ 8.349     │
+# │ student02 ┆ 9.508 ┆ 6.091   ┆ 1.048     │
+# │ student03 ┆ 7.321 ┆ 1.334   ┆ 7.447     │
+# │ student04 ┆ 5.987 ┆ 2.406   ┆ 3.605     │
+# │ student05 ┆ 1.560 ┆ 3.272   ┆ 3.593     │
+# └───────────┴───────┴─────────┴───────────┘
+
+##---------------------##
+## pl.sum_horizontal() ##
+##---------------------##
+
+print(
+    lf_scores
+    .with_columns(
+        pl.sum_horizontal("math", "physics", "chemistry").alias("total_score")
+    )
+    .collect()
+)
+# shape: (5, 5)
+# ┌──────────┬───────┬─────────┬───────────┬─────────────┐
+# │ id       ┆ math  ┆ physics ┆ chemistry ┆ total_score │
+# │ ---      ┆ ---   ┆ ---     ┆ ---       ┆ ---         │
+# │ str      ┆ f64   ┆ f64     ┆ f64       ┆ f64         │
+# ╞══════════╪═══════╪═════════╪═══════════╪═════════════╡
+# │ student1 ┆ 3.746 ┆ 1.151   ┆ 8.349     ┆ 13.246      │
+# │ student2 ┆ 9.508 ┆ 6.091   ┆ 1.048     ┆ 16.647      │
+# │ student3 ┆ 7.321 ┆ 1.334   ┆ 7.447     ┆ 16.102      │
+# │ student4 ┆ 5.987 ┆ 2.406   ┆ 3.605     ┆ 11.999      │
+# │ student5 ┆ 1.560 ┆ 3.272   ┆ 3.593     ┆ 8.426       │
+# └──────────┴───────┴─────────┴───────────┴─────────────┘
+
+##----------------------##
+## pl.mean_horizontal() ##
+##----------------------##
+
+print(
+    lf_scores
+    .with_columns(
+        pl.mean_horizontal(pl.exclude("id")).alias("mean_score")
+    )
+    .collect()
+)
+# shape: (5, 5)
+# ┌──────────┬───────┬─────────┬───────────┬────────────┐
+# │ id       ┆ math  ┆ physics ┆ chemistry ┆ mean_score │
+# │ ---      ┆ ---   ┆ ---     ┆ ---       ┆ ---        │
+# │ str      ┆ f64   ┆ f64     ┆ f64       ┆ f64        │
+# ╞══════════╪═══════╪═════════╪═══════════╪════════════╡
+# │ student1 ┆ 3.746 ┆ 1.151   ┆ 8.349     ┆ 4.415      │
+# │ student2 ┆ 9.508 ┆ 6.091   ┆ 1.048     ┆ 5.549      │
+# │ student3 ┆ 7.321 ┆ 1.334   ┆ 7.447     ┆ 5.367      │
+# │ student4 ┆ 5.987 ┆ 2.406   ┆ 3.605     ┆ 4.000      │
+# │ student5 ┆ 1.560 ┆ 3.272   ┆ 3.593     ┆ 2.809      │
+# └──────────┴───────┴─────────┴───────────┴────────────┘
+
+##---------------------------------------------##
+## pl.min_horizontal() and pl.max_horizontal() ##
+##---------------------------------------------##
+
+print(
+    lf_scores
+    .with_columns(
+        pl.min_horizontal(pl.exclude("id")).alias("min_score"),
+        pl.max_horizontal(c("math", "physics", "chemistry")).alias("max_score"),
+    )
+    .collect()
+)
 # shape: (5, 6)
-# ┌─────────┬────────┬─────────┬──────────┬─────────┬─────────┐
-# │ Height  ┆ Weight ┆ row_sum ┆ row_mean ┆ row_min ┆ row_max │
-# │ ---     ┆ ---    ┆ ---     ┆ ---      ┆ ---     ┆ ---     │
-# │ f64     ┆ f64    ┆ f64     ┆ f64      ┆ f64     ┆ f64     │
-# ╞═════════╪════════╪═════════╪══════════╪═════════╪═════════╡
-# │ 187.960 ┆ 81.647 ┆ 269.607 ┆ 134.803  ┆ 81.647  ┆ 187.960 │
-# │ 187.960 ┆ 97.522 ┆ 285.482 ┆ 142.741  ┆ 97.522  ┆ 187.960 │
-# │ 182.880 ┆ 95.254 ┆ 278.134 ┆ 139.067  ┆ 95.254  ┆ 182.880 │
-# │ 182.880 ┆ 95.254 ┆ 278.134 ┆ 139.067  ┆ 95.254  ┆ 182.880 │
-# │ 185.420 ┆ 85.275 ┆ 270.695 ┆ 135.348  ┆ 85.275  ┆ 185.420 │
-# └─────────┴────────┴─────────┴──────────┴─────────┴─────────┘
+# ┌──────────┬───────┬─────────┬───────────┬───────────┬───────────┐
+# │ id       ┆ math  ┆ physics ┆ chemistry ┆ min_score ┆ max_score │
+# │ ---      ┆ ---   ┆ ---     ┆ ---       ┆ ---       ┆ ---       │
+# │ str      ┆ f64   ┆ f64     ┆ f64       ┆ f64       ┆ f64       │
+# ╞══════════╪═══════╪═════════╪═══════════╪═══════════╪═══════════╡
+# │ student1 ┆ 3.746 ┆ 1.151   ┆ 8.349     ┆ 1.151     ┆ 8.349     │
+# │ student2 ┆ 9.508 ┆ 6.091   ┆ 1.048     ┆ 1.048     ┆ 9.508     │
+# │ student3 ┆ 7.321 ┆ 1.334   ┆ 7.447     ┆ 1.334     ┆ 7.447     │
+# │ student4 ┆ 5.987 ┆ 2.406   ┆ 3.605     ┆ 2.406     ┆ 5.987     │
+# │ student5 ┆ 1.560 ┆ 3.272   ┆ 3.593     ┆ 1.560     ┆ 3.593     │
+# └──────────┴───────┴─────────┴───────────┴───────────┴───────────┘
+
+##-------------------------##
+## pl.cum_sum_horizontal() ##
+##-------------------------##
+
+print(
+    lf_scores
+    .with_columns(
+        pl.cum_sum_horizontal(pl.exclude("id")).alias("cumsum_score"),
+    )
+    .collect()
+)
+# shape: (5, 5)
+# ┌──────────┬───────┬─────────┬───────────┬───────────────────────┐
+# │ id       ┆ math  ┆ physics ┆ chemistry ┆ cumsum_score          │
+# │ ---      ┆ ---   ┆ ---     ┆ ---       ┆ ---                   │
+# │ str      ┆ f64   ┆ f64     ┆ f64       ┆ struct[3]             │
+# ╞══════════╪═══════╪═════════╪═══════════╪═══════════════════════╡
+# │ student1 ┆ 3.746 ┆ 1.151   ┆ 8.349     ┆ {3.746,4.896,13.246}  │
+# │ student2 ┆ 9.508 ┆ 6.091   ┆ 1.048     ┆ {9.508,15.599,16.647} │
+# │ student3 ┆ 7.321 ┆ 1.334   ┆ 7.447     ┆ {7.321,8.655,16.102}  │
+# │ student4 ┆ 5.987 ┆ 2.406   ┆ 3.605     ┆ {5.987,8.393,11.999}  │
+# │ student5 ┆ 1.560 ┆ 3.272   ┆ 3.593     ┆ {1.560,4.832,8.426}   │
+# └──────────┴───────┴─────────┴───────────┴───────────────────────┘
+
+##---------------------------------------------##
+## pl.all_horizontal() and pl.any_horizontal() ##
+##---------------------------------------------##
+
+print(
+    lf_scores
+    .with_columns(
+        pl.all_horizontal(pl.exclude("id") >= 5).alias("all_>=_5"),
+        pl.any_horizontal(pl.exclude("id") >= 5).alias("any_>=_5"),
+    )
+    .collect()
+)
+# shape: (5, 6)
+# ┌──────────┬───────┬─────────┬───────────┬──────────┬──────────┐
+# │ id       ┆ math  ┆ physics ┆ chemistry ┆ all_>=_5 ┆ any_>=_5 │
+# │ ---      ┆ ---   ┆ ---     ┆ ---       ┆ ---      ┆ ---      │
+# │ str      ┆ f64   ┆ f64     ┆ f64       ┆ bool     ┆ bool     │
+# ╞══════════╪═══════╪═════════╪═══════════╪══════════╪══════════╡
+# │ student1 ┆ 3.746 ┆ 1.151   ┆ 8.349     ┆ false    ┆ true     │
+# │ student2 ┆ 9.508 ┆ 6.091   ┆ 1.048     ┆ false    ┆ true     │
+# │ student3 ┆ 7.321 ┆ 1.334   ┆ 7.447     ┆ false    ┆ true     │
+# │ student4 ┆ 5.987 ┆ 2.406   ┆ 3.605     ┆ false    ┆ true     │
+# │ student5 ┆ 1.560 ┆ 3.272   ┆ 3.593     ┆ false    ┆ false    │
+# └──────────┴───────┴─────────┴───────────┴──────────┴──────────┘
