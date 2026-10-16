@@ -619,8 +619,8 @@ print(
 print(
     lf_scores
     .with_columns(
-        pl.all_horizontal(pl.exclude("id") >= 5).alias("all_>=_5"),
-        pl.any_horizontal(pl.exclude("id") >= 5).alias("any_>=_5"),
+        pl.all_horizontal(pl.exclude("id") >= 5).alias("all_>=5"),
+        pl.any_horizontal(pl.exclude("id") >= 5).alias("any_>=5"),
     )
     .collect()
 )
