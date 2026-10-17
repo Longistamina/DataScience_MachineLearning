@@ -2,7 +2,7 @@
 df.select_dtypes(include=..., exclude=...) allows you to select columns in a DataFrame based on their data types.
 
 include, exclude: scalar or list-like
-=> A selection of dtypes or strings (column names) to be included/excluded. 
+=> A selection of dtypes or strings (column names) to be included/excluded.
    At least one of these parameters must be supplied.
 '''
 
@@ -11,8 +11,8 @@ include, exclude: scalar or list-like
 '''
 To select all numeric types, use: 'np.number' or 'number'
 
-To select strings you must use: object, 
-but note that this will return all object dtype columns. 
+To select strings you must use: object,
+but note that this will return all object dtype columns.
 
 To select datetimes, use: np.datetime64, 'datetime' or 'datetime64'
 
@@ -46,12 +46,12 @@ df_emp = (
 
 print(df_emp.dtypes)
 # id                     int64
-# name                  object
+# name                     str
 # salary               float64
-# start_date    datetime64[ns]
+# start_date    datetime64[us]
 # dept                category
 # raise                   bool
-# comments              object
+# comments                 str
 # dtype: object
 
 # =========================================================================================
@@ -74,8 +74,8 @@ print(df_num.head())
 
 print(df_num.columns) # Index(['id', 'salary'], dtype='object')
 
-# Select all "object" columns
-df_obj = df_emp.select_dtypes(include="object")
+# Select all "str" columns
+df_obj = df_emp.select_dtypes(include="str")
 print(df_obj.head())
 #        name   comments
 # 0      Rick       Good
@@ -125,7 +125,7 @@ print(df_num_dt.head())
 # 4   5  843.25 2015-03-27
 
 # Combine with .drop()
-df_combined = df_emp.select_dtypes(include=["number", "object"]).drop(columns="id")
+df_combined = df_emp.select_dtypes(include=["number", "str"]).drop(columns="id")
 print(df_combined.head())
 #        name  salary   comments
 # 0      Rick  623.30       Good
@@ -139,7 +139,7 @@ print(df_combined.head())
 ##--------------------------------##
 
 # Select all columns except "object" columns
-df_excl_obj = df_emp.select_dtypes(exclude="object")
+df_excl_obj = df_emp.select_dtypes(exclude="str")
 print(df_excl_obj.head())
 #    id  salary start_date        dept  raise
 # 0   1  623.30 2012-01-01          IT   True
@@ -148,7 +148,7 @@ print(df_excl_obj.head())
 # 3   4  729.00 2014-05-11          HR  False
 # 4   5  843.25 2015-03-27     Finance   True
 
-# Select all columns except "object" and "category" columns
+# Select all columns except "str" and "category" columns
 df_excl_obj_cat = df_emp.select_dtypes(exclude=["object", "category"])
 print(df_excl_obj_cat.head())
 #    id  salary start_date  raise
@@ -159,7 +159,7 @@ print(df_excl_obj_cat.head())
 # 4   5  843.25 2015-03-27   True
 
 # Combine with .drop()
-df_combined = df_emp.select_dtypes(exclude=["object", "category"]).drop(columns="id")
+df_combined = df_emp.select_dtypes(exclude=["str", "category"]).drop(columns="id")
 print(df_combined.head())
 #    salary start_date  raise
 # 0  623.30 2012-01-01   True

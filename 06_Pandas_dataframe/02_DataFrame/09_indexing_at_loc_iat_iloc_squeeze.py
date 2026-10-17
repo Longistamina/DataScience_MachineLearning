@@ -18,8 +18,9 @@
 4. Squeezing into Series: df.squeeze()
 '''
 
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
 
 data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -54,9 +55,8 @@ print(df_set_id)
 ##----------------------------------------------------##
 
 df_indexed = df_emp.set_axis(
-    labels = [f"row_{i}" for i in df_emp["id"]],
-    axis = 0,
-    copy = True
+    labels=[f"row_{i}" for i in df_emp["id"]],
+    axis=0,
 )
 print(df_indexed)
 #        id      name  salary  start_date        dept
@@ -369,6 +369,9 @@ axis: {0 or 'index', 1 or 'columns', None}, default None
 
 df_single_col = df_emp[["name"]] # use df[[col_name]] will return a DataFrame
                                  # use df[col_name] will return a Series
+'''
+df["col"] returns a Series, not a single-column DataFrame like df[["col"]]
+'''
 
 print(df_single_col)
 #        name

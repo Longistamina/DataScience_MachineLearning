@@ -29,9 +29,10 @@ that allows you to filter data based on specific conditions.
    + Using @ to reference variables outside the DataFrame
 '''
 
+from pathlib import Path
+
 import pandas as pd
 from pandas import col as c
-from pathlib import Path
 
 data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)

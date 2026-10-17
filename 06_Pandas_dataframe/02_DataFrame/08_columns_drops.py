@@ -28,7 +28,6 @@ print(df_emp)
 df_indexed = df_emp.set_axis(
     labels=[f"row_{i}" for i in df_emp["id"]],
     axis=0,
-    copy=True
 )
 print(df_indexed)
 #        id      name  salary  start_date        dept

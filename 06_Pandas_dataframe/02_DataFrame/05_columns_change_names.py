@@ -94,7 +94,7 @@ new_colnames = ['country', 'year', 'status', 'life_expectancy', 'adult_mortality
                 'thinness_5_9_years', 'income_composition_of_resources', 'schooling']
 
 # Change column names (set copy=True to return a copied DataFrame)
-df_new_cols = df_lifexp.set_axis(new_colnames, axis=1, copy=True)
+df_new_cols = df_lifexp.set_axis(labels=new_colnames, axis=1)
 
 print(df_new_cols.head(3))
 #        country  year      status  ...  thinness_5_9_years  income_composition_of_resources  schooling
@@ -106,10 +106,10 @@ print(df_new_cols.head(3))
 ## df = df.set_axis(df.columns.str.method(), axis=1, copy=True) ##
 ##--------------------------------------------------------------##
 
-df_new_cols = df_lifexp.set_axis(df_lifexp.columns.str.strip().str.replace(r"\s+", "_", regex=True), axis=1, copy=True)
+df_new_cols = df_lifexp.set_axis(df_lifexp.columns.str.strip().str.replace(r"\s+|\W", "_", regex=True).str.lower(), axis=1)
 
 print(df_new_cols.head(3))
-#        Country  Year      Status  ...  thinness_5-9_years  Income_composition_of_resources  Schooling
+#        country  year      status  ...  thinness_5_9_years  income_composition_of_resources  schooling
 # 0  Afghanistan  2015  Developing  ...                17.3                            0.479       10.1
 # 1  Afghanistan  2014  Developing  ...                17.5                            0.476       10.0
 # 2  Afghanistan  2013  Developing  ...                17.7                            0.470        9.9
@@ -119,11 +119,11 @@ print(df_new_cols.head(3))
 ##-------------------------------------------------------------------------------##
 
 df_new_cols_pipe = df_lifexp.pipe(
-    lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True), axis=1)
+    lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+|\W", "_", regex=True).str.lower(), axis=1)
 )
 
 print(df_new_cols_pipe.head(3))
-#        Country  Year      Status  ...  thinness_5-9_years  Income_composition_of_resources  Schooling
+#        country  year      status  ...  thinness_5u9_years  income_composition_of_resources  schooling
 # 0  Afghanistan  2015  Developing  ...                17.3                            0.479       10.1
 # 1  Afghanistan  2014  Developing  ...                17.5                            0.476       10.0
 # 2  Afghanistan  2013  Developing  ...                17.7                            0.470        9.9
@@ -157,13 +157,13 @@ print(df_new_cols.head(3))
 df_new_cols = df_lifexp.copy()
 
 # Change column names
-df_new_cols.columns = df_new_cols.columns.str.strip().str.replace(r"\s+", "_", regex=True)
+df_new_cols.columns = df_lifexp.columns.str.strip().str.replace(r"\s+|\W", "_", regex=True).str.lower()
 
 print(df_new_cols.dtypes)
-# BMI                                float64
-# HIV/AIDS                           float64
-# thinness_1-19_years                float64
-# thinness_5-9_years                 float64
+# bmi                                float64
+# hiv_aids                           float64
+# thinness_1_19_years                float64
+# thinness_5_9_years                 float64
 
 ##---------------------------------------------##
 ## df.columns = df.columns.map(string_methods) ##
@@ -224,19 +224,34 @@ df_new_cols = df_lifexp.copy()
 
 # Change column names
 df_new_cols.rename(
-    columns=lambda col: re.sub(r"\s+", "_", col.strip().lower()),
+    columns=lambda col: re.sub(r"\s+|\W", "_", col.strip().lower()),
     inplace=True
 )
 
 print(df_new_cols.dtypes)
-# country                             object
+# country                                str
 # year                                 int64
-# status                              object
+# status                                 str
 # life_expectancy                    float64
-# hepatitis_b                        float64
 # adult_mortality                    float64
-# thinness_1-19_years                float64
-# thinness_5-9_years                 float64
+# infant_deaths                        int64
+# alcohol                            float64
+# percentage_expenditure             float64
+# hepatitis_b                        float64
+# measles                              int64
+# bmi                                float64
+# under_five_deaths                    int64
+# polio                              float64
+# total_expenditure                  float64
+# diphtheria                         float64
+# hiv_aids                           float64
+# gdp                                float64
+# population                         float64
+# thinness_1_19_years                float64
+# thinness_5_9_years                 float64
+# income_composition_of_resources    float64
+# schooling                          float64
+# dtype: object
 
 ##-----------------------##
 ## df.add_prefix('pre_') ##
