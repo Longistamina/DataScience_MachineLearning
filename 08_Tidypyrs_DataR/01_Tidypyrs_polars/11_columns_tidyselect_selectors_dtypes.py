@@ -16,7 +16,9 @@ for anyone prefers polars APIs.
 
 4. Selecting with set operations
 
-5. Selecting with `tp.selectors`: works like `polars.selectors`
+5. Selecting with dtypes: tp.select_dtypes()
+
+6. Selecting with `tp.selectors`: works like `polars.selectors`
 '''
 
 from pathlib import Path
@@ -136,18 +138,39 @@ Currently, `tp.where()` supports these dtype inputs
 (and its `polars.selectors` counterparts)
 
 _col_types = {
+    "alpha": cs.alpha(),
+    "alphanum": cs.alphanumeric(),
+    "alphanumeric": cs.alphanumeric(),
+    "bin": cs.binary(),
+    "binary": cs.binary(),
+    "bool": cs.boolean(),
+    "boolean": cs.boolean(),
     "date": cs.date(),
     "datetime": cs.datetime(),
+    "decimal": cs.decimal(),
+    "digit": cs.digit(),
     "temporal": cs.temporal(),
     "float": cs.float(),
     "integer": cs.integer(),
+    "sint": cs.signed_integer(),
+    "signed_integer": cs.signed_integer(),
+    "uint": cs.unsigned_integer(),
+    "unsigned_integer": cs.unsigned_integer(),
     "numeric": cs.numeric(),
     "string": cs.string(),
     "categorical": cs.categorical(),
     "factor": cs.categorical(),
     "ordered": cs.enum(),
     "enum": cs.enum(),
+    "first": cs.first(),
+    "last": cs.last()
 }
+
+For nested types, use `cs`:
+    + cs.list()
+    + cs.array()
+    + cs.struct()
+    + cs.nested()
 '''
 
 print(
@@ -263,7 +286,49 @@ print(
 # └─────────┴────────┴────────────┘
 
 # =======================================================================
-# 5. Selecting with `tp.selectors`: works like `polars.selectors`
+# 5. Selecting with dtypes: tp.select_dtypes()
+# =======================================================================
+
+print(
+    tl_pokemon
+    .select(tp.select_dtypes(tp.String, tp.Categorical))
+    .collect()
+)
+# shape: (800, 3)
+# ┌────────────────────┬─────────┬────────┐
+# │ name               ┆ type_1  ┆ type_2 │
+# │ ---                ┆ ---     ┆ ---    │
+# │ str                ┆ cat     ┆ cat    │
+# ╞════════════════════╪═════════╪════════╡
+# │ Bulbasaur          ┆ Grass   ┆ Poison │
+# │ Ivysaur            ┆ Grass   ┆ Poison │
+# │ Venusaur           ┆ Grass   ┆ Poison │
+# │ …                  ┆ …       ┆ …      │
+# │ HoopaHoopa Unbound ┆ Psychic ┆ Dark   │
+# │ Volcanion          ┆ Fire    ┆ Water  │
+# └────────────────────┴─────────┴────────┘
+
+print(
+    tl_pokemon
+    .select(tp.select_dtypes(tp.String, tp.Categorical).exclude("type_2"))
+    .collect()
+)
+# shape: (800, 2)
+# ┌────────────────────┬─────────┐
+# │ name               ┆ type_1  │
+# │ ---                ┆ ---     │
+# │ str                ┆ cat     │
+# ╞════════════════════╪═════════╡
+# │ Bulbasaur          ┆ Grass   │
+# │ Ivysaur            ┆ Grass   │
+# │ Venusaur           ┆ Grass   │
+# │ …                  ┆ …       │
+# │ HoopaHoopa Unbound ┆ Psychic │
+# │ Volcanion          ┆ Fire    │
+# └────────────────────┴─────────┘
+
+# =======================================================================
+# 6. Selecting with `tp.selectors`: works like `polars.selectors`
 # =======================================================================
 
 print(

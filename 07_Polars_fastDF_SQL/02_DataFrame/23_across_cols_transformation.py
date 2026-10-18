@@ -169,7 +169,7 @@ print(
 print(
     lf_pokemon.
     with_columns(
-        (cs.string().exclude("name") | cs.by_name('generation', 'legendary'))
+        (cs.string().exclude("name") | cs.enum() | cs.boolean())
         .cast(pl.String)
         .cast(pl.Categorical)
     )
@@ -292,14 +292,19 @@ print(
 
 print(
     lf_pokemon.select(
+        cs.string().str.len_chars().mean().name.suffix('_mean_char_counts'),
         cs.numeric().mean().name.suffix('_mean'),
-        cs.numeric().std().name.suffix('_std'),
-        cs.numeric().min().name.suffix('_min'),
-        cs.numeric().max().name.suffix('_max'),
     )
     .collect()
 )
-
+# shape: (1, 8)
+# ┌───────────────────────┬────────────┬─────────┬─────────────┬──────────────┬─────────────┬─────────────┬────────────┐
+# │ name_mean_char_counts ┆ total_mean ┆ hp_mean ┆ attack_mean ┆ defense_mean ┆ sp_atk_mean ┆ sp_def_mean ┆ speed_mean │
+# │ ---                   ┆ ---        ┆ ---     ┆ ---         ┆ ---          ┆ ---         ┆ ---         ┆ ---        │
+# │ f64                   ┆ f64        ┆ f64     ┆ f64         ┆ f64          ┆ f64         ┆ f64         ┆ f64        │
+# ╞═══════════════════════╪════════════╪═════════╪═════════════╪══════════════╪═════════════╪═════════════╪════════════╡
+# │ 8.841                 ┆ 435.103    ┆ 69.259  ┆ 79.001      ┆ 73.843       ┆ 72.820      ┆ 71.903      ┆ 68.278     │
+# └───────────────────────┴────────────┴─────────┴─────────────┴──────────────┴─────────────┴─────────────┴────────────┘
 
 # =========================================================================================
 # 4. Reframe summaries into rows with `pl.concat()` and `getattr()`
@@ -350,16 +355,17 @@ print(lf_percentile.collect())
 ## `pl.concat()` and `getattr()` to wrap aggregated results vertically ##
 ##---------------------------------------------------------------------##
 
-aggs = ["mean", "std", "min", "max"]
+summaries = ["mean", "std", "min", "max"]
+aggs = [getattr(pl.Expr, summary) for summary in summaries]
 print(
     pl.concat(
         [
-            lf_pokemon.select(getattr(cs.numeric(), agg)())
+            lf_pokemon.select(cs.numeric().pipe(agg))
             for agg in aggs
         ],
         how="vertical_relaxed",
     )
-    .select(pl.Series("summary", aggs), pl.all())
+    .select(pl.Series("summary", summaries), pl.all())
     .collect()
 )
 # shape: (4, 8)
@@ -373,9 +379,6 @@ print(
 # │ min     ┆ 180.000 ┆ 1.000   ┆ 5.000   ┆ 5.000   ┆ 10.000  ┆ 20.000  ┆ 5.000   │
 # │ max     ┆ 780.000 ┆ 255.000 ┆ 190.000 ┆ 230.000 ┆ 194.000 ┆ 230.000 ┆ 180.000 │
 # └─────────┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┘
-
-print(getattr(cs.numeric(), "mean")())
-# cs.numeric().mean()
 
 # =========================================================================================
 # 5. Dynamic column selection with `.pipe()`
@@ -395,7 +398,7 @@ needs custom Python-side logic.
 ## Same log transformation, written with `.pipe()` and schema-driven column selection ##
 ##------------------------------------------------------------------------------------##
 
-lf_log_scale_pipe = (
+print(
     lf_pokemon
     .pipe(
         lambda lf: lf.with_columns(
@@ -404,9 +407,9 @@ lf_log_scale_pipe = (
             if dtype.is_numeric() and col != 'Generation'
         )
     )
+    .head(5)
+    .collect()
 )
-
-print(lf_log_scale_pipe.head(5).collect())
 # shape: (5, 12)
 # ┌──────────────┬────────┬────────┬───────┬───────┬────────┬─────────┬────────┬────────┬───────┬────────────┬───────────┐
 # │ Name         ┆ Type_1 ┆ Type_2 ┆ Total ┆ HP    ┆ Attack ┆ Defense ┆ Sp_Atk ┆ Sp_Def ┆ Speed ┆ Generation ┆ Legendary │
@@ -425,8 +428,9 @@ print(lf_log_scale_pipe.head(5).collect())
 ## Lowercase selected string columns using custom Python-side filtering ##
 ##----------------------------------------------------------------------##
 
-lf_lower_strings_pipe = (
+print(
     lf_pokemon
+    .with_columns(c("type_1", "type_2").cast(pl.String))
     .pipe(
         lambda lf: lf.with_columns(
             pl.col(col).str.to_lowercase()
@@ -434,12 +438,12 @@ lf_lower_strings_pipe = (
             if dtype == pl.String and col != 'Name'
         )
     )
+    .head(5)
+    .collect()
 )
-
-print(lf_lower_strings_pipe.head(5).collect())
 # shape: (5, 12)
 # ┌────────────────┬────────┬────────┬───────┬─────┬────────┬─────────┬────────┬────────┬───────┬────────────┬───────────┐
-# │ Name           ┆ Type_1 ┆ Type_2 ┆ Total ┆ HP  ┆ Attack ┆ Defense ┆ Sp_Atk ┆ Sp_Def ┆ Speed ┆ Generation ┆ Legendary │
+# │ name           ┆ type_1 ┆ type_2 ┆ total ┆ hp  ┆ attack ┆ defense ┆ sp_atk ┆ sp_def ┆ speed ┆ generation ┆ legendary │
 # │ ---            ┆ ---    ┆ ---    ┆ ---   ┆ --- ┆ ---    ┆ ---     ┆ ---    ┆ ---    ┆ ---   ┆ ---        ┆ ---       │
 # │ str            ┆ str    ┆ str    ┆ i64   ┆ i64 ┆ i64    ┆ i64     ┆ i64    ┆ i64    ┆ i64   ┆ i64        ┆ bool      │
 # ╞════════════════╪════════╪════════╪═══════╪═════╪════════╪═════════╪════════╪════════╪═══════╪════════════╪═══════════╡
@@ -455,7 +459,7 @@ print(lf_lower_strings_pipe.head(5).collect())
 ## Select non-numeric columns and rename numeric columns with a suffix ##
 ##---------------------------------------------------------------------##
 
-lf_numeric_suffix_pipe = (
+print(
     lf_pokemon
     .pipe(
         lambda lf: lf.select(
@@ -467,12 +471,12 @@ lf_numeric_suffix_pipe = (
             ]
         )
     )
+    .head(5)
+    .collect()
 )
-
-print(lf_numeric_suffix_pipe.head(5).collect())
 # shape: (5, 12)
 # ┌──────────┬────────┬────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
-# │ Name     ┆ Type_1 ┆ Type_2 ┆ Legenda ┆ Total_n ┆ HP_nume ┆ Attack_ ┆ Defense ┆ Sp_Atk_ ┆ Sp_Def_ ┆ Speed_n ┆ Generat │
+# │ name     ┆ type_1 ┆ type_2 ┆ legenda ┆ total_n ┆ hp_nume ┆ attack_ ┆ defense ┆ sp_atk_ ┆ sp_def_ ┆ speed_n ┆ generat │
 # │ ---      ┆ ---    ┆ ---    ┆ ry      ┆ umeric  ┆ ric     ┆ numeric ┆ _numeri ┆ numeric ┆ numeric ┆ umeric  ┆ ion_num │
 # │ str      ┆ str    ┆ str    ┆ ---     ┆ ---     ┆ ---     ┆ ---     ┆ c       ┆ ---     ┆ ---     ┆ ---     ┆ eric    │
 # │          ┆        ┆        ┆ bool    ┆ i64     ┆ i64     ┆ i64     ┆ ---     ┆ i64     ┆ i64     ┆ i64     ┆ ---     │
