@@ -3,10 +3,12 @@ Window expressions and Python functions applied to groups in Polars.
 
 1. `expr.over(...)`: compute group-wise values and keep the original rows.
 
-2. `tl.group_by(...).map_groups(...)`:
+2. `tl.methods(over="group_name")`: 9 methods support `over="group_name"`
+
+3. `tl.group_by(...).map_groups(...)`:
     run a Python function for each ordinary group.
 
-3. `tl.group_by_dynamic(...).map_groups(...)`:
+4. `tl.group_by_dynamic(...).map_groups(...)`:
     run a Python function for each time window (optionally split further by keys).
 
 Prefer native expressions for both `over` and `.agg(...)`. `map_groups` is a
@@ -259,7 +261,24 @@ print(
 # └─────────┴─────────────────────────┴────────┘
 
 # =========================================================================================
-# 2. `tl.group_by(...).map_groups(...)`
+# 2. `tl.methods(over="group_name")`: several methods support `over="group_name"`
+# =========================================================================================
+'''
+In Tidypyrs, there are several methods support `over="group_name"` parameter:
+
+    tl.fill_null(over="group_name")
+    tl.filter(over="group_name")
+    tl.head(over="group_name")
+    tl.mutate(over="group_name")
+    tl.remove(over="group_name")
+    tl.slice(over="group_name")
+    tl.slice_head(over="group_name")
+    tl.slice_tail(over="group_name")
+    tl.tail(over="group_name")
+'''
+
+# =========================================================================================
+# 3. `tl.group_by(...).map_groups(...)`
 # =========================================================================================
 '''
 `map_groups` passes a materialized `TibbleFrame` for each group to a Python
@@ -343,7 +362,7 @@ print(
 # └─────────┴────────────┴───────────┴───────────┴───────────┴───────────┴───────────┴───────────┘
 
 # =========================================================================================
-# 3. `tl.group_by_dynamic(...).map_groups(...)`
+# 4. `tl.group_by_dynamic(...).map_groups(...)`
 # =========================================================================================
 
 ##----------------------##
