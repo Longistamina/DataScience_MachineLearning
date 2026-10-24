@@ -318,3 +318,6 @@
   + [06_Pandas_dataframe_part_07](https://youtu.be/D8RQYmKeONU): 17th/10/2026
       * `pd.DataFrame`: columns ~ change names, select, reorder, reindex, select by dtypes, drops
       * `pd.DataFrame`: indexing DataFrame's rows and columns with `at-loc` and `iat-iloc`
+  + [06_Pandas_dataframe_part_08](https://youtu.be/rHomG40Ktv4): 24th/10/2026
+      * `pd.DataFrame`: rows ~ change names, sampling, drops
+      * `pd.DataFrame`: rows ~ filtering, boolean indexing with `col`, `loc` and `query`

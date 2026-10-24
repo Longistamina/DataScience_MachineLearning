@@ -26,14 +26,14 @@ df_baseball = pd.read_csv(
 print(df_baseball.info())
 # RangeIndex: 1015 entries, 0 to 1014
 # Data columns (total 7 columns):
-#  #   Column       Non-Null Count  Dtype   
-# ---  ------       --------------  -----   
-#  0   Name         1015 non-null   object  
+#  #   Column       Non-Null Count  Dtype
+# ---  ------       --------------  -----
+#  0   Name         1015 non-null   object
 #  1   Team         1015 non-null   category
 #  2   Position     1015 non-null   category
-#  3   Height       1015 non-null   int64   
-#  4   Weight       1015 non-null   int64   
-#  5   Age          1015 non-null   float64 
+#  3   Height       1015 non-null   int64
+#  4   Weight       1015 non-null   int64
+#  5   Age          1015 non-null   float64
 #  6   PosCategory  1015 non-null   category
 # dtypes: category(3), float64(1), int64(2), object(1)
 # memory usage: 36.5+ KB
@@ -41,7 +41,6 @@ print(df_baseball.info())
 # =========================================================================================
 # 1. df.sample(n=..., random_state=...)
 # =========================================================================================
-
 '''
 The n=... argument specifies the number of rows to return in the sample.
 '''
@@ -58,7 +57,6 @@ print(df_sample_n)
 # =========================================================================================
 # 2. df.sample(frac=..., random_state=...)
 # =========================================================================================
-
 '''
 The frac=... argument specifies the fraction of rows to return in the sample.
 
