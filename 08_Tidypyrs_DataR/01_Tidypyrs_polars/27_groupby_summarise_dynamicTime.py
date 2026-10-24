@@ -1,31 +1,26 @@
 '''
-1. group_by().agg(): Aggregate data using specified expressions.
-   + Count the group size with pl.len().
+1. group_by().summarise(): Aggregate data using specified expressions.
+   + Count the group size with tp.len().
    + Aggregate one or more columns with min(), max(), mean(), etc.
    + Use maintain_order=True to preserve the first-seen order of group keys.
    + Use .sort(...) after aggregation when sorted group keys are desired.
    + Use .drop_nulls(...) before or after grouping when null group keys/results should be removed.
 
-2. group_by().map_groups(): Apply custom Python logic to each group.
-   + Prefer native .agg(...) expressions whenever possible.
-   + Use map_groups only when the operation cannot be expressed natively.
-
-3. Time-based grouping with group_by_dynamic():
-   + Polars uses group_by_dynamic(index_column=..., every=...) for time-window grouping.
-   + This is the Polars way to group records into regular datetime windows.
+2. Time-based grouping with group_by_dynamic():
+   + Tidypyrs uses group_by_dynamic(index_column=..., every=...) for time-window grouping.
+   + This is the Tidypyrs way to group records into regular datetime windows.
    + Extra grouping keys can be included with group_by=... .
 '''
 
 from pathlib import Path
 
-import polars as pl
-from polars import col as c
-from polars import selectors as cs
+import tidypyrs as tp
+from tidypyrs import f
 
 # Optional display settings
-pl.Config.set_tbl_rows(20)
-pl.Config.set_tbl_cols(20)
-pl.Config.set_tbl_width_chars(120)
+tp.Config.set_tbl_rows(20)
+tp.Config.set_tbl_cols(20)
+tp.Config.set_tbl_width_chars(120)
 
 data_dir = next(Path('/home').rglob('*/DataScience_MachineLearning/data'))
 
@@ -33,25 +28,26 @@ data_dir = next(Path('/home').rglob('*/DataScience_MachineLearning/data'))
 # 0. Setup Data
 # =========================================================================================
 
-lf_pokemon = (
-    pl.scan_csv(data_dir / "pokemon.csv")
-    .drop('#')
-    .rename(lambda name: name.strip()) # remove trailing space characters
-    .select(
-        pl.all()
-        .name.replace(r"\s+", "_") # replace " " or "  " (or more consecutive space characters) with just one "_"
-        .name.replace(".", "", literal=True) # replace "." with empty string (remove it), literal=True to deactive regex
-    )
-    .with_columns(cs.string().exclude("Name").cast(pl.Categorical))
-    .pipe(lambda lf: lf.with_columns(
-        c.Generation.cast(pl.String).cast(pl.Enum(lf.select("Generation").collect().to_series().cast(pl.String).unique().sort())))
+##---------##
+## Pokemon ##
+##---------##
+
+tl_pokemon = (
+    tp.scan_csv(data_dir / "pokemon.csv")
+    .drop("#")
+    .rename(lambda name: name.strip())
+    .select(f.all().name.to_lowercase().name.replace(r"\s+", "_").name.replace(".", "", literal=True))
+    .mutate(
+        f("type_1", "type_2").cast(tp.Categorical),
+        f("legendary").cast(tp.Boolean),
+        f("generation").pipe(tp.as_enum, f.pull("generation"))
     )
 )
 
-print(lf_pokemon.head().collect())
+print(tl_pokemon.head().collect())
 # shape: (5, 12)
 # ┌────────────────┬────────┬────────┬───────┬─────┬────────┬─────────┬────────┬────────┬───────┬────────────┬───────────┐
-# │ Name           ┆ Type_1 ┆ Type_2 ┆ Total ┆ HP  ┆ Attack ┆ Defense ┆ Sp_Atk ┆ Sp_Def ┆ Speed ┆ Generation ┆ Legendary │
+# │ name           ┆ type_1 ┆ type_2 ┆ total ┆ hp  ┆ attack ┆ defense ┆ sp_atk ┆ sp_def ┆ speed ┆ generation ┆ legendary │
 # │ ---            ┆ ---    ┆ ---    ┆ ---   ┆ --- ┆ ---    ┆ ---     ┆ ---    ┆ ---    ┆ ---   ┆ ---        ┆ ---       │
 # │ str            ┆ cat    ┆ cat    ┆ i64   ┆ i64 ┆ i64    ┆ i64     ┆ i64    ┆ i64    ┆ i64   ┆ enum       ┆ bool      │
 # ╞════════════════╪════════╪════════╪═══════╪═════╪════════╪═════════╪════════╪════════╪═══════╪════════════╪═══════════╡
@@ -63,14 +59,42 @@ print(lf_pokemon.head().collect())
 # │ Charmander     ┆ Fire   ┆ null   ┆ 309   ┆ 39  ┆ 52     ┆ 43      ┆ 60     ┆ 50     ┆ 65    ┆ 1          ┆ false     │
 # └────────────────┴────────┴────────┴───────┴─────┴────────┴─────────┴────────┴────────┴───────┴────────────┴───────────┘
 
-print(lf_pokemon.collect_schema())
+print(tl_pokemon.collect_schema())
+
+##-------------##
+## Air quality ##
+##-------------##
+
+tl_aq = (
+    tp.scan_csv(data_dir / 'air_quality_no2_long.csv')
+    .rename({'date.utc': 'date'})
+    .mutate(
+        f('date').str.strptime(tp.Datetime, format='%Y-%m-%d %H:%M:%S%z')
+    )
+)
+
+print(tl_aq.head().collect())
+# shape: (5, 7)
+# ┌───────┬─────────┬─────────────────────────┬──────────┬───────────┬───────┬───────┐
+# │ city  ┆ country ┆ date                    ┆ location ┆ parameter ┆ value ┆ unit  │
+# │ ---   ┆ ---     ┆ ---                     ┆ ---      ┆ ---       ┆ ---   ┆ ---   │
+# │ str   ┆ str     ┆ datetime[μs, UTC]       ┆ str      ┆ str       ┆ f64   ┆ str   │
+# ╞═══════╪═════════╪═════════════════════════╪══════════╪═══════════╪═══════╪═══════╡
+# │ Paris ┆ FR      ┆ 2019-06-21 00:00:00 UTC ┆ FR04014  ┆ no2       ┆ 20.0  ┆ µg/m³ │
+# │ Paris ┆ FR      ┆ 2019-06-20 23:00:00 UTC ┆ FR04014  ┆ no2       ┆ 21.8  ┆ µg/m³ │
+# │ Paris ┆ FR      ┆ 2019-06-20 22:00:00 UTC ┆ FR04014  ┆ no2       ┆ 26.5  ┆ µg/m³ │
+# │ Paris ┆ FR      ┆ 2019-06-20 21:00:00 UTC ┆ FR04014  ┆ no2       ┆ 24.9  ┆ µg/m³ │
+# │ Paris ┆ FR      ┆ 2019-06-20 20:00:00 UTC ┆ FR04014  ┆ no2       ┆ 21.4  ┆ µg/m³ │
+# └───────┴─────────┴─────────────────────────┴──────────┴───────────┴───────┴───────┘
+
+print(tl_aq.collect_schema())
 
 # =========================================================================================
-# 1. group_by().agg()
+# 1. group_by().summarise()
 # =========================================================================================
 '''
-Polars:
-Use `.group_by(...).agg(...)` with expression syntax.
+Tidypyrs:
+Use `.group_by(...).summarise(...)` with expression syntax.
 Unlike pandas, group keys stay as ordinary columns in the output, so there is no
 `.reset_index()` step.
 '''
@@ -80,13 +104,13 @@ Unlike pandas, group keys stay as ordinary columns in the output, so there is no
 ##----------------------##
 
 print(
-    lf_pokemon
-    .group_by('Type_1')
-    .agg(
-        pl.len().alias('count'),                  # Number of rows in each group
-        c('HP').mean().alias('avg_HP'),      # Mean HP in each group
+    tl_pokemon
+    .group_by('type_1')
+    .summarise(
+        tp.len().alias('count'),                  # number of rows in each group
+        f('hp').mean().alias('avg_hp'),      # mean hp in each group
     )
-    .sort('Type_1')
+    .sort('type_1')
     .collect()
 )
 
@@ -94,19 +118,19 @@ print(
 ## Preserve first-seen order of group key ##
 ##----------------------------------------##
 '''
-Polars does not use `sort=True/False` on group_by in the same way.
+Tidypyrs does not use `sort=True/False` on group_by in the same way.
 
 - Use `maintain_order=True` to keep the first-seen order of group keys.
 - Use `.sort(...)` after aggregation when sorted output is desired.
 '''
 
 print(
-    lf_pokemon
-    .group_by('Type_1', maintain_order=True)
-    .agg(
-        c('HP').min().alias('min_HP'),
-        c('HP').max().alias('max_HP'),
-        c('HP').mean().alias('mean_HP'),
+    tl_pokemon
+    .group_by('type_1', maintain_order=True)
+    .summarise(
+        f('hp').min().alias('min_hp'),
+        f('hp').max().alias('max_hp'),
+        f('hp').mean().alias('mean_hp'),
     )
     .collect()
 )
@@ -116,14 +140,14 @@ print(
 ##---------------------------------------##
 
 print(
-    lf_pokemon
-    .group_by(['Type_1', 'Type_2'])
-    .agg(
-        c('HP').min().alias('min_HP'),
-        c('HP').max().alias('max_HP'),
-        c('HP').mean().alias('mean_HP'),
+    tl_pokemon
+    .group_by(['type_1', 'type_2'])
+    .summarise(
+        f('hp').min().alias('min_hp'),
+        f('hp').max().alias('max_hp'),
+        f('hp').mean().alias('mean_hp'),
     )
-    .sort(['Type_1', 'Type_2'])
+    .sort(['type_1', 'type_2'])
     .collect()
 )
 
@@ -138,15 +162,15 @@ This is usually the clearest equivalent when you do not want null-key groups.
 '''
 
 print(
-    lf_pokemon
-    .drop_nulls(['Type_1', 'Type_2'])
-    .group_by(['Type_1', 'Type_2'])
-    .agg(
-        c('HP').min().alias('min_HP'),
-        c('HP').max().alias('max_HP'),
-        c('HP').mean().alias('mean_HP'),
+    tl_pokemon
+    .drop_nulls(['type_1', 'type_2'])
+    .group_by(['type_1', 'type_2'])
+    .summarise(
+        f('hp').min().alias('min_hp'),
+        f('hp').max().alias('max_hp'),
+        f('hp').mean().alias('mean_hp'),
     )
-    .sort(['Type_1', 'Type_2'])
+    .sort(['type_1', 'type_2'])
     .collect()
 )
 
@@ -155,96 +179,43 @@ print(
 ##------------------------------------------------------------------##
 '''
 Important difference:
-Polars does not automatically expand unobserved categorical combinations during
-`group_by().agg()`.
+Tidypyrs does not automatically expand unobserved categorical combinations during
+`group_by().summarise()`.
 
 If you want a complete grid of Type_1 x Type_2 combinations, create the grid
 explicitly and left-join the observed aggregation result onto it.
 '''
 
-type_1_keys = lf_pokemon.select('Type_1').unique().sort('Type_1')
-type_2_keys = lf_pokemon.select('Type_2').unique().drop_nulls('Type_2').sort('Type_2')
+type_1_keys = tl_pokemon.select('type_1').unique().sort('type_1')
+type_2_keys = tl_pokemon.select('type_2').unique().drop_nulls('type_2').sort('type_2')
 
 all_type_pairs = type_1_keys.join(type_2_keys, how='cross')
 
 observed_type_pair_stats = (
-    lf_pokemon
-    .drop_nulls(['Type_1', 'Type_2'])
-    .group_by(['Type_1', 'Type_2'])
-    .agg(
-        c('HP').min().alias('min_HP'),
-        c('HP').max().alias('max_HP'),
-        c('HP').mean().alias('mean_HP'),
+    tl_pokemon
+    .drop_nulls(['type_1', 'type_2'])
+    .group_by(['type_1', 'type_2'])
+    .summarise(
+        f('hp').min().alias('min_hp'),
+        f('hp').max().alias('max_hp'),
+        f('hp').mean().alias('mean_hp'),
     )
 )
 
 print(
     all_type_pairs
-    .join(observed_type_pair_stats, on=['Type_1', 'Type_2'], how='left')
-    .sort(['Type_1', 'Type_2'])
+    .join(observed_type_pair_stats, on=['type_1', 'type_2'], how='left')
+    .sort(['type_1', 'type_2'])
     .collect()
 )
 
 # =========================================================================================
-# 2. group_by().map_groups()
+# 2. Time-Based Grouping
 # =========================================================================================
 '''
-Native expressions should be the first choice.
+Tidypyrs uses `group_by_dynamic()` for time-window grouping.
 
-If the custom logic is just min/max/mean, use `.agg(...)` because it remains lazy,
-optimized, and parallelizable.
-'''
-
-print(
-    lf_pokemon
-    .group_by('Type_1')
-    .agg(
-        c('Attack').min().alias('min_ATK'),
-        c('Attack').max().alias('max_ATK'),
-        c('Attack').mean().alias('mean_ATK'),
-    )
-    .sort('Type_1')
-    .collect()
-)
-
-##-----------------------------------##
-## Custom group function with Python ##
-##-----------------------------------##
-'''
-When you truly need a custom Python function per group, use `map_groups`.
-
-For LazyFrame, `map_groups` needs an explicit output schema because Polars cannot
-infer the shape and dtypes of arbitrary Python code.
-'''
-
-print(
-    lf_pokemon
-    .group_by('Type_1')
-    .map_groups(
-        lambda df: pl.DataFrame({
-            'Type_1': df['Type_1'][0],
-            'min_ATK': df['Attack'].min(),
-            'max_ATK': df['Attack'].max(),
-            'mean_ATK': df['Attack'].mean(),
-        }),
-        schema={
-            'Type_1': pl.Categorical,
-            'min_ATK': pl.Int64,
-            'max_ATK': pl.Int64,
-            'mean_ATK': pl.Float64,
-        },
-    )
-    .sort('Type_1')
-    .collect()
-)
-
-# =========================================================================================
-# 3. Time-Based Grouping
-# =========================================================================================
-'''
-Polars uses `group_by_dynamic()` for time-window grouping.
-
-The datetime column must be a Polars Date or Datetime dtype.
+The datetime column must be a Tidypyrs Date or Datetime dtype.
 For regular time windows, use:
 
     group_by_dynamic(index_column='date', every='5d')
@@ -256,29 +227,6 @@ To also group by another categorical key, add:
 The output window label is stored in the datetime column itself.
 '''
 
-lf_aq = (
-    pl.scan_csv(data_dir / 'air_quality_no2_long.csv')
-    .rename({'date.utc': 'date'})
-    .with_columns(
-        c('date').str.strptime(pl.Datetime, format='%Y-%m-%d %H:%M:%S%z')
-    )
-)
-
-print(lf_aq.head().collect())
-# shape: (5, 7)
-# ┌───────┬─────────┬─────────────────────────┬──────────┬───────────┬───────┬───────┐
-# │ city  ┆ country ┆ date                    ┆ location ┆ parameter ┆ value ┆ unit  │
-# │ ---   ┆ ---     ┆ ---                     ┆ ---      ┆ ---       ┆ ---   ┆ ---   │
-# │ str   ┆ str     ┆ datetime[μs, UTC]       ┆ str      ┆ str       ┆ f64   ┆ str   │
-# ╞═══════╪═════════╪═════════════════════════╪══════════╪═══════════╪═══════╪═══════╡
-# │ Paris ┆ FR      ┆ 2019-06-21 00:00:00 UTC ┆ FR04014  ┆ no2       ┆ 20.0  ┆ µg/m³ │
-# │ Paris ┆ FR      ┆ 2019-06-20 23:00:00 UTC ┆ FR04014  ┆ no2       ┆ 21.8  ┆ µg/m³ │
-# │ Paris ┆ FR      ┆ 2019-06-20 22:00:00 UTC ┆ FR04014  ┆ no2       ┆ 26.5  ┆ µg/m³ │
-# │ Paris ┆ FR      ┆ 2019-06-20 21:00:00 UTC ┆ FR04014  ┆ no2       ┆ 24.9  ┆ µg/m³ │
-# │ Paris ┆ FR      ┆ 2019-06-20 20:00:00 UTC ┆ FR04014  ┆ no2       ┆ 21.4  ┆ µg/m³ │
-# └───────┴─────────┴─────────────────────────┴──────────┴───────────┴───────┴───────┘
-
-print(lf_aq.collect_schema())
 
 ##-------------------------------------------------##
 ## Mean NO2 value every 5 days, grouped by country ##
@@ -287,8 +235,8 @@ print(lf_aq.collect_schema())
 The data must be sorted by the dynamic index column before `group_by_dynamic()`.
 '''
 
-lf_aq_grouped_5d = (
-    lf_aq
+tl_aq_grouped_5d = (
+    tl_aq
     .sort('date')
     .group_by_dynamic(
         index_column='date',
@@ -296,13 +244,13 @@ lf_aq_grouped_5d = (
         group_by='country',
         closed='left',
     )
-    .agg(
-        c('value').mean().alias('value')
+    .summarise(
+        f('value').mean().alias('value')
     )
     .sort(['date', 'country'])
 )
 
-print(lf_aq_grouped_5d.collect())
+print(tl_aq_grouped_5d.collect())
 # shape: (28, 3)
 # ┌─────────┬─────────────────────────┬───────────┐
 # │ country ┆ date                    ┆ value     │
@@ -337,7 +285,7 @@ print(lf_aq_grouped_5d.collect())
 ##----------------------------------------------------------------##
 
 print(
-    lf_aq
+    tl_aq
     .sort('date')
     .group_by_dynamic(
         index_column='date',
@@ -345,11 +293,11 @@ print(
         group_by='country',
         closed='left',
     )
-    .agg(
-        pl.len().alias('count'),
-        c('value').min().alias('min_value'),
-        c('value').max().alias('max_value'),
-        c('value').mean().alias('mean_value'),
+    .summarise(
+        tp.len().alias('count'),
+        f('value').min().alias('min_value'),
+        f('value').max().alias('max_value'),
+        f('value').mean().alias('mean_value'),
     )
     .sort(['date', 'country'])
     .collect()
@@ -382,38 +330,3 @@ print(
 # │ GB      ┆ 2019-06-13 00:00:00 UTC ┆ 102   ┆ 4.0       ┆ 29.0      ┆ 16.362745  │
 # │ FR      ┆ 2019-06-18 00:00:00 UTC ┆ 27    ┆ 15.3      ┆ 66.2      ┆ 31.07037   │
 # └─────────┴─────────────────────────┴───────┴───────────┴───────────┴────────────┘
-
-# =========================================================================================
-# 4. Summary Notes
-# =========================================================================================
-'''
-Summary:
-
-1. group_by().agg()
-   - Best for normal grouped summaries.
-   - Uses Polars expressions such as pl.len(), pl.col(...).mean(), min(), max().
-   - Group keys remain regular columns, so no reset_index() is needed.
-
-2. Sorting group output
-   - Use maintain_order=True to preserve first-seen group-key order.
-   - Use .sort(...) after aggregation for sorted keys.
-
-3. Null group keys
-   - Use .drop_nulls([...]) before grouping if null-key groups should be removed.
-   - Use .drop_nulls([...]) after aggregation if rows with null summary results should be removed.
-
-4. Complete category grids
-   - Polars does not automatically emit unobserved categorical combinations.
-   - To include every combination, build a cross-join grid explicitly and left-join
-     the observed aggregation result onto it.
-
-5. group_by().map_groups()
-   - Use only for custom Python logic that cannot be written as native expressions.
-   - In lazy mode, provide an explicit schema.
-   - Native .agg(...) is usually faster and more optimizable.
-
-6. Time-window grouping
-   - Use group_by_dynamic(index_column=..., every=...) for regular datetime windows.
-   - Use group_by=... to combine time-window grouping with categorical grouping.
-   - Sort by the datetime column before dynamic grouping.
-'''

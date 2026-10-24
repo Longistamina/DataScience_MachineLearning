@@ -31,7 +31,10 @@ data_dir = next(Path('/home').rglob('*/DataScience_MachineLearning/data'))
 # 0. Setup Data
 # =========================================================================================
 
-# Pokemon
+##---------##
+## Pokemon ##
+##---------##
+
 lf_pokemon = (
     pl.scan_csv(data_dir/"pokemon.csv")
     .drop('#')
@@ -58,7 +61,10 @@ print(lf_pokemon.head(5).collect())
 # │ Charmander     ┆ Fire   ┆ null   ┆ 309   ┆ 39  ┆ 52     ┆ 43      ┆ 60     ┆ 50     ┆ 65    ┆ 1          ┆ false     │
 # └────────────────┴────────┴────────┴───────┴─────┴────────┴─────────┴────────┴────────┴───────┴────────────┴───────────┘
 
-# air quality
+##-------------##
+## Air quality ##
+##-------------##
+
 lf_aq = (
     pl.scan_csv(data_dir/"air_quality_no2_long.csv")
     .rename({"date.utc": "date"})
