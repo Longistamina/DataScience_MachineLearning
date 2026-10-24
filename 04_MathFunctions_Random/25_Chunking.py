@@ -13,10 +13,16 @@ distance matrix to file top_k nearest and farthest of large point clouds [N, 3]
 
 import numpy as np
 from scipy.spatial.distance import cdist
+from tldm import tldm
 
-# ==========================================
-# Define `topk_chunk` function
-# ==========================================
+# ============================================================================================
+# Example 1: compute chunked NxN distance matrix to find neareast and furthest neighbors
+#            node-level chunking
+# ============================================================================================
+
+##------------------------------##
+## Define `topk_chunk` function ##
+##------------------------------##
 
 def topk_chunk(coords: np.ndarray, knear: int, kfar: int, chunk_size: int) -> tuple[np.ndarray, np.ndarray]:
     x = coords
@@ -28,7 +34,7 @@ def topk_chunk(coords: np.ndarray, knear: int, kfar: int, chunk_size: int) -> tu
 
     topk_near, topk_far = [], []
 
-    for start in range(0, n_max, chunk_size):
+    for start in tldm(range(0, n_max, chunk_size)):
         end = min(start + chunk_size, n_max)
 
         # 1. Get the chunk of points (rows)
@@ -67,9 +73,9 @@ def topk_chunk(coords: np.ndarray, knear: int, kfar: int, chunk_size: int) -> tu
 
     return topk_near, topk_far
 
-# ==========================================
-# Run!!!
-# ==========================================
+##--------##
+## Run!!! ##
+##--------##
 
 N = 100_000
 np.random.seed(42)
@@ -83,3 +89,89 @@ topk_near, topk_far = topk_chunk(coords=p, knear=knear, kfar=kfar, chunk_size=ch
 
 print(topk_near.shape) # (100000, 10)
 print(topk_far.shape) # (100000, 20)
+
+# ============================================================================================
+# Example 2: compute chunked NxN distance matrix then compute mean distance
+#            edge_level chunking
+# ============================================================================================
+
+##-----------------------------------##
+## Define `mean_dist_chunk` function ##
+##-----------------------------------##
+
+def mean_dist_chunk(coords: np.ndarray, chunk_size: int) -> np.ndarray:
+    x = coords
+    n = len(x)
+
+    edges_per_node = n
+    n_max = n * edges_per_node
+
+    out = np.zeros(n)
+    denom = np.zeros(n)
+    for start in tldm(range(0, n_max, chunk_size)):
+       end = min(start + chunk_size, n_max)
+
+       # Generate chunked src, dst on the fly
+       e = np.arange(start, end, dtype=np.int64)
+       src = e // edges_per_node # [0, 0, 0, 0, ...., 1, 1, 1, 1, ....]
+       dst = e % edges_per_node # [0, 1, 2, 3, ...., 0, 1, 2, 3, ...]
+
+       keep = src != dst # remove self-loop
+       src, dst = src[keep], dst[keep]
+
+       vec = x[src, :] - x[dst, :]
+       dist = np.linalg.norm(x=vec, axis=1)
+
+       dist_sums = np.zeros(n)
+       np.add.at(dist_sums, src, dist)
+       out += dist_sums
+
+       denom_sums = np.zeros(n)
+       np.add.at(denom_sums, src, np.ones_like(src))
+       denom += denom_sums
+
+    return out / denom
+
+##--------##
+## Run!!! ##
+##--------##
+
+N = 100_000
+np.random.seed(42)
+p = np.random.uniform(0, 100, size=(N, 3))
+
+mean_dist = mean_dist_chunk(coords=p, chunk_size=10_000_000)
+
+print(mean_dist)
+
+'''
+def mean_dist_chunk(coords: np.ndarray, chunk_size: int) -> np.ndarray:
+    x = coords
+    n = len(x)
+
+    edges_per_node = n - 1
+    n_max = n * edges_per_node
+
+    out = np.zeros(n)
+    denom = np.zeros(n)
+    for start in range(0, n_max, chunk_size):
+       end = min(start + chunk_size, n_max)
+
+       e = np.arange(start, end, dtype=np.int64)
+       src = e // edges_per_node
+       col = e % edges_per_node
+       dst = np.where(col < src, col, col + 1)
+
+       vec = x[src, :] - x[dst, :]
+       dist = np.linalg.norm(x=vec, axis=1)
+
+       dist_sums = np.zeros(n)
+       np.add.at(dist_sums, src, dist)
+       out += dist_sums
+
+       denom_sums = np.zeros(n)
+       np.add.at(denom_sums, src, np.ones_like(src))
+       denom += denom_sums
+
+    return out / denom
+'''
