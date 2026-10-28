@@ -95,10 +95,39 @@ def parse_args():
     )
 
     # Add arguments to the "parser" object
-    parser.add_argument("-l", "--length", required=True, metavar="\b", help="Length of the rectangle (expected to be a positive number).")
-    parser.add_argument("-w", "--width", required=True, metavar="\b", help="Width of the rectangle (expected to be a positive number).")
-    parser.add_argument("-o", "--out", required=False, metavar="\b", type=str, default="", help="Path to the output file saving the results.")
-    parser.add_argument("--true", action="store_true", help="True if enabled, otherwise False")
+    parser.add_argument(
+        "-l", "--length",
+        required=True,
+        metavar="\b",
+        type=float,  # Ensure it's parsed as a float
+        help="Length of the rectangle (expected to be a positive number)."
+    )
+    parser.add_argument(
+        "-w", "--width",
+        required=True,
+        metavar="\b",
+        type=float,  # Ensure it's parsed as a float
+        help="Width of the rectangle (expected to be a positive number)."
+    )
+    parser.add_argument(
+        "-o", "--out",
+        required=False,
+        metavar="\b",
+        type=str,
+        default="",
+        help="Path to the output file saving the results."
+    )
+    parser.add_argument(
+        "--true",
+        action="store_true",
+        help="True if enabled, otherwise False"
+    )
+    parser.add_argument( # This argument accepts multiple values using nargs
+        "--sides",
+        nargs="+",  # Accepts one or more values
+        type=float,
+        help="List of sides for a polygon (e.g., --sides 5 4 3 6)"
+    )
 
     return parser.parse_args()  # Parse the command-line arguments and return them
 
