@@ -1,20 +1,11 @@
 '''
-DataFrame description / summary statistics in Polars.
+LazyFrame description / summary statistics in Polars.
 
-Pandas reference ideas:
-1. df.describe(): summary statistics for numeric columns by default.
-2. df.describe(include=[...]): include specific data types.
-3. df.describe(exclude=[...]): exclude specific data types.
-
-Polars equivalent ideas:
-1. df.describe(): summary statistics for all columns, with dtype-dependent output.
-2. Use `polars.selectors` to choose columns by dtype before calling `.describe()`.
-3. Use selectors like `cs.numeric()`, `cs.string()`, `cs.categorical()`, `cs.boolean()`,
-   and selector set operations (`|`, `&`, `~`) to emulate include/exclude behavior.
-
-Important difference:
-Polars does not have pandas-style `include=` or `exclude=` arguments inside `.describe()`.
-Instead, select the columns first, then call `.describe()`.
+1. `lf.describe()`: summary statistics for all columns, with dtype-dependent output.
+2. `lf.select(cs.numeric()).describe()`: describe only numeric columns:
+3. `lf.select(cs.string() | cs.categorical()).describe(): describe string and categorical columns
+4. `lf.select(~(cs...() | cs...())).describe(): exclude specific dtypes
+5. Custom describe for categorical columns with `pipe` and `concat`
 '''
 
 from pathlib import Path
@@ -26,7 +17,7 @@ from polars import selectors as cs
 # Optional display settings
 pl.Config.set_tbl_rows(20)
 pl.Config.set_tbl_cols(20)
-pl.Config.set_tbl_width_chars(120)
+pl.Config.set_tbl_width_chars(125)
 
 data_dir = next(Path('/home').rglob('*/DataScience_MachineLearning/data'))
 
@@ -42,17 +33,18 @@ lf_pokemon = (
         pl.all()
         .name.replace(r"\s+", "_") # replace " " or "  " (or more consecutive space characters) with just one "_"
         .name.replace(".", "", literal=True) # replace "." with empty string (remove it), literal=True to deactive regex
+        .name.to_lowercase()
     )
     .with_columns(cs.string().exclude("Name").cast(pl.Categorical))
     .pipe(lambda lf: lf.with_columns(
-        c.Generation.cast(pl.String).cast(pl.Enum(lf.select("Generation").collect().to_series().cast(pl.String).unique().sort())))
+        c.generation.cast(pl.String).cast(pl.Enum(lf.select("generation").collect().to_series().cast(pl.String).unique().sort())))
     )
 )
 
 print(lf_pokemon.head().collect())
 # shape: (5, 12)
 # ┌────────────────┬────────┬────────┬───────┬─────┬────────┬─────────┬────────┬────────┬───────┬────────────┬───────────┐
-# │ Name           ┆ Type_1 ┆ Type_2 ┆ Total ┆ HP  ┆ Attack ┆ Defense ┆ Sp_Atk ┆ Sp_Def ┆ Speed ┆ Generation ┆ Legendary │
+# │ name           ┆ type_1 ┆ type_2 ┆ total ┆ hp  ┆ attack ┆ defense ┆ sp_atk ┆ sp_def ┆ speed ┆ generation ┆ legendary │
 # │ ---            ┆ ---    ┆ ---    ┆ ---   ┆ --- ┆ ---    ┆ ---     ┆ ---    ┆ ---    ┆ ---   ┆ ---        ┆ ---       │
 # │ str            ┆ cat    ┆ cat    ┆ i64   ┆ i64 ┆ i64    ┆ i64     ┆ i64    ┆ i64    ┆ i64   ┆ enum       ┆ bool      │
 # ╞════════════════╪════════╪════════╪═══════╪═════╪════════╪═════════╪════════╪════════╪═══════╪════════════╪═══════════╡
@@ -67,14 +59,14 @@ print(lf_pokemon.head().collect())
 print(lf_pokemon.collect_schema())
 
 # =========================================================================================
-# 1. DataFrame.describe()
+# 1. `lf.describe()`: summary statistics for all columns, with dtype-dependent output.
 # =========================================================================================
 
 ##---------------##
 ## Default usage ##
 ##---------------##
 '''
-Polars `DataFrame.describe()` returns summary statistics for the DataFrame.
+Polars `LazyFrame.describe()` returns summary statistics for the DataFrame.
 Unlike pandas, Polars includes all columns by default, and fills unsupported
 statistics with nulls depending on the dtype.
 '''
@@ -82,7 +74,7 @@ statistics with nulls depending on the dtype.
 print(lf_pokemon.describe())
 # shape: (9, 13)
 # ┌─────────┬─────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┬────────┐
-# │ statist ┆ Name    ┆ Type_1 ┆ Type_2 ┆ Total  ┆ HP     ┆ Attack ┆ Defens ┆ Sp_Atk ┆ Sp_Def ┆ Speed  ┆ Genera ┆ Legend │
+# │ statist ┆ name    ┆ type_1 ┆ type_2 ┆ total  ┆ hp     ┆ attack ┆ defens ┆ sp_atk ┆ sp_def ┆ speed  ┆ genera ┆ legend │
 # │ ic      ┆ ---     ┆ ---    ┆ ---    ┆ ---    ┆ ---    ┆ ---    ┆ e      ┆ ---    ┆ ---    ┆ ---    ┆ tion   ┆ ary    │
 # │ ---     ┆ str     ┆ str    ┆ str    ┆ f64    ┆ f64    ┆ f64    ┆ ---    ┆ f64    ┆ f64    ┆ f64    ┆ ---    ┆ ---    │
 # │ str     ┆         ┆        ┆        ┆        ┆        ┆        ┆ f64    ┆        ┆        ┆        ┆ str    ┆ f64    │
@@ -104,9 +96,8 @@ print(lf_pokemon.describe())
 # │         ┆ Forme   ┆        ┆        ┆        ┆        ┆        ┆        ┆        ┆        ┆        ┆        ┆        │
 # └─────────┴─────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┴────────┘
 
-
 # =========================================================================================
-# 2. Describe only numeric columns
+# 2. `lf.select(cs.numeric()).describe()`: describe only numeric columns:
 # =========================================================================================
 
 ##-----------------------------------------------------##
@@ -136,14 +127,9 @@ print(
 # │ max        ┆ 780.0     ┆ 255.0     ┆ 190.0     ┆ 230.0     ┆ 194.0     ┆ 230.0     ┆ 180.0     │
 # └────────────┴───────────┴───────────┴───────────┴───────────┴───────────┴───────────┴───────────┘
 
-# =========================================================================================
-# 3. Describe string and categorical columns
-# =========================================================================================
-
-##--------------------------------------------------------------------##
-## Equivalent idea: describe(include=['object', 'category'])          ##
-## Polars way: select string and categorical columns, then describe() ##
-##--------------------------------------------------------------------##
+# ====================================================================================================
+# 3. `lf.select(cs.string() | cs.categorical()).describe(): describe string and categorical columns
+# ====================================================================================================
 
 print(
     lf_pokemon
@@ -168,24 +154,8 @@ print(
 # └────────────┴──────────────────┴────────┴────────┘
 
 # =========================================================================================
-# 4. Include all columns explicitly
+# 4. `lf.select(~(cs...() | cs...())).describe(): exclude specific dtypes
 # =========================================================================================
-
-##---------------------------------------------------------##
-## Equivalent idea: df.describe(include='all')             ##
-## Polars way: df.describe() already describes all columns ##
-##---------------------------------------------------------##
-
-print(lf_pokemon.describe())
-
-# =========================================================================================
-# 5. Exclude specific dtypes
-# =========================================================================================
-
-##-----------------------------------------------------------------------------##
-## Equivalent idea: df.describe(exclude=['category', 'bool'])                  ##
-## Polars way: use selector negation to remove categorical and boolean columns ##
-##-----------------------------------------------------------------------------##
 
 print(
     lf_pokemon
@@ -195,7 +165,7 @@ print(
 # Keeps string + numeric columns, excludes categorical + boolean columns.
 
 # =========================================================================================
-# 6. Custom describe for categorical columns
+# 5. Custom describe for categorical columns with `pipe` and `concat`
 # =========================================================================================
 '''
 Polars `describe()` does not return pandas-style `unique`, `top`, and `freq` rows
@@ -203,33 +173,36 @@ for categorical/string columns. If you specifically want those statistics, compu
 them directly with expressions.
 '''
 
+statistics = {
+    "count": lambda expr: expr.count().cast(pl.String),
+    "n_unique": lambda expr: expr.n_unique().cast(pl.String),
+    "most_occur": lambda expr: expr.mode().first().cast(pl.String) # the value that appears the most
+}
 print(
     lf_pokemon
     .select(cs.string() | cs.categorical())
-    .pipe(lambda lf: # use this to avoid typing ``lf_pokemon`` many times
-        lf.select(
-            [
-                pl.col(col).count().alias(f"{col}_count")
-                for col in lf.select(cs.string() | cs.categorical()).collect_schema().names()
-            ]
-            + [
-                pl.col(col).n_unique().alias(f"{col}_unique")
-                for col in lf.select(cs.string() | cs.categorical()).collect_schema().names()
-            ]
-            + [
-                pl.col(col).mode().first().alias(f"{col}_top")
-                for col in lf.select(cs.string() | cs.categorical()).collect_schema().names()
-            ]
-        )
+    .pipe(
+        lambda lf: # use this to avoid typing ``lf_pokemon`` many times
+            pl.concat(
+                [
+                    lf.select(
+                        pl.lit(stat).alias("statistic"),
+                        pl.all().pipe(agg)
+                    )
+                    for stat, agg in statistics.items()
+                ],
+                how="diagonal_relaxed"
+            )
     )
     .collect()
 )
-# shape: (1, 9)
-# ┌────────────┬─────────────┬─────────────┬─────────────┬─────────────┬────────────┬──────────┬────────────┬────────────┐
-# │ Name_count ┆ Type_1_coun ┆ Type_2_coun ┆ Name_unique ┆ Type_1_uniq ┆ Type_2_uni ┆ Name_top ┆ Type_1_top ┆ Type_2_top │
-# │ ---        ┆ t           ┆ t           ┆ ---         ┆ ue          ┆ que        ┆ ---      ┆ ---        ┆ ---        │
-# │ u32        ┆ ---         ┆ ---         ┆ u32         ┆ ---         ┆ ---        ┆ str      ┆ cat        ┆ cat        │
-# │            ┆ u32         ┆ u32         ┆             ┆ u32         ┆ u32        ┆          ┆            ┆            │
-# ╞════════════╪═════════════╪═════════════╪═════════════╪═════════════╪════════════╪══════════╪════════════╪════════════╡
-# │ 800        ┆ 800         ┆ 414         ┆ 800         ┆ 18          ┆ 19         ┆ Scraggy  ┆ Water      ┆ null       │
-# └────────────┴─────────────┴─────────────┴─────────────┴─────────────┴────────────┴──────────┴────────────┴────────────┘
+# shape: (3, 4)
+# ┌────────────┬───────────┬────────┬────────┐
+# │ statistic  ┆ name      ┆ type_1 ┆ type_2 │
+# │ ---        ┆ ---       ┆ ---    ┆ ---    │
+# │ str        ┆ str       ┆ str    ┆ str    │
+# ╞════════════╪═══════════╪════════╪════════╡
+# │ count      ┆ 800       ┆ 800    ┆ 414    │ u32 -> String |
+# │ n_unique   ┆ 800       ┆ 18     ┆ 19     │ u32 -> String | => able to concat vertically
+# │ most_occur ┆ Bulbasaur ┆ Water  ┆ null   │ cat -> String |
+# └────────────┴───────────┴────────┴────────┘

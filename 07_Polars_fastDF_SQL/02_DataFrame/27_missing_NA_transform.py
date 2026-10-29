@@ -1,12 +1,11 @@
 '''
 1. Detect missing values:
-   + df.select(pl.all().is_null()): Returns a DataFrame of the same shape as df, with True for missing values
-   + df.null_count(): Returns the count of missing values in each column
-   + df.glimpse(), df.schema, df.describe(): Provide a summary of the DataFrame
+   + lf.select(pl.all().is_null()): Returns a LazyFrame of the same shape as lf, with True for missing values
+   + lf.null_count(): Returns the count of missing values in each column
 
 2. Detect non-missing values:
-   + df.select(pl.all().is_not_null()): Returns a DataFrame of the same shape as df, with True for non-missing values
-   + df.select(pl.all().is_not_null().sum()): Returns the count of non-missing values in each column
+   + lf.select(pl.all().is_not_null()): Returns a LazyFrame of the same shape as lf, with True for non-missing values
+   + lf.select(pl.all().is_not_null().sum()): Returns the count of non-missing values in each column
 
 3. Drop missing values along columns:
    + Polars does NOT have drop_nulls(axis=1)
@@ -16,16 +15,16 @@
    + thresh=...: keep columns with at least a minimum number of non-null values
 
 4. Drop missing values along rows:
-   + df.drop_nulls(): drop rows with any null values
-   + df.filter(~pl.all_horizontal(pl.all().is_null())): drop rows where all values are null
-   + df.drop_nulls(subset=[...]): drop rows with nulls in selected columns
+   + lf.drop_nulls(): drop rows with any null values
+   + lf.filter(~pl.all_horizontal(pl.all().is_null())): drop rows where all values are null
+   + lf.drop_nulls(subset=[...]): drop rows with nulls in selected columns
 
 5. Fill missing values:
-   + df.fill_null(value): Fill nulls with a scalar value
-   + df.with_columns(...fill_null(...)): Fill different columns with different values
-   + df.with_columns(cs.numeric().fill_null(cs.numeric().mean())): Fill numeric nulls with column means
-   + df.fill_null(strategy='forward'): Forward fill
-   + df.fill_null(strategy='backward'): Backward fill
+   + lf.fill_null(value): Fill nulls with a scalar value
+   + lf.with_columns(...fill_null(...)): Fill different columns with different values
+   + lf.with_columns(cs.numeric().fill_null(cs.numeric().mean())): Fill numeric nulls with column means
+   + lf.fill_null(strategy='forward'): Forward fill
+   + lf.fill_null(strategy='backward'): Backward fill
 
 6. Interpolate missing values:
    + c(...).interpolate(): native linear interpolation
@@ -88,12 +87,12 @@ print(lf_mkt.collect_schema().names())
 ##-------------------------------##
 ## lf.select(pl.all().is_null()) ##
 ##-------------------------------##
-'''Returns a DataFrame of the same shape as df, with True for missing values.'''
+'''Returns a LazyFrame of the same shape as lf, with True for missing values.'''
 
 print(
     lf_mkt
     #.select(pl.all().is_null()) # all columns
-    .select(pl.nth(range(0, 6)).is_null()) # First 6 columns
+    .select(pl.nth(range(6)).is_null()) # First 6 columns
     .head()
     .collect()
 )
@@ -119,7 +118,7 @@ print(lf_mkt.null_count().collect()) # all columns
 
 print(
     lf_mkt
-    .select(pl.nth(range(0, 6)).null_count()) # First 6 columns
+    .select(pl.nth(range(6)).null_count()) # First 6 columns
     .collect()
 )
 # shape: (1, 6)
@@ -172,12 +171,12 @@ print(lf_mkt.collect().glimpse())
 ##-----------------------------------##
 ## lf.select(pl.all().is_not_null()) ##
 ##-----------------------------------##
-'''Returns a DataFrame of the same shape as df, with True for non-missing values.'''
+'''Returns a LazyFrame of the same shape as lf, with True for non-missing values.'''
 
 print(
     lf_mkt
     #.select(pl.all().is_not_null())
-    .select(pl.nth(range(0, 6)).is_not_null()) # First 6 columns
+    .select(pl.nth(range(6)).is_not_null()) # First 6 columns
     .head()
     .collect()
 )
@@ -202,7 +201,7 @@ print(
 print(
     lf_mkt
     #.select(pl.all().is_not_null().sum())
-    .select(pl.nth(range(0, 6)).is_not_null().sum()) # First 6 columns
+    .select(pl.nth(range(6)).is_not_null().sum()) # First 6 columns
     .collect()
 )
 # shape: (1, 6)
@@ -220,7 +219,7 @@ print(
     .select(pl.all().is_not_null().sum())
     .collect()
     .transpose(include_header=True, header_name='column', column_names=['n_not_null'])
-    .pipe(lambda df: df.filter(c('n_not_null') < df.select(pl.len()).item()))
+    .pipe(lambda lf: lf.filter(c('n_not_null') < lf.select(pl.len()).item()))
 )
 # shape: (5, 2)
 # ┌──────────────┬────────────┐
@@ -235,7 +234,7 @@ print(
 # │ grp_print    ┆ 22         │
 # └──────────────┴────────────┘
 '''
-df.select(pl.len()).item()) is to get the n_rows.
+lf.select(pl.len()).item()) is to get the n_rows.
 
 So, if any column has n_not_null < n_rows,
 this means that column has null value
@@ -246,12 +245,13 @@ this means that column has null value
 # 3. Drop missing values along columns
 # =========================================================================================
 
-##---------------------------------------------------##
-## Drop columns where all values are null: how='all' ##
-##---------------------------------------------------##
+##----------------------------------------##
+## Drop columns where all values are null ##
+##----------------------------------------##
 '''
 Polars does not use axis=1 for dropping nulls.
-To drop columns, first inspect each column's null count, then select the columns to keep.
+To drop columns, first inspect each column's with `not is_null().all()`,
+True -> keep, False -> Drop
 
 how='all' equivalent:
 Keep columns where null_count < number of rows.
@@ -262,7 +262,7 @@ print(
     .pipe(lambda lf: lf.select([
         c(col)
         for col in lf.collect_schema().names()
-        if lf.select(c(col).null_count()).collect().item() < lf.select(pl.len()).collect().item() # check ``null_count < number of rows``
+        if not lf.select(c(col).is_null().all()).collect().item() # keep columns that have at least 1 non-null value (not is_null().all())
     ]))
     #.select(pl.nth(range(0, 8)))
     .head()
@@ -283,9 +283,9 @@ print(
 # │ 23   ┆ 2010 ┆ 32.370000  ┆ 7.700000   ┆ 7.780000   ┆ … ┆ null     ┆ null       ┆ null       ┆ null      ┆ null       │
 # └──────┴──────┴────────────┴────────────┴────────────┴───┴──────────┴────────────┴────────────┴───────────┴────────────┘
 
-##----------------------------------------------##
-## Drop columns with any null values: how='any' ##
-##----------------------------------------------##
+##-----------------------------------##
+## Drop columns with any null values ##
+##-----------------------------------##
 '''
 how='any' equivalent:
 Keep columns where null_count == 0.
@@ -296,7 +296,7 @@ print(
     .pipe(lambda lf: lf.select([
         c(col)
         for col in lf.collect_schema().names()
-        if lf.select(c(col).null_count()).collect().item() == 0 # check if ``null_count == 0`` to keep
+        if not lf.select(c(col).is_null().any()).collect().item() # keep columns that have no null (not is_null().any())
     ]))
     .head()
     .collect()
@@ -461,7 +461,7 @@ print(
 lf_missing = lf_mkt.drop(['week', 'year'])
 
 ##----------------##
-## df.fill_null() ##
+## lf.fill_null() ##
 ##----------------##
 '''Fill every null value with the same scalar value.'''
 
@@ -674,8 +674,8 @@ print(
     .with_row_index("row_id")
     .pipe(
         lambda lf: (
-            lambda df: pl.DataFrame({
-                "row_id": df["row_id"],
+            lambda lf: pl.LazyFrame({
+                "row_id": lf["row_id"],
                 "share_of_spend_poly2": (
                     lambda x, y: interpolate.interp1d(
                         x=x[y.is_not_null().to_numpy()],
@@ -685,13 +685,14 @@ print(
                         fill_value="extrapolate",
                     )(x)
                 )(
-                    df["row_id"].to_numpy(),
-                    df["share_of_spend"],
+                    lf["row_id"].to_numpy(),
+                    lf["share_of_spend"],
                 ),
             })
         )(lf.collect())
     )
     .head()
+    .collect()
 )
 # shape: (5, 2)
 # ┌────────┬──────────────────────┐
@@ -717,7 +718,7 @@ lf_missing = lf_mkt.drop(['week', 'year'])
 ## Fill every numeric null with column mean ##
 ##------------------------------------------##
 '''
-Equivalent idea to np.where(df.isna(), df.mean(), df), but written as Polars expressions.
+Equivalent idea to np.where(lf.isna(), lf.mean(), lf), but written as Polars expressions.
 '''
 
 lf_filled = (
@@ -771,7 +772,6 @@ print(
 # │ null           ┆ null   ┆ null      ┆ 0.000000                        │
 # └────────────────┴────────┴───────────┴─────────────────────────────────┘
 
-
 # =========================================================================================
 # 8. Group-based filling, transform
 # =========================================================================================
@@ -809,10 +809,6 @@ print(
 ## Fill nulls with the mean of each week group ##
 ##---------------------------------------------##
 '''
-Pandas idea:
-df_missing.fillna(df_missing.groupby('week').transform('mean'))
-
-Polars equivalent:
 Use a window expression with .over('week').
 Each row receives the mean of its own week group for that column.
 '''
