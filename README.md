@@ -321,3 +321,8 @@
   + [06_Pandas_dataframe_part_08](https://youtu.be/rHomG40Ktv4): 24th/10/2026
       * `pd.DataFrame`: rows ~ change names, sampling, drops
       * `pd.DataFrame`: rows ~ filtering, boolean indexing with `col`, `loc` and `query`
+  + [06_Pandas_dataframe_part_09](https://youtu.be/Rm6uyNcBBsg): 31st/10/2026
+      * `pd.DataFrame`: `assign` and `eval` ~ modify and derive columns
+      * `pd.DataFrame`: `sort` and `rank` 
+      * `pd.DataFrame`: `agg` and reduction 
+      * `pd.DataFrame`: reframe with `apply` and `df.pipe(lambda df: pd.DataFrame(...))`
