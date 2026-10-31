@@ -14,6 +14,7 @@
 '''
 
 import pandas as pd
+from pandas import col as c
 
 # =========================================================================================
 # 1. Sort
@@ -32,7 +33,7 @@ df_raw_idx = pd.DataFrame(
     {
         "Numbers":[1, 2, 3, 4, 5],
         "Letters":["a", "b", "c", "d", "e"]
-    }, 
+    },
     index=[100, 29, 234, 1, 150],
 )
 
@@ -40,10 +41,11 @@ df_raw_idx = pd.DataFrame(
 ##  df.sort_values()  ##
 ##--------------------##
 
-# ## Sort by single column
-# 
-df_sorted = df_raw_sort.sort_values(by="score", ascending=False, inplace=False)
-print(df_sorted)
+# Sort by single column
+print(
+    df_raw_sort.
+    sort_values(by="score", ascending=False)
+)
 #       name  subject  score  age
 # 5  Charlie     Math     95   23
 # 3      Bob     Math     92   22
@@ -52,10 +54,11 @@ print(df_sorted)
 # 0    Alice     Math     85   20
 # 2    Alice  Science     78   20
 
-# ## Sort by multiple columns and orders
-# 
-df_sorted = df_raw_sort.sort_values(by=["name", "score"], ascending=[False, True], inplace=False)
-print(df_sorted)
+# Sort by multiple columns and orders
+print(
+    df_raw_sort
+    .sort_values(by=["name", "score"], ascending=[False, True])
+)
 #       name  subject  score  age
 # 5  Charlie     Math     95   23
 # 4      Bob  English     88   22
@@ -76,11 +79,11 @@ print(df_raw_idx)
 # 1          4       d
 # 150        5       e
 
-# ## Sort by axis=0 (row names), ascending=True
-# 
-df_sorted = df_raw_idx.sort_index(axis=0, ascending=True, inplace=False)
-
-print(df_sorted)
+# Sort by axis=0 (row names), ascending=True
+print(
+    df_raw_idx
+    .sort_index(axis=0, ascending=True)
+)
 #      Numbers Letters
 # 1          4       d
 # 29         2       b
@@ -88,23 +91,11 @@ print(df_sorted)
 # 150        5       e
 # 234        3       c
 
-# ## Sort by axis=1 (column names), ascending=False
-# 
-df_sorted = df_raw_idx.sort_index(axis=0, ascending=False, inplace=False)
-
-print(df_sorted)
-#      Numbers Letters
-# 234        3       c
-# 150        5       e
-# 100        1       a
-# 29         2       b
-# 1          4       d
-
-# ## Sort by axis=1 (column names), ascending=True
-# 
-df_sorted = df_raw_idx.sort_index(axis=1, ascending=True, inplace=False)
-
-print(df_sorted)
+# Sort by axis=1 (column names), ascending=False
+print(
+    df_raw_idx
+    .sort_index(axis=1, ascending=True)
+)
 #     Letters  Numbers
 # 100       a        1
 # 29        b        2
@@ -115,17 +106,16 @@ print(df_sorted)
 # =========================================================================================
 # 2. Rank
 # =========================================================================================
-
 '''NOTE: when using df.rank() for DataFrame, must always set axis=0'''
 
-df_raw_rank = pd.DataFrame(
+df_unrank = pd.DataFrame(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva", "Freddy", "George", "Hannah"],
         "score": [85, 92, 85, 88, 90, 66, 66, 66]
     }
 )
 
-print(df_raw_rank)
+print(df_unrank)
 #       name  score
 # 0    Alice     85
 # 1      Bob     92
@@ -136,13 +126,11 @@ print(df_raw_rank)
 # 6   George     66
 # 7   Hannah     66
 
-##---------------------------------------------------##
-## df.rank(method="average", ascending=True, axis=1) ##
-##---------------------------------------------------##
+##-------------------------------------------##
+## df.rank(method="average", ascending=True) ##
+##-------------------------------------------##
 
-df_ranked = df_raw_rank.copy()
-
-print(df_ranked["score"].rank(method="average", ascending=True, axis=0))
+print(df_unrank["score"].rank(method="average", ascending=True, axis=0))
 # 0    4.5
 # 1    8.0
 # 2    4.5
@@ -154,8 +142,10 @@ print(df_ranked["score"].rank(method="average", ascending=True, axis=0))
 # Name: score, dtype: float64
 
 # Add a new column "rank_average" to df_ranked
-df_ranked["rank_average"] = df_ranked["score"].rank(method="average", ascending=True, axis=0)
-print(df_ranked)
+print(
+    df_unrank
+    .assign(rank_average = c('score').rank(method='average', ascending=True))
+)
 #       name  score  rank_average
 # 0    Alice     85           4.5
 # 1      Bob     92           8.0
@@ -166,7 +156,7 @@ print(df_ranked)
 # 6   George     66           2.0
 # 7   Hannah     66           2.0
 '''
-Freddy, George and Hannah have the same score of 66, 
+Freddy, George and Hannah have the same score of 66,
 => share rank = (1+2+3)/3 = 2.0.
 
 Alice and Charlie have the same score of 85,
@@ -176,14 +166,14 @@ David has the score of 88 (unique),
 => rank = 6
 '''
 
-##-----------------------------------------------##
-## df.rank(method="max", ascending=True, axis=1) ##
-##-----------------------------------------------##
+##---------------------------------------##
+## df.rank(method="max", ascending=True) ##
+##---------------------------------------##
 
-df_ranked = df_raw_rank.copy()
-
-df_ranked["rank_max"] = df_ranked["score"].rank(method="max", ascending=True, axis=0)
-print(df_ranked)
+print(
+    df_unrank
+    .assign(rank_average = c('score').rank(method='max', ascending=True))
+)
 # 0    Alice     85       5.0
 # 1      Bob     92       8.0
 # 2  Charlie     85       5.0
@@ -203,14 +193,14 @@ David has the score of 88 (unique),
 => rank = 6
 '''
 
-##-----------------------------------------------##
-## df.rank(method="min", ascending=True, axis=1) ##
-##-----------------------------------------------##
+##---------------------------------------##
+## df.rank(method="min", ascending=True) ##
+##---------------------------------------##
 
-df_ranked = df_raw_rank.copy()
-
-df_ranked["rank_min"] = df_ranked["score"].rank(method="min", ascending=True, axis=0)
-print(df_ranked)
+print(
+    df_unrank
+    .assign(rank_average = c('score').rank(method='min', ascending=True))
+)
 #       name  score  rank_min
 # 0    Alice     85       4.0
 # 1      Bob     92       8.0
@@ -231,14 +221,14 @@ David has the score of 88 (unique),
 => rank = 6
 '''
 
-##-------------------------------------------------##
-## df.rank(method="dense", ascending=True, axis=1) ##
-##-------------------------------------------------##
+##-----------------------------------------##
+## df.rank(method="dense", ascending=True) ##
+##-----------------------------------------##
 
-df_ranked = df_raw_rank.copy()
-
-df_ranked["rank_dense"] = df_ranked["score"].rank(method="dense", ascending=True, axis=0)
-print(df_ranked)
+print(
+    df_unrank
+    .assign(rank_average = c('score').rank(method='dense', ascending=True))
+)
 #       name  score  rank_dense
 # 0    Alice     85         2.0
 # 1      Bob     92         5.0
@@ -263,14 +253,14 @@ David has the score of 88 (unique),
 => DENSE rank = 3.0 (rank increases by 1 from previous group)
 '''
 
-##-------------------------------------------------##
-## df.rank(method="first", ascending=True, axis=1) ##
-##-------------------------------------------------##
+##-----------------------------------------##
+## df.rank(method="first", ascending=True) ##
+##-----------------------------------------##
 
-df_ranked = df_raw_rank.copy()
-
-df_ranked["rank_first"] = df_ranked["score"].rank(method="first", ascending=True, axis=0)
-print(df_ranked)
+print(
+    df_unrank
+    .assign(rank_average = c('score').rank(method='first', ascending=True))
+)
 #       name  score  rank_first
 # 0    Alice     85         4.0
 # 1      Bob     92         8.0
@@ -296,13 +286,13 @@ David has the score of 88 (unique),
 ## Rank UNIQUE values only  ##
 ##--------------------------##
 
-df_raw_unique = pd.DataFrame(
+df_unrank_unique = pd.DataFrame(
     {
         "name": ["Alice", "Bob", "Charlie", "David", "Eva", "Freddy", "George", "Hannah"],
         "score": [85, 92, 86, 88, 90, 54, 25, 42]
     }
 )
-print(df_raw_unique)
+print(df_unrank_unique)
 #       name  score
 # 0    Alice     85
 # 1      Bob     92
@@ -313,18 +303,16 @@ print(df_raw_unique)
 # 6   George     25
 # 7   Hannah     42
 
-df_ranked = (
-    df_raw_unique.copy()
+print(
+    df_unrank_unique
     .assign(
-        rank_average = lambda df: df["score"].rank(method="average", ascending=True, axis=0),
-        rank_max = lambda df: df["score"].rank(method="max", ascending=True, axis=0),
-        rank_min = lambda df: df["score"].rank(method="min", ascending=True, axis=0),
-        rank_dense = lambda df: df["score"].rank(method="dense", ascending=True, axis=0),
-        rank_first = lambda df: df["score"].rank(method="first", ascending=True, axis=0),
+        rank_average = c('score').rank(method="average", ascending=True, axis=0),
+        rank_max = c('score').rank(method="max", ascending=True, axis=0),
+        rank_min = c('score').rank(method="min", ascending=True, axis=0),
+        rank_dense = c('score').rank(method="dense", ascending=True, axis=0),
+        rank_first = c('score').rank(method="first", ascending=True, axis=0),
     )
 )
-
-print(df_ranked)
 #       name  score  rank_average  rank_max  rank_min  rank_dense  rank_first
 # 0    Alice     85           4.0       4.0       4.0         4.0         4.0
 # 1      Bob     92           8.0       8.0       8.0         8.0         8.0
@@ -341,14 +329,11 @@ print(df_ranked)
 ##-------------------##
 '''Rank in percentage (from 0 to 1)'''
 
-# ## With UNIQUE values
-# 
-df_ranked = (
-    df_raw_unique.copy()
-    .assign(rank_pct=lambda df: df["score"].rank(method="average", ascending=True, axis=0, pct=True))
+# With UNIQUE values
+print(
+    df_unrank_unique
+    .assign(rank_average = c('score').rank(method='average', ascending=True, pct=True))
 )
-
-print(df_ranked)
 #       name  score  rank_pct
 # 0    Alice     85     0.500
 # 1      Bob     92     1.000
@@ -364,24 +349,21 @@ Alice has the score of 85,
 => rank_pct = 4/8 = 0.5
 
 Bob has the score of 92 (highest, unique),
-=> rank = 8 
+=> rank = 8
 => rank_pct = 8/8 = 1.0
 '''
 
-# ## With DUPLICATE values
-# 
-df_ranked = (
-    df_raw_rank.copy()
+# With DUPLICATE values
+print(
+    df_unrank
     .assign(
-        rank_average = lambda df: df["score"].rank(method="average", ascending=True, axis=0, pct=True),
-        rank_min = lambda df: df["score"].rank(method="min", ascending=True, axis=0, pct=True),
-        rank_max = lambda df: df["score"].rank(method="max", ascending=True, axis=0, pct=True),
-        rank_dense = lambda df: df["score"].rank(method="dense", ascending=True, axis=0, pct=True),
-        rank_first = lambda df: df["score"].rank(method="first", ascending=True, axis=0, pct=True),
+        rank_average = c('score').rank(method="average", ascending=True, axis=0, pct=True),
+        rank_min = c('score').rank(method="min", ascending=True, axis=0, pct=True),
+        rank_max = c('score').rank(method="max", ascending=True, axis=0, pct=True),
+        rank_dense = c('score').rank(method="dense", ascending=True, axis=0, pct=True),
+        rank_first = c('score').rank(method="first", ascending=True, axis=0, pct=True),
     )
 )
-
-print(df_ranked)
 #       name  score  rank_average  rank_min  rank_max  rank_dense  rank_first
 # 0    Alice     85        0.5625     0.500     0.625         0.4       0.500
 # 1      Bob     92        1.0000     1.000     1.000         1.0       1.000
@@ -401,13 +383,13 @@ MIN: Freddy, George and Hannah have the same score of 66,
 => share rank = min(1, 2, 3) = 1.0
 => rank_pct = 1/8 = 0.125
 
-MAX: 
+MAX:
 Freddy, George and Hannah have the same score of 66,
 => share rank = max(1, 2, 3) = 3.0
 => rank_pct = 3/8 = 0.375
 
 --------------------
-DENSE: 
+DENSE:
 
 Freddy, George and Hannah have the same score of 66,
 => share rank = min(1, 2, 3) = 1.0

@@ -5,8 +5,8 @@
 
 2. Using df.assign()
    + Modify existing columns: df = df.assign(existing_col=lambda df: ...)
-   + Add new columns: df = df.assign(new_col=...) 
-                      OR df.assign(new_col=c("existing_col")...) 
+   + Add new columns: df = df.assign(new_col=...)
+                      OR df.assign(new_col=c("existing_col")...)
                       OR df.assign(new_col=lambda df: ...)
    + Using df.assign(**kwargs) to avoid overlap with python keywords
 
@@ -24,23 +24,26 @@ from pandas import col as c
 data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
 
-df_baseball = pd.read_csv(
-    filepath_or_buffer = data_dir/"baseball.csv",
-    usecols = ["Name", "Team", "Height", "Weight"],
-    dtype = {"Team": "category"}
+df_baseball = (
+    pd.read_csv(
+        filepath_or_buffer=data_dir/"baseball.csv",
+        usecols=["Name", "Team", "Height", "Weight"],
+        dtype={"Team": "category"}
+    )
+    .rename(columns=lambda col: col.lower())
 )
 
 print(df_baseball.head(3))
-#               Name Team  Height  Weight
+#               name team  height  weight
 # 0    Adam_Donachie  BAL      74     180
 # 1        Paul_Bako  BAL      74     215
 # 2  Ramon_Hernandez  BAL      72     210
 
 print(df_baseball.dtypes)
-# Name        object
-# Team      category
-# Height       int64
-# Weight       int64
+# name           str
+# team      category
+# height       int64
+# weight       int64
 # dtype: object
 
 # =========================================================================================
@@ -55,20 +58,20 @@ print(df_baseball.dtypes)
 df_demo = df_baseball.copy()
 
 # Convert Height from inches to cm
-df_demo["Height"] = df_demo["Height"] * 2.54
+df_demo["height"] = df_demo["height"] * 0.0254
 print(df_demo.head(3))
-#               Name Team  Height  Weight
-# 0    Adam_Donachie  BAL  187.96     180
-# 1        Paul_Bako  BAL  187.96     215
-# 2  Ramon_Hernandez  BAL  182.88     210
+#               name team  height  weight  Raise
+# 0    Adam_Donachie  BAL  1.8796     180  False
+# 1        Paul_Bako  BAL  1.8796     215  False
+# 2  Ramon_Hernandez  BAL  1.8288     210  False
 
 # Convert Team to lowercase (then back to category)
-df_demo["Team"] = df_demo["Team"].str.lower().astype("category")
+df_demo["team"] = df_demo["team"].str.lower().astype("category")
 print(df_demo.head(3))
-#               Name Team  Height  Weight
-# 0    Adam_Donachie  bal  187.96     180
-# 1        Paul_Bako  bal  187.96     215
-# 2  Ramon_Hernandez  bal  182.88     210
+#               name team  height  weight
+# 0    Adam_Donachie  bal  1.8796     180
+# 1        Paul_Bako  bal  1.8796     215
+# 2  Ramon_Hernandez  bal  1.8288     210
 
 ##----------------------------##
 ##     Derive new columns     ##
@@ -78,15 +81,15 @@ print(df_demo.head(3))
 df_demo = df_baseball.copy()
 
 # Add new columns for Height in m and Weight in kg, and BMI
-df_demo["Height_cm"] = df_demo["Height"] * 0.0254
-df_demo["Weight_kg"] = df_demo["Weight"] * 0.453592
-df_demo["BMI"] = df_demo["Weight_kg"] / (df_demo["Height_cm"] ** 2)
+df_demo["height_m"] = df_demo["height"] * 0.0254
+df_demo["weight_kg"] = df_demo["weight"] * 0.453592
+df_demo["bmi"] = df_demo["weight_kg"] / (df_demo["height_m"] ** 2)
 
 print(df_demo.head(3))
-#               Name Team  Height  Weight  Height_cm  Weight_kg        BMI
-# 0    Adam_Donachie  BAL      74     180     1.8796   81.64656  23.110376
-# 1        Paul_Bako  BAL      74     215     1.8796   97.52228  27.604061
-# 2  Ramon_Hernandez  BAL      72     210     1.8288   95.25432  28.480805
+#               name team  height  weight  height_m  weight_kg        bmi
+# 0    Adam_Donachie  BAL      74     180    1.8796   81.64656  23.110376
+# 1        Paul_Bako  BAL      74     215    1.8796   97.52228  27.604061
+# 2  Ramon_Hernandez  BAL      72     210    1.8288   95.25432  28.480805
 
 # =========================================================================================
 # 2. Using df.assign()
@@ -97,112 +100,104 @@ print(df_demo.head(3))
 ##---------------------------------##
 '''df = df.assign(existing_col = lambda df: ...)'''
 
-# ## Modify a single column: Weight from lbs to kg
-# 
-df_demo = df_baseball.copy().assign(Weight = lambda df: df["Weight"] * 0.453592)
-
-print(df_demo.head(3))
-#               Name Team  Height    Weight
+# Modify a single column: Weight from lbs to kg #
+print(
+    df_baseball
+    .assign(weight = c('weight') * 0.453592)
+    .head(3)
+)
+#               name team  height    weight
 # 0    Adam_Donachie  BAL      74  81.64656
 # 1        Paul_Bako  BAL      74  97.52228
 # 2  Ramon_Hernandez  BAL      72  95.25432
 
-# ## Modify multiple columns: Height from inches to cm, Weight from lbs to kg, Team to lowercase
-# 
-df_demo = df_baseball.copy().assign(
-    Height = c("Height") * 2.54, # or use lambda df: df["Height"] * 2.54
-    Weight = c("Weight") * 0.453592, # or use lambda df: df["Weight"] * 0.453592
-    Team = c("Team").str.lower().astype("category") # or use lambda df: df["Team"].str.lower().astype("category"
+# Modify multiple columns: Height from inches to cm, Weight from lbs to kg, Team to lowercase
+print(
+   df_baseball
+  .assign(
+      height = c('height') * 0.0254, # or use lambda df: df["height"] * 0.0254
+      weight = c("weight") * 0.453592, # or use lambda df: df["weight"] * 0.453592
+      team = c("team").str.lower().astype("category") # or use lambda df: df["team"].str.lower().astype("category")
+  )
+  .head(3)
 )
-
-print(df_demo.head(3))
-#               Name Team  Height    Weight
-# 0    Adam_Donachie  bal  187.96  81.64656
-# 1        Paul_Bako  bal  187.96  97.52228
-# 2  Ramon_Hernandez  bal  182.88  95.25432
+#               name team  height    weight
+# 0    Adam_Donachie  bal  1.8796  81.64656
+# 1        Paul_Bako  bal  1.8796  97.52228
+# 2  Ramon_Hernandez  bal  1.8288  95.25432
 
 ##----------------------------##
 ##     Derive new columns     ##
 ##----------------------------##
 '''df = df.assign(new_col = ...) OR df.assign(new_col = lambda df: ...)'''
 
-# ## Derive single column
-# 
-# Add Raise column with random True/False values
+# Derive single column
 np.random.seed(0)
-df_demo = df_baseball.copy().assign(Raise = np.random.choice([True, False], size=len(df_baseball)))
-print(df_demo.head(3))
-#               Name Team  Height  Weight  Raise
+print(
+    df_baseball
+    .assign(Raise = np.random.choice([True, False], size=len(df_baseball)))
+    .head(3)
+)
+#               name team  height  weight  Raise
 # 0    Adam_Donachie  BAL      74     180   True
 # 1        Paul_Bako  BAL      74     215  False
 # 2  Ramon_Hernandez  BAL      72     210  False
 
-# Add BMI column
-df_demo = df_baseball.copy().assign(BMI = c("Weight") / (c("Height") ** 2))
-print(df_demo.head(3))
-#               Name Team  Height  Weight       BMI
-# 0    Adam_Donachie  BAL      74     180  0.032871
-# 1        Paul_Bako  BAL      74     215  0.039262
-# 2  Ramon_Hernandez  BAL      72     210  0.040509
-
-# ## Derive multiple columns
-# 
-# Add Height in cm, Weight in kg, and BMI columns
-df_demo = df_baseball.copy().assign(
-    Height_cm = c("Height") * 2.54,
-    Weight_kg = c("Weight") * 0.453592,
-    BMI = c("Weight_kg") / (c("Height_cm") ** 2)
+# Derive multiple columns
+print(
+    df_baseball
+    .assign(
+        height_m = c("height") * 0.0254,
+        weight_kg = c("weight") * 0.453592,
+        bmi = c("weight_kg") / (c("height_m") ** 2)
+    )
+    .head(3)
 )
-
-print(df_demo.head(3))
-#               Name Team  Height  Weight  Height_cm  Weight_kg       BMI
-# 0    Adam_Donachie  BAL      74     180     187.96   81.64656  0.002311
-# 1        Paul_Bako  BAL      74     215     187.96   97.52228  0.002760
-# 2  Ramon_Hernandez  BAL      72     210     182.88   95.25432  0.002848
+#               name team  height  weight   height_m  weight_kg       bmi
+# 0    Adam_Donachie  BAL      74     180     1.8796   81.64656  0.002311
+# 1        Paul_Bako  BAL      74     215     1.8796   97.52228  0.002760
+# 2  Ramon_Hernandez  BAL      72     210     1.8288   95.25432  0.002848
 
 ##-----------------------------------------------------------------##
 ## Using df.assign(**kwargs) to avoid overlap with python keywords ##
 ##-----------------------------------------------------------------##
 '''df = df.assign(**{keyword_col = ...}) OR df.assign(**{keyword_col = lambda df: ...})'''
 
-# ## Add "raise" column (keyword conflict with Python)
-# 
+# Add "raise" column (keyword conflict with Python)
 np.random.seed(0)
-df_demo = df_baseball.copy().assign(**{"raise": np.random.choice([True, False], size=len(df_baseball))})
-
-print(df_demo.head(3))
-#               Name Team  Height  Weight  raise
+print(
+    df_baseball
+    .assign(**{'raise': np.random.choice([True, False], size=len(df_baseball))})
+    .head(3)
+)
+#               name team  height  weight  raise
 # 0    Adam_Donachie  BAL      74     180   True
 # 1        Paul_Bako  BAL      74     215  False
 # 2  Ramon_Hernandez  BAL      72     210  False
 
-# ## Multiple columns
-# 
-# Add Height in cm, Weight in kg, and BMI columns
-# Also modify "Team" to lowercase
-
-df_demo = df_baseball.copy().assign(**{
-    "height_cm": c("Height") * 2.54,
-    "weight_kg": c("Weight") * 0.453592,
-    "bmi": c("weight_kg") / (c("height_cm") ** 2),
-    "Team": c("Team").str.lower().astype("category")
-})
-
-print(df_demo.head(3))
-#               Name Team  Height  Weight  height_cm  weight_kg       bmi
-# 0    Adam_Donachie  bal      74     180     187.96   81.64656  0.002311
-# 1        Paul_Bako  bal      74     215     187.96   97.52228  0.002760
-# 2  Ramon_Hernandez  bal      72     210     182.88   95.25432  0.002848
-
-# ## Apply for loops **{col: lambda df: ... for col in cols}
-# 
+# Multiple columns (NOT RECOMMENDED)
 print(
     df_baseball
-    .copy()
-    .assign(**{col: lambda df: df[col].astype(float) for col in ["Height", "Weight"]})
+    .assign(**{
+        "height_m": c("height") * 0.0254,
+        "weight_kg": c("weight") * 0.453592,
+        "bmi": c("weight_kg") / (c("height_m") ** 2),
+        "team": c("team").str.lower().astype("category")
+    })
+    .head(3)
+)
+#               name team  height  weight  height_m  weight_kg        bmi
+# 0    Adam_Donachie  bal      74     180    1.8796   81.64656  23.110376
+# 1        Paul_Bako  bal      74     215    1.8796   97.52228  27.604061
+# 2  Ramon_Hernandez  bal      72     210    1.8288   95.25432  28.480805
+
+# Apply for loops **{col: pd.col(col)... for col in cols}
+print(
+    df_baseball
+    .assign(**{col: c(col).astype(float) for col in ["height", "weight"]})
     .head(5)
 )
-#               Name       Team    Height    Weight
+#               name       team    height    weight
 #           <object> <category> <float64> <float64>
 # 0    Adam_Donachie        BAL     180.0     180.0
 # 1        Paul_Bako        BAL     215.0     215.0
@@ -213,7 +208,6 @@ print(
 # =========================================================================================
 # 3. Using df.eval()
 # =========================================================================================
-
 '''
 Support operators: +, -, *, /, //, %, ** and parentheses () for grouping.
 
@@ -230,27 +224,30 @@ lbs_to_kg = 0.453592
 ##---------------------------------##
 '''df.eval("existing_col = ...", inplace=True/False)'''
 
-# ## Modify a single column: Weight from lbs to kg
-# 
-df_demo = df_baseball.copy().eval("Weight = Weight * @lbs_to_kg", inplace=False)
-print(df_demo.head(3))
-#               Name Team  Height    Weight
+# Modify a single column: Weight from lbs to kg
+print(
+    df_baseball
+    .eval('weight = weight * @lbs_to_kg')
+    .head(3)
+)
+#               name team  height    weight
 # 0    Adam_Donachie  BAL      74  81.64656
 # 1        Paul_Bako  BAL      74  97.52228
 # 2  Ramon_Hernandez  BAL      72  95.25432
 
-# ## Modify multiple columns
-# 
-df_demo = df_baseball.copy().eval(
-    """
-    Height = Height * @inch_to_m
-    Weight = Weight * @lbs_to_kg
-    Team = Team.str.lower().astype('category')
-    """
+# Modify multiple columns
+print(
+    df_baseball
+    .eval(
+        """
+        height = height * @inch_to_m
+        weight = weight * @lbs_to_kg
+        team = team.str.lower().astype('category')
+        """
+    )
+    .head(3)
 )
-
-print(df_demo.head(3))
-#               Name Team  Height    Weight
+#               name team  height    weight
 # 0    Adam_Donachie  bal  1.8796  81.64656
 # 1        Paul_Bako  bal  1.8796  97.52228
 # 2  Ramon_Hernandez  bal  1.8288  95.25432
@@ -260,28 +257,30 @@ print(df_demo.head(3))
 ##----------------------------##
 '''df.eval("new_col = ...", inplace = True/False)'''
 
-# ## Derive single column (apply ``)
-# 
-df_demo = df_baseball.copy().eval("BMI = `Weight` / (`Height` ** 2)", inplace = False)
-print(df_demo.head(3))
-#               Name Team  Height  Weight       BMI
+# Derive single column (apply ``)
+print(
+    df_baseball
+    .eval('bmi = `weight` / (`height` ** 2)')
+    .head(3)
+)
+#               name team  height  weight       bmi
 # 0    Adam_Donachie  BAL      74     180  0.032871
 # 1        Paul_Bako  BAL      74     215  0.039262
 # 2  Ramon_Hernandez  BAL      72     210  0.040509
 
-# ## Derive multiple columns
-# 
-df_demo = df_baseball.copy().eval(
-    """
-    height_m = Height * @inch_to_m
-    weight_kg = Weight * @lbs_to_kg
-    bmi = weight_kg / (height_m ** 2)
-    """,
-    inplace = False
+# Derive multiple columns
+print(
+   df_baseball
+   .eval(
+       '''
+       height_m = height * @inch_to_m
+       weight_kg = weight * @lbs_to_kg
+       bmi = weight_kg / (height_m ** 2)
+       '''
+   )
+   .head(3)
 )
-
-print(df_demo.head(3))
-#               Name Team  Height  Weight  height_m  weight_kg        bmi
+#               name team  height  weight  height_m  weight_kg        bmi
 # 0    Adam_Donachie  BAL      74     180    1.8796   81.64656  23.110376
 # 1        Paul_Bako  BAL      74     215    1.8796   97.52228  27.604061
 # 2  Ramon_Hernandez  BAL      72     210    1.8288   95.25432  28.480805

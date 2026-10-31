@@ -1,5 +1,5 @@
 '''
-Un like .assign() and .agg(), reframe technique allows returning a new DataFrame with a totally different shape.
+Unlike .assign() and .agg(), reframe technique allows returning a new DataFrame with a totally different shape.
 
 (.assign() requires the same number of rows as the original DataFrame,
  .groupby() returns a DataFrame the same number of columns as the original DataFrame.)
@@ -15,7 +15,6 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from pandas import col as c
 from scipy import stats
 
 data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
@@ -42,7 +41,11 @@ print(df_boston.shape)  # (506, 11)
 # =========================================================================================
 '''Apply the same reframing function to multiple columns of the DataFrame.'''
 
-print(df_boston[["rm", "lstat", "medv"]].apply(stats.shapiro, axis=0)) # axis=0 to apply function to each column
+print(
+    df_boston
+    .reindex(columns=['rm', 'lstat', 'medv'])
+    .apply(stats.shapiro, axis=0) # axis=0 to apply function to each column
+)
 #              rm         lstat          medv
 # 0  9.608723e-01  9.369061e-01  9.171759e-01
 # 1  2.411977e-10  8.286632e-14  4.941386e-16
@@ -50,7 +53,8 @@ print(df_boston[["rm", "lstat", "medv"]].apply(stats.shapiro, axis=0)) # axis=0 
 ##-----------##
 
 print(
-    df_boston[["rm", "lstat", "medv"]]
+    df_boston
+    .reindex(columns=['rm', 'lstat', 'medv'])
     .apply(stats.shapiro, axis=0)
     .set_axis(["W-statistic", "p-value"], axis=0) # rename the index
 )
@@ -61,7 +65,8 @@ print(
 ##-----------##
 
 print(
-    df_boston[["rm", "lstat", "medv"]]
+    df_boston
+    .reindex(columns=['rm', 'lstat', 'medv'])
     .apply(lambda col: np.quantile(col, q=[0.25, 0.5, 0.75, 1]), axis=0)
     .set_axis(["Q1", "Q2", "Q3", "Q4"], axis=0) # rename the index
 )
@@ -99,12 +104,12 @@ lstat ~ exponential distribution
 medv ~ gamma distribution
 '''
 
-df_ppf = (
+print(
     df_boston
     .pipe(
         lambda df: pd.DataFrame(
             {
-                "rm_norm": stats.norm.ppf(q=[0.25, 0.5, 0.75, 1], loc=df["rm"].mean(), scale=df["rm"].std()),
+                "rm_norm": stats.norm.ppf(q=[0.25, 0.5, 0.75, 1], loc=df['rm'].mean(), scale=df['rm'].std()),
                 "lstat_expon": stats.expon.ppf(q=[0.25, 0.5, 0.75, 1], scale=df["lstat"].mean()),
                 "medv_gamma": stats.gamma.ppf(q=[0.25, 0.5, 0.75, 1], a=2, scale=df["medv"].mean() / 2),
             },
@@ -112,8 +117,6 @@ df_ppf = (
         )
     )
 )
-
-print(df_ppf)
 #             rm_norm  lstat_expon  medv_gamma
 # ppf_25th   5.810726     3.640059   10.830154
 # ppf_50th   6.284634     8.770435   18.908934
