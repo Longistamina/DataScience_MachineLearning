@@ -9,13 +9,10 @@
 3. pd.Grouper(): Flexible grouping by time, frequency, or other criteria.
 '''
 
-import warnings
 from pathlib import Path
 
 import pandas as pd
 from pandas import col as c
-
-warnings.filterwarnings("ignore")
 
 data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -31,29 +28,31 @@ df_pokemon = (
         }
     )
     .drop(columns=["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
-    .assign(Generation = c('Generation').cat.as_ordered())
+    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", "").str.lower(), axis=1))
+    .assign(generation = c('generation').cat.as_ordered())
 )
 
 print(df_pokemon.info())
+# <class 'pandas.DataFrame'>
 # RangeIndex: 800 entries, 0 to 799
 # Data columns (total 12 columns):
-#  #   Column      Non-Null Count  Dtype   
-# ---  ------      --------------  -----   
-#  0   Name        800 non-null    object  
-#  1   Type_1      800 non-null    category
-#  2   Type_2      414 non-null    category
-#  3   Total       800 non-null    int64   
-#  4   HP          800 non-null    int64   
-#  5   Attack      800 non-null    int64   
-#  6   Defense     800 non-null    int64   
-#  7   Sp_Atk      800 non-null    int64   
-#  8   Sp_Def      800 non-null    int64   
-#  9   Speed       800 non-null    int64   
-#  10  Generation  800 non-null    category
-#  11  Legendary   800 non-null    bool    
-# dtypes: bool(1), category(3), int64(7), object(1)
-# memory usage: 54.7+ KB
+#  #   Column      Non-Null Count  Dtype
+# ---  ------      --------------  -----
+#  0   name        800 non-null    str
+#  1   type_1      800 non-null    category
+#  2   type_2      414 non-null    category
+#  3   total       800 non-null    int64
+#  4   hp          800 non-null    int64
+#  5   attack      800 non-null    int64
+#  6   defense     800 non-null    int64
+#  7   sp_atk      800 non-null    int64
+#  8   sp_def      800 non-null    int64
+#  9   speed       800 non-null    int64
+#  10  generation  800 non-null    category
+#  11  legendary   800 non-null    bool
+# dtypes: bool(1), category(3), int64(7), str(1)
+# memory usage: 61.8 KB
+# None
 
 # =========================================================================================
 # 1. df.groupby().agg()
@@ -65,15 +64,14 @@ print(df_pokemon.info())
 
 print(
     df_pokemon
-    .groupby(by='Type_1', observed=False) # observed=False to include all categories in the group keys
+    .groupby(by='type_1', observed=False) # observed=False to include all categories in the group keys
     .agg(
-        count = ('HP', 'size'),  # Count the number of entries in each group
-        avg_HP = ('HP', 'mean')  # Calculate the mean of the 'HP' column for each group
+        count = ('hp', 'size'),  # count the number of entries in each group
+        avg_hp = ('hp', 'mean')  # calculate the mean of the 'hp' column for each group
     )
 )
 #            count     avg_HP
-                           
-# Type_1   <int64>  <float64>
+# type_1   <int64>  <float64>
 # Bug           69  56.884058
 # Dark          31  66.806452
 # Dragon        32  83.312500
@@ -95,14 +93,14 @@ print(
 
 print(
     df_pokemon
-    .groupby(by='Type_1', observed=False) # observed=False to include all categories in the group keys
+    .groupby(by='type_1', observed=False) # observed=False to include all categories in the group keys
     .agg(
-        count = ('HP', 'size'),  # Count the number of entries in each group
-        avg_HP = ('HP', 'mean')  # Calculate the mean of the 'HP' column for each group
+        count = ('hp', 'size'),  # count the number of entries in each group
+        avg_hp = ('hp', 'mean')  # calculate the mean of the 'hp' column for each group
     )
     .reset_index() # Reset index to turn the group keys into a column
 )
-#        Type_1   count     avg_HP
+#        type_1   count     avg_hp
 #    <category> <int64>  <float64>
 # 0         Bug      69  56.884058
 # 1        Dark      31  66.806452
@@ -126,20 +124,19 @@ print(
 ##-----------------------------##
 ## df.groupby(sort=True/False) ##
 ##-----------------------------##
-
-'''Single grouping key, sort = False'''
+'''Single grouping key, sort=False'''
 
 print(
     df_pokemon
-    .groupby(by='Type_1', sort=False, observed=False) # observed=False to include all categories in the group keys
+    .groupby(by='type_1', sort=False, observed=False) # observed=False to include all categories in the group keys
     .agg(
-        min_HP = ('HP', 'min'),
-        max_HP = ('HP', 'max'),
-        mean_HP = ('HP', 'mean')
+        min_hp = ('hp', 'min'),
+        max_hp = ('hp', 'max'),
+        mean_hp = ('hp', 'mean')
     )
     .reset_index() # Reset index to turn the group keys into a column
 )
-#       Type_1  min_HP  max_HP    mean_HP
+#       type_1  min_hp  max_hp    mean_hp
 # 0      Grass      30     123  67.271429
 # 1       Fire      38     115  69.903846
 # 2      Water      20     170  72.062500
@@ -159,19 +156,19 @@ print(
 # 16     Steel      40     100  65.222222
 # 17    Flying      40      85  70.750000
 
-'''Multiple grouping keys, sort = True'''
+'''Multiple grouping keys, sort=True'''
 
 print(
     df_pokemon
-    .groupby(by=['Type_1', 'Type_2'], sort=True, observed=False) # observed=False to include all categories in the group keys
+    .groupby(by=['type_1', 'type_2'], sort=True, observed=False) # observed=False to include all categories in the group keys
     .agg(
-        min_HP = ('HP', 'min'),
-        max_HP = ('HP', 'max'),
-        mean_HP = ('HP', 'mean')
+        min_hp = ('hp', 'min'),
+        max_hp = ('hp', 'max'),
+        mean_hp = ('hp', 'mean')
     )
     .reset_index() # Reset index to turn the group keys into a column
 )
-#     Type_1    Type_2  min_HP  max_HP    mean_HP
+#     type_1    type_2  min_hp  max_hp    mean_hp
 # 0      Bug       Bug     NaN     NaN        NaN
 # 1      Bug      Dark     NaN     NaN        NaN
 # 2      Bug    Dragon     NaN     NaN        NaN
@@ -184,22 +181,21 @@ print(
 # 322  Water     Steel    84.0    84.0  84.000000
 # 323  Water     Water     NaN     NaN        NaN
 
-##-----------------------##
-## df.groupby().dropna() ##
-##-----------------------##
+##--------------------------------------------------------------------##
+## df.groupby(observed=True): only show observed categorical groupers ##
+##--------------------------------------------------------------------##
 
 print(
     df_pokemon
-    .groupby(by=['Type_1', 'Type_2'], dropna=True, observed=False)
+    .groupby(by=['type_1', 'type_2'], observed=True)
     .agg(
-        min_HP = ('HP', 'min'),
-        max_HP = ('HP', 'max'),
-        mean_HP = ('HP', 'mean')
+        min_hp = ('hp', 'min'),
+        max_hp = ('hp', 'max'),
+        mean_hp = ('hp', 'mean')
     )
-    .dropna() # Drop rows with NaN values in the result
     .reset_index() # Reset index to turn the group keys into a column
 )
-#     Type_1    Type_2  min_HP  max_HP    mean_HP
+#     type_1    type_2  min_hp  max_hp    mean_hp
 # 0      Bug  Electric    50.0    70.0  60.000000
 # 1      Bug  Fighting    80.0    80.0  80.000000
 # 2      Bug      Fire    55.0    85.0  70.000000
@@ -218,18 +214,18 @@ print(
 
 def atk_stats(group):
     return pd.Series({
-        'min_ATK': group['Attack'].min(),
-        'max_ATK': group['Attack'].max(),
-        'mean_ATK': group['Attack'].mean()
+        'min_atk': group['attack'].min(),
+        'max_atk': group['attack'].max(),
+        'mean_atk': group['attack'].mean()
     })
 
 print(
     df_pokemon
-    .groupby(by='Type_1', observed=False) # observed=False to include all categories in the group keys
-    .apply(atk_stats, include_groups=False) # include_groups=False to exclude group keys in the result index
+    .groupby(by='type_1', observed=False) # observed=False to include all categories in the group keys
+    .apply(atk_stats)
     .reset_index() # Reset index to turn the group keys into a column
 )
-#       Type_1  min_ATK  max_ATK    mean_ATK
+#       type_1  min_atk  max_atk    mean_atk
 # 0        Bug     10.0    185.0   70.971014
 # 1       Dark     50.0    150.0   88.387097
 # 2     Dragon     50.0    180.0  112.125000
@@ -274,31 +270,28 @@ print(df_aq.head())
 print(df_aq.info())
 # RangeIndex: 2068 entries, 0 to 2067
 # Data columns (total 7 columns):
-#  #   Column     Non-Null Count  Dtype              
-# ---  ------     --------------  -----              
-#  0   city       2068 non-null   object             
-#  1   country    2068 non-null   object             
+#  #   Column     Non-Null Count  Dtype
+# ---  ------     --------------  -----
+#  0   city       2068 non-null   str
+#  1   country    2068 non-null   str
 #  2   date       2068 non-null   datetime64[ns, UTC]        # MUST BE datetime TYPE (NOT object)
-#  3   location   2068 non-null   object             
-#  4   parameter  2068 non-null   object             
-#  5   value      2068 non-null   float64            
-#  6   unit       2068 non-null   object             
+#  3   location   2068 non-null   str
+#  4   parameter  2068 non-null   str
+#  5   value      2068 non-null   float64
+#  6   unit       2068 non-null   str
 # dtypes: datetime64[ns, UTC](1), float64(1), object(5)
 
 ##---------------------------------------------------------------------------##
 ## Groupby using pd.Grouper, calculate the mean every 5 days, and by country ##
 ##---------------------------------------------------------------------------##
-
 '''NOTE: pd.Grouper requires the "date" column to be datetime type.'''
 
-df_aq_grouped_5d = (
-    df_aq.copy()
+print(
+    df_aq
     .groupby([pd.Grouper(key="date", freq="5D"), "country"])
     .agg({"value": "mean"})
     .reset_index() # to turn the index back into columns
 )
-
-print(df_aq_grouped_5d)
 #                         date country      value
 # 0  2019-05-07 00:00:00+00:00      BE  24.900000
 # 1  2019-05-07 00:00:00+00:00      FR  29.314655

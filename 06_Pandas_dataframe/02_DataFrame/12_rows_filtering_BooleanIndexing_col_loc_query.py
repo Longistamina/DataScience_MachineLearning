@@ -47,7 +47,7 @@ data_dir = next(data_dir)
 df_pokemon = (
     pd.read_csv(
         filepath_or_buffer=data_dir/"pokemon.csv",
-        dtype = {
+        dtype={
             "Type 1": "category",
             "Type 2": "category",
             "Generation": "category",

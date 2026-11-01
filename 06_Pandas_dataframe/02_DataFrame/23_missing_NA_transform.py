@@ -317,7 +317,7 @@ print(df_mkt.notnull().sum())
    how='all': Drop rows where all values are missing'''
 
 # ## how='all'
-# 
+#
 print(
     df_mkt
     .dropna(axis=1, how='all')
@@ -334,7 +334,7 @@ print(
 '''No columns are dopped because no columns have all NA values'''
 
 # ## how='any'
-# 
+#
 print(
     df_mkt
     .dropna(axis=1, how='any')
@@ -392,7 +392,7 @@ print(df_mkt2.isna().sum().pipe(lambda x: x[x > 0])) # Count missing values, ret
    how='all': Drop rows where all values are missing'''
 
 # ## how='any'
-# 
+#
 print(
     df_mkt2
     .dropna(axis=0, how='any')
@@ -414,7 +414,7 @@ print(
 '''Here, 51 rows are dropped because they have at least one missing value.'''
 
 # ## how='all'
-# 
+#
 print(
     df_mkt2
     .dropna(axis=0, how='all')
@@ -746,11 +746,10 @@ print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
 # grp_print         134
 # share_of_spend     40
 
-# 
+#
 # FILL MISSING VALUES WITH THE MEAN OF EACH "week" GROUP
 df_group_filled = df_missing.fillna(df_missing.groupby("week").transform("mean"))
 
-# 
 print(df_group_filled.isna().sum().pipe(lambda x: x[x > 0]))
 # grp_radio       114
 # reach_radio     114

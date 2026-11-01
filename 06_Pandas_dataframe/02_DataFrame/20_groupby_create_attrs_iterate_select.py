@@ -10,18 +10,15 @@
 
 3. Iterate over groups within a group-by object: for name, group in group_obj
 
-4. Select specific groups in a group-by object: 
-   + single-key groupby object: group_obj.get_group("name") 
+4. Select specific groups in a group-by object:
+   + single-key groupby object: group_obj.get_group("name")
    + multi-key groupby object: group_obj.get_group(("name1", "name2"))
 '''
 
-import warnings
 from pathlib import Path
 
 import pandas as pd
 from pandas import col as c
-
-warnings.filterwarnings("ignore")
 
 data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -37,29 +34,31 @@ df_pokemon = (
         }
     )
     .drop(columns=["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
-    .assign(Generation = c('Generation').cat.as_ordered())
+    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", "").str.lower(), axis=1))
+    .assign(generation = c('generation').cat.as_ordered())
 )
 
 print(df_pokemon.info())
+# <class 'pandas.DataFrame'>
 # RangeIndex: 800 entries, 0 to 799
 # Data columns (total 12 columns):
-#  #   Column      Non-Null Count  Dtype   
-# ---  ------      --------------  -----   
-#  0   Name        800 non-null    object  
-#  1   Type_1      800 non-null    category
-#  2   Type_2      414 non-null    category
-#  3   Total       800 non-null    int64   
-#  4   HP          800 non-null    int64   
-#  5   Attack      800 non-null    int64   
-#  6   Defense     800 non-null    int64   
-#  7   Sp_Atk      800 non-null    int64   
-#  8   Sp_Def      800 non-null    int64   
-#  9   Speed       800 non-null    int64   
-#  10  Generation  800 non-null    category
-#  11  Legendary   800 non-null    bool    
-# dtypes: bool(1), category(3), int64(7), object(1)
-# memory usage: 54.7+ KB
+#  #   Column      Non-Null Count  Dtype
+# ---  ------      --------------  -----
+#  0   name        800 non-null    str
+#  1   type_1      800 non-null    category
+#  2   type_2      414 non-null    category
+#  3   total       800 non-null    int64
+#  4   hp          800 non-null    int64
+#  5   attack      800 non-null    int64
+#  6   defense     800 non-null    int64
+#  7   sp_atk      800 non-null    int64
+#  8   sp_def      800 non-null    int64
+#  9   speed       800 non-null    int64
+#  10  generation  800 non-null    category
+#  11  legendary   800 non-null    bool
+# dtypes: bool(1), category(3), int64(7), str(1)
+# memory usage: 61.8 KB
+# None
 
 # =========================================================================================
 # 1. Create group-by object
@@ -69,11 +68,11 @@ print(df_pokemon.info())
 ## Using df.groupby("key") or df.groupby(["key1", "key2"]) ##
 ##---------------------------------------------------------##
 
-grouped_single_key = df_pokemon.groupby("Type_1")
+grouped_single_key = df_pokemon.groupby("type_1")
 print(grouped_single_key)
 # <pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f4481bd2ba0>
 
-grouped_multi_keys = df_pokemon.groupby(["Type_1", "Type_2"])
+grouped_multi_keys = df_pokemon.groupby(["type_1", "type_2"])
 print(grouped_multi_keys)
 # <pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f4481bd3c50>
 
@@ -81,11 +80,11 @@ print(grouped_multi_keys)
 ## Using df.groupby(by=df["key"]) or df.groupby(by=[df["key1"], df["key2"]]) ##
 ##---------------------------------------------------------------------------##
 
-grouped_single_key = df_pokemon.groupby(by=df_pokemon["Type_1"])
+grouped_single_key = df_pokemon.groupby(by=df_pokemon["type_1"])
 print(grouped_single_key)
 # <pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f4481be8f50>
 
-grouped_multi_keys = df_pokemon.groupby(by=[df_pokemon["Type_1"], df_pokemon["Type_2"]])
+grouped_multi_keys = df_pokemon.groupby(by=[df_pokemon["type_1"], df_pokemon["type_2"]])
 print(grouped_multi_keys)
 # <pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f4481bea060>
 
@@ -131,8 +130,8 @@ print(grouped_single_key.indices)
 #        573, 614, 615, 616, 692, 721, 722, 723, 730, 731, 735, 736, 799]), ...}
 
 print(grouped_multi_keys.indices)
-# {('Bug', 'Electric'): array([656, 657]), ('Bug', 'Fighting'): array([231, 232]), 
-# ('Bug', 'Fire'): array([697, 698]), 
+# {('Bug', 'Electric'): array([656, 657]), ('Bug', 'Fighting'): array([231, 232]),
+# ('Bug', 'Fire'): array([697, 698]),
 # ('Bug', 'Flying'): array([ 15, 132, 137, 179, 180, 208, 290, 308, 315, 461, 462, 463, 520, 734]), ...}
 
 ##-------------------##
@@ -160,13 +159,13 @@ for name, group in grouped_single_key:
     print("="*99)
 
 # Group name: Bug
-#           Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
+#           name type_1  type_2  total  hp  attack  defense  sp_atk  sp_def  speed generation  legendary
 # 13    Caterpie    Bug     NaN    195  45      30       35      20      20     45          1      False
 # 14     Metapod    Bug     NaN    205  50      20       55      25      25     30          1      False
 # 15  Butterfree    Bug  Flying    395  60      45       50      90      80     70          1      False
 # ===================================================================================================
 # Group name: Dark
-#         Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
+#         name type_1  type_2  total  hp  attack  defense  sp_atk  sp_def  speed generation  legendary
 # 212  Umbreon   Dark     NaN    525  95      65      110      60     130     65          2      False
 # 213  Murkrow   Dark  Flying    405  60      85       42      85      42     91          2      False
 # 233  Sneasel   Dark     Ice    430  55      95       55      35      75    115          2      False
@@ -181,17 +180,17 @@ for name, group in grouped_multi_keys:  # Iterate over the first 4 groups
     print("="*99)
 
 # Group name: ('Bug', 'Electric')
-#            Name Type_1    Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
+#            name type_1    type_2  total  hp  attack  defense  sp_atk  sp_def  speed generation  legendary
 # 656      Joltik    Bug  Electric    319  50      47       50      57      50     65          5      False
 # 657  Galvantula    Bug  Electric    472  70      77       60      97      60    108          5      False
 # ===================================================================================================
 # Group name: ('Bug', 'Fighting')
-#                         Name Type_1    Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
+#                         name type_1    type_2  total  hp  attack  defense  sp_atk  sp_def  speed generation  legendary
 # 231                Heracross    Bug  Fighting    500  80     125       75      40      95     85          2      False
 # 232  HeracrossMega Heracross    Bug  Fighting    600  80     185      115      40     105     75          2      False
 # ===================================================================================================
 # Group name: ('Bug', 'Fire')
-#           Name Type_1 Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
+#           name type_1 type_2  total  hp  attack  defense  sp_atk  sp_def  speed generation  legendary
 # 697   Larvesta    Bug   Fire    360  55      85       55      50      55     60          5      False
 # 698  Volcarona    Bug   Fire    550  85      60       65     135     105    100          5      False
 
@@ -204,7 +203,7 @@ for name, group in grouped_multi_keys:  # Iterate over the first 4 groups
 ##------------------------##
 
 print(grouped_single_key.get_group("Fire").head())
-#                         Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
+#                         name type_1  type_2  total  hp  attack  defense  sp_atk  sp_def  speed generation  legendary
 # 4                 Charmander   Fire     NaN    309  39      52       43      60      50     65          1      False
 # 5                 Charmeleon   Fire     NaN    405  58      64       58      80      65     80          1      False
 # 6                  Charizard   Fire  Flying    534  78      84       78     109      85    100          1      False
@@ -216,7 +215,7 @@ print(grouped_single_key.get_group("Fire").head())
 ##---------------------------##
 
 print(grouped_multi_keys.get_group(("Water", "Flying")).head())
-#          Name Type_1  Type_2  Total  HP  Attack  Defense  Sp_Atk  Sp_Def  Speed Generation  Legendary
+#          name type_1  type_2  total  hp  attack  defense  sp_atk  sp_def  speed generation  legendary
 # 140  Gyarados  Water  Flying    540  95     125       79      60     100     81          1      False
 # 244   Mantine  Water  Flying    465  65      40       70      80     140     70          2      False
 # 301   Wingull  Water  Flying    270  40      30       30      55      30     85          3      False

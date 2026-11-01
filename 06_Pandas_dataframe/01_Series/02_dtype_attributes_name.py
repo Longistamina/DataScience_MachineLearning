@@ -155,8 +155,8 @@ print(s)
 # Name: My Series, dtype: int64
 
 ##-----------------------------------##
-# Create a Series with `name`
 
+# Create a Series with `name`
 s_name = pd.Series(["2", 3, "four", 5], name="something")
 
 print(s_name.name)

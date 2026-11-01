@@ -191,7 +191,7 @@ print(s_price_levels_categ)
 
 ## With ordered = True
 s_price_levels_categ = pd.Series(pd.Categorical(
-    values = lst_price_levels,
+    values=lst_price_levels,
     ordered=True, # Set to True if you want to treat categories as ordered
     categories=[1, 2, 3, 4, 5] # Define the level
 ))

@@ -5,13 +5,10 @@ df.describe(): Get summary statistics of DataFrame columns.
    + df.describe(exclude=[category, bool]): Exclude specific data types.
 '''
 
-import warnings
 from pathlib import Path
 
 import pandas as pd
 from pandas import col as c
-
-warnings.filterwarnings("ignore")
 
 data_dir = Path.home().rglob("*/DataScience_MachineLearning/data")
 data_dir = next(data_dir)
@@ -27,27 +24,27 @@ df_pokemon = (
         }
     )
     .drop(columns=["#"])
-    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", ""), axis=1))
-    .assign(Generation = c('Generation').cat.as_ordered())
+    .pipe(lambda df: df.set_axis(df.columns.str.strip().str.replace(r"\s+", "_", regex=True).str.replace(".", "").str.lower(), axis=1))
+    .assign(generation = c('generation').cat.as_ordered())
 )
 
 print(df_pokemon.info())
 # RangeIndex: 800 entries, 0 to 799
 # Data columns (total 12 columns):
-#  #   Column      Non-Null Count  Dtype   
-# ---  ------      --------------  -----   
-#  0   Name        800 non-null    object  
-#  1   Type_1      800 non-null    category
-#  2   Type_2      414 non-null    category
-#  3   Total       800 non-null    int64   
-#  4   HP          800 non-null    int64   
-#  5   Attack      800 non-null    int64   
-#  6   Defense     800 non-null    int64   
-#  7   Sp_Atk      800 non-null    int64   
-#  8   Sp_Def      800 non-null    int64   
-#  9   Speed       800 non-null    int64   
-#  10  Generation  800 non-null    category
-#  11  Legendary   800 non-null    bool    
+#  #   Column      Non-Null Count  Dtype
+# ---  ------      --------------  -----
+#  0   name        800 non-null    str
+#  1   type_1      800 non-null    category
+#  2   type_2      414 non-null    category
+#  3   total       800 non-null    int64
+#  4   hp          800 non-null    int64
+#  5   attack      800 non-null    int64
+#  6   defense     800 non-null    int64
+#  7   sp_atk      800 non-null    int64
+#  8   sp_def      800 non-null    int64
+#  9   speed       800 non-null    int64
+#  10  generation  800 non-null    category
+#  11  legendary   800 non-null    bool
 # dtypes: bool(1), category(3), int64(7), object(1)
 # memory usage: 54.7+ KB
 
@@ -60,7 +57,7 @@ print(df_pokemon.info())
 ##---------------##
 
 print(df_pokemon.describe())
-#            Total          HP      Attack     Defense      Sp_Atk      Sp_Def       Speed
+#            total          hp      attack     defense      sp_atk      sp_def       speed
 # count  800.00000  800.000000  800.000000  800.000000  800.000000  800.000000  800.000000
 # mean   435.10250   69.258750   79.001250   73.842500   72.820000   71.902500   68.277500
 # std    119.96304   25.534669   32.457366   31.183501   32.722294   27.828916   29.060474
@@ -74,15 +71,15 @@ print(df_pokemon.describe())
 ## df.describe(include=[object, category, "all"]) ##
 ##------------------------------------------------##
 
-print(df_pokemon.describe(include=['object', 'category']))
-#           Name Type_1  Type_2 Generation
+print(df_pokemon.describe(include=['str', 'category']))
+#           name type_1  type_2 generation
 # count      800    800     414        800
 # unique     800     18      18          6
 # top     Skrelp  Water  Flying          1
 # freq         1    112      97        166
 
 print(df_pokemon.describe(include='all'))
-#           Name Type_1  Type_2      Total          HP  ...      Sp_Atk      Sp_Def       Speed  Generation  Legendary
+#           name type_1  type_2      total          hp  ...      sp_atk      sp_def       speed  generation  legendary
 # count      800    800     414  800.00000  800.000000  ...  800.000000  800.000000  800.000000         800        800
 # unique     800     18      18        NaN         NaN  ...         NaN         NaN         NaN           6          2
 # top     Skrelp  Water  Flying        NaN         NaN  ...         NaN         NaN         NaN           1      False
