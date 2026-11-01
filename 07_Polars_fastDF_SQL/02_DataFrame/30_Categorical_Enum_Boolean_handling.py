@@ -73,9 +73,9 @@ print(
 # 2. Enum: ordered categories
 # ================================================================================
 
-##-------------##
-## Basic usage ##
-##-------------##
+##------------------##
+## Basic conversion ##
+##------------------##
 
 print(
     lf_pokemon
@@ -156,9 +156,13 @@ print(
 # │ Charmander            ┆ 1          │
 # └───────────────────────┴────────────┘
 
-##-----------------------------------------------------------------------------##
-## Filter enum with relationship operators (>, <, =, >=, <=, !=, is_between()) ##
-##-----------------------------------------------------------------------------##
+##------------------------------------------------------------------------------##
+## Filter enums with relationship operators (>, <, =, >=, <=, !=, is_between()) ##
+##------------------------------------------------------------------------------##
+'''
+Should set the categories in ascending order, like:
+# Categories (6, int64): [1 < 2 < 3 < 4 < 5 < 6]
+'''
 
 print(
     lf_pokemon
@@ -282,3 +286,31 @@ print(
 # │ HoopaHoopa Unbound  ┆ 6          ┆ true      │
 # │ Volcanion           ┆ 6          ┆ true      │
 # └─────────────────────┴────────────┴───────────┘
+
+print(
+    lf_pokemon
+    .with_columns(
+        c('legendary').cast(pl.Boolean)
+    )
+    .select('name', 'generation', 'legendary')
+    .filter(~c('legendary')) # or `.remove('legendary')` or `.remove(c('legendary'))`
+    .collect()
+)
+# shape: (735, 3)
+# ┌───────────────────────┬────────────┬───────────┐
+# │ name                  ┆ generation ┆ legendary │
+# │ ---                   ┆ ---        ┆ ---       │
+# │ str                   ┆ i64        ┆ bool      │
+# ╞═══════════════════════╪════════════╪═══════════╡
+# │ Bulbasaur             ┆ 1          ┆ false     │
+# │ Ivysaur               ┆ 1          ┆ false     │
+# │ Venusaur              ┆ 1          ┆ false     │
+# │ VenusaurMega Venusaur ┆ 1          ┆ false     │
+# │ Charmander            ┆ 1          ┆ false     │
+# │ …                     ┆ …          ┆ …         │
+# │ GourgeistSuper Size   ┆ 6          ┆ false     │
+# │ Bergmite              ┆ 6          ┆ false     │
+# │ Avalugg               ┆ 6          ┆ false     │
+# │ Noibat                ┆ 6          ┆ false     │
+# │ Noivern               ┆ 6          ┆ false     │
+# └───────────────────────┴────────────┴───────────┘
