@@ -71,6 +71,7 @@ lf_bac = lf_bac.with_columns(
         c.SCORE # the initial (initializer)
     ).alias("SCORE")
 )
+# c.SCORE.str.replace_all('Toán', 'Math').str.replace('Ngữ văn', 'Literature').str.replace(...).str.replace(...)
 
 print(lf_bac.collect())
 
