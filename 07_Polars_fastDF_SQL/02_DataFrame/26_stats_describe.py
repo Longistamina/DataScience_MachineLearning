@@ -2,7 +2,7 @@
 LazyFrame description / summary statistics in Polars.
 
 1. `lf.describe()`: summary statistics for all columns, with dtype-dependent output.
-2. `lf.select(cs.numeric()).describe()`: describe only numeric columns:
+2. `lf.select(cs.numeric()).describe()`: describe only numeric columns
 3. `lf.select(cs.string() | cs.categorical()).describe(): describe string and categorical columns
 4. `lf.select(~(cs...() | cs...())).describe(): exclude specific dtypes
 5. Custom describe for categorical columns with `pipe` and `concat`
@@ -100,10 +100,9 @@ print(lf_pokemon.describe())
 # 2. `lf.select(cs.numeric()).describe()`: describe only numeric columns:
 # =========================================================================================
 
-##-----------------------------------------------------##
-## Equivalent idea: df.describe() for numeric columns  ##
-## Polars way: select numeric columns, then describe() ##
-##-----------------------------------------------------##
+##-----------------------------------------##
+## select numeric columns, then describe() ##
+##-----------------------------------------##
 
 print(
     lf_pokemon
