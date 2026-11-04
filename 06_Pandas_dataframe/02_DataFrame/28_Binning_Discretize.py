@@ -1,6 +1,6 @@
 '''
 There are 2 main ways to discretize/bin numeric data
-into categorical data:
+into categorical data in Pandas:
     1. `pd.cut()`: Bin values into discrete intervals.
     2. `pd.qcut()`: Quantile-based discretization function.
 '''
