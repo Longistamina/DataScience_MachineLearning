@@ -70,7 +70,7 @@ print(
         avg_hp = ('hp', 'mean')  # calculate the mean of the 'hp' column for each group
     )
 )
-#            count     avg_HP
+#            count     avg_hp
 # type_1   <int64>  <float64>
 # Bug           69  56.884058
 # Dark          31  66.806452

@@ -316,8 +316,7 @@ print(df_mkt.notnull().sum())
 '''how='any' (default): Drop rows with any missing values
    how='all': Drop rows where all values are missing'''
 
-# ## how='all'
-#
+### how='all' ###
 print(
     df_mkt
     .dropna(axis=1, how='all')
@@ -333,8 +332,7 @@ print(
 # [5 rows x 26 columns]
 '''No columns are dopped because no columns have all NA values'''
 
-# ## how='any'
-#
+### how='any' ###
 print(
     df_mkt
     .dropna(axis=1, how='any')
@@ -391,8 +389,7 @@ print(df_mkt2.isna().sum().pipe(lambda x: x[x > 0])) # Count missing values, ret
 '''how='any' (default): Drop rows with any missing values
    how='all': Drop rows where all values are missing'''
 
-# ## how='any'
-#
+### how='any' ###
 print(
     df_mkt2
     .dropna(axis=0, how='any')
@@ -413,8 +410,7 @@ print(
 # [105 rows x 19 columns]
 '''Here, 51 rows are dropped because they have at least one missing value.'''
 
-# ## how='all'
-#
+### how='all' ###
 print(
     df_mkt2
     .dropna(axis=0, how='all')
@@ -472,7 +468,7 @@ df_missing = df_mkt.drop(["week", "year"], axis=1)
 
 print(
     df_missing
-    .fillna(0, inplace=False)
+    .fillna(0)
     .head()
 )
 #    market_share  av_price_per_kg  non_promo_price_per_kg  ...  grp_outdoor  grp_print  share_of_spend
@@ -496,7 +492,6 @@ print(
             'aided': df_missing['aided'].min(),
             'penetration': df_missing['penetration'].max()
         },
-        inplace = False
     )
     .reindex(columns=['top_of_mind', 'spontaneous', 'aided', 'penetration'])
 )
@@ -520,7 +515,7 @@ print(
 
 print(
     df_missing
-    .fillna(df_missing.mean(), inplace=False)
+    .fillna(df_missing.mean())
     .head()
 )
 #    market_share  av_price_per_kg  non_promo_price_per_kg  ...  grp_outdoor  grp_print  share_of_spend
@@ -591,7 +586,7 @@ print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
 ##------------------------------------------------##
 '''linear interpolation'''
 
-df_interpolated = df_missing.interpolate(axis=0, inplace=False, limit_direction='both')
+df_interpolated = df_missing.interpolate(axis=0, limit_direction='both')
 
 print(df_interpolated.isna().sum().pipe(lambda x: x[x > 0]))
 # Series([], dtype: int64)
@@ -731,6 +726,7 @@ print(df_filled.isna().sum())
 # =========================================================================================
 
 df_missing = df_mkt.drop("year", axis=1)
+print(df_missing)
 print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
 # top_of_mind        33
 # spontaneous        33
@@ -746,9 +742,12 @@ print(df_missing.isna().sum().pipe(lambda x: x[x > 0]))
 # grp_print         134
 # share_of_spend     40
 
-#
 # FILL MISSING VALUES WITH THE MEAN OF EACH "week" GROUP
-df_group_filled = df_missing.fillna(df_missing.groupby("week").transform("mean"))
+df_group_filled = (
+    df_missing
+    .pipe(lambda df: df.groupby('week').transform('mean'))
+    # .fillna(df_missing.groupby('week').transform('mean'))
+)
 
 print(df_group_filled.isna().sum().pipe(lambda x: x[x > 0]))
 # grp_radio       114

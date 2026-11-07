@@ -8,7 +8,7 @@
         lambda df: df.assign(**{
             col: df[col].str.lower()
             for col in df.select_dtypes(include=["object", "category"]).columns
-            if (conditions like: (col != "Name") and (df[col] != "some_value"))
+            if (conditions like: (col != "name") and (df[col] != "some_value"))
         })
     )
 '''
@@ -83,9 +83,9 @@ print(df_baseball.dtypes)
 # =========================================================================================
 '''Using df.apply() will modify all the columns of the dataframe with the same function'''
 
-##---------------------------------------------##
-## Use df.apply() to min-max scale all columns ##
-##---------------------------------------------##
+##---------------------------------------------------##
+## Use df.apply() with UDF min-max scale all columns ##
+##---------------------------------------------------##
 
 def min_max_scaler(series):
     series = pd.Series(series)  # Ensure input is a pandas Series
@@ -94,6 +94,22 @@ def min_max_scaler(series):
 print(
     df_boston
     .apply(min_max_scaler)
+    .head()
+)
+#        crim    zn     indus       nox        rm       age       dis       tax   ptratio     lstat      medv
+# 0  0.000000  0.18  0.067815  0.314815  0.577505  0.641607  0.269203  0.208015  0.287234  0.089680  0.422222
+# 1  0.000236  0.00  0.242302  0.172840  0.547998  0.782698  0.348962  0.104962  0.553191  0.204470  0.368889
+# 2  0.000236  0.00  0.242302  0.172840  0.694386  0.599382  0.348962  0.104962  0.553191  0.063466  0.660000
+# 3  0.000293  0.00  0.063050  0.150206  0.658555  0.441813  0.448545  0.066794  0.648936  0.033389  0.631111
+# 4  0.000705  0.00  0.063050  0.150206  0.687105  0.528321  0.448545  0.066794  0.648936  0.099338  0.693333
+
+##-------------------------------------------##
+## Use df.apply() with lambda to all columns ##
+##-------------------------------------------##
+
+print(
+    df_boston
+    .apply(lambda x: (x - x.min()) / (x.max() - x.min()))
     .head()
 )
 #        crim    zn     indus       nox        rm       age       dis       tax   ptratio     lstat      medv
@@ -131,6 +147,11 @@ print(
 
 print(
     df_boston
+    .apply(lambda x: x.mean())
+)
+
+print(
+    df_boston
     .apply(np.std, axis=0) # std of all columns, axis=0 means apply function across rows for each column
 )
 # crim         8.593041
@@ -159,8 +180,9 @@ print(
     df_baseball
     .pipe(
         lambda df: df.assign(**{
-            col: np.log(df[col]) for col in df.select_dtypes(include=np.number).columns
-        })
+                col: df[col].apply(np.log) for col in df.select_dtypes(include=np.number).columns
+            }
+        )
     )
     .head()
 )
@@ -181,7 +203,7 @@ print(
         lambda df: df.assign(**{
             col: df[col].str.lower() # Lowercase string values
             for col in df.select_dtypes(include=["string", "category"]).columns # For all str and cat columns
-            if (col != "Name") # But exclude "Name" column
+            if (col != "name") # But exclude "name" column
         })
     )
     .head()
