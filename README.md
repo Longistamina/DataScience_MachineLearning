@@ -325,4 +325,10 @@
       * `pd.DataFrame`: `assign` and `eval` ~ modify and derive columns
       * `pd.DataFrame`: `sort` and `rank` 
       * `pd.DataFrame`: `agg` and reduction 
-      * `pd.DataFrame`: reframe with `apply` and `df.pipe(lambda df: pd.DataFrame(...))`
+      * `pd.DataFrame`: `reframe` with `apply` and `df.pipe(lambda df: pd.DataFrame(...))`
+  + [06_Pandas_dataframe_part_10](https://youtu.be/GczmHVJFAO4): 07th/11/2026
+      * `pd.DataFrame`: `across cols` transformation
+      * `pd.DataFrame`: `groupby` aggregations
+      * `pd.DataFrame`: `groupby` and `pd.Grouper` for time-based grouping
+      * `pd.DataFrame`: `describe` for simple descriptive statistics
+      * `pd.DataFrame`: `NA values` detecting, counting, dropping and filling
