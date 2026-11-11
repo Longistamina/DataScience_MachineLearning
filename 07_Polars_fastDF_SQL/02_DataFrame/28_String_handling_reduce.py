@@ -72,8 +72,31 @@ lf_bac = lf_bac.with_columns(
     ).alias("SCORE")
 )
 # c.SCORE.str.replace_all('Toán', 'Math').str.replace('Ngữ văn', 'Literature').str.replace(...).str.replace(...)
+'''
+`.str.replace_all()` modify the root column
+so it is not allowed to use for loop to generate multiple parallel expressions,
+because it risks of data race
+'''
 
 print(lf_bac.collect())
+# shape: (34_826, 6)
+# ┌───────────┬────────────────┬────────────┬─────────────────────────────────┬────────┬─────────────────────────────────┐
+# │ ID        ┆ FULL_NAME      ┆ BIRTHDAY   ┆ EXAM_LOCATION                   ┆ GENDER ┆ SCORE                           │
+# │ ---       ┆ ---            ┆ ---        ┆ ---                             ┆ ---    ┆ ---                             │
+# │ str       ┆ str            ┆ str        ┆ str                             ┆ str    ┆ str                             │
+# ╞═══════════╪════════════════╪════════════╪═════════════════════════════════╪════════╪═════════════════════════════════╡
+# │ 018000001 ┆ DƯƠNG VIỆT AN  ┆ 12/03/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   2.00   Literature:   5… │
+# │ 018000002 ┆ ĐỖ VĂN AN      ┆ 09/12/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   5.50   Literature:   5… │
+# │ 018000003 ┆ ĐỖ XUÂN AN     ┆ 12/08/1997 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   4.50   Literature:   5… │
+# │ 018000004 ┆ ĐẶNG PHÚC AN   ┆ 19/03/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nữ     ┆ Math:   3.00   Literature:   6… │
+# │ 018000005 ┆ ĐẶNG VĂN AN    ┆ 25/10/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   2.25   Literature:   4… │
+# │ …         ┆ …              ┆ …          ┆ …                               ┆ …      ┆ …                               │
+# │ HUI014539 ┆ VÒNG NGỌC YẾN  ┆ 15/05/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   0.75   Literature:   5… │
+# │ HUI014540 ┆ VÒNG THANH YẾN ┆ 09/09/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   4.75   Literature:   5… │
+# │ HUI014541 ┆ VŨ THỊ BẢO YẾN ┆ 19/05/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   4.00   Literature:   5… │
+# │ HUI014542 ┆ VŨ THỊ YẾN     ┆ 13/01/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   5.75   Literature:   6… │
+# │ HUI014543 ┆ VƯƠNG THỊ YẾN  ┆ 05/02/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   2.50   Literature:   4… │
+# └───────────┴────────────────┴────────────┴─────────────────────────────────┴────────┴─────────────────────────────────┘
 
 ##----------------------------------##
 ## Change other values into English ##
@@ -111,17 +134,17 @@ print(lf_bac.collect())
 # │ ---       ┆ ---            ┆ ---        ┆ ---           ┆ ---    ┆ ---                             │
 # │ str       ┆ str            ┆ date       ┆ cat           ┆ cat    ┆ str                             │
 # ╞═══════════╪════════════════╪════════════╪═══════════════╪════════╪═════════════════════════════════╡
-# │ 018000001 ┆ DƯƠNG VIỆT AN  ┆ 1998-03-12 ┆ Bac Giang DET ┆ Male   ┆ Toán:   2.00   Ngữ văn:   5.50… │
-# │ 018000002 ┆ ĐỖ VĂN AN      ┆ 1998-12-09 ┆ Bac Giang DET ┆ Male   ┆ Toán:   5.50   Ngữ văn:   5.25… │
-# │ 018000003 ┆ ĐỖ XUÂN AN     ┆ 1997-08-12 ┆ Bac Giang DET ┆ Male   ┆ Toán:   4.50   Ngữ văn:   5.50… │
-# │ 018000004 ┆ ĐẶNG PHÚC AN   ┆ 1998-03-19 ┆ Bac Giang DET ┆ Female ┆ Toán:   3.00   Ngữ văn:   6.00… │
-# │ 018000005 ┆ ĐẶNG VĂN AN    ┆ 1998-10-25 ┆ Bac Giang DET ┆ Male   ┆ Toán:   2.25   Ngữ văn:   4.75… │
+# │ 018000001 ┆ DƯƠNG VIỆT AN  ┆ 1998-03-12 ┆ Bac Giang DET ┆ Male   ┆ Math:   2.00   Literature:   5… │
+# │ 018000002 ┆ ĐỖ VĂN AN      ┆ 1998-12-09 ┆ Bac Giang DET ┆ Male   ┆ Math:   5.50   Literature:   5… │
+# │ 018000003 ┆ ĐỖ XUÂN AN     ┆ 1997-08-12 ┆ Bac Giang DET ┆ Male   ┆ Math:   4.50   Literature:   5… │
+# │ 018000004 ┆ ĐẶNG PHÚC AN   ┆ 1998-03-19 ┆ Bac Giang DET ┆ Female ┆ Math:   3.00   Literature:   6… │
+# │ 018000005 ┆ ĐẶNG VĂN AN    ┆ 1998-10-25 ┆ Bac Giang DET ┆ Male   ┆ Math:   2.25   Literature:   4… │
 # │ …         ┆ …              ┆ …          ┆ …             ┆ …      ┆ …                               │
-# │ HUI014539 ┆ VÒNG NGỌC YẾN  ┆ 1998-05-15 ┆ IUH           ┆ Female ┆ Toán:   0.75   Ngữ văn:   5.00… │
-# │ HUI014540 ┆ VÒNG THANH YẾN ┆ 1998-09-09 ┆ IUH           ┆ Female ┆ Toán:   4.75   Ngữ văn:   5.75… │
-# │ HUI014541 ┆ VŨ THỊ BẢO YẾN ┆ 1998-05-19 ┆ IUH           ┆ Female ┆ Toán:   4.00   Ngữ văn:   5.50… │
-# │ HUI014542 ┆ VŨ THỊ YẾN     ┆ 1998-01-13 ┆ IUH           ┆ Female ┆ Toán:   5.75   Ngữ văn:   6.00… │
-# │ HUI014543 ┆ VƯƠNG THỊ YẾN  ┆ 1998-02-05 ┆ IUH           ┆ Female ┆ Toán:   2.50   Ngữ văn:   4.25… │
+# │ HUI014539 ┆ VÒNG NGỌC YẾN  ┆ 1998-05-15 ┆ IUH           ┆ Female ┆ Math:   0.75   Literature:   5… │
+# │ HUI014540 ┆ VÒNG THANH YẾN ┆ 1998-09-09 ┆ IUH           ┆ Female ┆ Math:   4.75   Literature:   5… │
+# │ HUI014541 ┆ VŨ THỊ BẢO YẾN ┆ 1998-05-19 ┆ IUH           ┆ Female ┆ Math:   4.00   Literature:   5… │
+# │ HUI014542 ┆ VŨ THỊ YẾN     ┆ 1998-01-13 ┆ IUH           ┆ Female ┆ Math:   5.75   Literature:   6… │
+# │ HUI014543 ┆ VƯƠNG THỊ YẾN  ┆ 1998-02-05 ┆ IUH           ┆ Female ┆ Math:   2.50   Literature:   4… │
 # └───────────┴────────────────┴────────────┴───────────────┴────────┴─────────────────────────────────┘
 
 ##-------------------------------##
@@ -179,6 +202,10 @@ lf_bac_subjects = (
         for subject in dict_subjects.values()
     )
 )
+'''
+`.str.extract()` don't modify the root column
+so it is able to use for loop to generate multiple parallel expressions.
+'''
 
 print(
     lf_bac_subjects
