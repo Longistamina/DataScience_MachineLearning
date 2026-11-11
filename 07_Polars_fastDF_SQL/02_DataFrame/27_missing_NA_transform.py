@@ -813,14 +813,11 @@ Use a window expression with .over('week').
 Each row receives the mean of its own week group for that column.
 '''
 
-numeric_cols = lf_missing.select(cs.numeric()).collect_schema().names()
-
 lf_group_filled = (
     lf_missing
-    .with_columns([
-        c(col).fill_null(c(col).mean().over('week')).alias(col)
-        for col in numeric_cols
-    ])
+    .with_columns(
+        cs.numeric().fill_null(cs.numeric().mean().over('week'))
+    )
 )
 
 print(
