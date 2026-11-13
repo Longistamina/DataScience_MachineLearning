@@ -64,19 +64,23 @@ This produces a one-row wide LazyFrame:
 This part is fully lazy.
 '''
 
-lf_null_count_wide = lf_mkt.select(
-    pl.all().is_null().sum()
+print(
+    lf_mkt
+    .select(
+        pl.all().is_null().sum()
+    )
+    .collect()
 )
-
-print(lf_null_count_wide.collect())
 # shape: (1, 26)
 # one row, one null-count column per original column
 
-lf_not_null_count_wide = lf_mkt.select(
-    pl.all().is_not_null().sum()
+print(
+    lf_mkt
+    .select(
+        pl.all().is_not_null().sum()
+    )
+    .collect()
 )
-
-print(lf_not_null_count_wide.collect())
 # shape: (1, 26)
 # one row, one non-null-count column per original column
 
@@ -98,16 +102,15 @@ In Polars LazyFrame, the better approach is `.unpivot()`.
 `unpivot()` turns columns into rows and can run in a lazy query plan.
 '''
 
-lf_null_count_long = (
+print(
     lf_mkt
     .select(pl.all().is_null().sum())
     .unpivot(
         variable_name="column",
         value_name="null_count",
     )
+    .collect()
 )
-
-print(lf_null_count_long.collect())
 # shape: (26, 2)
 # ┌──────────────────────────┬────────────┐
 # │ column                   ┆ null_count │
@@ -129,16 +132,35 @@ Because the result from `.unpivot()` is still a LazyFrame, we can continue filte
 Example: return only columns that contain at least one null.
 '''
 
-lf_cols_with_nulls = (
+print(
     lf_mkt
     .select(pl.all().is_null().sum())
     .unpivot(variable_name="column", value_name="null_count")
     .filter(c("null_count") > 0)
     .sort("null_count", descending=True)
+    .collect()
 )
-
-print(lf_cols_with_nulls.collect())
 # Columns having at least one null, sorted by null_count
+# shape: (13, 2)
+# ┌────────────────┬────────────┐
+# │ column         ┆ null_count │
+# │ ---            ┆ ---        │
+# │ str            ┆ u32        │
+# ╞════════════════╪════════════╡
+# │ grp_outdoor    ┆ 155        │
+# │ grp_radio      ┆ 142        │
+# │ reach_radio    ┆ 142        │
+# │ reach_cinema   ┆ 138        │
+# │ grp_print      ┆ 134        │
+# │ grp_tv         ┆ 104        │
+# │ reach_tv       ┆ 104        │
+# │ competitor     ┆ 45         │
+# │ share_of_spend ┆ 40         │
+# │ top_of_mind    ┆ 33         │
+# │ spontaneous    ┆ 33         │
+# │ aided          ┆ 33         │
+# │ penetration    ┆ 33         │
+# └────────────────┴────────────┘
 
 '''
 Example: return only columns that are not complete.
@@ -149,7 +171,7 @@ look for a real column named "height". Instead, create a row-count expression an
 join/cross join it, or collect the scalar separately.
 '''
 
-lf_incomplete_cols = (
+print(
     lf_mkt
     .select(pl.all().is_not_null().sum())
     .unpivot(variable_name="column", value_name="n_not_null")
@@ -159,11 +181,28 @@ lf_incomplete_cols = (
     )
     .filter(c("n_not_null") < c("n_rows"))
     .sort("n_not_null")
+    .collect()
 )
-
-print(lf_incomplete_cols.collect())
-# shape: (..., 3)
-# columns: column, n_not_null, n_rows
+# shape: (13, 3)
+# ┌────────────────┬────────────┬────────┐
+# │ column         ┆ n_not_null ┆ n_rows │
+# │ ---            ┆ ---        ┆ ---    │
+# │ str            ┆ u32        ┆ u32    │
+# ╞════════════════╪════════════╪════════╡
+# │ grp_outdoor    ┆ 1          ┆ 156    │
+# │ grp_radio      ┆ 14         ┆ 156    │
+# │ reach_radio    ┆ 14         ┆ 156    │
+# │ reach_cinema   ┆ 18         ┆ 156    │
+# │ grp_print      ┆ 22         ┆ 156    │
+# │ grp_tv         ┆ 52         ┆ 156    │
+# │ reach_tv       ┆ 52         ┆ 156    │
+# │ competitor     ┆ 111        ┆ 156    │
+# │ share_of_spend ┆ 116        ┆ 156    │
+# │ top_of_mind    ┆ 123        ┆ 156    │
+# │ spontaneous    ┆ 123        ┆ 156    │
+# │ aided          ┆ 123        ┆ 156    │
+# │ penetration    ┆ 123        ┆ 156    │
+# └────────────────┴────────────┴────────┘
 
 # =========================================================================================
 # 4. Multiple summary metrics in long format
@@ -173,7 +212,7 @@ If you need more than one metric, do not force everything through transpose.
 Build separate lazy summaries and join them by the `column` name.
 '''
 
-lf_missing_report = (
+print(
     lf_mkt
     .select(pl.all().is_null().sum())
     .unpivot(variable_name="column", value_name="null_count")
@@ -193,11 +232,31 @@ lf_missing_report = (
         (c("n_not_null") / c("n_rows")).alias("not_null_rate"),
     )
     .sort("null_rate", descending=True)
+    .collect()
 )
-
-print(lf_missing_report.collect())
-# shape: (26, 5)
-# columns: column, null_count, n_not_null, n_rows, null_rate, not_null_rate
+# shape: (26, 6)
+# ┌────────────────────────┬────────────┬────────────┬────────┬───────────┬───────────────┐
+# │ column                 ┆ null_count ┆ n_not_null ┆ n_rows ┆ null_rate ┆ not_null_rate │
+# │ ---                    ┆ ---        ┆ ---        ┆ ---    ┆ ---       ┆ ---           │
+# │ str                    ┆ u32        ┆ u32        ┆ u32    ┆ f64       ┆ f64           │
+# ╞════════════════════════╪════════════╪════════════╪════════╪═══════════╪═══════════════╡
+# │ grp_outdoor            ┆ 155        ┆ 1          ┆ 156    ┆ 0.993590  ┆ 0.006410      │
+# │ reach_radio            ┆ 142        ┆ 14         ┆ 156    ┆ 0.910256  ┆ 0.089744      │
+# │ grp_radio              ┆ 142        ┆ 14         ┆ 156    ┆ 0.910256  ┆ 0.089744      │
+# │ reach_cinema           ┆ 138        ┆ 18         ┆ 156    ┆ 0.884615  ┆ 0.115385      │
+# │ grp_print              ┆ 134        ┆ 22         ┆ 156    ┆ 0.858974  ┆ 0.141026      │
+# │ grp_tv                 ┆ 104        ┆ 52         ┆ 156    ┆ 0.666667  ┆ 0.333333      │
+# │ reach_tv               ┆ 104        ┆ 52         ┆ 156    ┆ 0.666667  ┆ 0.333333      │
+# │ competitor             ┆ 45         ┆ 111        ┆ 156    ┆ 0.288462  ┆ 0.711538      │
+# │ …                      ┆ …          ┆ …          ┆ …      ┆ …         ┆ …             │
+# │ shelf_share            ┆ 0          ┆ 156        ┆ 156    ┆ 0.000000  ┆ 1.000000      │
+# │ non_promo_price_per_kg ┆ 0          ┆ 156        ┆ 156    ┆ 0.000000  ┆ 1.000000      │
+# │ week                   ┆ 0          ┆ 156        ┆ 156    ┆ 0.000000  ┆ 1.000000      │
+# │ share_of_ean_weigh     ┆ 0          ┆ 156        ┆ 156    ┆ 0.000000  ┆ 1.000000      │
+# │ total_weigh            ┆ 0          ┆ 156        ┆ 156    ┆ 0.000000  ┆ 1.000000      │
+# │ non_promo_price_vs_plb ┆ 0          ┆ 156        ┆ 156    ┆ 0.000000  ┆ 1.000000      │
+# │ avg_price_vs_plb       ┆ 0          ┆ 156        ┆ 156    ┆ 0.000000  ┆ 1.000000      │
+# └────────────────────────┴────────────┴────────────┴────────┴───────────┴───────────────┘
 
 # =========================================================================================
 # 5. Numeric summary report: lazy unpivot + split names
@@ -213,7 +272,7 @@ A slightly more advanced pattern:
 This is the lazy equivalent of transposing a block of summary statistics.
 '''
 
-lf_numeric_summary_long = (
+print(
     lf_mkt
     .select(
         cs.numeric().mean().name.prefix("mean__"),
@@ -228,11 +287,31 @@ lf_numeric_summary_long = (
     .unnest("parts")
     .select("metric", "column", "value")
     .sort("column", "metric")
+    .collect()
 )
-
-print(lf_numeric_summary_long.collect())
-# shape: (..., 3)
-# columns: metric, column, value
+# shape: (96, 3)
+# ┌────────┬─────────────────┬───────────────┐
+# │ metric ┆ column          ┆ value         │
+# │ ---    ┆ ---             ┆ ---           │
+# │ str    ┆ str             ┆ f64           │
+# ╞════════╪═════════════════╪═══════════════╡
+# │ max    ┆ aided           ┆ 100.000000    │
+# │ mean   ┆ aided           ┆ 98.201626     │
+# │ min    ┆ aided           ┆ 95.700000     │
+# │ std    ┆ aided           ┆ 0.998604      │
+# │ max    ┆ av_price_per_kg ┆ 7.750000      │
+# │ mean   ┆ av_price_per_kg ┆ 7.447628      │
+# │ min    ┆ av_price_per_kg ┆ 6.980000      │
+# │ std    ┆ av_price_per_kg ┆ 0.139442      │
+# │ …      ┆ …               ┆ …             │
+# │ mean   ┆ total_cm_shelf  ┆ 644728.268718 │
+# │ min    ┆ total_cm_shelf  ┆ 596060.000000 │
+# │ std    ┆ total_cm_shelf  ┆ 49605.212762  │
+# │ max    ┆ total_weigh     ┆ 90.000000     │
+# │ mean   ┆ total_weigh     ┆ 85.692308     │
+# │ min    ┆ total_weigh     ┆ 81.000000     │
+# │ std    ┆ total_weigh     ┆ 1.865183      │
+# └────────┴─────────────────┴───────────────┘
 
 # =========================================================================================
 # 6. Eager fallback: DataFrame.transpose()
@@ -294,27 +373,3 @@ print(
 )
 # shape: (3, 6)
 # original numeric columns become rows; the original 5 observations become row_0 ... row_4 columns.
-
-# =========================================================================================
-# 8. Quick summary
-# =========================================================================================
-'''
-Polars mental map
-
-1. One-row wide summary
-   lf.select(pl.all().is_null().sum())
-
-2. Lazy "transpose-like" summary reshaping
-   lf.select(pl.all().is_null().sum()).unpivot(variable_name="column", value_name="null_count")
-
-3. Continue filtering lazily after reshaping
-   ...unpivot(...).filter(c("null_count") > 0)
-
-4. Eager true transpose
-   lf.select(...).collect().transpose(...)
-
-Rule of thumb:
-+ Use `.unpivot()` for summary-table reshaping. It keeps the workflow lazy.
-+ Use `.transpose()` only after `.collect()` when you truly need to rotate rows and columns.
-+ Avoid `c.height` unless there is actually a column named "height". For row counts, use `pl.len()`.
-'''
