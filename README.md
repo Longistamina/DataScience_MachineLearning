@@ -332,3 +332,7 @@
       * `pd.DataFrame`: `groupby` and `pd.Grouper` for time-based grouping
       * `pd.DataFrame`: `describe` for simple descriptive statistics
       * `pd.DataFrame`: `NA values` detecting, counting, dropping and filling
+  + [06_Pandas_dataframe_part_11](https://youtu.be/AxcoZwhByxY): 14th/11/2026
+      * `pd.DataFrame`: String data handling
+      * `pd.DataFrame`: DateTime data handling 
+      * `pd.DataFrame`: EWM - EMA (exponential moving average) explanation and visualization
