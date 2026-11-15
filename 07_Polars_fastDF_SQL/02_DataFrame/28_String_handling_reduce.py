@@ -40,12 +40,17 @@ lf_bac = df_bac.lazy()
 print(df_bac.glimpse())
 # Rows: 34826
 # Columns: 6
-# $ ID            <str> '018000001', '018000002', '018000003', '018000004', '018000005', '018000006', '018000007', '018000008', '018000009', '018000010'
-# $ FULL_NAME     <str> 'DƯƠNG VIỆT AN', 'ĐỖ VĂN AN', 'ĐỖ XUÂN AN', 'ĐẶNG PHÚC AN', 'ĐẶNG VĂN AN', 'HÀ THỊ AN', 'HÀ THỊ AN', 'HỨA VĂN AN', 'HOÀNG VĂN AN', 'LA VĂN AN'
-# $ BIRTHDAY      <str> '12/03/1998', '09/12/1998', '12/08/1997', '19/03/1998', '25/10/1998', '22/06/1998', '23/04/1997', '25/05/1998', '22/02/1998', '19/08/1998'
+# $ ID            <str> 'ID_00001', 'ID_00002', 'ID_00003', 'ID_00004', 'ID_00005', 'ID_00006', 'ID_00007', 'ID_00008', 'ID_00009' , 'ID_00010'
+# $ FULL_NAME     <str> 'NAME_00001', 'NAME_00002', 'NAME_00003', 'NAME_00004', 'NAME_00005', 'NAME_00006', 'NAME_00007', 'NAME_00 008', 'NAME_00009', 'NAME_00010'
+# $ BIRTHDAY      <str> '16/01/1998', '20/05/1998', '02/03/1998', '15/02/1998', '23/06/1998', '15/02/1998', '02/04/1997', '09/12/1 998', '28/06/1997', '01/06/1998'
 # $ EXAM_LOCATION <str> 'Sở GDĐT Bắc Giang', 'Sở GDĐT Bắc Giang', 'Sở GDĐT Bắc Giang', 'Sở GDĐT Bắc Giang', 'Sở GDĐT Bắc Giang', 'Sở GDĐT Bắc Giang', 'Sở GDĐT Bắc Giang', 'Sở GDĐT Bắc Giang', 'Sở GDĐT Bắc Giang', 'Sở GDĐT Bắc Giang'
 # $ GENDER        <str> 'Nam', 'Nam', 'Nam', 'Nữ', 'Nam', 'Nữ', 'Nữ', 'Nam', 'Nam', 'Nam'
-# $ SCORE         <str> 'Toán:   2.00   Ngữ văn:   5.50   Lịch sử:   3.00   Địa lí:   5.00', 'Toán:   5.50   Ngữ văn:   5.25   Địa lí:   5.50   Tiếng Anh:   3.68', 'Toán:   4.50   Ngữ văn:   5.50   Địa lí:   3.75   Tiếng Anh:   2.25', 'Toán:   3.00   Ngữ văn:   6.00   Địa lí:   5.50   Tiếng Anh:   1.50', 'Toán:   2.25   Ngữ văn:   4.75   Địa lí:   5.25   Tiếng Anh:   2.00', 'Toán:   5.75   Ngữ văn:   5.50   Địa lí:   5.50   Tiếng Anh:   3.55', 'Toán:   1.75   Ngữ văn:   5.25   Địa lí:   4.75   Tiếng Anh:   1.75', 'Toán:   2.00   Ngữ văn:   4.75   Địa lí:   5.50   Tiếng Anh:   1.13', 'Toán:   3.75   Ngữ văn:   5.00   Địa lí:   6.50   Tiếng Anh:   2.75', 'Toán:   3.50   Ngữ văn:   5.00   Địa lí:   4.25   Tiếng Anh:   2.13'
+# $ SCORE         <str> 'Toán:   2.00   Ngữ văn:   5.50   Lịch sử:   3.00   Địa lí:   5.00', 'Toán:   5.50   Ngữ văn:   5.25   Địa
+#  lí:   5.50   Tiếng Anh:   3.68', 'Toán:   4.50   Ngữ văn:   5.50   Địa lí:   3.75   Tiếng Anh:   2.25', 'Toán:   3.00   Ngữ văn
+# :   6.00   Địa lí:   5.50   Tiếng Anh:   1.50', 'Toán:   2.25   Ngữ văn:   4.75   Địa lí:   5.25   Tiếng Anh:   2.00', 'Toán:
+# 5.75   Ngữ văn:   5.50   Địa lí:   5.50   Tiếng Anh:   3.55', 'Toán:   1.75   Ngữ văn:   5.25   Địa lí:   4.75   Tiếng Anh:   1.
+# 75', 'Toán:   2.00   Ngữ văn:   4.75   Địa lí:   5.50   Tiếng Anh:   1.13', 'Toán:   3.75   Ngữ văn:   5.00   Địa lí:   6.50   T
+# iếng Anh:   2.75', 'Toán:   3.50   Ngữ văn:   5.00   Địa lí:   4.25   Tiếng Anh:   2.13'
 # None
 
 ##----------------------------------##
@@ -80,23 +85,23 @@ because it risks of data race
 
 print(lf_bac.collect())
 # shape: (34_826, 6)
-# ┌───────────┬────────────────┬────────────┬─────────────────────────────────┬────────┬─────────────────────────────────┐
-# │ ID        ┆ FULL_NAME      ┆ BIRTHDAY   ┆ EXAM_LOCATION                   ┆ GENDER ┆ SCORE                           │
-# │ ---       ┆ ---            ┆ ---        ┆ ---                             ┆ ---    ┆ ---                             │
-# │ str       ┆ str            ┆ str        ┆ str                             ┆ str    ┆ str                             │
-# ╞═══════════╪════════════════╪════════════╪═════════════════════════════════╪════════╪═════════════════════════════════╡
-# │ 018000001 ┆ DƯƠNG VIỆT AN  ┆ 12/03/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   2.00   Literature:   5… │
-# │ 018000002 ┆ ĐỖ VĂN AN      ┆ 09/12/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   5.50   Literature:   5… │
-# │ 018000003 ┆ ĐỖ XUÂN AN     ┆ 12/08/1997 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   4.50   Literature:   5… │
-# │ 018000004 ┆ ĐẶNG PHÚC AN   ┆ 19/03/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nữ     ┆ Math:   3.00   Literature:   6… │
-# │ 018000005 ┆ ĐẶNG VĂN AN    ┆ 25/10/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   2.25   Literature:   4… │
-# │ …         ┆ …              ┆ …          ┆ …                               ┆ …      ┆ …                               │
-# │ HUI014539 ┆ VÒNG NGỌC YẾN  ┆ 15/05/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   0.75   Literature:   5… │
-# │ HUI014540 ┆ VÒNG THANH YẾN ┆ 09/09/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   4.75   Literature:   5… │
-# │ HUI014541 ┆ VŨ THỊ BẢO YẾN ┆ 19/05/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   4.00   Literature:   5… │
-# │ HUI014542 ┆ VŨ THỊ YẾN     ┆ 13/01/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   5.75   Literature:   6… │
-# │ HUI014543 ┆ VƯƠNG THỊ YẾN  ┆ 05/02/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   2.50   Literature:   4… │
-# └───────────┴────────────────┴────────────┴─────────────────────────────────┴────────┴─────────────────────────────────┘
+# ┌──────────┬────────────┬────────────┬─────────────────────────────────┬────────┬─────────────────────────────────┐
+# │ ID       ┆ FULL_NAME  ┆ BIRTHDAY   ┆ EXAM_LOCATION                   ┆ GENDER ┆ SCORE                           │
+# │ ---      ┆ ---        ┆ ---        ┆ ---                             ┆ ---    ┆ ---                             │
+# │ str      ┆ str        ┆ str        ┆ str                             ┆ str    ┆ str                             │
+# ╞══════════╪════════════╪════════════╪═════════════════════════════════╪════════╪═════════════════════════════════╡
+# │ ID_00001 ┆ NAME_00001 ┆ 16/01/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   2.00   Literature:   5… │
+# │ ID_00002 ┆ NAME_00002 ┆ 20/05/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   5.50   Literature:   5… │
+# │ ID_00003 ┆ NAME_00003 ┆ 02/03/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   4.50   Literature:   5… │
+# │ ID_00004 ┆ NAME_00004 ┆ 15/02/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nữ     ┆ Math:   3.00   Literature:   6… │
+# │ ID_00005 ┆ NAME_00005 ┆ 23/06/1998 ┆ Sở GDĐT Bắc Giang               ┆ Nam    ┆ Math:   2.25   Literature:   4… │
+# │ …        ┆ …          ┆ …          ┆ …                               ┆ …      ┆ …                               │
+# │ ID_34822 ┆ NAME_34822 ┆ 26/12/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   0.75   Literature:   5… │
+# │ ID_34823 ┆ NAME_34823 ┆ 11/04/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   4.75   Literature:   5… │
+# │ ID_34824 ┆ NAME_34824 ┆ 13/10/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   4.00   Literature:   5… │
+# │ ID_34825 ┆ NAME_34825 ┆ 24/07/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   5.75   Literature:   6… │
+# │ ID_34826 ┆ NAME_34826 ┆ 25/10/1998 ┆ Trường Đại học Công nghiệp Tp.… ┆ Nữ     ┆ Math:   2.50   Literature:   4… │
+# └──────────┴────────────┴────────────┴─────────────────────────────────┴────────┴─────────────────────────────────┘
 
 ##----------------------------------##
 ## Change other values into English ##
@@ -129,23 +134,23 @@ lf_bac = (
 
 print(lf_bac.collect())
 # shape: (34_826, 6)
-# ┌───────────┬────────────────┬────────────┬───────────────┬────────┬─────────────────────────────────┐
-# │ ID        ┆ FULL_NAME      ┆ BIRTHDAY   ┆ EXAM_LOCATION ┆ GENDER ┆ SCORE                           │
-# │ ---       ┆ ---            ┆ ---        ┆ ---           ┆ ---    ┆ ---                             │
-# │ str       ┆ str            ┆ date       ┆ cat           ┆ cat    ┆ str                             │
-# ╞═══════════╪════════════════╪════════════╪═══════════════╪════════╪═════════════════════════════════╡
-# │ 018000001 ┆ DƯƠNG VIỆT AN  ┆ 1998-03-12 ┆ Bac Giang DET ┆ Male   ┆ Math:   2.00   Literature:   5… │
-# │ 018000002 ┆ ĐỖ VĂN AN      ┆ 1998-12-09 ┆ Bac Giang DET ┆ Male   ┆ Math:   5.50   Literature:   5… │
-# │ 018000003 ┆ ĐỖ XUÂN AN     ┆ 1997-08-12 ┆ Bac Giang DET ┆ Male   ┆ Math:   4.50   Literature:   5… │
-# │ 018000004 ┆ ĐẶNG PHÚC AN   ┆ 1998-03-19 ┆ Bac Giang DET ┆ Female ┆ Math:   3.00   Literature:   6… │
-# │ 018000005 ┆ ĐẶNG VĂN AN    ┆ 1998-10-25 ┆ Bac Giang DET ┆ Male   ┆ Math:   2.25   Literature:   4… │
-# │ …         ┆ …              ┆ …          ┆ …             ┆ …      ┆ …                               │
-# │ HUI014539 ┆ VÒNG NGỌC YẾN  ┆ 1998-05-15 ┆ IUH           ┆ Female ┆ Math:   0.75   Literature:   5… │
-# │ HUI014540 ┆ VÒNG THANH YẾN ┆ 1998-09-09 ┆ IUH           ┆ Female ┆ Math:   4.75   Literature:   5… │
-# │ HUI014541 ┆ VŨ THỊ BẢO YẾN ┆ 1998-05-19 ┆ IUH           ┆ Female ┆ Math:   4.00   Literature:   5… │
-# │ HUI014542 ┆ VŨ THỊ YẾN     ┆ 1998-01-13 ┆ IUH           ┆ Female ┆ Math:   5.75   Literature:   6… │
-# │ HUI014543 ┆ VƯƠNG THỊ YẾN  ┆ 1998-02-05 ┆ IUH           ┆ Female ┆ Math:   2.50   Literature:   4… │
-# └───────────┴────────────────┴────────────┴───────────────┴────────┴─────────────────────────────────┘
+# ┌──────────┬────────────┬────────────┬───────────────┬────────┬─────────────────────────────────┐
+# │ ID       ┆ FULL_NAME  ┆ BIRTHDAY   ┆ EXAM_LOCATION ┆ GENDER ┆ SCORE                           │
+# │ ---      ┆ ---        ┆ ---        ┆ ---           ┆ ---    ┆ ---                             │
+# │ str      ┆ str        ┆ date       ┆ cat           ┆ cat    ┆ str                             │
+# ╞══════════╪════════════╪════════════╪═══════════════╪════════╪═════════════════════════════════╡
+# │ ID_00001 ┆ NAME_00001 ┆ 1998-01-16 ┆ Bac Giang DET ┆ Male   ┆ Math:   2.00   Literature:   5… │
+# │ ID_00002 ┆ NAME_00002 ┆ 1998-05-20 ┆ Bac Giang DET ┆ Male   ┆ Math:   5.50   Literature:   5… │
+# │ ID_00003 ┆ NAME_00003 ┆ 1998-03-02 ┆ Bac Giang DET ┆ Male   ┆ Math:   4.50   Literature:   5… │
+# │ ID_00004 ┆ NAME_00004 ┆ 1998-02-15 ┆ Bac Giang DET ┆ Female ┆ Math:   3.00   Literature:   6… │
+# │ ID_00005 ┆ NAME_00005 ┆ 1998-06-23 ┆ Bac Giang DET ┆ Male   ┆ Math:   2.25   Literature:   4… │
+# │ …        ┆ …          ┆ …          ┆ …             ┆ …      ┆ …                               │
+# │ ID_34822 ┆ NAME_34822 ┆ 1998-12-26 ┆ IUH           ┆ Female ┆ Math:   0.75   Literature:   5… │
+# │ ID_34823 ┆ NAME_34823 ┆ 1998-04-11 ┆ IUH           ┆ Female ┆ Math:   4.75   Literature:   5… │
+# │ ID_34824 ┆ NAME_34824 ┆ 1998-10-13 ┆ IUH           ┆ Female ┆ Math:   4.00   Literature:   5… │
+# │ ID_34825 ┆ NAME_34825 ┆ 1998-07-24 ┆ IUH           ┆ Female ┆ Math:   5.75   Literature:   6… │
+# │ ID_34826 ┆ NAME_34826 ┆ 1998-10-25 ┆ IUH           ┆ Female ┆ Math:   2.50   Literature:   4… │
+# └──────────┴────────────┴────────────┴───────────────┴────────┴─────────────────────────────────┘
 
 ##-------------------------------##
 ## Check invalid BIRTHDAY values ##
@@ -176,17 +181,17 @@ print(s_birthday.filter(s_date_check.is_null()))
 # shape: (20,)
 # Series: 'BIRTHDAY' [str]
 # [
-# 	"29/02/1998"
-# 	"29/02/1998"
-# 	"29/02/1997"
 # 	"00/07/1996"
+# 	"31/11/1997"
 # 	"29/02/1998"
+# 	"29/02/1998"
+# 	"29/02/1985"
 # 	…
-# 	"00/10/1997"
 # 	"00/03/1997"
-# 	"29/02/1998"
-# 	"29/02/1998"
 # 	"29/02/1997"
+# 	"29/02/1998"
+# 	"00/00/1998"
+# 	"00/00/1998"
 # ]
 
 '''
@@ -214,22 +219,17 @@ print(
     .collect()
 )
 # shape: (5, 13)
-# ┌───────────┬──────────────┬────────────┬─────────────┬────────┬───┬─────────┬─────────┬─────────┬─────────┬───────────┐
-# │ ID        ┆ FULL_NAME    ┆ BIRTHDAY   ┆ EXAM_LOCATI ┆ GENDER ┆ … ┆ History ┆ English ┆ Biology ┆ Physics ┆ Chemistry │
-# │ ---       ┆ ---          ┆ ---        ┆ ON          ┆ ---    ┆   ┆ ---     ┆ ---     ┆ ---     ┆ ---     ┆ ---       │
-# │ str       ┆ str          ┆ date       ┆ ---         ┆ cat    ┆   ┆ f32     ┆ f32     ┆ f32     ┆ f32     ┆ f32       │
-# │           ┆              ┆            ┆ cat         ┆        ┆   ┆         ┆         ┆         ┆         ┆           │
-# ╞═══════════╪══════════════╪════════════╪═════════════╪════════╪═══╪═════════╪═════════╪═════════╪═════════╪═══════════╡
-# │ HUI014539 ┆ VÒNG NGỌC    ┆ 1998-05-15 ┆ IUH         ┆ Nữ     ┆ … ┆ null    ┆ null    ┆ 5.2     ┆ null    ┆ 4.8       │
-# │           ┆ YẾN         ┆            ┆             ┆        ┆   ┆         ┆         ┆         ┆         ┆           │
-# │ HUI014540 ┆ VÒNG THANH   ┆ 1998-09-09 ┆ IUH         ┆ Nữ     ┆ … ┆ null    ┆ 3.33    ┆ 4.6     ┆ 6.8     ┆ 4.6       │
-# │           ┆ YẾN         ┆            ┆             ┆        ┆   ┆         ┆         ┆         ┆         ┆           │
-# │ HUI014541 ┆ VŨ THỊ BẢO  ┆ 1998-05-19 ┆ IUH         ┆ Nữ     ┆ … ┆ null    ┆ 3.6     ┆ null    ┆ 5.6     ┆ null      │
-# │           ┆ YẾN         ┆            ┆             ┆        ┆   ┆         ┆         ┆         ┆         ┆           │
-# │ HUI014542 ┆ VŨ THỊ YẾN  ┆ 1998-01-13 ┆ IUH         ┆ Nữ     ┆ … ┆ null    ┆ 2.88    ┆ null    ┆ 7.4     ┆ 4.8       │
-# │ HUI014543 ┆ VƯƠNG THỊ    ┆ 1998-02-05 ┆ IUH         ┆ Nữ     ┆ … ┆ null    ┆ 3.0     ┆ 4.4     ┆ 4.2     ┆ 4.4       │
-# │           ┆ YẾN         ┆            ┆             ┆        ┆   ┆         ┆         ┆         ┆         ┆           │
-# └───────────┴──────────────┴────────────┴─────────────┴────────┴───┴─────────┴─────────┴─────────┴─────────┴───────────┘
+# ┌──────────┬────────────┬────────────┬───────────────┬────────┬───┬─────────┬─────────┬─────────┬─────────┬───────────┐
+# │ ID       ┆ FULL_NAME  ┆ BIRTHDAY   ┆ EXAM_LOCATION ┆ GENDER ┆ … ┆ History ┆ English ┆ Biology ┆ Physics ┆ Chemistry │
+# │ ---      ┆ ---        ┆ ---        ┆ ---           ┆ ---    ┆   ┆ ---     ┆ ---     ┆ ---     ┆ ---     ┆ ---       │
+# │ str      ┆ str        ┆ date       ┆ cat           ┆ cat    ┆   ┆ f32     ┆ f32     ┆ f32     ┆ f32     ┆ f32       │
+# ╞══════════╪════════════╪════════════╪═══════════════╪════════╪═══╪═════════╪═════════╪═════════╪═════════╪═══════════╡
+# │ ID_34822 ┆ NAME_34822 ┆ 1998-12-26 ┆ IUH           ┆ Female ┆ … ┆ null    ┆ null    ┆ 5.2     ┆ null    ┆ 4.8       │
+# │ ID_34823 ┆ NAME_34823 ┆ 1998-04-11 ┆ IUH           ┆ Female ┆ … ┆ null    ┆ 3.33    ┆ 4.6     ┆ 6.8     ┆ 4.6       │
+# │ ID_34824 ┆ NAME_34824 ┆ 1998-10-13 ┆ IUH           ┆ Female ┆ … ┆ null    ┆ 3.6     ┆ null    ┆ 5.6     ┆ null      │
+# │ ID_34825 ┆ NAME_34825 ┆ 1998-07-24 ┆ IUH           ┆ Female ┆ … ┆ null    ┆ 2.88    ┆ null    ┆ 7.4     ┆ 4.8       │
+# │ ID_34826 ┆ NAME_34826 ┆ 1998-10-25 ┆ IUH           ┆ Female ┆ … ┆ null    ┆ 3.0     ┆ 4.4     ┆ 4.2     ┆ 4.4       │
+# └──────────┴────────────┴────────────┴───────────────┴────────┴───┴─────────┴─────────┴─────────┴─────────┴───────────┘
 
 print(
     lf_bac_subjects
@@ -316,20 +316,20 @@ lf_bac = (
 
 print(lf_bac.collect())
 # shape: (34_826, 11)
-# ┌───────────┬─────────────────┬────────┬──────┬────────────┬───┬─────────┬─────────┬─────────┬─────────┬───────────┐
-# │ ID        ┆ FULL_NAME       ┆ GENDER ┆ Math ┆ Literature ┆ … ┆ History ┆ English ┆ Biology ┆ Physics ┆ Chemistry │
-# │ ---       ┆ ---             ┆ ---    ┆ ---  ┆ ---        ┆   ┆ ---     ┆ ---     ┆ ---     ┆ ---     ┆ ---       │
-# │ str       ┆ str             ┆ cat    ┆ f32  ┆ f32        ┆   ┆ f32     ┆ f32     ┆ f32     ┆ f32     ┆ f32       │
-# ╞═══════════╪═════════════════╪════════╪══════╪════════════╪═══╪═════════╪═════════╪═════════╪═════════╪═══════════╡
-# │ 018000001 ┆ DƯƠNG VIỆT AN   ┆ Male   ┆ 2.0  ┆ 5.5        ┆ … ┆ 3.0     ┆ null    ┆ null    ┆ null    ┆ null      │
-# │ 018000002 ┆ ĐỖ VĂN AN      ┆ Male   ┆ 5.5  ┆ 5.25       ┆ … ┆ null    ┆ 3.68    ┆ null    ┆ null    ┆ null      │
-# │ 018000003 ┆ ĐỖ XUÂN AN     ┆ Male   ┆ 4.5  ┆ 5.5        ┆ … ┆ null    ┆ 2.25    ┆ null    ┆ null    ┆ null      │
-# │ 018000004 ┆ ĐẶNG PHÚC AN    ┆ Female ┆ 3.0  ┆ 6.0        ┆ … ┆ null    ┆ 1.5     ┆ null    ┆ null    ┆ null      │
-# │ 018000005 ┆ ĐẶNG VĂN AN     ┆ Male   ┆ 2.25 ┆ 4.75       ┆ … ┆ null    ┆ 2.0     ┆ null    ┆ null    ┆ null      │
-# │ …         ┆ …               ┆ …      ┆ …    ┆ …          ┆ … ┆ …       ┆ …       ┆ …       ┆ …       ┆ …         │
-# │ HUI014539 ┆ VÒNG NGỌC YẾN  ┆ Female ┆ 0.75 ┆ 5.0        ┆ … ┆ null    ┆ null    ┆ 5.2     ┆ null    ┆ 4.8       │
-# │ HUI014540 ┆ VÒNG THANH YẾN ┆ Female ┆ 4.75 ┆ 5.75       ┆ … ┆ null    ┆ 3.33    ┆ 4.6     ┆ 6.8     ┆ 4.6       │
-# │ HUI014541 ┆ VŨ THỊ BẢO YẾN┆ Female ┆ 4.0  ┆ 5.5        ┆ … ┆ null    ┆ 3.6     ┆ null    ┆ 5.6     ┆ null      │
-# │ HUI014542 ┆ VŨ THỊ YẾN     ┆ Female ┆ 5.75 ┆ 6.0        ┆ … ┆ null    ┆ 2.88    ┆ null    ┆ 7.4     ┆ 4.8       │
-# │ HUI014543 ┆ VƯƠNG THỊ YẾN  ┆ Female ┆ 2.5  ┆ 4.25       ┆ … ┆ null    ┆ 3.0     ┆ 4.4     ┆ 4.2     ┆ 4.4       │
-# └───────────┴─────────────────┴────────┴──────┴────────────┴───┴─────────┴─────────┴─────────┴─────────┴───────────┘
+# ┌──────────┬────────────┬────────┬──────┬────────────┬───┬─────────┬─────────┬─────────┬─────────┬───────────┐
+# │ ID       ┆ FULL_NAME  ┆ GENDER ┆ Math ┆ Literature ┆ … ┆ History ┆ English ┆ Biology ┆ Physics ┆ Chemistry │
+# │ ---      ┆ ---        ┆ ---    ┆ ---  ┆ ---        ┆   ┆ ---     ┆ ---     ┆ ---     ┆ ---     ┆ ---       │
+# │ str      ┆ str        ┆ cat    ┆ f32  ┆ f32        ┆   ┆ f32     ┆ f32     ┆ f32     ┆ f32     ┆ f32       │
+# ╞══════════╪════════════╪════════╪══════╪════════════╪═══╪═════════╪═════════╪═════════╪═════════╪═══════════╡
+# │ ID_00001 ┆ NAME_00001 ┆ Male   ┆ 2.0  ┆ 5.5        ┆ … ┆ 3.0     ┆ null    ┆ null    ┆ null    ┆ null      │
+# │ ID_00002 ┆ NAME_00002 ┆ Male   ┆ 5.5  ┆ 5.25       ┆ … ┆ null    ┆ 3.68    ┆ null    ┆ null    ┆ null      │
+# │ ID_00003 ┆ NAME_00003 ┆ Male   ┆ 4.5  ┆ 5.5        ┆ … ┆ null    ┆ 2.25    ┆ null    ┆ null    ┆ null      │
+# │ ID_00004 ┆ NAME_00004 ┆ Female ┆ 3.0  ┆ 6.0        ┆ … ┆ null    ┆ 1.5     ┆ null    ┆ null    ┆ null      │
+# │ ID_00005 ┆ NAME_00005 ┆ Male   ┆ 2.25 ┆ 4.75       ┆ … ┆ null    ┆ 2.0     ┆ null    ┆ null    ┆ null      │
+# │ …        ┆ …          ┆ …      ┆ …    ┆ …          ┆ … ┆ …       ┆ …       ┆ …       ┆ …       ┆ …         │
+# │ ID_34822 ┆ NAME_34822 ┆ Female ┆ 0.75 ┆ 5.0        ┆ … ┆ null    ┆ null    ┆ 5.2     ┆ null    ┆ 4.8       │
+# │ ID_34823 ┆ NAME_34823 ┆ Female ┆ 4.75 ┆ 5.75       ┆ … ┆ null    ┆ 3.33    ┆ 4.6     ┆ 6.8     ┆ 4.6       │
+# │ ID_34824 ┆ NAME_34824 ┆ Female ┆ 4.0  ┆ 5.5        ┆ … ┆ null    ┆ 3.6     ┆ null    ┆ 5.6     ┆ null      │
+# │ ID_34825 ┆ NAME_34825 ┆ Female ┆ 5.75 ┆ 6.0        ┆ … ┆ null    ┆ 2.88    ┆ null    ┆ 7.4     ┆ 4.8       │
+# │ ID_34826 ┆ NAME_34826 ┆ Female ┆ 2.5  ┆ 4.25       ┆ … ┆ null    ┆ 3.0     ┆ 4.4     ┆ 4.2     ┆ 4.4       │
+# └──────────┴────────────┴────────┴──────┴────────────┴───┴─────────┴─────────┴─────────┴─────────┴───────────┘
