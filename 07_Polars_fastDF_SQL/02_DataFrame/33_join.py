@@ -48,7 +48,8 @@ Polars:
 # Default how="inner".
 # maintain_order="left" is used here so the printed result is predictable.
 print(
-    customers.join(
+    customers
+    .join(
         orders,
         on="customer_id",
         maintain_order="left",
@@ -81,7 +82,8 @@ The default suffix is "_right".
 # In pandas, suffixes=('_cst', '_odr') lets you suffix both left and right.
 # In Polars, suffix="_odr" applies to duplicate columns from the RIGHT LazyFrame only.
 print(
-    customers.join(
+    customers
+    .join(
         orders,
         on="customer_id",
         suffix="_odr",
@@ -109,7 +111,8 @@ This is the default join strategy.
 '''
 
 print(
-    customers.join(
+    customers
+    .join(
         orders,
         on="customer_id",
         how="inner",
@@ -143,7 +146,8 @@ Use coalesce=True if you want one shared join-key column.
 '''
 
 print(
-    customers.join(
+    customers
+    .join(
         orders,
         on="customer_id",
         how="full",
@@ -174,7 +178,8 @@ print(
 '''how="left": keeps all rows from the left LazyFrame and matched rows from the right LazyFrame.'''
 
 print(
-    customers.join(
+    customers
+    .join(
         orders,
         on="customer_id",
         how="left",
@@ -202,7 +207,8 @@ print(
 '''how="right": keeps all rows from the right LazyFrame and matched rows from the left LazyFrame.'''
 
 print(
-    customers.join(
+    customers
+    .join(
         orders,
         on="customer_id",
         how="right",
@@ -247,7 +253,8 @@ orders_key = pl.LazyFrame(
 
 # coalesce=False keeps both key columns: customer_id and cst_id.
 print(
-    customers_key.join(
+    customers_key
+    .join(
         orders_key,
         left_on="customer_id",
         right_on="cst_id",
@@ -302,7 +309,8 @@ print(lf_right)
 # └───────┘
 
 print(
-    lf_left.join(
+    lf_left
+    .join(
         lf_right,
         how="cross",
     )
@@ -329,7 +337,8 @@ Unlike inner joins, semi joins do NOT include columns from the right LazyFrame.
 '''
 
 print(
-    customers.join(
+    customers
+    .join(
         orders.select("customer_id").unique(),
         on="customer_id",
         how="semi",
@@ -356,7 +365,8 @@ Useful for finding unmatched records.
 '''
 
 print(
-    customers.join(
+    customers
+    .join(
         orders.select("customer_id").unique(),
         on="customer_id",
         how="anti",
@@ -383,7 +393,8 @@ Use LazyFrame.join() directly.
 '''
 
 print(
-    customers.join(
+    customers
+    .join(
         orders,
         on="customer_id",
         how="inner",
@@ -424,7 +435,8 @@ events_b = pl.LazyFrame({
 
 # Two events overlap if: start_a < end_b AND start_b < end_a
 print(
-    events_a.join_where(
+    events_a
+    .join_where(
         events_b,
         pl.col("start_a") < pl.col("end_b"),
         pl.col("start_b") < pl.col("end_a")
