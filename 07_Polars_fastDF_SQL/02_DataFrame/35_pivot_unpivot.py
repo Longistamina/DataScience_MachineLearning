@@ -15,7 +15,6 @@ import datetime as dt
 import numpy as np
 import polars as pl
 import polars.selectors as cs
-from polars import col as c
 
 # Optional display settings for tutorial output.
 pl.Config.set_tbl_rows(12)

@@ -1,13 +1,23 @@
 '''
-+ pl.concat([...], how="vertical"): stack Frames vertically, row-wise.
-+ pl.concat([...], how="horizontal"/"horizontal_extend"): stack Frames horizontally, column-wise by row position.
-+ pl.concat([...], how="diagonal"): stack Frames vertically while taking the union of columns.
-+ pl.concat([...], how="vertical_relaxed" / "diagonal_relaxed"): allow compatible dtype coercion.
-+ df.vstack(other): vertical stack two DataFrames.
-+ df.hstack(other): horizontal stack columns to a DataFrame.
+1. Basic concat:
+    + pl.concat([...], how="vertical"): stack Frames vertically, row-wise.
+    + pl.concat([...], how="horizontal"): stack Frames horizontally, column-wise by row position.
+
+2. Advanced concat: handle edge cases (shape mismatch, size mismatch)
+    + pl.concat([...], how="diagonal"): stack Frames vertically while taking the union of columns.
+    + pl.concat([...], how="vertical_relaxed" / "diagonal_relaxed"): allow compatible dtype coercion.
+    + pl.concat([...], how="horizontal_extend"): same as "horizontal", but pad shorter frames with nulls
+
+3. APIs of Eager DataFrame only:
+    + df.vstack(other): vertical stack two DataFrames.
+    + df.hstack(other): horizontal stack columns to a DataFrame.
 '''
 
 import polars as pl
+
+# ====================================================================
+# 1. Basic concat
+# ====================================================================
 
 # Create sample LazyFrames
 # NOTE: Polars has no custom row index, so there is no ignore_index=True parameter.
@@ -153,21 +163,9 @@ print(
 # │ D3  ┆ E3  ┆ F3  ┆ A3  ┆ … ┆ C3  ┆ G3  ┆ H3  ┆ I3  │
 # └─────┴─────┴─────┴─────┴───┴─────┴─────┴─────┴─────┘
 
-# If horizontal LazyFrames have different heights, use "horizontal_extend" to pad shorter column with nulls
-lf_short = pl.LazyFrame({"X": ["X0", "X1"]})
-lf_long = pl.LazyFrame({"Y": ["Y0", "Y1", "Y2", "Y3"]})
-print(pl.concat([lf_short, lf_long], how="horizontal_extend").collect())
-# shape: (4, 2)
-# ┌──────┬─────┐
-# │ X    ┆ Y   │
-# │ ---  ┆ --- │
-# │ str  ┆ str │
-# ╞══════╪═════╡
-# │ X0   ┆ Y0  │
-# │ X1   ┆ Y1  │
-# │ null ┆ Y2  │
-# │ null ┆ Y3  │
-# └──────┴─────┘
+# ========================================================================
+# 2. Advanced concat: handle edge cases (shape mismatch, size mismatch)
+# ========================================================================
 
 ##-----------------------------------##
 ##    pl.concat(how="diagonal")      ##
@@ -230,6 +228,31 @@ print(
 # │ 3.5 ┆ 30  │
 # │ 4.5 ┆ 40  │
 # └─────┴─────┘
+
+##------------------------------------------##
+##    pl.concat(how="horizontal_extend")    ##
+##------------------------------------------##
+'''Same as "horizontal", but pad shorter frames with nulls'''
+
+# If horizontal LazyFrames have different heights, use "horizontal_extend" to pad shorter column with nulls
+lf_short = pl.LazyFrame({"X": ["X0", "X1"]})
+lf_long = pl.LazyFrame({"Y": ["Y0", "Y1", "Y2", "Y3"]})
+print(pl.concat([lf_short, lf_long], how="horizontal_extend").collect())
+# shape: (4, 2)
+# ┌──────┬─────┐
+# │ X    ┆ Y   │
+# │ ---  ┆ --- │
+# │ str  ┆ str │
+# ╞══════╪═════╡
+# │ X0   ┆ Y0  │
+# │ X1   ┆ Y1  │
+# │ null ┆ Y2  │
+# │ null ┆ Y3  │
+# └──────┴─────┘
+
+# ========================================================================
+# 3. APIs of Eager DataFrame only:
+# ========================================================================
 
 ##----------------##
 ##    vstack()    ##
