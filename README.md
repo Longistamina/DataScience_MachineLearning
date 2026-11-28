@@ -336,3 +336,11 @@
       * `pd.DataFrame`: String data handling
       * `pd.DataFrame`: DateTime data handling 
       * `pd.DataFrame`: EWM - EMA (exponential moving average) explanation and visualization
+  + [06_Pandas_dataframe_part_12](https://youtu.be/m5Jrj5I-Kvs): 28th/11/2026
+      * `pd.DataFrame`: Category (unordered + unordered) and Binary handling
+      * `pd.DataFrame`: Factorize and One-Hot encoding
+      * `pd.DataFrame`: Binning and Discretizing with `cut` and `qcut`
+      * `pd.DataFrame`: handle multiple dataframes with `concat`, `merge` and `combine`
+      * `pd.DataFrame`: long-to-wide with `pivot` and `pivot_table`
+      * `pd.DataFrame`: wide-to-long with `melt` and `wide_to_long`
+      * `pd.DataFrame`: contigency table with `crosstab`
