@@ -51,21 +51,21 @@ print(
 print(
     df_pokemon
     .assign(
-        total_bin = lambda df: pd.cut(x=df['total'], bins=3, labels=['low', 'medium', 'hight'])
+        total_bin = lambda df: pd.cut(x=df['total'], bins=3, labels=['low', 'medium', 'high'])
     )
 )
-# name  total total_bin
+#                       name  total total_bin
 # 0                Bulbasaur    318       low
 # 1                  Ivysaur    405    medium
 # 2                 Venusaur    525    medium
-# 3    VenusaurMega Venusaur    625     hight
+# 3    VenusaurMega Venusaur    625      high
 # 4               Charmander    309       low
 # ..                     ...    ...       ...
-# 795                Diancie    600     hight
-# 796    DiancieMega Diancie    700     hight
-# 797    HoopaHoopa Confined    600     hight
-# 798     HoopaHoopa Unbound    680     hight
-# 799              Volcanion    600     hight
+# 795                Diancie    600      high
+# 796    DiancieMega Diancie    700      high
+# 797    HoopaHoopa Confined    600      high
+# 798     HoopaHoopa Unbound    680      high
+# 799              Volcanion    600      high
 # [800 rows x 3 columns]
 
 ##----------------------------------##
@@ -75,21 +75,21 @@ print(
 print(
     df_pokemon
     .assign(
-        total_bin = lambda df: pd.cut(x=df['total'], bins=[-np.inf, 300, 500, np.inf], labels=['low', 'medium', 'hight'])
+        total_bin = lambda df: pd.cut(x=df['total'], bins=[-np.inf, 300, 500, np.inf], labels=['low', 'medium', 'high'])
     )
 )
 #                       name  total total_bin
 # 0                Bulbasaur    318    medium
 # 1                  Ivysaur    405    medium
-# 2                 Venusaur    525     hight
-# 3    VenusaurMega Venusaur    625     hight
+# 2                 Venusaur    525      high
+# 3    VenusaurMega Venusaur    625      high
 # 4               Charmander    309    medium
 # ..                     ...    ...       ...
-# 795                Diancie    600     hight
-# 796    DiancieMega Diancie    700     hight
-# 797    HoopaHoopa Confined    600     hight
-# 798     HoopaHoopa Unbound    680     hight
-# 799              Volcanion    600     hight
+# 795                Diancie    600      high
+# 796    DiancieMega Diancie    700      high
+# 797    HoopaHoopa Confined    600      high
+# 798     HoopaHoopa Unbound    680      high
+# 799              Volcanion    600      high
 # [800 rows x 3 columns]
 '''
 (-np.inf, 300] -> low
@@ -115,21 +115,21 @@ q=10 -> deciles
 print(
     df_pokemon
     .assign(
-        total_qs = lambda df: pd.qcut(x=df['total'], q=4, labels=['tiny', 'low', 'medium', 'hight'])
+        total_qs = lambda df: pd.qcut(x=df['total'], q=4, labels=['tiny', 'low', 'medium', 'high'])
     )
 )
 #                       name  total total_qs
 # 0                Bulbasaur    318     tiny
 # 1                  Ivysaur    405      low
-# 2                 Venusaur    525    hight
-# 3    VenusaurMega Venusaur    625    hight
+# 2                 Venusaur    525     high
+# 3    VenusaurMega Venusaur    625     high
 # 4               Charmander    309     tiny
 # ..                     ...    ...      ...
-# 795                Diancie    600    hight
-# 796    DiancieMega Diancie    700    hight
-# 797    HoopaHoopa Confined    600    hight
-# 798     HoopaHoopa Unbound    680    hight
-# 799              Volcanion    600    hight
+# 795                Diancie    600     high
+# 796    DiancieMega Diancie    700     high
+# 797    HoopaHoopa Confined    600     high
+# 798     HoopaHoopa Unbound    680     high
+# 799              Volcanion    600     high
 # [800 rows x 3 columns]
 
 # deciles

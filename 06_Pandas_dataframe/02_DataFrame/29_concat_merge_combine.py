@@ -1,5 +1,5 @@
 '''
-pd.concat(), pd.merge(), pd.combine() are 3 powerful functions/methods in pandas used for combining DataFrames, 
+pd.concat(), pd.merge(), pd.combine() are 3 powerful functions/methods in pandas used for combining DataFrames,
 but they serve different purposes and operate in different ways.
 
 ##-----------------------------------------------------##
@@ -408,7 +408,6 @@ df_merged_cross = pd.merge(
     right=df_right,
     how='cross' # Create Cartesian product of both DataFrames
 )
-
 print(df_merged_cross)
 #   left  right
 # 0  foo      7
